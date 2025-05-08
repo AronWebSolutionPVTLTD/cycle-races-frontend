@@ -10,6 +10,7 @@ import Footer from '../components/Footer';
  
  import '../styles/style.scss'
  import '../styles/responsive.css'
+ import '../styles/custom.css'
 function MyApp({ Component, pageProps }) {
   return (
     <>

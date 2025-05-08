@@ -47,6 +47,7 @@ const ResultSection = () => {
             // Keep the default endpoints if there's an error
         }
     }, []); // Empty dependency array means this runs once on component mount
+   
 
     // Prepare endpoints to fetch data from
     const endpointsToFetch = [firstSectionEndpoint, secondSectionEndpoint];
