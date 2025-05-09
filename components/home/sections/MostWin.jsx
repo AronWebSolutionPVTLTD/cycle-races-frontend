@@ -1,8 +1,96 @@
+// import React, { useState, useEffect } from "react";
+// import { useMultipleData } from "../../home_api_data";
+// import { ErrorStats, LoadingStats } from "./loading&error";
+
+// const MostWin = () => {
+ 
+//   const apiOptions = [
+//     "mostWin",
+//     "mostStageWins",
+//     "mostGCWins"
+//   ];
+
+//   const [selectedApi, setSelectedApi] = useState(apiOptions[0]);
+
+//   useEffect(() => {
+//     try {
+//       const randomIndex = Math.floor(Math.random() * apiOptions.length);
+//       setSelectedApi(apiOptions[randomIndex]);
+//       console.log("Random endpoint selected for MostWin section:", apiOptions[randomIndex]);
+//     } catch (err) {
+//       console.error("Error selecting random endpoint for MostWin section:", err);
+//     }
+//   }, []); 
+
+
+//   const endpointsToFetch = [selectedApi];
+
+//   const { data, loading, error } = useMultipleData(endpointsToFetch);
+
+//   const allDataLoaded = data && data[selectedApi];
+  
+//   const isLoading = !allDataLoaded && loading;
+  
+//   const showData = allDataLoaded;
+ 
+//   const showError = error && !allDataLoaded;
+
+//   const partialSuccess = error && data && Object.keys(data).some(key => data[key]) && !allDataLoaded;
+
+//   const PartialDataWarning = () => (
+//     <div className="warning-banner w-100 p-3 alert alert-warning">
+//       <p className="mb-1">Some data couldn't be loaded. Displaying available information.</p>
+//       {error && error.failedEndpoints && (
+//         <details>
+//           <summary className="cursor-pointer">View details</summary>
+//           <p className="mt-2 mb-0">Failed to load: {error.failedEndpoints.join(", ")}</p>
+//           <p className="mb-0">Try refreshing for new random endpoints.</p>
+//         </details>
+//       )}
+//     </div>
+//   );
+
+//   return (
+//     <section className="home-sec3">
+//       <div className="container">
+//         <div className="row">
+//           {partialSuccess && <PartialDataWarning />}
+          
+//           {isLoading && <div className="col-12"><LoadingStats /></div>}
+        
+//           {showError && !partialSuccess && <div className="col-12"><ErrorStats message={error.message} /></div>}
+
+//           {showData && data[selectedApi].data && data[selectedApi].data.data && 
+//             data[selectedApi].data.data.slice(0, 1).map((rider, index) => (
+//               <div className="col-lg-12" key={index}>
+//                 <div className="winning-box">
+//                   <div className="text-wraper">
+//                     <h3>{data[selectedApi].message || "Most Wins"}</h3>
+//                     <h4>{rider.rider_name}</h4>
+//                   </div>
+//                   <span>{rider?.wins ? rider.wins : rider.count}</span>
+//                 </div>
+//               </div>
+//             ))
+//           }
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default MostWin;
+
 import React, { useState, useEffect } from "react";
 import { useMultipleData } from "../../home_api_data";
 import { ErrorStats, LoadingStats } from "./loading&error";
 
-const MostWin = () => {
+const MostWin = ({ 
+  // Optional filter props - component will work with or without them
+  selectedNationality = null,
+  selectedTeam = null,
+  selectedYear = null
+}) => {
   // Define API options to randomly select from
   const apiOptions = [
     "mostWin",
@@ -24,11 +112,25 @@ const MostWin = () => {
     }
   }, []); // Run once after initial render
 
+  // Build query parameters - this will work with or without the filter props
+  const buildQueryParams = () => {
+    let params = {};
+
+    if (selectedYear) params.year = selectedYear;
+    if (selectedNationality) params.rider_country = selectedNationality;
+    if (selectedTeam) params.team_name = selectedTeam;
+
+    return params;
+  };
+
   // Create array of endpoints to fetch
   const endpointsToFetch = [selectedApi];
 
-  // Fetch data using the selected API endpoint
-  const { data, loading, error } = useMultipleData(endpointsToFetch);
+  // Fetch data using the selected API endpoint with optional filters
+  const { data, loading, error, partialSuccess } = useMultipleData(
+    endpointsToFetch,
+    buildQueryParams()
+  );
 
   // Check if we have data for the selected endpoint
   const allDataLoaded = data && data[selectedApi];
@@ -41,9 +143,6 @@ const MostWin = () => {
   
   // Show error state only if there's an error and data isn't loaded
   const showError = error && !allDataLoaded;
-
-  // Check if we have partial success
-  const partialSuccess = error && data && Object.keys(data).some(key => data[key]) && !allDataLoaded;
 
   const PartialDataWarning = () => (
     <div className="warning-banner w-100 p-3 alert alert-warning">
@@ -71,7 +170,7 @@ const MostWin = () => {
           {showError && !partialSuccess && <div className="col-12"><ErrorStats message={error.message} /></div>}
 
           {/* Only show content when data is loaded */}
-          {showData && data[selectedApi].data && data[selectedApi].data.data && 
+          {showData && data[selectedApi]?.data?.data && 
             data[selectedApi].data.data.slice(0, 1).map((rider, index) => (
               <div className="col-lg-12" key={index}>
                 <div className="winning-box">
@@ -79,7 +178,7 @@ const MostWin = () => {
                     <h3>{data[selectedApi].message || "Most Wins"}</h3>
                     <h4>{rider.rider_name}</h4>
                   </div>
-                  <span>{rider?.wins ? rider.wins : rider.count}</span>
+                  <span>{rider?.wins !== undefined ? rider.wins : (rider?.count !== undefined ? rider.count : "N/A")}</span>
                 </div>
               </div>
             ))
