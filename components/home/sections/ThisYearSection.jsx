@@ -8,10 +8,10 @@ const ThisYearSection = () => {
   const apiOptions = {
     box1: ["oldestRider","youngestRider"],
     box2: ["mostweightRider","lightestRider"],
-    box3: ["riderWithMostSecondPlaces"],
-    box4: ["riderWithMostTopWins"],
+    box3: ["mostSecondPlaces"],
+    box4: ["mostTop5NoWins"],
     box5Race: ["raceCount"],
-    box5GC: ["riderWithMostRacingDay"],
+    box5GC: ["mostRacingDays"],
     box5Consistent: ["mostConsistentGC","gcPodiums"],
     box6Young: ["oldestMostWins","youngestMostWins"],
     box6Teams: ["stageTop10sRider","gcTop10s"]

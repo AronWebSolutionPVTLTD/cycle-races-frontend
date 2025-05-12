@@ -15,73 +15,55 @@ export const FirstSection = ({
   const fifthSectionEndpoints = ["topStageRiderbyTeam", "top3StageTeam"];
   const sixSectionEndpoints = ["mostDNFs"];
   const lastSectionEndpoints = ["top10Stageteams"];
-  
 
-  const [firstSectionEndpoint, setFirstSectionEndpoint] = useState(
-    firstSectionEndpoints[0]
-  );
-  const [secondSectionEndpoint, setSecondSectionEndpoint] = useState(
-    secondSectionEndpoints[0]
-  );
-  const [thirdSectionEndpoint, setThirdSectionEndpoint] = useState(
-    thirdSectionEndpoints[0]
-  );
-  const [fourthSectionEndpoint, setFourthSectionEndpoint] = useState(
-    fourthSectionEndpoints[0]
-  );
-  const [fifthSectionEndpoint, setFifthSectionEndpoint] = useState(
-    fifthSectionEndpoints[0]
-  );
-  const [sixSectionEndpoint, setSixSectionEndpoint] = useState(
-    sixSectionEndpoints[0]
-  );
-  const [lastSectionEndpoint, setLastSectionEndpoint] = useState(
-    lastSectionEndpoints[0]
-  );
+  // State for selected endpoints
+  const [firstSectionEndpoint, setFirstSectionEndpoint] = useState(firstSectionEndpoints[0]);
+  const [secondSectionEndpoint, setSecondSectionEndpoint] = useState(secondSectionEndpoints[0]);
+  const [thirdSectionEndpoint, setThirdSectionEndpoint] = useState(thirdSectionEndpoints[0]);
+  const [fourthSectionEndpoint, setFourthSectionEndpoint] = useState(fourthSectionEndpoints[0]);
+  const [fifthSectionEndpoint, setFifthSectionEndpoint] = useState(fifthSectionEndpoints[0]);
+  const [sixSectionEndpoint, setSixSectionEndpoint] = useState(sixSectionEndpoints[0]);
+  const [lastSectionEndpoint, setLastSectionEndpoint] = useState(lastSectionEndpoints[0]);
 
+  // Component state
   const [isMounted, setIsMounted] = useState(false);
+  const [noDataFound, setNoDataFound] = useState(false);
+  const [visibleCardCount, setVisibleCardCount] = useState(0);
+  const [totalEndpoints, setTotalEndpoints] = useState(0);
 
+  // Helper function to select random endpoint from array
   const getRandomEndpoint = (endpointArray) => {
     const randomIndex = Math.floor(Math.random() * endpointArray.length);
     return endpointArray[randomIndex];
   };
 
+  // Initialize with random endpoints
   useEffect(() => {
-    // Set mounted flag to true
     setIsMounted(true);
-
     try {
       // Get random endpoints for each section
-      const randomFirstEndpoint = getRandomEndpoint(firstSectionEndpoints);
-      const randomSecondEndpoint = getRandomEndpoint(secondSectionEndpoints);
-      const randomThirdEndpoint = getRandomEndpoint(thirdSectionEndpoints);
-      const randomFourthEndpoint = getRandomEndpoint(fourthSectionEndpoints);
-      const randomFifthEndpoint = getRandomEndpoint(fifthSectionEndpoints);
-      const randomSixEndpoint = getRandomEndpoint(sixSectionEndpoints);
-      const randomLastEndpoint = getRandomEndpoint(lastSectionEndpoints);
-      // Update state with the randomly selected endpoints
-      setFirstSectionEndpoint(randomFirstEndpoint);
-      setSecondSectionEndpoint(randomSecondEndpoint);
-      setThirdSectionEndpoint(randomThirdEndpoint);
-      setFourthSectionEndpoint(randomFourthEndpoint);
-      setFifthSectionEndpoint(randomFifthEndpoint);
-      setSixSectionEndpoint(randomSixEndpoint);
-      setLastSectionEndpoint(randomLastEndpoint)
+      setFirstSectionEndpoint(getRandomEndpoint(firstSectionEndpoints));
+      setSecondSectionEndpoint(getRandomEndpoint(secondSectionEndpoints));
+      setThirdSectionEndpoint(getRandomEndpoint(thirdSectionEndpoints));
+      setFourthSectionEndpoint(getRandomEndpoint(fourthSectionEndpoints));
+      setFifthSectionEndpoint(getRandomEndpoint(fifthSectionEndpoints));
+      setSixSectionEndpoint(getRandomEndpoint(sixSectionEndpoints));
+      setLastSectionEndpoint(getRandomEndpoint(lastSectionEndpoints));
     } catch (err) {
       console.error("Error selecting random endpoints:", err);
     }
   }, []);
 
+  // Build query parameters based on selected filters
   const buildQueryParams = () => {
     let params = {};
-
     if (selectedYear) params.year = selectedYear;
     if (selectedNationality) params.rider_country = selectedNationality;
     if (selectedTeam) params.team_name = selectedTeam;
-
     return params;
   };
 
+  // List of all endpoints to fetch
   const endpointsToFetch = [
     firstSectionEndpoint,
     secondSectionEndpoint,
@@ -92,71 +74,188 @@ export const FirstSection = ({
     lastSectionEndpoint
   ];
 
+  // Fetch data for all endpoints
   const { data, loading, error, partialSuccess } = useMultipleData(
     endpointsToFetch,
     buildQueryParams()
   );
 
-  // Helper function to check if an endpoint has valid data
+  // Update state after data is loaded
+  useEffect(() => {
+    if (!loading && data) {
+      // Count how many endpoints returned valid data
+      let cardCount = 0;
+      let totalCount = endpointsToFetch.length;
+      
+      endpointsToFetch.forEach(endpoint => {
+        if (hasValidData(endpoint)) {
+          cardCount++;
+        }
+      });
+      
+      setVisibleCardCount(cardCount);
+      setTotalEndpoints(totalCount);
+      setNoDataFound(cardCount === 0);
+    }
+  }, [data, loading, endpointsToFetch]);
+
+  // Check if an endpoint has valid data
   const hasValidData = (endpoint) => {
-    return (
-      data &&
-      data[endpoint] &&
-      data[endpoint].data &&
-      data[endpoint].data.data &&
-      data[endpoint].data.data.length > 0
-    );
+    if (!data || !data[endpoint] || !data[endpoint].data || !data[endpoint].data.data) {
+      return false;
+    }
+    
+    const endpointData = data[endpoint].data.data;
+    
+    // Handle different data structures
+    if (Array.isArray(endpointData)) {
+      return endpointData.length > 0;
+    } else if (typeof endpointData === 'object') {
+      // For specific endpoints with nested structures
+      if (endpoint === 'top3StageTeam' && endpointData.teams) {
+        return endpointData.teams.length > 0;
+      }
+      
+      return Object.keys(endpointData).length > 0;
+    }
+    
+    return false;
   };
 
-  // Helper function to check if an endpoint has an error
+  // Check if an endpoint has an error
   const hasEndpointError = (endpoint) => {
-    return (
-      error && error.failedEndpoints && error.failedEndpoints.includes(endpoint)
-    );
+    return error && error.failedEndpoints && error.failedEndpoints.includes(endpoint);
   };
 
-  // Helper function to determine if we should show a specific card
+  // Determine if a card should be shown
   const shouldShowCard = (endpoint) => {
-    // Don't show the card if:
-    // 1. There's an error with this endpoint or
-    // 2. There's no valid data for this endpoint
     if (hasEndpointError(endpoint)) return false;
     if (!hasValidData(endpoint)) return false;
-
-    // Show card if it has valid data
     return true;
   };
 
-  // Check if ANY endpoint has data loading
+  // Status flags
   const isLoading = loading;
-
-  // Check if there was an error and NO data was loaded successfully
   const showFullError = error && !partialSuccess;
+  const showPartialWarning = partialSuccess || 
+    (error && error.failedEndpoints && 
+     endpointsToFetch.some(endpoint => !error.failedEndpoints.includes(endpoint) && hasValidData(endpoint)));
 
-  // Check if we should show partial data warning (some endpoints failed but others succeeded)
-  const showPartialWarning =
-    partialSuccess ||
-    (error &&
-      error.failedEndpoints &&
-      endpointsToFetch.some(
-        (endpoint) =>
-          !error.failedEndpoints.includes(endpoint) && hasValidData(endpoint)
-      ));
+  // Get safe access to nested data properties
+  const getSafeData = (endpoint, path, defaultValue = null) => {
+    try {
+      if (!data || !data[endpoint]) return defaultValue;
+      
+      return getNestedProperty(data[endpoint], path, defaultValue);
+    } catch (err) {
+      console.error(`Error accessing ${path} for ${endpoint}:`, err);
+      return defaultValue;
+    }
+  };
 
+  // Helper function to safely access nested properties
+  const getNestedProperty = (obj, path, defaultValue = null) => {
+    const keys = path.split('.');
+    let result = obj;
+    
+    for (const key of keys) {
+      if (result === undefined || result === null || !Object.prototype.hasOwnProperty.call(result, key)) {
+        return defaultValue;
+      }
+      result = result[key];
+    }
+    
+    return result === undefined ? defaultValue : result;
+  };
+
+  // Get message for each endpoint
+  const getEndpointMessage = (endpoint) => {
+    // First try to get the message from the API response
+    const apiMessage = getSafeData(endpoint, 'message');
+    
+    // If API message exists, return it
+    if (apiMessage) return apiMessage;
+    
+    // Fallback to default messages if no API message
+    return getDefaultMessage(endpoint);
+  };
+
+  // Default messages for endpoints (kept as a fallback)
+  const getDefaultMessage = (endpoint) => {
+    const messages = {
+      oldestRider: "Oldest Rider",
+      youngestRider: "Youngest Rider",
+      oldestMostWins: "Oldest Most Wins",
+      youngestMostWins: "Youngest Most Wins",
+      top3GCTeam: "Top GC Team",
+      topGCRiderbyTeam: "Top GC Rider by Team",
+      getMostConsistentGCTeams: "Most Consistent GC Teams",
+      topStageRiderbyTeam: "Top Stage Rider by Team",
+      top3StageTeam: "Top 3 Stage Teams",
+      mostDNFs: "Most DNFs",
+      top10Stageteams: "Top 10 Stage Teams"
+    };
+    
+    return messages[endpoint] || "Statistics";
+  };
+
+  // Partial Data Warning Component
   const PartialDataWarning = () => (
-    <div className="warning-banner w-100 p-3 alert alert-warning">
-      <p className="mb-1">
-        Some data couldn't be loaded. Displaying available information.
-      </p>
+    <div className="warning-banner w-100 p-3 mb-4 alert alert-warning">
+      <div className="d-flex justify-content-between align-items-center">
+        <p className="mb-1">
+          <strong>Partial Data Available:</strong> Showing {visibleCardCount} of {totalEndpoints} statistics.
+        </p>
+        <button 
+          className="btn btn-sm btn-outline-secondary" 
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
+      </div>
       {error && error.failedEndpoints && (
         <details>
-          <summary className="cursor-pointer">View details</summary>
+          <summary className="cursor-pointer mt-2">View details</summary>
           <p className="mt-2 mb-0">
             Failed to load: {error.failedEndpoints.join(", ")}
           </p>
           <p className="mb-0">Try refreshing for new random endpoints.</p>
         </details>
       )}
+    </div>
+  );
+
+  // No Data Message Component
+  const NoDataMessage = () => (
+    <div className="col-12">
+      <div className="no-data-message text-center p-5 my-4 bg-light rounded shadow-sm">
+        <div className="mb-3">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" strokeWidth="1" className="mb-3">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
+          </svg>
+        </div>
+        <h3 className="text-muted">No Data Available</h3>
+        <p className="text-muted">
+          No data found for the selected filters. Please try different filter options.
+        </p>
+        {(selectedYear || selectedNationality || selectedTeam) && (
+          <div className="mt-3">
+            <p className="mb-1 fw-bold">Applied filters:</p>
+            <ul className="list-unstyled text-muted">
+              {selectedYear && <li>Year: {selectedYear}</li>}
+              {selectedNationality && <li>Nationality: {selectedNationality}</li>}
+              {selectedTeam && <li>Team: {selectedTeam}</li>}
+            </ul>
+          </div>
+        )}
+        <button 
+          className="btn btn-outline-primary mt-3" 
+          onClick={() => window.location.reload()}
+        >
+          Try Different Random Statistics
+        </button>
+      </div>
     </div>
   );
 
@@ -172,11 +271,13 @@ export const FirstSection = ({
 
       {showFullError && (
         <div className="col-12">
-          <ErrorStats message={error.message} />
+          <ErrorStats message={error.message || "Failed to load data"} />
         </div>
       )}
 
-      {!isLoading && (
+      {!isLoading && noDataFound && !showFullError && <NoDataMessage />}
+
+      {!isLoading && !noDataFound && (
         <>
           {/* First Card */}
           {shouldShowCard(firstSectionEndpoint) && (
@@ -184,8 +285,8 @@ export const FirstSection = ({
               <div className="team-cart">
                 <a href="#?" className="pabs"></a>
                 <div className="text-wraper">
-                  <h4>{data[firstSectionEndpoint]?.message || "Rider Stat"}</h4>
-                  {data[firstSectionEndpoint].data.data
+                  <h4>{getEndpointMessage(firstSectionEndpoint)}</h4>
+                  {getSafeData(firstSectionEndpoint, 'data.data', [])
                     .slice(0, 1)
                     .map((rider, index) => (
                       <div className="name-wraper" key={index}>
@@ -203,11 +304,11 @@ export const FirstSection = ({
                       </div>
                     ))}
                 </div>
-                {data[firstSectionEndpoint].data.data
+                {getSafeData(firstSectionEndpoint, 'data.data', [])
                   .slice(0, 1)
                   .map((rider, index) => (
                     <h5 key={index}>
-                      <strong>{rider.value || rider.age}</strong>
+                      <strong>{rider.value || rider.age || "N/A"}</strong>
                       {rider.unit || " jaar"}
                     </h5>
                   ))}
@@ -229,14 +330,15 @@ export const FirstSection = ({
             </div>
           )}
 
+          {/* Remaining cards follow a similar pattern with getSafeData */}
           {/* Second Card */}
           {shouldShowCard(secondSectionEndpoint) && (
             <div className="col-lg-3 col-md-6">
               <div className="team-cart">
                 <a href="#?" className="pabs"></a>
                 <div className="text-wraper">
-                  <h4>{data[secondSectionEndpoint]?.message || "Race Stat"}</h4>
-                  {data[secondSectionEndpoint].data.data
+                  <h4>{getEndpointMessage(secondSectionEndpoint)}</h4>
+                  {getSafeData(secondSectionEndpoint, 'data.data', [])
                     .slice(0, 1)
                     .map((rider, index) => (
                       <div className="name-wraper" key={index}>
@@ -254,11 +356,11 @@ export const FirstSection = ({
                       </div>
                     ))}
                 </div>
-                {data[secondSectionEndpoint].data.data
+                {getSafeData(secondSectionEndpoint, 'data.data', [])
                   .slice(0, 1)
                   .map((rider, index) => (
                     <h5 key={index}>
-                      <strong>{rider.count || rider.value}</strong>
+                      <strong>{rider.count || rider.value || "N/A"}</strong>
                     </h5>
                   ))}
                 <img
@@ -273,16 +375,17 @@ export const FirstSection = ({
             </div>
           )}
 
+          {/* Remaining cards would be updated similarly */}
           {/* Third Card */}
           {shouldShowCard(thirdSectionEndpoint) && (
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart">
                 <a href="#?" className="pabs"></a>
                 <div className="text-wraper">
-                  <h4>{data[thirdSectionEndpoint]?.message || "Team Stat"}</h4>
-                  {data[thirdSectionEndpoint].data.data
-                    .slice(0, 1)
-                    .map((team, index) => (
+                  <h4>{getEndpointMessage(thirdSectionEndpoint)}</h4>
+                  {(() => {
+                    const teamData = getSafeData(thirdSectionEndpoint, 'data.data', []);
+                    return teamData.slice(0, 1).map((team, index) => (
                       <div className="name-wraper" key={index}>
                         {team.country && (
                           <Flag
@@ -294,17 +397,19 @@ export const FirstSection = ({
                             }}
                           />
                         )}
-                        <h6>{team.team_name}</h6>
+                        <h6>{team.team_name || team.name || "N/A"}</h6>
                       </div>
-                    ))}
+                    ));
+                  })()}
                 </div>
-                {data[thirdSectionEndpoint].data.data
-                  .slice(0, 1)
-                  .map((team, index) => (
+                {(() => {
+                  const teamData = getSafeData(thirdSectionEndpoint, 'data.data', []);
+                  return teamData.slice(0, 1).map((team, index) => (
                     <h5 key={index}>
-                      <strong>{team.rank || team.value}</strong>rank
+                      <strong>{team.rank || team.value || "N/A"}</strong>rank
                     </h5>
-                  ))}
+                  ));
+                })()}
 
                 <a href="#?" className="white-circle-btn">
                   <img src="/images/arow.svg" alt="" />
@@ -313,62 +418,6 @@ export const FirstSection = ({
             </div>
           )}
 
-          {/* {shouldShowCard(fifthSectionEndpoint) && (
-  <div className="col-lg-3 col-md-6">
-    <div className="team-cart lime-green-team-cart">
-      <a href="#?" className="pabs"></a>
-      <div className="text-wraper">
-        <h4>{data[fifthSectionEndpoint]?.message || "team top in stages"}</h4>
-        
-       
-        {fifthSectionEndpoint === "topStageRiderbyTeam" ? (
-         
-          data[fifthSectionEndpoint]?.data?.data?.slice(0, 1).map((team, index) => (
-            <div className="name-wraper" key={index}>
-              <Flag
-                code={(team.rider_country || "NA").toUpperCase()}
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  marginRight: "10px",
-                }}
-              />
-              <h6>{team.team_name}</h6>
-            </div>
-          ))
-        ) : fifthSectionEndpoint === "top3StageTeam" ? (
-   
-          data[fifthSectionEndpoint]?.teams?.slice(0, 1).map((team, index) => (
-            <div className="name-wraper" key={index}>
-              <Flag
-                code={(team.country || "NA").toUpperCase()}
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  marginRight: "10px",
-                }}
-              />
-              <h6>{team.name}</h6>
-            </div>
-          ))
-        ) : null}
-      </div>
-      
-
-      {fifthSectionEndpoint === "topStageRiderbyTeam" ? (
-        data[fifthSectionEndpoint]?.data?.data?.slice(0, 1).map((team, index) => (
-          <h5 key={index}><strong>{team.time}</strong></h5>
-        ))
-      ) : fifthSectionEndpoint === "top3StageTeam" ? (
-        data[fifthSectionEndpoint]?.teams?.slice(0, 1).map((team, index) => (
-          <h5 key={index}><strong>{team.score || team.time}</strong></h5>
-        ))
-      ) : null}
-      
-      <a href="#?" className="white-circle-btn"><img src="/images/arow.svg" alt="" /></a>
-    </div>
-  </div>
-)} */}
           <div className="col-lg-7">
             <div className="row">
               {/* Fourth Card */}
@@ -378,22 +427,21 @@ export const FirstSection = ({
                     <a href="#?" className="pabs"></a>
                     <div className="text-wraper">
                       <h4 className="font-size-change">
-                        {data[fourthSectionEndpoint]?.message ||
-                          "most consistent team"}
+                        {getEndpointMessage(fourthSectionEndpoint)}
                       </h4>
-                      {data[fourthSectionEndpoint].data.data
+                      {getSafeData(fourthSectionEndpoint, 'data.data', [])
                         .slice(0, 1)
                         .map((team, index) => (
                           <div className="name-wraper" key={index}>
-                            <h6>{team.team_name}</h6>
+                            <h6>{team.team_name || "N/A"}</h6>
                           </div>
                         ))}
                     </div>
-                    {data[fourthSectionEndpoint].data.data
+                    {getSafeData(fourthSectionEndpoint, 'data.data', [])
                       .slice(0, 1)
                       .map((team, index) => (
                         <h5 key={index}>
-                          <strong>{team.totalPoints}</strong>
+                          <strong>{team.totalPoints || "N/A"}</strong>
                           points
                         </h5>
                       ))}
@@ -411,22 +459,21 @@ export const FirstSection = ({
                     <a href="#?" className="pabs"></a>
                     <div className="text-wraper">
                       <h4 className="font-size-change">
-                        {data[fifthSectionEndpoint]?.message ||
-                          "team top in stages"}
+                        {getEndpointMessage(fifthSectionEndpoint)}
                       </h4>
-                      {data[fifthSectionEndpoint].data.data
+                      {getSafeData(fifthSectionEndpoint, 'data.data', [])
                         .slice(0, 1)
                         .map((team, index) => (
                           <div className="name-wraper" key={index}>
-                            <h6>{team.team_name}</h6>
+                            <h6>{team.team_name || "N/A"}</h6>
                           </div>
                         ))}
                     </div>
-                    {data[fifthSectionEndpoint].data.data
+                    {getSafeData(fifthSectionEndpoint, 'data.data', [])
                       .slice(0, 1)
                       .map((team, index) => (
                         <h5 key={index}>
-                          <strong>{team.time}</strong>
+                          <strong>{team.time || "N/A"}</strong>
                         </h5>
                       ))}
 
@@ -437,28 +484,28 @@ export const FirstSection = ({
                 </div>
               )}
 
-              {/* sixth Card */}
+              {/* Sixth Card - Most DNFs */}
               {shouldShowCard(sixSectionEndpoint) && (
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart">
                     <a href="#?" className="pabs"></a>
                     <div className="text-wraper">
                       <h4 className="font-size-change">
-                        {data[sixSectionEndpoint]?.message || "most dnf"}
+                        {getEndpointMessage(sixSectionEndpoint)}
                       </h4>
-                      {data[sixSectionEndpoint].data.data
+                      {getSafeData(sixSectionEndpoint, 'data.data', [])
                         .slice(0, 1)
                         .map((team, index) => (
                           <div className="name-wraper" key={index}>
                             <Flag
-                              code={team.flag.toUpperCase()}
+                              code={(team.flag || "NA").toUpperCase()}
                               style={{
                                 width: "20px",
                                 height: "20px",
                                 marginRight: "10px",
                               }}
                             />
-                            <h6>{team.team_name}</h6>
+                            <h6>{team.team_name || "N/A"}</h6>
                           </div>
                         ))}
                     </div>
@@ -469,7 +516,8 @@ export const FirstSection = ({
                   </div>
                 </div>
               )}
-                     {/* seventh Card */}
+
+              {/* Edition Card */}
               <div className="col-lg-5 col-md-6">
                 <div className="races">
                   <h5>
@@ -480,34 +528,37 @@ export const FirstSection = ({
             </div>
           </div>
 
-                {/* last Card */}
-                {shouldShowCard(lastSectionEndpoint) && (
-                <div className="col-lg-5">
-                    <div className="list-white-cart">
-                    <h4 className="font-size-change">
-                        {data[lastSectionEndpoint]?.message || "top 10 stages"}
-                      </h4>
-                      {data[lastSectionEndpoint].data.data
-                        .slice(0, 5)
-                        .map((team, index) => (
-                        <ul>
-                            <li>
-                                <strong>{index + 1}</strong>
-                                <div className="name-wraper">
-                                
-                                    <h6>{team.team_name}</h6>
-                                </div>
-                                <span>{team.rank} rank</span>
-                            </li>
-                           
-                        </ul>
-                        ))}
-                        <img src="/images/player4.png" alt=""  className="absolute-img" />
-                       
-                        <a href="#?" className="glob-btn"><strong>volledige stats</strong> <span><img src="/images/arow.svg" alt="" /></span></a>
-                    </div>
-                    </div>
-                )}
+          {/* Last Card - Top 10 Stage Teams */}
+          {shouldShowCard(lastSectionEndpoint) && (
+            <div className="col-lg-5">
+              <div className="list-white-cart">
+                <h4 className="font-size-change">
+                  {getEndpointMessage(lastSectionEndpoint)}
+                </h4>
+                {getSafeData(lastSectionEndpoint, 'data.data', [])
+                  .slice(0, 5)
+                  .map((team, index) => (
+                    <ul key={index}>
+                      <li>
+                        <strong>{index + 1}</strong>
+                        <div className="name-wraper">
+                          <h6>{team.team_name || "N/A"}</h6>
+                        </div>
+                        <span>{team.rank || "N/A"} rank</span>
+                      </li>
+                    </ul>
+                  ))}
+                <img src="/images/player4.png" alt="" className="absolute-img" />
+                
+                <a href="#?" className="glob-btn">
+                  <strong>volledige stats</strong>{" "}
+                  <span>
+                    <img src="/images/arow.svg" alt="" />
+                  </span>
+                </a>
+              </div>
+            </div>
+          )}
         </>
       )}
     </>
