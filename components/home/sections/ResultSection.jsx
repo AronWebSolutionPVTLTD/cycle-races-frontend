@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import Flag from 'react-world-flags'
-import { ErrorStats, LoadingStats } from './loading&error'
+import { ErrorStats, LoadingStats } from '../../loading&error'
 import { useMultipleData } from '@/components/home_api_data';
 
 const ResultSection = () => {

@@ -83,7 +83,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useMultipleData } from "../../home_api_data";
-import { ErrorStats, LoadingStats } from "./loading&error";
+import { ErrorStats, LoadingStats } from "../../loading&error";
 
 const MostWin = ({ 
   // Optional filter props - component will work with or without them

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useMultipleData } from '../../home_api_data'
-import { ErrorStats, LoadingStats } from './loading&error'
+import { ErrorStats, LoadingStats } from '../../loading&error'
 import Flag from 'react-world-flags'
 
 const Upcoming = () => {

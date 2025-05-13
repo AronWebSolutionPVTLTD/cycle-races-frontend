@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMultipleData } from "@/components/home_api_data";
 import Flag from "react-world-flags";
-import { ErrorStats, LoadingStats } from "../home/sections/loading&error";
+import { ErrorStats, LoadingStats } from "../loading&error";
 
 export const SecondSection = ({
   selectedNationality,
