@@ -8,16 +8,16 @@ export default function Header() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isRiderDetail, setIsRiderDetail] = useState(false);
-  const router=useRouter();
-  const isActive = (path) => router.pathname === path; // :point_left: helper function
+    const router=useRouter();
+    const isActive = (path) => pathname === path;
 
-  const toggleNav = () => {
-    setIsOpen(!isOpen);
-  };
-  useEffect(() => {
-    const riderDetailRegex = /^\/riders\/\d+$/;
-    setIsRiderDetail(riderDetailRegex.test(pathname));
-  }, [pathname]);
+    const toggleNav = () => {
+      setIsOpen(!isOpen);
+    };
+    useEffect(() => {
+      const riderDetailRegex = /^\/riders\/[\w\d]+$/;
+      setIsRiderDetail(riderDetailRegex.test(pathname));
+    }, [pathname]);
 
   return (
     <header
@@ -97,8 +97,8 @@ export default function Header() {
                     <Link href="/stats">Stats</Link>
                   </li>
 
-                  <li className={isActive("/result") ? "active" : ""}>
-                    <Link href="/result">Results</Link>
+                  <li className={isActive("/races") ? "active" : ""}>
+                    <Link href="/races">Results</Link>
                   </li>
 
                   <li className={isActive("/riders") ? "active" : ""}>

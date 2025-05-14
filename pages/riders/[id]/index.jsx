@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 import { mockRiderData } from '@/pages/data';
 
 import axios from 'axios';
-import RiderRandomStats from '@/components/rider_detail/RiderStats';
+import RiderRandomStatsOne from '@/components/rider_detail/RiderStats';
 import { callAPI } from '@/lib/api';
 import Flag from 'react-world-flags';
+import RiderSectionTwo from '@/components/rider_detail/RiderSectionTwo';
 
 export default function RiderDetail({ initialRider }) {
   const router = useRouter();
@@ -212,8 +213,24 @@ export default function RiderDetail({ initialRider }) {
               </ul>
             </div>
             
+             <div className="col-lg-12">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h2>rider detail</h2>
+                                    </div>
+                                </div>
        {/* Random Stats Section */}
-            <RiderRandomStats 
+            <RiderRandomStatsOne 
+              riderId={rider._id} 
+              filterYear={filterYear}
+            />
+
+ <div className="col-lg-12">
+                        <div className="d-flex justify-content-between align-items-center">
+                            <h2>race detail</h2>
+                        </div>
+                    </div>
+             {/* Random Stats Section */}
+            <RiderSectionTwo
               riderId={rider._id} 
               filterYear={filterYear}
             />

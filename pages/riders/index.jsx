@@ -5,7 +5,8 @@ import RiderCard from "@/components/RiderCard";
 import SidebarList from "@/components/SidebarList";
 import { getTeamsRiders } from "@/lib/api";
 import { useEffect, useState, useRef } from "react";
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner } from "react-icons/fa";
+import { useMultipleData } from "@/components/home_api_data";
 
 export default function Riders() {
   const [teamRiders, setTeamRiders] = useState([]);
@@ -19,16 +20,28 @@ export default function Riders() {
   const searchRef = useRef(null);
   const debounceTimerRef = useRef(null);
 
+  const {
+    data: sidebarsData,
+    loading: sidebarsLoading,
+    error: sidebarsError,
+  } = useMultipleData(["olderstRiders", "youngestRiders", "victoryRanking"], {
+    endpointsMappings: {
+      olderstRiders: "/riders/oldestRiders",
+      youngestRiders: "/riders/youngestRiders",
+      victoryRanking: "/riders/victoryRanking",
+    },
+  });
+
   useEffect(() => {
     fetchRiders();
-    
+
     // Add click outside listener to close suggestions
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowSuggestions(false);
       }
     };
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -76,13 +89,13 @@ export default function Riders() {
     const suggestions = [];
     const lowerQuery = query.toLowerCase();
 
-    teamRiders.forEach(team => {
+    teamRiders.forEach((team) => {
       if (team.riders && team.riders.length > 0) {
-        team.riders.forEach(rider => {
+        team.riders.forEach((rider) => {
           if (rider.riderName.toLowerCase().includes(lowerQuery)) {
             suggestions.push({
               ...rider,
-              teamName: team.teamName
+              teamName: team.teamName,
             });
           }
         });
@@ -96,12 +109,12 @@ export default function Riders() {
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-    
+
     // Clear previous timer
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
-    
+
     // If query is empty, reset to default view
     if (!query.trim()) {
       setSelectedRider(null);
@@ -110,7 +123,7 @@ export default function Riders() {
       fetchRiders("");
       return;
     }
-    
+
     // Debounce API calls (300ms)
     debounceTimerRef.current = setTimeout(() => {
       // Make API call for search results
@@ -119,24 +132,24 @@ export default function Riders() {
           if (response.status === "success") {
             // Update teamRiders with the filtered results
             setTeamRiders(response.data);
-            
+
             // Create suggestions from these results
             const suggestions = [];
-            response.data.forEach(team => {
+            response.data.forEach((team) => {
               if (team.riders && team.riders.length > 0) {
-                team.riders.forEach(rider => {
+                team.riders.forEach((rider) => {
                   suggestions.push({
                     ...rider,
-                    teamName: team.teamName
+                    teamName: team.teamName,
                   });
                 });
               }
             });
-           setSearchSuggestions(suggestions.slice(0, 10));
+            setSearchSuggestions(suggestions.slice(0, 10));
             setShowSuggestions(suggestions.length > 0);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error("Search error:", err);
           // On error, use local filtering as fallback
           const localSuggestions = generateSuggestions(query);
@@ -166,17 +179,21 @@ export default function Riders() {
     setSearchQuery(rider.riderName);
     setShowSuggestions(false);
     setSelectedRider(rider);
-    
+
     // Create a filtered list with just the selected rider's team
-    const filteredTeam = teamRiders.find(team => team.teamName === rider.teamName);
-    
+    const filteredTeam = teamRiders.find(
+      (team) => team.teamName === rider.teamName
+    );
+
     if (filteredTeam) {
       // Create a filtered version of the team with only the selected rider
-      const filteredList = [{
-        ...filteredTeam,
-        riders: [rider]
-      }];
-      
+      const filteredList = [
+        {
+          ...filteredTeam,
+          riders: [rider],
+        },
+      ];
+
       setFirstTenRiders(filteredList);
     }
   };
@@ -191,14 +208,13 @@ export default function Riders() {
         >
           Loading riders data...
         </li>
-       
-      //   <div className="flex justify-center items-center h-64">
-      //   <FaSpinner className="animate-spin text-blue-600" style={{ fontSize: '4rem',alignItems:"center"}} />
-      // </div>
-      
-         );
+
+        //   <div className="flex justify-center items-center h-64">
+        //   <FaSpinner className="animate-spin text-blue-600" style={{ fontSize: '4rem',alignItems:"center"}} />
+        // </div>
+      );
     }
-    
+
     if (error) {
       return (
         <li
@@ -213,7 +229,7 @@ export default function Riders() {
         </li>
       );
     }
-    
+
     if (firstTenRiders.length === 0) {
       return (
         <li
@@ -224,7 +240,7 @@ export default function Riders() {
         </li>
       );
     }
-    
+
     return firstTenRiders.map((team) =>
       team.riders && team.riders.length > 0
         ? team.riders.map((rider) => (
@@ -237,6 +253,91 @@ export default function Riders() {
             />
           ))
         : null
+    );
+  };
+
+  const formatRidersForSidebar = (ridersData, showVictories = false) => {
+    if (!ridersData || !Array.isArray(ridersData)) return [];
+
+    return ridersData.slice(0, 3).map((rider) => ({
+      name: rider.rider_name || rider.riderName || rider.name,
+      age:
+        showVictories && rider.victories
+          ? `${rider.victories} wins`
+          : rider.age
+          ? `${rider.age} jaar`
+          : "",
+      flag: rider.country || rider.riderCountry || "/images/flag-default.svg",
+    }));
+  };
+
+  // Render sidebars with dynamic data
+  const renderSidebars = () => {
+    if (sidebarsLoading) {
+      return (
+        <div className="sidebar-loading">
+          <FaSpinner
+            className="animate-spin text-blue-600"
+            style={{ fontSize: "2rem" }}
+          />
+          <p>Loading statistics...</p>
+        </div>
+      );
+    }
+
+    if (sidebarsError) {
+      return (
+        <div
+          className="sidebar-error"
+          style={{ color: "red", padding: "15px" }}
+        >
+          Error loading rider statistics
+        </div>
+      );
+    }
+
+    const oldestRiders = {
+      data: sidebarsData?.olderstRiders?.data?.data || [],
+      title: sidebarsData?.olderstRiders?.message || "Oudste renner",
+    };
+
+    const youngestRiders = {
+      data: sidebarsData?.youngestRiders?.data?.data || [],
+      title: sidebarsData?.youngestRiders?.message || "Jongste renner",
+    };
+
+    const victoryRiders = {
+      data: sidebarsData?.victoryRanking?.data?.data || [],
+      title:
+        sidebarsData?.victoryRanking?.message ||
+        `Meeste overwinningen (${
+          sidebarsData?.victoryRanking?.data?.year || ""
+        })`,
+    };
+
+    return (
+      <>
+        {oldestRiders.data.length > 0 && (
+          <SidebarList
+            title={oldestRiders.title}
+            riders={formatRidersForSidebar(oldestRiders.data)}
+          />
+        )}
+
+        {youngestRiders.data.length > 0 && (
+          <SidebarList
+            title={youngestRiders.title}
+            riders={formatRidersForSidebar(youngestRiders.data)}
+          />
+        )}
+
+        {victoryRiders.data.length > 0 && (
+          <SidebarList
+            title={victoryRiders.title}
+            riders={formatRidersForSidebar(victoryRiders.data, true)}
+          />
+        )}
+      </>
     );
   };
 
@@ -266,7 +367,10 @@ export default function Riders() {
                         placeholder="welke renner zoek je?"
                         value={searchQuery}
                         onChange={handleSearchChange}
-                        onFocus={() => searchSuggestions.length > 0 && setShowSuggestions(true)}
+                        onFocus={() =>
+                          searchSuggestions.length > 0 &&
+                          setShowSuggestions(true)
+                        }
                       />
                       <div className="icon">
                         <img
@@ -283,17 +387,16 @@ export default function Riders() {
                         />
                       </div>
                       {showSuggestions && searchSuggestions.length > 0 && (
-                        <div >
+                        <div>
                           <ul>
                             {searchSuggestions.map((rider) => (
-                              <li 
-                                key={rider._id || rider.rider_id} 
+                              <li
+                                key={rider._id || rider.rider_id}
                                 onClick={() => handleSelectSuggestion(rider)}
-                             
                               >
-                                <div >
-                                  <span >{rider.riderName}</span>
-                                  <span >({rider.teamName})</span>
+                                <div>
+                                  <span>{rider.riderName}</span>
+                                  <span>({rider.teamName})</span>
                                 </div>
                               </li>
                             ))}
@@ -320,78 +423,13 @@ export default function Riders() {
                   <li>Team</li>
                 </ul>
 
-                <ul className="transparent-cart">
-                  {renderRidersList()}
-                </ul>
+                <ul className="transparent-cart">{renderRidersList()}</ul>
               </div>
-              <div className="col-lg-3 col-md-5">
-                <SidebarList
-                  title="Oudste renner"
-                  riders={[
-                    {
-                      name: "Wout van Aert",
-                      age: "31 jaar",
-                      flag: "/images/flag9.svg",
-                    },
-                    {
-                      name: "Wout van Aert",
-                      age: "31 jaar",
-                      flag: "/images/flag9.svg",
-                    },
-                    {
-                      name: "Wout van Aert",
-                      age: "31 jaar",
-                      flag: "/images/flag9.svg",
-                    },
-                  ]}
-                />
-                <SidebarList
-                  title="UAE Tour: stage 6"
-                  riders={[
-                    {
-                      name: "Tim Merlier",
-                      age: "31 jaar",
-                      flag: "/images/flag1.svg",
-                    },
-                    {
-                      name: "Wout van Aert",
-                      age: "31 jaar",
-                      flag: "/images/flag9.svg",
-                    },
-                    {
-                      name: "Wout van Aert",
-                      age: "31 jaar",
-                      flag: "/images/flag9.svg",
-                    },
-                  ]}
-                />
-                <SidebarList
-                  title="UAE Tour: stage 6"
-                  riders={[
-                    {
-                      name: "Tim Merlier",
-                      age: "31 jaar",
-                      flag: "/images/flag1.svg",
-                    },
-                    {
-                      name: "Wout van Aert",
-                      age: "31 jaar",
-                      flag: "/images/flag9.svg",
-                    },
-                    {
-                      name: "Wout van Aert",
-                      age: "31 jaar",
-                      flag: "/images/flag9.svg",
-                    },
-                  ]}
-                />
-              </div>
+              <div className="col-lg-3 col-md-5">{renderSidebars()}</div>
             </div>
           </div>
         </section>
       </main>
-
-    
     </>
   );
 }

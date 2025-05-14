@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { callAPI } from '../lib/api';
+import { callAPI } from '../../lib/api';
 import Flag from 'react-world-flags';
 
 export default function Results() {
@@ -315,7 +315,7 @@ return (
                         <h5>
                         <Flag code={item.country_code.toUpperCase()} style={{ width: '30px', height: '20px', marginRight: '10px' }} />
                         
-                          <Link href={`/race/${encodeURIComponent(item.race_name)}`}>{item.race_name}</Link>
+                          <Link href={`/races/${encodeURIComponent(item.race_name)}`}>{item.race_name}</Link>
                         </h5>
                         <h6>
                          <Flag code={item.rider_country.toUpperCase()} style={{ width: '30px', height: '20px', marginRight: '10px' }} />
@@ -323,7 +323,7 @@ return (
                           <Link href={`/rider/${encodeURIComponent(item.rider_name)}`}>{item.rider_name}</Link>
                         </h6>
                         <h6>{item.team_name}</h6>
-                        <Link href={`/race/${encodeURIComponent(item.race_name)}/stage/${item.stage_number}`} className="r-details">
+                        <Link href={`/races/${encodeURIComponent(item.race_name)}`} className="r-details">
                           <img src="/images/hover-arow.svg" alt="Details" />
                         </Link>
                       </li>
