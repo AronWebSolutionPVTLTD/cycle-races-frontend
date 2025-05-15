@@ -176,7 +176,8 @@ export const useMultipleData = (endpointKeys, options = {}) => {
     id = null,
     queryParams = {},
     endpointsMappings = {},
-    idType = "rider"
+    idType = "rider",
+     name = null
   } = options;
 
   useEffect(() => {
@@ -197,7 +198,8 @@ export const useMultipleData = (endpointKeys, options = {}) => {
           id,
           queryParams,
           endpointsMappings,
-          idType
+          idType,
+          name
         });
         
         // Check if we have any errors
@@ -236,7 +238,7 @@ export const useMultipleData = (endpointKeys, options = {}) => {
     };
 
     getData();
-  }, [JSON.stringify(endpointKeys), id, JSON.stringify(queryParams), idType]);
+  }, [JSON.stringify(endpointKeys), id, JSON.stringify(queryParams), idType,name]);
 
   return { data, loading, error, partialSuccess };
 };

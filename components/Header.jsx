@@ -7,26 +7,27 @@ import { useRouter } from "next/router";
 export default function Header() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [isRiderDetail, setIsRiderDetail] = useState(false);
+const [isDetailPage, setIsDetailPage] = useState(false);
     const router=useRouter();
     const isActive = (path) => pathname === path;
 
     const toggleNav = () => {
       setIsOpen(!isOpen);
     };
-    useEffect(() => {
-      const riderDetailRegex = /^\/riders\/[\w\d]+$/;
-      setIsRiderDetail(riderDetailRegex.test(pathname));
-    }, [pathname]);
+   
+useEffect(() => {
+  const riderDetailRegex = /^\/riders\/[\w\d-%\s]+$/;
+  const raceDetailRegex = /^\/races\/[\w\d-%\s]+$/;
+  setIsDetailPage(riderDetailRegex.test(pathname) || raceDetailRegex.test(pathname));
+}, [pathname]);
+
 
   return (
-    <header
-      className={`${isRiderDetail ? "absolute-header" : "relative-header"}`}
-    >
+    <header className={`${isDetailPage ? "absolute-header" : "relative-header"}`}>
       <div className="container">
         <div className="header-content-wraper">
           <Link href="/" className="logo">
-            {!isRiderDetail ? (
+            {!isDetailPage ? (
               <img src="/images/header-logo.png" alt="Wielerstats Logo" />
             ) : (
               <img src="/images/dark-bg-logo.svg" alt="Wielerstats Logo" />
@@ -69,12 +70,12 @@ export default function Header() {
                         Stats
                       </Link>
                     </li>
-                    <li  className={isActive("/result") ? "active" : ""}>  
+                    <li  className={isActive("/races") ? "active" : ""}>  
                       <Link
-                        href="/result"
+                        href="/races"
                        
                       >
-                        Results
+                        Races
                       </Link>
                     </li>
                     <li
@@ -98,7 +99,7 @@ export default function Header() {
                   </li>
 
                   <li className={isActive("/races") ? "active" : ""}>
-                    <Link href="/races">Results</Link>
+                    <Link href="/races">Races</Link>
                   </li>
 
                   <li className={isActive("/riders") ? "active" : ""}>

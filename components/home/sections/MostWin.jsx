@@ -106,7 +106,7 @@ const MostWin = ({
     try {
       const randomIndex = Math.floor(Math.random() * apiOptions.length);
       setSelectedApi(apiOptions[randomIndex]);
-      console.log("Random endpoint selected for MostWin section:", apiOptions[randomIndex]);
+      
     } catch (err) {
       console.error("Error selecting random endpoint for MostWin section:", err);
     }

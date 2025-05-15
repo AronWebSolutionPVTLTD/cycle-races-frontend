@@ -1,24 +1,3 @@
-// import React from 'react';
-
-// // Loading component for statistics section
-// export const LoadingStats = () => (
-//   <div className="col-12 text-center py-5">
-//     <div className="spinner-border text-success" role="status">
-//       <span className="visually-hidden">Loading...</span>
-//     </div>
-//     <p className="mt-3">Loading statistics...</p>
-//   </div>
-// );
-
-// // Error component for statistics section
-// export const ErrorStats = ({ message }) => (
-//   <div className="col-12 text-center py-5">
-//     <div className="alert alert-danger" role="alert">
-//       <h3>Error Loading Data</h3>
-//       <p>{message}</p>
-//     </div>
-//   </div>
-// );
 
 import React from 'react';
 
@@ -28,7 +7,7 @@ export const LoadingStats = () => (
     <div className="spinner-border text-primary mb-3" role="status">
       <span className="visually-hidden">Loading...</span>
     </div>
-    <h3 className="text-muted">Loading rider statistics...</h3>
+    <h3 className="text-muted">Loading statistics...</h3>
     <p className="text-muted">Please wait while we fetch the latest data.</p>
   </div>
 );
@@ -44,7 +23,7 @@ export const ErrorStats = ({ message }) => (
       </svg>
     </div>
     <h3 className="text-danger">Error Loading Data</h3>
-    <p className="text-muted">{message || "Failed to load rider statistics"}</p>
+    <p className="text-muted">{message || "Failed to load statistics"}</p>
     <button 
       className="btn btn-outline-primary mt-3" 
       onClick={() => window.location.reload()}

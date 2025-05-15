@@ -10,6 +10,7 @@ import {
 
 // This component will handle the random rider statistics section
  const RiderRandomStatsOne = ({ riderId, filterYear }) => {
+  console.log(riderId,filterYear,"rider")
   // Define endpoint groups for different sections of rider statistics
   const firstSectionEndpoints = ["first-win", "getRiderFirstWin"];
   const secondSectionEndpoints = ["getBestGCResult", "bestSeason","getRiderMostRacedCountry"];
@@ -692,7 +693,7 @@ import {
                               )}
                             </strong>
                           </p>
-                          <div className="name-wraper">
+          
                             <ul>
                               {(
                                 getSafeData(
@@ -701,8 +702,9 @@ import {
                                   []
                                 ) || []
                               )
-                                .slice(0, 8)
+                                .slice(0, 5)
                                 .map((rider, index) => (
+                                                  <div className="name-wraper">
                                   <li key={rider._id || index}>
                                     {rider.name}{" "}
                                     {rider.nationality && (
@@ -716,9 +718,10 @@ import {
                                       />
                                     )}
                                   </li>
+                                  </div>
                                 ))}
                             </ul>
-                          </div>
+                       
                         </>
                       )}
 

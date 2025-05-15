@@ -9,6 +9,7 @@ import RiderRandomStatsOne from '@/components/rider_detail/RiderStats';
 import { callAPI } from '@/lib/api';
 import Flag from 'react-world-flags';
 import RiderSectionTwo from '@/components/rider_detail/RiderSectionTwo';
+import { generateYearOptions } from '@/components/GetYear';
 
 export default function RiderDetail({ initialRider }) {
   const router = useRouter();
@@ -18,19 +19,7 @@ export default function RiderDetail({ initialRider }) {
   const [error, setError] = useState(null);
   const [filterYear, setFilterYear] = useState('All-time');
 
-  // Generate year options from 1990 to current year (2025)
-  const generateYearOptions = () => {
-    const currentYear = 2025;
-    const startYear = 1990;
-    const yearOptions = ['All-time'];
-    
-    for (let year = currentYear; year >= startYear; year--) {
-      yearOptions.push(year.toString());
-    }
-    
-    return yearOptions;
-  };
-
+  
   // Available filter options
   const yearOptions = generateYearOptions();
 
