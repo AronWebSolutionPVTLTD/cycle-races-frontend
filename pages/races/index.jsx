@@ -13,6 +13,8 @@ const [showSearchDropdown, setShowSearchDropdown] = useState(false);
 const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 const [selectedMonth, setSelectedMonth] = useState('');
 
+const [featuredRaces, setFeaturedRaces] = useState([]);
+
 const months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
 
 // Convert month name to number (1-12)
@@ -72,6 +74,12 @@ useEffect(() => {
     setShowSearchDropdown(false);
   }
 }, [searchTerm]);
+
+useEffect(() => {
+  fetchRaceResults();
+  fetchFeaturedRaces();
+}, [selectedYear, selectedMonth]);
+
 
 // Fetch search suggestions separately from results
 const fetchSearchSuggestions = async () => {
@@ -139,36 +147,60 @@ const clearSearch = () => {
 };
 
 // Featured races data (could be moved to API later)
-const featuredRaces = [
-  {
-    title: 'Snelste sprint',
-    rider: 'Wout van Aert',
-    flag: 'images/flag9.svg',
-    speed: '78',
-    image: 'images/player6.png'
-  },
-  {
-    title: 'UAE Tour: stage 6',
-    rider: 'Tim Merlier',
-    flag: 'images/flag1.svg',
-    speed: '78',
-    image: 'images/player6.png'
-  },
-  {
-    title: 'UAE Tour: stage 6',
-    rider: 'Tim Merlier',
-    flag: 'images/flag1.svg',
-    speed: '78',
-    image: 'images/player6.png'
-  },
-  {
-    title: 'UAE Tour: stage 6',
-    rider: 'Tim Merlier',
-    flag: 'images/flag1.svg',
-    speed: '78',
-    image: 'images/player6.png'
+const fetchFeaturedRaces = async () => {
+  try {
+    const [victoryRes, teamRes, bestRes] = await Promise.all([
+      callAPI("GET", `stages/getCurrentVictoryRanking?year=${selectedYear}`),
+      callAPI("GET", `stages/getCurrentTeamRanking?year=${selectedYear}`),
+      callAPI("GET", `stages/getBestRidersOfRecentYear?year=${selectedYear}`)
+    ]);
+
+    const featured = [];
+
+    // Top Victory Rider
+    if (victoryRes.data.top_riders?.length) {
+      const topRider = victoryRes.data.top_riders[0];
+      featured.push({
+        title: victoryRes.message,
+        rider: topRider.rider_name,
+        flag: `/images/flags/${topRider.rider_country.toLowerCase()}.svg`,
+        speed: `${topRider.wins}`,
+        image: '/images/player6.png'
+      });
+    }
+
+    // Top Team
+    if (teamRes.data.recent_team_rankings?.length) {
+      const topTeam = teamRes.data.recent_team_rankings[0];
+      featured.push({
+        title: teamRes.message,
+        rider: topTeam.team_name,
+        flag: '/images/flag-placeholder.svg',
+        speed: `${topTeam.total_wins}`,
+        image: '/images/player6.png'
+      });
+    }
+
+    console.log("Best Riders of the Year:", bestRes);
+    // Best Rider of the Year
+    if (bestRes?.data.top_riders?.length) {
+      const best = bestRes.data.top_riders[0];
+      featured.push({
+        title: bestRes.message,
+        rider: best.rider_name,
+        flag: `/images/flags/${best.rider_country.toLowerCase()}.svg`,
+        speed: best.wins,
+        image: '/images/player6.png'
+      });
+    }
+
+    setFeaturedRaces(featured);
+
+  } catch (error) {
+    console.error("Error fetching featured races:", error);
+    setFeaturedRaces([]);
   }
-];
+};
 
 return (
   <>
@@ -323,7 +355,7 @@ return (
                           <Link href={`/rider/${encodeURIComponent(item.rider_name)}`}>{item.rider_name}</Link>
                         </h6>
                         <h6>{item.team_name}</h6>
-                        <Link href={`/races/${encodeURIComponent(item.race_name)}`} className="r-details">
+                        <Link href={`/race-result/${encodeURIComponent(item.race_id)}`} className="r-details">
                           <img src="/images/hover-arow.svg" alt="Details" />
                         </Link>
                       </li>
@@ -336,25 +368,24 @@ return (
             </div>
             
             <div className="col-lg-3 col-md-5">
-              {featuredRaces.map((race, index) => (
-                <div className="team-cart" key={index}>
-                  <a href="#" className="pabs"></a>
-                  <div className="text-wraper">
-                    <h4 className="font-size-change">{race.title}</h4>
-                    <div className="name-wraper">
-                      <img src={race.flag} alt="" />
-                      <h6>{race.rider}</h6>
-                    </div>
+             {featuredRaces.map((race, index) => (
+              <div className="team-cart" key={index}>
+                <a href="#" className="pabs"></a>
+                <div className="text-wraper">
+                  <h4 className="font-size-change">{race.title}</h4>
+                  <div className="name-wraper">
+                    <img src={race.flag} alt="" />
+                    <h6>{race.rider}</h6>
                   </div>
-                  <h5>
-                    <strong>{race.speed}</strong>km/ph
-                  </h5>
-                  <img src={race.image} alt="" className="absolute-img" />
-                  <a href="#" className="green-circle-btn">
-                    <img src="images/arow.svg" alt="" />
-                  </a>
                 </div>
-              ))}
+                <h5><strong>{race.speed}</strong></h5>
+                <img src={race.image} alt="" className="absolute-img" />
+                <a href="#" className="green-circle-btn">
+                  <img src="/images/arow.svg" alt="" />
+                </a>
+              </div>
+            ))}
+
             </div>
           </div>
         </div>

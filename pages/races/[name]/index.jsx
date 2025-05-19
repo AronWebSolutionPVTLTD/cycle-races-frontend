@@ -314,7 +314,7 @@ console.log(selectedYear,"year")
 
 
             <FirstSection  selectedYear={selectedYear !== "All time" ? selectedYear : null}  selectedNationality={selectedNationality}   name={name ? decodeURIComponent(name) : ''}/>
-            <MostWin/>
+            {/* <MostWin/> */}
             {/* <SecondSection/> */}
             </div>
            </div>

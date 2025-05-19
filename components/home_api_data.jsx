@@ -180,6 +180,8 @@ export const useMultipleData = (endpointKeys, options = {}) => {
      name = null
   } = options;
 
+    console.log(idType,'type')
+
   useEffect(() => {
     if (!Array.isArray(endpointKeys) || endpointKeys.length === 0) {
       setError('Invalid endpoint keys: Must be a non-empty array');
