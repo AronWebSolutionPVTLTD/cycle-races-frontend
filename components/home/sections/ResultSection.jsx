@@ -7,7 +7,7 @@ import { useMultipleData } from '@/components/home_api_data';
 const ResultSection = () => {
     const firstSectionEndpoints = [
         "mostStageWins",
-        "mostPodiumInStage",
+        "stagePodiums",
         "mostGCWins"
     ];
 
