@@ -10,7 +10,7 @@ import {
 
 // This component will handle the random rider statistics section
  const RiderRandomStatsOne = ({ riderId, filterYear }) => {
-  console.log(riderId,filterYear,"rider")
+
   // Define endpoint groups for different sections of rider statistics
   const firstSectionEndpoints = ["first-win", "getRiderFirstWin"];
   const secondSectionEndpoints = ["getBestGCResult", "bestSeason","getRiderMostRacedCountry"];

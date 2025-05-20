@@ -44,7 +44,6 @@ export default function RaceResultPage() {
     }
   };
 
-  console.log("-----------race-----------",race)
   const fetchFeaturedStats = async (raceId) => {
     try {
       // Fetch all stats in parallel

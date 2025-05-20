@@ -33,7 +33,7 @@ const Upcoming = () => {
         box2: getRandomItem(apiOptions.box2),
         box3: getRandomItem(apiOptions.box3)
       });
-      console.log("Random endpoints selected for Upcoming section");
+      
     } catch (err) {
       console.error("Error selecting random endpoints for Upcoming section:", err);
     }
@@ -42,12 +42,11 @@ const Upcoming = () => {
   // Create a flat array of all selected API endpoints to fetch
   const endpointsToFetch = Object.values(selectedApis);
   
-  console.log("Upcoming section endpoints being fetched:", endpointsToFetch);
+
 
   // Fetch data using the selected endpoints
   const { data, loading, error } = useMultipleData(endpointsToFetch);
   
-  console.log("Upcoming section API response:", data);
 
   // Check if we have all data for every endpoint
   const allDataLoaded = endpointsToFetch.every(endpoint => data[endpoint]);

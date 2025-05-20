@@ -10,7 +10,7 @@ import {
 
 // This component will handle the random rider statistics section
 const FirstSection = ({ selectedYear, selectedNationality, name }) => {
-  console.log(selectedYear, selectedNationality, name, "name");
+ 
   // Define endpoint groups for different sections of rider statistics
   const firstSectionEndpoints = ["totalWinsByNationality", "mostWins"];
   const secondSectionEndpoints = [
@@ -469,11 +469,7 @@ const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                     ))}
                 </div>
 
-                <img
-                  src="/images/player2.png"
-                  alt=""
-                  className="absolute-img"
-                />
+               
                 <a href="#?" className="green-circle-btn">
                   <img src="/images/arow.svg" alt="" />
                 </a>

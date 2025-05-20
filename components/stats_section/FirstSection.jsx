@@ -36,7 +36,7 @@ export const FirstSection = ({
     const randomIndex = Math.floor(Math.random() * endpointArray.length);
     return endpointArray[randomIndex];
   };
-console.log(selectedNationality,selectedTeam,selectedYear,"stat")
+
   // Initialize with random endpoints
   useEffect(() => {
     setIsMounted(true);
@@ -63,19 +63,7 @@ console.log(selectedNationality,selectedTeam,selectedYear,"stat")
     return params;
   };
 
- // Log parameters for debugging
-  console.log({
-    filters: {
-      selectedNationality,
-      selectedTeam,
-      selectedYear
-    },
-    queryParams: buildQueryParams()
-  });
-
-
-  // List of all endpoints to fetch
-  const endpointsToFetch = [
+ const endpointsToFetch = [
     firstSectionEndpoint,
     secondSectionEndpoint,
     thirdSectionEndpoint,

@@ -6,8 +6,6 @@ export default function ContactForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('Sending message:', { email, message })
-
   }
 
   return (

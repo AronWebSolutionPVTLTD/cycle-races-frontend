@@ -27,18 +27,16 @@ export default function RiderDetail({ initialRider }) {
   const fetchRiderDetails = async (riderId) => {
     try {
       setIsLoading(true);
-      console.log('Fetching rider details for ID:', riderId);
-      
-      const response = await callAPI("GET",`/rider-stats/${riderId}/detail`)
+    const response = await callAPI("GET",`/rider-stats/${riderId}/detail`)
         .catch(error => {
           console.error('API call failed:', error);
           // If API fails, fallback to mock data
           throw new Error('API call failed: ' + (error.message || 'Unknown error'));
         });
-        console.log(response,"response")
+    
       
       if (response && response.data.data) {
-        console.log('API response received:', response.data); 
+   
         const riderData = response.data.data;
      setRider(riderData);
       } else {
@@ -74,14 +72,13 @@ export default function RiderDetail({ initialRider }) {
     if (router.isReady) {
       setIsRouterReady(true);
       const { id } = router.query;
-      console.log("Router is ready, id:", id);
+     
       
       if (id) {
         const riderId = id;
         fetchRiderDetails(riderId);
       } else {
-        console.error("No id/rider ID found in URL");
-        setError("No rider ID found in URL");
+       setError("No rider ID found in URL");
         setIsLoading(false);
       }
     }

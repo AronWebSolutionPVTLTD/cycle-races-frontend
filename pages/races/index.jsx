@@ -181,7 +181,7 @@ const fetchFeaturedRaces = async () => {
       });
     }
 
-    console.log("Best Riders of the Year:", bestRes);
+   
     // Best Rider of the Year
     if (bestRes?.data.top_riders?.length) {
       const best = bestRes.data.top_riders[0];
@@ -201,6 +201,7 @@ const fetchFeaturedRaces = async () => {
     setFeaturedRaces([]);
   }
 };
+
 
 return (
   <>
@@ -351,12 +352,11 @@ return (
                         </h5>
                         <h6>
                          <Flag code={item.rider_country.toUpperCase()} style={{ width: '30px', height: '20px', marginRight: '10px' }} />
-                         
-                          <Link href={`/rider/${encodeURIComponent(item.rider_name)}`}>{item.rider_name}</Link>
+                         {item.rider_name}
                         </h6>
                         <h6>{item.team_name}</h6>
                         <Link href={`/race-result/${encodeURIComponent(item.race_id)}`} className="r-details">
-                          <img src="/images/hover-arow.svg" alt="Details" />
+                      <img src="/images/eye.svg" alt="Details" width="24" height="24" />
                         </Link>
                       </li>
                     ))

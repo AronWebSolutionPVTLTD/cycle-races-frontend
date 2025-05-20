@@ -1,7 +1,8 @@
 // pages/race/[name].jsx
 import { generateYearOptions } from '@/components/GetYear';
-import MostWin from '@/components/home/sections/MostWin';
+
 import FirstSection from '@/components/race_detail/FirstSection';
+import MostWin from '@/components/race_detail/Mostwin';
 import SecondSection from '@/components/race_detail/SecondSection';
 import { FilterDropdown } from '@/components/stats_section/FilterDropdown';
 import { callAPI } from '@/lib/api';
@@ -101,7 +102,7 @@ const [activeFilter, setActiveFilter] = useState("year");
       }, []);
 
   const [raceData, setRaceData] = useState();
-  console.log(raceData,"race")
+
    // Filter years based on input
   const getFilteredYears = (searchValue) => {
     return yearOptions.filter((year) =>
@@ -265,8 +266,8 @@ const [activeFilter, setActiveFilter] = useState("year");
             </div>
 
 
-            {/* <FirstSection  selectedYear={selectedYear !== "All time" ? selectedYear : null}  selectedNationality={selectedNationality}   name={name ? decodeURIComponent(name) : ''}/> */}
-            {/* <MostWin/> */}
+            <FirstSection  selectedYear={selectedYear !== "All time" ? selectedYear : null}  selectedNationality={selectedNationality}   name={name ? decodeURIComponent(name) : ''}/>
+            <MostWin selectedYear={selectedYear !== "All time" ? selectedYear : null}  selectedNationality={selectedNationality}   name={name ? decodeURIComponent(name) : ''}/>
             <SecondSection selectedYear={selectedYear !== "All time" ? selectedYear : null}  selectedNationality={selectedNationality}   name={name ? decodeURIComponent(name) : ''}/>
             </div>
            </div>

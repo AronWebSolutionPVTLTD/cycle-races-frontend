@@ -3,7 +3,7 @@ import Flag from "react-world-flags";
 
 // components/SidebarList.js
 export default function SidebarList({ title, riders }) {
-  console.log(riders,"rider",title)
+
     return (
       <div className="list-white-cart">
         <h4>{title}</h4>
