@@ -48,7 +48,7 @@ export default function RiderDetail({ initialRider }) {
     } catch (err) {
       console.error('Error fetching rider details:', err);
       setError(err.message || 'Failed to load rider details');
-      setRider(mockRiderData);
+      setRider(null);
     } finally {
       setIsLoading(false);
     }
@@ -88,19 +88,19 @@ export default function RiderDetail({ initialRider }) {
   }, [router.isReady, router.query]);
 
   // If loading state persists for more than 5 seconds, fall back to mock data
-  useEffect(() => {
-    let timeout;
+  // useEffect(() => {
+  //   let timeout;
     
-    if (isLoading) {
-      timeout = setTimeout(() => {
-        console.log('Loading timeout reached, falling back to mock data');
-        setRider(mockRiderData);
-        setIsLoading(false);
-      }, 5000); // 5 second timeout
-    }
+  //   if (isLoading) {
+  //     timeout = setTimeout(() => {
+  //       console.log('Loading timeout reached, falling back to mock data');
+  //       setRider(mockRiderData);
+  //       setIsLoading(false);
+  //     }, 5000); // 5 second timeout
+  //   }
     
-    return () => clearTimeout(timeout);
-  }, [isLoading]);
+  //   return () => clearTimeout(timeout);
+  // }, [isLoading]);
 
   if (!isRouterReady || isLoading) {
     return (
@@ -132,6 +132,21 @@ export default function RiderDetail({ initialRider }) {
     );
   }
 
+    if (!rider) {
+    return (
+      <div className="container py-5">
+        <div className="text-center">
+          <h2>Rider Information Not Available</h2>
+          <p>We couldn't find information for this rider.</p>
+          <Link href="/riders">
+            <button className="btn btn-primary mt-3">
+              Back to Riders 
+            </button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
   return (
     <main>
       <section className='rider-details-sec pb-0 rider-details-sec-top'>
@@ -163,21 +178,31 @@ export default function RiderDetail({ initialRider }) {
             <div className="top-wraper">
               <ul className="breadcrumb">
                 <li><Link href="/">home</Link></li>
-                <li><Link href="/riders-search">riders</Link></li>
-                <li>{rider.name}</li>
+                <li><Link href="/riders">riders</Link></li>
+                   <li>{rider.name || 'N/A'}</li>
               </ul>
               <div className="wraper">
-                <Image src={rider.image_url} alt={rider.name} width={300} height={300} />
-                <h1>{rider.name}</h1>
+                           {rider.image_url ? (
+                <img src={rider.image_url} alt={rider.name || 'Rider'}/>
+              ) : (
+                <div className="placeholder-image" style={{ width: 200, height: 200, background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span>No Image</span>
+                </div>
+              )}
+       <h1>{rider.name || 'N/A'}</h1>
               </div>
-              <ul className="plyr-dtls">
-                <li>
-                 <Flag code={rider.nationality} style={{width:"20px",height:"20px",marginleft:"10px"}}/>
-                  {/* <span>{rider.country}</span> */}
-                </li>
-                <li>{rider.date_of_birth ||" N/A"} </li>
-                <li>{rider.birth_place || "N/A"}</li>
-              </ul>
+                    <ul className="plyr-dtls">
+              <li>
+                {rider.nationality ? (
+                  <Flag code={rider.nationality} style={{ width: "20px", height: "20px", marginLeft: "10px" }} />
+                ) : (
+                  <span>N/A</span>
+                )}
+              </li>
+              <li>{rider.date_of_birth || "N/A"}</li>
+              <li>{rider.birth_place || "N/A"}</li>
+              <li>{rider.age ? rider.age : calculateAge(rider.date_of_birth) || "N/A"} years</li>
+            </ul>
             </div>
           </div>
         </div>

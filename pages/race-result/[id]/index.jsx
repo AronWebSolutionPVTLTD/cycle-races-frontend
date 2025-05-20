@@ -265,7 +265,7 @@ export default function RaceResultPage() {
             <div className="col-lg-12">
               <ul className="breadcrumb">
                 <li><Link href="/">home</Link></li>
-                <li><Link href="/calendar">calendar</Link></li>
+                <li><Link href="/races">race</Link></li>
                 <li>{race.race_name}</li>
               </ul>
               <h1>{race.race_name.toUpperCase()}</h1>

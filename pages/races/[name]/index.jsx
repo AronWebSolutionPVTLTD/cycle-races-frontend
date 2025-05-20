@@ -100,56 +100,8 @@ const [activeFilter, setActiveFilter] = useState("year");
         };
       }, []);
 
-  const [raceData, setRaceData] = useState({
-    name: "Loading race...",
-    country: "belgium",
-    distance: "194,6 km",
-    edition: 54,
-    careerWins: 62,
-    oldestRider: {
-      name: "Domenico Pozzovivo",
-      age: 39,
-      country: "italy"
-    },
-    oldestTeam: {
-      name: "Team Movistar",
-      age: 31,
-      country: "spain"
-    },
-    mostPopularClimb: {
-      name: "Alpe d'Huez",
-      count: 18,
-      country: "france"
-    },
-    fastestSprint: {
-      name: "Wout van Aert",
-      speed: 78,
-      country: "belgium"
-    },
-    mostParticipations: {
-      name: "Primoz Roglic",
-      count: 12,
-      country: "slovenia"
-    },
-    consecutiveWins: {
-      name: "Primoz Roglic",
-      count: 4,
-      country: "slovenia"
-    },
-    mostWins: {
-      name: "Gilberto Simoni",
-      count: 3,
-      country: "italy"
-    },
-    teamRankings: [
-      { name: "Team Movistar", value: "31 jaar", country: "spain" },
-      { name: "Lotto Soedal", value: "31 jaar", country: "belgium" },
-      { name: "Jumbo-Visma", value: "31 jaar", country: "netherlands" },
-      { name: "Intermarché", value: "31 jaar", country: "belgium" },
-      { name: "Quickstep", value: "31 jaar", country: "belgium" }
-    ]
-  });
-  
+  const [raceData, setRaceData] = useState();
+  console.log(raceData,"race")
    // Filter years based on input
   const getFilteredYears = (searchValue) => {
     return yearOptions.filter((year) =>
@@ -194,7 +146,7 @@ const [activeFilter, setActiveFilter] = useState("year");
     if (year !== "All-time") {
       setRaceData(prevData => ({
         ...prevData,
-        edition: parseInt(year) - 1967, // Example calculation
+        edition: parseInt(year) - 1967, 
       }));
     }
   };
@@ -241,7 +193,7 @@ const [activeFilter, setActiveFilter] = useState("year");
     );
   }
 
-console.log(selectedYear,"year")
+
 
   return (
     <>
@@ -267,7 +219,7 @@ console.log(selectedYear,"year")
                  <Flag code={raceData.country}  style={{width:"20px",height:"20px",marginleft:"10px"}}/>
                   {/* <span>{rider.country}</span> */}
                 </li>
-                  <li className="text-sm">{raceData.distance}</li>
+                  {/* <li className="text-sm">{raceData.distance}</li> */}
               </ul>
             </div>
           </div>
@@ -313,9 +265,9 @@ console.log(selectedYear,"year")
             </div>
 
 
-            <FirstSection  selectedYear={selectedYear !== "All time" ? selectedYear : null}  selectedNationality={selectedNationality}   name={name ? decodeURIComponent(name) : ''}/>
+            {/* <FirstSection  selectedYear={selectedYear !== "All time" ? selectedYear : null}  selectedNationality={selectedNationality}   name={name ? decodeURIComponent(name) : ''}/> */}
             {/* <MostWin/> */}
-            {/* <SecondSection/> */}
+            <SecondSection selectedYear={selectedYear !== "All time" ? selectedYear : null}  selectedNationality={selectedNationality}   name={name ? decodeURIComponent(name) : ''}/>
             </div>
            </div>
            </section>

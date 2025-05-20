@@ -180,7 +180,7 @@ export const useMultipleData = (endpointKeys, options = {}) => {
      name = null
   } = options;
 
-    console.log(idType,'type')
+    console.log(idType,'type',name,"name")
 
   useEffect(() => {
     if (!Array.isArray(endpointKeys) || endpointKeys.length === 0) {
