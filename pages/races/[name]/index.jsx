@@ -1,6 +1,6 @@
 // pages/race/[name].jsx
 import { generateYearOptions } from "@/components/GetYear";
-
+import { ErrorStats } from "@/components/loading&error";
 import FirstSection from "@/components/race_detail/FirstSection";
 import MostWin from "@/components/race_detail/Mostwin";
 import SecondSection from "@/components/race_detail/SecondSection";
@@ -16,39 +16,28 @@ export default function RaceDetailsPage() {
   const router = useRouter();
   const { name } = router.query;
   const [isRouterReady, setIsRouterReady] = useState(false);
-
-  // Filter states
-  // const [selectedYear, setSelectedYear] = useState('All-time');
-  // const [selectedNationality, setSelectedNationality] = useState("All");
   const [activeFilter, setActiveFilter] = useState("year");
   const [years, setYears] = useState([]);
   const [nationalities, setNationalities] = useState([]);
   const [selectedYear, setSelectedYear] = useState("All time");
-  const [yearInput, setYearInput] = useState(
-    new Date().getFullYear().toString()
-  );
+  const [yearInput, setYearInput] = useState(new Date().getFullYear().toString());
   const [selectedNationality, setSelectedNationality] = useState("");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [raceData, setRaceData] = useState(null); // Changed to null initially
+  const [error, setError] = useState(null);
 
-  const [raceData, setRaceData] = useState({});
+  const {withAllTime} = generateYearOptions();
 
-  console.log(raceData, "dgagd");
   // Refs for handling clicks outside dropdowns
   const yearDropdownRef = useRef(null);
   const nationalityDropdownRef = useRef(null);
 
-  // Initialize years list
- const yearOptions = generateYearOptions();
-
   // Fetch nationalities and teams based on filters
   const fetchFiltersData = useCallback(async () => {
     try {
-      setIsLoading(true);
-
       const queryParams = {};
-
       if (selectedNationality) queryParams.q_country = selectedNationality;
       if (selectedYear) queryParams.q_year = selectedYear;
 
@@ -63,8 +52,6 @@ export default function RaceDetailsPage() {
       }
     } catch (error) {
       console.error("Error fetching filters data:", error);
-    } finally {
-      setIsLoading(false);
     }
   }, [selectedNationality, selectedYear]);
 
@@ -74,16 +61,10 @@ export default function RaceDetailsPage() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        yearDropdownRef.current &&
-        !yearDropdownRef.current.contains(event.target)
-      ) {
+      if (yearDropdownRef.current && !yearDropdownRef.current.contains(event.target)) {
         setShowYearDropdown(false);
       }
-      if (
-        nationalityDropdownRef.current &&
-        !nationalityDropdownRef.current.contains(event.target)
-      ) {
+      if (nationalityDropdownRef.current && !nationalityDropdownRef.current.contains(event.target)) {
         setShowNationalityDropdown(false);
       }
     };
@@ -94,17 +75,14 @@ export default function RaceDetailsPage() {
     };
   }, []);
 
-  // Filter years based on input
   const getFilteredYears = (searchValue) => {
-    return yearOptions.filter((year) =>
+    return withAllTime.filter((year) =>
       year.toLowerCase().includes((searchValue || "").toLowerCase())
     );
   };
 
-  // Handle year input change to filter the dropdown options without API call
   const handleYearInputChange = (value) => {
     setYearInput(value);
-    // No API call on typing, just filter the dropdown options
   };
 
   const handleSelection = (type, value) => {
@@ -113,229 +91,177 @@ export default function RaceDetailsPage() {
         setSelectedYear(value);
         setYearInput(value);
         setShowYearDropdown(false);
-        fetchFiltersData(); // Fetch data with new year
+        fetchFiltersData();
         break;
       case "nationality":
         setSelectedNationality(value);
         setShowNationalityDropdown(false);
-        fetchFiltersData(); // Fetch data with new nationality
+        fetchFiltersData();
         break;
     }
   };
 
   const fetchRaceDetails = async (raceName) => {
-    console.log(raceName, "nae");
     try {
       setIsLoading(true);
-
+      setError(null);
       const response = await callAPI(
         "GET",
         `/raceDetailsStats/${raceName}/getRaceDetails`,
-        // Add any query parameters if needed
         {}
       );
 
       if (response.status && response.data) {
         setRaceData(response.data);
+      } else {
+        setError("Failed to load race details");
       }
     } catch (error) {
       console.error("Error fetching race details:", error);
+      setError("An error occurred while loading race details");
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Fetch data based on filters
-  const fetchFilteredData = async (raceName, year, nationality) => {
-    // console.log(`Fetching data for race: ${raceName}, year: ${year}, nationality: ${nationality}`);
-    // This would be replaced with an actual API call
-    // Example:
-    // const response = await fetch(`/api/race-stats?name=${raceName}&year=${year}&nationality=${nationality}&team=${team}`);
-    // const data = await response.json();
-    // setRaceData(data);
-    // For now, just simulate a data change based on filters
-    // if (year !== "All-time") {
-    //   setRaceData(prevData => ({
-    //     ...prevData,
-    //     edition: parseInt(year) - 1967,
-    //   }));
-    // }
-  };
-
   useEffect(() => {
     if (router.isReady) {
       setIsRouterReady(true);
-
       if (name) {
         const raceName = decodeURIComponent(name);
-
-        // Update the race name in state
-        // setRaceData(prevData => ({
-        //   ...prevData,
-        //   name: raceName
-        // }));
         fetchRaceDetails(raceName);
-        // Initial data fetch
-        fetchFilteredData(raceName, selectedYear, selectedNationality);
       }
     }
   }, [router.isReady, name]);
 
-  // When filters change
-  useEffect(() => {
-    if (isRouterReady && name) {
-      fetchFilteredData(
-        decodeURIComponent(name),
-        selectedYear,
-        selectedNationality
-      );
-    }
-  }, [selectedYear, selectedNationality, isRouterReady, name]);
-
-  if (!isRouterReady || isLoading) {
+  if (!isRouterReady) {
     return (
-      <div className="container py-12">
+      <div className="flex justify-center items-center min-h-screen">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p>Loading race data...</p>
+          <p>Initializing page...</p>
         </div>
       </div>
     );
   }
 
-  console.log(raceData, "daat");
   return (
     <>
       <Head>
-        <title>Races | Cycling Stats</title>
+        <title>{raceData?.race_name || "Race"} | Cycling Stats</title>
       </Head>
       <main>
         <section className="rider-details-sec pb-0 rider-details-sec-top">
           <div className="top-wrapper-main">
             <div className="container">
-              <div className="top-wraper">
-                <ul className="breadcrumb">
-                  <li>
-                    <Link href="/">Home</Link>
-                  </li>
-                  <li>
-                    <Link href="/races">Races</Link>
-                  </li>
-                  <li>{raceData.race_name || "Loading..."}</li>
-                </ul>
-                <div className="wraper">
-                  <h1>{raceData.race_name}</h1>
+              {isLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="w-8 h-8 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
                 </div>
-                <ul className="plyr-dtls">
-                  {raceData.country_code && (
+              ) : error ? (
+                <div className="col-12"><ErrorStats message={error} /></div>
+              ) : raceData ? (
+                <div className="top-wraper">
+                  <ul className="breadcrumb">
                     <li>
-                      <Flag
-                        code={raceData.country_code}
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                          marginLeft: "10px",
-                        }}
-                      />
+                      <Link href="/">Home</Link>
                     </li>
-                  )}
-                  {raceData.year && (
-                    <li className="text-sm">{raceData.year} </li>
-                  )}
-                  {raceData.total_riders && (
-                    <li className="text-sm">
-                      total riders ({raceData.total_riders})
+                    <li>
+                      <Link href="/races">Races</Link>
                     </li>
-                  )}
-                </ul>
-              </div>
+                    <li>{raceData.race_name}</li>
+                  </ul>
+                  <div className="wraper">
+                    <h1>{raceData.race_name}</h1>
+                  </div>
+                  <ul className="plyr-dtls">
+                    {raceData.country_code && (
+                      <li>
+                        <Flag
+                          code={raceData.country_code}
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginLeft: "10px",
+                          }}
+                        />
+                      </li>
+                    )}
+                    {raceData.year && (
+                      <li className="text-sm">{raceData.year} </li>
+                    )}
+                    {raceData.total_riders && (
+                      <li className="text-sm">
+                        total riders ({raceData.total_riders})
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              ) : null}
             </div>
           </div>
         </section>
-        <section className="stats-sec1 race-details-sec py-8">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12 mb-6">
-                <ul className="filter">
-                  {/* Year Dropdown with input change handling */}
-                  <FilterDropdown
-                    ref={yearDropdownRef}
-                    isOpen={showYearDropdown}
-                    toggle={() => setShowYearDropdown(!showYearDropdown)}
-                    options={getFilteredYears(yearInput)}
-                    selectedValue={selectedYear}
-                    placeholder="Year"
-                    onSelect={(value) => handleSelection("year", value)}
-                    onInputChange={handleYearInputChange}
-                    loading={false}
-                    includeAllOption={false}
-                  />
 
-                  {/* Nationality Dropdown */}
-                  <FilterDropdown
-                    ref={nationalityDropdownRef}
-                    isOpen={showNationalityDropdown}
-                    toggle={() =>
-                      setShowNationalityDropdown(!showNationalityDropdown)
-                    }
-                    options={nationalities}
-                    selectedValue={selectedNationality}
-                    placeholder="Nationaliteit"
-                    onSelect={(value) => handleSelection("nationality", value)}
-                    loading={isLoading}
-                    allOptionText="All Nationalities"
-                  />
-                </ul>
+        {raceData && (
+          <section className="stats-sec1 race-details-sec py-8">
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-12 mb-6">
+                  <ul className="filter">
+                    <FilterDropdown
+                      ref={yearDropdownRef}
+                      isOpen={showYearDropdown}
+                      toggle={() => setShowYearDropdown(!showYearDropdown)}
+                      options={getFilteredYears(yearInput)}
+                      selectedValue={selectedYear}
+                      placeholder="Year"
+                      onSelect={(value) => handleSelection("year", value)}
+                      onInputChange={handleYearInputChange}
+                      loading={false}
+                      includeAllOption={false}
+                    />
+
+                    <FilterDropdown
+                      ref={nationalityDropdownRef}
+                      isOpen={showNationalityDropdown}
+                      toggle={() => setShowNationalityDropdown(!showNationalityDropdown)}
+                      options={nationalities}
+                      selectedValue={selectedNationality}
+                      placeholder="Nationaliteit"
+                      onSelect={(value) => handleSelection("nationality", value)}
+                      loading={isLoading}
+                      allOptionText="All Nationalities"
+                    />
+                  </ul>
+                </div>
+
+                <FirstSection
+                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
+                  selectedNationality={selectedNationality}
+                  name={name ? decodeURIComponent(name) : ""}
+                />
+                
+                <MostWin
+                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
+                  selectedNationality={selectedNationality}
+                  name={name ? decodeURIComponent(name) : ""}
+                />
+                
+                <SecondSection
+                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
+                  selectedNationality={selectedNationality}
+                  name={name ? decodeURIComponent(name) : ""}
+                />
               </div>
-
-              <FirstSection
-                selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                selectedNationality={selectedNationality}
-                name={name ? decodeURIComponent(name) : ""}
-              />
-              <MostWin
-                selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                selectedNationality={selectedNationality}
-                name={name ? decodeURIComponent(name) : ""}
-              />
-              <SecondSection
-                selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                selectedNationality={selectedNationality}
-                name={name ? decodeURIComponent(name) : ""}
-              />
             </div>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
     </>
   );
 }
 
-// Server-side props function for initial data fetching
 export async function getServerSideProps(context) {
-  const { name } = context.params;
-
-  // Here you would fetch initial race data from your API
-  // Example:
-  // try {
-  //   const res = await fetch(`${process.env.API_URL}/races/${encodeURIComponent(name)}`);
-  //   const raceData = await res.json();
-  //
-  //   return {
-  //     props: {
-  //       initialRaceData: raceData
-  //     }
-  //   };
-  // } catch (error) {
-  //   console.error("Failed to fetch race data:", error);
-  //   return {
-  //     props: {
-  //       initialRaceData: null
-  //     }
-  //   };
-  // }
-
-  // For now, just return empty props
   return {
     props: {},
   };

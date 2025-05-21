@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMultipleData } from "@/components/home_api_data";
 import Flag from "react-world-flags";
-import { ErrorStats, LoadingStats, NoDataMessage, PartialDataWarning } from "../loading&error";
+import { BoxSkeleton, ErrorStats, LoadingStats, NoDataMessage, PartialDataWarning } from "../loading&error";
 import { FaHtml5 } from "react-icons/fa";
 
 export const SecondSection =  ({ selectedYear, selectedNationality, name }) => {
@@ -287,7 +287,7 @@ lastSectionEndpoint
 
       {isLoading && (
         <div className="col-12">
-          <LoadingStats />
+          <BoxSkeleton />
         </div>
       )}
 

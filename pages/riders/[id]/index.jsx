@@ -21,7 +21,7 @@ export default function RiderDetail({ initialRider }) {
 
   
   // Available filter options
-  const yearOptions = generateYearOptions();
+const {withoutAllTime } = generateYearOptions();
 
   // Fetch rider details using rider ID
   const fetchRiderDetails = async (riderId) => {
@@ -147,30 +147,7 @@ export default function RiderDetail({ initialRider }) {
   return (
     <main>
       <section className='rider-details-sec pb-0 rider-details-sec-top'>
-        {/* <div className='top-wrapper-main'>
-          <div className='container'>
-            <div className="top-wraper">
-              <ul className="breadcrumb">
-                <li><Link href="/">home</Link></li>
-                <li><Link href="/riders-search">riders</Link></li>
-                <li>{rider.name}</li>
-              </ul>
-              <div className="wraper">
-                <Image src={rider.image_url} alt={rider.name} width={300} height={300} />
-                <h1>{rider.name.split(' ')[0].toLowerCase()} <br /> {rider.name.split(' ').slice(1).join(' ').toLowerCase()}</h1>
-              </div>
-              <ul className="plyr-dtls">
-                <li>
-                  <Image src={rider.countryFlag} alt={rider.country} width={20} height={15} />
-                  <span>{rider.country}</span>
-                </li>
-                <li>{rider.birthDate} ({rider.age})</li>
-                <li>{rider.birthPlace.toLowerCase()}</li>
-              </ul>
-            </div>
-          </div>
-        </div> */}
-         <div className='top-wrapper-main'>
+    <div className='top-wrapper-main'>
           <div className='container'>
             <div className="top-wraper">
               <ul className="breadcrumb">
@@ -216,7 +193,7 @@ export default function RiderDetail({ initialRider }) {
                     onChange={(e) => setFilterYear(e.target.value)}
                     className="year-filter"
                   >
-                    {yearOptions.map(year => (
+                    {withoutAllTime.map(year => (
                       <option key={year} value={year}>{year}</option>
                     ))}
                   </select>

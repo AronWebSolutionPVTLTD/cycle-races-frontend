@@ -418,57 +418,46 @@ export const TwoSectionSkeleton2 = () => {
 
 export const ListSkeleton = () => {
   return (
-    <div className="container py-4">
-      <div className="row g-4">
+    <div className="container ">
+    
         {/* Left Table Skeleton */}
-        <div className="col-md-8">
-          {/* Header */}
-          <div className="d-flex fw-bold mb-3">
-            {['Date', 'Race', 'Winner', 'Team'].map((header, idx) => (
-              <div key={idx} className="col text-uppercase" style={{ color: '#ccc', fontSize: '14px' }}>
-                {header}
-              </div>
-            ))}
-          </div>
-
-          {/* Table Rows */}
-          {[...Array(10)].map((_, idx) => (
+        <div className="col-md-12">
+                  {[...Array(10)].map((_, idx) => (
             <div className="d-flex align-items-center py-2 border-bottom" key={idx}>
-              {/* Date */}
-              <div className="col">
-                <span className="placeholder col-6" style={{ height: '14px', backgroundColor: '#aaa' }}></span>
-              </div>
-              {/* Race */}
-              <div className="col">
-                <span className="placeholder col-8" style={{ height: '14px', backgroundColor: '#999' }}></span>
-              </div>
-              {/* Winner */}
-              <div className="col d-flex align-items-center gap-2">
+             <div className="col d-flex align-items-center gap-2">
                 <span
-                  className="placeholder rounded-circle"
-                  style={{ width: '20px', height: '20px', backgroundColor: '#bbb' }}
+                  className="placeholder "
+                  style={{ width: '30px', height: '30px', backgroundColor: '#bbb',marginBottom:"20px" }}
                 ></span>
-                <span className="placeholder col-6" style={{ height: '14px', backgroundColor: '#999' }}></span>
+                <span className="placeholder col-6" style={{ height: '20px', backgroundColor: '#999',marginBottom:"20px" }}></span>
               </div>
               {/* Team */}
               <div className="col">
-                <span className="placeholder col-7" style={{ height: '14px', backgroundColor: '#aaa' }}></span>
+                <span className="placeholder col-7" style={{ height: '20px', backgroundColor: '#aaa',marginBottom:"20px" }}></span>
               </div>
             </div>
           ))}
         </div>
+ </div>
+  );
+};
 
-        {/* Right Sidebar Skeleton */}
-        <div className="col-md-4 d-flex flex-column gap-4">
+export const CardSkeleton=()=>{
+  return(
+ <div className="col-md-12 d-flex flex-column gap-4">
           {[1, 2, 3].map((_, i) => (
             <div
               className="card p-3 shadow-sm d-flex flex-column justify-content-between"
-              style={{ borderRadius: '1rem', minHeight: '180px' }}
+              style={{ borderRadius: '1rem', minHeight: '250px' }}
               key={i}
             >
               <div className="mb-3">
                 <span className="placeholder col-10 mb-2" style={{ height: '16px', backgroundColor: '#999' }}></span>
-                <span className="placeholder col-6" style={{ height: '16px', backgroundColor: '#999' }}></span>
+                <span className="placeholder col-6" style={{ height: '16px', backgroundColor: '#999', marginLeft:"5px"  }}></span>
+                <br/>
+                 <span className="placeholder col-6" style={{ height: '16px', backgroundColor: '#999', marginLeft:"5px" }}></span>
+                       <br/>
+                 <span className="placeholder col-6" style={{ height: '16px', backgroundColor: '#999', marginLeft:"5px"  }}></span>
               </div>
 
               <div className="d-flex align-items-center justify-content-between">
@@ -481,19 +470,17 @@ export const ListSkeleton = () => {
                     className="placeholder rounded-circle me-2"
                     style={{ width: '48px', height: '48px', backgroundColor: '#bbb' }}
                   ></span>
-                  <span
+                  {/* <span
                     className="placeholder rounded-circle"
                     style={{ width: '24px', height: '24px', backgroundColor: '#999' }}
-                  ></span>
+                  ></span> */}
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
-    </div>
-  );
-};
+  )
+}
 
 export default {
   LoadingStats,
@@ -502,7 +489,8 @@ export default {
   PartialDataWarning,
   BoxSkeleton,
   TwoSectionSkeleton,
-  ListSkeleton
+  ListSkeleton,
+  CardSkeleton
 };
 
 

@@ -7,6 +7,7 @@ import { getTeamsRiders } from "@/lib/api";
 import { useEffect, useState, useRef } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { useMultipleData } from "@/components/home_api_data";
+import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
 
 export default function Riders() {
   const [teamRiders, setTeamRiders] = useState([]);
@@ -202,16 +203,13 @@ export default function Riders() {
   const renderRidersList = () => {
     if (loading) {
       return (
-        <li
-          className="loading-state"
-          style={{ textAlign: "center", padding: "20px" }}
-        >
-          Loading riders data...
-        </li>
-
-        //   <div className="flex justify-center items-center h-64">
-        //   <FaSpinner className="animate-spin text-blue-600" style={{ fontSize: '4rem',alignItems:"center"}} />
-        // </div>
+        // <li
+        //   className="loading-state"
+        //   style={{ textAlign: "center", padding: "20px" }}
+        // >
+        //   Loading riders data...
+        // </li>
+<ListSkeleton/>
       );
     }
 
@@ -275,13 +273,14 @@ export default function Riders() {
   const renderSidebars = () => {
     if (sidebarsLoading) {
       return (
-        <div className="sidebar-loading">
-          <FaSpinner
-            className="animate-spin text-blue-600"
-            style={{ fontSize: "2rem" }}
-          />
-          <p>Loading statistics...</p>
-        </div>
+        // <div className="sidebar-loading">
+        //   <FaSpinner
+        //     className="animate-spin text-blue-600"
+        //     style={{ fontSize: "2rem" }}
+        //   />
+        //   <p>Loading statistics...</p>
+        // </div>
+        <CardSkeleton/>
       );
     }
 
