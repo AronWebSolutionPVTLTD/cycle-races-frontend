@@ -18,8 +18,8 @@ return (
       </Head>
 
       <main>
-   <ResultSection/>
-<ThisYearSection/>
+  <ResultSection/>
+ <ThisYearSection/> 
 <MostWin/>
 <Upcoming/>
 <TeamsSection/>

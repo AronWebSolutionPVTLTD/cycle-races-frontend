@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMultipleData } from "@/components/home_api_data";
 import Flag from "react-world-flags";
-import { ErrorStats, LoadingStats } from "../loading&error";
+import { BoxSkeleton, ErrorStats } from "../loading&error";
 
 export const FirstSection = ({
   selectedNationality,
@@ -264,7 +264,7 @@ export const FirstSection = ({
 
       {isLoading && (
         <div className="col-12">
-          <LoadingStats />
+          <BoxSkeleton />
         </div>
       )}
 

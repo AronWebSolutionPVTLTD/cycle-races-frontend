@@ -1,3 +1,4 @@
+import { generateYearOptions } from "@/components/GetYear";
 import MostWin from "@/components/home/sections/MostWin";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { FirstSection } from "@/components/stats_section/FirstSection";
@@ -9,17 +10,18 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function Stats() {
-  const [years, setYears] = useState([]);
   const [nationalities, setNationalities] = useState([]);
   const [teams, setTeams] = useState([]);
 
   // Selected filter values and search inputs combined
-  const [selectedYear, setSelectedYear] = useState(
-    new Date().getFullYear().toString()
-  );
+  // const [selectedYear, setSelectedYear] = useState(
+  //   new Date().getFullYear().toString()
+  // );
+  const [selectedYear, setSelectedYear] = useState('2015');
   const [yearInput, setYearInput] = useState(
     new Date().getFullYear().toString()
   );
+  // const [yearInput, setYearInput] = useState('2015');
   const [selectedNationality, setSelectedNationality] = useState("");
   const [selectedTeam, setSelectedTeam] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -33,13 +35,8 @@ export default function Stats() {
   const teamDropdownRef = useRef(null);
 
   // Initialize years list
-  useEffect(() => {
-    const currentYear = new Date().getFullYear();
-    const yearsList = Array.from({ length: 10 }, (_, i) =>
-      (currentYear - i).toString()
-    );
-    setYears(yearsList);
-  }, []);
+
+  const {withoutAllTime } = generateYearOptions();
 
   // Fetch nationalities and teams based on filters
   const fetchFiltersData = useCallback(async () => {
@@ -102,7 +99,7 @@ export default function Stats() {
 
   // Filter years based on input
   const getFilteredYears = (searchValue) => {
-    return years.filter((year) =>
+    return withoutAllTime.filter((year) =>
       year.toLowerCase().includes((searchValue || "").toLowerCase())
     );
   };

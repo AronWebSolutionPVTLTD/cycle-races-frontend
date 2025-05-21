@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { callAPI } from '../../lib/api';
 import Flag from 'react-world-flags';
+import { generateYearOptions } from '@/components/GetYear';
 
 export default function Results() {
 const [raceResults, setRaceResults] = useState([]);
@@ -10,10 +11,13 @@ const [loading, setLoading] = useState(true);
 const [searchTerm, setSearchTerm] = useState('');
 const [searchResults, setSearchResults] = useState([]);
 const [showSearchDropdown, setShowSearchDropdown] = useState(false);
-const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+// const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+const [selectedYear, setSelectedYear] = useState("2015")
 const [selectedMonth, setSelectedMonth] = useState('');
 
 const [featuredRaces, setFeaturedRaces] = useState([]);
+
+const {withoutAllTime } = generateYearOptions();
 
 const months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
 
@@ -272,17 +276,9 @@ return (
                     onChange={handleYearChange} 
                     id="yearSelect"
                   >
-                    <option value="2025">2025</option>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
-                    <option value="2021">2021</option>
-                    <option value="2020">2020</option>
-                    <option value="2019">2019</option>
-                    <option value="2018">2018</option>
-                    <option value="2017">2017</option>
-                    <option value="2016">2016</option>
-                    <option value="2015">2015</option>
+                    {withoutAllTime.map((year) => (
+          <option key={year} value={year}>{year}</option>
+        ))}
                   </select>
                 </li>
                 {months.map(month => (
@@ -305,17 +301,9 @@ return (
                   onChange={handleYearChange} 
                   className="active"
                 >
-                  <option value="2025">2025</option>
-                  <option value="2024">2024</option>
-                  <option value="2023">2023</option>
-                  <option value="2022">2022</option>
-                  <option value="2021">2021</option>
-                  <option value="2020">2020</option>
-                  <option value="2019">2019</option>
-                  <option value="2018">2018</option>
-                  <option value="2017">2017</option>
-                  <option value="2016">2016</option>
-                  <option value="2015">2015</option>
+                    {withoutAllTime.map((year) => (
+          <option key={year} value={year}>{year}</option>
+        ))}
                 </select>
                 <select 
                   value={selectedMonth} 

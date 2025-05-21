@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Flag from 'react-world-flags';
-import { LoadingStats, ErrorStats, NoDataMessage, PartialDataWarning } from '../../loading&error';
+import { ErrorStats, NoDataMessage, PartialDataWarning, TwoSectionSkeleton } from '../../loading&error';
 import { useMultipleData } from '@/components/home_api_data';
 
 const ResultSection = () => {
@@ -21,6 +21,10 @@ const ResultSection = () => {
     
     // State to track if component is mounted (client-side)
     const [isMounted, setIsMounted] = useState(false);
+    
+    // Add minimum loading time tracker to prevent premature error states
+    const [initialLoadTime, setInitialLoadTime] = useState(null);
+    const MINIMUM_LOADING_TIME = 1000; // 1 second minimum loading time
 
     // Function to get a random endpoint from an array
     const getRandomEndpoint = (endpointArray) => {
@@ -32,6 +36,8 @@ const ResultSection = () => {
     useEffect(() => {
         // Set mounted flag to true
         setIsMounted(true);
+        // Track when loading started
+        setInitialLoadTime(Date.now());
         
         try {
             // Get a random endpoint for each section
@@ -52,11 +58,34 @@ const ResultSection = () => {
     
     // Fetch data for both sections using the selected endpoints
     const { data, loading, error } = useMultipleData(endpointsToFetch);
- 
+
+    // Calculate if we should still show loading state based on minimum time
+    const [forceLoading, setForceLoading] = useState(true);
+    
+    useEffect(() => {
+        // When data arrives or loading state changes, check if minimum loading time has passed
+        if (!loading && initialLoadTime) {
+            const currentTime = Date.now();
+            const timeElapsed = currentTime - initialLoadTime;
+            
+            if (timeElapsed < MINIMUM_LOADING_TIME) {
+                // Keep showing loading state for the minimum time
+                const remainingTime = MINIMUM_LOADING_TIME - timeElapsed;
+                const timer = setTimeout(() => {
+                    setForceLoading(false);
+                }, remainingTime);
+                
+                return () => clearTimeout(timer);
+            } else {
+                setForceLoading(false);
+            }
+        }
+    }, [loading, initialLoadTime]);
+    
     // Debug: Log whenever data or loading status changes
     useEffect(() => {
-        console.log("Data status:", { data, loading, error, endpointsToFetch });
-    }, [data, loading, error, endpointsToFetch]);
+        console.log("Data status:", { data, loading, error, endpointsToFetch, forceLoading });
+    }, [data, loading, error, endpointsToFetch, forceLoading]);
 
     // Check if we have data for the specific endpoints we're currently using
     const firstSectionDataLoaded = data && data[firstSectionEndpoint];
@@ -68,11 +97,12 @@ const ResultSection = () => {
         secondSectionDataLoaded ? secondSectionEndpoint : null
     ].filter(Boolean);
     
-    // Determine if we have different data states
-    const isInitialLoading = loading && loadedEndpoints.length === 0;
+    // Determine if we have different data states - now accounting for forceLoading
+    const isLoading = loading || forceLoading;
+    const isInitialLoading = isLoading && loadedEndpoints.length === 0;
     const hasCompleteData = loadedEndpoints.length === endpointsToFetch.length && endpointsToFetch.length > 0;
-    const hasPartialData = loadedEndpoints.length > 0 && loadedEndpoints.length < endpointsToFetch.length;
-    const hasNoData = !loading && loadedEndpoints.length === 0 && error;
+    const hasPartialData = !isLoading && loadedEndpoints.length > 0 && loadedEndpoints.length < endpointsToFetch.length;
+    const hasNoData = !isLoading && loadedEndpoints.length === 0 && error;
     
     // Helper function to render the first section content
     const renderFirstSectionContent = () => {
@@ -154,7 +184,7 @@ const ResultSection = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
-                            <LoadingStats />
+                            <TwoSectionSkeleton/>
                         </div>
                     </div>
                 </div>
@@ -169,7 +199,7 @@ const ResultSection = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
-                            <LoadingStats />
+                            <TwoSectionSkeleton/>
                         </div>
                     </div>
                 </div>
@@ -177,7 +207,7 @@ const ResultSection = () => {
         );
     }
 
-    // Show global error when no data could be loaded
+    // Only show error when no data could be loaded AND we're past the loading state
     if (hasNoData) {
         return (
             <section className="home-banner">
@@ -230,10 +260,10 @@ const ResultSection = () => {
                         </div>
                     )}
                     
-                    {/* Show message if both sections failed but we have partial success */}
-                    {hasPartialData && !firstSectionDataLoaded && !secondSectionDataLoaded && (
+                    {/* If we're no longer in loading state but still waiting for data */}
+                    {!isLoading && !hasNoData && !firstSectionDataLoaded && !secondSectionDataLoaded && (
                         <div className="col-12">
-                            <ErrorStats message="Failed to load section data" />
+                            <TwoSectionSkeleton/>
                         </div>
                     )}
                 </div>

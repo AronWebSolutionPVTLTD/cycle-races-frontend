@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMultipleData } from "../../home_api_data";
 import Flag from "react-world-flags";
-import { ErrorStats, LoadingStats } from "../../loading&error";
+import { BoxSkeleton, ErrorStats, } from "../../loading&error";
 
 const TeamsSection = () => {
   // Define possible API endpoints for each section box
@@ -66,7 +66,7 @@ const TeamsSection = () => {
       <div className="container">
         <div className="row">
           {/* Show single loading state until ALL endpoints return data */}
-          {isLoading && <LoadingStats />}
+          {isLoading && <BoxSkeleton />}
 
           {/* Show error state only if there's an error and not all data loaded */}
           {showError && <ErrorStats message={error.message} />}

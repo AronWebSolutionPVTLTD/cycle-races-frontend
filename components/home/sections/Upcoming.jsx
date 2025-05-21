@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useMultipleData } from '../../home_api_data'
-import { ErrorStats, LoadingStats } from '../../loading&error'
+import { ErrorStats, LoadingStats, TwoSectionSkeleton2 } from '../../loading&error'
 import Flag from 'react-world-flags'
 
 const Upcoming = () => {
@@ -92,7 +92,7 @@ const Upcoming = () => {
           </div>
 
           {/* Show single loading state until ALL endpoints return data */}
-          {isLoading && <LoadingStats />}
+          {isLoading && <TwoSectionSkeleton2 />}
           
           {/* Show error state only if there's an error and not all data loaded */}
           {showError && !partialSuccess && <ErrorStats message={error.message} />}

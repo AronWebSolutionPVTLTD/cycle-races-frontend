@@ -39,6 +39,7 @@ const FirstSection = ({ selectedYear, selectedNationality, name }) => {
     "getNationalityWithMostTop10",
     "getYoungestNationalityRider",
     "getOldestNationalityRider",
+    "getTop5ResultsForOneDayRace"
   ];
   // State for selected endpoints
   const [firstSectionEndpoint, setFirstSectionEndpoint] = useState(
@@ -588,7 +589,7 @@ const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                         )
                           .slice(0, 1)
                           .map((team, index) => (
-                            <>
+                            <div key={index}>
                               <Flag
                                 code={team.nationality.toUpperCase()}
                                 style={{
@@ -598,11 +599,11 @@ const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                                 }}
                               />
 
-                              <h5 key={index}>
+                              <h5 >
                                 <strong>{team.podiums || "N/A"}</strong>
                                 podiums
                               </h5>
-                            </>
+                            </div>
                           ))}
                     <a href="#?" className="green-circle-btn">
                       <img src="/images/arow.svg" alt="" />
@@ -847,7 +848,34 @@ const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                           </li>
                         </ul>
                       ))
-                  : getSafeData(seventhSectionEndpoint, "data.editions", [])
+                  : seventhSectionEndpoint === "getTop5ResultsForOneDayRace" ?
+                  getSafeData(seventhSectionEndpoint, "data.editions.top_5", [])
+                      .slice(0, 3)
+                      .map((rider, index) => (
+                        <ul key={index}>
+                          <li>
+                            <div className="name-wraper">
+                              {rider.nationality && (
+                                <Flag
+                                  code={(
+                                    rider.nationality[0] || "N/A"
+                                  ).toUpperCase()}
+                                  style={{
+                                    width: "20px",
+                                    height: "20px",
+                                    marginRight: "10px",
+                                  }}
+                                />
+                              )}
+                              <h6>{rider.rider_name || "N/A"}</h6>
+                  
+                            </div>
+                            <h6>{rider.points || "N/A"}(points)</h6>
+                          </li>
+                        </ul>
+                      ))
+                      :
+                   getSafeData(seventhSectionEndpoint, "data.editions", [])
                       .slice(0, 3)
                       .map((team, index) => (
                         <ul key={index}>
