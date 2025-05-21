@@ -19,10 +19,10 @@ return (
 
       <main>
    <ResultSection/>
-{/* <ThisYearSection/>
+<ThisYearSection/>
 <MostWin/>
 <Upcoming/>
-<TeamsSection/> */}
+<TeamsSection/>
       </main>
 
     </>
