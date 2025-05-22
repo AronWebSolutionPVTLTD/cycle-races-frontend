@@ -1,75 +1,75 @@
-import React, { useState, useEffect } from 'react'
-import { useMultipleData } from '../../home_api_data'
-import { ErrorStats, LoadingStats, TwoSectionSkeleton2 } from '../../loading&error'
-import Flag from 'react-world-flags'
+import React, { useState, useEffect } from "react";
+import { useMultipleData } from "../../home_api_data";
+import {
+  ErrorStats,
+  LoadingStats,
+  TwoSectionSkeleton2,
+} from "../../loading&error";
+import Flag from "react-world-flags";
 
 const Upcoming = () => {
-  // Define possible API endpoints for each section box
   const apiOptions = {
     box1: ["topStageRiderbyTeam"],
     box2: ["topStageRiderbyTeam"],
-    box3: ["topGCRiderbyTeam"]
+    box3: ["topGCRiderbyTeam"],
   };
 
-  // Set initial static values for server-side rendering
   const [selectedApis, setSelectedApis] = useState({
     box1: apiOptions.box1[0],
     box2: apiOptions.box2[0],
-    box3: apiOptions.box3[0]
+    box3: apiOptions.box3[0],
   });
 
-  // Client-side randomization after hydration
   useEffect(() => {
-    // Function to get a random item from an array
     const getRandomItem = (array) => {
       const randomIndex = Math.floor(Math.random() * array.length);
       return array[randomIndex];
     };
 
     try {
-      // Update state with random selection for each section
       setSelectedApis({
         box1: getRandomItem(apiOptions.box1),
         box2: getRandomItem(apiOptions.box2),
-        box3: getRandomItem(apiOptions.box3)
+        box3: getRandomItem(apiOptions.box3),
       });
-      
     } catch (err) {
-      console.error("Error selecting random endpoints for Upcoming section:", err);
+      console.error(
+        "Error selecting random endpoints for Upcoming section:",
+        err
+      );
     }
-  }, []); // Run once after initial render
-  
-  // Create a flat array of all selected API endpoints to fetch
+  }, []);
+
   const endpointsToFetch = Object.values(selectedApis);
-  
-
-
   // Fetch data using the selected endpoints
   const { data, loading, error } = useMultipleData(endpointsToFetch);
-  
-
   // Check if we have all data for every endpoint
-  const allDataLoaded = endpointsToFetch.every(endpoint => data[endpoint]);
-  
+  const allDataLoaded = endpointsToFetch.every((endpoint) => data[endpoint]);
+
   // Single loading state - only show loading when not all endpoints have data
   const isLoading = !allDataLoaded && loading;
-  
+
   // Show data when all endpoints have returned data
   const showData = allDataLoaded;
-  
+
   // Show error state only if there's an error and not all data loaded
   const showError = error && !allDataLoaded;
 
   // Check if we have partial success (some data loaded but not all)
-  const partialSuccess = error && Object.keys(data).some(key => data[key]) && !allDataLoaded;
+  const partialSuccess =
+    error && Object.keys(data).some((key) => data[key]) && !allDataLoaded;
 
   const PartialDataWarning = () => (
     <div className="warning-banner w-100 p-3 alert alert-warning">
-      <p className="mb-1">Some data couldn't be loaded. Displaying available information.</p>
+      <p className="mb-1">
+        Some data couldn't be loaded. Displaying available information.
+      </p>
       {error && error.failedEndpoints && (
         <details>
           <summary className="cursor-pointer">View details</summary>
-          <p className="mt-2 mb-0">Failed to load: {error.failedEndpoints.join(", ")}</p>
+          <p className="mt-2 mb-0">
+            Failed to load: {error.failedEndpoints.join(", ")}
+          </p>
           <p className="mb-0">Try refreshing for new random endpoints.</p>
         </details>
       )}
@@ -81,7 +81,7 @@ const Upcoming = () => {
       <div className="container">
         <div className="row">
           {partialSuccess && <PartialDataWarning />}
-          
+
           <div className="col-lg-12">
             <div className="d-flex justify-content-between align-items-center">
               <h2>aankomend</h2>
@@ -93,9 +93,11 @@ const Upcoming = () => {
 
           {/* Show single loading state until ALL endpoints return data */}
           {isLoading && <TwoSectionSkeleton2 />}
-          
+
           {/* Show error state only if there's an error and not all data loaded */}
-          {showError && !partialSuccess && <ErrorStats message={error.message} />}
+          {showError && !partialSuccess && (
+            <ErrorStats message={error.message} />
+          )}
 
           {/* Only show content when all data is loaded */}
           {showData && (
@@ -159,21 +161,35 @@ const Upcoming = () => {
               {/* Top stage rider by team */}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
-                  <h4>{data[selectedApis.box2].message || "longest stage races"}</h4>
-                  {data[selectedApis.box2].data.data
-                    .slice(0, 5)
-                    .map((team, index) => (
-                      <ul key={index}>
-                        <li>
+                  <h4>
+                    {data[selectedApis.box2].message || "Team With Most Stage wins"}
+                  </h4>
+
+                  <ul>
+                    {data[selectedApis.box2].data.data
+                      .slice(0, 5)
+                      .map((team, index) => (
+                        <li key={index}>
                           <strong>{index + 1}</strong>
                           <div className="name-wraper">
-                            <Flag code={team.country} style={{height:"20px", width:"20px",marginRight:"10px"}}/>
+                            <Flag
+                              code={team.rider_country}
+                              style={{
+                                height: "20px",
+                                width: "20px",
+                                marginRight: "10px",
+                              }}
+                            />
                             <h6>{team.team_name}</h6>
                           </div>
-                          <span>{team.time} time</span>
+                          {team.count && 
+                          <span>{team.count} count</span>
+                          }
+                          
                         </li>
-                      </ul>
-                    ))}
+                      ))}
+                  </ul>
+
                   <a href="#?" className="green-circle-btn">
                     <img src="/images/arow.svg" alt="" />
                   </a>
@@ -183,21 +199,34 @@ const Upcoming = () => {
               {/* Top GC rider by team */}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
-                  <h4>{data[selectedApis.box3].message || "shortest stage races"}</h4>
-                  {data[selectedApis.box3].data.data
-                    .slice(0, 5)
-                    .map((team, index) => (
-                      <ul key={index}>
-                        <li>
+                  <h4>
+                    {data[selectedApis.box3].message || "Team With Most GC wins"}
+                  </h4>
+
+                  <ul>
+                    {data[selectedApis.box3].data.data
+                      .slice(0, 5)
+                      .map((team, index) => (
+                        <li key={index}>
                           <strong>{index + 1}</strong>
                           <div className="name-wraper">
-                          <Flag code={team.country} style={{height:"20px", width:"20px",marginRight:"10px"}}/>
+                            <Flag
+                              code={team.rider_country}
+                              style={{
+                                height: "20px",
+                                width: "20px",
+                                marginRight: "10px",
+                              }}
+                            />
                             <h6>{team.team_name}</h6>
                           </div>
-                          <span>{team.time} time</span>
+                           {team.count && 
+                          <span>{team.count} count</span>
+                          }
                         </li>
-                      </ul>
-                    ))}
+                      ))}
+                  </ul>
+
                   <a href="#?" className="green-circle-btn">
                     <img src="/images/arow.svg" alt="" />
                   </a>

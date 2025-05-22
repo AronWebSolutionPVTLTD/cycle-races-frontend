@@ -12,16 +12,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export default function Stats() {
   const [nationalities, setNationalities] = useState([]);
   const [teams, setTeams] = useState([]);
-
-  // Selected filter values and search inputs combined
   // const [selectedYear, setSelectedYear] = useState(
   //   new Date().getFullYear().toString()
   // );
-  const [selectedYear, setSelectedYear] = useState('2015');
+  const [selectedYear, setSelectedYear] = useState("2015");
   const [yearInput, setYearInput] = useState(
     new Date().getFullYear().toString()
   );
-  // const [yearInput, setYearInput] = useState('2015');
   const [selectedNationality, setSelectedNationality] = useState("");
   const [selectedTeam, setSelectedTeam] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -33,10 +30,7 @@ export default function Stats() {
   const yearDropdownRef = useRef(null);
   const nationalityDropdownRef = useRef(null);
   const teamDropdownRef = useRef(null);
-
-  // Initialize years list
-
-  const {withoutAllTime } = generateYearOptions();
+  const { withoutAllTime } = generateYearOptions();
 
   // Fetch nationalities and teams based on filters
   const fetchFiltersData = useCallback(async () => {
@@ -104,10 +98,8 @@ export default function Stats() {
     );
   };
 
-  // Handle year input change to filter the dropdown options without API call
   const handleYearInputChange = (value) => {
     setYearInput(value);
-    // No API call on typing, just filter the dropdown options
   };
 
   const handleSelection = (type, value) => {
@@ -116,17 +108,18 @@ export default function Stats() {
         setSelectedYear(value);
         setYearInput(value);
         setShowYearDropdown(false);
-        fetchFiltersData(); // Fetch data with new year
+        fetchFiltersData();
         break;
       case "nationality":
         setSelectedNationality(value);
         setShowNationalityDropdown(false);
-        fetchFiltersData(); // Fetch data with new nationality
+        fetchFiltersData();
+        y;
         break;
       case "team":
         setSelectedTeam(value);
         setShowTeamDropdown(false);
-        fetchFiltersData(); // Fetch data with new team
+        fetchFiltersData();
         break;
     }
   };

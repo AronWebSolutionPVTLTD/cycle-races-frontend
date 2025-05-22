@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMultipleData } from "../../home_api_data";
 import Flag from "react-world-flags";
-import { BoxSkeleton, ErrorStats, } from "../../loading&error";
+import { BoxSkeleton, ErrorStats } from "../../loading&error";
 
 const TeamsSection = () => {
   // Define possible API endpoints for each section box
@@ -76,41 +76,9 @@ const TeamsSection = () => {
             <>
               {/* Best Classics Section */}
               <div className="col-lg-4 col-md-6">
-                
-                {data[selectedApis.box1].data.data.slice(0,1).map((rider, index) => (
-                  <div className="team-cart" key={index}>
-                    <a href="#?" className="pabs"></a>
-                    <div className="text-wraper">
-                      <h4 className="font-size-change">
-                        {data[selectedApis.box1].message}
-                      </h4>
-
-                      <div className="name-wraper">
-                        <Flag
-                          code={rider.rider_country.toUpperCase()}
-                          style={{
-                            height: "30px",
-                            width: "20px",
-                            marginRight: "10px",
-                          }}
-                        />
-                        <h6>{rider.rider_name}</h6>
-                      </div>
-                    </div>
-                    <h5>
-                      <strong>{rider.wins}</strong>wins
-                    </h5>
-                    <a href="#?" className="green-circle-btn">
-                      <img src="/images/arow.svg" alt="" />
-                    </a>
-                  </div>
-                ))}
-              </div>
-              {/* Best Classics or Best Country Ranking Section */}
-              {/* <div className="col-lg-4 col-md-6">
-                {selectedApis.box1 === "bestClassics" && (
-                  // Best Classics riders display
-                  data[selectedApis.box1].data.data.map((rider, index) => (
+                {data[selectedApis.box1].data.data
+                  .slice(0, 1)
+                  .map((rider, index) => (
                     <div className="team-cart" key={index}>
                       <a href="#?" className="pabs"></a>
                       <div className="text-wraper">
@@ -131,82 +99,51 @@ const TeamsSection = () => {
                         </div>
                       </div>
                       <h5>
-                        <strong>{rider.wins}</strong> wins
+                        {rider.wins && (
+                          <>
+                            <strong>{rider.wins}</strong>wins
+                          </>
+                        )}
                       </h5>
                       <a href="#?" className="green-circle-btn">
                         <img src="/images/arow.svg" alt="" />
                       </a>
                     </div>
-                  ))
-                )}
-                
-                {selectedApis.box1 === "bestCountryRanking" && (
-                  // Best Country Ranking display
-                  data[selectedApis.box1].data.countries.map((country, index) => (
-                    <div className="team-cart" key={index}>
-                      <a href="#?" className="pabs"></a>
-                      <div className="text-wraper">
-                        <h4 className="font-size-change">
-                          {data[selectedApis.box1].message}
-                        </h4>
-
-                        <div className="name-wraper">
-                          <Flag
-                            code={country.country.toUpperCase()}
-                            style={{
-                              height: "30px",
-                              width: "20px",
-                              marginRight: "10px",
-                            }}
-                          />
-                          <h6>{country.country.toUpperCase()}</h6>
-                        </div>
-                      </div>
-                      <div className="stats-container">
-                        <h5>
-                          <strong>{country.total_points}</strong> points
-                        </h5>
-                        <h6>
-                          <strong>{country.rider_count}</strong> riders
-                        </h6>
-                        <h6>
-                          <strong>{country.total_entries}</strong> entries
-                        </h6>
-                      </div>
-                      <a href="#?" className="green-circle-btn">
-                        <img src="/images/arow.svg" alt="" />
-                      </a>
-                    </div>
-                  ))
-                )}
-              </div> */}
+                  ))}
+              </div>
 
               {/* Grand Tour Stage Win Section */}
               <div className="col-lg-4 col-md-6">
                 {data[selectedApis.box2].data.data
                   .slice(0, 1)
-                  .map((team, index) => (
+                  .map((rider, index) => (
                     <div
                       className="team-cart lime-green-team-cart img-active"
                       key={index}
                     >
                       <a href="#?" className="pabs"></a>
                       <div className="text-wraper">
-                        <h4>{data[selectedApis.box2].message}</h4>
+                        <h4 className="font-size-change">
+                          {data[selectedApis.box2].message}
+                        </h4>
                         <div className="name-wraper">
                           <Flag
-                            code={team.rider_country}
+                            code={rider.rider_country}
                             style={{
                               height: "20px",
                               width: "20px",
                               marginRight: "10px",
                             }}
                           />
-                          <h6>{team.team_name}</h6>
+                          <h6>{rider.rider_name}</h6>
                         </div>
                       </div>
                       <h5>
-                        <strong>{team.wins}</strong>wins
+                        {rider.wins && (
+                          <>
+                            <strong>{rider.wins}</strong>wins
+                          </>
+                        )}
                       </h5>
                       <a href="#?" className="white-circle-btn">
                         <img src="/images/arow.svg" alt="" />
@@ -220,35 +157,52 @@ const TeamsSection = () => {
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart">
                   <h4>{data[selectedApis.box3].message}</h4>
-
-                  {selectedApis.box3 === "top3teamwithrank1" &&
-                    data[selectedApis.box3].data.data.stageResults.map(
-                      (team, index) => (
-                        <ul key={index}>
-                          <li>
+                  <ul>
+                    {selectedApis.box3 === "top3teamwithrank1" &&
+                      data[selectedApis.box3].data.data.stageResults.map(
+                        (team, index) => (
+                          <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper">
+                              {team.wins && team.wins.length > 0 && (
+                                <Flag
+                                  code={team.wins[0].country.toUpperCase()}
+                                  style={{
+                                    width: "20px",
+                                    height: "20px",
+                                    marginRight: "10px",
+                                  }}
+                                />
+                              )}
                               <h6>{team.teamName}</h6>
                             </div>
                           </li>
-                        </ul>
-                      )
-                    )}
+                        )
+                      )}
+                  </ul>
 
-                  {selectedApis.box3 === "top3StageTeam" &&
-                    data[selectedApis.box3].data.data
-                      .slice(0, 3)
-                      .map((team, index) => (
-                        <ul key={index}>
-                          <li>
+                  <ul>
+                    {selectedApis.box3 === "top3StageTeam" &&
+                      data[selectedApis.box3].data.data
+                        .slice(0, 3)
+                        .map((team, index) => (
+                          <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper">
+                              <Flag
+                                code={team.rider_country}
+                                style={{
+                                  width: "20px",
+                                  height: "20px",
+                                  marginRight: "10px",
+                                }}
+                              />
                               <h6>{team.team_name}</h6>
                             </div>
-                            <span>Time: {team.time}</span>
+                            {team.count && <span>{team.count} count</span>}
                           </li>
-                        </ul>
-                      ))}
+                        ))}
+                  </ul>
 
                   <a href="#?" className="green-circle-btn">
                     <img src="/images/arow.svg" alt="" />
@@ -256,72 +210,99 @@ const TeamsSection = () => {
                 </div>
               </div>
 
-              {/* mosst Consistent GCTeams*/}
+              {/* most Consistent GCTeams*/}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
-                  <h4>{data[selectedApis.box4].message}</h4>
-                  {data[selectedApis.box4].data.data
-                    .slice(0, 3)
-                    .map((team, index) => (
-                      <ul key={index}>
-                        <li>
+                  <h4 className="font-size-change">
+                    {data[selectedApis.box4].message}
+                  </h4>
+
+                  <ul>
+                    {data[selectedApis.box4].data.data
+                      .slice(0, 3)
+                      .map((team, index) => (
+                        <li key={index}>
                           <strong>{index + 1}</strong>
                           <div className="name-wraper">
-                            <h6>{team.team_name}</h6>
+                            <h6>{team.team_name || "..."}</h6>
                           </div>
-                          <span>totalPoints :{team.totalPoints}</span>
+                          {team.totalPoints && (
+                            <span>{team.totalPoints} points</span>
+                          )}
                         </li>
-                      </ul>
-                    ))}
+                      ))}
+                  </ul>
+
                   <a href="#?" className="green-circle-btn">
                     <img src="/images/arow.svg" alt="" />
                   </a>
                 </div>
               </div>
 
-              {/* Top GC Rider by Team */}
+              {/* Top GC Rider by Team & birthaday */}
 
-              <div className="col-lg-3 col-md-5">
+              <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
                   <h4>{data[selectedApis.box5].message || "Top GC Riders"}</h4>
-
                   {/* If top3GCTeam is selected */}
-                  {selectedApis.box5 === "top3GCTeam" &&
-                    data[selectedApis.box5].data.data
-                      .slice(0, 3)
-                      .map((team, index) => (
-                        <ul key={index}>
-                          <li>
+                  <ul>
+                    {selectedApis.box5 === "top3GCTeam" &&
+                      data[selectedApis.box5].data.data
+                        .slice(0, 3)
+                        .map((team, index) => (
+                          <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper">
+                              <Flag
+                                code={team.rider_country.toUpperCase()}
+                                style={{
+                                  width: "20px",
+                                  height: "20px",
+                                  marginRight: "10px",
+                                }}
+                              />
                               <h6>{team.team_name}</h6>
                             </div>
-                            <span>{team.time}</span>
+                            {team.count && <span>{team.count} count</span>}
                           </li>
-                        </ul>
-                      ))}
+                        ))}
+                  </ul>
 
                   {/* If riderWithBirthday is selected */}
-                  {selectedApis.box5 === "riderWithBirthday" &&
-                    data[selectedApis.box5].data.riders
-                      .slice(0, 3)
-                      .map((rider, index) => (
-                        <ul key={index}>
-                          <li>
-                            <strong>{index + 1}</strong>
-                            <div className="name-wraper">
-                              <h6>{rider.name}</h6>
-                            </div>
+                  <ul>
+                    {selectedApis.box5 === "riderWithBirthday" &&
+                      data[selectedApis.box5].data.riders
+                        .slice(0, 3)
+                        .map((rider, index) => {
+                          const birthDate = new Date(rider.original_dob);
+                          const today = new Date();
 
-                            <span>
-                              Birthday:{" "}
-                              {new Date(
-                                rider.birthday_this_year
-                              ).toLocaleDateString("en-GB")}
-                            </span>
-                          </li>
-                        </ul>
-                      ))}
+                          // Calculate age
+                          let age =
+                            today.getFullYear() - birthDate.getFullYear();
+                          const monthDiff =
+                            today.getMonth() - birthDate.getMonth();
+
+                          // Adjust age if birthday hasn't occurred this year
+                          if (
+                            monthDiff < 0 ||
+                            (monthDiff === 0 &&
+                              today.getDate() < birthDate.getDate())
+                          ) {
+                            age--;
+                          }
+
+                          return (
+                            <li key={index}>
+                              <strong>{index + 1}</strong>
+                              <div className="name-wraper">
+                                <h6>{rider.name}</h6>
+                              </div>
+                              <span>Age: {age} years</span>
+                            </li>
+                          );
+                        })}
+                  </ul>
 
                   <a href="#?" className="green-circle-btn">
                     <img src="/images/arow.svg" alt="" />
@@ -331,15 +312,16 @@ const TeamsSection = () => {
 
               {/* Team with Only DNF */}
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
-                  <div className="text-wraper">
+              <div className="list-white-cart">
+            
                     <h4>{data[selectedApis.box6].message}</h4>
-                    {data[selectedApis.box6].data?.data
-                      ?.slice(0, 5)
-                      .map((team, index) => (
-                        <div className="name-wraper" key={index}>
-                          <Flag
+                    <ul>
+  {  data[selectedApis.box6].data.data?.slice(0, 5).map(
+                        (team, index) => (
+                          <li key={index}>
+                            <strong>{index + 1}</strong>
+                            <div className="name-wraper">
+                                  <Flag
                             code={team.flag}
                             style={{
                               width: "20px",
@@ -347,10 +329,12 @@ const TeamsSection = () => {
                               marginRight: "10px",
                             }}
                           />
-                          <h6>{team.team_name}</h6>
-                        </div>
-                      ))}
-                  </div>
+                             <h6>{team.team_name}</h6>
+                            </div>
+                          </li>
+                        )
+                      )}
+                      </ul>
                   <a href="#?" className="green-circle-btn">
                     <img src="/images/arow.svg" alt="" />
                   </a>
@@ -360,14 +344,6 @@ const TeamsSection = () => {
               {/* Races with Most Riders from Same Team */}
               <div className="col-lg-3 col-md-6">
                 {(() => {
-                  // Check if the data has the expected structure
-                  if (
-                    !data[selectedApis.box7].data ||
-                    !data[selectedApis.box7].data.data
-                  ) {
-                    return <div>No data available</div>;
-                  }
-
                   const raceData = data[selectedApis.box7].data.data;
                   const title = data[selectedApis.box7].message;
 

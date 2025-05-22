@@ -46,3 +46,9 @@
   .listdata{
     margin-bottom: 2px;
   }
+
+  /*---------------Most win section______________*/
+  .most-win{
+    display: flex;
+    align-items: center;
+  }

@@ -13,7 +13,7 @@ export const FirstSection = ({
   const thirdSectionEndpoints = ["top3GCTeam", "topGCRiderbyTeam"];
   const fourthSectionEndpoints = ["getMostConsistentGCTeams"];
   const fifthSectionEndpoints = ["topStageRiderbyTeam", "top3StageTeam"];
-  const sixSectionEndpoints = ["mostDNFs"];
+  const sixSectionEndpoints = ["DnfTeams"];
   const lastSectionEndpoints = ["top10Stageteams"];
 
   // State for selected endpoints
@@ -288,6 +288,7 @@ export const FirstSection = ({
                   {getSafeData(firstSectionEndpoint, 'data.data', [])
                     .slice(0, 1)
                     .map((rider, index) => (
+                      <>
                       <div className="name-wraper" key={index}>
                         {rider.rider_country && (
                           <Flag
@@ -301,16 +302,14 @@ export const FirstSection = ({
                         )}
                         <h6>{rider.rider_name}</h6>
                       </div>
+                       {rider.age && 
+                      <h5>
+                      <strong>{rider.age} </strong> jaar   
+                    </h5>
+                    }
+                    </>
                     ))}
                 </div>
-                {getSafeData(firstSectionEndpoint, 'data.data', [])
-                  .slice(0, 1)
-                  .map((rider, index) => (
-                    <h5 key={index}>
-                      <strong>{rider.value || rider.age || "N/A"}</strong>
-                      {rider.unit || " jaar"}
-                    </h5>
-                  ))}
                 <a href="#?" className="green-circle-btn">
                   <img src="/images/arow.svg" alt="" />
                 </a>
@@ -328,8 +327,6 @@ export const FirstSection = ({
               </div>
             </div>
           )}
-
-          {/* Remaining cards follow a similar pattern with getSafeData */}
           {/* Second Card */}
           {shouldShowCard(secondSectionEndpoint) && (
             <div className="col-lg-3 col-md-6">
@@ -340,6 +337,7 @@ export const FirstSection = ({
                   {getSafeData(secondSectionEndpoint, 'data.data', [])
                     .slice(0, 1)
                     .map((rider, index) => (
+                       <>
                       <div className="name-wraper" key={index}>
                         {rider.rider_country && (
                           <Flag
@@ -353,15 +351,15 @@ export const FirstSection = ({
                         )}
                         <h6>{rider.rider_name}</h6>
                       </div>
+                       {rider.wins && 
+                      <h5>
+                      <strong>{rider.wins} </strong> jaar   
+                    </h5>
+}
+                    </>
                     ))}
                 </div>
-                {getSafeData(secondSectionEndpoint, 'data.data', [])
-                  .slice(0, 1)
-                  .map((rider, index) => (
-                    <h5 key={index}>
-                      <strong>{rider.count || rider.value || "N/A"}</strong>
-                    </h5>
-                  ))}
+           
                 <img
                   src="/images/player2.png"
                   alt=""
@@ -374,7 +372,6 @@ export const FirstSection = ({
             </div>
           )}
 
-          {/* Remaining cards would be updated similarly */}
           {/* Third Card */}
           {shouldShowCard(thirdSectionEndpoint) && (
             <div className="col-lg-3 col-md-6">
@@ -385,10 +382,11 @@ export const FirstSection = ({
                   {(() => {
                     const teamData = getSafeData(thirdSectionEndpoint, 'data.data', []);
                     return teamData.slice(0, 1).map((team, index) => (
+                      <>
                       <div className="name-wraper" key={index}>
-                        {team.country && (
+                        {team.rider_country && (
                           <Flag
-                            code={team.country.toUpperCase() || "N/A"}
+                            code={team.rider_country.toUpperCase() || "N/A"}
                             style={{
                               width: "20px",
                               height: "20px",
@@ -396,21 +394,16 @@ export const FirstSection = ({
                             }}
                           />
                         )}
-                        <h6>{team.team_name || team.name || "N/A"}</h6>
+                        <h6>{team.team_name}</h6>
                       </div>
+                      {team.count && <h5>
+                      <strong>{team.count}</strong> count
+                    </h5>}
+                    </>
                     ));
                   })()}
                 </div>
-                {(() => {
-                  const teamData = getSafeData(thirdSectionEndpoint, 'data.data', []);
-                  return teamData.slice(0, 1).map((team, index) => (
-                    <h5 key={index}>
-                      <strong>{team.rank || team.value || "N/A"}</strong>rank
-                    </h5>
-                  ));
-                })()}
-
-                <a href="#?" className="white-circle-btn">
+ <a href="#?" className="white-circle-btn">
                   <img src="/images/arow.svg" alt="" />
                 </a>
               </div>
@@ -431,20 +424,20 @@ export const FirstSection = ({
                       {getSafeData(fourthSectionEndpoint, 'data.data', [])
                         .slice(0, 1)
                         .map((team, index) => (
+                          <>
                           <div className="name-wraper" key={index}>
-                            <h6>{team.team_name || "N/A"}</h6>
+                            <h6>{team.team_name ||"..."}</h6>
                           </div>
-                        ))}
-                    </div>
-                    {getSafeData(fourthSectionEndpoint, 'data.data', [])
-                      .slice(0, 1)
-                      .map((team, index) => (
-                        <h5 key={index}>
-                          <strong>{team.totalPoints || "N/A"}</strong>
+                          {team.totalPoints &&
+                           <h5 key={index}>
+                          <strong>{team.totalPoints}</strong>
                           points
                         </h5>
-                      ))}
-                    <a href="#?" className="green-circle-btn">
+}
+                        </>
+                        ))}
+                    </div>
+                  <a href="#?" className="green-circle-btn">
                       <img src="/images/arow.svg" alt="" />
                     </a>
                   </div>
@@ -463,18 +456,25 @@ export const FirstSection = ({
                       {getSafeData(fifthSectionEndpoint, 'data.data', [])
                         .slice(0, 1)
                         .map((team, index) => (
+                          <>
                           <div className="name-wraper" key={index}>
-                            <h6>{team.team_name || "N/A"}</h6>
+                              <Flag
+                            code={team.rider_country.toUpperCase()}
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginRight: "10px",
+                            }}/>
+                            <h6>{team.team_name || "..."}</h6>
                           </div>
+                          {team.count &&     <h5>
+                          <strong>{team.count}</strong> count
+                        </h5>}
+                      
+                        </>
                         ))}
                     </div>
-                    {getSafeData(fifthSectionEndpoint, 'data.data', [])
-                      .slice(0, 1)
-                      .map((team, index) => (
-                        <h5 key={index}>
-                          <strong>{team.time || "N/A"}</strong>
-                        </h5>
-                      ))}
+                   
 
                     <a href="#?" className="white-circle-btn">
                       <img src="/images/arow.svg" alt="" />
@@ -531,22 +531,24 @@ export const FirstSection = ({
           {shouldShowCard(lastSectionEndpoint) && (
             <div className="col-lg-5">
               <div className="list-white-cart">
-                <h4 className="font-size-change">
+                <h4 className="fs-chenge">
                   {getEndpointMessage(lastSectionEndpoint)}
                 </h4>
-                {getSafeData(lastSectionEndpoint, 'data.data', [])
+               
+                    <ul>
+                       {getSafeData(lastSectionEndpoint, 'data.data', [])
                   .slice(0, 5)
                   .map((team, index) => (
-                    <ul key={index}>
-                      <li>
+                      <li key={index}>
                         <strong>{index + 1}</strong>
                         <div className="name-wraper">
-                          <h6>{team.team_name || "N/A"}</h6>
+                          <h6>{team.team_name || "..."}</h6>
                         </div>
-                        <span>{team.rank || "N/A"} rank</span>
-                      </li>
+                        {team.count &&   <span>{team.count} count</span>}
+                       </li>
+                        ))}
                     </ul>
-                  ))}
+                
                 <img src="/images/player4.png" alt="" className="absolute-img" />
                 
                 <a href="#?" className="glob-btn">

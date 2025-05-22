@@ -216,7 +216,7 @@ export const SecondSection = ({
       mostConsistentGC: "Most Consistent GC",
       stageTop10sRider: "Stage Top 10s",
       mostRacingDays: "Most Racing Days",
-      mostTop5NoWins: "Most Top 5 No Wins",
+      mostTop5Wins: "Most Top 5 No Wins",
       mostSecondPlaces: "Most Second Places",
       grandTourstageWin: "Grand Tour Stage Wins",
       bestClassics: "Best Classics",
