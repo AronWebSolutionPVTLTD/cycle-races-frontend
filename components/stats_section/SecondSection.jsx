@@ -15,20 +15,38 @@ export const SecondSection = ({
   const fourthSectionEndpoints = ["gcTop10s", "mostConsistentGC"];
   const fifthSectionEndpoints = ["stageTop10sRider", "gcTop10s"];
   const sixSectionEndpoints = ["mostRacingDays"];
-  const seventhSectionEndpoints = ["mostTop5NoWins", "mostSecondPlaces"];
+  const seventhSectionEndpoints = ["mostTop5Wins", "mostSecondPlaces"];
   const eightSectionEndpoints = ["grandTourstageWin", "bestClassics"];
   const lastSectionEndpoints = ["mostweightRider", "lightestRider"];
-  
+
   // State for selected endpoints
-  const [firstSectionEndpoint, setFirstSectionEndpoint] = useState(firstSectionEndpoints[0]);
-  const [secondSectionEndpoint, setSecondSectionEndpoint] = useState(secondSectionEndpoints[0]);
-  const [thirdSectionEndpoint, setThirdSectionEndpoint] = useState(thirdSectionEndpoints[0]);
-  const [fourthSectionEndpoint, setFourthSectionEndpoint] = useState(fourthSectionEndpoints[0]);
-  const [fifthSectionEndpoint, setFifthSectionEndpoint] = useState(fifthSectionEndpoints[0]);
-  const [sixSectionEndpoint, setSixSectionEndpoint] = useState(sixSectionEndpoints[0]);
-  const [seventhSectionEndpoint, setSeventhSectionEndpoint] = useState(seventhSectionEndpoints[0]);
-  const [eightSectionEndpoint, setEightSectionEndpoint] = useState(eightSectionEndpoints[0]);
-  const [lastSectionEndpoint, setLastSectionEndpoint] = useState(lastSectionEndpoints[0]);
+  const [firstSectionEndpoint, setFirstSectionEndpoint] = useState(
+    firstSectionEndpoints[0]
+  );
+  const [secondSectionEndpoint, setSecondSectionEndpoint] = useState(
+    secondSectionEndpoints[0]
+  );
+  const [thirdSectionEndpoint, setThirdSectionEndpoint] = useState(
+    thirdSectionEndpoints[0]
+  );
+  const [fourthSectionEndpoint, setFourthSectionEndpoint] = useState(
+    fourthSectionEndpoints[0]
+  );
+  const [fifthSectionEndpoint, setFifthSectionEndpoint] = useState(
+    fifthSectionEndpoints[0]
+  );
+  const [sixSectionEndpoint, setSixSectionEndpoint] = useState(
+    sixSectionEndpoints[0]
+  );
+  const [seventhSectionEndpoint, setSeventhSectionEndpoint] = useState(
+    seventhSectionEndpoints[0]
+  );
+  const [eightSectionEndpoint, setEightSectionEndpoint] = useState(
+    eightSectionEndpoints[0]
+  );
+  const [lastSectionEndpoint, setLastSectionEndpoint] = useState(
+    lastSectionEndpoints[0]
+  );
 
   // Component state
   const [isMounted, setIsMounted] = useState(false);
@@ -95,13 +113,13 @@ export const SecondSection = ({
       // Count how many endpoints returned valid data
       let cardCount = 0;
       let totalCount = endpointsToFetch.length;
-      
-      endpointsToFetch.forEach(endpoint => {
+
+      endpointsToFetch.forEach((endpoint) => {
         if (hasValidData(endpoint)) {
           cardCount++;
         }
       });
-      
+
       setVisibleCardCount(cardCount);
       setTotalEndpoints(totalCount);
       setNoDataFound(cardCount === 0);
@@ -110,37 +128,49 @@ export const SecondSection = ({
 
   // Check if an endpoint has valid data
   const hasValidData = (endpoint) => {
-    if (!data || !data[endpoint] || !data[endpoint].data || !data[endpoint].data.data) {
+    if (
+      !data ||
+      !data[endpoint] ||
+      !data[endpoint].data ||
+      !data[endpoint].data.data
+    ) {
       return false;
     }
-    
+
     const endpointData = data[endpoint].data.data;
-    
+
     // Handle different data structures
     if (Array.isArray(endpointData)) {
       return endpointData.length > 0;
-    } else if (typeof endpointData === 'object') {
+    } else if (typeof endpointData === "object") {
       // For nested objects like in thirdSectionEndpoint
-      if (endpoint === 'longestRace' && endpointData.longest_stage_races) {
+      if (endpoint === "longestRace" && endpointData.longest_stage_races) {
         return endpointData.longest_stage_races.length > 0;
-      } else if (endpoint === 'shortestRace' && endpointData.shortest_stage_races) {
+      } else if (
+        endpoint === "shortestRace" &&
+        endpointData.shortest_stage_races
+      ) {
         return endpointData.shortest_stage_races.length > 0;
-      } else if (endpoint === 'top3teamwithrank1' && endpointData.oneDayResults) {
-        return endpointData.oneDayResults.length > 0;
-      } else if (endpoint === 'mostRacingDays' && data[endpoint].data.result) {
-        // Handle the special case for mostRacingDays
-        return data[endpoint].data.result.length > 0;
+      } else if (
+        endpoint === "top3teamwithrank1" &&
+       ( endpointData.oneDayResults || endpointData.stageResults)
+      ) {
+        return (endpointData.oneDayResults?.length > 0) || (endpointData.stageResults?.length > 0);
+      } else if (endpoint === "mostRacingDays" && endpointData.result) {
+       return endpointData.result.length > 0;
       } else {
         return Object.keys(endpointData).length > 0;
       }
     }
-    
+
     return false;
   };
 
   // Check if an endpoint has an error
   const hasEndpointError = (endpoint) => {
-    return error && error.failedEndpoints && error.failedEndpoints.includes(endpoint);
+    return (
+      error && error.failedEndpoints && error.failedEndpoints.includes(endpoint)
+    );
   };
 
   // Determine if a card should be shown
@@ -153,22 +183,20 @@ export const SecondSection = ({
   // Status flags
   const isLoading = loading;
   const showFullError = error && !partialSuccess;
-  const showPartialWarning = partialSuccess || 
-    (error && error.failedEndpoints && 
-     endpointsToFetch.some(endpoint => !error.failedEndpoints.includes(endpoint) && hasValidData(endpoint)));
+  const showPartialWarning =
+    partialSuccess ||
+    (error &&
+      error.failedEndpoints &&
+      endpointsToFetch.some(
+        (endpoint) =>
+          !error.failedEndpoints.includes(endpoint) && hasValidData(endpoint)
+      ));
 
   // Get safe access to nested data properties
   const getSafeData = (endpoint, path, defaultValue = null) => {
     try {
       if (!data || !data[endpoint]) return defaultValue;
-      
-      // Handle special path for mostRacingDays
-      if (endpoint === 'mostRacingDays' && path.startsWith('data.data')) {
-        const newPath = path.replace('data.data', 'data.result');
-        return getNestedProperty(data[endpoint], newPath, defaultValue);
-      }
-      
-      return getNestedProperty(data[endpoint], path, defaultValue);
+     return getNestedProperty(data[endpoint], path, defaultValue);
     } catch (err) {
       console.error(`Error accessing ${path} for ${endpoint}:`, err);
       return defaultValue;
@@ -177,32 +205,34 @@ export const SecondSection = ({
 
   // Helper function to safely access nested properties
   const getNestedProperty = (obj, path, defaultValue = null) => {
-    const keys = path.split('.');
+    const keys = path.split(".");
     let result = obj;
-    
+
     for (const key of keys) {
-      if (result === undefined || result === null || !Object.prototype.hasOwnProperty.call(result, key)) {
+      if (
+        result === undefined ||
+        result === null ||
+        !Object.prototype.hasOwnProperty.call(result, key)
+      ) {
         return defaultValue;
       }
       result = result[key];
     }
-    
+
     return result === undefined ? defaultValue : result;
   };
 
-
- // Get message for each endpoint
+  // Get message for each endpoint
   const getEndpointMessage = (endpoint) => {
     // First try to get the message from the API response
-    const apiMessage = getSafeData(endpoint, 'message');
-    
+    const apiMessage = getSafeData(endpoint, "message");
+
     // If API message exists, return it
     if (apiMessage) return apiMessage;
-    
+
     // Fallback to default messages if no API message
     return getDefaultMessage(endpoint);
   };
-
 
   // Default messages for endpoints
   const getDefaultMessage = (endpoint) => {
@@ -221,9 +251,9 @@ export const SecondSection = ({
       grandTourstageWin: "Grand Tour Stage Wins",
       bestClassics: "Best Classics",
       mostweightRider: "Heaviest Riders",
-      lightestRider: "Lightest Riders"
+      lightestRider: "Lightest Riders",
     };
-    
+
     return messages[endpoint] || "Statistics";
   };
 
@@ -232,10 +262,11 @@ export const SecondSection = ({
     <div className="warning-banner w-100 p-3 mb-4 alert alert-warning">
       <div className="d-flex justify-content-between align-items-center">
         <p className="mb-1">
-          <strong>Partial Data Available:</strong> Showing {visibleCardCount} of {totalEndpoints} statistics.
+          <strong>Partial Data Available:</strong> Showing {visibleCardCount} of{" "}
+          {totalEndpoints} statistics.
         </p>
-        <button 
-          className="btn btn-sm btn-outline-secondary" 
+        <button
+          className="btn btn-sm btn-outline-secondary"
           onClick={() => window.location.reload()}
         >
           Refresh
@@ -257,27 +288,38 @@ export const SecondSection = ({
     <div className="col-12">
       <div className="no-data-message text-center p-5 my-4 bg-light rounded shadow-sm">
         <div className="mb-3">
-          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" strokeWidth="1" className="mb-3">
+          <svg
+            width="80"
+            height="80"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#aaaaaa"
+            strokeWidth="1"
+            className="mb-3"
+          >
             <circle cx="12" cy="12" r="10" />
             <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
           </svg>
         </div>
         <h3 className="text-muted">No Data Available</h3>
         <p className="text-muted">
-          No data found for the selected filters. Please try different filter options.
+          No data found for the selected filters. Please try different filter
+          options.
         </p>
         {(selectedYear || selectedNationality || selectedTeam) && (
           <div className="mt-3">
             <p className="mb-1 fw-bold">Applied filters:</p>
             <ul className="list-unstyled text-muted">
               {selectedYear && <li>Year: {selectedYear}</li>}
-              {selectedNationality && <li>Nationality: {selectedNationality}</li>}
+              {selectedNationality && (
+                <li>Nationality: {selectedNationality}</li>
+              )}
               {selectedTeam && <li>Team: {selectedTeam}</li>}
             </ul>
           </div>
         )}
-        <button 
-          className="btn btn-outline-primary mt-3" 
+        <button
+          className="btn btn-outline-primary mt-3"
           onClick={() => window.location.reload()}
         >
           Try Different Random Statistics
@@ -286,7 +328,7 @@ export const SecondSection = ({
     </div>
   );
 
-  return (
+ return (
     <>
       {showPartialWarning && <PartialDataWarning />}
 
@@ -312,33 +354,33 @@ export const SecondSection = ({
               <div className="team-cart lime-green-team-cart">
                 <a href="#?" className="pabs"></a>
                 <div className="text-wraper">
-                  <h4>{getEndpointMessage(firstSectionEndpoint)}</h4>
-                  {getSafeData(firstSectionEndpoint, 'data.data', [])
+                  <h4 className="font-size-change">
+                    {getEndpointMessage(firstSectionEndpoint)}
+                  </h4>
+                  {getSafeData(firstSectionEndpoint, "data.data", [])
                     .slice(0, 1)
                     .map((podium, index) => (
-                      <div className="name-wraper" key={index}>
-                        {podium.rider_country && (
-                          <Flag
-                            code={podium.rider_country.toUpperCase()}
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                              marginRight: "10px",
-                            }}
-                          />
-                        )}
-                        <h6>{podium.rider_name}</h6>
-                      </div>
+                      <>
+                        <div className="name-wraper" key={index}>
+                          {podium.rider_country && (
+                            <Flag
+                              code={podium.rider_country.toUpperCase()}
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginRight: "10px",
+                              }}
+                            />
+                          )}
+                          <h6>{podium.rider_name}</h6>
+                        </div>
+                        {podium.count &&   <h5>
+                          <strong>{podium.count}</strong>count
+                        </h5>}
+                      
+                      </>
                     ))}
                 </div>
-                {getSafeData(firstSectionEndpoint, 'data.data', [])
-                  .slice(0, 1)
-                  .map((podium, index) => (
-                    <h5 key={index}>
-                      <strong>{podium.count}</strong> Racecount
-                    </h5>
-                  ))}
-
                 <a href="#?" className="white-circle-btn">
                   <img src="/images/arow.svg" alt="" />
                 </a>
@@ -349,35 +391,35 @@ export const SecondSection = ({
           {/* Second Card - Top Teams */}
           {shouldShowCard(secondSectionEndpoint) && (
             <div className="col-lg-3 col-md-6">
-              <div className="team-cart">
-                <a href="#?" className="pabs"></a>
-                <div className="text-wraper">
-                  <h4>{getEndpointMessage(secondSectionEndpoint)}</h4>
-                  {getSafeData(secondSectionEndpoint, 'data.data.oneDayResults', [])
+              <div className="list-white-cart">
+                <h4>{getEndpointMessage(secondSectionEndpoint)}</h4>
+
+                <ul>
+                  {getSafeData(
+                    secondSectionEndpoint,
+                    "data.data.oneDayResults",
+                    []
+                  )
                     .slice(0, 3)
                     .map((team, index) => (
-                      <ul key={index} className="listdata">
-                              <li>
-                                <div className="name-wraper">
-                                  {/* {rider.rider_country && (
-                                    <Flag
-                                      code={rider.rider_country}
-                                      style={{
-                                        width: "20px",
-                                        height: "20px",
-                                        marginLeft: "10px",
-                                      }}
-                                    />
-                                  )} */}
-                                  <h6>{team.teamName}</h6>
-                                  {/* <span>{rider.wins} win{rider.wins !== 1 ? 's' : ''}</span> */}
-                                </div>
-                              </li>
-                            </ul>
+                      <li>
+                        <strong>{index + 1}</strong>
+                        <div className="name-wraper">
+                          {team.wins && team.wins.length > 0 && (
+                            <Flag
+                              code={team.wins[0].country.toUpperCase()}
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginRight: "10px",
+                              }}
+                            />
+                          )}
+                          <h6>{team.teamName}</h6>
+                        </div>
+                      </li>
                     ))}
-
-                       
-                </div>
+                </ul>
                 <a href="#?" className="green-circle-btn">
                   <img src="/images/arow.svg" alt="" />
                 </a>
@@ -393,44 +435,44 @@ export const SecondSection = ({
                 <div className="text-wraper">
                   <h4>{getEndpointMessage(thirdSectionEndpoint)}</h4>
 
-                  {thirdSectionEndpoint === "longestRace" && 
-                    getSafeData(thirdSectionEndpoint, 'data.data.longest_stage_races', [])
+                  {thirdSectionEndpoint === "longestRace" &&
+                    getSafeData(
+                      thirdSectionEndpoint,
+                      "data.data.longest_stage_races",
+                      []
+                    )
                       .slice(0, 1)
                       .map((race, index) => (
+                        <>
                         <div className="name-wraper" key={index}>
                           <h6>{race.race}</h6>
                         </div>
+                        {race.distance &&     <h5>
+                        <strong>{race.distance}</strong> distance
+                      </h5>}
+                      
+                      </>
                       ))}
-                  
+
                   {thirdSectionEndpoint === "shortestRace" &&
-                    getSafeData(thirdSectionEndpoint, 'data.data.shortest_stage_races', [])
+                    getSafeData(
+                      thirdSectionEndpoint,
+                      "data.data.shortest_stage_races",
+                      []
+                    )
                       .slice(0, 1)
                       .map((race, index) => (
+                        <>
                         <div className="name-wraper" key={index}>
                           <h6>{race.race}</h6>
                         </div>
+                         <h5 key={index}>
+                        <strong>{race.distance}</strong> distance
+                      </h5>
+                      </>
                       ))}
                 </div>
-                
-                {thirdSectionEndpoint === "longestRace" &&
-                  getSafeData(thirdSectionEndpoint, 'data.data.longest_stage_races', [])
-                    .slice(0, 1)
-                    .map((race, index) => (
-                      <h5 key={index}>
-                        <strong>{race.distance}</strong> distance
-                      </h5>
-                    ))}
-                
-                {thirdSectionEndpoint === "shortestRace" &&
-                  getSafeData(thirdSectionEndpoint, 'data.data.shortest_stage_races', [])
-                    .slice(0, 1)
-                    .map((race, index) => (
-                      <h5 key={index}>
-                        <strong>{race.distance}</strong> distance
-                      </h5>
-                    ))}
-                
-                <img
+                         <img
                   src="/images/player2.png"
                   alt=""
                   className="absolute-img"
@@ -445,13 +487,14 @@ export const SecondSection = ({
           {/* Fourth Card - GC Top 10s / Most Consistent GC */}
           {shouldShowCard(fourthSectionEndpoint) && (
             <div className="col-lg-3 col-md-6">
-              <div className="team-cart">
+              <div className="team-cart className-for-mobile">
                 <a href="#?" className="pabs"></a>
                 <div className="text-wraper">
                   <h4>{getEndpointMessage(fourthSectionEndpoint)}</h4>
-                  {getSafeData(fourthSectionEndpoint, 'data.data', [])
+                  {getSafeData(fourthSectionEndpoint, "data.data", [])
                     .slice(0, 1)
                     .map((rider, index) => (
+                      <>
                       <div className="name-wraper" key={index}>
                         {rider.rider_country && (
                           <Flag
@@ -465,27 +508,21 @@ export const SecondSection = ({
                         )}
                         <h6>{rider.rider_name}</h6>
                       </div>
+                      {fourthSectionEndpoint === "gcTop10s" && rider.count &&
+                       <h5>
+                       <strong>{rider.count || "N/A"}</strong> Race count
+                      </h5>
+}{
+                      fourthSectionEndpoint ==="mostConsistentGC" && rider.avg_rank  &&
+                      <h5>
+                        <strong>{rider.avg_rank || "N/A"}</strong> rank
+                    
+                      </h5>
+                      }
+                      </>
                     ))}
                 </div>
-                {fourthSectionEndpoint === "gcTop10s" &&
-                  getSafeData(fourthSectionEndpoint, 'data.data', [])
-                    .slice(0, 1)
-                    .map((rider, index) => (
-                      <h5 key={index}>
-                        <strong>{rider.count || "N/A"}</strong> Race count
-                      </h5>
-                    ))}
-                
-                {fourthSectionEndpoint === "mostConsistentGC" &&
-                  getSafeData(fourthSectionEndpoint, 'data.data', [])
-                    .slice(0, 1)
-                    .map((rider, index) => (
-                      <h5 key={index}>
-                        <strong>{rider.total_gc_races || "N/A"}</strong> Race count
-                      </h5>
-                    ))}
-                
-                <a href="#?" className="green-circle-btn">
+           <a href="#?" className="green-circle-btn">
                   <img src="/images/arow.svg" alt="" />
                 </a>
               </div>
@@ -496,14 +533,15 @@ export const SecondSection = ({
           {shouldShowCard(fifthSectionEndpoint) && (
             <div className="col-lg-5">
               <div className="list-white-cart">
-                <h4 className="font-size-change">
+                <h4 className="fs-chenge">
                   {getEndpointMessage(fifthSectionEndpoint)}
                 </h4>
-                {getSafeData(fifthSectionEndpoint, 'data.data', [])
+            
+                    <ul>
+                          {getSafeData(fifthSectionEndpoint, "data.data", [])
                   .slice(0, 5)
                   .map((rider, index) => (
-                    <ul key={index}>
-                      <li>
+                      <li key={index}>
                         <strong>{index + 1}</strong>
                         <div className="name-wraper">
                           {rider.rider_country && (
@@ -518,10 +556,12 @@ export const SecondSection = ({
                           )}
                           <h6>{rider.rider_name}</h6>
                         </div>
-                        <span>{rider.age || "-"} jaar</span>
+                        {rider.count &&  <span>{rider.count || "-"} count</span>}
+                       
                       </li>
+                       ))}
                     </ul>
-                  ))}
+                 
                 <img
                   src="/images/player4.png"
                   alt=""
@@ -538,39 +578,50 @@ export const SecondSection = ({
             </div>
           )}
 
-          {(shouldShowCard(sixSectionEndpoint) || 
-            shouldShowCard(seventhSectionEndpoint) || 
-            shouldShowCard(eightSectionEndpoint) || 
+          {(shouldShowCard(sixSectionEndpoint) ||
+            shouldShowCard(seventhSectionEndpoint) ||
+            shouldShowCard(eightSectionEndpoint) ||
             shouldShowCard(lastSectionEndpoint)) && (
             <div className="col-lg-7">
               <div className="row">
                 {/* Sixth Card - Most Racing Days */}
                 {shouldShowCard(sixSectionEndpoint) && (
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
-                      <div className="text-wraper">
+                  <div className="list-white-cart">
+                    
                         <h4>{getEndpointMessage(sixSectionEndpoint)}</h4>
-                        {getSafeData(sixSectionEndpoint, 'data.result', [])
-                          .slice(0, 5)
+                       
+                            <ul>
+                               {getSafeData(sixSectionEndpoint, "data.data.result", [])
+                          .slice(0,3)
                           .map((rider, index) => (
-                            <ul key={index}>
-                              <li>
-                                <strong>{index + 1}</strong>
-                                <div className="name-wraper">
-                                  <h6>{rider.rider_key}</h6>
-                                </div>
-                                <span>{rider.racing_days} day{rider.racing_days !== 1 ? 's' : ''}</span>
-                              </li>
+                             <li key={index}>
+                        <strong>{index + 1}</strong>
+                        <div className="name-wraper">
+                          {rider.country && (
+                            <Flag
+                              code={rider.country}
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginLeft: "10px",
+                              }}
+                            />
+                          )}
+                          <h6>{rider.rider_key}</h6>
+                        </div>
+                        {rider.racing_days &&  <span>{rider.racing_days || "-"} days</span>}
+                       
+                      </li>
+                                ))}
                             </ul>
-                          ))}
-                      </div>
-                      <a href="#?" className="green-circle-btn">
+                          <a href="#?" className="green-circle-btn">
                         <img src="/images/arow.svg" alt="" />
                       </a>
+                      </div>
+                    
                     </div>
-                  </div>
-                )}
+               )}
 
                 {/* Seventh Card - Most Top 5 No Wins / Most Second Places */}
                 {shouldShowCard(seventhSectionEndpoint) && (
@@ -581,9 +632,10 @@ export const SecondSection = ({
                         <h4 className="font-size-change">
                           {getEndpointMessage(seventhSectionEndpoint)}
                         </h4>
-                        {getSafeData(seventhSectionEndpoint, 'data.data', [])
+                        {getSafeData(seventhSectionEndpoint, "data.data", [])
                           .slice(0, 1)
                           .map((rider, index) => (
+                            <>
                             <div className="name-wraper" key={index}>
                               {rider.rider_country && (
                                 <Flag
@@ -596,17 +648,23 @@ export const SecondSection = ({
                                 />
                               )}
                               <h6>{rider.rider_name}</h6>
-                            </div>
+                           </div>
+                           {seventhSectionEndpoint === "mostTop5Wins" && rider.top5_count && 
+                            <h5>
+                            <strong>{rider.top5_count || "N/A"}</strong>
+                        count
+                          </h5>
+}
+                           {seventhSectionEndpoint === "mostSecondPlaces" && rider.second_place_count && 
+                            <h5>
+                            <strong>{rider.second_place_count || "N/A"}</strong>
+                            count
+                          </h5>
+}
+                          </>
                           ))}
                       </div>
-                      {getSafeData(seventhSectionEndpoint, 'data.data', [])
-                        .slice(0, 1)
-                        .map((rider, index) => (
-                          <h5 key={index}>
-                            <strong>{rider.age || "N/A"}</strong>
-                            {" jaar"}
-                          </h5>
-                        ))}
+                     
                       <a href="#?" className="green-circle-btn">
                         <img src="/images/arow.svg" alt="" />
                       </a>
@@ -616,20 +674,20 @@ export const SecondSection = ({
 
                 {/* Eighth Card - Grand Tour Stage Win / Best Classics */}
                 {shouldShowCard(eightSectionEndpoint) && (
-                  <div className="col-lg-6 col-md-6">
-                    <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
-                      <div className="text-wraper">
+                  <div className="col-lg-5 col-md-6">
+                    <div className="list-white-cart">
                         <h4 className="font-size-change">
                           {getEndpointMessage(eightSectionEndpoint)}
                         </h4>
-                        {getSafeData(eightSectionEndpoint, 'data.data', [])
+                 
+                            <ul>
+                                     {getSafeData(eightSectionEndpoint, "data.data", [])
                           .slice(0, 3)
                           .map((rider, index) => (
-                            <ul key={index} className="listdata">
-                              <li>
+                              <li key={index}>
+                                <strong>{index+1}</strong>
                                 <div className="name-wraper">
-                                  {rider.rider_country && (
+                                     {rider.rider_country && (
                                     <Flag
                                       code={rider.rider_country}
                                       style={{
@@ -638,14 +696,14 @@ export const SecondSection = ({
                                         marginLeft: "10px",
                                       }}
                                     />
-                                  )}
-                                  <h6>{rider.rider_name}</h6>
-                                  <span>{rider.wins} win{rider.wins !== 1 ? 's' : ''}</span>
+                                     )}
+                                 <h6>{rider.rider_name}</h6>
                                 </div>
-                              </li>
+                                {rider.wins &&  <span>  {rider.wins} wins</span>}
+                               
+                            </li>
+                              ))}
                             </ul>
-                          ))}
-                      </div>
                       <a href="#?" className="green-circle-btn">
                         <img src="/images/arow.svg" alt="" />
                       </a>
@@ -654,16 +712,21 @@ export const SecondSection = ({
                 )}
 
                 {/* Last Card - Most Weight / Lightest Rider */}
-      
+
                 {shouldShowCard(lastSectionEndpoint) && (
-                  <div className="col-lg-6 col-md-6">
-                    <div className="team-cart lime-green-team-cart">
+                  <div className="col-lg-7 col-md-6">
+                    <div className="team-cart lime-green-team-cart img-active">
                       <a href="#?" className="pabs"></a>
                       <div className="text-wraper">
-                        <h4>{getEndpointMessage(lastSectionEndpoint)}</h4>
+                           <h4 className="font-size-change">{getEndpointMessage(lastSectionEndpoint)}</h4>
                         {(() => {
-                          const riderData = getSafeData(lastSectionEndpoint, 'data.data', null);
+                          const riderData = getSafeData(
+                            lastSectionEndpoint,
+                            "data.data",
+                            null
+                          );
                           return riderData ? (
+                            <>
                             <div className="name-wraper">
                               {riderData.rider_country && (
                                 <Flag
@@ -677,20 +740,17 @@ export const SecondSection = ({
                               )}
                               <h6>{riderData.name}</h6>
                             </div>
+                            {riderData.weight &&      <h5>
+                            <strong>{riderData.weight}</strong> kilogram
+                          </h5>}
+                       
+                          </>
                           ) : null;
                         })()}
                       </div>
-                      {(() => {
-                        const riderData = getSafeData(lastSectionEndpoint, 'data.data', null);
-                        return riderData ? (
-                          <h5>
-                            <strong>{riderData.weight || "N/A"}</strong> kg
-                          </h5>
-                        ) : null;
-                      })()}
                       <a href="#?" className="white-circle-btn">
-                  <img src="/images/arow.svg" alt="" />
-                </a>
+                        <img src="/images/arow.svg" alt="" />
+                      </a>
                     </div>
                   </div>
                 )}

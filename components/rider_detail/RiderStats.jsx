@@ -9,21 +9,31 @@ import {
 } from "../loading&error";
 
 // This component will handle the random rider statistics section
- const RiderRandomStatsOne = ({ riderId, filterYear }) => {
-
+const RiderRandomStatsOne = ({ riderId, filterYear }) => {
   // Define endpoint groups for different sections of rider statistics
   const firstSectionEndpoints = ["first-win", "getRiderFirstWin"];
-  const secondSectionEndpoints = ["getBestGCResult", "bestSeason","getRiderMostRacedCountry"];
+  const secondSectionEndpoints = [
+    "getBestGCResult",
+    "bestSeason",
+    "getRiderMostRacedCountry",
+  ];
   const thirdSectionEndpoints = ["getRiderYearsActive", "bestCountry"];
   const fourthSectionEndpoints = ["getRiderTotalWins"];
-  const fifthSectionEndpoints = ["contactHistory", "homeCountryWins",];
+  const fifthSectionEndpoints = ["contactHistory", "homeCountryWins"];
   const sixthSectionEndpoints = ["riderFromSameHomeTown", "teamMates"];
   const seventhSectionEndpoints = [
     "getRiderBestMonumentResults",
     "getRiderAllVictories",
   ];
-  const eightSectionEndpoints = ["uciPoints", "winsInOneDay","getRiderLongestNoWinStreak"];
-    const ninthSectionEndpoints = ["getRiderWinsBySeason","getRiderLastPlaceFinishes"];
+  const eightSectionEndpoints = [
+    "uciPoints",
+    "winsInOneDay",
+    "getRiderLongestNoWinStreak",
+  ];
+  const ninthSectionEndpoints = [
+    "getRiderWinsBySeason",
+    "getRiderLastPlaceFinishes",
+  ];
 
   // State for selected endpoints
   const [firstSectionEndpoint, setFirstSectionEndpoint] = useState(
@@ -78,7 +88,7 @@ import {
       setSixthSectionEndpoint(getRandomEndpoint(sixthSectionEndpoints));
       setSeventhSectionEndpoint(getRandomEndpoint(seventhSectionEndpoints));
       setEightSectionEndpoint(getRandomEndpoint(eightSectionEndpoints));
-       setNinthSectionEndpoint(getRandomEndpoint(ninthSectionEndpoints));
+      setNinthSectionEndpoint(getRandomEndpoint(ninthSectionEndpoints));
     } catch (err) {
       console.error("Error selecting random endpoints:", err);
     }
@@ -289,11 +299,11 @@ import {
         <div className="row">
           {/* First Card */}
           {shouldShowCard(firstSectionEndpoint) && (
-            <div className="col-lg-3 col-md-6">
-              <div className="team-cart">
-                <div className="text-wraper">
-                  <div className="text-wraper">
-                    <h4>{getEndpointMessage(firstSectionEndpoint)}</h4>
+         <div class="col-lg-3 col-md-6">
+              <div className="list-white-cart">
+                <h4>{getEndpointMessage(firstSectionEndpoint)}</h4>
+                <ul>
+                  <li>
                     <div className="name-wraper">
                       {getSafeData(
                         firstSectionEndpoint,
@@ -315,25 +325,43 @@ import {
                         {getSafeData(
                           firstSectionEndpoint,
                           "data.data.rider_name",
-                          "N/A"
+                          "..."
                         )}
                       </h6>
                     </div>
-                  </div>
-                  <h5>
-                    <strong>
+                  </li>
+                  <li>
+                    <div className="name-wraper">
                       {getSafeData(
                         firstSectionEndpoint,
-                        "data.data.age",
-                        "N/A"
+                        "data.data.raceTitle"
+                      ) && (
+                        <h6 className="text-break text-dark fw-semibold">
+                          Race :{" "}
+                          {getSafeData(
+                            firstSectionEndpoint,
+                            "data.data.raceTitle"
+                          )}
+                        </h6>
                       )}
-                    </strong>
-                    jaar
-                  </h5>
-                </div>
-                  <a href="#?" className="green-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div className="name-wraper">
+                      {getSafeData(firstSectionEndpoint, "data.data.age") && (
+                        <h5>
+                        Jaar : {getSafeData(firstSectionEndpoint, "data.data.age")}
+                          
+                        </h5>
+                      )}
+                    </div>
+                  </li>
+                </ul>
+
+                <a href="#?" className="green-circle-btn">
+                  <img src="/images/arow.svg" alt="" />
+                </a>
               </div>
             </div>
           )}
@@ -369,18 +397,68 @@ import {
                       )}
                     </h6>
                   </div>
+                  {secondSectionEndpoint === "getBestGCResult" && getSafeData(
+                          secondSectionEndpoint,
+                          "data.data.bestGCRank",
+                       ) && (
+                    <>
+                      <h5>
+                        <strong>
+                        {getSafeData(
+                          secondSectionEndpoint,
+                          "data.data.bestGCRank",
+                       )}
+                        </strong>
+                      </h5>
+                      rank
+                    </>
+                  )}
+                   {secondSectionEndpoint === "bestSeason" && getSafeData(
+                          secondSectionEndpoint,
+                          "data.data.bestSeasonYear",
+                        ) &&(
+                    <>
+                    <h5>
+                      <strong>
+                        {getSafeData(
+                          secondSectionEndpoint,
+                          "data.data.bestSeasonYear",
+                        )}
+                      </strong>
+                      </h5>
+                      Season Year
+                    </>
+                  )}
+                      {secondSectionEndpoint === "getRiderMostRacedCountry" && getSafeData(
+                          secondSectionEndpoint,
+                          "data.data.raceData.races_count",
+                        ) &&(
+                    <>
+                    <h5>
+                      <strong>
+                        {getSafeData(
+                          secondSectionEndpoint,
+                          "data.data.raceData.races_count",
+                        )}
+                      </strong>
+                      </h5>
+                      Season Year
+                    </>
+                  )}
+
                 </div>
-                <h5>
+                {/* <h5>
                   {secondSectionEndpoint === "getBestGCResult" && (
                     <>
                       <h5>
+                        <strong>
                         {getSafeData(
                           secondSectionEndpoint,
-                          "data.data.race",
-                          "N/A"
-                        )}
+                          "data.data.bestGCRank",
+                       )}
+                        </strong>
                       </h5>
-                      race
+                      rank
                     </>
                   )}
 
@@ -397,41 +475,41 @@ import {
                     </>
                   )}
 
-                      {secondSectionEndpoint === "getRiderMostRacedCountry" && (
+                  {secondSectionEndpoint === "getRiderMostRacedCountry" && (
                     <div className="text-wraper">
-                  <h4 style={{textAlign:"left"}}>race count</h4>
-                  <div className="name-wraper">
-                    {getSafeData(
-                      secondSectionEndpoint,
-                     "data.data.raceData.country_code"
-                    ) && (
-                      <Flag
-                        code={getSafeData(
+                      <h4 style={{ textAlign: "left" }}>race count</h4>
+                      <div className="name-wraper">
+                        {getSafeData(
                           secondSectionEndpoint,
                           "data.data.raceData.country_code"
-                        ).toUpperCase()}
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                          marginRight: "10px",
-                        }}
-                      />
-                    )}
-                    <h6>
-                      {getSafeData(
-                        secondSectionEndpoint,
-                          "data.data.raceData.races_count",
-                        "N/A"
-                      )}
-                    </h6>
-                  </div>
-                </div>
+                        ) && (
+                          <Flag
+                            code={getSafeData(
+                              secondSectionEndpoint,
+                              "data.data.raceData.country_code"
+                            ).toUpperCase()}
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginRight: "10px",
+                            }}
+                          />
+                        )}
+                        <h6>
+                          {getSafeData(
+                            secondSectionEndpoint,
+                            "data.data.raceData.races_count",
+                            "N/A"
+                          )}
+                        </h6>
+                      </div>
+                    </div>
                   )}
-                </h5>
+                </h5> */}
 
-               <a href="#?" className="white-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
+                <a href="#?" className="white-circle-btn">
+                  <img src="/images/arow.svg" alt="" />
+                </a>
               </div>
             </div>
           )}
@@ -445,7 +523,6 @@ import {
                 <div className="text-wraper">
                   <h4>{getEndpointMessage(thirdSectionEndpoint)}</h4>
                   <div className="name-wraper">
-                
                     {thirdSectionEndpoint === "bestCountry"
                       ? getSafeData(
                           thirdSectionEndpoint,
@@ -479,7 +556,7 @@ import {
                             }}
                           />
                         )}
-                     <h6>
+                    <h6>
                       {getSafeData(
                         thirdSectionEndpoint,
                         "data.data.rider_name",
@@ -488,7 +565,7 @@ import {
                     </h6>
                   </div>
                 </div>
- <h5>
+                <h5>
                   {thirdSectionEndpoint === "getRiderYearsActive" && (
                     <>
                       <strong>
@@ -516,8 +593,8 @@ import {
                 </h5>
 
                 <a href="#?" className="green-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
+                  <img src="/images/arow.svg" alt="" />
+                </a>
               </div>
             </div>
           )}
@@ -625,17 +702,17 @@ import {
                               .slice(0, 5)
                               .map((contract, idx) => (
                                 <li key={idx}>
-                                
-                                     <div
-                                className="name-wraper"
-                                style={{ fontWeight: "500" }}
-                              >
-                              <strong>{contract.year}</strong> –{" "}   {contract.team} (
-                                  {contract.teamCountry.toUpperCase()})
-                              </div>
+                                  <div
+                                    className="name-wraper"
+                                    style={{ fontWeight: "500" }}
+                                  >
+                                    <strong>{contract.year}</strong> –{" "}
+                                    {contract.team} (
+                                    {contract.teamCountry.toUpperCase()})
+                                  </div>
                                   <span style={{ color: "#777" }}>
-                               Age{" "}{contract.age}
-                              </span>
+                                    Age {contract.age}
+                                  </span>
                                 </li>
                               ))}
                           </ul>
@@ -654,7 +731,6 @@ import {
                           Wins
                         </h5>
                       )}
-                        
                     </div>
 
                     {/* Action Button */}
@@ -693,18 +769,18 @@ import {
                               )}
                             </strong>
                           </p>
-          
-                            <ul>
-                              {(
-                                getSafeData(
-                                  sixthSectionEndpoint,
-                                  "data.data.others_from_same_birthplace",
-                                  []
-                                ) || []
-                              )
-                                .slice(0, 5)
-                                .map((rider, index) => (
-                                                  <div className="name-wraper">
+
+                          <ul>
+                            {(
+                              getSafeData(
+                                sixthSectionEndpoint,
+                                "data.data.others_from_same_birthplace",
+                                []
+                              ) || []
+                            )
+                              .slice(0, 5)
+                              .map((rider, index) => (
+                                <div className="name-wraper">
                                   <li key={rider._id || index}>
                                     {rider.name}{" "}
                                     {rider.nationality && (
@@ -718,10 +794,9 @@ import {
                                       />
                                     )}
                                   </li>
-                                  </div>
-                                ))}
-                            </ul>
-                       
+                                </div>
+                              ))}
+                          </ul>
                         </>
                       )}
 
@@ -830,13 +905,12 @@ import {
                             .slice(0, 3)
                             .map((result, index) => (
                               <li key={index}>
-                                     <div
-                                className="name-wraper"
-                                style={{ fontWeight: "500" }}
-                              >
-                              {result.race} ({result.year}) – {result.rank}
-                              </div>
-                              
+                                <div
+                                  className="name-wraper"
+                                  style={{ fontWeight: "500" }}
+                                >
+                                  {result.race} ({result.year}) – {result.rank}
+                                </div>
                               </li>
                             ))}
                         </ul>
@@ -851,17 +925,21 @@ import {
                             overflowY: "auto",
                           }}
                         >
-                          {getSafeData("getRiderAllVictories", "data.data.data", [])
+                          {getSafeData(
+                            "getRiderAllVictories",
+                            "data.data.data",
+                            []
+                          )
                             .slice(0, 5)
                             .map((victory, index) => (
                               <li key={index}>
-                                   <div
-                                className="name-wraper"
-                                style={{ fontWeight: "500" }}
-                              >
-                                {victory.race} ({victory.year}) – {victory.type}
-                              </div>
-                                
+                                <div
+                                  className="name-wraper"
+                                  style={{ fontWeight: "500" }}
+                                >
+                                  {victory.race} ({victory.year}) –{" "}
+                                  {victory.type}
+                                </div>
                               </li>
                             ))}
                         </ul>
@@ -880,210 +958,201 @@ import {
               {shouldShowCard(eightSectionEndpoint) && (
                 <div className="col-lg-5 col-md-6">
                   <div className="team-cart class-for-mobil">
-                    
+                    <div className="text-wraper">
                       <div className="text-wraper">
-                        <div className="text-wraper">
-                          <h4>{getEndpointMessage(eightSectionEndpoint)}</h4>
-                          <div className="name-wraper">
-                            {eightSectionEndpoint === "uciPoints"
-                              ? getSafeData(
-                                  eightSectionEndpoint,
-                                  "data.data.nationality"
-                                ) && (
-                                  <Flag
-                                    code={getSafeData(
-                                      eightSectionEndpoint,
-                                      "data.data.nationality"
-                                    ).toUpperCase()}
-                                    style={{
-                                      width: "20px",
-                                      height: "20px",
-                                      marginRight: "10px",
-                                    }}
-                                  />
-                                )
-                              : getSafeData(
-                                  eightSectionEndpoint,
-                                  "data.data.rider_country"
-                                ) && (
-                                  <Flag
-                                    code={getSafeData(
-                                      eightSectionEndpoint,
-                                      "data.data.rider_country"
-                                    ).toUpperCase()}
-                                    style={{
-                                      width: "20px",
-                                      height: "20px",
-                                      marginRight: "10px",
-                                    }}
-                                  />
-                                )}
-                            <h6>
+                        <h4>{getEndpointMessage(eightSectionEndpoint)}</h4>
+                        <div className="name-wraper">
+                          {eightSectionEndpoint === "uciPoints"
+                            ? getSafeData(
+                                eightSectionEndpoint,
+                                "data.data.nationality"
+                              ) && (
+                                <Flag
+                                  code={getSafeData(
+                                    eightSectionEndpoint,
+                                    "data.data.nationality"
+                                  ).toUpperCase()}
+                                  style={{
+                                    width: "20px",
+                                    height: "20px",
+                                    marginRight: "10px",
+                                  }}
+                                />
+                              )
+                            : getSafeData(
+                                eightSectionEndpoint,
+                                "data.data.rider_country"
+                              ) && (
+                                <Flag
+                                  code={getSafeData(
+                                    eightSectionEndpoint,
+                                    "data.data.rider_country"
+                                  ).toUpperCase()}
+                                  style={{
+                                    width: "20px",
+                                    height: "20px",
+                                    marginRight: "10px",
+                                  }}
+                                />
+                              )}
+                          <h6>
+                            {getSafeData(
+                              eightSectionEndpoint,
+                              "data.data.rider_name",
+                              "N/A"
+                            )}
+                          </h6>
+                        </div>
+                      </div>
+                      <h5>
+                        {eightSectionEndpoint === "uciPoints" ? (
+                          <>
+                            <strong>
                               {getSafeData(
                                 eightSectionEndpoint,
-                                "data.data.rider_name",
+                                "data.data.total_uci_points",
                                 "N/A"
                               )}
-                            </h6>
-                          </div>
-                        </div>
-                        <h5>
-                          {eightSectionEndpoint === "uciPoints" ? (
-                            <>
-                              <strong>
-                                {getSafeData(
-                                  eightSectionEndpoint,
-                                  "data.data.total_uci_points",
-                                  "N/A"
-                                )}
-                              </strong>
-                              total points
-                            </>
-                          ) : eightSectionEndpoint === "getRiderLongestNoWinStreak" ? 
-                          (
-                            <>
-                              <strong>
-                                {getSafeData(
-                                  eightSectionEndpoint,
-                                  "data.data.longest_streak_without_win.streak_count",
-                                  "N/A"
-                                )}
-                              </strong>
-                               streak counts
-                            </>
-                          ):
-                           (
-                            <>
-                              <strong>
-                                {getSafeData(
-                                  eightSectionEndpoint,
-                                  "data.data.one_day_race_wins",
-                                  "N/A"
-                                )}
-                              </strong>
-                              wins
-                            </>
-                          )
-                        }
-                        </h5>
-                      </div>
-                      <a href="#?" className="green-circle-btn">
-                        <img src="/images/arow.svg" alt="" />
-                      </a>
+                            </strong>
+                            total points
+                          </>
+                        ) : eightSectionEndpoint ===
+                          "getRiderLongestNoWinStreak" ? (
+                          <>
+                            <strong>
+                              {getSafeData(
+                                eightSectionEndpoint,
+                                "data.data.longest_streak_without_win.streak_count",
+                                "N/A"
+                              )}
+                            </strong>
+                            streak counts
+                          </>
+                        ) : (
+                          <>
+                            <strong>
+                              {getSafeData(
+                                eightSectionEndpoint,
+                                "data.data.one_day_race_wins",
+                                "N/A"
+                              )}
+                            </strong>
+                            wins
+                          </>
+                        )}
+                      </h5>
                     </div>
-                
+                    <a href="#?" className="green-circle-btn">
+                      <img src="/images/arow.svg" alt="" />
+                    </a>
+                  </div>
                 </div>
               )}
             </div>
           </div>
 
-      {/*Ninth Card*/}
-         {shouldShowCard(ninthSectionEndpoint) && (
+          {/*Ninth Card*/}
+          {shouldShowCard(ninthSectionEndpoint) && (
             <div className="col-lg-5">
               <div className="list-white-cart lime-green-cart">
-                  <div className="text-wraper">
-                   
-              <h4>{getEndpointMessage(ninthSectionEndpoint)}</h4>
- <div className="name-wraper">
-                            {ninthSectionEndpoint === "getRiderLastPlaceFinishes" ?
-                            ( getSafeData(
-                                  ninthSectionEndpoint,
-                                  "data.data.nationality"
-                                ) && (
-                                  <Flag
-                                    code={getSafeData(
-                                      ninthSectionEndpoint,
-                                      "data.data.nationality"
-                                    ).toUpperCase()}
-                                    style={{
-                                      width: "20px",
-                                      height: "20px",
-                                      marginRight: "10px",
-                                    }}
-                                  />
-                                )
-                              )
-                               :
-                             ( getSafeData(
-                                  ninthSectionEndpoint,
-                                  "data.data.rider_country"
-                                ) && (
-                                  <Flag
-                                    code={getSafeData(
-                                      ninthSectionEndpoint,
-                                      "data.data.rider_country"
-                                    ).toUpperCase()}
-                                    style={{
-                                      width: "20px",
-                                      height: "20px",
-                                      marginRight: "10px",
-                                    }}
-                                  />
-                                )
-                              )
-                            }
-                            <h6>
-                              {getSafeData(
-                                ninthSectionEndpoint,
-                                "data.data.rider_name",
-                                "N/A"
-                              )}
-                            </h6>
-                          </div>
-                            </div>
+                <div className="text-wraper">
+                  <h4>{getEndpointMessage(ninthSectionEndpoint)}</h4>
+                  <div className="name-wraper">
+                    {ninthSectionEndpoint === "getRiderLastPlaceFinishes"
+                      ? getSafeData(
+                          ninthSectionEndpoint,
+                          "data.data.nationality"
+                        ) && (
+                          <Flag
+                            code={getSafeData(
+                              ninthSectionEndpoint,
+                              "data.data.nationality"
+                            ).toUpperCase()}
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginRight: "10px",
+                            }}
+                          />
+                        )
+                      : getSafeData(
+                          ninthSectionEndpoint,
+                          "data.data.rider_country"
+                        ) && (
+                          <Flag
+                            code={getSafeData(
+                              ninthSectionEndpoint,
+                              "data.data.rider_country"
+                            ).toUpperCase()}
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginRight: "10px",
+                            }}
+                          />
+                        )}
+                    <h6>
+                      {getSafeData(
+                        ninthSectionEndpoint,
+                        "data.data.rider_name",
+                        "N/A"
+                      )}
+                    </h6>
+                  </div>
+                </div>
                 <ul>
-                         
-              <h4> { ninthSectionEndpoint === "getRiderLastPlaceFinishes" ? "last place finishes":""}</h4>
-                   { ninthSectionEndpoint === "getRiderLastPlaceFinishes" ?  
-                   (
-                                getSafeData(
-                                  ninthSectionEndpoint,
-                                 "data.data.last_place_finishes",
-                                  []
-                                ) || []
-                              )
-                                .slice(0, 5)
-                                .map((rider, index) => (
-                 
-                    <li key={index}>
-                      {/* <strong>{rider.wins}</strong> */}
-                     <div className="name-wraper">
-                        <h6>{rider.race}</h6>
-                      </div>
-                      <span>{rider.year}</span>
-                    </li>
-                  ))
-                :
-                (
-                                getSafeData(
-                                  ninthSectionEndpoint,
-                                 "data.data.wins_per_season",
-                                  []
-                                ) || []
-                              )
-                                .slice(0, 5)
-                                .map((rider, index) => (
-                 
-                    <li key={index}>
-                      {/* <strong>{rider.wins}</strong> */}
-                     <div className="name-wraper">
-                        <h6>{rider.year}</h6>
-                      </div>
-                      <span>{rider.wins}</span>wins
-                    </li>
-                  ))}
+                  <h4>
+                    {" "}
+                    {ninthSectionEndpoint === "getRiderLastPlaceFinishes"
+                      ? "last place finishes"
+                      : ""}
+                  </h4>
+                  {ninthSectionEndpoint === "getRiderLastPlaceFinishes"
+                    ? (
+                        getSafeData(
+                          ninthSectionEndpoint,
+                          "data.data.last_place_finishes",
+                          []
+                        ) || []
+                      )
+                        .slice(0, 5)
+                        .map((rider, index) => (
+                          <li key={index}>
+                            {/* <strong>{rider.wins}</strong> */}
+                            <div className="name-wraper">
+                              <h6>{rider.race}</h6>
+                            </div>
+                            <span>{rider.year}</span>
+                          </li>
+                        ))
+                    : (
+                        getSafeData(
+                          ninthSectionEndpoint,
+                          "data.data.wins_per_season",
+                          []
+                        ) || []
+                      )
+                        .slice(0, 5)
+                        .map((rider, index) => (
+                          <li key={index}>
+                            {/* <strong>{rider.wins}</strong> */}
+                            <div className="name-wraper">
+                              <h6>{rider.year}</h6>
+                            </div>
+                            <span>{rider.wins}</span>wins
+                          </li>
+                        ))}
                 </ul>
-                
+
                 <a href="#?" className="glob-btn">
-                  <strong>volledige stats</strong> 
+                  <strong>volledige stats</strong>
                   <span>
                     <img src="/images/arow.svg" alt="Arrow" />
                   </span>
                 </a>
-               
               </div>
             </div>
-         )}
+          )}
         </div>
       )}
     </>

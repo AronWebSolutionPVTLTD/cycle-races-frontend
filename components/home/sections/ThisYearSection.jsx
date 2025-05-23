@@ -253,7 +253,7 @@ const ThisYearSection = () => {
                   {/* rider with Most racing days */}
                   <div className="col-lg-7 col-md-6">
                     {data[selectedApis.box5GC] &&
-                      data[selectedApis.box5GC].data.result
+                      data[selectedApis.box5GC].data.data.result
                         .slice(0, 1)
                         .map((race, index) => (
                           <div className="team-cart" key={index}>
