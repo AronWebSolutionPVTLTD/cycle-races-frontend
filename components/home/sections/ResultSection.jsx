@@ -186,30 +186,28 @@ const ResultSection = () => {
         <div className="section-title mb-3">
           <h4>{sectionData.message || "Race Results"}</h4>
         </div>
-       
-          <ul className="transparent-cart">
+    <ul className="transparent-cart">
              {sectionData.data.data.slice(0, 4).map((riders, index) => (
             <li key={index}>
-              <span>{riders.race_date}</span>
-              <h5>
-                <a href="#?">{riders.race_name}</a>
-              </h5>
-              <h6>
+             <h5>
                 <Flag
-                  code={riders.country}
-                  style={{ width: "20px", height: "20px", marginRight: "10px" }}
+                  code={riders.rider_country}
+                  style={{ width: "30px", height: "30px", marginRight: "10px" }}
                 />
-                <a href="#?">{riders.rider_name}</a>
-              </h6>
-              <h6>{riders.team_name}</h6>
+               </h5>
+              <h5>
+                <a href="#?">{riders.team_name}</a>
+              </h5>
+          
+              {riders.count && <h6>{riders.count} wins</h6>}
+             
               <a href="#?" className="r-details">
                 <img src="/images/hover-arow.svg" alt="" />
               </a>
             </li>
              ))}
           </ul>
-       
-      </>
+     </>
     );
   };
 

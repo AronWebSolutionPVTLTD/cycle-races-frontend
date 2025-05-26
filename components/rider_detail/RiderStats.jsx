@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Flag from "react-world-flags";
 import { useMultipleData } from "../home_api_data";
 import {
+  BoxSkeleton,
   ErrorStats,
   LoadingStats,
   NoDataMessage,
@@ -277,7 +278,7 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
 
       {isLoading && (
         <div className="col-12">
-          <LoadingStats />
+          <BoxSkeleton />
         </div>
       )}
 
@@ -299,11 +300,11 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
         <div className="row">
           {/* First Card */}
           {shouldShowCard(firstSectionEndpoint) && (
-         <div class="col-lg-3 col-md-6">
+            <div className="col-lg-3 col-md-6">
               <div className="list-white-cart">
                 <h4>{getEndpointMessage(firstSectionEndpoint)}</h4>
                 <ul>
-                  <li>
+                  {/* <li>
                     <div className="name-wraper">
                       {getSafeData(
                         firstSectionEndpoint,
@@ -329,7 +330,7 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
                         )}
                       </h6>
                     </div>
-                  </li>
+                  </li> */}
                   <li>
                     <div className="name-wraper">
                       {getSafeData(
@@ -351,8 +352,8 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
                     <div className="name-wraper">
                       {getSafeData(firstSectionEndpoint, "data.data.age") && (
                         <h5>
-                        Jaar : {getSafeData(firstSectionEndpoint, "data.data.age")}
-                          
+                          Jaar :{" "}
+                          {getSafeData(firstSectionEndpoint, "data.data.age")}
                         </h5>
                       )}
                     </div>
@@ -369,7 +370,7 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
           {/* Second Card */}
           {shouldShowCard(secondSectionEndpoint) && (
             <div className="col-lg-3 col-md-6">
-              <div className="team-cart lime-green-team-cart">
+              <div className="team-cart lime-green-team-cart class-for-mobil">
                 <div className="text-wraper">
                   <h4>{getEndpointMessage(secondSectionEndpoint)}</h4>
                   <div className="name-wraper">
@@ -397,116 +398,56 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
                       )}
                     </h6>
                   </div>
-                  {secondSectionEndpoint === "getBestGCResult" && getSafeData(
-                          secondSectionEndpoint,
-                          "data.data.bestGCRank",
-                       ) && (
-                    <>
-                      <h5>
-                        <strong>
-                        {getSafeData(
-                          secondSectionEndpoint,
-                          "data.data.bestGCRank",
-                       )}
-                        </strong>
-                      </h5>
-                      rank
-                    </>
-                  )}
-                   {secondSectionEndpoint === "bestSeason" && getSafeData(
-                          secondSectionEndpoint,
-                          "data.data.bestSeasonYear",
-                        ) &&(
-                    <>
-                    <h5>
-                      <strong>
-                        {getSafeData(
-                          secondSectionEndpoint,
-                          "data.data.bestSeasonYear",
-                        )}
-                      </strong>
-                      </h5>
-                      Season Year
-                    </>
-                  )}
-                      {secondSectionEndpoint === "getRiderMostRacedCountry" && getSafeData(
-                          secondSectionEndpoint,
-                          "data.data.raceData.races_count",
-                        ) &&(
-                    <>
-                    <h5>
-                      <strong>
-                        {getSafeData(
-                          secondSectionEndpoint,
-                          "data.data.raceData.races_count",
-                        )}
-                      </strong>
-                      </h5>
-                      Season Year
-                    </>
-                  )}
 
-                </div>
-                {/* <h5>
-                  {secondSectionEndpoint === "getBestGCResult" && (
-                    <>
-                      <h5>
-                        <strong>
-                        {getSafeData(
-                          secondSectionEndpoint,
-                          "data.data.bestGCRank",
-                       )}
-                        </strong>
-                      </h5>
-                      rank
-                    </>
-                  )}
-
-                  {secondSectionEndpoint === "bestSeason" && (
-                    <>
-                      <strong>
-                        {getSafeData(
-                          secondSectionEndpoint,
-                          "data.data.bestSeasonYear",
-                          "N/A"
-                        )}
-                      </strong>
-                      Season Year
-                    </>
-                  )}
-
-                  {secondSectionEndpoint === "getRiderMostRacedCountry" && (
-                    <div className="text-wraper">
-                      <h4 style={{ textAlign: "left" }}>race count</h4>
-                      <div className="name-wraper">
-                        {getSafeData(
-                          secondSectionEndpoint,
-                          "data.data.raceData.country_code"
-                        ) && (
-                          <Flag
-                            code={getSafeData(
+                  <h5>
+                    {secondSectionEndpoint === "getBestGCResult" &&
+                      getSafeData(
+                        secondSectionEndpoint,
+                        "data.data.bestGCRank"
+                      ) && (
+                        <>
+                          <strong>
+                            {getSafeData(
                               secondSectionEndpoint,
-                              "data.data.raceData.country_code"
-                            ).toUpperCase()}
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                              marginRight: "10px",
-                            }}
-                          />
-                        )}
-                        <h6>
-                          {getSafeData(
-                            secondSectionEndpoint,
-                            "data.data.raceData.races_count",
-                            "N/A"
-                          )}
-                        </h6>
-                      </div>
-                    </div>
-                  )}
-                </h5> */}
+                              "data.data.bestGCRank"
+                            )}
+                          </strong>
+                          rank
+                        </>
+                      )}
 
+                    {secondSectionEndpoint === "bestSeason" &&
+                      getSafeData(
+                        secondSectionEndpoint,
+                        "data.data.bestSeasonYear"
+                      ) && (
+                        <>
+                          <strong>
+                            {getSafeData(
+                              secondSectionEndpoint,
+                              "data.data.bestSeasonYear"
+                            )}
+                          </strong>
+                          Season Year
+                        </>
+                      )}
+                    {secondSectionEndpoint === "getRiderMostRacedCountry" &&
+                      getSafeData(
+                        secondSectionEndpoint,
+                        "data.data.raceData.races_count"
+                      ) && (
+                        <>
+                          <strong>
+                            {getSafeData(
+                              secondSectionEndpoint,
+                              "data.data.raceData.races_count"
+                            )}
+                          </strong>
+                          count
+                        </>
+                      )}
+                  </h5>
+                </div>
                 <a href="#?" className="white-circle-btn">
                   <img src="/images/arow.svg" alt="" />
                 </a>
@@ -587,7 +528,7 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
                           "N/A"
                         )}
                       </strong>{" "}
-                      Wins in Country
+                      wins
                     </>
                   )}
                 </h5>
@@ -605,7 +546,9 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
             <div className="col-lg-3 col-md-6">
               <div className="races">
                 <div className="text-wraper">
-                  <h4>{getEndpointMessage(fourthSectionEndpoint)}</h4>
+                  <h4 className="fs-chenge">
+                    {getEndpointMessage(fourthSectionEndpoint)}
+                  </h4>
                   <div className="name-wraper">
                     <h5>
                       <strong>
@@ -627,95 +570,64 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
             <div className="row">
               {shouldShowCard(fifthSectionEndpoint) && (
                 <div className="col-lg-5 col-md-6">
-                  <div className="team-cart">
+                  <div className="team-cart class-for-mobil class-for-mobil2">
                     <div className="text-wraper">
                       <h4>{getEndpointMessage(fifthSectionEndpoint)}</h4>
-
-                      <div className="name-wraper">
-                        {/* Flag */}
-                        {fifthSectionEndpoint === "contactHistory"
-                          ? getSafeData(
-                              fifthSectionEndpoint,
-                              "data.data.rider_country"
-                            ) && (
-                              <Flag
-                                code={getSafeData(
-                                  fifthSectionEndpoint,
-                                  "data.data.rider_country"
-                                ).toUpperCase()}
-                                style={{
-                                  width: "20px",
-                                  height: "20px",
-                                  marginRight: "10px",
-                                }}
-                              />
-                            )
-                          : getSafeData(
+                      {fifthSectionEndpoint === "homeCountryWins" && (
+                        <div className="name-wraper">
+                          {/* Flag */}
+                          <Flag
+                            code={getSafeData(
                               fifthSectionEndpoint,
                               "data.data.nationality"
-                            ) && (
-                              <Flag
-                                code={getSafeData(
-                                  fifthSectionEndpoint,
-                                  "data.data.nationality"
-                                ).toUpperCase()}
-                                style={{
-                                  width: "20px",
-                                  height: "20px",
-                                  marginRight: "10px",
-                                }}
-                              />
+                            ).toUpperCase()}
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginRight: "10px",
+                            }}
+                          />
+                          <h6>
+                            {getSafeData(
+                              fifthSectionEndpoint,
+                              "data.data.rider_name"
                             )}
-
-                        {/* Rider Name */}
-
-                        <h6>
-                          {fifthSectionEndpoint === "contactHistory"
-                            ? getSafeData(
-                                fifthSectionEndpoint,
-                                "data.data.riderName",
-                                "N/A"
-                              )
-                            : getSafeData(
-                                fifthSectionEndpoint,
-                                "data.data.rider_name",
-                                "N/A"
-                              )}
-                        </h6>
-                      </div>
+                          </h6>
+                        </div>
+                      )}
 
                       {/* Dynamic content based on endpoint */}
                       {fifthSectionEndpoint === "contactHistory" && (
                         <>
-                          <h5>Contract History:</h5>
-                          <ul
-                            style={{
-                              paddingLeft: "20px",
-                              marginBottom: "10px",
-                            }}
-                          >
+                          <ul>
+                            {/* <h6 style={{marginTop:"5px"}}>Contract History:</h6> */}
                             {getSafeData(
                               fifthSectionEndpoint,
                               "data.data.contracts",
                               []
                             )
-                              .slice(0, 5)
+                              .slice(0, 3)
                               .map((contract, idx) => (
                                 <li key={idx}>
-                                  <div
-                                    className="name-wraper"
-                                    style={{ fontWeight: "500" }}
-                                  >
-                                    <strong>{contract.year}</strong> –{" "}
-                                    {contract.team} (
-                                    {contract.teamCountry.toUpperCase()})
+                                  <div className="name-wraper" style={{marginBottom:"6px"}}>
+                                    {contract.teamCountry && (
+                                      <Flag
+                                        code={contract.teamCountry.toUpperCase()}
+                                        style={{
+                                          width: "20px",
+                                          height: "20px",
+                                          marginRight: "10px",
+                                        }}
+                                      />
+                                    )}
+
+                                    <h6>{contract.team}</h6>
+                                    <span>({contract.year})</span>
                                   </div>
-                                  <span style={{ color: "#777" }}>
-                                    Age {contract.age}
-                                  </span>
                                 </li>
                               ))}
                           </ul>
+                          {/* </div> */}
                         </>
                       )}
 
@@ -741,15 +653,16 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
                 </div>
               )}
 
-              {/*Sixth Card*/}
+              {/* Sixth Card*/}
               {shouldShowCard(sixthSectionEndpoint) && (
                 <div className="col-lg-7 col-md-6">
-                  <div className={"team-cart lime-green-team-cart"}>
+                  <div
+                    className={"team-cart lime-green-team-cart class-for-mobil"}
+                  >
                     <a href="#?" className="pabs"></a>
                     <div className="text-wraper class-for-mobil">
                       <h4>{getEndpointMessage(sixthSectionEndpoint)}</h4>
 
-                      {/* Rider From Same Hometown */}
                       {sixthSectionEndpoint === "riderFromSameHomeTown" && (
                         <>
                           <p>
@@ -778,29 +691,29 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
                                 []
                               ) || []
                             )
-                              .slice(0, 5)
+                              .slice(0, 3)
                               .map((rider, index) => (
-                                <div className="name-wraper">
-                                  <li key={rider._id || index}>
-                                    {rider.name}{" "}
-                                    {rider.nationality && (
+                                <li key={rider._id || index}>
+                                  {rider.nationality && (
+                                    <div className="name-wraper">
                                       <Flag
                                         code={rider.nationality.toUpperCase()}
                                         style={{
-                                          width: 20,
-                                          height: 20,
-                                          marginLeft: 6,
+                                          width: "20px",
+                                          height: "20px",
+                                          marginRight: "10px",
                                         }}
                                       />
-                                    )}
-                                  </li>
-                                </div>
+
+                                      <h6>{rider.name}</h6>
+                                    </div>
+                                  )}
+                                </li>
                               ))}
                           </ul>
                         </>
                       )}
 
-                      {/* Most Frequent Teammate */}
                       {sixthSectionEndpoint === "teamMates" && (
                         <div
                           style={{
@@ -858,93 +771,77 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
               {/*Seventh Card*/}
               {shouldShowCard(seventhSectionEndpoint) && (
                 <div className="col-lg-7 col-md-6">
-                  <div className="team-cart class-for-mobil">
-                    <div className="text-wraper class-for-mobil">
-                      {/* Conditional title */}
-                      <h4>{getEndpointMessage(seventhSectionEndpoint)}</h4>
-                      <div className="name-wraper">
-                        {getSafeData(
-                          seventhSectionEndpoint,
-                          "data.data.nationality"
-                        ) && (
-                          <Flag
-                            code={getSafeData(
-                              seventhSectionEndpoint,
-                              "data.data.nationality"
-                            ).toUpperCase()}
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                              marginRight: "10px",
-                            }}
-                          />
-                        )}
-                        <h6>
-                          {seventhSectionEndpoint === "getRiderAllVictories"
-                            ? getSafeData(
-                                seventhSectionEndpoint,
-                                "data.data.rider_name",
-                                "N/A"
-                              )
-                            : getSafeData(
-                                seventhSectionEndpoint,
-                                "data.data.rider",
-                                "N/A"
-                              )}
-                        </h6>
-                      </div>
-                      {/* Conditional content */}
-                      {seventhSectionEndpoint ===
-                        "getRiderBestMonumentResults" && (
-                        <ul style={{ paddingLeft: 20, margin: 0 }}>
-                          {getSafeData(
-                            "getRiderBestMonumentResults",
-                            "data.data.best_monument_results",
-                            []
-                          )
-                            .slice(0, 3)
-                            .map((result, index) => (
-                              <li key={index}>
-                                <div
-                                  className="name-wraper"
-                                  style={{ fontWeight: "500" }}
-                                >
-                                  {result.race} ({result.year}) – {result.rank}
-                                </div>
-                              </li>
-                            ))}
-                        </ul>
-                      )}
+                  <div className="list-white-cart">
+                    {/* Conditional title */}
+                    <h4>{getEndpointMessage(seventhSectionEndpoint)}</h4>
 
-                      {seventhSectionEndpoint === "getRiderAllVictories" && (
-                        <ul
-                          style={{
-                            paddingLeft: 20,
-                            margin: 0,
-                            maxHeight: 120,
-                            overflowY: "auto",
-                          }}
-                        >
-                          {getSafeData(
-                            "getRiderAllVictories",
-                            "data.data.data",
-                            []
-                          )
-                            .slice(0, 5)
-                            .map((victory, index) => (
-                              <li key={index}>
-                                <div
-                                  className="name-wraper"
-                                  style={{ fontWeight: "500" }}
-                                >
-                                  {victory.race} ({victory.year}) –{" "}
-                                  {victory.type}
-                                </div>
-                              </li>
-                            ))}
-                        </ul>
-                      )}
-                    </div>
+                    {/* <ul>
+        <li>
+          <div className="name-wraper">
+            {(() => {
+              const nationality = getSafeData(seventhSectionEndpoint, "data.data.nationality");
+              return nationality ? (
+                <Flag
+                  code={nationality.toUpperCase()}
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    marginRight: "10px",
+                  }}
+                />
+              ) : null;
+            })()}
+            <h6>
+              {seventhSectionEndpoint === "getRiderAllVictories"
+                ? getSafeData(seventhSectionEndpoint, "data.data.rider_name", "N/A")
+                : getSafeData(seventhSectionEndpoint, "data.data.rider", "N/A")}
+            </h6>
+          </div>
+        </li>
+      </ul> */}
+
+                    {/* Best Monument Results */}
+                    {seventhSectionEndpoint ===
+                      "getRiderBestMonumentResults" && (
+                      <ul>
+                        {getSafeData(
+                          "getRiderBestMonumentResults",
+                          "data.data.best_monument_results",
+                          []
+                        )
+                          .slice(0, 3)
+                          .map((result, index) => (
+                            <li key={index}>
+                              <strong>{index + 1}</strong>
+                              <div className="name-wraper">
+                                {result.race} ({result.year}) –
+                              </div>
+                              <span>{result.rank} rank</span>
+                            </li>
+                          ))}
+                      </ul>
+                    )}
+
+                    {/* Rider All Victories */}
+                    {seventhSectionEndpoint === "getRiderAllVictories" && (
+                      <ul>
+                        {getSafeData(
+                          "getRiderAllVictories",
+                          "data.data.data",
+                          []
+                        )
+                          .slice(0, 3)
+                          .map((victory, index) => (
+                            <li key={index}>
+                              <strong>{index + 1}</strong>
+                              <div className="name-wraper">
+                                {victory.race} ({victory.year}) –
+                              </div>
+                              <span>{victory.rank} rank</span>
+                            </li>
+                          ))}
+                      </ul>
+                    )}
 
                     <a href="#?" className="green-circle-btn">
                       <img src="/images/arow.svg" alt="Arrow" />
@@ -1010,14 +907,17 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
                             <strong>
                               {getSafeData(
                                 eightSectionEndpoint,
-                                "data.data.total_uci_points",
-                                "N/A"
+                                "data.data.total_uci_points" || "0"
                               )}
                             </strong>
                             total points
                           </>
                         ) : eightSectionEndpoint ===
-                          "getRiderLongestNoWinStreak" ? (
+                            "getRiderLongestNoWinStreak" &&
+                          getSafeData(
+                            eightSectionEndpoint,
+                            "data.data.longest_streak_without_win.streak_count"
+                          ) ? (
                           <>
                             <strong>
                               {getSafeData(
@@ -1026,19 +926,24 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
                                 "N/A"
                               )}
                             </strong>
-                            streak counts
+                            count
                           </>
                         ) : (
-                          <>
-                            <strong>
-                              {getSafeData(
-                                eightSectionEndpoint,
-                                "data.data.one_day_race_wins",
-                                "N/A"
-                              )}
-                            </strong>
-                            wins
-                          </>
+                          getSafeData(
+                            eightSectionEndpoint,
+                            "data.data.one_day_race_wins"
+                          ) && (
+                            <>
+                              <strong>
+                                {getSafeData(
+                                  eightSectionEndpoint,
+                                  "data.data.one_day_race_wins",
+                                  "N/A"
+                                )}
+                              </strong>
+                              wins
+                            </>
+                          )
                         )}
                       </h5>
                     </div>
@@ -1055,52 +960,54 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
           {shouldShowCard(ninthSectionEndpoint) && (
             <div className="col-lg-5">
               <div className="list-white-cart lime-green-cart">
-                <div className="text-wraper">
-                  <h4>{getEndpointMessage(ninthSectionEndpoint)}</h4>
-                  <div className="name-wraper">
-                    {ninthSectionEndpoint === "getRiderLastPlaceFinishes"
-                      ? getSafeData(
-                          ninthSectionEndpoint,
-                          "data.data.nationality"
-                        ) && (
-                          <Flag
-                            code={getSafeData(
-                              ninthSectionEndpoint,
-                              "data.data.nationality"
-                            ).toUpperCase()}
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                              marginRight: "10px",
-                            }}
-                          />
-                        )
-                      : getSafeData(
-                          ninthSectionEndpoint,
-                          "data.data.rider_country"
-                        ) && (
-                          <Flag
-                            code={getSafeData(
-                              ninthSectionEndpoint,
-                              "data.data.rider_country"
-                            ).toUpperCase()}
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                              marginRight: "10px",
-                            }}
-                          />
-                        )}
-                    <h6>
-                      {getSafeData(
-                        ninthSectionEndpoint,
-                        "data.data.rider_name",
-                        "N/A"
-                      )}
-                    </h6>
-                  </div>
-                </div>
+                <h4 className="fs-chenge">
+                  {getEndpointMessage(ninthSectionEndpoint)}
+                </h4>
                 <ul>
+                  {/* <li>
+                    <div className="name-wraper">
+                      {ninthSectionEndpoint === "getRiderLastPlaceFinishes"
+                        ? getSafeData(
+                            ninthSectionEndpoint,
+                            "data.data.nationality"
+                          ) && (
+                            <Flag
+                              code={getSafeData(
+                                ninthSectionEndpoint,
+                                "data.data.nationality"
+                              ).toUpperCase()}
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginRight: "10px",
+                              }}
+                            />
+                          )
+                        : getSafeData(
+                            ninthSectionEndpoint,
+                            "data.data.rider_country"
+                          ) && (
+                            <Flag
+                              code={getSafeData(
+                                ninthSectionEndpoint,
+                                "data.data.rider_country"
+                              ).toUpperCase()}
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginRight: "10px",
+                              }}
+                            />
+                          )}
+                      <h6>
+                        {getSafeData(
+                          ninthSectionEndpoint,
+                          "data.data.rider_name",
+                          "N/A"
+                        )}
+                      </h6>
+                    </div>
+                  </li> */}
                   <h4>
                     {" "}
                     {ninthSectionEndpoint === "getRiderLastPlaceFinishes"
@@ -1118,11 +1025,13 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
                         .slice(0, 5)
                         .map((rider, index) => (
                           <li key={index}>
-                            {/* <strong>{rider.wins}</strong> */}
+                            <strong>{index + 1}</strong>
                             <div className="name-wraper">
-                              <h6>{rider.race}</h6>
+                              <h6>
+                                {rider.race} ({rider.year})
+                              </h6>
                             </div>
-                            <span>{rider.year}</span>
+                            {rider.rank && <span>{rider.rank} rank</span>}
                           </li>
                         ))
                     : (
@@ -1135,7 +1044,7 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
                         .slice(0, 5)
                         .map((rider, index) => (
                           <li key={index}>
-                            {/* <strong>{rider.wins}</strong> */}
+                            <strong>{index + 1}</strong>
                             <div className="name-wraper">
                               <h6>{rider.year}</h6>
                             </div>
@@ -1143,7 +1052,6 @@ const RiderRandomStatsOne = ({ riderId, filterYear }) => {
                           </li>
                         ))}
                 </ul>
-
                 <a href="#?" className="glob-btn">
                   <strong>volledige stats</strong>
                   <span>

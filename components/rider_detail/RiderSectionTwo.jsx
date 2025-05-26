@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Flag from "react-world-flags";
 import { useMultipleData } from "../home_api_data";
 import {
+  BoxSkeleton,
   ErrorStats,
   LoadingStats,
   NoDataMessage,
@@ -219,7 +220,7 @@ const RiderSectionTwo = ({ riderId, filterYear }) => {
 
       {isLoading && (
         <div className="col-12">
-          <LoadingStats />
+          <BoxSkeleton />
         </div>
       )}
 
@@ -244,7 +245,7 @@ const RiderSectionTwo = ({ riderId, filterYear }) => {
             <div className="col-lg-3 col-md-6">
               <div className="team-cart">
                 <div className="text-wraper">
-                  <div className="text-wraper">
+                 
                     <h4>{getEndpointMessage(firstSectionEndpoint)}</h4>
                     <div className="name-wraper">
                       {getSafeData(
@@ -270,29 +271,25 @@ const RiderSectionTwo = ({ riderId, filterYear }) => {
                           "N/A"
                         )}
                       </h6>
-                    </div>
+                   
                   </div>
-                  <h5>
-                    <strong>
-                      {firstSectionEndpoint === "getBestStageResult"
-                        ? getSafeData(
-                            firstSectionEndpoint,
-                            "data.data.best_stage_rank"
-                          )
-                        : firstSectionEndpoint === "getBestParisRoubaixResult"
-                        ? getSafeData(
-                            firstSectionEndpoint,
-                            "data.data.best_result.rank"
-                          )
-                        : firstSectionEndpoint === "bestGCResults"
-                        ? getSafeData(
-                            firstSectionEndpoint,
-                            "data.data.best_gc_rank"
-                          )
-                        : "N/A"}
-                    </strong>
-                    rank
-                  </h5>
+                 {(() => {
+    let rank;
+
+    if (firstSectionEndpoint === "getBestStageResult") {
+      rank = getSafeData(firstSectionEndpoint, "data.data.best_stage_rank");
+    } else if (firstSectionEndpoint === "getBestParisRoubaixResult") {
+      rank = getSafeData(firstSectionEndpoint, "data.data.best_result.rank");
+    } else if (firstSectionEndpoint === "bestGCResults") {
+      rank = getSafeData(firstSectionEndpoint, "data.data.best_gc_rank");
+    }
+
+    return rank ? (
+      <h5>
+        <strong>{rank}</strong> rank
+      </h5>
+    ) : null;
+  })()}
                 </div>
                 <a href="#?" className="green-circle-btn">
                   <img src="/images/arow.svg" alt="" />
@@ -336,12 +333,10 @@ const RiderSectionTwo = ({ riderId, filterYear }) => {
                         ? getSafeData(
                             secondSectionEndpoint,
                             "data.data.rider",
-                            "N/A"
                           )
                         : getSafeData(
                             secondSectionEndpoint,
                             "data.data.rider_name",
-                            "N/A"
                           )}
                     </h6>
                   </div>
@@ -481,44 +476,36 @@ const RiderSectionTwo = ({ riderId, filterYear }) => {
                           ? getSafeData(
                               thirdSectionEndpoint,
                               "data.data.teammate_name",
-                              "N/A"
                             )
                           : getSafeData(
                               thirdSectionEndpoint,
                               "data.data.rider_name",
-                              "N/A"
                             )}
                       </h6>
                     </div>
                   </div>
-                  <h5>
-                    <strong>
-                      {thirdSectionEndpoint === "getFirstEverGrandTourWin"
-                        ? getSafeData(
-                            thirdSectionEndpoint,
-                            "data.data.first_grand_tour_win.year",
-                            "N/A"
-                          )
-                        : thirdSectionEndpoint ===
-                          "getTotalDistanceRacedInGrandTours"
-                        ? getSafeData(
-                            thirdSectionEndpoint,
-                            "data.data.total_distance_raced",
-                            "N/A"
-                          )
-                        : getSafeData(
-                            thirdSectionEndpoint,
-                            "data.data.times_raced_together",
-                            "N/A"
-                          )}
-                    </strong>{" "}
-                    {thirdSectionEndpoint === "getFirstEverGrandTourWin"
-                      ? "Year"
-                      : thirdSectionEndpoint ===
-                        "getTotalDistanceRacedInGrandTours"
-                      ? "total race"
-                      : "Races"}
-                  </h5>
+               {(() => {
+  let value;
+  let label;
+
+  if (thirdSectionEndpoint === "getFirstEverGrandTourWin") {
+    value = getSafeData(thirdSectionEndpoint, "data.data.first_grand_tour_win.year");
+    label = "Year";
+  } else if (thirdSectionEndpoint === "getTotalDistanceRacedInGrandTours") {
+    value = getSafeData(thirdSectionEndpoint, "data.data.total_distance_raced");
+    label = "total race";
+  } else {
+    value = getSafeData(thirdSectionEndpoint, "data.data.times_raced_together");
+    label = "Races";
+  }
+
+  return value ? (
+    <h5>
+      <strong>{value}</strong> {label}
+    </h5>
+  ) : null;
+})()}
+
                 </div>
                 <a href="#?" className="green-circle-btn">
                   <img src="/images/arow.svg" alt="" />

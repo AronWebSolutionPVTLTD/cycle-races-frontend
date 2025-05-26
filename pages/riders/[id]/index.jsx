@@ -200,23 +200,12 @@ const {withoutAllTime } = generateYearOptions();
                 </li>
               </ul>
             </div>
-            
-             <div className="col-lg-12">
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <h2>rider detail</h2>
-                                    </div>
-                                </div>
-       {/* Random Stats Section */}
+      {/* Random Stats Section */}
             <RiderRandomStatsOne 
               riderId={rider._id} 
               filterYear={filterYear}
             />
 
- <div className="col-lg-12">
-                        <div className="d-flex justify-content-between align-items-center">
-                            <h2>race detail</h2>
-                        </div>
-                    </div>
              {/* Random Stats Section */}
             <RiderSectionTwo
               riderId={rider._id} 

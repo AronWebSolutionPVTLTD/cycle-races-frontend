@@ -114,7 +114,7 @@ export default function Stats() {
         setSelectedNationality(value);
         setShowNationalityDropdown(false);
         fetchFiltersData();
-        y;
+     
         break;
       case "team":
         setSelectedTeam(value);

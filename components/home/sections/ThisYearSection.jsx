@@ -321,13 +321,13 @@ const ThisYearSection = () => {
                                   <strong>{rider.count}</strong> count
                                 </h5>
                               )}
-                            {selectedApis.box5Consistent ===
-                              "mostConsistentGC" &&
-                              rider.avg_rank && (
-                                <h5>
-                                  <strong>{rider.avg_rank}</strong> rank
-                                </h5>
-                              )}
+                           {selectedApis.box5Consistent === "mostConsistentGC" &&
+  rider.avg_rank && (
+    <h5>
+      <strong>{Number(rider.avg_rank).toFixed(2)}</strong> rank
+    </h5>
+)}
+
                         <a href="#?" className="white-circle-btn">
                               <img src="/images/arow.svg" alt="" />
                             </a>
