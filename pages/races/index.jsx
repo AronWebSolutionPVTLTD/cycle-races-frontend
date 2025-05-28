@@ -1,30 +1,47 @@
-import { useState, useEffect } from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import { callAPI } from '../../lib/api';
-import Flag from 'react-world-flags';
-import { generateYearOptions } from '@/components/GetYear';
-import { CardSkeleton, ErrorStats, ListSkeleton } from '@/components/loading&error';
+import { useState, useEffect } from "react";
+import Head from "next/head";
+import Link from "next/link";
+import { callAPI } from "../../lib/api";
+import Flag from "react-world-flags";
+import { generateYearOptions } from "@/components/GetYear";
+import {
+  CardSkeleton,
+  ErrorStats,
+  ListSkeleton,
+} from "@/components/loading&error";
 
 export default function Results() {
   const [raceResults, setRaceResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingFeatured, setLoadingFeatured] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [selectedYear, setSelectedYear] = useState("2015");
-  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState("");
   const [featuredRaces, setFeaturedRaces] = useState([]);
   const [error, setError] = useState(null);
   const [errorFeatured, setErrorFeatured] = useState(null);
 
   const { withoutAllTime } = generateYearOptions();
-  const months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
+  const months = [
+    "Januari",
+    "Februari",
+    "Maart",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Augustus",
+    "September",
+    "Oktober",
+    "November",
+    "December",
+  ];
 
   // Convert month name to number (1-12)
   const getMonthNumber = (monthName) => {
-    return months.findIndex(month => month === monthName) + 1;
+    return months.findIndex((month) => month === monthName) + 1;
   };
 
   // Fetch data from API with filters
@@ -32,17 +49,21 @@ export default function Results() {
     setLoading(true);
     setError(null);
     try {
-      const monthParam = selectedMonth ? `&month=${getMonthNumber(selectedMonth)}` : '';
-      const searchParam = searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : '';
-      
+      const monthParam = selectedMonth
+        ? `&month=${getMonthNumber(selectedMonth)}`
+        : "";
+      const searchParam = searchTerm
+        ? `&search=${encodeURIComponent(searchTerm)}`
+        : "";
+
       const endpoint = `stages/getRecentStageRaceWinners?year=${selectedYear}${monthParam}${searchParam}`;
       const data = await callAPI("GET", endpoint);
-      
+
       setRaceResults(data.recent_stage_race_winners || []);
       setSearchResults([]); // Clear search results after fetching
     } catch (error) {
-      console.error('Error fetching race results:', error);
-      setError('Failed to load race results. Please try again later.');
+      console.error("Error fetching race results:", error);
+      setError("Failed to load race results. Please try again later.");
       setRaceResults([]);
     } finally {
       setLoading(false);
@@ -57,7 +78,7 @@ export default function Results() {
       const [victoryRes, teamRes, bestRes] = await Promise.all([
         callAPI("GET", `stages/getCurrentVictoryRanking?year=${selectedYear}`),
         callAPI("GET", `stages/getCurrentTeamRanking?year=${selectedYear}`),
-        callAPI("GET", `stages/getBestRidersOfRecentYear?year=${selectedYear}`)
+        callAPI("GET", `stages/getBestRidersOfRecentYear?year=${selectedYear}`),
       ]);
 
       const featured = [];
@@ -68,9 +89,9 @@ export default function Results() {
         featured.push({
           title: victoryRes.message,
           rider: topRider.rider_name,
-          flag: `/images/flags/${topRider.rider_country.toLowerCase()}.svg`,
+          flag: topRider.rider_country.toLowerCase(),
           speed: `${topRider.wins}`,
-          image: '/images/player6.png'
+          // image: '/images/player6.png'
         });
       }
 
@@ -80,28 +101,30 @@ export default function Results() {
         featured.push({
           title: teamRes.message,
           rider: topTeam.team_name,
-          flag: '/images/flag-placeholder.svg',
+          // flag: '/images/flag-placeholder.svg',
           speed: `${topTeam.total_wins}`,
-          image: '/images/player6.png'
+          // image: '/images/player6.png'
         });
       }
-     
+
       // Best Rider of the Year
       if (bestRes?.data?.top_riders?.length) {
         const best = bestRes.data.top_riders[0];
         featured.push({
           title: bestRes.message,
           rider: best.rider_name,
-          flag: `/images/flags/${best.rider_country.toLowerCase()}.svg`,
+          flag: best.rider_country.toLowerCase(),
           speed: best.wins,
-          image: '/images/player6.png'
+          // image: '/images/player6.png'
         });
       }
 
       setFeaturedRaces(featured);
     } catch (error) {
       console.error("Error fetching featured races:", error);
-      setErrorFeatured('Failed to load featured races. Please try again later.');
+      setErrorFeatured(
+        "Failed to load featured races. Please try again later."
+      );
       setFeaturedRaces([]);
     } finally {
       setLoadingFeatured(false);
@@ -117,14 +140,14 @@ export default function Results() {
   // Close search dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest('.searchInput')) {
+      if (!event.target.closest(".searchInput")) {
         setShowSearchDropdown(false);
       }
     };
-    
-    document.addEventListener('mousedown', handleClickOutside);
+
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -134,7 +157,7 @@ export default function Results() {
       const delayDebounce = setTimeout(() => {
         fetchSearchSuggestions();
       }, 300); // 300ms delay
-      
+
       return () => clearTimeout(delayDebounce);
     } else {
       setSearchResults([]);
@@ -145,27 +168,29 @@ export default function Results() {
   // Fetch search suggestions separately from results
   const fetchSearchSuggestions = async () => {
     try {
-      const monthParam = selectedMonth ? `&month=${getMonthNumber(selectedMonth)}` : '';
+      const monthParam = selectedMonth
+        ? `&month=${getMonthNumber(selectedMonth)}`
+        : "";
       const searchParam = `&search=${encodeURIComponent(searchTerm)}`;
-      
+
       const endpoint = `stages/getRecentStageRaceWinners?year=${selectedYear}${monthParam}${searchParam}`;
       const data = await callAPI("GET", endpoint);
-      
+
       // Extract unique race names from results for the dropdown
       const uniqueRaces = Array.from(
         new Set(
-          (data.recent_stage_race_winners || []).map(item => item.race_name)
+          (data.recent_stage_race_winners || []).map((item) => item.race_name)
         )
-      ).map(raceName => {
+      ).map((raceName) => {
         return {
-          race_name: raceName
+          race_name: raceName,
         };
       });
-      
+
       setSearchResults(uniqueRaces);
       setShowSearchDropdown(uniqueRaces.length > 0);
     } catch (error) {
-      console.error('Error fetching search suggestions:', error);
+      console.error("Error fetching search suggestions:", error);
       setSearchResults([]);
     }
   };
@@ -201,7 +226,7 @@ export default function Results() {
 
   // Clear search
   const clearSearch = () => {
-    setSearchTerm('');
+    setSearchTerm("");
     setSearchResults([]);
     setShowSearchDropdown(false);
     fetchRaceResults();
@@ -220,32 +245,48 @@ export default function Results() {
             <div className="row">
               <div className="col-lg-12">
                 <ul className="breadcrumb">
-                  <li><Link href="/">home</Link></li>
+                  <li>
+                    <Link href="/">home</Link>
+                  </li>
                   <li>results</li>
                 </ul>
                 <h1>Results</h1>
                 <div className="searchInput">
                   <form onSubmit={handleSearch}>
                     <div className="wraper">
-                      <input 
-                        type="text" 
-                        placeholder="welke wedstrijd zoek je?" 
+                      <input
+                        type="text"
+                        placeholder="welke wedstrijd zoek je?"
                         value={searchTerm}
                         onChange={handleSearchInput}
-                        onFocus={() => searchResults.length > 0 && setShowSearchDropdown(true)}
+                        onFocus={() =>
+                          searchResults.length > 0 &&
+                          setShowSearchDropdown(true)
+                        }
                       />
                       <div className="icon">
-                        <img src="/images/search-icon.svg" alt="Search" onClick={handleSearch} />
-                        <input type="reset" value="" className="close" onClick={clearSearch} />
+                        <img
+                          src="/images/search-icon.svg"
+                          alt="Search"
+                          onClick={handleSearch}
+                        />
+                        <input
+                          type="reset"
+                          value=""
+                          className="close"
+                          onClick={clearSearch}
+                        />
                       </div>
                     </div>
                     {showSearchDropdown && searchResults.length > 0 && (
                       <div>
                         <ul>
                           {searchResults.map((result, index) => (
-                            <li 
-                              key={index} 
-                              onClick={() => handleSuggestionSelect(result.race_name)}
+                            <li
+                              key={index}
+                              onClick={() =>
+                                handleSuggestionSelect(result.race_name)
+                              }
                             >
                               <span>{result.race_name}</span>
                             </li>
@@ -266,20 +307,25 @@ export default function Results() {
               <div className="col-lg-12">
                 <ul className="filter">
                   <li className="active">
-                    <select 
-                      value={selectedYear} 
-                      onChange={handleYearChange} 
+                    <select
+                      value={selectedYear}
+                      onChange={handleYearChange}
                       id="yearSelect"
                     >
                       {withoutAllTime.map((year) => (
-                        <option key={year} value={year}>{year}</option>
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
                       ))}
                     </select>
                   </li>
-                  {months.map(month => (
-                    <li key={month} className={selectedMonth === month ? 'active' : ''}>
-                      <Link 
-                        href="#" 
+                  {months.map((month) => (
+                    <li
+                      key={month}
+                      className={selectedMonth === month ? "active" : ""}
+                    >
+                      <Link
+                        href="#"
                         onClick={(e) => {
                           e.preventDefault();
                           setSelectedMonth(month);
@@ -291,22 +337,23 @@ export default function Results() {
                   ))}
                 </ul>
                 <div className="select-box">
-                  <select 
-                    value={selectedYear} 
-                    onChange={handleYearChange} 
+                  <select
+                    value={selectedYear}
+                    onChange={handleYearChange}
                     className="active"
                   >
                     {withoutAllTime.map((year) => (
-                      <option key={year} value={year}>{year}</option>
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
                     ))}
                   </select>
-                  <select 
-                    value={selectedMonth} 
-                    onChange={handleMonthChange}
-                  >
+                  <select value={selectedMonth} onChange={handleMonthChange}>
                     <option value="">Month</option>
-                    {months.map(month => (
-                      <option key={month} value={month}>{month}</option>
+                    {months.map((month) => (
+                      <option key={month} value={month}>
+                        {month}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -319,27 +366,61 @@ export default function Results() {
                   <li>Winner</li>
                   <li>Team</li>
                 </ul>
-                
+
                 {loading ? (
-                  <div className="loading-spinner"><ListSkeleton/></div>
+                  <div className="loading-spinner">
+                    <ListSkeleton />
+                  </div>
                 ) : error ? (
-                <div className="col-12"><ErrorStats message={error} /></div>
+                  <div className="col-12">
+                    <ErrorStats message={error} />
+                  </div>
                 ) : raceResults.length > 0 ? (
                   <ul className="transparent-cart">
                     {raceResults.map((item, idx) => (
                       <li key={idx}>
                         <span>{item.date}</span>
                         <h5>
-                          <Flag code={item.country_code.toUpperCase()} style={{ width: '30px', height: '20px', marginRight: '10px' }} />
-                          <Link href={`/races/${encodeURIComponent(item.race_name)}`}>{item.race_name}</Link>
+                          <Flag
+                            code={item.country_code.toUpperCase()}
+                            style={{
+                              width: "30px",
+                              height: "20px",
+                              marginRight: "10px",
+                            }}
+                          />
+                          <Link
+                            href={`/races/${encodeURIComponent(
+                              item.race_name
+                            )}`}
+                          >
+                            {item.race_name}
+                          </Link>
                         </h5>
                         <h6>
-                          <Flag code={item.rider_country.toUpperCase()} style={{ width: '30px', height: '20px', marginRight: '10px' }} />
+                          <Flag
+                            code={item.rider_country.toUpperCase()}
+                            style={{
+                              width: "30px",
+                              height: "20px",
+                              marginRight: "10px",
+                            }}
+                          />
                           {item.rider_name}
                         </h6>
                         <h6>{item.team_name}</h6>
-                        <Link href={`/race-result/${encodeURIComponent(item.race_id)}`} className="r-details">
-                          <img src="/images/eye.svg" alt="Details" width="24" height="24" />
+                        <Link
+                          href={`/race-result/${encodeURIComponent(
+                            item.race_id
+                          )}`}
+                          className="r-details"
+                        >
+                          <img
+                            src="/images/eye.svg"
+                            alt="Details"
+                            width="24"
+                            height="24"
+                          />
                         </Link>
                       </li>
                     ))}
@@ -348,12 +429,16 @@ export default function Results() {
                   <div className="no-results">No race results found</div>
                 )}
               </div>
-              
+
               <div className="col-lg-3 col-md-5">
                 {loadingFeatured ? (
-                  <div className="loading-spinner"><CardSkeleton/></div>
+                  <div className="loading-spinner">
+                    <CardSkeleton />
+                  </div>
                 ) : errorFeatured ? (
-             <div className="col-12"><ErrorStats message={errorFeatured} /></div>
+                  <div className="col-12">
+                    <ErrorStats message={errorFeatured} />
+                  </div>
                 ) : featuredRaces.length > 0 ? (
                   featuredRaces.map((race, index) => (
                     <div className="team-cart" key={index}>
@@ -361,21 +446,28 @@ export default function Results() {
                       <div className="text-wraper">
                         <h4 className="font-size-change">{race.title}</h4>
                         <div className="name-wraper">
-                          <img 
-                            src={race.flag} 
-                            alt="" 
-                            onError={(e) => { e.target.src = '/images/flag-placeholder.svg' }}
+                          <Flag
+                            code={race?.flag}
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginLeft: "10px",
+                            }}
                           />
                           <h6>{race.rider}</h6>
                         </div>
                       </div>
-                      <h5><strong>{race.speed}</strong></h5>
-                      <img 
+                      {race?.speed && (
+                        <h5>
+                          <strong>{race.speed}</strong> wins
+                        </h5>
+                      )}
+                      {/* <img 
                         src={race.image} 
                         alt="" 
                         className="absolute-img" 
                         onError={(e) => { e.target.src = '/images/player-placeholder.png' }}
-                      />
+                      /> */}
                       <a href="#" className="green-circle-btn">
                         <img src="/images/arow.svg" alt="" />
                       </a>

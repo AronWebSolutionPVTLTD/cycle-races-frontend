@@ -1,8 +1,14 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { callAPI } from '@/lib/api';
-import Flag from 'react-world-flags';
-import Link from 'next/link';
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { callAPI } from "@/lib/api";
+import Flag from "react-world-flags";
+import Link from "next/link";
+import { generateYearOptions } from "@/components/GetYear";
+import {
+  CardSkeleton,
+  ErrorStats,
+  ListSkeleton,
+} from "@/components/loading&error";
 
 export default function RaceResultPage() {
   const router = useRouter();
@@ -12,47 +18,82 @@ export default function RaceResultPage() {
   const [race, setRace] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedYear, setSelectedYear] = useState('2024');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
+  const [selectedYear, setSelectedYear] = useState("2024");
+  // const [searchTerm, setSearchTerm] = useState('');
+  // const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  // const [searchResults, setSearchResults] = useState([]);
   const [featuredStats, setFeaturedStats] = useState([]);
+  const [loadingFeatured, setLoadingFeatured] = useState(true);
+  const [errorFeatured, setErrorFeatured] = useState(null);
+  const { withoutAllTime } = generateYearOptions();
 
   const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
-  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState("");
+
+  // Convert month name to number (1-12)
+  const getMonthNumber = (monthName) => {
+    return months.findIndex((month) => month === monthName) + 1;
+  };
 
   const fetchRaceDetails = async (raceId) => {
+    setIsLoading(true);
+    setError(null);
     try {
-      setIsLoading(true);
+      const monthParam = selectedMonth
+        ? `&month=${getMonthNumber(selectedMonth)}`
+        : "";
       const response = await callAPI(
-        'GET',
-        `/raceDetailsStats/${raceId}/getRaceDetails`
+        "GET",
+        `/raceDetailsStats/${raceId}/getRaceDetails?year=${selectedYear}${monthParam}`
       );
       if (response?.data) {
         setRace(response.data);
         await fetchFeaturedStats(raceId);
       } else {
-        throw new Error('Invalid API response format');
+        throw new Error("Invalid API response format");
       }
     } catch (err) {
-      setError(err.message || 'Failed to load race data');
+      setError(err || "Failed to load race data");
+      setError("Failed to load race data. Please try again later.");
+      setRaceResults([]);
     } finally {
       setIsLoading(false);
     }
   };
 
   const fetchFeaturedStats = async (raceId) => {
+    setLoadingFeatured(true);
+    setErrorFeatured(null);
     try {
       // Fetch all stats in parallel
-      const [winnersByNationality, oldestRider, youngestRider, bestTeam] = await Promise.all([
-        callAPI('GET', `/stages/${raceId}/getRaceWinnersByNationality`),
-        callAPI('GET', `/stages/${raceId}/getOldestRiderInRace`),
-        callAPI('GET', `/stages/${raceId}/getYoungestRiderInRace`),
-        callAPI('GET', `/stages/${raceId}/getBestTeamInRace`)
-      ]);
+      const [winnersByNationality, oldestRider, youngestRider, bestTeam] =
+        await Promise.all([
+          callAPI("GET", `/stages/${raceId}/getRaceWinnersByNationality`),
+          callAPI("GET", `/stages/${raceId}/getOldestRiderInRace`),
+          callAPI("GET", `/stages/${raceId}/getYoungestRiderInRace`),
+          callAPI("GET", `/stages/${raceId}/getBestTeamInRace`),
+        ]);
+
+      console.log(
+        winnersByNationality,
+        oldestRider,
+        youngestRider,
+        bestTeam,
+        "dsf"
+      );
 
       const stats = [];
 
@@ -60,109 +101,62 @@ export default function RaceResultPage() {
       if (winnersByNationality?.data?.data?.length > 0) {
         const topNationality = winnersByNationality.data.data[0];
         stats.push({
-          title: 'Top Nationality',
-          rider: `${topNationality.wins} win${topNationality.wins > 1 ? 's' : ''}`,
-          flag: `/images/flags/${topNationality.country_code.toLowerCase()}.svg`,
-          image: '/images/rider-placeholder.png',
+          title: winnersByNationality?.message || "Top Nationality",
+          rider: topNationality.country_code.toUpperCase(),
+          flag: topNationality.country_code.toLowerCase(),
           value: topNationality.wins,
-          unit: 'wins'
+          unit: "wins",
         });
       }
 
       // Add oldest rider if available
       if (oldestRider?.data) {
         stats.push({
-          title: 'Oldest Rider',
+          title: oldestRider?.message || "Oldest Rider",
           rider: oldestRider.data.rider_name,
-          speed: oldestRider.data.age,
-          flag: `/images/flags/${oldestRider.data.country_code.toLowerCase()}.svg`,
-          image: '/images/rider-placeholder.png',
+          flag: oldestRider.data.rider_country.toLowerCase(),
           value: oldestRider.data.age,
-          unit: 'years'
+          unit: "jaar",
         });
       }
 
       // Add youngest rider if available
       if (youngestRider?.data) {
         stats.push({
-          title: 'Youngest Rider',
+          title: youngestRider?.message || "Youngest Rider",
           rider: youngestRider.data.rider_name,
-          speed: youngestRider.data.age,
-          flag: `/images/flags/${youngestRider.data.country_code.toLowerCase()}.svg`,
-          image: '/images/rider-placeholder.png',
+          flag: youngestRider.data.rider_country.toLowerCase(),
           value: youngestRider.data.age,
-          unit: 'years'
+          unit: "jaar",
         });
       }
 
       // Add best team if available
       if (bestTeam?.data) {
         stats.push({
-          title: 'Best Team',
+          title: bestTeam.message || "Best Team",
           rider: bestTeam.data.team_name,
           speed: bestTeam.data.rider_count,
-          flag: '/images/team-icon.svg',
-          image: '/images/rider-placeholder.png',
+          flag: "/images/team-icon.svg",
           value: bestTeam.data.rider_count,
-          unit: 'riders'
+          unit: "riders",
         });
-      }
-
-      // Fallback if no stats were found
-      if (stats.length === 0) {
-        stats.push(
-          {
-            title: 'Fastest Sprint',
-            rider: 'Fabio Jakobsen',
-            speed: '72.5',
-            flag: '/images/flags/ned.svg',
-            image: '/images/rider-placeholder.png',
-            value: '72.5',
-            unit: 'km/ph'
-          },
-          {
-            title: 'Most Wins',
-            rider: 'Tadej Pogačar',
-            speed: '28',
-            flag: '/images/flags/slo.svg',
-            image: '/images/rider-placeholder.png',
-            value: '28',
-            unit: 'wins'
-          }
-        );
       }
 
       setFeaturedStats(stats);
     } catch (err) {
-      console.error('Error fetching featured stats:', err);
-      // Fallback to default stats if API calls fail
-      setFeaturedStats([
-        {
-          title: 'Fastest Sprint',
-          rider: 'Fabio Jakobsen',
-          speed: '72.5',
-          flag: '/images/flags/ned.svg',
-          image: '/images/rider-placeholder.png',
-          value: '72.5',
-          unit: 'km/ph'
-        },
-        {
-          title: 'Most Wins',
-          rider: 'Tadej Pogačar',
-          speed: '28',
-          flag: '/images/flags/slo.svg',
-          image: '/images/rider-placeholder.png',
-          value: '28',
-          unit: 'wins'
-        }
-      ]);
+      console.error("Error fetching featured stats:", err);
+      setErrorFeatured("Failed to load race data . Please try again later.");
+      setFeaturedStats([]);
+    } finally {
+      setLoadingFeatured(false);
     }
   };
 
   useEffect(() => {
     if (router.isReady) {
       setIsRouterReady(true);
-      if (typeof id === 'string') {
+      if (typeof id === "string") {
         fetchRaceDetails(id);
       }
     }
@@ -176,85 +170,38 @@ export default function RaceResultPage() {
     setSelectedMonth(e.target.value);
   };
 
-  const handleSearchInput = (e) => {
-    setSearchTerm(e.target.value);
-    // Implement search logic here if needed
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // Implement search logic here
-  };
-
-  const clearSearch = () => {
-    setSearchTerm('');
-    setSearchResults([]);
-    setShowSearchDropdown(false);
-  };
-
-  const handleSuggestionSelect = (raceName) => {
-    setSearchTerm(raceName);
-    setShowSearchDropdown(false);
-    // Implement navigation or search here
-  };
   const convertTimeToSeconds = (timeStr) => {
-    if (!timeStr) return null;  // return null if no time
-    const [h, m, s] = timeStr.split(':').map(Number);
+    if (!timeStr) return null; // return null if no time
+    const [h, m, s] = timeStr.split(":").map(Number);
     return h * 3600 + m * 60 + s;
   };
-  
+
   const formatTimeToDisplay = (timeStr) => {
-    if (!timeStr) return '';
-    const [h, m, s] = timeStr.split(':').map(str => parseInt(str, 10));
-    return `${h}h${m.toString().padStart(2, '0')}${s.toString().padStart(2, '0')}`;
+    if (!timeStr) return "";
+    const [h, m, s] = timeStr.split(":").map((str) => parseInt(str, 10));
+    return `${h}h${m.toString().padStart(2, "0")}${s
+      .toString()
+      .padStart(2, "0")}`;
   };
-  
+
   const getTimeGapDisplay = (baseTime, compareTime) => {
-    if (!baseTime || !compareTime) return ''; // empty string if either time missing
-  
+    if (!baseTime || !compareTime) return ""; // empty string if either time missing
+
     const base = convertTimeToSeconds(baseTime);
     const compare = convertTimeToSeconds(compareTime);
-  
-    if (base === null || compare === null) return ''; // empty if parse failed
-  
+
+    if (base === null || compare === null) return ""; // empty if parse failed
+
     const diff = compare - base;
-  
+
     // Always show time, even if diff === 0 (same time)
     if (diff <= 0) return formatTimeToDisplay(compareTime);
-  
+
     const minutes = Math.floor(diff / 60);
     const seconds = diff % 60;
-  
+
     return minutes > 0 ? `+${minutes}'${seconds}"` : `+${seconds}"`;
   };
-  
-  if (!isRouterReady || isLoading) {
-    return (
-      <div className="container py-12">
-        <div className="text-center">
-          <div className="w-8 h-8 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p>Loading race data...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen flex flex-col justify-center items-center text-center px-4">
-        <h2 className="text-2xl font-bold text-red-600">Error loading race data</h2>
-        <p className="mt-2 text-gray-600">{error}</p>
-        <button
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          onClick={() => router.reload()}
-        >
-          Try Again
-        </button>
-      </div>
-    );
-  }
-
-  if (!race) return null;
 
   return (
     <main>
@@ -263,11 +210,19 @@ export default function RaceResultPage() {
           <div className="row">
             <div className="col-lg-12">
               <ul className="breadcrumb">
-                <li><Link href="/">home</Link></li>
-                <li><Link href="/races">race</Link></li>
-                <li>{race.race_name}</li>
+                <li>
+                  <Link href="/">home</Link>
+                </li>
+                <li>
+                  <Link href="/races">race</Link>
+                </li>
+                <li>{race?.race_name}</li>
               </ul>
-              <h1>{race.race_name.toUpperCase()}</h1>
+              {isLoading ? (
+                "Loading..."
+              ) : (
+                <h1>{race?.race_name.toUpperCase()}</h1>
+              )}
             </div>
           </div>
         </div>
@@ -279,21 +234,25 @@ export default function RaceResultPage() {
             <div className="col-lg-12">
               <ul className="filter">
                 <li className="active">
-                  <select 
-                    value={selectedYear} 
-                    onChange={handleYearChange} 
+                  <select
+                    value={selectedYear}
+                    onChange={handleYearChange}
                     id="yearSelect"
                   >
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
-                    <option value="2021">2021</option>
+                    {withoutAllTime.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
                   </select>
                 </li>
-                {months.map(month => (
-                  <li key={month} className={selectedMonth === month ? 'active' : ''}>
-                    <Link 
-                      href="#" 
+                {months.map((month) => (
+                  <li
+                    key={month}
+                    className={selectedMonth === month ? "active" : ""}
+                  >
+                    <Link
+                      href="#"
                       onClick={(e) => {
                         e.preventDefault();
                         setSelectedMonth(month);
@@ -304,6 +263,27 @@ export default function RaceResultPage() {
                   </li>
                 ))}
               </ul>
+              <div className="select-box">
+                <select
+                  value={selectedYear}
+                  onChange={handleYearChange}
+                  className="active"
+                >
+                  {withoutAllTime.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+                <select value={selectedMonth} onChange={handleMonthChange}>
+                  <option value="">Month</option>
+                  {months.map((month) => (
+                    <option key={month} value={month}>
+                      {month}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div className="col-lg-9 col-md-7">
@@ -313,60 +293,93 @@ export default function RaceResultPage() {
                 <li>Team</li>
                 <li>Time</li>
               </ul>
-              
-              <ul className="transparent-cart">
-                {race.riders?.sort((a, b) => a.rank - b.rank).slice(0, 25).map((rider, index) => (
-                  <li key={index}>
-                    <span>{index + 1}</span>
-                    <h5>
-                      <Flag 
-                        code={rider.country_code?.toUpperCase() || 'BE'} 
-                        style={{ width: '30px', height: '20px', marginRight: '10px' }} 
-                      />
-                      {rider.rider_name.toUpperCase()}
-                    </h5>
-                    <h6>{rider.team_name}</h6>
-                    <h6 className="time-result">
-                      {index === 0
-                        ? formatTimeToDisplay(rider.time)
-                        : getTimeGapDisplay(race.riders[0]?.time, rider.time)}
-                    </h6>
-                    <Link 
-                      href={`/rider/${encodeURIComponent(rider.rider_name)}`} 
-                      className="r-details"
-                    >
-                      <img src="/images/hover-arow.svg" alt="Details" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div className="col-lg-3 col-md-5">
-              {featuredStats.map((stat, index) => (
-                <div className="team-cart" key={index}>
-                  <div className="text-wraper">
-                    <h4 className="font-size-change">{stat.title}</h4>
-                    <div className="name-wraper">
-                      {/* <img 
-                        src={stat.flag} 
-                        alt="" 
-                        onError={(e) => { e.target.src = '/images/flag-placeholder.svg' }}
-                      /> */}
-                      <h6>{stat.rider}</h6>
-                    </div>
-                  </div>
-                  <h5>
-                    <strong>{stat.value}</strong>
-                    {stat.unit && ` ${stat.unit}`}
-                  </h5>
-                  <img src={stat.image} alt="" className="absolute-img" />
-                  <Link href="#" className="green-circle-btn">
-                    <img src="/images/arow.svg" alt="" />
-                  </Link>
+
+              {isLoading || !isRouterReady ? (
+                <div className="loading-spinner">
+                  <ListSkeleton />
                 </div>
-                
-              ))}
+              ) : error ? (
+                <div className="col-12">
+                  <ErrorStats message={error} />
+                </div>
+              ) : race.riders.length > 0 ? (
+                <ul className="transparent-cart">
+                  {race.riders
+                    ?.sort((a, b) => a.rank - b.rank)
+                    .slice(0, 25)
+                    .map((rider, index) => (
+                      <li key={index}>
+                        <span>{index + 1}</span>
+                        <h5>
+                          <Flag
+                            code={rider.country_code?.toUpperCase()}
+                            style={{
+                              width: "30px",
+                              height: "20px",
+                              marginRight: "10px",
+                            }}
+                          />
+                          {rider.rider_name.toUpperCase()}
+                        </h5>
+                        <h6>{rider.team_name}</h6>
+                        <h6 className="time-result">
+                          {index === 0
+                            ? formatTimeToDisplay(rider.time)
+                            : getTimeGapDisplay(
+                                race.riders[0]?.time,
+                                rider.time
+                              )}
+                        </h6>
+                        <Link href="#" className="r-details">
+                          <img src="/images/hover-arow.svg" alt="Details" />
+                        </Link>
+                      </li>
+                    ))}
+                </ul>
+              ) : (
+                <div className="no-results">No race results found</div>
+              )}
+            </div>
+
+            <div className="col-lg-3 col-md-5">
+              {loadingFeatured ? (
+                <div className="loading-spinner">
+                  <CardSkeleton />
+                </div>
+              ) : errorFeatured ? (
+                <div className="col-12">
+                  <ErrorStats message={errorFeatured} />
+                </div>
+              ) : featuredStats.length > 0 ? (
+                featuredStats.map((stat, index) => (
+                  <div className="team-cart" key={index}>
+                    <div className="text-wraper">
+                      <h4 className="font-size-change">{stat.title}</h4>
+                      <div className="name-wraper">
+                        <Flag
+                          code={stat.flag}
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginLeft: "10px",
+                          }}
+                        />
+                        <h6>{stat.rider}</h6>
+                      </div>
+                    </div>
+                    <h5>
+                      <strong>{stat.value}</strong>
+                      {stat.unit && ` ${stat.unit}`}
+                    </h5>
+
+                    <Link href="#" className="green-circle-btn">
+                      <img src="/images/arow.svg" alt="" />
+                    </Link>
+                  </div>
+                ))
+              ) : (
+                <div className="no-results">No featured races available</div>
+              )}
             </div>
           </div>
         </div>

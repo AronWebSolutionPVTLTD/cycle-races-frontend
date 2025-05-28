@@ -1,43 +1,17 @@
 
 import React from 'react';
 
-// Enhanced Loading component that matches the existing design aesthetic
-// export const LoadingStats = () => (
-//   <div className="loading-container text-center p-5 my-4 bg-light rounded shadow-sm">
-//     <div className="spinner-border text-primary mb-3" role="status">
-//       <span className="visually-hidden">Loading...</span>
-//     </div>
-//     <h3 className="text-muted">Loading statistics...</h3>
-//     <p className="text-muted">Please wait while we fetch the latest data.</p>
-//   </div>
-// );
 
 export const LoadingStats = () => (
   <div className="list-white-cart loading-container text-center p-4 my-3">
     <div className="d-flex flex-column align-items-center justify-content-center">
-      {/* Custom loader with site's green color */}
-      {/* <div className="spinner mb-3" style={{ width: '48px', height: '48px' }}>
-        <img src="/images/loading-spinner.svg" alt="Loading" className="w-100 h-100" 
-             onError={(e) => {
-               e.target.onerror = null;
-               e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'%3E%3Cpath fill='%2308a951' d='M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z' opacity='.25'/%3E%3Cpath fill='%2308a951' d='M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z'%3E%3CanimateTransform attributeName='transform' dur='0.75s' repeatCount='indefinite' type='rotate' values='0 12 12;360 12 12'/%3E%3C/path%3E%3C/svg%3E";
-             }}
-        />
-      </div> */}
-      {/* <h4 className="mb-2">Loading statistics</h4>
-      <p className="text-muted small mb-3">We halen de laatste statistieken op</p> */}
-      
-      {/* Visual placeholders that match the page design */}
-      <div className="w-100 placeholder-loading">
+     <div className="w-100 placeholder-loading">
         <div className="loading-bar mb-2" style={{ height: '30px', width: '40%', backgroundColor: '#f0f0f0', borderRadius: '4px' }}></div>
         <div className="loading-bar mb-2" style={{ height: '30px', width: '75%', backgroundColor: '#f0f0f0', borderRadius: '4px' }}></div>
         <div className="loading-bar" style={{ height: '30px', width: '60%', backgroundColor: '#f0f0f0', borderRadius: '4px' }}></div>
       </div>
     </div>
-    {/* <a href="#?" className="green-circle-btn disabled">
-      <img src="/images/arow.svg" alt="" />
-    </a> */}
-  </div>
+ </div>
 );
 
 // Enhanced Error component that matches the existing design aesthetic
@@ -110,7 +84,7 @@ export const PartialDataWarning = ({ visibleCardCount, totalEndpoints, error }) 
 
 export const BoxSkeleton = () => {
   return (
-    <div className="container-fluid py-3">
+    <div className="container py-3">
       <div className="row g-3">
         {/* Duarte Runner Card */}
         <div className="col-md-4">

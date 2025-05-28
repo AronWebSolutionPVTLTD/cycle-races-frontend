@@ -549,7 +549,7 @@ const RiderSectionTwo = ({ riderId, filterYear }) => {
                     </div>
                   </div>
 
-                  {fourthSectionEndpoint === "getFirstRankInGrandTours" ? (
+                  {/* {fourthSectionEndpoint === "getFirstRankInGrandTours" ? (
                     <>
                       <h5 style={{ textAlign: "left", marginBottom: "8px" }}>
                         First rank races:
@@ -698,7 +698,180 @@ const RiderSectionTwo = ({ riderId, filterYear }) => {
                         ? "days"
                         : ""}
                     </h5>
-                  )}
+                  )} */}
+                  {fourthSectionEndpoint === "getFirstRankInGrandTours" ? (
+  <>
+    {(() => {
+      const firstRankRaces = getSafeData(
+        fourthSectionEndpoint,
+        "data.data.first_rank_races",
+        []
+      ) || [];
+      
+      return firstRankRaces.length > 0 ? (
+        <>
+          <h5 style={{ textAlign: "left", marginBottom: "8px" }}>
+            First rank races:
+          </h5>
+          <ul
+            style={{
+              paddingLeft: "20px",
+              marginBottom: "10px",
+              listStyleType: "disc",
+            }}
+          >
+            {firstRankRaces
+              .slice(0, 5)
+              .map((rider, index) => (
+                <li
+                  key={index}
+                  style={{
+                    marginBottom: "6px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    color: "#333",
+                  }}
+                >
+                  <div
+                    className="name-wraper"
+                    style={{ fontWeight: "500" }}
+                  >
+                    {rider.race}
+                  </div>
+                  <span style={{ color: "#555" }}>
+                    {rider.year} wins
+                  </span>
+                </li>
+              ))}
+          </ul>
+        </>
+      ) : null;
+    })()}
+  </>
+) : fourthSectionEndpoint === "getFirstRankInMonuments" ? (
+  <>
+    {(() => {
+      const firstRankRaces = getSafeData(
+        fourthSectionEndpoint,
+        "data.data.first_rank_races",
+        []
+      ) || [];
+      
+      return firstRankRaces.length > 0 ? (
+        <>
+          <h5 style={{ textAlign: "left", marginBottom: "8px" }}>
+            First rank races:
+          </h5>
+          <ul
+            style={{
+              paddingLeft: "20px",
+              marginBottom: "10px",
+              listStyleType: "disc",
+            }}
+          >
+            {firstRankRaces
+              .slice(0, 5)
+              .map((rider, index) => (
+                <li
+                  key={index}
+                  style={{
+                    marginBottom: "6px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    color: "#333",
+                  }}
+                >
+                  <div
+                    className="name-wraper"
+                    style={{ fontWeight: "500" }}
+                  >
+                    {rider.race}
+                  </div>
+                  <span style={{ color: "#555" }}>
+                    {rider.year}
+                  </span>
+                </li>
+              ))}
+          </ul>
+        </>
+      ) : null;
+    })()}
+  </>
+) : fourthSectionEndpoint === "getTop10StagesInGrandTours" ? (
+  <>
+    {(() => {
+      const topStages = getSafeData(
+        fourthSectionEndpoint,
+        "data.data.top_10_stages",
+        []
+      ) || [];
+      
+      return topStages.length > 0 ? (
+        <>
+          <h5 style={{ textAlign: "left", marginBottom: "8px" }}>
+            Top stages:
+          </h5>
+          <ul
+            style={{
+              paddingLeft: "20px",
+              marginBottom: "10px",
+              listStyleType: "disc",
+            }}
+          >
+            {topStages
+              .slice(0, 5)
+              .map((rider, index) => (
+                <li
+                  key={index}
+                  style={{
+                    marginBottom: "6px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    color: "#333",
+                  }}
+                >
+                  <div
+                    className="name-wraper"
+                    style={{ fontWeight: "500" }}
+                  >
+                    {rider.race}
+                  </div>
+                  <span style={{ color: "#555" }}>
+                    {rider.year}
+                  </span>
+                </li>
+              ))}
+          </ul>
+        </>
+      ) : null;
+    })()}
+  </>
+) : (
+  <>
+    {(() => {
+      const totalRacingDays = getSafeData(
+        fourthSectionEndpoint,
+        "data.data.total_racing_days",
+        null
+      );
+      
+      return totalRacingDays && totalRacingDays !== "N/A" ? (
+        <h5 style={{ textAlign: "right" }}>
+          <strong style={{ fontSize: "16px", marginRight: "5px" }}>
+            {totalRacingDays}
+          </strong>
+          {fourthSectionEndpoint === "getTotalRacingDaysInGrandTours" ? "days" : ""}
+        </h5>
+      ) : null;
+    })()}
+  </>
+)}
                 </div>
                 <a href="#?" className="green-circle-btn">
                   <img src="/images/arow.svg" alt="" />

@@ -1,10 +1,12 @@
 // import { HomeData, useMultipleData } from "@/components/home/home_api_data";
+import FirstSection from "@/components/home/sections/FirstSection";
 import MostWin from "@/components/home/sections/MostWin";
 import ResultSection from "@/components/home/sections/ResultSection";
 import TeamsSection from "@/components/home/sections/TeamsSection";
 
 import ThisYearSection from "@/components/home/sections/ThisYearSection";
 import Upcoming from "@/components/home/sections/Upcoming";
+import YearSection from "@/components/home/sections/YearSection";
 import Head from "next/head";
 
 
@@ -18,11 +20,13 @@ return (
       </Head>
 
       <main>
-  <ResultSection/>
- <ThisYearSection/> 
-<MostWin/>
+  {/* <ResultSection/> */}
+  <ThisYearSection/>
+ <FirstSection/>
+<YearSection/> 
+   {/*<MostWin/>
 <Upcoming/>
-<TeamsSection/>
+<TeamsSection/> */}
       </main>
 
     </>
