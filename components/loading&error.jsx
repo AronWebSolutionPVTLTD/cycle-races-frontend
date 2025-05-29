@@ -250,6 +250,124 @@ export const BoxSkeleton = () => {
     </div>
   );
 };
+export const BoxSkeleton2 = () => {
+  return (
+    <div className="container py-3">
+      <div className="row g-3">
+        {/* Duarte Runner Card */}
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm" style={{ borderRadius: '0.5rem' }}>
+            <div className="card-body">
+              <div className="placeholder-glow">
+                <span className="placeholder bg-dark col-6 mb-3"></span>
+                <div className="mb-2">
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder col-12" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Oudste Speler Card */}
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm" style={{ borderRadius: '0.5rem' }}>
+            <div className="card-body">
+              <div className="placeholder-glow">
+                <div className="d-flex align-items-center mb-3">
+                  <span className="placeholder me-2" style={{ width: '60px', height: '16px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder bg-secondary col-7"></span>
+                </div>
+                 <div className="mb-2">
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                
+                </div>
+                <div className="text-center">
+                  <h1 className="display-4 text-secondary opacity-25">--</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Jongste Team Card */}
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm" style={{ borderRadius: '0.5rem' }}>
+            <div className="card-body">
+              <div className="placeholder-glow">
+                <div className="d-flex justify-content-center mb-2">
+                  <span className="placeholder" style={{ width: '60px', height: '16px', backgroundColor: '#999' }}></span>
+                </div>
+                <div className="text-center">
+                  <span className="placeholder col-6 mx-auto d-block mb-2" style={{ backgroundColor: '#999' }}></span>
+                  <h1 className="display-4 text-secondary opacity-25">--</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Races Card */}
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm" style={{ borderRadius: '0.5rem' }}>
+            <div className="card-body">
+              {/* <div className="placeholder-glow text-center">
+                <h1 className="display-4 text-secondary opacity-25">--</h1>
+              </div> */}
+                  <span className="placeholder bg-dark col-6 mb-3"></span>
+                 <div className="mb-2">
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                
+                </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Meest Aantal Deelnamers Card */}
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm" style={{ borderRadius: '0.5rem' }}>
+            <div className="card-body">
+              <div className="placeholder-glow">
+                <div className="d-flex align-items-center mb-3">
+                  <span className="placeholder me-2" style={{ width: '60px', height: '16px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder bg-secondary col-7"></span>
+                </div>
+                <div className="text-center">
+                  <h1 className="display-4 text-secondary opacity-25">--</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Oudste Team Card */}
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm" style={{ borderRadius: '0.5rem' }}>
+            <div className="card-body">
+              <div className="placeholder-glow">
+                <div className="d-flex justify-content-center mb-2">
+                  <span className="placeholder" style={{ width: '60px', height: '16px', backgroundColor: '#999' }}></span>
+                </div>
+                <div className="mb-2">
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                </div>
+                <div className="text-center">
+                  <h1 className="display-4 text-secondary opacity-25">--</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+    </div>
+  );
+};
 
 export const TwoSectionSkeleton = () => {
   return (

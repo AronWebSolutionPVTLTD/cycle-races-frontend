@@ -10,9 +10,9 @@ const MostWin = ({
   selectedYear = null
 }) => {
 const apiOptions = [
-    "mostWin",
+    // "mostWin",
     "mostStageWins",
-    "mostGCWins"
+    // "mostGCWins"
   ];
 
   // Initialize with a default API endpoint 
