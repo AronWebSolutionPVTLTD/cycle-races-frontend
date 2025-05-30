@@ -1,16 +1,16 @@
 import React from "react";
 import { useMultipleData } from "../../home_api_data";
-import { BoxSkeleton2, ErrorStats } from "../../loading&error";
+import { BoxSkeleton2, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
 
 const fixedApis = {
   box1: "olderstRiders",
   box2: "youngestMostWins",
-  box3: "stageTop10sRider",
+  box3: "mostmountainwins",
   box4: "mostSecondPlaces",
   box5: "lightestRider",
   box6: "shortestRace",
-  box7: "olderstRiders",
+  box7: "top10Stageteams",
 };
 
 const LastSection = () => {
@@ -39,28 +39,7 @@ const LastSection = () => {
     return { error: true, errorType: "no_data_found" };
   };
 
-  // Error message component
-  const ErrorMessage = ({ errorType = "general" }) => {
-    const errorMessages = {
-      api_error: "API Error",
-      no_data: "No Data Available",
-      no_endpoint_data: "No Endpoint Data",
-      null_data: "Data Not Found",
-      empty_array: "No Records Found",
-      empty_object: "No Information Available",
-      processing_error: "Data Processing Error",
-      no_data_found: "No Records Found", // Added this
-      general: "No Data Available",
-    };
 
-    return (
-      <div className="text-danger text-center py-3">
-        {errorMessages[errorType] || errorMessages.general}
-      </div>
-    );
-  };
-
-  console.log(data, "data");
 
   return (
     <section className="home-sec2">
@@ -93,7 +72,7 @@ const LastSection = () => {
                       )
                         .slice(0, 1)
                         .map((rider, index) => (
-                          <div className="text-wraper">
+                          <div className="text-wraper" key={index}>
                             <h4 className="font-size-change">
                               {" "}
                               {data?.[fixedApis.box1]?.message}
@@ -135,7 +114,7 @@ const LastSection = () => {
                       )
                         .slice(0, 1)
                         .map((rider, index) => (
-                          <div className="text-wraper">
+                          <div className="text-wraper" key={index}>
                             <h4 className="font-size-change">
                               {" "}
                               {data?.[fixedApis.box2]?.message}
@@ -165,43 +144,40 @@ const LastSection = () => {
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <a href="#?" className="pabs"></a>
+                  {(() => {
+                   if (!data?.[fixedApis.box3]) {
+                      return <ErrorMessage errorType="no_data" />;
+                    }
 
-                  {getBoxData(fixedApis.box6).error ? (
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box6).errorType}
-                    />
-                  ) : (
-                    <>
-                      {(Array.isArray(getBoxData(fixedApis.box6).data)
-                        ? getBoxData(fixedApis.box6).data
-                        : []
-                      )
-                        .slice(0, 1)
-                        .map((rider, index) => (
-                          <div className="text-wraper">
-                            <h4 className="font-size-change">
-                              {data?.[fixedApis.box6]?.message}
-                            </h4>
-                            <div className="name-wraper" key={index}>
-                              {renderFlag(rider?.rider_country)}
-                              <h6>{rider?.rider_key || "..."}</h6>
-                            </div>
+                    const response = data[fixedApis.box3];
+                    const riderData = response?.data;
 
-                            {rider?.total_distance !== undefined &&
-                              rider?.total_distance !== null && (
-                                <h5>
-                                  <strong>{rider.total_distance} </strong>{" "}
-                                  distance
-                                </h5>
-                              )}
+                    if (!riderData) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
+                    return (
+                      <>
+                        <div className="text-wraper">
+                          <h4 className="font-size-change">
+                            {data?.[fixedApis.box3]?.message}
+                          </h4>
+                          <div className="name-wraper">
+                            {renderFlag(riderData?.country)}
+                            <h6>{riderData?.rider_name || "..."}</h6>
                           </div>
-                        ))}
-
-                      <a href="#?" className="green-circle-btn">
-                        <img src="/images/arow.svg" alt="" />
-                      </a>
-                    </>
-                  )}
+                          {riderData?.totalKOMTitles && (
+                            <h5>
+                              <strong>{riderData.totalKOMTitles} </strong> wins
+                            </h5>
+                          )}
+                        </div>
+                        <a href="#?" className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
 
@@ -287,7 +263,6 @@ const LastSection = () => {
                 </div>
               </div>
               {/*Box 6 - Shortest race */}
-         {/* Box 6 - Shortest Races */}
 <div className="col-lg-3 col-md-6">
   <div className="team-cart">
     <a href="#?" className="pabs"></a>
@@ -299,7 +274,7 @@ const LastSection = () => {
     ) : (
       <>
         {(Array.isArray(getBoxData(fixedApis.box6).data)
-          ? getBoxData(fixedApis.box6).data  // ← Fixed: was box2, now box6
+          ? getBoxData(fixedApis.box6).data 
           : []
         )
           .slice(0, 1)
@@ -328,47 +303,46 @@ const LastSection = () => {
   </div>
 </div>
               {/*Box 7 -shortestRaces */}
-               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
-
-                  {getBoxData(fixedApis.box1).error ? (
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box1).errorType}
-                    />
-                  ) : (
-                    <>
-                      {(Array.isArray(getBoxData(fixedApis.box1).data)
-                        ? getBoxData(fixedApis.box1).data
-                        : []
-                      )
-                        .slice(0, 1)
-                        .map((rider, index) => (
-                          <div className="text-wraper">
-                            <h4 className="font-size-change">
-                              {" "}
-                              {data?.[fixedApis.box1]?.message}
-                            </h4>
-                            <div className="name-wraper" key={index}>
-                              {renderFlag(rider?.country)}
-                              <h6>{rider?.rider_name || "..."}</h6>
-                            </div>
-
-                            {rider?.age && (
-                              <h5>
-                                <strong>{rider.age} </strong> jaar
-                              </h5>
-                            )}
-                          </div>
-                        ))}
-
-                      <a href="#?" className="green-circle-btn">
-                        <img src="/images/arow.svg" alt="" />
-                      </a>
-                    </>
-                  )}
-                </div>
-              </div>
+            <div className="col-lg-3 col-md-6">
+                       <div className="team-cart lime-green-team-cart img-active">
+                         <a href="#?" className="pabs"></a>
+                         {getBoxData(fixedApis.box7).error ? (
+                           <ErrorMessage
+                             errorType={getBoxData(fixedApis.box7).errorType}
+                           />
+                         ) : (
+                           <>
+                             {(Array.isArray(getBoxData(fixedApis.box7).data)
+                               ? getBoxData(fixedApis.box7).data
+                               : []
+                             )
+                               .slice(0, 1)
+                               .map((rider, index) => (
+                                 <div className="text-wraper">
+                                   <h4 className="font-size-change">
+                                     {" "}
+                                     {data?.[fixedApis.box7]?.message}
+                                   </h4>
+                                   <div className="name-wraper" key={index}>
+                                     {renderFlag(rider?.rider_country)}
+                                     <h6>{rider?.team_name || "..."}</h6>
+                                   </div>
+           
+                                   {rider?.count && (
+                                     <h5>
+                                       <strong>{rider.count} </strong> count
+                                     </h5>
+                                   )}
+                                 </div>
+                               ))}
+           
+                             <a href="#?" className="white-circle-btn">
+                               <img src="/images/arow.svg" alt="" />
+                             </a>
+                           </>
+                         )}
+                       </div>
+                     </div>
             </>
           )}
         </div>

@@ -276,7 +276,7 @@ header{
 
 // Footer css
 footer{
-  padding: 2rem 0rem 4rem;
+  padding: 2rem 0rem 0rem;
   background: #2B534D;
   .footer-content-wraper{
     display: block;
@@ -364,6 +364,7 @@ footer{
 
 .footer_bottom{
   background: #fff;
+  margin-top: 4rem;
   .container{
     @media (  min-width: 992px){
       &{
@@ -2657,4 +2658,8 @@ section.rider-details-sec-top {
   }
 }
 
-
+div#__next {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: 100dvh;
+}

@@ -10,8 +10,8 @@ const MostWin = ({
   selectedYear = null
 }) => {
 const apiOptions = [
-    // "mostWin",
-    "mostStageWins",
+    "mostWin",
+    // "mostStageWins",
     // "mostGCWins"
   ];
 

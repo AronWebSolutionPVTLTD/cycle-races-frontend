@@ -10,8 +10,8 @@
 // import { renderFlag } from "@/components/RenderFlag";
 
 // const FirstSection = () => {
-//   const firstSectionEndpoint = "mostStageWins"; 
-//   const secondSectionEndpoint = "getTopStageRiders"; 
+//   const firstSectionEndpoint = "mostStageWins";
+//   const secondSectionEndpoint = "getTopStageRiders";
 
 //   // State to track if component is mounted (client-side)
 //   const [isMounted, setIsMounted] = useState(false);
@@ -77,7 +77,7 @@
 
 //       // Handle different response structures
 //       let actualData = null;
-      
+
 //       if (endpointData.data?.data !== undefined) {
 //         actualData = endpointData.data.data;
 //       } else if (endpointData.data !== undefined) {
@@ -101,11 +101,11 @@
 //         return { error: true, errorType: 'empty_object', errorMessage: 'No Information Available' };
 //       }
 
-//       return { 
-//         data: actualData, 
-//         error: false, 
+//       return {
+//         data: actualData,
+//         error: false,
 //         message: endpointData.message || "Data Available",
-//         fullEndpointData: endpointData 
+//         fullEndpointData: endpointData
 //       };
 //     } catch (err) {
 //       console.error(`Error processing data for ${endpoint}:`, err);
@@ -122,16 +122,15 @@
 //     }
 //   };
 
-  
 //   // Helper function to render the first section content
 //   const renderFirstSectionContent = () => {
 //     const sectionResult = getSectionData(firstSectionEndpoint);
-    
+
 //     if (sectionResult.error) {
 //       return (
-//         <ErrorStats 
-//           errorMessage={sectionResult.errorMessage}
-         
+//         <ErrorStats
+//           ={sectionResult.errorMessage}
+
 //         />
 //       );
 //     }
@@ -163,10 +162,10 @@
 //   // Helper function to render the second section content
 //   const renderSecondSectionContent = () => {
 //     const sectionResult = getSectionData(secondSectionEndpoint);
-    
+
 //     if (sectionResult.error) {
 //       return (
-//         <ErrorStats 
+//         <ErrorStats
 //           errorMessage={sectionResult.errorMessage}
 
 //         />
@@ -204,7 +203,7 @@
 //   const isLoading = loading || forceLoading;
 //   const firstSectionResult = getSectionData(firstSectionEndpoint);
 //   const secondSectionResult = getSectionData(secondSectionEndpoint);
-  
+
 //   // Check if both sections have errors
 //   const bothSectionsHaveErrors = firstSectionResult.error && secondSectionResult.error;
 //   const hasAnyData = !firstSectionResult.error || !secondSectionResult.error;
@@ -229,9 +228,9 @@
 //           )}
 
 //           {/* Show global error only when both sections fail with API errors */}
-//           {!isLoading && 
-//            isMounted && 
-//            bothSectionsHaveErrors && 
+//           {!isLoading &&
+//            isMounted &&
+//            bothSectionsHaveErrors &&
 //            (firstSectionResult.errorType === 'api_error' || secondSectionResult.errorType === 'api_error') && (
 //             <div className="col-12">
 //               <ErrorStats
@@ -241,12 +240,11 @@
 //           )}
 
 //           {/* Main content - only show when mounted and not in global loading/error state */}
-//           {isMounted && 
-//            !isLoading && 
-//            !(bothSectionsHaveErrors && 
+//           {isMounted &&
+//            !isLoading &&
+//            !(bothSectionsHaveErrors &&
 //              (firstSectionResult.errorType === 'api_error' || secondSectionResult.errorType === 'api_error')) && (
 //             <>
-            
 
 //               {/* First Section - Always render, with individual error handling */}
 //               <div className="col-lg-3 col-md-5">
@@ -270,6 +268,7 @@
 import React from "react";
 import { useMultipleData } from "../../home_api_data";
 import {
+  ErrorMessage,
   ErrorStats,
   LoadingStats,
   TwoSectionSkeleton,
@@ -279,12 +278,12 @@ import { renderFlag } from "@/components/RenderFlag";
 const FirstSection = () => {
   // Fixed APIs for each section - no random selection
   const fixedApis = {
-    section1: "mostStageWins",
-    section2: "getTopStageRiders",
+    section1: "mostGCWins",
+    section2: "topGCRiderbyTeam",
   };
 
   const endpointsToFetch = Object.values(fixedApis);
-  
+
   // Fetch data using the fixed endpoints
   const { data, loading, error } = useMultipleData(endpointsToFetch);
 
@@ -311,31 +310,13 @@ const FirstSection = () => {
     return { error: true, errorType: "no_data_found" };
   };
 
-  // Error message component (same as UpcomingYear)
-  const ErrorMessage = ({ errorType = "general" }) => {
-    const errorMessages = {
-      api_error: "API Error",
-      no_data: "No Data Available",
-      no_endpoint_data: "No Endpoint Data",
-      null_data: "Data Not Found",
-      empty_array: "No Records Found",
-      empty_object: "No Information Available",
-      processing_error: "Data Processing Error",
-      no_data_found: "No Records Found",
-      general: "No Data Available",
-    };
-
-    return (
-      <div className="text-danger text-center py-3">
-        {errorMessages[errorType] || errorMessages.general}
-      </div>
-    );
-  };
-
   // Helper function to safely get nested properties
-  const safeGet = (obj, path, defaultValue = 'N/A') => {
+  const safeGet = (obj, path, defaultValue = "N/A") => {
     try {
-      return path.split('.').reduce((current, key) => current?.[key], obj) ?? defaultValue;
+      return (
+        path.split(".").reduce((current, key) => current?.[key], obj) ??
+        defaultValue
+      );
     } catch {
       return defaultValue;
     }
@@ -373,85 +354,84 @@ const FirstSection = () => {
             <>
               {/* First Section - Top Stage Winners */}
               <div className="col-lg-3 col-md-5">
-            <div className="list-white-cart">
-              {getSectionData(fixedApis.section1).error ? (
-                <ErrorMessage
-                  errorType={getSectionData(fixedApis.section1).errorType}
-                />
-              ) : (
-                <>
-                  <h4>
-                    {data?.[fixedApis.section1]?.message || "Top Riders"}
-                  </h4>
+                <div className="list-white-cart">
+                  {getSectionData(fixedApis.section1).error ? (
+                    <ErrorMessage
+                      errorType={getSectionData(fixedApis.section1).errorType}
+                    />
+                  ) : (
+                    <>
+                      <h4>
+                        {data?.[fixedApis.section1]?.message || "Top Riders"}
+                      </h4>
 
-                  <ul>
-                    {(Array.isArray(getSectionData(fixedApis.section1).data)
-                      ? getSectionData(fixedApis.section1).data
-                      : []
-                    )
-                      .slice(0, 3)
-                      .map((rider, index) => (
-                        <li key={index}>
-                          <strong>{index + 1}</strong>
-                          <div className="name-wraper">
-                            {renderFlag(rider?.rider_country)}
-                            <h6>{rider?.rider_name || "Unknown Rider"}</h6>
-                          </div>
-                          <span>{rider?.age || "..."}</span>
-                        </li>
-                      ))}
-                  </ul>
+                      <ul>
+                        {(Array.isArray(getSectionData(fixedApis.section1).data)
+                          ? getSectionData(fixedApis.section1).data
+                          : []
+                        )
+                          .slice(0, 3)
+                          .map((rider, index) => (
+                            <li key={index}>
+                              <strong>{index + 1}</strong>
+                              <div className="name-wraper">
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "Unknown Rider"}</h6>
+                              </div>
+                              {rider.count && (
+                                <span>{rider?.count || "..."} count</span>
+                              )}
+                            </li>
+                          ))}
+                      </ul>
 
-                  <a href="#?" className="green-circle-btn">
-                    <img src="/images/arow.svg" alt="" />
-                  </a>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Second Section - Top Stage Riders */}
-          <div className="col-lg-9 col-md-7">
-            {getSectionData(fixedApis.section2).error ? (
-              <ErrorMessage
-                errorType={getSectionData(fixedApis.section2).errorType}
-              />
-            ) : (
-              <>
-                <div className="section-title mb-3">
-                  <h4>
-                    {data?.[fixedApis.section2]?.message || "Race Results"}
-                  </h4>
+                      <a href="#?" className="green-circle-btn">
+                        <img src="/images/arow.svg" alt="" />
+                      </a>
+                    </>
+                  )}
                 </div>
+              </div>
 
-                <ul className="transparent-cart">
-                  {(Array.isArray(getSectionData(fixedApis.section2).data)
-                    ? getSectionData(fixedApis.section2).data
-                    : []
-                  )
-                    .slice(0, 4)
-                    .map((rider, index) => (
-                      <li key={index}>
-                        <h5>
-                          {renderFlag(rider?.rider_country)}
-                        </h5>
-                        <h5>
-                          <a href="#?">{rider?.team_name || "Unknown Team"}</a>
-                        </h5>
-                        {rider?.count && <h6>{rider.count} wins</h6>}
-                        <a href="#?" className="r-details">
-                          <img src="/images/hover-arow.svg" alt="" />
-                        </a>
-                      </li>
-                    ))}
-                </ul>
-              </>
-            )}
-          </div>
-          </>
-           )} 
+              {/* Second Section - Top Stage Riders */}
+              <div className="col-lg-9 col-md-7">
+                {getSectionData(fixedApis.section2).error ? (
+                  <ErrorMessage
+                    errorType={getSectionData(fixedApis.section2).errorType}
+                  />
+                ) : (
+                  <>
+                    <div className="section-title mb-3">
+                      <h4>{data?.[fixedApis.section2]?.message}</h4>
+                    </div>
+
+                    <ul className="transparent-cart">
+                      {(Array.isArray(getSectionData(fixedApis.section2).data)
+                        ? getSectionData(fixedApis.section2).data
+                        : []
+                      )
+                        .slice(0, 4)
+                        .map((rider, index) => (
+                          <li key={index}>
+                            <h5>{renderFlag(rider?.rider_country)}</h5>
+                            <h5>
+                              <a href="#?">
+                                {rider?.team_name || "Unknown Team"}
+                              </a>
+                            </h5>
+                            {rider?.count && <h6>{rider.count} wins</h6>}
+                            <a href="#?" className="r-details">
+                              <img src="/images/hover-arow.svg" alt="" />
+                            </a>
+                          </li>
+                        ))}
+                    </ul>
+                  </>
+                )}
+              </div>
+            </>
+          )}
         </div>
-         
       </div>
     </section>
   );

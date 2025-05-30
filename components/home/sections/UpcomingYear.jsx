@@ -1,6 +1,7 @@
 import React from "react";
 import { useMultipleData } from "../../home_api_data";
 import {
+  ErrorMessage,
   ErrorStats,
   LoadingStats,
   TwoSectionSkeleton2,
@@ -43,26 +44,7 @@ const UpcomingYear = () => {
     return { error: true, errorType: "no_data_found" };
   };
 
-  // Error message component (same as YearSection)
-  const ErrorMessage = ({ errorType = "general" }) => {
-    const errorMessages = {
-      api_error: "API Error",
-      no_data: "No Data Available",
-      no_endpoint_data: "No Endpoint Data",
-      null_data: "Data Not Found",
-      empty_array: "No Records Found",
-      empty_object: "No Information Available",
-      processing_error: "Data Processing Error",
-      no_data_found: "No Records Found",
-      general: "No Data Available",
-    };
-
-    return (
-      <div className="text-danger text-center py-3">
-        {errorMessages[errorType] || errorMessages.general}
-      </div>
-    );
-  };
+ 
 
   return (
     <section className="home-sec4">

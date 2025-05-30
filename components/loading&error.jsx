@@ -14,6 +14,39 @@ export const LoadingStats = () => (
  </div>
 );
 
+export const Loading = () => (
+  <div className=" loading-container text-center p-4 my-3">
+    <div className="d-flex flex-column align-items-center justify-content-center">
+      
+     <div className="w-100 placeholder-loading">
+        <div className="loading-bar mb-2" style={{ height: '30px', width: '40%', backgroundColor: '#f0f0f0', borderRadius: '4px' }}></div>
+        <div className="loading-bar mb-2" style={{ height: '30px', width: '75%', backgroundColor: '#f0f0f0', borderRadius: '4px' }}></div>
+        <div className="loading-bar" style={{ height: '30px', width: '60%', backgroundColor: '#f0f0f0', borderRadius: '4px' }}></div>
+      </div>
+    </div>
+ </div>
+);
+
+  // Error message component - matching LastSection
+ export const ErrorMessage = ({ errorType = "general" }) => {
+    const errorMessages = {
+      api_error: "API Error",
+      no_data: "No Data Available",
+      no_endpoint_data: "No Endpoint Data",
+      null_data: "Data Not Found",
+      empty_array: "No Records Found",
+      empty_object: "No Information Available",
+      processing_error: "Data Processing Error",
+      no_data_found: "No Records Found",
+      general: "No Data Available",
+    };
+
+    return (
+      <div className="text-danger text-center py-3">
+        {errorMessages[errorType] || errorMessages.general}
+      </div>
+    );
+  };
 // Enhanced Error component that matches the existing design aesthetic
 export const ErrorStats = ({ message }) => (
   <div className="error-container text-center p-5 my-4 bg-light rounded shadow-sm">
@@ -580,9 +613,12 @@ export default {
   NoDataMessage,
   PartialDataWarning,
   BoxSkeleton,
+  BoxSkeleton2,
   TwoSectionSkeleton,
   ListSkeleton,
-  CardSkeleton
+  CardSkeleton,
+  ErrorMessage,
+  Loading
 };
 
 

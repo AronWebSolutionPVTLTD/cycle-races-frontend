@@ -1,6 +1,6 @@
 import React from "react";
 import { useMultipleData } from "../../home_api_data";
-import { BoxSkeleton, ErrorStats } from "../../loading&error";
+import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
 
 const fixedApis = {
@@ -124,26 +124,7 @@ const YearSection = () => {
     return { error: true, errorType: "no_data_found" };
   };
 
-  // Error message component
-  const ErrorMessage = ({ errorType = "general" }) => {
-    const errorMessages = {
-      api_error: "API Error",
-      no_data: "No Data Available",
-      no_endpoint_data: "No Endpoint Data",
-      null_data: "Data Not Found",
-      empty_array: "No Records Found",
-      empty_object: "No Information Available",
-      processing_error: "Data Processing Error",
-      no_data_found: "No Records Found", // Added this
-      general: "No Data Available",
-    };
 
-    return (
-      <div className="text-danger text-center py-3">
-        {errorMessages[errorType] || errorMessages.general}
-      </div>
-    );
-  };
   
  return (
     <section className="home-sec2">
@@ -248,7 +229,7 @@ const YearSection = () => {
 
                             {rider?.count && (
                               <h5>
-                                <strong>{rider.count} </strong> count
+                                <strong>{rider.count} </strong> wins
                               </h5>
                             )}
                           </div>
@@ -289,7 +270,7 @@ const YearSection = () => {
 
                             {rider?.count && (
                               <h5>
-                                <strong>{rider.count} </strong> count
+                                <strong>{rider.count} </strong> wins
                               </h5>
                             )}
                           </div>
@@ -329,7 +310,7 @@ const YearSection = () => {
                               </div>
 
                               {rider?.dnf_count && (
-                                <span>{rider.dnf_count} wins</span>
+                                <span>{rider.dnf_count} count</span>
                               )}
                             </li>
                           ))}
@@ -478,14 +459,14 @@ const YearSection = () => {
           <div className="col-lg-3 col-md-6">
             <div className="team-cart lime-green-team-cart img-active">
               <a href="#?" className="pabs"></a>
-              {getBoxData(fixedApis.box3).error ? (
+              {getBoxData(fixedApis.box8).error ? (
                 <ErrorMessage
                   errorType={getBoxData(fixedApis.box8).errorType}
                 />
               ) : (
                 <>
                   {(Array.isArray(getBoxData(fixedApis.box8).data)
-                    ? getBoxData(fixedApis.box3).data
+                    ? getBoxData(fixedApis.box8).data
                     : []
                   )
                     .slice(0, 1)
@@ -521,14 +502,14 @@ const YearSection = () => {
                 <div className="team-cart">
                   <a href="#?" className="pabs"></a>
 
-                  {getBoxData(fixedApis.box2).error ? (
+                  {getBoxData(fixedApis.box9).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box9).errorType}
                     />
                   ) : (
                     <>
                       {(Array.isArray(getBoxData(fixedApis.box9).data)
-                        ? getBoxData(fixedApis.box2).data
+                        ? getBoxData(fixedApis.box9).data
                         : []
                       )
                         .slice(0, 1)
@@ -540,12 +521,12 @@ const YearSection = () => {
                             </h4>
                             <div className="name-wraper" key={index}>
                               {renderFlag(rider?.rider_country)}
-                              <h6>{rider?.rider_name || "..."}</h6>
+                              <h6>{rider?.team_name || "..."}</h6>
                             </div>
 
                             {rider?.count && (
                               <h5>
-                                <strong>{rider.count} </strong> count
+                                <strong>{rider.count} </strong> wins
                               </h5>
                             )}
                           </div>
