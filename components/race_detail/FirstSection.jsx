@@ -12,14 +12,16 @@ import {
 const FirstSection = ({ selectedYear, selectedNationality, name }) => {
  
   // Define endpoint groups for different sections of rider statistics
-  const firstSectionEndpoints = ["totalWinsByNationality", "mostWins"];
+  const firstSectionEndpoints = [
+    "totalWinsByNationality", "mostWins"];
   const secondSectionEndpoints = [
     "getRaceParticipants",
     "getMostParticipantsByNationality",
     "getNationalityWithMostDNF",
   ];
 
-  const thirdSectionEndpoints = ["getOldestStageWinner", "getYoungestWinner"];
+  const thirdSectionEndpoints = [
+    "getOldestStageWinner", "getYoungestWinner"];
   const fourthSectionEndpoints = [
     "getPodiumNationalityStats",
     "getLastWinByNationality",

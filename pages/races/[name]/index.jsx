@@ -274,6 +274,8 @@ import FirstSection from "@/components/race_detail/FirstSection";
 import MostWin from "@/components/race_detail/Mostwin";
 import { RaceDetail } from "@/components/race_detail/RaceDetail";
 import SecondSection from "@/components/race_detail/SecondSection";
+import { SectionSection } from "@/components/race_detail/SectionSecond";
+import { ThirdSection } from "@/components/race_detail/ThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { callAPI } from "@/lib/api";
 import Head from "next/head";
@@ -525,12 +527,23 @@ export default function RaceDetailsPage() {
                 /> */}
                         {raceData && (
                           <>
-                    <RaceDetail
+                    {/* <RaceDetail
+                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
+                  selectedNationality={selectedNationality}
+                  name={decodedRaceName}
+                /> */}
+                      <SectionSection
                   selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}
                   name={decodedRaceName}
                 />
-                
+
+                {/* <ThirdSection
+                 selectedYear={selectedYear !== "All time" ? selectedYear : null}
+                  selectedNationality={selectedNationality}
+                  name={decodedRaceName}
+                  /> */}
+
                 {/* <MostWin
                   selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}
