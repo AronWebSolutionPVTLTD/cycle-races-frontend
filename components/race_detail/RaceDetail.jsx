@@ -14,6 +14,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
     box5: "getRiderWithMostStageWins",
     box6: "getRiderWithMostGCTop10s",
     box7: "getNationalityWithMostTop10",
+    box8:"mostWins"
   };
 
   // Build query parameters based on selected filters
@@ -32,8 +33,12 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
     fixedApis.box2,
     fixedApis.box4,
     fixedApis.box7,
+     fixedApis.box8,
   ];
-  const stageEndpoints = [fixedApis.box3, fixedApis.box5, fixedApis.box6];
+  const stageEndpoints = [
+    fixedApis.box3, 
+    fixedApis.box5, 
+    fixedApis.box6];
 
   // Define endpoint mappings for specific cases if needed
   const endpointsMappings = {};
@@ -115,9 +120,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                     />
                   ) : (
                     <>
-                      <h4 className="font-size-change">
-                        {data?.[fixedApis.box1]?.message}
-                      </h4>
+                      <h4>{data?.[fixedApis.box1]?.message}</h4>
                       <ul>
                         {(Array.isArray(getBoxData(fixedApis.box1).data)
                           ? getBoxData(fixedApis.box1).data
@@ -164,9 +167,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                     return (
                       <>
                         <div className="text-wraper">
-                          <h4 className="font-size-change">
-                            {data?.[fixedApis.box2]?.message}
-                          </h4>
+                          <h4>{data?.[fixedApis.box2]?.message}</h4>
                           <div className="name-wraper">
                             {renderFlag(riderData?.nationality_filter)}
                             <h6>{riderData?.race_name || "..."}</h6>
@@ -178,7 +179,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                             </h5>
                           )}
                         </div>
-                        <a href="#?" className="green-circle-btn">
+                        <a href="#?" className="white-circle-btn">
                           <img src="/images/arow.svg" alt="" />
                         </a>
                       </>
@@ -207,9 +208,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                     return (
                       <>
                         <div className="text-wraper">
-                          <h4 className="font-size-change">
-                            {data?.[fixedApis.box3]?.message}
-                          </h4>
+                          <h4>{data?.[fixedApis.box3]?.message}</h4>
                           <div className="name-wraper">
                             {renderFlag(riderData?.country)}
                             <h6>{riderData?.rider_name || "..."}</h6>
@@ -228,18 +227,17 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                   })()}
                 </div>
               </div>
-              {/* Box 3 - PodiumNationalityStats */}
+              {/* Box 4 - PodiumNationalityStats */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart img-active">
                   <a href="#?" className="pabs"></a>
                   {(() => {
-                    // Special handling for box5 since it returns a single object, not an array
                     if (!data?.[fixedApis.box4]) {
                       return <ErrorMessage errorType="no_data" />;
                     }
 
                     const response = data[fixedApis.box4];
-                    const riderData = response?.data.data;
+                    const riderData = response?.data;
 
                     if (!riderData) {
                       return <ErrorMessage errorType="no_data_found" />;
@@ -248,16 +246,17 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                     return (
                       <>
                         <div className="text-wraper">
-                          <h4 className="font-size-change">
-                            {data?.[fixedApis.box4]?.message}
-                          </h4>
+                          <h4>{data?.[fixedApis.box4]?.message}</h4>
                           <div className="name-wraper">
                             {renderFlag(riderData?.nationality_filter)}
                             <h6>{riderData?.race_name || "..."}</h6>
                           </div>
                           {riderData?.total_podiums_matched && (
                             <h5>
-                              <strong>{riderData.total_podiums_matched} </strong> total podium
+                              <strong>
+                                {riderData.total_podiums_matched}{" "}
+                              </strong>{" "}
+                              total podium
                             </h5>
                           )}
                         </div>
@@ -269,8 +268,166 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                   })()}
                 </div>
               </div>
+
+              <div className="col-lg-7">
+                <div className="row">
+                  {/* Box 5 - Rider With MostStageWins */}
+                  <div className="col-lg-5 col-md-6">
+                    <div className="team-cart img-active">
+                      <a href="#?" className="pabs"></a>
+                      {(() => {
+                        if (!data?.[fixedApis.box5]) {
+                          return <ErrorMessage errorType="no_data" />;
+                        }
+
+                        const response = data[fixedApis.box5];
+                        const riderData = response?.data.data;
+
+                        if (!riderData) {
+                          return <ErrorMessage errorType="no_data_found" />;
+                        }
+
+                        return (
+                          <>
+                            <div className="text-wraper">
+                              <h4>{data?.[fixedApis.box5]?.message}</h4>
+                              <div className="name-wraper">
+                                {renderFlag(riderData?.country)}
+                                <h6>{riderData?.rider_name || "..."}</h6>
+                              </div>
+                              {riderData?.stage_wins && (
+                                <h5>
+                                  <strong>{riderData.stage_wins} </strong> wins
+                                </h5>
+                              )}
+                            </div>
+                            <a href="#?" className="green-circle-btn">
+                              <img src="/images/arow.svg" alt="" />
+                            </a>
+                          </>
+                        );
+                      })()}
+                    </div>
+                  </div>
+                  {/*   Box 6 - Rider With MostGCTop10s */}
+                  <div className="col-lg-7 col-md-6">
+                    <div className="team-cart lime-green-team-cart img-active">
+                      <a href="#?" className="pabs"></a>
+                      {(() => {
+                        if (!data?.[fixedApis.box6]) {
+                          return <ErrorMessage errorType="no_data" />;
+                        }
+
+                        const response = data[fixedApis.box6];
+                        const riderData = response?.data.data;
+
+                        if (!riderData) {
+                          return <ErrorMessage errorType="no_data_found" />;
+                        }
+
+                        return (
+                          <>
+                            <div className="text-wraper">
+                              <h4>{data?.[fixedApis.box6]?.message}</h4>
+                              <div className="name-wraper">
+                                {renderFlag(riderData?.country)}
+                                <h6>{riderData?.rider_name || "..."}</h6>
+                              </div>
+                              {riderData?.top_10_count && (
+                                <h5>
+                                  <strong>{riderData.top_10_count} </strong>{" "}
+                                  count
+                                </h5>
+                              )}
+                            </div>
+                            <a href="#?" className="white-circle-btn">
+                              <img src="/images/arow.svg" alt="" />
+                            </a>
+                          </>
+                        );
+                      })()}
+                    </div>
+                  </div>
+{/*   Box 7 - Nationality With MostTop10 */}
+
+ <div className="col-lg-7 col-md-6">
+                <div className="team-cart img-active">
+                  <a href="#?" className="pabs"></a>
+                  {(() => {
+                   if (!data?.[fixedApis.box7]) {
+                      return <ErrorMessage errorType="no_data" />;
+                    }
+
+                    const response = data[fixedApis.box7];
+                    const riderData = response?.data;
+
+                    if (!riderData) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
+                    return (
+                      <>
+                        <div className="text-wraper">
+                          <h4>{data?.[fixedApis.box7]?.message}</h4>
+                          <div className="name-wraper">
+                            {renderFlag(riderData?.nationality_filter)}
+                            <h6>{riderData?.race_name || "..."}</h6>
+                          </div>
+                          {riderData?.total_riders_matched && (
+                            <h5>
+                              <strong>{riderData.total_riders_matched} </strong> total riders
+                            </h5>
+                          )}
+                        </div>
+                        <a href="#?" className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    );
+                  })()}
+                </div>
+              </div>
+              {/*   Box 8 - Mots win*/} 
+  <div className="col-lg-5 col-md-6">
+                <div className="list-white-cart">
+                  {getBoxData(fixedApis.box8).error ? (
+                    <ErrorMessage
+                      errorType={getBoxData(fixedApis.box8).errorType}
+                    />
+                  ) : (
+                    <>
+                      <h4>{data?.[fixedApis.box8]?.message}</h4>
+                      <ul>
+                        {(Array.isArray(getBoxData(fixedApis.box8).data)
+                          ? getBoxData(fixedApis.box8).data
+                          : []
+                        )
+                          .slice(0, 3)
+                          .map((rider, index) => (
+                            <li key={index}>
+                              <strong>{index + 1}</strong>
+                              <div className="name-wraper">
+                                {renderFlag(rider?.nationality)}
+                                <h6>{rider?.rider_name || "..."}</h6>
+                              </div>
+
+                              {rider?.wins && <span>{rider.wins} wins</span>}
+                            </li>
+                          ))}
+                      </ul>
+                      <a href="#?" className="green-circle-btn">
+                        <img src="/images/arow.svg" alt="" />
+                      </a>
+                    </>
+                  )}
+                </div>
+              </div>
+                </div>
+              </div>
             </>
           )}
+
+          {/* Box 5 - PodiumNationalityStats */}
         </div>
       </div>
     </section>
