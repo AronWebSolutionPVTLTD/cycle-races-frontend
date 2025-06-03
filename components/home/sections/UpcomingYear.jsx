@@ -8,16 +8,16 @@ import {
 } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
 
-
 const UpcomingYear = () => {
   // Fixed APIs for each box - no random selection
   const fixedApis = {
-    box2: "topStageRiderbyTeam",
-    box3: "topGCRiderbyTeam",
+    box1: "getUpcomingRacesByDate",
+    box2: "tourDownUnder24",
+    box3: "mostWinTourDownUnder",
   };
 
   const endpointsToFetch = Object.values(fixedApis);
-  
+
   // Fetch data using the fixed endpoints
   const { data, loading, error } = useMultipleData(endpointsToFetch);
 
@@ -32,6 +32,7 @@ const UpcomingYear = () => {
       response?.data?.data?.result,
       response?.data?.data,
       response?.data,
+      response?.data?.races,
       response,
     ];
 
@@ -43,8 +44,6 @@ const UpcomingYear = () => {
 
     return { error: true, errorType: "no_data_found" };
   };
-
- 
 
   return (
     <section className="home-sec4">
@@ -76,63 +75,39 @@ const UpcomingYear = () => {
           {/* Main content - show when not loading and we have some data */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* Upcoming Races - Left Side (Static Content) */}
+              {/* Upcoming Races - Left Side (by date) */}
               <div className="col-lg-6">
-                <ul className="transparent-cart">
-                  <li>
-                    <span>17-23/01</span>
-                    <h5>
-                      <img src="/images/flag3.svg" alt="" />
-                      tour down under
-                    </h5>
-                    <a href="#?" className="r-details">
-                      <img src="/images/hover-arow.svg" alt="" />
-                    </a>
-                  </li>
-                  <li>
-                    <span>22/01</span>
-                    <h5>
-                      <img src="/images/flag9.svg" alt="" />
-                      Classica Comunitat Valenciana
-                    </h5>
-                    <a href="#?" className="r-details">
-                      <img src="/images/hover-arow.svg" alt="" />
-                    </a>
-                  </li>
-                  <li>
-                    <span>22-29/01</span>
-                    <h5>
-                      <img src="/images/flag5.svg" alt="" />
-                      vuelta a san juan
-                    </h5>
-                    <a href="#?" className="r-details">
-                      <img src="/images/hover-arow.svg" alt="" />
-                    </a>
-                  </li>
-                  <li>
-                    <span>25 jan</span>
-                    <h5>
-                      <img src="/images/flag7.svg" alt="" />
-                      trofeo calvia
-                    </h5>
-                    <a href="#?" className="r-details">
-                      <img src="/images/hover-arow.svg" alt="" />
-                    </a>
-                  </li>
-                  <li>
-                    <span>26 jan</span>
-                    <h5>
-                      <img src="/images/flag7.svg" alt="" />
-                      trofeo alcudia
-                    </h5>
-                    <a href="#?" className="r-details">
-                      <img src="/images/hover-arow.svg" alt="" />
-                    </a>
-                  </li>
-                </ul>
+                {getBoxData(fixedApis.box2).error ? (
+                  <ErrorMessage
+                    errorType={getBoxData(fixedApis.box1).errorType}
+                  />
+                ) : (
+                  <>
+                    {/* <h4>{data?.[fixedApis.box1]?.message}</h4> */}
+                    <ul className="transparent-cart">
+                      {(Array.isArray(getBoxData(fixedApis.box1).data)
+                        ? getBoxData(fixedApis.box1).data
+                        : []
+                      )
+                        .slice(0, 5)
+                        .map((race, index) => (
+                          <li key={index}>
+                            <span>{race.date}</span>
+                            <h5>
+                              {renderFlag(race?.country)}
+                              {race.race}
+                            </h5>
+                            <a href="#?" className="r-details">
+                              <img src="/images/hover-arow.svg" alt="" />
+                            </a>
+                          </li>
+                        ))}
+                    </ul>
+                  </>
+                )}
               </div>
 
-              {/* Box 2 - Top stage rider by team */}
+              {/* Box 2 -tour Down Under24 */}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
                   {getBoxData(fixedApis.box2).error ? (
@@ -141,9 +116,7 @@ const UpcomingYear = () => {
                     />
                   ) : (
                     <>
-                      <h4>
-                        {data?.[fixedApis.box2]?.message || "Team With Most Stage wins"}
-                      </h4>
+                      <h4>{data?.[fixedApis.box2]?.message}</h4>
 
                       <ul>
                         {(Array.isArray(getBoxData(fixedApis.box2).data)
@@ -156,9 +129,11 @@ const UpcomingYear = () => {
                               <strong>{index + 1}</strong>
                               <div className="name-wraper">
                                 {renderFlag(team?.rider_country)}
-                                <h6>{team?.team_name || "..."}</h6>
+                                <h6>{team?.rider_name || "..."}</h6>
                               </div>
-                              {team?.count && <span>{team.count} count</span>}
+                              {team?.rider_time && (
+                                <span>{team.rider_time} </span>
+                              )}
                             </li>
                           ))}
                       </ul>
@@ -171,7 +146,7 @@ const UpcomingYear = () => {
                 </div>
               </div>
 
-              {/* Box 3 - Top GC rider by team */}
+              {/* Box 3 - most Win TourDownUnder */}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
                   {getBoxData(fixedApis.box3).error ? (
@@ -180,9 +155,7 @@ const UpcomingYear = () => {
                     />
                   ) : (
                     <>
-                      <h4>
-                        {data?.[fixedApis.box3]?.message || "Team With Most GC wins"}
-                      </h4>
+                      <h4>{data?.[fixedApis.box3]?.message}</h4>
 
                       <ul>
                         {(Array.isArray(getBoxData(fixedApis.box3).data)
@@ -194,10 +167,10 @@ const UpcomingYear = () => {
                             <li key={index}>
                               <strong>{index + 1}</strong>
                               <div className="name-wraper">
-                                {renderFlag(team?.rider_country)}
-                                <h6>{team?.team_name || "..."}</h6>
+                                {renderFlag(team?.country)}
+                                <h6>{team?.rider_name || "..."}</h6>
                               </div>
-                              {team?.count && <span>{team.count} count</span>}
+                              {/* {team?.winCount && <span>{team.winCount}</span>} */}
                             </li>
                           ))}
                       </ul>

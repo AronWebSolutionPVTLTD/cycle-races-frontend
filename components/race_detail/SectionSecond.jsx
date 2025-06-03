@@ -4,7 +4,7 @@ import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 
-export const SectionSection = ({ selectedYear, selectedNationality, name }) => {
+export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
   // Define single API endpoint for each section box
   const fixedApis = {
     box1: "getTop5ResultsForOneDayRace",

@@ -10,6 +10,7 @@ import { callAPI } from '@/lib/api';
 import Flag from 'react-world-flags';
 import RiderSectionTwo from '@/components/rider_detail/RiderSectionTwo';
 import { generateYearOptions } from '@/components/GetYear';
+import RiderFirstSection from '@/components/rider_detail/RiderFirstSection';
 
 export default function RiderDetail({ initialRider }) {
   const router = useRouter();
@@ -159,9 +160,10 @@ const {withoutAllTime } = generateYearOptions();
                            {rider.image_url ? (
                 <img src={rider.image_url} alt={rider.name || 'Rider'}/>
               ) : (
-                <div className="placeholder-image" style={{ width: 200, height: 200, background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span>No Image</span>
-                </div>
+                <img src="/images/player6.png" alt=""  className="absolute-img" />
+                // <div className="placeholder-image" style={{ width: 200, height: 200, background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                //   <span>No Image</span>
+                // </div>
               )}
        <h1>{rider.name || 'N/A'}</h1>
               </div>
@@ -201,16 +203,19 @@ const {withoutAllTime } = generateYearOptions();
               </ul>
             </div>
       {/* Random Stats Section */}
-            <RiderRandomStatsOne 
+      <RiderFirstSection
+       riderId={rider._id} 
+              filterYear={filterYear}/>
+            {/* <RiderRandomStatsOne 
               riderId={rider._id} 
               filterYear={filterYear}
-            />
+            /> */}
 
              {/* Random Stats Section */}
-            <RiderSectionTwo
+            {/* <RiderSectionTwo
               riderId={rider._id} 
               filterYear={filterYear}
-            />
+            /> */}
           </div>
         </div>
       </section>

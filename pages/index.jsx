@@ -11,9 +11,8 @@ import UpcomingYear from "@/components/home/sections/UpcomingYear";
 import YearSection from "@/components/home/sections/YearSection";
 import Head from "next/head";
 
-
 export default function Home() {
-return (
+  return (
     <>
       <Head>
         <title>Wielerstats - Cycling Statistics</title>
@@ -22,20 +21,17 @@ return (
       </Head>
 
       <main>
-  {/* <ResultSection/> */}
-  {/* <ThisYearSection/> */}
- <FirstSection/>
-<YearSection/> 
-<MostWin/>
-<UpcomingYear/>
-<LastSection/> 
- 
-   {/*<Upcoming/>
-   <TeamsSection/>*/}
+        <FirstSection />
+        <YearSection />
+        <MostWin />
+        <UpcomingYear />
+        <LastSection />
 
- 
+        {/* <ResultSection/> */}
+        {/* <ThisYearSection/> */}
+        {/*<Upcoming/>
+       <TeamsSection/>*/}
       </main>
-
     </>
   );
 }

@@ -111,6 +111,8 @@ const apiOptions = [
                   <span>{rider.wins} </span>}
                     {rider.count && 
                   <span>{rider.count} </span>}
+                 
+
                   {/* <span>{rider?.wins !== undefined ? rider.wins : (rider?.count !== undefined ? rider.count : "N/A")}</span> */}
                 </div>
               </div>

@@ -274,7 +274,7 @@ import FirstSection from "@/components/race_detail/FirstSection";
 import MostWin from "@/components/race_detail/Mostwin";
 import { RaceDetail } from "@/components/race_detail/RaceDetail";
 import SecondSection from "@/components/race_detail/SecondSection";
-import { SectionSection } from "@/components/race_detail/SectionSecond";
+import { SectionSecond, SectionSection } from "@/components/race_detail/SectionSecond";
 import { ThirdSection } from "@/components/race_detail/ThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { callAPI } from "@/lib/api";
@@ -519,32 +519,15 @@ export default function RaceDetailsPage() {
                     />
                   </ul>
                 </div>
-
-                {/* <FirstSection
+{raceData && (
+      <>
+               {/* <FirstSection
                   selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}
                   name={decodedRaceName}
-                /> */}
-                        {raceData && (
-                          <>
-                    {/* <RaceDetail
-                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                  selectedNationality={selectedNationality}
-                  name={decodedRaceName}
-                /> */}
-                      <SectionSection
-                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                  selectedNationality={selectedNationality}
-                  name={decodedRaceName}
-                />
+                /> 
 
-                {/* <ThirdSection
-                 selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                  selectedNationality={selectedNationality}
-                  name={decodedRaceName}
-                  /> */}
-
-                {/* <MostWin
+                <MostWin
                   selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}
                   name={decodedRaceName}
@@ -554,8 +537,26 @@ export default function RaceDetailsPage() {
                   selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}
                   name={decodedRaceName}
-                /> */}
-                </>
+                />  */}
+                        
+     <RaceDetail
+                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
+                  selectedNationality={selectedNationality}
+                  name={decodedRaceName}
+                />
+                      <SectionSecond
+                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
+                  selectedNationality={selectedNationality}
+                  name={decodedRaceName}
+                /> 
+                
+                {/* <ThirdSection
+                 selectedYear={selectedYear !== "All time" ? selectedYear : null}
+                  selectedNationality={selectedNationality}
+                  name={decodedRaceName}
+                  /> */}
+
+                 </>
                   )}
               </div>
             </div>

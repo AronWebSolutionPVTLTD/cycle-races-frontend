@@ -279,7 +279,7 @@ const FirstSection = () => {
   // Fixed APIs for each section - no random selection
   const fixedApis = {
     section1: "mostGCWins",
-    section2: "topGCRiderbyTeam",
+    section2: "recentCompleteRace",
   };
 
   const endpointsToFetch = Object.values(fixedApis);
@@ -310,19 +310,7 @@ const FirstSection = () => {
     return { error: true, errorType: "no_data_found" };
   };
 
-  // Helper function to safely get nested properties
-  const safeGet = (obj, path, defaultValue = "N/A") => {
-    try {
-      return (
-        path.split(".").reduce((current, key) => current?.[key], obj) ??
-        defaultValue
-      );
-    } catch {
-      return defaultValue;
-    }
-  };
-
-  return (
+ return (
     <section className="home-banner">
       <div className="container">
         <div className="row">
@@ -361,9 +349,7 @@ const FirstSection = () => {
                     />
                   ) : (
                     <>
-                      <h4>
-                        {data?.[fixedApis.section1]?.message || "Top Riders"}
-                      </h4>
+                      <h4>{data?.[fixedApis.section1]?.message}</h4>
 
                       <ul>
                         {(Array.isArray(getSectionData(fixedApis.section1).data)
@@ -376,7 +362,7 @@ const FirstSection = () => {
                               <strong>{index + 1}</strong>
                               <div className="name-wraper">
                                 {renderFlag(rider?.rider_country)}
-                                <h6>{rider?.rider_name || "Unknown Rider"}</h6>
+                                <h6>{rider?.rider_name}</h6>
                               </div>
                               {rider.count && (
                                 <span>{rider?.count || "..."} count</span>
@@ -401,9 +387,9 @@ const FirstSection = () => {
                   />
                 ) : (
                   <>
-                    <div className="section-title mb-3">
+                    {/* <div className="section-title mb-3">
                       <h4>{data?.[fixedApis.section2]?.message}</h4>
-                    </div>
+                    </div> */}
 
                     <ul className="transparent-cart">
                       {(Array.isArray(getSectionData(fixedApis.section2).data)
@@ -411,15 +397,23 @@ const FirstSection = () => {
                         : []
                       )
                         .slice(0, 4)
-                        .map((rider, index) => (
+                        .map((result, index) => (
                           <li key={index}>
-                            <h5>{renderFlag(rider?.rider_country)}</h5>
+                            <span>
+                              {new Date(result.date).toLocaleDateString(
+                                "en-GB",
+                                { day: "2-digit", month: "2-digit" }
+                              )}
+                            </span>
                             <h5>
-                              <a href="#?">
-                                {rider?.team_name || "Unknown Team"}
-                              </a>
+                              {renderFlag(result?.raceCountry)}
+                              <a href="#?">{result.raceName}</a>
                             </h5>
-                            {rider?.count && <h6>{rider.count} wins</h6>}
+                            <h6>
+                              {renderFlag(result?.riderCountry)}
+                              <a href="#?">{result.rider}</a>
+                            </h6>
+                            <h6>{result.team}</h6>
                             <a href="#?" className="r-details">
                               <img src="/images/hover-arow.svg" alt="" />
                             </a>
