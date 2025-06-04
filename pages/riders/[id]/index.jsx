@@ -11,6 +11,8 @@ import Flag from 'react-world-flags';
 import RiderSectionTwo from '@/components/rider_detail/RiderSectionTwo';
 import { generateYearOptions } from '@/components/GetYear';
 import RiderFirstSection from '@/components/rider_detail/RiderFirstSection';
+import { renderFlag } from '@/components/RenderFlag';
+import RiderSecondSection from '@/components/rider_detail/RiderSecondSection';
 
 export default function RiderDetail({ initialRider }) {
   const router = useRouter();
@@ -165,19 +167,15 @@ const {withoutAllTime } = generateYearOptions();
                 //   <span>No Image</span>
                 // </div>
               )}
-       <h1>{rider.name || 'N/A'}</h1>
+       <h1>{rider.name || '...'}</h1>
               </div>
                     <ul className="plyr-dtls">
               <li>
-                {rider.nationality ? (
-                  <Flag code={rider.nationality} style={{ width: "20px", height: "20px", marginLeft: "10px" }} />
-                ) : (
-                  <span>N/A</span>
-                )}
-              </li>
-              <li>{rider.date_of_birth || "N/A"}</li>
-              <li>{rider.birth_place || "N/A"}</li>
-              <li>{rider.age ? rider.age : calculateAge(rider.date_of_birth) || "N/A"} years</li>
+                  {renderFlag(rider?.nationality)}
+           </li>
+              <li>{rider.date_of_birth || "..."}</li>
+              <li>{rider.birth_place || "..."}</li>
+           
             </ul>
             </div>
           </div>
@@ -206,6 +204,11 @@ const {withoutAllTime } = generateYearOptions();
       <RiderFirstSection
        riderId={rider._id} 
               filterYear={filterYear}/>
+
+                 <RiderSecondSection
+       riderId={rider._id} 
+              filterYear={filterYear}/>
+
             {/* <RiderRandomStatsOne 
               riderId={rider._id} 
               filterYear={filterYear}

@@ -131,9 +131,9 @@ const UpcomingYear = () => {
                                 {renderFlag(team?.rider_country)}
                                 <h6>{team?.rider_name || "..."}</h6>
                               </div>
-                              {team?.rider_time && (
+                              {/* {team?.rider_time && (
                                 <span>{team.rider_time} </span>
-                              )}
+                              )} */}
                             </li>
                           ))}
                       </ul>

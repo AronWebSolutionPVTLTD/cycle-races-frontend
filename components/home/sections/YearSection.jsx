@@ -212,7 +212,7 @@ const YearSection = () => {
                             .slice(0, 1)
                             .map((rider, index) => (
                               <div className="text-wraper">
-                                <h4 className="font-size-change">
+                                <h4 >
                                   {" "}
                                   {data?.[fixedApis.box2]?.message}
                                 </h4>
@@ -259,7 +259,7 @@ const YearSection = () => {
                             .slice(0, 1)
                             .map((rider, index) => (
                               <div className="text-wraper">
-                                <h4 className="font-size-change">
+                                <h4>
                                   {data?.[fixedApis.box3]?.message}
                                 </h4>
                                 <div className="name-wraper" key={index}>
@@ -296,7 +296,7 @@ const YearSection = () => {
                         />
                       ) : (
                         <>
-                          <h4 className="font-size-change">
+                          <h4>
                             {data?.[fixedApis.box4]?.message}
                           </h4>
                           <ul>
@@ -328,15 +328,16 @@ const YearSection = () => {
                   {/*Box 5 - Birthdays */}
                   <div className="col-lg-5 col-md-6">
                     <div className="list-white-cart">
+                       <h4>
+                            {data?.[fixedApis.box5]?.message}
+                          </h4>
                       {getBoxData(fixedApis.box5).error ? (
                         <ErrorMessage
                           errorType={getBoxData(fixedApis.box5).errorType}
                         />
                       ) : (
                         <>
-                          <h4 className="font-size-change">
-                            {data?.[fixedApis.box5]?.message}
-                          </h4>
+                         
                           <ul>
                             {(Array.isArray(getBoxData(fixedApis.box5).data)
                               ? getBoxData(fixedApis.box5).data
@@ -387,7 +388,7 @@ const YearSection = () => {
                                  return (
                                    <>
                                      <div className="text-wraper">
-                                       <h4 className="font-size-change">
+                                       <h4>
                                          {data?.[fixedApis.box6]?.message}
                                        </h4>
                                        <div className="name-wraper">
@@ -412,7 +413,7 @@ const YearSection = () => {
               {/*Box 7 - Finished  Races*/}
 
               <div className="col-lg-3 col-md-6">
-                <div className="races text-center">
+                {/* <div className="races text-center">
                   {(() => {
                     if (!data?.[fixedApis.box7]) {
                       return <ErrorMessage errorType="no_data" />;
@@ -432,8 +433,35 @@ const YearSection = () => {
                       </h5>
                     );
                   })()}
+                </div> */}
+                     <div className="races">
+
+                          {(() => {
+                    if (!data?.[fixedApis.box7]) {
+                      return <ErrorMessage errorType="no_data" />;
+                    }
+
+                    const response = data[fixedApis.box7];
+                    const riderData = response?.data;
+
+                    if (!riderData) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    } 
+                         return (
+                <div className="text-wraper">
+                  <h3>
+                  {data?.[fixedApis.box7]?.message}
+                  </h3>
+                  <div className="name-wraper">
+                    <h5>
+                      <strong>{riderData.total_finished_races}</strong>
+                    </h5>
+                  </div>
                 </div>
+                     );
+                  })()}
               </div>
+               </div>
 
               {/*Box 8 - Most GC wins*/}
               <div className="col-lg-3 col-md-6">
@@ -444,7 +472,7 @@ const YearSection = () => {
                     />
                   ) : (
                     <>
-                      <h4 className="font-size-change">
+                      <h4 >
                         {data?.[fixedApis.box8]?.message}
                       </h4>
                       <ul>
@@ -491,7 +519,7 @@ const YearSection = () => {
                         .slice(0, 1)
                         .map((rider, index) => (
                           <div className="text-wraper">
-                            <h4 className="font-size-change">
+                            <h4>
                               {" "}
                               {data?.[fixedApis.box9]?.message}
                             </h4>
