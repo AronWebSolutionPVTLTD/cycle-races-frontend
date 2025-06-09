@@ -13,6 +13,7 @@ import { generateYearOptions } from '@/components/GetYear';
 import RiderFirstSection from '@/components/rider_detail/RiderFirstSection';
 import { renderFlag } from '@/components/RenderFlag';
 import RiderSecondSection from '@/components/rider_detail/RiderSecondSection';
+import RiderThirdSection from '@/components/rider_detail/RiderThirdSection';
 
 export default function RiderDetail({ initialRider }) {
   const router = useRouter();
@@ -201,11 +202,15 @@ const {withoutAllTime } = generateYearOptions();
               </ul>
             </div>
       {/* Random Stats Section */}
-      <RiderFirstSection
+      {/* <RiderFirstSection
        riderId={rider._id} 
               filterYear={filterYear}/>
 
                  <RiderSecondSection
+       riderId={rider._id} 
+              filterYear={filterYear}/> */}
+
+                               <RiderThirdSection
        riderId={rider._id} 
               filterYear={filterYear}/>
 
