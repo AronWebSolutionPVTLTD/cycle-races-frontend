@@ -8,10 +8,30 @@ import {
 } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
 
+function convertDateRange(dateStr) {
+  const format = (d) => {
+    const [day, month] = d.split(".");
+    return `${day.padStart(2, "0")}/${month.padStart(2, "0")}`;
+  };
+
+  if (dateStr.includes(" - ")) {
+    const [start, end] = dateStr.split(" - ");
+    return {
+      start: format(start),
+      end: format(end),
+    };
+  } else {
+    return {
+      start: format(dateStr),
+      end: null,
+    };
+  }
+}
+
 const FirstSection = () => {
   // Fixed APIs for each section - no random selection
   const fixedApis = {
-    section1: "tourDownUnderStage2",
+    // section1: "tourDownUnderStage2",
     section2: "recentCompleteRace",
   };
 
@@ -43,7 +63,7 @@ const FirstSection = () => {
     return { error: true, errorType: "no_data_found" };
   };
 
- return (
+  return (
     <section className="home-banner">
       <div className="container">
         <div className="row">
@@ -76,17 +96,17 @@ const FirstSection = () => {
               {/* First Section - Top Stage Winners */}
               <div className="col-lg-3 col-md-5">
                 <div className="list-white-cart">
-                  {getSectionData(fixedApis.section1).error ? (
+                  {getSectionData(fixedApis.section2).error ? (
                     <ErrorMessage
-                      errorType={getSectionData(fixedApis.section1).errorType}
+                      errorType={getSectionData(fixedApis.section2).errorType}
                     />
                   ) : (
                     <>
-                      <h4>{data?.[fixedApis.section1]?.message}</h4>
+                      <h4>{data?.[fixedApis.section2]?.message}</h4>
 
                       <ul>
-                        {(Array.isArray(getSectionData(fixedApis.section1).data)
-                          ? getSectionData(fixedApis.section1).data
+                        {(Array.isArray(getSectionData(fixedApis.section2).data)
+                          ? getSectionData(fixedApis.section2).data?.[0]?.result
                           : []
                         )
                           .slice(0, 3)
@@ -94,7 +114,7 @@ const FirstSection = () => {
                             <li key={index}>
                               <strong>{index + 1}</strong>
                               <div className="name-wraper">
-                                {renderFlag(rider?.rider_country)}
+                                {renderFlag(rider?.riderCountry)}
                                 <h6>{rider?.rider}</h6>
                               </div>
                               {rider.time && (
@@ -128,30 +148,33 @@ const FirstSection = () => {
                       {(Array.isArray(getSectionData(fixedApis.section2).data)
                         ? getSectionData(fixedApis.section2).data
                         : []
-                      )
-                        .slice(0, 4)
-                        .map((result, index) => (
+                      ).map((result, index) => {
+                        const { start, end } = convertDateRange(result?.date);
+                        return (
                           <li key={index}>
                             <span>
-                              {new Date(result.date).toLocaleDateString(
+                              {/* {new Date(result.date).toLocaleDateString(
                                 "en-GB",
                                 { day: "2-digit", month: "2-digit" }
-                              )}
+                              )} */}
+                              {start}
+                              {end ? ` - ${end}` : ""}
                             </span>
                             <h5>
                               {renderFlag(result?.raceCountry)}
                               <a href="#?">{result.raceName}</a>
                             </h5>
                             <h6>
-                              {renderFlag(result?.riderCountry)}
-                              <a href="#?">{result.rider}</a>
+                              {renderFlag(result?.result[0]?.riderCountry)}
+                              <a href="#?">{result?.result[0]?.rider}</a>
                             </h6>
-                            <h6>{result.team}</h6>
+                            <h6>{result?.result[0]?.team}</h6>
                             <a href="#?" className="r-details">
                               <img src="/images/hover-arow.svg" alt="" />
                             </a>
                           </li>
-                        ))}
+                        );
+                      })}
                     </ul>
                   </>
                 )}
