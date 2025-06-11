@@ -1,104 +1,44 @@
 import React from "react";
-import { useMultipleData } from "../../home_api_data";
-import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
-import { renderFlag } from "@/components/RenderFlag";
+import { useMultipleData } from "../home_api_data";
+import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
+import { renderFlag } from "../RenderFlag";
 
-const fixedApis = {
-  box1: "mostWin",
-  box2: "stageTop10sRider",
-  box3: "mostRacingDays",
-  box4: "getTopStageRiders",
-  box5: "ridersWithBirthdayToday",
-  box6: "teamWithMostRider",
-  box7: "finishRace",
-  box8: "mostGCWins",
-  box9: "mostDNFs",
-};
+const StatsFirstSection = ({
+  selectedNationality,
+  selectedTeam,
+  selectedYear,
+}) => {
+  const fixedApis = {
+    box1: "mostWin",
+    box2: "stageTop10sRider",
+    box3: "mostRacingDays",
+    box4: "getTopStageRiders",
+    box5: "mostPodiumInStages",
+    box6: "teamWithMostRider",
+    box7: "finishRace",
+    box8: "mostGCWins",
+    box9: "mostDNFs",
+    box10: "mostSecondPlaces",
+    box11: "teamWithMostNationalities",
+    box12: "youngestMostWins",
+    box13: "olderstRiders",
+    box14: "mostmountainwins",
+    box15: "shortestRace",
+    box16: "lightestRider",
+  };
 
-const YearSection = () => {
+  const buildQueryParams = () => {
+    let params = {};
+    if (selectedYear) params.year = selectedYear;
+    if (selectedNationality) params.rider_country = selectedNationality;
+    if (selectedTeam) params.team_name = selectedTeam;
+    return params;
+  };
+
   const endpointsToFetch = Object.values(fixedApis);
-  const { data, loading, error } = useMultipleData(endpointsToFetch);
-
-  // Enhanced error checking function
-  // const getBoxData = (key) => {
-  //   try {
-  //     // Check for network/API errors
-  //     if (error && error[key]) {
-  //       console.warn(`API error for ${key}:`, error[key]);
-  //       return { error: true, errorType: "api_error" };
-  //     }
-
-  //     // Check if data exists at all
-  //     if (!data || !data[key]) {
-  //       return { error: true, errorType: "no_data" };
-  //     }
-
-  //     const endpointData = data[key];
-
-  //     // Check for various data structure scenarios
-  //     if (!endpointData) {
-  //       return { error: true, errorType: "no_endpoint_data" };
-  //     }
-
-  //     // Handle different response structures
-  //     let actualData = null;
-
-  //     // Check different possible data structures
-  //     if (endpointData.data?.data !== undefined) {
-  //       actualData = endpointData.data.data;
-  //     } else if (endpointData.data !== undefined) {
-  //       actualData = endpointData.data;
-  //     } else if (endpointData.data.result !== undefined) {
-  //       actualData = endpointData.data.result;
-  //     } else {
-  //       actualData = endpointData;
-  //     }
-
-  //     // Check if actualData is null, undefined, or empty
-  //     if (actualData === null || actualData === undefined) {
-  //       return { error: true, errorType: "null_data" };
-  //     }
-
-  //     // Check for empty arrays
-  //     if (Array.isArray(actualData) && actualData.length === 0) {
-  //       return { error: true, errorType: "empty_array" };
-  //     }
-
-  //     // Check for empty objects
-  //     if (
-  //       typeof actualData === "object" &&
-  //       !Array.isArray(actualData) &&
-  //       Object.keys(actualData).length === 0
-  //     ) {
-  //       return { error: true, errorType: "empty_object" };
-  //     }
-
-  //     return { data: actualData, error: false };
-  //   } catch (err) {
-  //     console.error(`Error processing data for ${key}:`, err);
-  //     return { error: true, errorType: "processing_error" };
-  //   }
-  // };
-
-  // Error message component
-  // const ErrorMessage = ({ errorType = "general" }) => {
-  //   const errorMessages = {
-  //     api_error: "API Error",
-  //     no_data: "No Data Available",
-  //     no_endpoint_data: "No Endpoint Data",
-  //     null_data: "Data Not Found",
-  //     empty_array: "No Records Found",
-  //     empty_object: "No Information Available",
-  //     processing_error: "Data Processing Error",
-  //     general: "No Data Available",
-  //   };
-
-  //   return (
-  //     <div className="text-danger text-center py-3">
-  //       {errorMessages[errorType] || errorMessages.general}
-  //     </div>
-  //   );
-  // };
+  const { data, loading, error } = useMultipleData(endpointsToFetch, {
+    queryParams: buildQueryParams(),
+  });
 
   const getBoxData = (key) => {
     if (!data?.[key]) return { error: true, errorType: "no_data" };
@@ -108,7 +48,7 @@ const YearSection = () => {
     // Try most common paths in order
     const paths = [
       response?.data?.data?.result,
-      // response?.data?.result,
+      response?.data?.data?.shortest_stage_races,
       response?.data?.data,
       response?.data,
       response?.data.riders,
@@ -128,12 +68,6 @@ const YearSection = () => {
     <section className="home-sec2">
       <div className="container">
         <div className="row">
-          <div className="col-lg-12 d-flex justify-content-between align-items-center">
-            <h2>dit jaar</h2>
-            <a href="#?" className="alle-link">
-              Alle statistieken <img src="/images/arow2.svg" alt="" />
-            </a>
-          </div>
           {loading && <BoxSkeleton />}
 
           {/* Show global error if all data failed */}
@@ -200,7 +134,7 @@ const YearSection = () => {
                     <div className="team-cart">
                       <a href="#?" className="pabs"></a>
                       <div className="text-wraper">
-                        <h4> {data?.[fixedApis.box2]?.message}</h4>
+                        <h4>{data?.[fixedApis.box2]?.message}</h4>
                         {getBoxData(fixedApis.box2).error ? (
                           <ErrorMessage
                             errorType={getBoxData(fixedApis.box2).errorType}
@@ -213,8 +147,8 @@ const YearSection = () => {
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
-                                  <div className="name-wraper" key={index}>
+                                < div key={index}>
+                                  <div className="name-wraper" >
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -224,7 +158,7 @@ const YearSection = () => {
                                       <strong>{rider.count} </strong> wins
                                     </h5>
                                   )}
-                                </>
+                                </div>
                               ))}
                             <img
                               src="/images/player4.png"
@@ -246,6 +180,7 @@ const YearSection = () => {
                       <a href="#?" className="pabs"></a>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box3]?.message}</h4>
+
                         {getBoxData(fixedApis.box3).error ? (
                           <ErrorMessage
                             errorType={getBoxData(fixedApis.box3).errorType}
@@ -341,12 +276,12 @@ const YearSection = () => {
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
                                   <div className="name-wraper">
-                                    {renderFlag(rider?.nationality)}
-                                    <h6>{rider?.name || "..."}</h6>
+                                    {renderFlag(rider?.rider_country)}
+                                    <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
 
-                                  {rider?.age_today && (
-                                    <span>{rider.age_today}</span>
+                                  {rider?.count && (
+                                    <span>{rider.count}</span>
                                   )}
                                 </li>
                               ))}
@@ -407,8 +342,8 @@ const YearSection = () => {
                   </div>
                 </div>
               </div>
-              {/*Box 7 - Finished  Races*/}
 
+              {/*Box 7 - Finished  Races*/}
               <div className="col-lg-3 col-md-6">
                 <div className="races">
                   <div className="text-wraper">
@@ -477,7 +412,8 @@ const YearSection = () => {
                 <div className="team-cart">
                   <a href="#?" className="pabs"></a>
                   <div className="text-wraper">
-                    <h4> {data?.[fixedApis.box9]?.message}</h4>
+                    <h4>{data?.[fixedApis.box9]?.message}</h4>
+
                     {getBoxData(fixedApis.box9).error ? (
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box9).errorType}
@@ -512,6 +448,307 @@ const YearSection = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Box 10 - Most Second  Places */}
+              <div className="col-lg-4 col-md-6">
+                <div className="team-cart">
+                  <a href="#?" className="pabs"></a>
+                  <div className="text-wraper">
+                    <h4 className="font-size-change">
+                      {data?.[fixedApis.box10]?.message}
+                    </h4>
+                    {getBoxData(fixedApis.box10).error ? (
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box10).errorType}
+                      />
+                    ) : (
+                      <>
+                        {(Array.isArray(getBoxData(fixedApis.box10).data)
+                          ? getBoxData(fixedApis.box10).data
+                          : []
+                        )
+                          .slice(0, 1)
+                          .map((rider, index) => (
+                            <>
+                              <div className="name-wraper" key={index}>
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
+                              </div>
+
+                              {rider?.second_place_count && (
+                                <h5>
+                                  <strong>{rider.second_place_count} </strong>{" "}
+                                  times
+                                </h5>
+                              )}
+                            </>
+                          ))}
+
+                        <img
+                          src="/images/player6.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                        <a href="#?" className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Box 11 -  Most nationality  */}
+              <div className="col-lg-4 col-md-6">
+                <div className="team-cart lime-green-team-cart img-active">
+                  <a href="#?" className="pabs"></a>
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box11]?.message}</h4>
+                    {(() => {
+                      if (!data?.[fixedApis.box11]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
+
+                      const response = data[fixedApis.box11];
+                      const riderData = response?.data;
+
+                      if (!riderData) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
+
+                      return (
+                        <>
+                          <div className="name-wraper">
+                            {renderFlag(riderData?.country)}
+                            <h6>{riderData?.team || "..."}</h6>
+                          </div>
+                          {riderData?.wins && (
+                            <h5>
+                              <strong>{riderData.wins} </strong>
+                            </h5>
+                          )}
+
+                          <a href="#?" className="white-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                          </a>
+                        </>
+                      );
+                    })()}
+                  </div>
+                </div>
+              </div>
+
+              {/*Box 12 - Most youngest  wins*/}
+              <div className="col-lg-4 col-md-6">
+                <div className="team-cart">
+                  <a href="#?" className="pabs"></a>
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box12]?.message}</h4>
+                    {getBoxData(fixedApis.box12).error ? (
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box12).errorType}
+                      />
+                    ) : (
+                      <>
+                        {(Array.isArray(getBoxData(fixedApis.box12).data)
+                          ? getBoxData(fixedApis.box12).data
+                          : []
+                        )
+                          .slice(0, 1)
+                          .map((rider, index) => (
+                            <>
+                              <div className="name-wraper" key={index}>
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
+                              </div>
+
+                              {rider?.wins && (
+                                <h5>
+                                  <strong>{rider.wins} </strong> wins
+                                </h5>
+                              )}
+                            </>
+                          ))}
+
+                        <img
+                          src="/images/player6.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                        <a href="#?" className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/*Box 13 - Most olderst Riders*/}
+              <div className="col-lg-3 col-md-6">
+                <div className="list-white-cart">
+                  <h4>{data?.[fixedApis.box13]?.message}</h4>
+                  {getBoxData(fixedApis.box13).error ? (
+                    <ErrorMessage
+                      errorType={getBoxData(fixedApis.box13).errorType}
+                    />
+                  ) : (
+                    <>
+                      <ul>
+                        {(Array.isArray(getBoxData(fixedApis.box13).data)
+                          ? getBoxData(fixedApis.box13).data
+                          : []
+                        )
+                          .slice(0, 3)
+                          .map((rider, index) => (
+                            <li key={index}>
+                              <strong>{index + 1}</strong>
+                              <div className="name-wraper">
+                                {renderFlag(rider?.country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
+                              </div>
+
+                              {rider?.age && <span>{rider.age} jaar</span>}
+                            </li>
+                          ))}
+                      </ul>
+                      <a href="#?" className="green-circle-btn">
+                        <img src="/images/arow.svg" alt="" />
+                      </a>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/*Box 14 - Mountain  */}
+              <div className="col-lg-3 col-md-6">
+                <div className="team-cart">
+                  <a href="#?" className="pabs"></a>
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box14]?.message}</h4>
+                    {(() => {
+                      if (!data?.[fixedApis.box14]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
+
+                      const response = data[fixedApis.box14];
+                      const riderData = response?.data;
+
+                      if (!riderData) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
+
+                      return (
+                        <>
+                          <div className="name-wraper">
+                            {renderFlag(riderData?.country)}
+                            <h6>{riderData?.rider_name || "..."}</h6>
+                          </div>
+                          {riderData?.totalKOMTitles && (
+                            <h5>
+                              <strong>{riderData.totalKOMTitles} </strong>wins
+                            </h5>
+                          )}
+
+                          <img
+                            src="/images/player1.png"
+                            alt=""
+                            className="absolute-img"
+                          />
+                          <a href="#?" className="green-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                          </a>
+                        </>
+                      );
+                    })()}
+                  </div>
+                </div>
+              </div>
+
+              {/*Box 15 - Shortest race */}
+              <div className="col-lg-3 col-md-6">
+                <div className="team-cart">
+                  <a href="#?" className="pabs"></a>
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box15]?.message}</h4>
+                    {getBoxData(fixedApis.box15).error ? (
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box15).errorType}
+                      />
+                    ) : (
+                      <>
+                        {(Array.isArray(getBoxData(fixedApis.box15).data)
+                          ? getBoxData(fixedApis.box15).data
+                          : []
+                        )
+                          .slice(0, 1)
+                          .map((race, index) => (
+                            <>
+                              <div className="name-wraper" key={index}>
+                                <h6>
+                                  {race?.race || "..."} ({race?.year})
+                                </h6>
+                              </div>
+
+                              {race?.distance && (
+                                <h5>
+                                  <strong>{race.distance} </strong> km
+                                </h5>
+                              )}
+                            </>
+                          ))}
+                        <img
+                          src="/images/player2.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                        <a href="#?" className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+              {/*Box 16 -Lightest rider */}
+              <div className="col-lg-3 col-md-6">
+                <div className="team-cart lime-green-team-cart img-active">
+                  <a href="#?" className="pabs"></a>
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box16]?.message}</h4>
+                    {(() => {
+                      if (!data?.[fixedApis.box16]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
+
+                      const response = data[fixedApis.box16];
+                      const riderData = response?.data.data;
+
+                      if (!riderData) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
+
+                      return (
+                        <>
+                          <div className="name-wraper">
+                            {renderFlag(riderData?.rider_country)}
+                            <h6>{riderData?.name || "..."}</h6>
+                          </div>
+                          {riderData?.weight && (
+                            <h5>
+                              <strong>{riderData.weight} </strong>kg
+                            </h5>
+                          )}
+
+                          <a href="#?" className="white-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                          </a>
+                        </>
+                      );
+                    })()}
+                  </div>
+                </div>
+              </div>
             </>
           )}
         </div>
@@ -520,4 +757,4 @@ const YearSection = () => {
   );
 };
 
-export default YearSection;
+export default StatsFirstSection;

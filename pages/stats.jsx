@@ -4,6 +4,7 @@ import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { FirstSection } from "@/components/stats_section/FirstSection";
 import MostwinSection from "@/components/stats_section/MostwinSection";
 import SecondSection from "@/components/stats_section/SecondSection";
+import StatsFirstSection from "@/components/stats_section/StatsFirstSection";
 import { callAPI } from "@/lib/api";
 import Head from "next/head";
 import Link from "next/link";
@@ -186,7 +187,7 @@ export default function Stats() {
                 />
               </ul>
             </div>
-            <FirstSection
+            {/* <FirstSection
               selectedNationality={selectedNationality}
               selectedTeam={selectedTeam}
               selectedYear={selectedYear}
@@ -201,7 +202,12 @@ export default function Stats() {
               selectedNationality={selectedNationality}
               selectedTeam={selectedTeam}
               selectedYear={selectedYear}
-            />
+            /> */}
+            <StatsFirstSection
+              selectedNationality={selectedNationality}
+              selectedTeam={selectedTeam}
+              selectedYear={selectedYear}
+               />
           </div>
         </div>
       </section>

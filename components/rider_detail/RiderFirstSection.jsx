@@ -23,7 +23,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
     return params;
   };
 
-  const raceEndpoints = [];
+
   const riderEndpoints = [
     fixedApis.box1,
     fixedApis.box2,
@@ -43,9 +43,9 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
   };
 
   const {
-    data: riderData,
-    loading: riderLoading,
-    error: riderError,
+    data,
+    loading,
+    error,
   } = useMultipleData(riderEndpoints, {
     id: riderId,
     queryParams: buildQueryParams(),
@@ -53,23 +53,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
     idType: "rider",
   });
 
-  const {
-    data: raceData,
-    loading: raceLoading,
-    error: raceError,
-  } = useMultipleData(raceEndpoints, {
-    id: riderId,
-    queryParams: buildQueryParams(),
-    endpointsMappings: endpointsMappings,
-    idType: "race",
-  });
-
-  // Combine results
-  const data = { ...raceData, ...riderData };
-  const loading = raceLoading || riderLoading;
-  const error = raceError || riderError;
-
-  const getBoxData = (endpoint) => {
+ const getBoxData = (endpoint) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
 
@@ -96,7 +80,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
   return (
     <>
-      <div className="row">
+      <div className="row" style={{ marginBottom: "30px" }}>
         {loading && <BoxSkeleton />}
 
         {/* Show global error if all data failed */}
@@ -166,7 +150,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                       <div className="name-wraper">
+                        <div className="name-wraper">
                           {renderFlag(riderData?.nationality)}
                           <h6>{riderData?.rider_name || "..."}</h6>
                         </div>
@@ -187,7 +171,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             </div>
 
             {/* third Section */}
-             <div className="col-lg-3 col-md-6">
+            <div className="col-lg-3 col-md-6">
               <div className="team-cart">
                 <a href="#?" className="pabs"></a>
                 <div className="text-wraper">
@@ -211,12 +195,12 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           <h6>{riderData?.teamName || "..."}</h6>
                         </div>
 
-                          <img
-                      src="/images/player3.png"
-                      alt=""
-                      className="absolute-img"
-                    />
-                  <a href="#?" className="green-circle-btn">
+                        <img
+                          src="/images/player3.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                        <a href="#?" className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
                         </a>
                       </>
@@ -229,28 +213,30 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             {/* Box4: Rider Total Wins  */}
             <div className="col-lg-3 col-md-6">
               <div className="races">
-                {(() => {
-                  if (!data?.[fixedApis.box4]) {
-                    return <ErrorMessage errorType="no_data" />;
-                  }
+                <div className="text-wraper">
+                  <h3 className="font-size-change">
+                    {data?.[fixedApis.box4]?.message}
+                  </h3>
+                  {(() => {
+                    if (!data?.[fixedApis.box4]) {
+                      return <ErrorMessage errorType="no_data" />;
+                    }
 
-                  const response = data[fixedApis.box4];
-                  const riderData = response?.data.data;
+                    const response = data[fixedApis.box4];
+                    const riderData = response?.data.data;
 
-                  if (!riderData) {
-                    return <ErrorMessage errorType="no_data_found" />;
-                  }
-                  return (
-                    <div className="text-wraper">
-                      <h3>{data?.[fixedApis.box4]?.message}</h3>
+                    if (!riderData) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+                    return (
                       <div className="name-wraper">
                         <h5>
                           <strong>{riderData.total_wins}</strong>
                         </h5>
                       </div>
-                    </div>
-                  );
-                })()}
+                    );
+                  })()}
+                </div>
               </div>
             </div>
 
@@ -295,7 +281,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                   </div>
                 </div>
 
-                {/*Box 6 - Most Racing  Days */}
+                {/*Box 6 - Rider YearsActive */}
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart lime-green-team-cart img-active">
                     <a href="#?" className="pabs"></a>
@@ -313,7 +299,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           )
                             .slice(0, 1)
                             .map((rider, index) => (
-                              <h5>
+                              <h5 key={index}>
                                 <strong>{rider} </strong>
                               </h5>
                             ))}
@@ -330,13 +316,13 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 {/*Box 7 - Rider Wins BySeason*/}
                 <div className="col-lg-7 col-md-6">
                   <div className="list-white-cart">
+                    <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box7).errorType}
                       />
                     ) : (
                       <>
-                        <h4>{data?.[fixedApis.box7]?.message}</h4>
                         <ul>
                           {(Array.isArray(getBoxData(fixedApis.box7).data)
                             ? getBoxData(fixedApis.box7).data
@@ -402,19 +388,20 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 </div>
               </div>
             </div>
+
             {/*Box 9 - Best Monuments results  */}
             <div className="col-lg-5 box6">
               <div className="list-white-cart lime-green-cart">
+                <h4 className="fs-chenge">
+                  {" "}
+                  {data?.[fixedApis.box9]?.message}
+                </h4>
                 {getBoxData(fixedApis.box9).error ? (
                   <ErrorMessage
                     errorType={getBoxData(fixedApis.box9).errorType}
                   />
                 ) : (
                   <>
-                    <h4 className="fs-chenge">
-                      {" "}
-                      {data?.[fixedApis.box9]?.message}
-                    </h4>
                     <ul>
                       {(Array.isArray(getBoxData(fixedApis.box9).data)
                         ? getBoxData(fixedApis.box9).data

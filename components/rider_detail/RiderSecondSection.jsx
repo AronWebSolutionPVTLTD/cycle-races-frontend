@@ -98,7 +98,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
 
   return (
     <>
-      <div className="row container">
+      <div className="row" style={{ marginBottom: "30px" }}>
         {loading && <BoxSkeleton />}
 
         {/* Show global error if all data failed */}
@@ -325,9 +325,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
               <div className="team-cart">
                 <a href="#?" className="pabs"></a>
                 <div className="text-wraper">
-                  <h4 className="font-size-change">
-                    {data?.[fixedApis.box6]?.message}
-                  </h4>
+                  <h4>{data?.[fixedApis.box6]?.message}</h4>
                   {(() => {
                     if (!data?.[fixedApis.box6]) {
                       return <ErrorMessage errorType="no_data" />;
@@ -368,24 +366,24 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
                 <a href="#?" className="pabs"></a>
-                {(() => {
-                  if (!data?.[fixedApis.box7]) {
-                    return <ErrorMessage errorType="no_data" />;
-                  }
+                <div className="text-wraper">
+                  <h4 className="font-size-change">
+                    {data?.[fixedApis.box7]?.message}
+                  </h4>
+                  {(() => {
+                    if (!data?.[fixedApis.box7]) {
+                      return <ErrorMessage errorType="no_data" />;
+                    }
 
-                  const response = data[fixedApis.box7];
-                  const riderData = response?.data.data;
+                    const response = data[fixedApis.box7];
+                    const riderData = response?.data.data;
 
-                  if (!riderData) {
-                    return <ErrorMessage errorType="no_data_found" />;
-                  }
+                    if (!riderData) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
 
-                  return (
-                    <>
-                      <div className="text-wraper">
-                        <h4 className="font-size-change">
-                          {data?.[fixedApis.box7]?.message}
-                        </h4>
+                    return (
+                      <>
                         {riderData.total_home_country_wins && (
                           <h5>
                             <strong>
@@ -393,13 +391,14 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                             </strong>
                           </h5>
                         )}
-                      </div>
-                      <a href="#?" className="white-circle-btn">
-                        <img src="/images/arow.svg" alt="" />
-                      </a>
-                    </>
-                  );
-                })()}
+
+                        <a href="#?" className="white-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    );
+                  })()}
+                </div>
               </div>
             </div>
 

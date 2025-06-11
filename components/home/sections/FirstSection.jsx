@@ -76,14 +76,13 @@ const FirstSection = () => {
               {/* First Section - Top Stage Winners */}
               <div className="col-lg-3 col-md-5">
                 <div className="list-white-cart">
+                   <h4>{data?.[fixedApis.section1]?.message}</h4>
                   {getSectionData(fixedApis.section1).error ? (
                     <ErrorMessage
                       errorType={getSectionData(fixedApis.section1).errorType}
                     />
                   ) : (
                     <>
-                      <h4>{data?.[fixedApis.section1]?.message}</h4>
-
                       <ul>
                         {(Array.isArray(getSectionData(fixedApis.section1).data)
                           ? getSectionData(fixedApis.section1).data

@@ -1,10 +1,5 @@
 import { useMultipleData } from "../home_api_data";
-import {
-  BoxSkeleton,
-  BoxSkeleton2,
-  ErrorMessage,
-  ErrorStats,
-} from "../loading&error";
+import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 
 const RiderThirdSection = ({ riderId, filterYear }) => {
@@ -17,7 +12,13 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
     box6: "getFirstRankInGrandTours",
     box7: "getFirstEverGrandTourWin",
     box8: "getTotalRacingDaysInGrandTours",
-    // box9: "getRiderAllVictories",
+    box9: "getTotalDistanceRacedInGrandTours",
+    box10: "getBestMonumentResults",
+    box11: "getBestParisRoubaixResult",
+    box12: "getFirstRankInMonuments",
+    box13: "getBestGCResult",
+    box14: "teamMates",
+    box15: "getRiderLastPlaceFinishes",
   };
 
   const buildQueryParams = () => {
@@ -34,11 +35,20 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
     fixedApis.box5,
     fixedApis.box6,
     fixedApis.box7,
-    // fixedApis.box8,
-    // fixedApis.box9,
+    fixedApis.box8,
+    fixedApis.box9,
+    fixedApis.box10,
+    fixedApis.box11,
+    fixedApis.box12,
   ];
 
-  const riderEndpoints = [fixedApis.box2, fixedApis.box3];
+  const riderEndpoints = [
+    fixedApis.box2,
+    fixedApis.box3,
+    fixedApis.box13,
+    fixedApis.box14,
+    fixedApis.box15,
+  ];
 
   const endpointsMappings = {
     // Add specific endpoint mappings here if needed
@@ -83,9 +93,9 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
       response?.data?.data?.best_monument_results,
       response?.data?.data?.first_rank_races,
       response?.data?.data?.first_grand_tour_win,
+      response?.data?.data?.last_place_finishes,
       response?.data?.data,
       response?.data,
-      response?.data?.riders,
       response,
     ];
 
@@ -100,8 +110,8 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
   return (
     <>
-      <div className="row container">
-        {loading && <BoxSkeleton2 />}
+      <div className="row" style={{ marginBottom: "30px" }}>
+        {loading && <BoxSkeleton />}
 
         {/* Show global error if all data failed */}
         {error && Object.keys(data || {}).length === 0 && (
@@ -394,7 +404,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-                  {/*Box 8 -Total RacingDays InGrandTours */}
+            {/*Box 8 -Total RacingDays InGrandTours */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
                 <a href="#?" className="pabs"></a>
@@ -416,10 +426,9 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                   
-                        {riderData?.year && (
+                        {riderData?.total_racing_days && (
                           <h5>
-                            <strong>{riderData.year} </strong>
+                            <strong>{riderData.total_racing_days} </strong>
                           </h5>
                         )}
 
@@ -430,6 +439,279 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     );
                   })()}
                 </div>
+              </div>
+            </div>
+
+            {/*Box 9 - TotalDistance Raced In GrandTours*/}
+            <div className="col-lg-3 col-md-6">
+              <div className="team-cart">
+                <a href="#?" className="pabs"></a>
+                <div className="text-wraper">
+                  <h4 className="font-size-change">
+                    {data?.[fixedApis.box9]?.message}
+                  </h4>
+                  {(() => {
+                    if (!data?.[fixedApis.box9]) {
+                      return <ErrorMessage errorType="no_data" />;
+                    }
+
+                    const response = data[fixedApis.box9];
+                    const riderData = response?.data.data;
+
+                    if (!riderData) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
+                    return (
+                      <>
+                        {riderData?.total_distance_raced && (
+                          <h5>
+                            <strong>{riderData.total_distance_raced} </strong>
+                          </h5>
+                        )}
+
+                        <a href="#?" className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    );
+                  })()}
+                </div>
+              </div>
+            </div>
+
+            {/*Box 10 - BestMonument Results*/}
+            <div className="col-lg-3 col-md-6">
+              <div className="list-white-cart">
+                <h4>{data?.[fixedApis.box10]?.message}</h4>
+                {getBoxData(fixedApis.box10).error ? (
+                  <ErrorMessage
+                    errorType={getBoxData(fixedApis.box10).errorType}
+                  />
+                ) : (
+                  <>
+                    <ul>
+                      {(Array.isArray(getBoxData(fixedApis.box10).data)
+                        ? getBoxData(fixedApis.box10).data
+                        : []
+                      )
+                        .slice(0, 3)
+                        .map((rider, index) => (
+                          <li key={index}>
+                            <strong>{index + 1}</strong>
+                            <div className="name-wraper">
+                              {renderFlag(rider?.country)}
+                              <h6>
+                                {rider?.race || "..."} ({rider.year})
+                              </h6>
+                            </div>
+
+                            {rider?.rank && <span>{rider.rank}</span>}
+                          </li>
+                        ))}
+                    </ul>
+                    <a href="#?" className="green-circle-btn">
+                      <img src="/images/arow.svg" alt="" />
+                    </a>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/*Box 11 - Best ParisRoubaix Result*/}
+            <div className="col-lg-3 col-md-6">
+              <div className="team-cart">
+                <a href="#?" className="pabs"></a>
+                <div className="text-wraper">
+                  <h4 className="font-size-change">
+                    {data?.[fixedApis.box11]?.message}
+                  </h4>
+                  {(() => {
+                    if (!data?.[fixedApis.box11]) {
+                      return <ErrorMessage errorType="no_data" />;
+                    }
+
+                    const response = data[fixedApis.box11];
+                    const riderData = response?.data.data?.best_result;
+
+                    if (!riderData) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
+                    return (
+                      <>
+                        <div className="name-wraper">
+                          <h6>
+                            {riderData?.race_name || "..."} ({riderData.year})
+                          </h6>
+                        </div>
+                        {riderData?.rank && (
+                          <h5>
+                            <strong>{riderData.rank} </strong>
+                          </h5>
+                        )}
+
+                        <a href="#?" className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    );
+                  })()}
+                </div>
+              </div>
+            </div>
+
+            {/*Box 12 - First Rank InMonuments*/}
+            <div className="col-lg-3 col-md-6">
+              <div className="list-white-cart">
+                <h4>{data?.[fixedApis.box12]?.message}</h4>
+                {getBoxData(fixedApis.box12).error ? (
+                  <ErrorMessage
+                    errorType={getBoxData(fixedApis.box12).errorType}
+                  />
+                ) : (
+                  <>
+                    <ul>
+                      {(Array.isArray(getBoxData(fixedApis.box12).data)
+                        ? getBoxData(fixedApis.box12).data
+                        : []
+                      )
+                        .slice(0, 3)
+                        .map((rider, index) => (
+                          <li key={index}>
+                            <strong>{index + 1}</strong>
+                            <div className="name-wraper">
+                              <h6>{rider?.race || "..."}</h6>
+                            </div>
+
+                            {rider?.year && <span>{rider.year}</span>}
+                          </li>
+                        ))}
+                    </ul>
+                    <a href="#?" className="green-circle-btn">
+                      <img src="/images/arow.svg" alt="" />
+                    </a>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Box 13 -  Last Victory  */}
+            <div className="col-lg-3 col-md-6">
+              <div className="team-cart lime-green-team-cart img-active">
+                <a href="#?" className="pabs"></a>
+                <div className="text-wraper">
+                  <h4>{data?.[fixedApis.box13]?.message}</h4>
+                  {(() => {
+                    if (!data?.[fixedApis.box13]) {
+                      return <ErrorMessage errorType="no_data" />;
+                    }
+
+                    const response = data[fixedApis.box13];
+                    const riderData = response?.data?.data;
+
+                    if (!riderData) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
+                    return (
+                      <>
+                        <div className="name-wraper">
+                          {renderFlag(riderData?.nationality)}
+                          <h6>{riderData?.race || "..."}</h6>
+                        </div>
+                        {riderData?.bestGCRank && (
+                          <h5>
+                            <strong>{riderData.bestGCRank} </strong>
+                          </h5>
+                        )}
+
+                        <a href="#?" className="white-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    );
+                  })()}
+                </div>
+              </div>
+            </div>
+
+            {/* Box 14 - Teammates*/}
+
+            <div className="col-lg-3 col-md-6">
+              <div className="team-cart">
+                <a href="#?" className="pabs"></a>
+                <div className="text-wraper">
+                  <h4 className="font-size-change">
+                    {data?.[fixedApis.box14]?.message}
+                  </h4>
+                  {(() => {
+                    if (!data?.[fixedApis.box14]) {
+                      return <ErrorMessage errorType="no_data" />;
+                    }
+
+                    const response = data[fixedApis.box14];
+                    const riderData = response?.data?.data;
+
+                    if (!riderData) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
+                    return (
+                      <>
+                        <div className="name-wraper">
+                          {renderFlag(riderData?.country)}
+                          <h6>{riderData?.top_teammate || "..."}</h6>
+                        </div>
+                        {riderData?.times_raced && (
+                          <h5>
+                            <strong>{riderData.times_raced} </strong>
+                          </h5>
+                        )}
+
+                        <a href="#?" className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    );
+                  })()}
+                </div>
+              </div>
+            </div>
+
+            {/* Box 15 - Rider LastPlace Finishes*/}
+            <div className="col-lg-3 col-md-6">
+              <div className="list-white-cart">
+                <h4>{data?.[fixedApis.box15]?.message}</h4>
+                {getBoxData(fixedApis.box15).error ? (
+                  <ErrorMessage
+                    errorType={getBoxData(fixedApis.box15).errorType}
+                  />
+                ) : (
+                  <>
+                    <ul>
+                      {(Array.isArray(getBoxData(fixedApis.box15).data)
+                        ? getBoxData(fixedApis.box15).data
+                        : []
+                      )
+                        .slice(0, 3)
+                        .map((rider, index) => (
+                          <li key={index}>
+                            <strong>{index + 1}</strong>
+                            <div className="name-wraper">
+                              {renderFlag(rider?.country)}
+                              <h6>{rider?.race || "..."}</h6>
+                            </div>
+
+                            {rider?.rank && <span>{rider.rank}</span>}
+                          </li>
+                        ))}
+                    </ul>
+                    <a href="#?" className="green-circle-btn">
+                      <img src="/images/arow.svg" alt="" />
+                    </a>
+                  </>
+                )}
               </div>
             </div>
           </>
