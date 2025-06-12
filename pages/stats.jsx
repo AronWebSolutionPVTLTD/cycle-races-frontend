@@ -5,6 +5,8 @@ import { FirstSection } from "@/components/stats_section/FirstSection";
 import MostwinSection from "@/components/stats_section/MostwinSection";
 import SecondSection from "@/components/stats_section/SecondSection";
 import StatsFirstSection from "@/components/stats_section/StatsFirstSection";
+import StatsSecondSection from "@/components/stats_section/StatsSecondSection";
+import StatsThirdSection from "@/components/stats_section/StatsThirdSection";
 import { callAPI } from "@/lib/api";
 import Head from "next/head";
 import Link from "next/link";
@@ -13,10 +15,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export default function Stats() {
   const [nationalities, setNationalities] = useState([]);
   const [teams, setTeams] = useState([]);
-  // const [selectedYear, setSelectedYear] = useState(
-  //   new Date().getFullYear().toString()
-  // );
-  const [selectedYear, setSelectedYear] = useState("2015");
+  const [selectedYear, setSelectedYear] = useState(
+    new Date().getFullYear().toString()
+  );
+  // const [selectedYear, setSelectedYear] = useState("2015");
   const [yearInput, setYearInput] = useState(
     new Date().getFullYear().toString()
   );
@@ -203,7 +205,17 @@ export default function Stats() {
               selectedTeam={selectedTeam}
               selectedYear={selectedYear}
             /> */}
-            <StatsFirstSection
+            {/* <StatsFirstSection
+              selectedNationality={selectedNationality}
+              selectedTeam={selectedTeam}
+              selectedYear={selectedYear}
+               /> */}
+                 {/* <StatsSecondSection
+              selectedNationality={selectedNationality}
+              selectedTeam={selectedTeam}
+              selectedYear={selectedYear}
+               /> */}
+                          <StatsThirdSection
               selectedNationality={selectedNationality}
               selectedTeam={selectedTeam}
               selectedYear={selectedYear}
