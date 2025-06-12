@@ -71,8 +71,8 @@ const LastSection = () => {
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
-                              <div className="name-wraper" key={index}>
+                            <div key={index}>
+                              <div className="name-wraper">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -83,7 +83,7 @@ const LastSection = () => {
                                   times
                                 </h5>
                               )}
-                            </>
+                            </div>
                           ))}
 
                         <img
@@ -158,8 +158,8 @@ const LastSection = () => {
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
-                              <div className="name-wraper" key={index}>
+                            <div key={index}>
+                              <div className="name-wraper">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -169,7 +169,7 @@ const LastSection = () => {
                                   <strong>{rider.wins} </strong> wins
                                 </h5>
                               )}
-                            </>
+                            </div>
                           ))}
 
                         <img

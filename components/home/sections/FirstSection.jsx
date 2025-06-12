@@ -62,7 +62,8 @@ const FirstSection = () => {
 
     return { error: true, errorType: "no_data_found" };
   };
-
+  console.log(data);
+  
   return (
     <section className="home-banner">
       <div className="container">
@@ -102,7 +103,7 @@ const FirstSection = () => {
                     />
                   ) : (
                     <>
-                      <h4>{data?.[fixedApis.section2]?.message}</h4>
+                      <h4>{getSectionData(fixedApis.section2).data?.[0]?.raceName}</h4>
 
                       <ul>
                         {(Array.isArray(getSectionData(fixedApis.section2).data)
