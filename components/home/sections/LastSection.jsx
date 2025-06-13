@@ -72,7 +72,7 @@ const LastSection = () => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <div key={index}>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -120,7 +120,7 @@ const LastSection = () => {
 
                       return (
                         <>
-                          <div className="name-wraper">
+                          <div className="name-wraper name-wraper-green">
                             {renderFlag(riderData?.country)}
                             <h6>{riderData?.team || "..."}</h6>
                           </div>
@@ -159,7 +159,7 @@ const LastSection = () => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <div key={index}>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -205,7 +205,7 @@ const LastSection = () => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -242,7 +242,7 @@ const LastSection = () => {
 
                       return (
                         <>
-                          <div className="name-wraper">
+                          <div className="name-wraper name-wraper-white">
                             {renderFlag(riderData?.country)}
                             <h6>{riderData?.rider_name || "..."}</h6>
                           </div>
@@ -286,7 +286,7 @@ const LastSection = () => {
                           .slice(0, 1)
                           .map((race, index) => (
                             <>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 <h6>
                                   {race?.race || "..."} ({race?.year})
                                 </h6>
@@ -312,29 +312,28 @@ const LastSection = () => {
                   </div>
                 </div>
               </div>
-              {/*Box 7 -shortestRaces */}
+
+              {/*Box 7 -lightestRider */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <a href="#?" className="pabs"></a>
-                  {(() => {
-                    if (!data?.[fixedApis.box7]) {
-                      return <ErrorMessage errorType="no_data" />;
-                    }
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box7]?.message}</h4>
+                    {(() => {
+                      if (!data?.[fixedApis.box7]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
 
-                    const response = data[fixedApis.box7];
-                    const riderData = response?.data.data;
+                      const response = data[fixedApis.box7];
+                      const riderData = response?.data.data;
 
-                    if (!riderData) {
-                      return <ErrorMessage errorType="no_data_found" />;
-                    }
+                      if (!riderData) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
 
-                    return (
-                      <>
-                        <div className="text-wraper">
-                          <h4 className="font-size-change">
-                            {data?.[fixedApis.box7]?.message}
-                          </h4>
-                          <div className="name-wraper">
+                      return (
+                        <>
+                          <div className="name-wraper name-wraper-green">
                             {renderFlag(riderData?.rider_country)}
                             <h6>{riderData?.name || "..."}</h6>
                           </div>
@@ -343,14 +342,14 @@ const LastSection = () => {
                               <strong>{riderData.weight} </strong>kg
                             </h5>
                           )}
-                        </div>
 
-                        <a href="#?" className="white-circle-btn">
-                          <img src="/images/arow.svg" alt="" />
-                        </a>
-                      </>
-                    );
-                  })()}
+                          <a href="#?" className="white-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                          </a>
+                        </>
+                      );
+                    })()}
+                  </div>
                 </div>
               </div>
             </>

@@ -18,6 +18,10 @@ const StatsSecondSection = ({
     box7: "oldestMostWins",
     box8: "lightestRider",
     box9: "mostweightRider",
+    box10: "gcTop10s",
+    box11:"sprintWins",
+    box12:"DnfTeams",
+    box13:"top3teamwithrank1"
  };
 
   const buildQueryParams = () => {
@@ -42,6 +46,7 @@ const StatsSecondSection = ({
     const paths = [
       response?.data?.data?.result,
       response?.data?.data,
+      response?.data?.data?.stageResults,
       response?.data,
       response?.data.riders,
       response,
@@ -437,6 +442,163 @@ const StatsSecondSection = ({
                   </div>
                 </div>
               </div>
+
+           {/* Box10: GC TOp 10  */}
+              <div className="col-lg-3 col-md-6">
+                                             <div className="list-white-cart lime-green-cart">
+                                                 
+                                                 <h4>{data?.[fixedApis.box10]?.message}</h4>
+                                                 {getBoxData(fixedApis.box10).error ? (
+                                                   <ErrorMessage
+                                                     errorType={getBoxData(fixedApis.box10).errorType}
+                                                   />
+                                                 ) : (
+                                                   <>
+                                                     <ul>
+                                                       {(Array.isArray(getBoxData(fixedApis.box10).data)
+                                                         ? getBoxData(fixedApis.box10).data
+                                                         : []
+                                                       )
+                                                         .slice(0, 3)
+                                                         .map((rider, index) => (
+                                                           <li key={index}>
+                                                             <strong>{index + 1}</strong>
+                                                             <div className="name-wraper">
+                                                               {renderFlag(rider?.rider_country)}
+                                                               <h6>{rider?.rider_name || "..."}</h6>
+                                                             </div>
+                           
+                                                             {rider?.count && <span>{rider.count}</span>}
+                                                           </li>
+                                                         ))}
+                                                     </ul>
+                                                     <a href="#?" className="white-circle-btn">
+                                                       <img src="/images/arow.svg" alt="" />
+                                                     </a>
+                                                   </>
+                                                 )}
+                                               </div>
+                                             </div>
+
+             {/* Box11: Sprint Wins */}
+
+               <div className="col-lg-3 col-md-6">
+                <div className="team-cart">
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box11]?.message}</h4>
+                    {getBoxData(fixedApis.box11).error ? (
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box11).errorType}
+                      />
+                    ) : (
+                      <>
+                        {(Array.isArray(getBoxData(fixedApis.box11).data)
+                          ? getBoxData(fixedApis.box11).data
+                          : []
+                        )
+                          .slice(0, 1)
+                          .map((rider, index) => (
+                            <>
+                              <div className="name-wraper">
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
+                              </div>
+                              {rider?.sprint_wins && (
+                                <h5>
+                                  <strong>{rider.sprint_wins} </strong>wins
+                                </h5>
+                              )}
+                            </>
+                          ))}
+
+                        <a href="#?" className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>  
+
+             {/* Box12: DNF team in GC*/}
+                <div className="col-lg-3 col-md-6">
+                <div className="team-cart">
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box12]?.message}</h4>
+                    {getBoxData(fixedApis.box12).error ? (
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box12).errorType}
+                      />
+                    ) : (
+                      <>
+                        {(Array.isArray(getBoxData(fixedApis.box12).data)
+                          ? getBoxData(fixedApis.box12).data
+                          : []
+                        )
+                          .slice(0, 1)
+                          .map((rider, index) => (
+                            <>
+                              <div className="name-wraper">
+                                {renderFlag(rider?.flag)}
+                                <h6>{rider?.team_name || "..."}</h6>
+                              </div>
+                              {rider?.year && (
+                                <h5>
+                                  <strong>{rider.year} </strong>
+                                </h5>
+                              )}
+                            </>
+                          ))}
+
+                        <a href="#?" className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>      
+
+                 {/* Box13: Rank one Teams*/}
+                <div className="col-lg-3 col-md-6">
+                <div className="team-cart">
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box13]?.message}</h4>
+                    {getBoxData(fixedApis.box13).error ? (
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box13).errorType}
+                      />
+                    ) : (
+                      <>
+                        {(Array.isArray(getBoxData(fixedApis.box13).data)
+                          ? getBoxData(fixedApis.box13).data
+                          : []
+                        )
+                          .slice(0, 1)
+                          .map((rider, index) => (
+                            <>
+                              <div className="name-wraper">
+                                {renderFlag(rider?.flag)}
+                                <h6>{rider?.teamName || "..."}</h6>
+                              </div>
+                              {rider?.year && (
+                                <h5>
+                                  <strong>{rider.year} </strong>
+                                </h5>
+                              )}
+                            </>
+                          ))}
+
+                        <a href="#?" className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </a>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>      
+
+
             </>
           )}
         </div>

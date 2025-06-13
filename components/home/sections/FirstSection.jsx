@@ -72,7 +72,7 @@ const FirstSection = () => {
             <div className="d-flex justify-content-between align-items-center">
               <h2>uitslagen</h2>
               <a href="#?" className="alle-link m-0 d-md-inline-block d-none">
-                Alle statistieken <img src="/images/arow2.svg" alt="" />
+                Alle uitslagen <img src="/images/arow2.svg" alt="" />
               </a>
             </div>
           </div>
@@ -97,14 +97,13 @@ const FirstSection = () => {
               {/* First Section - Top Stage Winners */}
               <div className="col-lg-3 col-md-5">
                 <div className="list-white-cart">
+                   <h4>{getSectionData(fixedApis.section2).data?.[0]?.raceName}</h4>
                   {getSectionData(fixedApis.section2).error ? (
                     <ErrorMessage
                       errorType={getSectionData(fixedApis.section2).errorType}
                     />
                   ) : (
                     <>
-                      <h4>{getSectionData(fixedApis.section2).data?.[0]?.raceName}</h4>
-
                       <ul>
                         {(Array.isArray(getSectionData(fixedApis.section2).data)
                           ? getSectionData(fixedApis.section2).data?.[0]?.result
@@ -114,7 +113,7 @@ const FirstSection = () => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white ">
                                 {renderFlag(rider?.riderCountry)}
                                 <h6>{rider?.rider}</h6>
                               </div>
@@ -177,14 +176,15 @@ const FirstSection = () => {
                         );
                       })}
                     </ul>
-                    <div className="d-md-none d-flex justify-content-end pt-4">
-                      <a href="#?" className="alle-link m-0">
-                        Alle statistieken <img src="/images/arow2.svg" alt="" />
-                      </a>
-                    </div>
+                   
                   </>
                 )}
               </div>
+               <div className="d-md-none d-flex justify-content-end pt-4">
+                      <a href="#?" className="alle-link m-0">
+                        Alle uitslagen <img src="/images/arow2.svg" alt="" />
+                      </a>
+                    </div>
             </>
           )}
         </div>

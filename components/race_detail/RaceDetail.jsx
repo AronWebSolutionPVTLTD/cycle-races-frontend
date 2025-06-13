@@ -112,9 +112,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
              <>
                   
-          
-          
-                        {/* box1 - Most wins */}
+            {/* box1 - Most wins */}
                           <div className="col-lg-3 col-md-6">
                           <div className="team-cart">
                             <a href="#?" className="pabs"></a>
@@ -156,41 +154,42 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                         </div>
           
                         {/* box7 - oldest Most Wins*/}
-                        <div className="col-lg-3 col-md-6">
-                          <div className="team-cart lime-green-team-cart img-active">
+                         <div className="col-lg-3 col-md-6">
+                          <div className="team-cart">
                             <a href="#?" className="pabs"></a>
                             <div className="text-wraper">
-                              <h4>{data?.[fixedApis.box7]?.message}</h4>
-                              {getBoxData(fixedApis.box7).error ? (
-                                <ErrorMessage
-                                  errorType={getBoxData(fixedApis.box7).errorType}
-                                />
-                              ) : (
-                                <>
-                                  {(Array.isArray(getBoxData(fixedApis.box7).data)
-                                    ? getBoxData(fixedApis.box7).data
-                                    : []
-                                  )
-                                    .slice(0, 1)
-                                    .map((rider, index) => (
-                                      <>
-                                        <div className="name-wraper">
-                                          {renderFlag(rider?.rider_country)}
-                                          <h6>{rider?.rider_name || "..."}</h6>
-                                        </div>
-                                        {rider?.wins && (
-                                          <h5>
-                                            <strong>{rider.wins} </strong>wins
-                                          </h5>
-                                        )}
-                                      </>
-                                    ))}
+                              <h4>{data?.[fixedApis.box1]?.message}</h4>
+                              {(() => {
+                                if (!data?.[fixedApis.box1]) {
+                                  return <ErrorMessage errorType="no_data" />;
+                                }
           
-                                  <a href="#?" className="white-circle-btn">
-                                    <img src="/images/arow.svg" alt="" />
-                                  </a>
-                                </>
-                              )}
+                                const response = data[fixedApis.box1];
+                                const riderData = response?.data;
+          
+                                if (!riderData) {
+                                  return <ErrorMessage errorType="no_data_found" />;
+                                }
+          
+                                return (
+                                  <>
+                                    <div className="name-wraper">
+                                      {renderFlag(riderData?.rider_country)}
+                                      <h6>{riderData?.name || "..."}</h6>
+                                    </div>
+                                    {riderData?.weight && (
+                                      <h5>
+                                        <strong>{riderData.weight}</strong>
+                                        kilogram
+                                      </h5>
+                                    )}
+          
+                                    <a href="#?" className="green-circle-btn">
+                                      <img src="/images/arow.svg" alt="" />
+                                    </a>
+                                  </>
+                                );
+                              })()}
                             </div>
                           </div>
                         </div>

@@ -52,8 +52,8 @@ const UpcomingYear = () => {
           <div className="col-lg-12">
             <div className="d-flex justify-content-between align-items-center">
               <h2>aankomend</h2>
-              <a href="#?" className="alle-link m-0">
-                Alle statistieken <img src="/images/arow2.svg" alt="" />
+              <a href="#?" className="alle-link m-0 d-md-inline-block d-none">
+                Alle wedstrijden <img src="/images/arow2.svg" alt="" />
               </a>
             </div>
           </div>
@@ -105,19 +105,23 @@ const UpcomingYear = () => {
                     </ul>
                   </>
                 )}
+                <div className="d-md-none d-flex justify-content-end pt-4">
+                  <a href="#?" className="alle-link m-0">
+                    Alle wedstrijden <img src="/images/arow2.svg" alt="" />
+                  </a>
+                </div>
               </div>
 
               {/* Box 2 -tour Down Under24 */}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
+                  <h4>{data?.[fixedApis.box2]?.message}</h4>
                   {getBoxData(fixedApis.box2).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box2).errorType}
                     />
                   ) : (
                     <>
-                      <h4>{data?.[fixedApis.box2]?.message}</h4>
-
                       <ul>
                         {(Array.isArray(getBoxData(fixedApis.box2).data)
                           ? getBoxData(fixedApis.box2).data
@@ -127,7 +131,7 @@ const UpcomingYear = () => {
                           .map((team, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 {renderFlag(team?.rider_country)}
                                 <h6>{team?.rider_name || "..."}</h6>
                               </div>
@@ -149,14 +153,13 @@ const UpcomingYear = () => {
               {/* Box 3 - most Win TourDownUnder */}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
+                  <h4>{data?.[fixedApis.box3]?.message}</h4>
                   {getBoxData(fixedApis.box3).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box3).errorType}
                     />
                   ) : (
                     <>
-                      <h4>{data?.[fixedApis.box3]?.message}</h4>
-
                       <ul>
                         {(Array.isArray(getBoxData(fixedApis.box3).data)
                           ? getBoxData(fixedApis.box3).data
@@ -166,7 +169,7 @@ const UpcomingYear = () => {
                           .map((team, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 {renderFlag(team?.country)}
                                 <h6>{team?.rider_name || "..."}</h6>
                               </div>

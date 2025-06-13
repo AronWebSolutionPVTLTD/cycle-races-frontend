@@ -571,7 +571,8 @@ footer{
     background: #D0F068;
     position: relative;
     .name-wraper{
-      background: rgba(48, 51, 41, 0.10) !important;
+      // background: rgba(48, 51, 41, 0.10) !important;
+        background: rgba(8, 43, 26, 0.10);
     }
     h5{
       color: #2B534D;
@@ -2777,6 +2778,9 @@ a.glob-btn:hover {
     background: #e6ebe6 !important;
 }
 .name-wraper.name-wraper-green {
+    background: #e6ebe6 !important;
+}
+.team-cart .name-wraper.name-wraper-green {
     background: #e6ebe6 !important;
 }
 

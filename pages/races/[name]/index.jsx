@@ -544,12 +544,12 @@ export default function RaceDetailsPage() {
                   selectedNationality={selectedNationality}
                   name={decodedRaceName}
                 />
-                      {/* <SectionSecond
+                     <SectionSecond
                   selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}
                   name={decodedRaceName}
                 /> 
-                 */}
+                
                 {/* <ThirdSection
                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}
