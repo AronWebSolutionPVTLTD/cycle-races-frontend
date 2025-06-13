@@ -13,6 +13,9 @@ const Footer = () => {
                 <p>Op Wielerstats vind je alle statistieken op het gebied van profwielrennen. Niet alleen van alle renners maar ook van de wedstrijden en de ploegen. Van vroeger tot nu. Van kleine wedstrijden tot grote wedstrijden en van de minder bekende tot de aller bekendste renners.</p>
             </div>
             <div className='d-none d-sm-grid align-content-start align-content-md-end'>
+                <p className='disclaimer-text'>
+                    Wielerstats is een onafhankelijk platform en niet gelieerd aan officiële wielerorganisaties, teams of wedstrijden. Afbeeldingen, merknamen en logo’s behoren toe aan hun respectieve eigenaars en worden uitsluitend gebruikt ter identificatie.
+                </p>
                 <Link href="/" className="logo">
                 <img src="/images/footer-logo.png" alt="Footer Logo" />
                 </Link>
@@ -91,6 +94,9 @@ const Footer = () => {
             </div>
           </div>
           <div className='col-12 d-block d-sm-none'>
+            <p className='disclaimer-text'>
+                    Wielerstats is een onafhankelijk platform en niet gelieerd aan officiële wielerorganisaties, teams of wedstrijden. Afbeeldingen, merknamen en logo’s behoren toe aan hun respectieve eigenaars en worden uitsluitend gebruikt ter identificatie.
+                </p>
             <Link href="/" className="logo">
             <img src="/images/footer-logo.png" alt="Footer Logo" />
             </Link>
@@ -107,7 +113,7 @@ const Footer = () => {
                     <p className='m-0 fw-medium'>© Wielerstats</p>
                 </div>
                 <div className='col-md-4 text-center my-2 my-md-4'>
-                    <ul className='d-flex align-items-center justify-content-center gap-3 text-primary'>
+                    <ul className='footer-bottom-links d-flex align-items-center justify-content-center gap-3 text-primary'>
                         <li><Link href="/contact">Contact us</Link></li>
                         <li><Link href="/cookie-policy">Cookie policy</Link></li>
                     </ul>

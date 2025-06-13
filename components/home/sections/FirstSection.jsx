@@ -71,7 +71,7 @@ const FirstSection = () => {
           <div className="col-lg-12">
             <div className="d-flex justify-content-between align-items-center">
               <h2>uitslagen</h2>
-              <a href="#?" className="alle-link m-0">
+              <a href="#?" className="alle-link m-0 d-md-inline-block d-none">
                 Alle statistieken <img src="/images/arow2.svg" alt="" />
               </a>
             </div>
@@ -177,6 +177,11 @@ const FirstSection = () => {
                         );
                       })}
                     </ul>
+                    <div className="d-md-none d-flex justify-content-end pt-4">
+                      <a href="#?" className="alle-link m-0">
+                        Alle statistieken <img src="/images/arow2.svg" alt="" />
+                      </a>
+                    </div>
                   </>
                 )}
               </div>

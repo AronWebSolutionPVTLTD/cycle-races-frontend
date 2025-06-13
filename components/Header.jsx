@@ -10,6 +10,7 @@ export default function Header() {
 const [isDetailPage, setIsDetailPage] = useState(false);
   const [scrollDirection, setScrollDirection] = useState("");
   const [atTop, setAtTop] = useState(true);
+  const [showStickyTop, setShowStickyTop] = useState(false);
     const router=useRouter();
     const isActive = (path) => pathname === path;
 
@@ -24,27 +25,38 @@ useEffect(() => {
 }, [pathname]);
 
 useEffect(() => {
-    let lastScrollY = window.scrollY;
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrollDirection(
-        currentScrollY > lastScrollY ? "down" : "up"
-      );
-      setAtTop(currentScrollY <= 100);
-      lastScrollY = currentScrollY;
-    };
+  let timeoutId = null;
 
-    window.addEventListener("scroll", handleScroll);
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    setAtTop(currentScrollY <= 200);
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  let headerClass = isDetailPage ? "absolute-header" : "relative-header";
-  if (!atTop) {
-    headerClass += " sticky-header";
-    if (scrollDirection === "up") {
-      headerClass += " sticky-top";
+    if (currentScrollY > 200) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setShowStickyTop(true);
+      }, 50); // delay in ms
+    } else {
+      clearTimeout(timeoutId);
+      setShowStickyTop(false);
     }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+    clearTimeout(timeoutId);
+  };
+}, []);
+
+let headerClass = isDetailPage ? "absolute-header" : "relative-header";
+if (!atTop) {
+  headerClass += " sticky-header";
+  if (showStickyTop) {
+    headerClass += " sticky-top";
   }
+}
 
 
   return (
@@ -85,12 +97,12 @@ useEffect(() => {
                     }}
                   >
                     <li className={isActive("/") ? "active" : ""}>
-                      <Link href="/">Home</Link>
+                      <Link href="/" onClick={()=>setIsOpen(false)}>Home</Link>
                     </li>
                     <li className={isActive("/stats") ? "active" : ""}>
                       <Link
                         href="/stats"
-                        
+                        onClick={()=>setIsOpen(false)}
                       >
                         Stats
                       </Link>
@@ -98,7 +110,7 @@ useEffect(() => {
                     <li  className={isActive("/races") ? "active" : ""}>  
                       <Link
                         href="/races"
-                       
+                       onClick={()=>setIsOpen(false)}
                       >
                         Races
                       </Link>
@@ -108,7 +120,7 @@ useEffect(() => {
                         isActive("/riders") ? "active" : ""
                       }`}
                     >
-                      <Link href="/riders">Riders</Link>
+                      <Link href="/riders" onClick={()=>setIsOpen(false)}>Riders</Link>
                     </li>
                   </ul>
                 </nav>
