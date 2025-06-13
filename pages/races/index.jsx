@@ -17,7 +17,7 @@ export default function Results() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
-  const [selectedYear, setSelectedYear] = useState("2015");
+  const [selectedYear, setSelectedYear] = useState("2025");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [featuredRaces, setFeaturedRaces] = useState([]);
   const [error, setError] = useState(null);

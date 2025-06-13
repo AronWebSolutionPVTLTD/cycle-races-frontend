@@ -423,12 +423,12 @@ export default function RaceDetailsPage() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Early return for router not ready
+
   if (!router.isReady) {
     return <LoadingStats/>;
   }
 
-  // Main render with consolidated loading states
+
   const isMainLoading = isLoadingRace && !raceData;
   const hasError = error && !isMainLoading;
 
@@ -544,12 +544,12 @@ export default function RaceDetailsPage() {
                   selectedNationality={selectedNationality}
                   name={decodedRaceName}
                 />
-                      <SectionSecond
+                      {/* <SectionSecond
                   selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}
                   name={decodedRaceName}
                 /> 
-                
+                 */}
                 {/* <ThirdSection
                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}

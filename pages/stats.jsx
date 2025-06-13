@@ -1,9 +1,5 @@
 import { generateYearOptions } from "@/components/GetYear";
-import MostWin from "@/components/home/sections/MostWin";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
-import { FirstSection } from "@/components/stats_section/FirstSection";
-import MostwinSection from "@/components/stats_section/MostwinSection";
-import SecondSection from "@/components/stats_section/SecondSection";
 import StatsFirstSection from "@/components/stats_section/StatsFirstSection";
 import StatsSecondSection from "@/components/stats_section/StatsSecondSection";
 import StatsThirdSection from "@/components/stats_section/StatsThirdSection";
@@ -11,6 +7,7 @@ import { callAPI } from "@/lib/api";
 import Head from "next/head";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import MostWin from "@/components/home/sections/MostWin";
 
 export default function Stats() {
   const [nationalities, setNationalities] = useState([]);
@@ -117,7 +114,7 @@ export default function Stats() {
         setSelectedNationality(value);
         setShowNationalityDropdown(false);
         fetchFiltersData();
-     
+
         break;
       case "team":
         setSelectedTeam(value);
@@ -189,43 +186,33 @@ export default function Stats() {
                 />
               </ul>
             </div>
-            {/* <FirstSection
+
+            <StatsFirstSection
               selectedNationality={selectedNationality}
               selectedTeam={selectedTeam}
               selectedYear={selectedYear}
             />
+
             <MostWin
               selectedNationality={selectedNationality}
               selectedTeam={selectedTeam}
               selectedYear={selectedYear}
             />
 
-            <SecondSection
+            <StatsSecondSection
               selectedNationality={selectedNationality}
               selectedTeam={selectedTeam}
               selectedYear={selectedYear}
-            /> */}
-            {/* <StatsFirstSection
+            />
+            <StatsThirdSection
               selectedNationality={selectedNationality}
               selectedTeam={selectedTeam}
               selectedYear={selectedYear}
-               /> */}
-                 {/* <StatsSecondSection
-              selectedNationality={selectedNationality}
-              selectedTeam={selectedTeam}
-              selectedYear={selectedYear}
-               /> */}
-                          <StatsThirdSection
-              selectedNationality={selectedNationality}
-              selectedTeam={selectedTeam}
-              selectedYear={selectedYear}
-               />
+            />
           </div>
         </div>
       </section>
 
-      {/* You can uncomment these sections as needed */}
-      {/* <MostwinSection/> */}
     </>
   );
 }
