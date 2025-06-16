@@ -608,7 +608,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     }
 
                     const response = data[fixedApis.box13];
-                    const riderData = response?.data?.data;
+                    const riderData = response?.data?.best_gc;
 
                     if (!riderData) {
                       return <ErrorMessage errorType="no_data_found" />;
@@ -617,12 +617,12 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper">
-                          {renderFlag(riderData?.nationality)}
+                          {renderFlag(riderData?.country_code)}
                           <h6>{riderData?.race || "..."}</h6>
                         </div>
-                        {riderData?.bestGCRank && (
+                        {riderData?.gcRank && (
                           <h5>
-                            <strong>{riderData.bestGCRank} </strong>
+                            <strong>{riderData.gcRank} </strong>
                           </h5>
                         )}
 

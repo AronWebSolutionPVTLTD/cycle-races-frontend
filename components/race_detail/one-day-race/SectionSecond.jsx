@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import { useMultipleData } from "../home_api_data";
-import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
-import { renderFlag } from "../RenderFlag";
+import { useMultipleData } from "../../home_api_data";
+import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
+import { renderFlag } from "../../RenderFlag";
 
 export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
   // Define single API endpoint for each section box
