@@ -181,7 +181,7 @@ const StatsSecondSection = ({
                               .slice(0, 1)
                               .map((rider, index) => (
                                 <>
-                                  <div className="name-wraper">
+                                  <div className="name-wraper name-wraper-green">
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -340,7 +340,7 @@ const StatsSecondSection = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-green">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -422,7 +422,7 @@ const StatsSecondSection = ({
 
                       return (
                         <>
-                          <div className="name-wraper">
+                          <div className="name-wraper name-wraper-green">
                             {renderFlag(riderData?.rider_country)}
                             <h6>{riderData?.name || "..."}</h6>
                           </div>
@@ -463,7 +463,7 @@ const StatsSecondSection = ({
                                                          .map((rider, index) => (
                                                            <li key={index}>
                                                              <strong>{index + 1}</strong>
-                                                             <div className="name-wraper">
+                                                             <div className="name-wraper name-wraper-green">
                                                                {renderFlag(rider?.rider_country)}
                                                                <h6>{rider?.rider_name || "..."}</h6>
                                                              </div>

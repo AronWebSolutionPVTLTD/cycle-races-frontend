@@ -90,7 +90,7 @@ const StatsThirdSection = ({
                                             .map((rider, index) => (
                                               <li key={index}>
                                                 <strong>{index + 1}</strong>
-                                                <div className="name-wraper">
+                                                <div className="name-wraper name-wraper-green">
                                                   {renderFlag(rider?.rider_country)}
                                                   <h6>{rider?.rider_name || "..."}</h6>
                                                 </div>
@@ -186,7 +186,7 @@ const StatsThirdSection = ({
                               </div>
                             </div>
 
-            {/* Box4: total Race */}
+            {/* Box4: race Count */}
             <div className="col-lg-3 col-md-6">
               <div className="races">
                 <div className="text-wraper">
@@ -401,7 +401,7 @@ const StatsThirdSection = ({
                         .map((rider, index) => (
                           <li key={index}>
                             <strong>{index+1}</strong>
-                            <div className="name-wraper">
+                            <div className="name-wraper name-wraper-green">
                               {renderFlag(rider?.rider_country)}
                               <h6>{rider?.team_name || "..."}</h6>
                             </div>

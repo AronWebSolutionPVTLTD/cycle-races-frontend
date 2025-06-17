@@ -248,31 +248,7 @@ export default function RaceDetailsPage() {
                 </div>
 {raceData && (
       <>
-               {/* <FirstSection
-                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                  selectedNationality={selectedNationality}
-                  name={decodedRaceName}
-                /> 
-
-                <MostWin
-                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                  selectedNationality={selectedNationality}
-                  name={decodedRaceName}
-                />
-                
-                <SecondSection
-                  selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                  selectedNationality={selectedNationality}
-                  name={decodedRaceName}
-                />  */}
-                        
-     
-                
-                {/* <ThirdSection
-                 selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                  selectedNationality={selectedNationality}
-                  name={decodedRaceName}
-                  /> */}
+             
 <OneDayRace
   selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}

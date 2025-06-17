@@ -2770,22 +2770,12 @@ a.alle-link:hover::after {
 a.glob-btn:hover {
     background: #638c87;
 }
-.name-wraper.name-wraper-white {
-    background: #f5f5f0 !important;
-}
-
 .name-wraper.name-wraper-white:hover {
-    background: #e6ebe6 !important;
-}
-.name-wraper.name-wraper-green {
-    background: #e6ebe6 !important;
-}
-.team-cart .name-wraper.name-wraper-green {
-    background: #e6ebe6 !important;
+    background: rgba(8, 43, 26, 0.1) !important;
 }
 
 .name-wraper.name-wraper-green:hover {
-    background: #d2d2d2 !important;
+    background: #0000002D !important;
 }
 ul.footer-bottom-links a:hover {
     color: #2b534d;
@@ -2813,3 +2803,9 @@ p.disclaimer-text {
     margin-top: 15px !important;
 }
 }
+// .list-white-cart ul li .name-wraper:hover {
+//     background: rgba(8, 43, 26, 0.1);
+// }
+// .list-white-cart.lime-green-cart ul li .name-wraper:hover {
+//     background: #0000002D;
+// }

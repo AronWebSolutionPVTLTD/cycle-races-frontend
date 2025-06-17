@@ -8,6 +8,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import MostWin from "@/components/home/sections/MostWin";
+import StatsData from "@/components/stats_section/StatsData";
 
 export default function Stats() {
   const [nationalities, setNationalities] = useState([]);
@@ -199,6 +200,12 @@ export default function Stats() {
               selectedYear={selectedYear}
             />
 
+            <StatsData
+              selectedNationality={selectedNationality}
+              selectedTeam={selectedTeam}
+              selectedYear={selectedYear}
+            />
+
             <StatsSecondSection
               selectedNationality={selectedNationality}
               selectedTeam={selectedTeam}
@@ -212,7 +219,6 @@ export default function Stats() {
           </div>
         </div>
       </section>
-
     </>
   );
 }
