@@ -10,58 +10,56 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import Flag from "react-world-flags";
 
-
-
-
 export default function RaceDetailsPage() {
   const router = useRouter();
   const { name } = router.query;
-  
+
   // State management
-  const [selectedYear, setSelectedYear] = useState("All time");
-  const [yearInput, setYearInput] = useState(new Date().getFullYear().toString());
+  // const [selectedYear, setSelectedYear] = useState("All time");
+  // const [yearInput, setYearInput] = useState(new Date().getFullYear().toString());
+  //   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [selectedNationality, setSelectedNationality] = useState("");
-  const [showYearDropdown, setShowYearDropdown] = useState(false);
+
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
-  
+
   // Data states
   const [nationalities, setNationalities] = useState([]);
   const [raceData, setRaceData] = useState(null);
-  
+
   // Loading states - separated for better UX
   const [isLoadingRace, setIsLoadingRace] = useState(false);
   const [isLoadingFilters, setIsLoadingFilters] = useState(false);
-  
+
   // Error state
   const [error, setError] = useState(null);
 
-  const { withAllTime } = generateYearOptions();
+  // const { withAllTime } = generateYearOptions();
 
   // Refs for handling clicks outside dropdowns
-  const yearDropdownRef = useRef(null);
+  // const yearDropdownRef = useRef(null);
   const nationalityDropdownRef = useRef(null);
 
   // Memoized values
-  const decodedRaceName = useMemo(() => 
-    name ? decodeURIComponent(name) : "", 
+  const decodedRaceName = useMemo(
+    () => (name ? decodeURIComponent(name) : ""),
     [name]
   );
 
-  const filteredYears = useMemo(() => {
-    return withAllTime.filter((year) =>
-      year.toLowerCase().includes((yearInput || "").toLowerCase())
-    );
-  }, [withAllTime, yearInput]);
+  // const filteredYears = useMemo(() => {
+  //   return withAllTime.filter((year) =>
+  //     year.toLowerCase().includes((yearInput || "").toLowerCase())
+  //   );
+  // }, [withAllTime, yearInput]);
 
   // Fetch nationalities and teams based on filters
   const fetchFiltersData = useCallback(async () => {
     if (!decodedRaceName) return;
-    
+
     try {
       setIsLoadingFilters(true);
       const queryParams = {};
       if (selectedNationality) queryParams.q_country = selectedNationality;
-      if (selectedYear && selectedYear !== "All time") queryParams.q_year = selectedYear;
+      // if (selectedYear && selectedYear !== "All time") queryParams.q_year = selectedYear;
 
       const response = await callAPI(
         "GET",
@@ -77,16 +75,16 @@ export default function RaceDetailsPage() {
     } finally {
       setIsLoadingFilters(false);
     }
-  }, [selectedNationality, selectedYear, decodedRaceName]);
+  }, [selectedNationality, decodedRaceName]);
 
   // Fetch race details
   const fetchRaceDetails = useCallback(async (raceName) => {
     if (!raceName) return;
-    
+
     try {
       setIsLoadingRace(true);
       setError(null);
-      
+
       const response = await callAPI(
         "GET",
         `/raceDetailsStats/${raceName}/getRaceDetails`,
@@ -109,11 +107,11 @@ export default function RaceDetailsPage() {
   // Handle selection changes
   const handleSelection = useCallback((type, value) => {
     switch (type) {
-      case "year":
-        setSelectedYear(value);
-        setYearInput(value);
-        setShowYearDropdown(false);
-        break;
+      // case "year":
+      //   setSelectedYear(value);
+      //   setYearInput(value);
+      //   setShowYearDropdown(false);
+      //   break;
       case "nationality":
         setSelectedNationality(value);
         setShowNationalityDropdown(false);
@@ -121,9 +119,9 @@ export default function RaceDetailsPage() {
     }
   }, []);
 
-  const handleYearInputChange = useCallback((value) => {
-    setYearInput(value);
-  }, []);
+  // const handleYearInputChange = useCallback((value) => {
+  //   setYearInput(value);
+  // }, []);
 
   // Effects
   useEffect(() => {
@@ -138,10 +136,13 @@ export default function RaceDetailsPage() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (yearDropdownRef.current && !yearDropdownRef.current.contains(event.target)) {
-        setShowYearDropdown(false);
-      }
-      if (nationalityDropdownRef.current && !nationalityDropdownRef.current.contains(event.target)) {
+      // if (yearDropdownRef.current && !yearDropdownRef.current.contains(event.target)) {
+      //   setShowYearDropdown(false);
+      // }
+      if (
+        nationalityDropdownRef.current &&
+        !nationalityDropdownRef.current.contains(event.target)
+      ) {
         setShowNationalityDropdown(false);
       }
     };
@@ -150,11 +151,9 @@ export default function RaceDetailsPage() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-
   if (!router.isReady) {
-    return <LoadingStats/>;
+    return <LoadingStats />;
   }
-
 
   const isMainLoading = isLoadingRace && !raceData;
   const hasError = error && !isMainLoading;
@@ -169,7 +168,7 @@ export default function RaceDetailsPage() {
           <div className="top-wrapper-main">
             <div className="container">
               {isMainLoading ? (
-                <Loading/>
+                <Loading />
               ) : hasError ? (
                 <div className="col-12">
                   <ErrorStats message={error} />
@@ -177,15 +176,19 @@ export default function RaceDetailsPage() {
               ) : raceData ? (
                 <div className="top-wraper">
                   <ul className="breadcrumb">
-                    <li><Link href="/">Home</Link></li>
-                    <li><Link href="/races">Races</Link></li>
+                    <li>
+                      <Link href="/">Home</Link>
+                    </li>
+                    <li>
+                      <Link href="/races">Races</Link>
+                    </li>
                     <li>{raceData.race_name}</li>
                   </ul>
-                  
+
                   <div className="wraper">
                     <h1>{raceData.race_name}</h1>
                   </div>
-                  
+
                   <ul className="plyr-dtls">
                     {raceData.country_code && (
                       <li>
@@ -214,13 +217,12 @@ export default function RaceDetailsPage() {
           </div>
         </section>
 
-
-          <section className="stats-sec1 race-details-sec py-8">
-            <div className="container">
-              <div className="row">
-                <div className="col-lg-12 mb-6">
-                  <ul className="filter">
-                    <FilterDropdown
+        <section className="stats-sec1 race-details-sec py-8">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12 mb-6">
+                <ul className="filter">
+                  {/* <FilterDropdown
                       ref={yearDropdownRef}
                       isOpen={showYearDropdown}
                       toggle={() => setShowYearDropdown(!showYearDropdown)}
@@ -231,40 +233,40 @@ export default function RaceDetailsPage() {
                       onInputChange={handleYearInputChange}
                       loading={isLoadingFilters}
                       includeAllOption={false}
-                    />
-
-                    <FilterDropdown
-                      ref={nationalityDropdownRef}
-                      isOpen={showNationalityDropdown}
-                      toggle={() => setShowNationalityDropdown(!showNationalityDropdown)}
-                      options={nationalities}
-                      selectedValue={selectedNationality}
-                      placeholder="Nationaliteit"
-                      onSelect={(value) => handleSelection("nationality", value)}
-                      loading={isLoadingFilters}
-                      allOptionText="All Nationalities"
-                    />
-                  </ul>
-                </div>
-{raceData && (
-      <>
-             
-<OneDayRace
-  selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                  selectedNationality={selectedNationality}
-                  name={decodedRaceName}
+                    /> */}
+                  <li>All-time</li>
+                  <FilterDropdown
+                    ref={nationalityDropdownRef}
+                    isOpen={showNationalityDropdown}
+                    toggle={() =>
+                      setShowNationalityDropdown(!showNationalityDropdown)
+                    }
+                    options={nationalities}
+                    selectedValue={selectedNationality}
+                    placeholder="Nationaliteit"
+                    onSelect={(value) => handleSelection("nationality", value)}
+                    loading={isLoadingFilters}
+                    allOptionText="All Nationalities"
                   />
-{/* <MultipleStageRace
+                </ul>
+              </div>
+              {raceData && (
+                <>
+                  <OneDayRace
+                    // selectedYear={selectedYear !== "All time" ? selectedYear : null}
+                    selectedNationality={selectedNationality}
+                    name={decodedRaceName}
+                  />
+                  {/* <MultipleStageRace
  selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}
                   name={decodedRaceName}
 /> */}
-                 </>
-                  )}
-              </div>
+                </>
+              )}
             </div>
-          </section>
-      
+          </div>
+        </section>
       </main>
     </>
   );

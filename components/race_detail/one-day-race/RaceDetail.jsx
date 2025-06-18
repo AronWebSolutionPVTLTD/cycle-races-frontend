@@ -4,24 +4,21 @@ import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
-export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
+export const RaceDetail = ({ selectedNationality, name }) => {
   const fixedApis = {
     box1: "mostWins",
-    box2: "mostWins",
+    box2: "getTotalEdition",
     box3: "getMostPodiumsByRiderInRace",
     box4: "getRaceParticipants",
     box5: "getTeamWithMostWinsInRace",
     box6: "getMostTop10ByRiderInRace",
     box7: "getLastWinner",
     box8: "getFastestRaceEdition",
-    box9: "mostWins",
+    box9: "PreviousEditions",
   };
 
   const buildQueryParams = () => {
     let params = {};
-    if (selectedYear && selectedYear !== "All-time") {
-      params.year = selectedYear;
-    }
     if (selectedNationality) params.nationality = selectedNationality;
     return params;
   };
@@ -31,7 +28,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
     fixedApis.box1,
     fixedApis.box2,
     fixedApis.box4,
-    fixedApis.box9,
+   
   ];
 
   const onedayRace = [
@@ -40,6 +37,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
     fixedApis.box6,
     fixedApis.box7,
     fixedApis.box8,
+     fixedApis.box9,
   ];
 
   // Define endpoint mappings for specific cases if needed
@@ -81,7 +79,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
     // Try most common paths in order
     const paths = [
       response?.data?.most_wins,
-      response?.data?.editions,
+      response?.data?.previouseditions,
       response?.data?.data,
       response?.data,
       response?.data?.winners,
@@ -158,7 +156,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                       }
 
                       const response = data[fixedApis.box2];
-                      const riderData = response?.data.total_editions;
+                      const riderData = response?.data;
 
                       if (!riderData) {
                         return <ErrorMessage errorType="no_data_found" />;
@@ -166,7 +164,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                       return (
                         <div className="name-wraper name-wraper-white">
                           <h5>
-                            <strong>{riderData}</strong>
+                            <strong>{riderData.total_editions}</strong>
                           </h5>
                         </div>
                       );
@@ -195,7 +193,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
 
                       return (
                         <>
-                          <div className="name-wraper">
+                          <div className="name-wraper name-wraper-white">
                             {renderFlag(riderData?.rider_country)}
                             <h6>{riderData?.rider_name || "..."}</h6>
                           </div>
@@ -218,36 +216,40 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
               {/* Box4: Race Participants  */}
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                 <div className="team-cart lime-green-team-cart img-active">
                   <a href="#?" className="pabs"></a>
                   <div className="text-wraper">
                     <h4> {data?.[fixedApis.box4]?.message}</h4>
-                    {getBoxData(fixedApis.box4).error ? (
-                      <ErrorMessage
-                        errorType={getBoxData(fixedApis.box4).errorType}
-                      />
-                    ) : (
-                      <>
-                        {(Array.isArray(getBoxData(fixedApis.box4).data)
-                          ? getBoxData(fixedApis.box4).data
-                          : []
-                        )
-                          .slice(0, 1)
-                          .map((rider, index) => (
-                            <>
-                              {rider?.total_participants && (
-                                <h5 key={index}>
-                                  <strong>{rider.total_participants} </strong>
-                                </h5>
-                              )}
-                            </>
-                          ))}
+                       {(() => {
+                      if (!data?.[fixedApis.box4]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
 
-                        <a href="#?" className="green-circle-btn">
-                          <img src="/images/arow.svg" alt="" />
-                        </a>
-                      </>
-                    )}
+                      const response = data[fixedApis.box4];
+                      const riderData = response?.data.rider_participation;
+
+                      if (!riderData) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
+
+                      return (
+                        <>
+                          <div className="name-wraper name-wraper-white">
+                            {renderFlag(riderData?.rider_country)}
+                            <h6>{riderData?.rider_name || "..."}</h6>
+                          </div>
+                          {riderData?.participations && (
+                            <h5>
+                              <strong>{riderData.participations}</strong>times
+                            </h5>
+                          )}
+
+                          <a href="#?" className="white-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                          </a>
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>
@@ -421,20 +423,20 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
               {/*Box 9 - Most stage wins*/}
-              <div className="col-lg-5 box6">
+              <div className="col-lg-5 col-md-6">
                 <div className="list-white-cart lime-green-cart">
                   <h4 className="fs-chenge">
-                    {data?.[fixedApis.box1]?.message}
+                    {data?.[fixedApis.box9]?.message}
                   </h4>
-                  {getBoxData(fixedApis.box1).error ? (
+                  {getBoxData(fixedApis.box9).error ? (
                     <ErrorMessage
-                      errorType={getBoxData(fixedApis.box1).errorType}
+                      errorType={getBoxData(fixedApis.box9).errorType}
                     />
                   ) : (
                     <>
                       <ul>
-                        {(Array.isArray(getBoxData(fixedApis.box1).data)
-                          ? getBoxData(fixedApis.box1).data
+                        {(Array.isArray(getBoxData(fixedApis.box9).data)
+                          ? getBoxData(fixedApis.box9).data
                           : []
                         )
                           .slice(0, 5)
@@ -442,11 +444,11 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                             <li key={index}>
                               <strong>{index + 1}</strong>
                               <div className="name-wraper name-wraper-green">
-                                {renderFlag(rider?.rider_country)}
-                                <h6>{rider?.rider_name || "..."}</h6>
+                                {renderFlag(rider?.country)}
+                                <h6>{rider?.winner || "..."}</h6>
                               </div>
 
-                              {rider?.wins && <span>{rider.wins}</span>}
+                              {rider?.time && <span>{rider.time}</span>}
                             </li>
                           ))}
                       </ul>

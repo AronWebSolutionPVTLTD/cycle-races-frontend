@@ -139,7 +139,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         .map((rider, index) => (
                           <li key={index}>
                             <strong>{index + 1}</strong>
-                            <div className="name-wraper">
+                            <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.country)}
                               <h6>
                                 {rider?.race || "..."} ({rider.year})
@@ -178,7 +178,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper">
+                        <div className="name-wraper name-wraper-green">
                           {renderFlag(riderData?.country)}
                           <h6>{riderData?.race || "..."}</h6>
                         </div>
@@ -257,7 +257,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper">
+                        <div className="name-wraper name-wraper-white">
                           <h6>
                             {riderData?.race || "..."} ({riderData.year})
                           </h6>
@@ -300,10 +300,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        {/* <div className="name-wraper">
-                          {renderFlag(riderData?.country)}
-                          <h6>{riderData?.rider_name || "..."}</h6>
-                        </div> */}
+                      
                         {riderData?.dnf_count && (
                           <h5>
                             <strong>{riderData.dnf_count} </strong>
@@ -344,7 +341,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         .map((rider, index) => (
                           <li key={index}>
                             <strong>{index + 1}</strong>
-                            <div className="name-wraper">
+                            <div className="name-wraper name-wraper-white">
                               <h6>
                                 {rider?.race || "..."} ({rider.year})
                               </h6>
@@ -384,7 +381,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper">
+                        <div className="name-wraper name-wraper-green">
                           {/* {renderFlag(riderData?.rider_country)} */}
                           <h6>{riderData?.race || "..."}</h6>
                         </div>
@@ -499,7 +496,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         .map((rider, index) => (
                           <li key={index}>
                             <strong>{index + 1}</strong>
-                            <div className="name-wraper">
+                            <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.country)}
                               <h6>
                                 {rider?.race || "..."} ({rider.year})
@@ -540,7 +537,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper">
+                        <div className="name-wraper name-wraper-white">
                           <h6>
                             {riderData?.race_name || "..."} ({riderData.year})
                           </h6>
@@ -580,7 +577,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         .map((rider, index) => (
                           <li key={index}>
                             <strong>{index + 1}</strong>
-                            <div className="name-wraper">
+                            <div className="name-wraper name-wraper-white">
                               <h6>{rider?.race || "..."}</h6>
                             </div>
 
@@ -616,7 +613,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper">
+                        <div className="name-wraper name-wraper-white">
                           {renderFlag(riderData?.country_code)}
                           <h6>{riderData?.race || "..."}</h6>
                         </div>
@@ -659,7 +656,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper">
+                        <div className="name-wraper name-wraper-white">
                           {renderFlag(riderData?.country)}
                           <h6>{riderData?.top_teammate || "..."}</h6>
                         </div>
@@ -698,7 +695,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         .map((rider, index) => (
                           <li key={index}>
                             <strong>{index + 1}</strong>
-                            <div className="name-wraper">
+                            <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.country)}
                               <h6>{rider?.race || "..."}</h6>
                             </div>

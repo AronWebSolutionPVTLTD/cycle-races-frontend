@@ -90,7 +90,7 @@ const StatsData = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper" key={index}>
+                              <div className="name-wraper name-wraper-white" key={index}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -177,7 +177,7 @@ const StatsData = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper" key={index}>
+                              <div className="name-wraper name-wraper-white" key={index}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -223,7 +223,7 @@ const StatsData = ({
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -260,7 +260,7 @@ const StatsData = ({
 
                       return (
                         <>
-                          <div className="name-wraper">
+                          <div className="name-wraper name-wraper-white">
                             {renderFlag(riderData?.country)}
                             <h6>{riderData?.rider_name || "..."}</h6>
                           </div>
@@ -304,7 +304,7 @@ const StatsData = ({
                           .slice(0, 1)
                           .map((race, index) => (
                             <>
-                              <div className="name-wraper" key={index}>
+                              <div className="name-wraper name-wraper-white" key={index}>
                                 <h6>
                                   {race?.race || "..."} ({race?.year})
                                 </h6>

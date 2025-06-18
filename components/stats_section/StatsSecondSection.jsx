@@ -95,7 +95,7 @@ const StatsSecondSection = ({
                           .slice(0, 5)
                           .map((rider, index) => (
                             <li key={index}>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -141,7 +141,7 @@ const StatsSecondSection = ({
                               .slice(0, 1)
                               .map((rider, index) => (
                                 <>
-                                  <div className="name-wraper">
+                                  <div className="name-wraper name-wraper-white">
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -220,7 +220,7 @@ const StatsSecondSection = ({
                               .slice(0, 1)
                               .map((rider, index) => (
                                 <>
-                                  <div className="name-wraper" key={index}>
+                                  <div className="name-wraper name-wraper-white" key={index}>
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -259,7 +259,7 @@ const StatsSecondSection = ({
                               .slice(0, 1)
                               .map((rider, index) => (
                                 <>
-                                  <div className="name-wraper">
+                                  <div className="name-wraper name-wraper-white">
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -300,7 +300,7 @@ const StatsSecondSection = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -381,7 +381,7 @@ const StatsSecondSection = ({
 
                       return (
                         <>
-                          <div className="name-wraper">
+                          <div className="name-wraper name-wraper-white">
                             {renderFlag(riderData?.rider_country)}
                             <h6>{riderData?.name || "..."}</h6>
                           </div>
@@ -499,7 +499,7 @@ const StatsSecondSection = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -538,7 +538,7 @@ const StatsSecondSection = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 {renderFlag(rider?.flag)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
@@ -577,7 +577,7 @@ const StatsSecondSection = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper">
+                              <div className="name-wraper name-wraper-white">
                                 {renderFlag(rider?.flag)}
                                 <h6>{rider?.teamName || "..."}</h6>
                               </div>

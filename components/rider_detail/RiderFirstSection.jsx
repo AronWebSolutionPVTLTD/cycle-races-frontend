@@ -23,7 +23,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
     return params;
   };
 
-
   const riderEndpoints = [
     fixedApis.box1,
     fixedApis.box2,
@@ -42,18 +41,14 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
     // 'bestGCResults': '/race-stats/:id/bestGCResults'
   };
 
-  const {
-    data,
-    loading,
-    error,
-  } = useMultipleData(riderEndpoints, {
+  const { data, loading, error } = useMultipleData(riderEndpoints, {
     id: riderId,
     queryParams: buildQueryParams(),
     endpointsMappings: endpointsMappings,
     idType: "rider",
   });
 
- const getBoxData = (endpoint) => {
+  const getBoxData = (endpoint) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
 
@@ -110,7 +105,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper">
+                        <div className="name-wraper name-wraper-white">
                           {renderFlag(riderData?.country)}
                           <h6>{riderData?.race || "..."}</h6>
                         </div>
@@ -150,7 +145,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper">
+                        <div className="name-wraper name-wraper-green">
                           {renderFlag(riderData?.nationality)}
                           <h6>{riderData?.rider_name || "..."}</h6>
                         </div>
@@ -190,16 +185,16 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper">
+                        <div className="name-wraper name-wraper-white">
                           {renderFlag(riderData?.flag)}
                           <h6>{riderData?.teamName || "..."}</h6>
                         </div>
 
-                        <img
+                        {/* <img
                           src="/images/player3.png"
                           alt=""
                           className="absolute-img"
-                        />
+                        /> */}
                         <a href="#?" className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
                         </a>
@@ -332,7 +327,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{index + 1}</strong>
-                                <div className="name-wraper">
+                                <div className="name-wraper name-wraper-white">
                                   <h6>{rider?.year || "..."}</h6>
                                 </div>
 
@@ -410,13 +405,13 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                         .slice(0, 5)
                         .map((rider, index) => (
                           <li key={index}>
-                            <div className="name-wraper">
+                            <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.country)}
                               <h6>{rider?.race || "..."}</h6>
                             </div>
 
                             {rider?.rank && <span>{rider.rank}</span>}
-                            {rider?.year && <span>{rider.year}</span>}
+                            {rider?.year && <span>({rider.year})</span>}
                           </li>
                         ))}
                     </ul>

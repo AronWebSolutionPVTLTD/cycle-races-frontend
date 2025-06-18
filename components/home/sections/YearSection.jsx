@@ -228,7 +228,7 @@ const YearSection = () => {
 
                                   {rider?.count && (
                                     <h5>
-                                      <strong>{rider.count} </strong> wins
+                                      <strong>{rider.count} </strong> times
                                     </h5>
                                   )}
                                 </>
@@ -505,8 +505,15 @@ const YearSection = () => {
                                 className="name-wraper name-wraper-white"
                                 key={index}
                               >
-                                {renderFlag(rider?.rider_country)}
-                                <h6>{rider?.team_name || "..."}</h6>
+                             {rider.races.map((race) => (
+  <>
+    {renderFlag(race?.country_code)}
+    <h6>{race?.race_name || "..."}</h6>
+  </>
+))}
+
+                              
+                      
                               </div>
 
                               {rider?.dnf_count && (

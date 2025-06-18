@@ -18,7 +18,7 @@ const StatsFirstSection = ({
     box7: "finishRace",
     box8: "mostGCWins",
     box9: "mostDNFs",
-   };
+  };
 
   const buildQueryParams = () => {
     let params = {};
@@ -140,7 +140,7 @@ const StatsFirstSection = ({
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                < div key={index}>
+                                <div key={index}>
                                   <div className="name-wraper name-wraper-white">
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
@@ -187,7 +187,10 @@ const StatsFirstSection = ({
                               .slice(0, 1)
                               .map((rider, index) => (
                                 <>
-                                  <div className="name-wraper name-wraper-green" key={index}>
+                                  <div
+                                    className="name-wraper name-wraper-green"
+                                    key={index}
+                                  >
                                     {renderFlag(rider?.country)}
                                     <h6>{rider?.rider_key || "..."}</h6>
                                   </div>
@@ -232,7 +235,7 @@ const StatsFirstSection = ({
                               .map((rider, index) => (
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
-                                  <div className="name-wraper">
+                                  <div className="name-wraper name-wraper-white">
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
@@ -268,14 +271,12 @@ const StatsFirstSection = ({
                               .map((rider, index) => (
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
-                                  <div className="name-wraper">
+                                  <div className="name-wraper name-wraper-white">
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
 
-                                  {rider?.count && (
-                                    <span>{rider.count}</span>
-                                  )}
+                                  {rider?.count && <span>{rider.count}</span>}
                                 </li>
                               ))}
                           </ul>
@@ -308,7 +309,7 @@ const StatsFirstSection = ({
 
                       return (
                         <>
-                          <div className="name-wraper">
+                          <div className="name-wraper name-wraper-white">
                             {renderFlag(riderData?.country)}
                             <h6>{riderData?.team || "..."}</h6>
                           </div>
@@ -353,7 +354,7 @@ const StatsFirstSection = ({
                         return <ErrorMessage errorType="no_data_found" />;
                       }
                       return (
-                        <div className="name-wraper">
+                        <div className="name-wraper name-wraper-white">
                           <h5>
                             <strong>{riderData.total_finished_races}</strong>
                           </h5>
@@ -420,7 +421,10 @@ const StatsFirstSection = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper" key={index}>
+                              <div
+                                className="name-wraper name-wraper-white"
+                                key={index}
+                              >
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
@@ -441,7 +445,7 @@ const StatsFirstSection = ({
                   </div>
                 </div>
               </div>
-</>
+            </>
           )}
         </div>
       </div>
