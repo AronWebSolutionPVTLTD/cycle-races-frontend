@@ -19,10 +19,10 @@ const StatsSecondSection = ({
     box8: "lightestRider",
     box9: "mostweightRider",
     box10: "gcTop10s",
-    box11:"sprintWins",
-    box12:"DnfTeams",
-    box13:"top3teamwithrank1"
- };
+    box11: "sprintWins",
+    box12: "DnfTeams",
+    box13: "top3teamwithrank1"
+  };
 
   const buildQueryParams = () => {
     let params = {};
@@ -443,46 +443,46 @@ const StatsSecondSection = ({
                 </div>
               </div>
 
-           {/* Box10: GC TOp 10  */}
+              {/* Box10: GC TOp 10  */}
               <div className="col-lg-3 col-md-6">
-                                             <div className="list-white-cart lime-green-cart">
-                                                 
-                                                 <h4>{data?.[fixedApis.box10]?.message}</h4>
-                                                 {getBoxData(fixedApis.box10).error ? (
-                                                   <ErrorMessage
-                                                     errorType={getBoxData(fixedApis.box10).errorType}
-                                                   />
-                                                 ) : (
-                                                   <>
-                                                     <ul>
-                                                       {(Array.isArray(getBoxData(fixedApis.box10).data)
-                                                         ? getBoxData(fixedApis.box10).data
-                                                         : []
-                                                       )
-                                                         .slice(0, 3)
-                                                         .map((rider, index) => (
-                                                           <li key={index}>
-                                                             <strong>{index + 1}</strong>
-                                                             <div className="name-wraper name-wraper-green">
-                                                               {renderFlag(rider?.rider_country)}
-                                                               <h6>{rider?.rider_name || "..."}</h6>
-                                                             </div>
-                           
-                                                             {rider?.count && <span>{rider.count}</span>}
-                                                           </li>
-                                                         ))}
-                                                     </ul>
-                                                     <a href="#?" className="white-circle-btn">
-                                                       <img src="/images/arow.svg" alt="" />
-                                                     </a>
-                                                   </>
-                                                 )}
-                                               </div>
-                                             </div>
+                <div className="list-white-cart lime-green-cart">
 
-             {/* Box11: Sprint Wins */}
+                  <h4>{data?.[fixedApis.box10]?.message}</h4>
+                  {getBoxData(fixedApis.box10).error ? (
+                    <ErrorMessage
+                      errorType={getBoxData(fixedApis.box10).errorType}
+                    />
+                  ) : (
+                    <>
+                      <ul>
+                        {(Array.isArray(getBoxData(fixedApis.box10).data)
+                          ? getBoxData(fixedApis.box10).data
+                          : []
+                        )
+                          .slice(0, 3)
+                          .map((rider, index) => (
+                            <li key={index}>
+                              <strong>{index + 1}</strong>
+                              <div className="name-wraper name-wraper-green">
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
+                              </div>
 
-               <div className="col-lg-3 col-md-6">
+                              {rider?.count && <span>{rider.count}</span>}
+                            </li>
+                          ))}
+                      </ul>
+                      <a href="#?" className="white-circle-btn">
+                        <img src="/images/arow.svg" alt="" />
+                      </a>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Box11: Sprint Wins */}
+
+              <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box11]?.message}</h4>
@@ -518,10 +518,10 @@ const StatsSecondSection = ({
                     )}
                   </div>
                 </div>
-              </div>  
+              </div>
 
-             {/* Box12: DNF team in GC*/}
-                <div className="col-lg-3 col-md-6">
+              {/* Box12: DNF team in GC*/}
+              <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box12]?.message}</h4>
@@ -542,9 +542,9 @@ const StatsSecondSection = ({
                                 {renderFlag(rider?.flag)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
-                              {rider?.year && (
+                              {rider?.totalDNFTeams && (
                                 <h5>
-                                  <strong>{rider.year} </strong>
+                                  <strong>{rider.totalDNFTeams} </strong>
                                 </h5>
                               )}
                             </>
@@ -557,10 +557,10 @@ const StatsSecondSection = ({
                     )}
                   </div>
                 </div>
-              </div>      
+              </div>
 
-                 {/* Box13: Rank one Teams*/}
-                <div className="col-lg-3 col-md-6">
+              {/* Box13: Rank one Teams*/}
+              <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box13]?.message}</h4>
@@ -581,9 +581,9 @@ const StatsSecondSection = ({
                                 {renderFlag(rider?.flag)}
                                 <h6>{rider?.teamName || "..."}</h6>
                               </div>
-                              {rider?.year && (
+                              {rider?.wins && (
                                 <h5>
-                                  <strong>{rider.year} </strong>
+                                  <strong>{rider.wins} </strong>
                                 </h5>
                               )}
                             </>
@@ -596,7 +596,7 @@ const StatsSecondSection = ({
                     )}
                   </div>
                 </div>
-              </div>      
+              </div>
 
 
             </>
@@ -608,4 +608,3 @@ const StatsSecondSection = ({
 };
 
 export default StatsSecondSection;
- 

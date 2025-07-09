@@ -9,7 +9,7 @@ const StatsData = ({
   selectedYear,
 }) => {
   const fixedApis = {
-   box1: "mostSecondPlaces",
+    box1: "mostSecondPlaces",
     box2: "teamWithMostNationalities",
     box3: "youngestMostWins",
     box4: "olderstRiders",
@@ -69,7 +69,7 @@ const StatsData = ({
           {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-        {/* Box 1 - Most Second  Places */}
+              {/* Box 1 - Most Second  Places */}
               <div className="col-lg-4 col-md-6 ">
                 <div className="team-cart">
                   <a href="#?" className="pabs"></a>
@@ -142,9 +142,9 @@ const StatsData = ({
                             {renderFlag(riderData?.country)}
                             <h6>{riderData?.team || "..."}</h6>
                           </div>
-                          {riderData?.wins && (
+                          {riderData?.win && (
                             <h5>
-                              <strong>{riderData.wins} </strong>
+                              <strong>{riderData.win} </strong>
                             </h5>
                           )}
 
@@ -306,6 +306,7 @@ const StatsData = ({
                             <>
                               <div className="name-wraper name-wraper-white" key={index}>
                                 <h6>
+                                  {renderFlag(race?.country_code)}
                                   {race?.race || "..."} ({race?.year})
                                 </h6>
                               </div>
@@ -369,7 +370,7 @@ const StatsData = ({
                   </div>
                 </div>
               </div>
-         
+
             </>
           )}
         </div>

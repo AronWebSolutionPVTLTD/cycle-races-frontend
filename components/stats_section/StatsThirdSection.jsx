@@ -325,6 +325,7 @@ const StatsThirdSection = ({
                                     className="name-wraper name-wraper-white"
                                     key={index}
                                   >
+                                    {renderFlag(rider?.flag)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
                                   {rider?.totalPoints && (
@@ -367,6 +368,7 @@ const StatsThirdSection = ({
                                     className="name-wraper name-wraper-white"
                                     key={index}
                                   >
+                                    {renderFlag(rider?.country)}
                                     <h6>{rider?.race || "..."}</h6>
                                   </div>
                                   {rider?.distance && (

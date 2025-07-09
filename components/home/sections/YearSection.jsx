@@ -110,7 +110,7 @@ const YearSection = () => {
       response?.data?.data?.result,
       // response?.data?.result,
       response?.data?.data,
-      response?.data,
+      response?.data?.data?.sorted,
       response?.data.riders,
       response,
     ];
@@ -270,8 +270,8 @@ const YearSection = () => {
                                     className="name-wraper name-wraper-green"
                                     key={index}
                                   >
-                                    {renderFlag(rider?.country)}
-                                    <h6>{rider?.rider_key || "..."}</h6>
+                                    {renderFlag(rider?.rider_country)}
+                                    <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
 
                                   {rider?.racing_days && (
@@ -315,11 +315,11 @@ const YearSection = () => {
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
                                   <div className="name-wraper name-wraper-white">
-                                    {renderFlag(rider?.rider_country)}
+                                    {renderFlag(rider?.flag)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
 
-                                  {rider?.count && <span>{rider.count}</span>}
+                                  {rider?.wins && <span>{rider.wins}</span>}
                                 </li>
                               ))}
                           </ul>
@@ -349,7 +349,7 @@ const YearSection = () => {
                               .slice(0, 3)
                               .map((rider, index) => (
                                 <li key={index}>
-                                  <strong>{index + 1}</strong>
+
                                   <div className="name-wraper name-wraper-white">
                                     {renderFlag(rider?.nationality)}
                                     <h6>{rider?.name || "..."}</h6>
@@ -505,17 +505,20 @@ const YearSection = () => {
                                 className="name-wraper name-wraper-white"
                                 key={index}
                               >
-                                {rider.races.map((race) => (
+                                {/* {rider.races.map((race) => (
                                   <>
                                     {renderFlag(race?.country_code)}
                                     <h6>{race?.race_name || "..."}</h6>
                                   </>
-                                ))}
+                                ))} */}
+
+                                {renderFlag(rider?.country_code)}
+                                <h6>{rider?.race_name || "..."}</h6>
                               </div>
 
-                              {rider?.dnf_count && (
+                              {rider?.count && (
                                 <h5>
-                                  <strong>{rider.dnf_count} </strong> dnfs
+                                  <strong>{rider.count} </strong> dnfs
                                 </h5>
                               )}
                             </>
@@ -529,6 +532,8 @@ const YearSection = () => {
                   </div>
                 </div>
               </div>
+
+
             </>
           )}
         </div>

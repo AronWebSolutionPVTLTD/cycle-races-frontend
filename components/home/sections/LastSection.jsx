@@ -124,9 +124,9 @@ const LastSection = () => {
                             {renderFlag(riderData?.country)}
                             <h6>{riderData?.team || "..."}</h6>
                           </div>
-                          {riderData?.wins && (
+                          {riderData?.win && (
                             <h5>
-                              <strong>{riderData.wins} </strong>
+                              <strong>{riderData.win} </strong>
                             </h5>
                           )}
 
@@ -146,45 +146,53 @@ const LastSection = () => {
                   <a href="#?" className="pabs"></a>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box3]?.message}</h4>
-                    {getBoxData(fixedApis.box3).error ? (
-                      <ErrorMessage
-                        errorType={getBoxData(fixedApis.box3).errorType}
-                      />
-                    ) : (
-                      <>
-                        {(Array.isArray(getBoxData(fixedApis.box3).data)
-                          ? getBoxData(fixedApis.box3).data
-                          : []
-                        )
-                          .slice(0, 1)
-                          .map((rider, index) => (
-                            <div key={index}>
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(rider?.rider_country)}
-                                <h6>{rider?.rider_name || "..."}</h6>
-                              </div>
 
-                              {rider?.wins && (
-                                <h5>
-                                  <strong>{rider.wins} </strong> wins
-                                </h5>
-                              )}
-                            </div>
-                          ))}
+                    {(() => {
+                      const boxData = getBoxData(fixedApis.box3);
+                      if (boxData.error) {
+                        return (
+                          <ErrorMessage errorType={boxData.errorType} />
+                        );
+                      }
 
-                        <img
-                          src="/images/player6.png"
-                          alt=""
-                          className="absolute-img"
-                        />
-                        <a href="#?" className="green-circle-btn">
-                          <img src="/images/arow.svg" alt="" />
-                        </a>
-                      </>
-                    )}
+                      const rider = Array.isArray(boxData.data)
+                        ? boxData.data[0]
+                        : null;
+
+                      if (!rider) return <ErrorMessage errorType="no_data" />;
+
+                      return (
+                        <>
+                          <div className="name-wraper name-wraper-white">
+                            {renderFlag(rider?.rider_country)}
+                            <h6>{rider?.rider_name || "..."}</h6>
+                          </div>
+                          {rider?.wins && (
+                            <h5>
+                              <strong>{rider.wins}</strong> wins
+                            </h5>
+                          )}
+
+                          {rider?.age && (
+                            <p className="text-muted">Age: {rider.age}</p>
+                          )}
+
+                          <img
+                            src="/images/player6.png"
+                            alt=""
+                            className="absolute-img"
+                          />
+
+                          <a href="#?" className="green-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                          </a>
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>
+
 
               {/*Box 4 - Most olderst Riders*/}
               <div className="col-lg-3 col-md-6">
@@ -288,6 +296,7 @@ const LastSection = () => {
                             <>
                               <div className="name-wraper name-wraper-white">
                                 <h6>
+                                  {renderFlag(race?.country_code)}
                                   {race?.race || "..."} ({race?.year})
                                 </h6>
                               </div>

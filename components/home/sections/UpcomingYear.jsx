@@ -12,8 +12,10 @@ const UpcomingYear = () => {
   // Fixed APIs for each box - no random selection
   const fixedApis = {
     box1: "getUpcomingRacesByDate",
-    box2: "tourDownUnder24",
-    box3: "mostWinTourDownUnder",
+    // box2: "tourDownUnder24",
+    box2: "getUpcomingRacesByDate",
+    // box3: "mostWinTourDownUnder",
+    box3: "getUpcomingRacesByDate"
   };
 
   const endpointsToFetch = Object.values(fixedApis);
@@ -33,6 +35,7 @@ const UpcomingYear = () => {
       response?.data?.data,
       response?.data,
       response?.data?.races,
+
       response,
     ];
 
@@ -127,17 +130,27 @@ const UpcomingYear = () => {
                           ? getBoxData(fixedApis.box2).data
                           : []
                         )
-                          .slice(0, 5)
-                          .map((team, index) => (
+                          .slice(0, 1)
+                          .map((rider, index) => (
                             <li key={index}>
-                              <strong>{index + 1}</strong>
+                              {/* <strong>{index + 1}</strong>
                               <div className="name-wraper name-wraper-white">
                                 {renderFlag(team?.rider_country)}
                                 <h6>{team?.rider_name || "..."}</h6>
-                              </div>
-                              {/* {team?.rider_time && (
-                                <span>{team.rider_time} </span>
-                              )} */}
+                              </div> */}
+                              {Array.isArray(rider.last_year_top_riders) && rider.last_year_top_riders.length > 0 && (
+                                <ul>
+                                  {rider.last_year_top_riders.map((rider, i) => (
+                                    <li key={i}>
+                                      <div className="name-wraper name-wraper-white">
+                                        {renderFlag(rider?.country)}
+                                        <h6>{rider?.name || "..."}</h6>
+                                      </div>
+                                      {rider?.time && <span>{rider.time}</span>}
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
                             </li>
                           ))}
                       </ul>
@@ -153,7 +166,7 @@ const UpcomingYear = () => {
               {/* Box 3 - most Win TourDownUnder */}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
-                  <h4>{data?.[fixedApis.box3]?.message}</h4>
+                  <h4>{data?.[fixedApis.box3]?.data.winners_message}</h4>
                   {getBoxData(fixedApis.box3).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box3).errorType}
@@ -165,15 +178,25 @@ const UpcomingYear = () => {
                           ? getBoxData(fixedApis.box3).data
                           : []
                         )
-                          .slice(0, 5)
-                          .map((team, index) => (
+                          .slice(0, 1)
+                          .map((winner, index) => (
                             <li key={index}>
-                              <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(team?.country)}
-                                <h6>{team?.rider_name || "..."}</h6>
-                              </div>
-                              {/* {team?.winCount && <span>{team.winCount}</span>} */}
+
+                              {Array.isArray(winner.all_time_top_winners) && winner.all_time_top_winners.length > 0 && (
+                                <ul>
+                                  {winner.all_time_top_winners.map((winner, i) => (
+                                    <li key={i}>
+                                      <div className="name-wraper name-wraper-white">
+                                        {renderFlag(winner?.country)}
+                                        <h6>{winner?.name || "..."}</h6>
+                                      </div>
+
+                                      {winner?.wins && <span>{winner.wins}</span>}
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+
                             </li>
                           ))}
                       </ul>

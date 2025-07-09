@@ -43,7 +43,7 @@ const StatsFirstSection = ({
       response?.data?.data?.result,
       response?.data?.data?.shortest_stage_races,
       response?.data?.data,
-      response?.data,
+      response?.data?.data?.sorted,
       response?.data.riders,
       response,
     ];
@@ -191,8 +191,8 @@ const StatsFirstSection = ({
                                     className="name-wraper name-wraper-green"
                                     key={index}
                                   >
-                                    {renderFlag(rider?.country)}
-                                    <h6>{rider?.rider_key || "..."}</h6>
+                                    {renderFlag(rider?.rider_country)}
+                                    <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
 
                                   {rider?.racing_days && (
@@ -236,11 +236,11 @@ const StatsFirstSection = ({
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
                                   <div className="name-wraper name-wraper-white">
-                                    {renderFlag(rider?.rider_country)}
+                                    {renderFlag(rider?.flag)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
 
-                                  {rider?.count && <span>{rider.count}</span>}
+                                  {rider?.wins && <span>{rider.wins}</span>}
                                 </li>
                               ))}
                           </ul>
@@ -252,7 +252,7 @@ const StatsFirstSection = ({
                     </div>
                   </div>
 
-                  {/*Box 5 - Birthdays */}
+                  {/*Box 5 - mostPodiumInStages */}
                   <div className="col-lg-5 col-md-6">
                     <div className="list-white-cart">
                       <h4>{data?.[fixedApis.box5]?.message}</h4>
@@ -425,13 +425,13 @@ const StatsFirstSection = ({
                                 className="name-wraper name-wraper-white"
                                 key={index}
                               >
-                                {renderFlag(rider?.rider_country)}
-                                <h6>{rider?.team_name || "..."}</h6>
+                                {renderFlag(rider?.country_code)}
+                                <h6>{rider?.race || "..."}</h6>
                               </div>
 
-                              {rider?.dnf_count && (
+                              {rider?.count && (
                                 <h5>
-                                  <strong>{rider.dnf_count} </strong> dnfs
+                                  <strong>{rider.count} </strong> dnfs
                                 </h5>
                               )}
                             </>
