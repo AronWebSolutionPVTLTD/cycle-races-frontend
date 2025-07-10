@@ -148,7 +148,9 @@ const StatsSecondSection = ({
                                   {rider?.count && (
                                     <h5>
                                       <strong>{rider.count} </strong>
+                                      count
                                     </h5>
+
                                   )}
                                 </>
                               ))}
@@ -188,6 +190,7 @@ const StatsSecondSection = ({
                                   {rider?.total_gc_races && (
                                     <h5>
                                       <strong>{rider.total_gc_races} </strong>
+                                      average
                                     </h5>
                                   )}
                                 </>
@@ -525,36 +528,37 @@ const StatsSecondSection = ({
                 <div className="team-cart">
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box12]?.message}</h4>
-                    {getBoxData(fixedApis.box12).error ? (
-                      <ErrorMessage
-                        errorType={getBoxData(fixedApis.box12).errorType}
-                      />
-                    ) : (
-                      <>
-                        {(Array.isArray(getBoxData(fixedApis.box12).data)
-                          ? getBoxData(fixedApis.box12).data
-                          : []
-                        )
-                          .slice(0, 1)
-                          .map((rider, index) => (
-                            <>
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(rider?.flag)}
-                                <h6>{rider?.team_name || "..."}</h6>
-                              </div>
-                              {rider?.totalDNFTeams && (
-                                <h5>
-                                  <strong>{rider.totalDNFTeams} </strong>
-                                </h5>
-                              )}
-                            </>
-                          ))}
+                    {(() => {
+                      if (!data?.[fixedApis.box12]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
 
-                        <a href="#?" className="green-circle-btn">
-                          <img src="/images/arow.svg" alt="" />
-                        </a>
-                      </>
-                    )}
+                      const response = data[fixedApis.box12];
+                      const riderData = response?.data;
+
+                      if (!riderData) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
+
+                      return (
+                        <>
+                          <div className="name-wraper name-wraper-green">
+                            {renderFlag(riderData?.flag)}
+                            <h6>{riderData?.team_name || "..."}</h6>
+                          </div>
+                          {riderData?.dnfCount && (
+                            <h5>
+                              <strong>{riderData.dnfCount}</strong>
+                              dnf
+                            </h5>
+                          )}
+
+                          <a href="#?" className="green-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                          </a>
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>
@@ -564,36 +568,37 @@ const StatsSecondSection = ({
                 <div className="team-cart">
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box13]?.message}</h4>
-                    {getBoxData(fixedApis.box13).error ? (
-                      <ErrorMessage
-                        errorType={getBoxData(fixedApis.box13).errorType}
-                      />
-                    ) : (
-                      <>
-                        {(Array.isArray(getBoxData(fixedApis.box13).data)
-                          ? getBoxData(fixedApis.box13).data
-                          : []
-                        )
-                          .slice(0, 1)
-                          .map((rider, index) => (
-                            <>
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(rider?.flag)}
-                                <h6>{rider?.teamName || "..."}</h6>
-                              </div>
-                              {rider?.wins && (
-                                <h5>
-                                  <strong>{rider.wins} </strong>
-                                </h5>
-                              )}
-                            </>
-                          ))}
+                    {(() => {
+                      if (!data?.[fixedApis.box13]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
 
-                        <a href="#?" className="green-circle-btn">
-                          <img src="/images/arow.svg" alt="" />
-                        </a>
-                      </>
-                    )}
+                      const response = data[fixedApis.box13];
+                      const riderData = response?.data;
+
+                      if (!riderData) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
+
+                      return (
+                        <>
+                          <div className="name-wraper name-wraper-green">
+                            {renderFlag(riderData?.flag)}
+                            <h6>{riderData?.team_name || "..."}</h6>
+                          </div>
+                          {riderData?.maxConsecutiveWins && (
+                            <h5>
+                              <strong>{riderData.maxConsecutiveWins}</strong>
+                              wins
+                            </h5>
+                          )}
+
+                          <a href="#?" className="green-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                          </a>
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>
