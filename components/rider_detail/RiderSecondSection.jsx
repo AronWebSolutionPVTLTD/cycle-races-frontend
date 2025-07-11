@@ -343,7 +343,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                         <div className="name-wraper name-wraper-white">
                           {renderFlag(riderData?.bestCountry)}
                           <h6>
-                            ({riderData?.bestCountry.toUpperCase() || "..."})
+                            ({riderData?.bestCountry || "..."})
                           </h6>
                         </div>
                         {riderData?.winCount && (

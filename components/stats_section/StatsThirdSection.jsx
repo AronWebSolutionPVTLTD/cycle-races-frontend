@@ -170,7 +170,7 @@ const StatsThirdSection = ({
                                 className="name-wraper name-wraper-white"
                                 key={index}
                               >
-                                {renderFlag(rider?.rider_country)}
+                                {renderFlag(rider?.team_country)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
                               {rider?.count && (
@@ -247,7 +247,7 @@ const StatsThirdSection = ({
                                     className="name-wraper name-wraper-white"
                                     key={index}
                                   >
-                                    {renderFlag(rider?.rider_country)}
+                                    {renderFlag(rider?.team_country)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
                                   {rider?.count && (
@@ -287,7 +287,7 @@ const StatsThirdSection = ({
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
                                   <div className="name-wraper name-wraper-white">
-                                    {renderFlag(rider?.rider_country)}
+                                    {renderFlag(rider?.team_country)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
 
@@ -328,10 +328,10 @@ const StatsThirdSection = ({
                                     {renderFlag(rider?.flag)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
-                                  {rider?.totalPoints && (
+                                  {rider?.gcWinCount && (
                                     <h5>
-                                      <strong>{rider.totalPoints} </strong>
-                                      points
+                                      <strong>{rider.gcWinCount} </strong>
+                                      count
                                     </h5>
                                   )}
                                 </>
@@ -414,7 +414,7 @@ const StatsThirdSection = ({
                             <li key={index}>
                               <strong>{index + 1}</strong>
                               <div className="name-wraper name-wraper-green">
-                                {renderFlag(rider?.rider_country)}
+                                {renderFlag(rider?.team_country)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
 
