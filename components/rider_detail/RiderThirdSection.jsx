@@ -258,6 +258,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
+                          {renderFlag(riderData?.country_code)}
                           <h6>
                             {riderData?.race || "..."} ({riderData.year})
                           </h6>
@@ -300,7 +301,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                      
+
                         {riderData?.dnf_count && (
                           <h5>
                             <strong>{riderData.dnf_count} </strong>
@@ -342,6 +343,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
+                              {renderFlag(rider?.country_code)}
                               <h6>
                                 {rider?.race || "..."} ({rider.year})
                               </h6>
@@ -382,7 +384,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-green">
-                          {/* {renderFlag(riderData?.rider_country)} */}
+                          {renderFlag(riderData?.country_code)}
                           <h6>{riderData?.race || "..."}</h6>
                         </div>
                         {riderData?.year && (
@@ -538,6 +540,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
+                          {renderFlag(riderData?.country_code)}
                           <h6>
                             {riderData?.race_name || "..."} ({riderData.year})
                           </h6>
@@ -620,6 +623,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         {riderData?.gcRank && (
                           <h5>
                             <strong>{riderData.gcRank} </strong>
+                            rank
                           </h5>
                         )}
 

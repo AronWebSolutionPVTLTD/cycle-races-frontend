@@ -146,8 +146,8 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-green">
-                          {renderFlag(riderData?.nationality)}
-                          <h6>{riderData?.rider_name || "..."}</h6>
+                          {/* {renderFlag(riderData?.nationality)} */}
+                          <h6>{riderData?.total_points || "..."}</h6>points
                         </div>
                         {riderData?.total_uci_points && (
                           <h5>
@@ -189,6 +189,12 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           {renderFlag(riderData?.flag)}
                           <h6>{riderData?.teamName || "..."}</h6>
                         </div>
+                        {riderData?.yearsInTeam && (
+                          <h5>
+                            <strong>{riderData.yearsInTeam} </strong>years
+                          </h5>
+
+                        )}
 
                         {/* <img
                           src="/images/player3.png"
@@ -278,9 +284,9 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                 {/*Box 6 - Rider YearsActive */}
                 <div className="col-lg-7 col-md-6">
-                  <div className="team-cart lime-green-team-cart img-active">
+                  <div className="team-cart">
                     <a href="#?" className="pabs"></a>
-                    <div className="text-wraper">
+                    {/* <div className="text-wraper">
                       <h4>{data?.[fixedApis.box6]?.message}</h4>
                       {getBoxData(fixedApis.box6).error ? (
                         <ErrorMessage
@@ -304,7 +310,45 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           </a>
                         </>
                       )}
+                    </div> */}
+                    <div className="text-wraper">
+                      <h4 className="font-size-change">
+                        {data?.[fixedApis.box6]?.message}
+                      </h4>
+                      {(() => {
+                        if (!data?.[fixedApis.box6]) {
+                          return <ErrorMessage errorType="no_data" />;
+                        }
+
+                        const response = data[fixedApis.box6];
+                        const riderData = response?.data?.data;
+
+                        if (!riderData) {
+                          return <ErrorMessage errorType="no_data_found" />;
+                        }
+
+                        return (
+                          <>
+                            <div className="name-wraper name-wraper-green">
+                              {/* {renderFlag(riderData?.professional_since)} */}
+                              <h6>Since {riderData?.professional_since || "..."}</h6>
+                            </div>
+                            {riderData?.career_duration_years && (
+                              <h5>
+                                <strong>
+                                  {riderData.career_duration_years}{" "}
+                                </strong>
+                                jaar
+                              </h5>
+                            )}
+                            <a href="#?" className="green-circle-btn">
+                              <img src="/images/arow.svg" alt="" />
+                            </a>
+                          </>
+                        );
+                      })()}
                     </div>
+
                   </div>
                 </div>
 
@@ -365,11 +409,16 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                         return (
                           <>
+                            <div className="name-wraper name-wraper-green">
+                              {renderFlag(riderData?.country)}
+                              <h6>{riderData?.race || "..."}</h6>
+                            </div>
                             {riderData?.days_since_last_win && (
                               <h5>
                                 <strong>
                                   {riderData.days_since_last_win}{" "}
                                 </strong>
+                                days
                               </h5>
                             )}
                             <a href="#?" className="green-circle-btn">
