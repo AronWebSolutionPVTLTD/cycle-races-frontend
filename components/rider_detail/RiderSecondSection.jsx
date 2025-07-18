@@ -176,7 +176,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                         return (
                           <>
                             <div className="name-wraper name-wraper-white">
-                              {renderFlag(riderData?.rider_country)}
+                              {renderFlag(riderData?.country_code)}
                               <h6>{riderData?.raceTitle || "..."}</h6>
                             </div>
                             {riderData?.age && (
@@ -216,7 +216,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                         return (
                           <>
                             <div className="name-wraper name-wraper-green">
-                              {renderFlag(riderData?.rider_country)}
+                              {renderFlag(riderData?.country_code)}
                               <h6>{riderData?.race || "..."}</h6>
                             </div>
                             {riderData?.best_gc_rank && (
