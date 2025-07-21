@@ -341,9 +341,9 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
-                          {renderFlag(riderData?.bestCountry)}
+                          {renderFlag(riderData?.best_country_code)}
                           <h6>
-                            ({riderData?.bestCountry || "..."})
+                            ({riderData?.best_country_name || "..."})
                           </h6>
                         </div>
                         {riderData?.winCount && (

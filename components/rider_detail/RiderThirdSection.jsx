@@ -224,7 +224,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         <div className="name-wraper name-wraper-white">
                           {renderFlag(riderData?.raceData?.country_code)}
                           <h6>
-                            ({riderData?.raceData?.country_code || "..."})
+                            ({riderData?.raceData?.country_name || "..."})
                           </h6>
                         </div>
 
