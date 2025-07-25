@@ -268,7 +268,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                             </div> */}
                             {riderData?.streak_count && (
                               <h5>
-                                <strong>{riderData.streak_count} </strong>
+                                <strong>{riderData.streak_count} </strong>races
                               </h5>
                             )}
 
@@ -384,13 +384,14 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        {riderData.total_home_country_wins && (
-                          <h5>
-                            <strong>
+                        {/* {riderData.total_home_country_wins && ( */}
+                        <h5>
+                          {/* <strong>
                               {riderData.total_home_country_wins}{" "}
-                            </strong>
-                          </h5>
-                        )}
+                            </strong> */}
+                          <strong>{riderData?.total_home_country_wins ?? 0}</strong>wins
+                        </h5>
+                        {/* )} */}
 
                         <a href="#?" className="white-circle-btn">
                           <img src="/images/arow.svg" alt="" />
@@ -420,7 +421,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                         .slice(0, 3)
                         .map((rider, index) => (
                           <li key={index}>
-                            <strong>{index + 1}</strong>
+                            {/* <strong>{index + 1}</strong> */}
                             <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.nationality)}
                               <h6>{rider?.name || "..."}</h6>

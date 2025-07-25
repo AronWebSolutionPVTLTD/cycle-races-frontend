@@ -230,7 +230,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                         {riderData?.raceData?.races_count && (
                           <h5>
-                            <strong>{riderData.raceData?.races_count} </strong>
+                            <strong>{riderData.raceData?.races_count} </strong>race days
                           </h5>
                         )}
 
@@ -309,11 +309,12 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
 
-                        {riderData?.dnf_count && (
-                          <h5>
-                            <strong>{riderData.dnf_count} </strong>
-                          </h5>
-                        )}
+                        {/* {riderData?.dnf_count && ( */}
+                        <h5>
+                          {/* <strong>{riderData.dnf_count} </strong> */}
+                          <strong>{riderData?.dnf_count ?? 0}</strong>dnfs
+                        </h5>
+                        {/* )} */}
 
                         <img
                           src="/images/player1.png"
@@ -432,11 +433,12 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        {riderData?.total_racing_days && (
-                          <h5>
-                            <strong>{riderData.total_racing_days} </strong>
-                          </h5>
-                        )}
+                        {/* {riderData?.total_racing_days && ( */}
+                        <h5>
+                          {/* <strong>{riderData.total_racing_days} </strong>days */}
+                          <strong>{riderData?.total_racing_days ?? 0}</strong>days
+                        </h5>
+                        {/* // )} */}
 
                         <a href="#?" className="white-circle-btn">
                           <img src="/images/arow.svg" alt="" />
@@ -470,11 +472,12 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        {riderData?.total_distance_raced && (
-                          <h5>
-                            <strong>{riderData.total_distance_raced} </strong>
-                          </h5>
-                        )}
+                        {/* {riderData?.total_distance_raced && ( */}
+                        <h5>
+                          {/* <strong>{riderData.total_distance_raced} </strong>kilometers */}
+                          <strong>{riderData?.total_distance_raced ?? 0}</strong>kilometers
+                        </h5>
+                        {/* // )} */}
 
                         <a href="#?" className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
@@ -588,6 +591,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
+                              {renderFlag(rider?.country_code)}
                               <h6>{rider?.race || "..."}</h6>
                             </div>
 
@@ -673,7 +677,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         </div>
                         {riderData?.times_raced && (
                           <h5>
-                            <strong>{riderData.times_raced} </strong>
+                            <strong>{riderData.times_raced} </strong>times
                           </h5>
                         )}
 

@@ -209,7 +209,7 @@ export default function Riders() {
         // >
         //   Loading riders data...
         // </li>
-<ListSkeleton/>
+        <ListSkeleton />
       );
     }
 
@@ -242,14 +242,14 @@ export default function Riders() {
     return firstTenRiders.map((team) =>
       team.riders && team.riders.length > 0
         ? team.riders.map((rider) => (
-            <RiderCard
-              key={rider._id || rider.rider_id}
-              name={rider.riderName}
-              team={team.teamName}
-              flag={rider.riderCountry}
-              riderId={rider.rider_id}
-            />
-          ))
+          <RiderCard
+            key={rider._id || rider.rider_id}
+            name={rider.riderName}
+            team={team.teamName}
+            flag={rider.riderCountry}
+            riderId={rider.rider_id}
+          />
+        ))
         : null
     );
   };
@@ -263,8 +263,8 @@ export default function Riders() {
         showVictories && rider.victories
           ? `${rider.victories} wins`
           : rider.age
-          ? `${rider.age} jaar`
-          : "",
+            ? `${rider.age} jaar`
+            : "",
       flag: rider.country || rider.riderCountry || "/images/flag-default.svg",
     }));
   };
@@ -280,7 +280,7 @@ export default function Riders() {
         //   />
         //   <p>Loading statistics...</p>
         // </div>
-        <CardSkeleton/>
+        <CardSkeleton />
       );
     }
 
@@ -309,8 +309,7 @@ export default function Riders() {
       data: sidebarsData?.victoryRanking?.data?.data || [],
       title:
         sidebarsData?.victoryRanking?.message ||
-        `Meeste overwinningen (${
-          sidebarsData?.victoryRanking?.data?.year || ""
+        `Meeste overwinningen (${sidebarsData?.victoryRanking?.data?.year || ""
         })`,
     };
 
