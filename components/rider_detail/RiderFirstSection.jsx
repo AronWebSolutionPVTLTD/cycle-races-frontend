@@ -132,12 +132,19 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box2]?.message}</h4>
                   {(() => {
-                    if (!data?.[fixedApis.box2]) {
+                    const response = data?.[fixedApis.box2];
+                    const riderDataArray = response?.data?.data;
+
+                    if (!response) {
                       return <ErrorMessage errorType="no_data" />;
                     }
 
-                    const response = data[fixedApis.box2];
-                    const riderData = response?.data?.data;
+                    if (!Array.isArray(riderDataArray) || riderDataArray.length === 0) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
+                    // ✅ Find correct rider by ID
+                    const riderData = riderDataArray.find((r) => r.rider_id === riderId);
 
                     if (!riderData) {
                       return <ErrorMessage errorType="no_data_found" />;
@@ -146,17 +153,15 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-green">
-                          {/* {renderFlag(riderData?.nationality)} */}
-                          <h6>{riderData?.total_points || "..."}</h6>points
+                          <h6>{riderData?.total_uci_points || "..."}</h6>uci points
                         </div>
-                        {riderData?.total_uci_points && (
+                        {riderData?.rank && (
                           <h5>
-                            <strong>{riderData.total_uci_points} </strong>
+                            <strong>{riderData.rank}</strong> rank
                           </h5>
                         )}
-
                         <a href="#?" className="white-circle-btn">
-                          <img src="/images/arow.svg" alt="" />
+                          <img src="/images/arow.svg" alt="arrow" />
                         </a>
                       </>
                     );
@@ -164,6 +169,12 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 </div>
               </div>
             </div>
+
+
+
+
+
+
 
             {/* third Section */}
             <div className="col-lg-3 col-md-6">
@@ -286,31 +297,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart">
                     <a href="#?" className="pabs"></a>
-                    {/* <div className="text-wraper">
-                      <h4>{data?.[fixedApis.box6]?.message}</h4>
-                      {getBoxData(fixedApis.box6).error ? (
-                        <ErrorMessage
-                          errorType={getBoxData(fixedApis.box6).errorType}
-                        />
-                      ) : (
-                        <>
-                          {(Array.isArray(getBoxData(fixedApis.box6).data)
-                            ? getBoxData(fixedApis.box6).data
-                            : []
-                          )
-                            .slice(0, 1)
-                            .map((rider, index) => (
-                              <h5 key={index}>
-                                <strong>{rider} </strong>
-                              </h5>
-                            ))}
-
-                          <a href="#?" className="white-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
-                        </>
-                      )}
-                    </div> */}
                     <div className="text-wraper">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box6]?.message}
@@ -330,7 +316,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                         return (
                           <>
                             <div className="name-wraper name-wraper-green">
-                              {/* {renderFlag(riderData?.professional_since)} */}
+
                               <h6>Since {riderData?.professional_since || "..."}</h6>
                             </div>
                             {riderData?.career_duration_years && (

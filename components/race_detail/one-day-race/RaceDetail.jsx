@@ -28,7 +28,7 @@ export const RaceDetail = ({ selectedNationality, name }) => {
     fixedApis.box1,
     fixedApis.box2,
     fixedApis.box4,
-   
+
   ];
 
   const onedayRace = [
@@ -37,7 +37,7 @@ export const RaceDetail = ({ selectedNationality, name }) => {
     fixedApis.box6,
     fixedApis.box7,
     fixedApis.box8,
-     fixedApis.box9,
+    fixedApis.box9,
   ];
 
   // Define endpoint mappings for specific cases if needed
@@ -216,11 +216,11 @@ export const RaceDetail = ({ selectedNationality, name }) => {
               {/* Box4: Race Participants  */}
 
               <div className="col-lg-3 col-md-6">
-                 <div className="team-cart lime-green-team-cart img-active">
+                <div className="team-cart lime-green-team-cart img-active">
                   <a href="#?" className="pabs"></a>
                   <div className="text-wraper">
                     <h4> {data?.[fixedApis.box4]?.message}</h4>
-                       {(() => {
+                    {(() => {
                       if (!data?.[fixedApis.box4]) {
                         return <ErrorMessage errorType="no_data" />;
                       }
@@ -363,13 +363,11 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                               .slice(0, 3)
                               .map((rider, index) => (
                                 <li key={index}>
-                                  <strong>{index + 1}</strong>
+                                  <strong>{rider?.year}</strong>
                                   <div className="name-wraper name-wraper-white">
                                     {renderFlag(rider?.country)}
                                     <h6>{rider?.rider_name || "..."} </h6>
                                   </div>
-
-                                  {rider?.year && <span>{rider.year}</span>}
                                 </li>
                               ))}
                           </ul>
@@ -401,15 +399,30 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                           return (
                             <>
                               <div className="name-wraper name-wraper-green">
-                                {renderFlag(riderData?.country)}
-                                <h6>{riderData?.winner || "..."}</h6>
+
+                                <h6>{riderData?.year || "..."}</h6>
                               </div>
-                              {riderData?.distance_km && (
-                                <h5>
-                                  <strong>{riderData.distance_km}</strong>
-                                  kilometer
-                                </h5>
+
+                              {riderData?.time && (
+                                <div style={{ position: "relative", height: "80px" }}>
+                                  <h5
+                                    style={{
+                                      position: "absolute",
+                                      top: "60px", // move downward without affecting layout
+                                      left: 40,
+                                      right: 0,
+                                      textAlign: "center",
+                                      fontSize: "50px",
+                                      // fontWeight: "bold",
+                                      color: "#999",
+                                    }}
+                                  >
+                                    {riderData.time}
+                                  </h5>
+                                </div>
+
                               )}
+
 
                               <a href="#?" className="green-circle-btn">
                                 <img src="/images/arow.svg" alt="" />
@@ -422,7 +435,7 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                   </div>
                 </div>
               </div>
-              {/*Box 9 - Most stage wins*/}
+              {/*Box 9 - Most previous edition wins*/}
               <div className="col-lg-5 col-md-6">
                 <div className="list-white-cart lime-green-cart">
                   <h4 className="fs-chenge">
@@ -442,7 +455,7 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                           .slice(0, 5)
                           .map((rider, index) => (
                             <li key={index}>
-                              <strong>{index + 1}</strong>
+                              <strong>{rider.year}</strong>
                               <div className="name-wraper name-wraper-green">
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.winner || "..."}</h6>
