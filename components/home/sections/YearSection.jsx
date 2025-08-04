@@ -499,23 +499,23 @@ const YearSection = () => {
                           : []
                         )
                           .slice(0, 1)
-                          .map((rider, index) => (
+                          .map((race, index) => (
                             <>
                               <div
                                 className="name-wraper name-wraper-white"
                                 key={index}
                               >
-                                {rider.races.map((race) => (
+                           
                                   <>
                                     {renderFlag(race?.country_code)}
                                     <h6>{race?.race_name || "..."}</h6>
                                   </>
-                                ))}
+                              
                               </div>
 
-                              {rider?.dnf_count && (
+                              {race?.count && (
                                 <h5>
-                                  <strong>{rider.dnf_count} </strong> dnfs
+                                  <strong>{race.count} </strong> dnfs
                                 </h5>
                               )}
                             </>

@@ -15,9 +15,9 @@ export default function RaceDetailsPage() {
   const { name } = router.query;
 
   // State management
-  // const [selectedYear, setSelectedYear] = useState("All time");
-  // const [yearInput, setYearInput] = useState(new Date().getFullYear().toString());
-  //   const [showYearDropdown, setShowYearDropdown] = useState(false);
+  const [selectedYear, setSelectedYear] = useState("All time");
+  const [yearInput, setYearInput] = useState(new Date().getFullYear().toString());
+    const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [selectedNationality, setSelectedNationality] = useState("");
 
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
@@ -33,10 +33,10 @@ export default function RaceDetailsPage() {
   // Error state
   const [error, setError] = useState(null);
 
-  // const { withAllTime } = generateYearOptions();
+  const { withAllTime } = generateYearOptions();
 
   // Refs for handling clicks outside dropdowns
-  // const yearDropdownRef = useRef(null);
+  const yearDropdownRef = useRef(null);
   const nationalityDropdownRef = useRef(null);
 
   // Memoized values
@@ -45,11 +45,11 @@ export default function RaceDetailsPage() {
     [name]
   );
 
-  // const filteredYears = useMemo(() => {
-  //   return withAllTime.filter((year) =>
-  //     year.toLowerCase().includes((yearInput || "").toLowerCase())
-  //   );
-  // }, [withAllTime, yearInput]);
+  const filteredYears = useMemo(() => {
+    return withAllTime.filter((year) =>
+      year.toLowerCase().includes((yearInput || "").toLowerCase())
+    );
+  }, [withAllTime, yearInput]);
 
   // Fetch nationalities and teams based on filters
   const fetchFiltersData = useCallback(async () => {
@@ -107,11 +107,11 @@ export default function RaceDetailsPage() {
   // Handle selection changes
   const handleSelection = useCallback((type, value) => {
     switch (type) {
-      // case "year":
-      //   setSelectedYear(value);
-      //   setYearInput(value);
-      //   setShowYearDropdown(false);
-      //   break;
+      case "year":
+        setSelectedYear(value);
+        setYearInput(value);
+        setShowYearDropdown(false);
+        break;
       case "nationality":
         setSelectedNationality(value);
         setShowNationalityDropdown(false);
@@ -119,9 +119,9 @@ export default function RaceDetailsPage() {
     }
   }, []);
 
-  // const handleYearInputChange = useCallback((value) => {
-  //   setYearInput(value);
-  // }, []);
+  const handleYearInputChange = useCallback((value) => {
+    setYearInput(value);
+  }, []);
 
   // Effects
   useEffect(() => {
@@ -136,9 +136,9 @@ export default function RaceDetailsPage() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // if (yearDropdownRef.current && !yearDropdownRef.current.contains(event.target)) {
-      //   setShowYearDropdown(false);
-      // }
+      if (yearDropdownRef.current && !yearDropdownRef.current.contains(event.target)) {
+        setShowYearDropdown(false);
+      }
       if (
         nationalityDropdownRef.current &&
         !nationalityDropdownRef.current.contains(event.target)
@@ -222,7 +222,7 @@ export default function RaceDetailsPage() {
             <div className="row">
               <div className="col-lg-12 mb-6">
                 <ul className="filter">
-                  {/* <FilterDropdown
+                  <FilterDropdown
                       ref={yearDropdownRef}
                       isOpen={showYearDropdown}
                       toggle={() => setShowYearDropdown(!showYearDropdown)}
@@ -233,8 +233,8 @@ export default function RaceDetailsPage() {
                       onInputChange={handleYearInputChange}
                       loading={isLoadingFilters}
                       includeAllOption={false}
-                    /> */}
-                  <li>All-time</li>
+                    />
+                  {/* <li>All-time</li> */}
                   <FilterDropdown
                     ref={nationalityDropdownRef}
                     isOpen={showNationalityDropdown}
@@ -253,7 +253,7 @@ export default function RaceDetailsPage() {
               {raceData && (
                 <>
                   <OneDayRace
-                    // selectedYear={selectedYear !== "All time" ? selectedYear : null}
+                    selectedYear={selectedYear !== "All time" ? selectedYear : null}
                     selectedNationality={selectedNationality}
                     name={decodedRaceName}
                   />
