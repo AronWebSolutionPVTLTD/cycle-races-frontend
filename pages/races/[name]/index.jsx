@@ -252,16 +252,16 @@ export default function RaceDetailsPage() {
               </div>
               {raceData && (
                 <>
-                  <OneDayRace
+                  {/* <OneDayRace
                     selectedYear={selectedYear !== "All time" ? selectedYear : null}
                     selectedNationality={selectedNationality}
                     name={decodedRaceName}
-                  />
-                  {/* <MultipleStageRace
+                  /> */}
+                  <MultipleStageRace
  selectedYear={selectedYear !== "All time" ? selectedYear : null}
                   selectedNationality={selectedNationality}
                   name={decodedRaceName}
-/> */}
+/>
                 </>
               )}
             </div>

@@ -144,7 +144,7 @@ const YearSection = () => {
           {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* Box 1 - Youngest Rider */}
+              {/* Box 1 - Most  won */}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart lime-green-cart">
                   <h4 className="fs-chenge">

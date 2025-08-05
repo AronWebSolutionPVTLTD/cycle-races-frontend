@@ -403,11 +403,28 @@ export const RaceDetail = ({ selectedNationality, name }) => {
 
                                 <h6>{riderData?.year || "..."}</h6>
                               </div>
-                              {riderData?.time && (
+                              {/* {riderData?.time && (
                                 <h5>
                                   <strong>{riderData.time}</strong>
 
                                 </h5>
+                              )} */}
+                                   {riderData?.time && (
+                                <div style={{ position: "relative", height: "80px" }}>
+                                  <h5
+                                    style={{
+                                      position: "absolute",
+                                      top: "60px", 
+                                      left: 40,
+                                      right: 0,
+                                      textAlign: "center",
+                                      fontSize: "50px",
+                                      color: "#cbcbc7",
+                                    }}
+                                  >
+                                    {riderData.time}
+                                  </h5>
+                                </div>
                               )}
 
                               <a href="#?" className="green-circle-btn">

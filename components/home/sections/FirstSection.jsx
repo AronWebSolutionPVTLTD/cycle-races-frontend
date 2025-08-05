@@ -62,9 +62,8 @@ const FirstSection = () => {
 
     return { error: true, errorType: "no_data_found" };
   };
-  console.log(data);
-  
-  return (
+
+ return (
     <section className="home-banner">
       <div className="container">
         <div className="row">
