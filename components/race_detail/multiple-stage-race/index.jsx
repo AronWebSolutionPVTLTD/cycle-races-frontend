@@ -2,6 +2,9 @@ import React from "react";
 
 import { FirstSection } from "./SectionFirst";
 import { SectionSecond } from "./SectionSecond";
+import MostStageWins from "./MostStageWin";
+import MostMoutainWin from "./MostMoutain";
+import { LastSection } from "./LastSection";
 
 
 
@@ -13,7 +16,15 @@ const MultipleStageRace = ({ selectedYear, selectedNationality, name }) => {
         selectedNationality={selectedNationality}
         name={name}
       />
+      <MostStageWins/>
       <SectionSecond
+        selectedYear={selectedYear !== "All time" ? selectedYear : null}
+        selectedNationality={selectedNationality}
+        name={name}
+      />
+      {/* <MostMoutainWin/> */}
+   
+        <LastSection
         selectedYear={selectedYear !== "All time" ? selectedYear : null}
         selectedNationality={selectedNationality}
         name={name}
