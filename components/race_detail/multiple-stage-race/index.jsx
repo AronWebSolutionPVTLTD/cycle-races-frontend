@@ -11,18 +11,22 @@ import { LastSection } from "./LastSection";
 const MultipleStageRace = ({ selectedYear, selectedNationality, name }) => {
   return (
     <>
-      <FirstSection
+ <FirstSection
         selectedYear={selectedYear !== "All time" ? selectedYear : null}
         selectedNationality={selectedNationality}
         name={name}
       />
-      <MostStageWins/>
+       <MostStageWins
+         selectedNationality={selectedNationality}
+         name={name}/>
       <SectionSecond
         selectedYear={selectedYear !== "All time" ? selectedYear : null}
         selectedNationality={selectedNationality}
         name={name}
-      />
-      {/* <MostMoutainWin/> */}
+      /> 
+      <MostMoutainWin
+        selectedNationality={selectedNationality}
+         name={name}/>
    
         <LastSection
         selectedYear={selectedYear !== "All time" ? selectedYear : null}

@@ -3,12 +3,10 @@ import { useMultipleData } from "../../home_api_data";
 import { ErrorMessage, ErrorStats, LoadingStats } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
 
-
 const MostMoutainWin = ({
   // Optional filter props - component will work with or without them
   selectedNationality = null,
   name = null,
-
 }) => {
   const apiOptions = {
     box1: "getMostMountainClassificationWins",
@@ -21,8 +19,7 @@ const MostMoutainWin = ({
   };
 
   // Create array of endpoints to fetch
-  const endpointsToFetch = [
-    apiOptions.box1,]
+  const endpointsToFetch = [apiOptions.box1];
 
   // Fetch data using the selected API endpoint with optional filters
   const { data, loading, error } = useMultipleData(endpointsToFetch, {
@@ -37,12 +34,7 @@ const MostMoutainWin = ({
     const response = data[key];
 
     // Try most common paths in order
-    const paths = [
-     
-      response?.data?.data,
-      response?.data,
-      response,
-    ];
+    const paths = [response?.data?.data, response?.data, response];
 
     for (const path of paths) {
       if (Array.isArray(path) && path.length > 0) {
@@ -62,7 +54,6 @@ const MostMoutainWin = ({
             </div>
           )}
 
-
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load data. Please try again later." />
           )}
@@ -74,7 +65,9 @@ const MostMoutainWin = ({
                 <div className="text-wraper">
                   <h3>{data?.[apiOptions.box1].message || "Most Wins"}</h3>
                   {getBoxData(apiOptions.box1).error ? (
-                    <ErrorMessage errorType={getBoxData(apiOptions.box1).errorType} />
+                    <ErrorMessage
+                      errorType={getBoxData(apiOptions.box1).errorType}
+                    />
                   ) : (
                     (Array.isArray(getBoxData(apiOptions.box1).data)
                       ? getBoxData(apiOptions.box1).data
@@ -84,8 +77,7 @@ const MostMoutainWin = ({
                       .map((rider, index) => (
                         <div key={index}>
                           <div className="most-win">
-
-                            {renderFlag(rider?.nationality)}
+                            {renderFlag(rider?.rider_country)}
                             <h4>{rider.rider_name}</h4>
                           </div>
                         </div>
@@ -93,7 +85,7 @@ const MostMoutainWin = ({
                   )}
                 </div>
                 {/* Move the count/wins outside text-wraper for large number display */}
-                {!getBoxData(apiOptions.box1).error && (
+                {!getBoxData(apiOptions.box1).error &&
                   (Array.isArray(getBoxData(apiOptions.box1).data)
                     ? getBoxData(apiOptions.box1).data
                     : []
@@ -101,11 +93,11 @@ const MostMoutainWin = ({
                     .slice(0, 1)
                     .map((rider, index) => (
                       <div key={`count-${index}`} className="win-count">
-                        {rider.wins && <span>{rider.wins}</span>}
-
+                        {rider.mountain_wins && (
+                          <span>{rider.mountain_wins}</span>
+                        )}
                       </div>
-                    ))
-                )}
+                    ))}
               </div>
             </div>
           )}

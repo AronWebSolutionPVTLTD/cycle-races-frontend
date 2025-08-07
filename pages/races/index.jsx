@@ -231,6 +231,7 @@ export default function Results() {
     setShowSearchDropdown(false);
     fetchRaceResults();
   };
+  
 
   return (
     <>

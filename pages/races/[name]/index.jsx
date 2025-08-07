@@ -16,8 +16,10 @@ export default function RaceDetailsPage() {
 
   // State management
   const [selectedYear, setSelectedYear] = useState("All time");
-  const [yearInput, setYearInput] = useState(new Date().getFullYear().toString());
-    const [showYearDropdown, setShowYearDropdown] = useState(false);
+  const [yearInput, setYearInput] = useState(
+    new Date().getFullYear().toString()
+  );
+  const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [selectedNationality, setSelectedNationality] = useState("");
 
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
@@ -136,7 +138,10 @@ export default function RaceDetailsPage() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (yearDropdownRef.current && !yearDropdownRef.current.contains(event.target)) {
+      if (
+        yearDropdownRef.current &&
+        !yearDropdownRef.current.contains(event.target)
+      ) {
         setShowYearDropdown(false);
       }
       if (
@@ -223,17 +228,17 @@ export default function RaceDetailsPage() {
               <div className="col-lg-12 mb-6">
                 <ul className="filter">
                   <FilterDropdown
-                      ref={yearDropdownRef}
-                      isOpen={showYearDropdown}
-                      toggle={() => setShowYearDropdown(!showYearDropdown)}
-                      options={filteredYears}
-                      selectedValue={selectedYear}
-                      placeholder="Year"
-                      onSelect={(value) => handleSelection("year", value)}
-                      onInputChange={handleYearInputChange}
-                      loading={isLoadingFilters}
-                      includeAllOption={false}
-                    />
+                    ref={yearDropdownRef}
+                    isOpen={showYearDropdown}
+                    toggle={() => setShowYearDropdown(!showYearDropdown)}
+                    options={filteredYears}
+                    selectedValue={selectedYear}
+                    placeholder="Year"
+                    onSelect={(value) => handleSelection("year", value)}
+                    onInputChange={handleYearInputChange}
+                    loading={isLoadingFilters}
+                    includeAllOption={false}
+                  />
                   {/* <li>All-time</li> */}
                   <FilterDropdown
                     ref={nationalityDropdownRef}
@@ -252,16 +257,23 @@ export default function RaceDetailsPage() {
               </div>
               {raceData && (
                 <>
-                  {/* <OneDayRace
-                    selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                    selectedNationality={selectedNationality}
-                    name={decodedRaceName}
-                  /> */}
-                  <MultipleStageRace
- selectedYear={selectedYear !== "All time" ? selectedYear : null}
-                  selectedNationality={selectedNationality}
-                  name={decodedRaceName}
-/>
+                  {raceData?.is_stage_race ? (
+                    <MultipleStageRace
+                      selectedYear={
+                        selectedYear !== "All time" ? selectedYear : null
+                      }
+                      selectedNationality={selectedNationality}
+                      name={decodedRaceName}
+                    />
+                  ) : (
+                    <OneDayRace
+                      selectedYear={
+                        selectedYear !== "All time" ? selectedYear : null
+                      }
+                      selectedNationality={selectedNationality}
+                      name={decodedRaceName}
+                    />
+                  )}
                 </>
               )}
             </div>

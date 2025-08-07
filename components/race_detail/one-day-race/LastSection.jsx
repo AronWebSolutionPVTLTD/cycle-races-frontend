@@ -18,8 +18,6 @@ export const LastSection = ({ selectedNationality, name }) => {
     box10: "getWinnersFromCountry",
     box11: "getYoungestTop10Rider",
     box12: "getLastWinnerFromCountry",
-    box13: "getOldestSpanishParticipant",
-    box14: "getRiderParticipationCount",
   };
 
   const buildQueryParams = () => {
@@ -473,7 +471,7 @@ export const LastSection = ({ selectedNationality, name }) => {
               </div>
 
               {/*Box 10 - Winners From Country*/}
-              <div className="col-lg-5 col-md-6">
+              {/* <div className="col-lg-5 col-md-6">
                 <div className="list-white-cart lime-green-cart">
                   <h4 className="fs-chenge">
                     {data?.[fixedApis.box10]?.message}
@@ -516,12 +514,46 @@ export const LastSection = ({ selectedNationality, name }) => {
                     </>
                   )}
                 </div>
-              </div>
+              </div> */}
+       <div className="col-lg-4 col-md-6">
+                              <div className="list-white-cart">
+                                <h4>
+                                  {data?.[fixedApis.box10]?.message}
+                                </h4>
+                                {getBoxData(fixedApis.box10).error ? (
+                                  <ErrorMessage
+                                    errorType={getBoxData(fixedApis.box10).errorType}
+                                  />
+                                ) : (
+                                  <>
+                                    <ul>
+                                      {(Array.isArray(getBoxData(fixedApis.box10).data)
+                                        ? getBoxData(fixedApis.box10).data
+                                        : []
+                                      )
+                                        .slice(0, 3)
+                                        .map((rider, index) => (
+                                          <li key={index}>
+                                            <div className="name-wraper">
+                                              {renderFlag(rider?.country)}
+                                              <h6>{rider?.winner_name || "..."}</h6>
+                                            </div>
+              
+                                            {rider?.time && <span>{rider.time}</span>}
+                                          </li>
+                                        ))}
+                                    </ul>
+                                    <a href="#?" className="green-circle-btn">
+                                      <img src="/images/arow.svg" alt="" />
+                                    </a>
+                                  </>
+                                )}
+                              </div>
+                            </div>
 
-              <div className="col-lg-7 box5">
-                <div className="row">
+          
                   {/* Box11: Youngest  top 10 */}
-                  <div className="col-lg-5 col-md-6">
+                  <div className="col-lg-4 col-md-6">
                     <div className="team-cart">
                       <a href="#?" className="pabs"></a>
                       <div className="text-wraper">
@@ -560,7 +592,7 @@ export const LastSection = ({ selectedNationality, name }) => {
                   </div>
 
                   {/*Box 12 -Last Winner FromCountry */}
-                  <div className="col-lg-7 col-md-6">
+                  <div className="col-lg-4 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <a href="#?" className="pabs"></a>
                       <div className="text-wraper">
@@ -603,78 +635,7 @@ export const LastSection = ({ selectedNationality, name }) => {
                       </div>
                     </div>
                   </div>
-
-                  {/*Box 13 - Oldest Participant*/}
-                  <div className="col-lg-7 col-md-6">
-                    <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
-                      <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box13]?.message}</h4>
-                        {(() => {
-                          if (!data?.[fixedApis.box13]) {
-                            return <ErrorMessage errorType="no_data" />;
-                          }
-
-                          const response = data[fixedApis.box13];
-                          const riderData = response?.data;
-
-                          if (!riderData) {
-                            return <ErrorMessage errorType="no_data_found" />;
-                          }
-
-                          return (
-                            <>
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(riderData?.nationality)}
-                                <h6>{riderData?.rider_name || "..."}</h6>
-                              </div>
-                              {riderData?.date_of_birth && (
-                                <h5>
-                                  <strong>{riderData.date_of_birth}</strong>jaar
-                                </h5>
-                              )}
-                              <a href="#?" className="green-circle-btn">
-                                <img src="/images/arow.svg" alt="" />
-                              </a>
-                            </>
-                          );
-                        })()}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/*Box 14 - Rider Participation Count*/}
-                  <div className="col-lg-5 col-md-6">
-                    <div className="races">
-                      <div className="text-wraper">
-                        <h3 className="fs-chenge">
-                          {data?.[fixedApis.box14]?.message}
-                        </h3>
-                        {(() => {
-                          if (!data?.[fixedApis.box14]) {
-                            return <ErrorMessage errorType="no_data" />;
-                          }
-
-                          const response = data[fixedApis.box14];
-                          const riderData = response;
-
-                          if (!riderData) {
-                            return <ErrorMessage errorType="no_data_found" />;
-                          }
-                          return (
-                            <div className="name-wraper name-wraper-white">
-                              <h5>
-                                <strong>{riderData.count}</strong>
-                              </h5>
-                            </div>
-                          );
-                        })()}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
+  </>
           )}
         </div>
       </div>
