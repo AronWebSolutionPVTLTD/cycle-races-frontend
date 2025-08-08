@@ -219,11 +219,31 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
 
+                    // return (
+                    //   <>
+                    //     {riderData?.raceData?.races_count && (
+                    //       <h5>
+                    //         <strong>{riderData.raceData?.races_count} </strong>
+                    //       </h5>
+                    //     )}
+
+                    //     <a href="#?" className="green-circle-btn">
+                    //       <img src="/images/arow.svg" alt="" />
+                    //     </a>
+                    //   </>
+                    // );
                     return (
                       <>
+                        <div className="name-wraper name-wraper-white">
+                          {renderFlag(riderData?.raceData?.country_code)}
+                          <h6>
+                            ({riderData?.raceData?.country_name || "..."})
+                          </h6>
+                        </div>
+
                         {riderData?.raceData?.races_count && (
                           <h5>
-                            <strong>{riderData.raceData?.races_count} </strong>
+                            <strong>{riderData.raceData?.races_count} </strong>race days
                           </h5>
                         )}
 
@@ -258,6 +278,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
+                          {renderFlag(riderData?.country_code)}
                           <h6>
                             {riderData?.race || "..."} ({riderData.year})
                           </h6>
@@ -300,12 +321,15 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                      
-                        {riderData?.dnf_count && (
+
+                        {/* {riderData?.dnf_count && (
                           <h5>
                             <strong>{riderData.dnf_count} </strong>
                           </h5>
-                        )}
+                        )} */}
+                        <h5>
+                          <strong>{riderData?.dnf_count ?? 0}</strong>dnfs
+                        </h5>
 
                         <img
                           src="/images/player1.png"
@@ -342,6 +366,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
+                              {renderFlag(rider?.country_code)}
                               <h6>
                                 {rider?.race || "..."} ({rider.year})
                               </h6>
@@ -382,7 +407,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-green">
-                          {/* {renderFlag(riderData?.rider_country)} */}
+                          {renderFlag(riderData?.country_code)}
                           <h6>{riderData?.race || "..."}</h6>
                         </div>
                         {riderData?.year && (
@@ -423,11 +448,14 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        {riderData?.total_racing_days && (
+                        {/* {riderData?.total_racing_days && (
                           <h5>
                             <strong>{riderData.total_racing_days} </strong>
                           </h5>
-                        )}
+                        )} */}
+                        <h5>
+                          <strong>{riderData?.total_racing_days ?? 0}</strong>days
+                        </h5>
 
                         <a href="#?" className="white-circle-btn">
                           <img src="/images/arow.svg" alt="" />
@@ -461,11 +489,14 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        {riderData?.total_distance_raced && (
+                        {/* {riderData?.total_distance_raced && (
                           <h5>
                             <strong>{riderData.total_distance_raced} </strong>
                           </h5>
-                        )}
+                        )} */}
+                        <h5>
+                          <strong>{riderData?.total_distance_raced ?? 0}</strong>kilometers
+                        </h5>
 
                         <a href="#?" className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
@@ -538,6 +569,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
+                          {renderFlag(riderData?.country_code)}
                           <h6>
                             {riderData?.race_name || "..."} ({riderData.year})
                           </h6>
@@ -578,6 +610,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
+                              {renderFlag(rider?.country_code)}
                               <h6>{rider?.race || "..."}</h6>
                             </div>
 
@@ -620,6 +653,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         {riderData?.gcRank && (
                           <h5>
                             <strong>{riderData.gcRank} </strong>
+                            rank
                           </h5>
                         )}
 

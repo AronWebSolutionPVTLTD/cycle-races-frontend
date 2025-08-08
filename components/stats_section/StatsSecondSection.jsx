@@ -19,10 +19,10 @@ const StatsSecondSection = ({
     box8: "lightestRider",
     box9: "mostweightRider",
     box10: "gcTop10s",
-    box11:"sprintWins",
-    box12:"DnfTeams",
-    box13:"top3teamwithrank1"
- };
+    box11: "sprintWins",
+    box12: "DnfTeams",
+    box13: "top3teamwithrank1"
+  };
 
   const buildQueryParams = () => {
     let params = {};
@@ -362,7 +362,7 @@ const StatsSecondSection = ({
               </div>
 
               {/* box8 - youngest Most Wins */}
-              <div className="col-lg-3 col-md-6">
+              {/* <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <a href="#?" className="pabs"></a>
                   <div className="text-wraper">
@@ -400,7 +400,45 @@ const StatsSecondSection = ({
                     })()}
                   </div>
                 </div>
+              </div> */}
+              <div className="col-lg-3 col-md-6">
+                <div className="team-cart lime-green-team-cart img-active">
+                  <a href="#?" className="pabs"></a>
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box8]?.message}</h4>
+                    {getBoxData(fixedApis.box8).error ? (
+                      <ErrorMessage errorType={getBoxData(fixedApis.box8).errorType} />
+                    ) : (
+                      <>
+                        {(Array.isArray(getBoxData(fixedApis.box8).data)
+                          ? getBoxData(fixedApis.box8).data
+                          : []
+                        )
+                          .slice(0, 1)
+                          .map((rider, index) => (
+                            <React.Fragment key={index}>
+                              <div className="name-wraper name-wraper-green">
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.name || "..."}</h6>
+                              </div>
+
+                              {rider?.weight && (
+                                <h5>
+                                  <strong>{rider.weight}</strong> kilogram
+                                </h5>
+                              )}
+
+                              <a href="#?" className="white-circle-btn">
+                                <img src="/images/arow.svg" alt="" />
+                              </a>
+                            </React.Fragment>
+                          ))}
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
+
 
               {/* Box9: most weight Rider  */}
               <div className="col-lg-3 col-md-6">
@@ -443,46 +481,46 @@ const StatsSecondSection = ({
                 </div>
               </div>
 
-           {/* Box10: GC TOp 10  */}
-              <div className="col-lg-3 col-md-6">
-                                             <div className="list-white-cart lime-green-cart">
-                                                 
-                                                 <h4>{data?.[fixedApis.box10]?.message}</h4>
-                                                 {getBoxData(fixedApis.box10).error ? (
-                                                   <ErrorMessage
-                                                     errorType={getBoxData(fixedApis.box10).errorType}
-                                                   />
-                                                 ) : (
-                                                   <>
-                                                     <ul>
-                                                       {(Array.isArray(getBoxData(fixedApis.box10).data)
-                                                         ? getBoxData(fixedApis.box10).data
-                                                         : []
-                                                       )
-                                                         .slice(0, 3)
-                                                         .map((rider, index) => (
-                                                           <li key={index}>
-                                                             <strong>{index + 1}</strong>
-                                                             <div className="name-wraper name-wraper-green">
-                                                               {renderFlag(rider?.rider_country)}
-                                                               <h6>{rider?.rider_name || "..."}</h6>
-                                                             </div>
-                           
-                                                             {rider?.count && <span>{rider.count}</span>}
-                                                           </li>
-                                                         ))}
-                                                     </ul>
-                                                     <a href="#?" className="white-circle-btn">
-                                                       <img src="/images/arow.svg" alt="" />
-                                                     </a>
-                                                   </>
-                                                 )}
-                                               </div>
-                                             </div>
+              {/* Box10: GC TOp 10  */}
+              <div className="col-lg-4 col-md-6">
+                <div className="list-white-cart lime-green-cart">
 
-             {/* Box11: Sprint Wins */}
+                  <h4>{data?.[fixedApis.box10]?.message}</h4>
+                  {getBoxData(fixedApis.box10).error ? (
+                    <ErrorMessage
+                      errorType={getBoxData(fixedApis.box10).errorType}
+                    />
+                  ) : (
+                    <>
+                      <ul>
+                        {(Array.isArray(getBoxData(fixedApis.box10).data)
+                          ? getBoxData(fixedApis.box10).data
+                          : []
+                        )
+                          .slice(0, 3)
+                          .map((rider, index) => (
+                            <li key={index}>
+                              <strong>{index + 1}</strong>
+                              <div className="name-wraper name-wraper-green">
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
+                              </div>
 
-               <div className="col-lg-3 col-md-6">
+                              {rider?.count && <span>{rider.count}</span>}
+                            </li>
+                          ))}
+                      </ul>
+                      <a href="#?" className="white-circle-btn">
+                        <img src="/images/arow.svg" alt="" />
+                      </a>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Box11: Sprint Wins */}
+
+              {/* <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box11]?.message}</h4>
@@ -518,10 +556,10 @@ const StatsSecondSection = ({
                     )}
                   </div>
                 </div>
-              </div>  
+              </div> */}
 
-             {/* Box12: DNF team in GC*/}
-                <div className="col-lg-3 col-md-6">
+              {/* Box12: DNF team in GC*/}
+              {/* <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box12]?.message}</h4>
@@ -557,10 +595,48 @@ const StatsSecondSection = ({
                     )}
                   </div>
                 </div>
-              </div>      
+              </div>       */}
+              <div className="col-lg-4   col-md-6">
+                <div className="team-cart">
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box12]?.message}</h4>
+                    {(() => {
+                      if (!data?.[fixedApis.box12]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
 
-                 {/* Box13: Rank one Teams*/}
-                <div className="col-lg-3 col-md-6">
+                      const response = data[fixedApis.box12];
+                      const riderData = response?.data;
+
+                      if (!riderData) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
+
+                      return (
+                        <>
+                          <div className="name-wraper name-wraper-white">
+                            {renderFlag(riderData?.flag)}
+                            <h6>{riderData?.team_name || "..."}</h6>
+                          </div>
+                          {riderData?.dnfCount && (
+                            <h5>
+                              <strong>{riderData.dnfCount}</strong>
+                              dnf
+                            </h5>
+                          )}
+
+                          <a href="#?" className="green-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                          </a>
+                        </>
+                      );
+                    })()}
+                  </div>
+                </div>
+              </div>
+
+              {/* Box13: Rank one Teams*/}
+              {/* <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box13]?.message}</h4>
@@ -596,8 +672,45 @@ const StatsSecondSection = ({
                     )}
                   </div>
                 </div>
-              </div>      
+              </div> */}
+              <div className="col-lg-4 col-md-6">
+                <div className="team-cart">
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box13]?.message}</h4>
+                    {(() => {
+                      if (!data?.[fixedApis.box13]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
 
+                      const response = data[fixedApis.box13];
+                      const riderData = response?.data;
+
+                      if (!riderData) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
+
+                      return (
+                        <>
+                          <div className="name-wraper name-wraper-white">
+                            {renderFlag(riderData?.flag)}
+                            <h6>{riderData?.team_name || "..."}</h6>
+                          </div>
+                          {riderData?.maxConsecutiveWins && (
+                            <h5>
+                              <strong>{riderData.maxConsecutiveWins}</strong>
+                              wins
+                            </h5>
+                          )}
+
+                          <a href="#?" className="green-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                          </a>
+                        </>
+                      );
+                    })()}
+                  </div>
+                </div>
+              </div>
 
             </>
           )}
@@ -608,4 +721,3 @@ const StatsSecondSection = ({
 };
 
 export default StatsSecondSection;
- 

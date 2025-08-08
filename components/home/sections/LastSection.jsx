@@ -26,7 +26,7 @@ const LastSection = () => {
       response?.data?.data?.result,
       response?.data?.data,
       response?.data,
-      response?.data.riders,
+      // response?.data.riders,
       response,
     ];
 
@@ -124,9 +124,9 @@ const LastSection = () => {
                             {renderFlag(riderData?.country)}
                             <h6>{riderData?.team || "..."}</h6>
                           </div>
-                          {riderData?.wins && (
+                          {riderData?.win && (
                             <h5>
-                              <strong>{riderData.wins} </strong>
+                              <strong>{riderData.win} </strong>
                             </h5>
                           )}
 
@@ -288,6 +288,7 @@ const LastSection = () => {
                             <>
                               <div className="name-wraper name-wraper-white">
                                 <h6>
+                                  {renderFlag(race?.country_code)}
                                   {race?.race || "..."} ({race?.year})
                                 </h6>
                               </div>
@@ -314,7 +315,7 @@ const LastSection = () => {
               </div>
 
               {/*Box 7 -lightestRider */}
-              <div className="col-lg-3 col-md-6">
+              {/* <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <a href="#?" className="pabs"></a>
                   <div className="text-wraper">
@@ -351,7 +352,45 @@ const LastSection = () => {
                     })()}
                   </div>
                 </div>
+              </div> */}
+              <div className="col-lg-3 col-md-6">
+                <div className="team-cart lime-green-team-cart img-active">
+                  <a href="#?" className="pabs"></a>
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box7]?.message}</h4>
+                    {getBoxData(fixedApis.box7).error ? (
+                      <ErrorMessage errorType={getBoxData(fixedApis.box7).errorType} />
+                    ) : (
+                      <>
+                        {(Array.isArray(getBoxData(fixedApis.box7).data)
+                          ? getBoxData(fixedApis.box7).data
+                          : []
+                        )
+                          .slice(0, 1)
+                          .map((rider, index) => (
+                            <React.Fragment key={index}>
+                              <div className="name-wraper name-wraper-green">
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.name || "..."}</h6>
+                              </div>
+
+                              {rider?.weight && (
+                                <h5>
+                                  <strong>{rider.weight}</strong> kilogram
+                                </h5>
+                              )}
+
+                              <a href="#?" className="white-circle-btn">
+                                <img src="/images/arow.svg" alt="" />
+                              </a>
+                            </React.Fragment>
+                          ))}
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
+
             </>
           )}
         </div>

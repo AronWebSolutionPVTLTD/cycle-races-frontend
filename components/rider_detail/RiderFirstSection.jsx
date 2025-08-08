@@ -126,7 +126,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             </div>
 
             {/* SEcond Card */}
-            <div className="col-lg-3 col-md-6">
+            {/* <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
                 <a href="#?" className="pabs"></a>
                 <div className="text-wraper">
@@ -163,6 +163,49 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                   })()}
                 </div>
               </div>
+            </div> */}
+            <div className="col-lg-3 col-md-6">
+              <div className="team-cart lime-green-team-cart img-active">
+                <a href="#?" className="pabs"></a>
+                <div className="text-wraper">
+                  <h4>{data?.[fixedApis.box2]?.message}</h4>
+                  {(() => {
+                    const response = data?.[fixedApis.box2];
+                    const riderDataArray = response?.data?.data;
+
+                    if (!response) {
+                      return <ErrorMessage errorType="no_data" />;
+                    }
+
+                    if (!Array.isArray(riderDataArray) || riderDataArray.length === 0) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
+                    // ✅ Find correct rider by ID
+                    const riderData = riderDataArray.find((r) => r.rider_id === riderId);
+
+                    if (!riderData) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
+                    return (
+                      <>
+                        <div className="name-wraper name-wraper-green">
+                          <h6>{riderData?.total_uci_points || "..."}</h6>uci points
+                        </div>
+                        {riderData?.rank && (
+                          <h5>
+                            <strong>{riderData.rank}</strong> rank
+                          </h5>
+                        )}
+                        <a href="#?" className="white-circle-btn">
+                          <img src="/images/arow.svg" alt="arrow" />
+                        </a>
+                      </>
+                    );
+                  })()}
+                </div>
+              </div>
             </div>
 
             {/* third Section */}
@@ -189,6 +232,12 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           {renderFlag(riderData?.flag)}
                           <h6>{riderData?.teamName || "..."}</h6>
                         </div>
+                        {riderData?.yearsInTeam && (
+                          <h5>
+                            <strong>{riderData.yearsInTeam} </strong>years
+                          </h5>
+
+                        )}
 
                         {/* <img
                           src="/images/player3.png"
@@ -277,7 +326,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 </div>
 
                 {/*Box 6 - Rider YearsActive */}
-                <div className="col-lg-7 col-md-6">
+                {/* <div className="col-lg-7 col-md-6">
                   <div className="team-cart lime-green-team-cart img-active">
                     <a href="#?" className="pabs"></a>
                     <div className="text-wraper">
@@ -305,6 +354,49 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                         </>
                       )}
                     </div>
+                  </div>
+                </div> */}
+                <div className="col-lg-7 col-md-6">
+                  <div className="team-cart">
+                    <a href="#?" className="pabs"></a>
+                    <div className="text-wraper">
+                      <h4 className="font-size-change">
+                        {data?.[fixedApis.box6]?.message}
+                      </h4>
+                      {(() => {
+                        if (!data?.[fixedApis.box6]) {
+                          return <ErrorMessage errorType="no_data" />;
+                        }
+
+                        const response = data[fixedApis.box6];
+                        const riderData = response?.data?.data;
+
+                        if (!riderData) {
+                          return <ErrorMessage errorType="no_data_found" />;
+                        }
+
+                        return (
+                          <>
+                            <div className="name-wraper name-wraper-green">
+
+                              <h6>Since {riderData?.professional_since || "..."}</h6>
+                            </div>
+                            {riderData?.career_duration_years && (
+                              <h5>
+                                <strong>
+                                  {riderData.career_duration_years}{" "}
+                                </strong>
+                                jaar
+                              </h5>
+                            )}
+                            <a href="#?" className="green-circle-btn">
+                              <img src="/images/arow.svg" alt="" />
+                            </a>
+                          </>
+                        );
+                      })()}
+                    </div>
+
                   </div>
                 </div>
 
@@ -365,11 +457,16 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                         return (
                           <>
+                            <div className="name-wraper name-wraper-green">
+                              {renderFlag(riderData?.country)}
+                              <h6>{riderData?.race || "..."}</h6>
+                            </div>
                             {riderData?.days_since_last_win && (
                               <h5>
                                 <strong>
                                   {riderData.days_since_last_win}{" "}
                                 </strong>
+                                days
                               </h5>
                             )}
                             <a href="#?" className="green-circle-btn">

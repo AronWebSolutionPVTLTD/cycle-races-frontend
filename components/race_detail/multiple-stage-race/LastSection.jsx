@@ -68,6 +68,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
       response?.data?.data?.top_teams,
       response?.data?.data?.most_used_finish_cities,
       response?.data?.data,
+      response?.data?.data?.most_used_departure_cities,
       response?.data,
       response,
     ];
@@ -285,7 +286,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   </div>
 
                   {/*Box 5 - Oldest Stage Winner */}
-                  <div className="col-lg-5 col-md-6">
+                  {/* <div className="col-lg-5 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <a href="#?" className="pabs"></a>
                       <div className="text-wraper">
@@ -323,11 +324,53 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         })()}
                       </div>
                     </div>
+                  </div> */}
+                  <div className="col-lg-5 col-md-6">
+                    <div className="team-cart lime-green-team-cart img-active">
+                      <a href="#?" className="pabs"></a>
+                      <div className="text-wraper">
+                        <h4>{data?.[fixedApis.box5]?.message}</h4>
+                        {(() => {
+                          if (!data?.[fixedApis.box5]) {
+                            return <ErrorMessage errorType="no_data" />;
+                          }
+
+                          const response = data[fixedApis.box5];
+                          const riderArray = response?.data?.data;
+
+                          if (!Array.isArray(riderArray) || riderArray.length === 0) {
+                            return <ErrorMessage errorType="no_data_found" />;
+                          }
+
+                          return (
+                            <>
+                              {riderArray.slice(0, 1).map((rider, index) => (
+                                <div key={index} className="rider-item">
+                                  <div className="name-wraper name-wraper-white">
+                                    {renderFlag(rider?.country)}
+                                    <h6>{rider?.rider_name || "..."}</h6>
+                                  </div>
+                                  {rider?.age && (
+                                    <h5>
+                                      <strong>{rider.age}</strong>
+                                      jaar
+                                    </h5>
+                                  )}
+                                  <a href="#?" className="white-circle-btn">
+                                    <img src="/images/arow.svg" alt="" />
+                                  </a>
+                                </div>
+                              ))}
+                            </>
+                          );
+                        })()}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
               {/*Box 6 - Youngest Winner*/}
-              <div className="col-lg-3 col-md-6">
+              {/* <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <a href="#?" className="pabs"></a>
                   <div className="text-wraper">
@@ -364,10 +407,52 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                     })()}
                   </div>
                 </div>
+              </div> */}
+              <div className="col-lg-3 col-md-6">
+                <div className="team-cart lime-green-team-cart img-active">
+                  <a href="#?" className="pabs"></a>
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box6]?.message}</h4>
+                    {(() => {
+                      if (!data?.[fixedApis.box6]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
+
+                      const response = data[fixedApis.box6];
+                      const riderArray = response?.data?.data;
+
+                      if (!Array.isArray(riderArray) || riderArray.length === 0) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
+
+                      return (
+                        <>
+                          {riderArray.slice(0, 1).map((rider, index) => (
+                            <div key={index} className="rider-item">
+                              <div className="name-wraper name-wraper-white">
+                                {renderFlag(rider?.country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
+                              </div>
+                              {rider?.age && (
+                                <h5>
+                                  <strong>{rider.age}</strong>jaar
+                                </h5>
+                              )}
+
+                              <a href="#?" className="white-circle-btn">
+                                <img src="/images/arow.svg" alt="" />
+                              </a>
+                            </div>
+                          ))}
+                        </>
+                      );
+                    })()}
+                  </div>
+                </div>
               </div>
 
-              {/*Box 7 - Edition*/}
 
+              {/*Box 7 - Edition*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <a href="#?" className="pabs"></a>
@@ -379,46 +464,50 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                       }
 
                       const response = data[fixedApis.box7];
-                      const riderData = response?.data.data;
+                      const riderArray = response?.data?.data;
 
-                      if (!riderData) {
+                      if (!Array.isArray(riderArray) || riderArray.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
                       return (
                         <>
-                          <div className="name-wraper name-wraper-white">
-                            <h6>{riderData?.year || "..."}</h6>
-                          </div>
+                          {riderArray.slice(0, 1).map((item, index) => (
+                            <div key={index} className="rider-item">
+                              <div className="name-wraper name-wraper-white">
+                                <h6>{item?.year || "..."}</h6>
+                              </div>
 
-                          {riderData?.average_speed_kmph && (
-                            <div
-                              style={{ position: "relative", height: "80px" }}
-                            >
-                              <h5
-                                style={{
-                                  position: "absolute",
-                                  top: "50px",
-                                  left: 40,
-                                  right: 0,
-                                  textAlign: "center",
-                                  fontSize: "40px",
-                                  color: "#cbcbc7",
-                                }}
-                              >
-                                {riderData.average_speed_kmph}
-                              </h5>
+                              {item?.total_time_formatted && (
+                                <div style={{ position: "relative", height: "80px" }}>
+                                  <h5
+                                    style={{
+                                      position: "absolute",
+                                      top: "50px",
+                                      left: 40,
+                                      right: 0,
+                                      textAlign: "center",
+                                      fontSize: "40px",
+                                      color: "#cbcbc7",
+                                    }}
+                                  >
+                                    {item.total_time_formatted}
+                                  </h5>
+                                </div>
+                              )}
+
+                              <a href="#?" className="green-circle-btn">
+                                <img src="/images/arow.svg" alt="" />
+                              </a>
                             </div>
-                          )}
-                          <a href="#?" className="green-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
+                          ))}
                         </>
                       );
                     })()}
                   </div>
                 </div>
               </div>
+
 
               {/*Box 8 - Longest Stage InRace*/}
               <div className="col-lg-3 col-md-6">
@@ -653,14 +742,17 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                           return (
                             <>
                               <div className="name-wraper name-wraper-white">
-                                <h6>{riderData?.year || "..."}</h6>
+                                <h6>{riderData?.subtitle || "..."}</h6>
                               </div>
-                              {riderData?.distance_km && (
+                              {/* {riderData?.distance_km && (
                                 <h5>
                                   <strong>{riderData.distance_km}</strong>
                                   kilometers
                                 </h5>
-                              )}
+                              )} */}
+                              <h5>
+                                <strong>{riderData?.distance_km ?? 0}</strong>kilometers
+                              </h5>
 
                               <a href="#?" className="white-circle-btn">
                                 <img src="/images/arow.svg" alt="" />

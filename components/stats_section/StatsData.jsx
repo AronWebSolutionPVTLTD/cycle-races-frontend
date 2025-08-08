@@ -9,7 +9,7 @@ const StatsData = ({
   selectedYear,
 }) => {
   const fixedApis = {
-   box1: "mostSecondPlaces",
+    box1: "mostSecondPlaces",
     box2: "teamWithMostNationalities",
     box3: "youngestMostWins",
     box4: "olderstRiders",
@@ -69,7 +69,7 @@ const StatsData = ({
           {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-        {/* Box 1 - Most Second  Places */}
+              {/* Box 1 - Most Second  Places */}
               <div className="col-lg-4 col-md-6 ">
                 <div className="team-cart">
                   <a href="#?" className="pabs"></a>
@@ -142,9 +142,9 @@ const StatsData = ({
                             {renderFlag(riderData?.country)}
                             <h6>{riderData?.team || "..."}</h6>
                           </div>
-                          {riderData?.wins && (
+                          {riderData?.win && (
                             <h5>
-                              <strong>{riderData.wins} </strong>
+                              <strong>{riderData.win} </strong>
                             </h5>
                           )}
 
@@ -305,6 +305,7 @@ const StatsData = ({
                           .map((race, index) => (
                             <>
                               <div className="name-wraper name-wraper-white" key={index}>
+                                {renderFlag(race?.country_code)}
                                 <h6>
                                   {race?.race || "..."} ({race?.year})
                                 </h6>
@@ -331,7 +332,7 @@ const StatsData = ({
                 </div>
               </div>
               {/*Box 7 -Lightest rider */}
-              <div className="col-lg-3 col-md-6">
+              {/* <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <a href="#?" className="pabs"></a>
                   <div className="text-wraper">
@@ -368,8 +369,44 @@ const StatsData = ({
                     })()}
                   </div>
                 </div>
+              </div> */}
+              <div className="col-lg-3 col-md-6">
+                <div className="team-cart lime-green-team-cart img-active">
+                  <a href="#?" className="pabs"></a>
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box7]?.message}</h4>
+                    {getBoxData(fixedApis.box7).error ? (
+                      <ErrorMessage errorType={getBoxData(fixedApis.box7).errorType} />
+                    ) : (
+                      <>
+                        {(Array.isArray(getBoxData(fixedApis.box7).data)
+                          ? getBoxData(fixedApis.box7).data
+                          : []
+                        )
+                          .slice(0, 1)
+                          .map((rider, index) => (
+                            <React.Fragment key={index}>
+                              <div className="name-wraper name-wraper-green">
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.name || "..."}</h6>
+                              </div>
+
+                              {rider?.weight && (
+                                <h5>
+                                  <strong>{rider.weight}</strong> kilogram
+                                </h5>
+                              )}
+
+                              <a href="#?" className="white-circle-btn">
+                                <img src="/images/arow.svg" alt="" />
+                              </a>
+                            </React.Fragment>
+                          ))}
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
-         
             </>
           )}
         </div>

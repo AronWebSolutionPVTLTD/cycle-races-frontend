@@ -71,7 +71,7 @@ const StatsThirdSection = ({
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
               {/* First Card */}
-              <div className="col-lg-3 col-md-6">
+              <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart lime-green-cart">
                   <h4>{data?.[fixedApis.box1]?.message}</h4>
                   {getBoxData(fixedApis.box1).error ? (
@@ -107,7 +107,7 @@ const StatsThirdSection = ({
               </div>
 
               {/* SEcond Card */}
-              <div className="col-lg-3 col-md-6">
+              <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box2]?.message}</h4>
@@ -149,7 +149,7 @@ const StatsThirdSection = ({
               </div>
 
               {/* third Section */}
-              <div className="col-lg-3 col-md-6">
+              <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box3]?.message}</h4>
@@ -170,7 +170,7 @@ const StatsThirdSection = ({
                                 className="name-wraper name-wraper-white"
                                 key={index}
                               >
-                                {renderFlag(rider?.rider_country)}
+                                {renderFlag(rider?.team_country)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
                               {rider?.count && (
@@ -186,38 +186,6 @@ const StatsThirdSection = ({
                         </a>
                       </>
                     )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Box4: race Count */}
-              <div className="col-lg-3 col-md-6">
-                <div className="races">
-                  <div className="text-wraper">
-                    <h3 className="font-size-change">
-                      {data?.[fixedApis.box4]?.message}
-                    </h3>
-                    {(() => {
-                      if (!data?.[fixedApis.box4]) {
-                        return <ErrorMessage errorType="no_data" />;
-                      }
-
-                      const response = data[fixedApis.box4];
-                      const riderData = response?.data;
-
-                      if (!riderData) {
-                        return <ErrorMessage errorType="no_data_found" />;
-                      }
-                      return (
-                        <div className="name-wraper name-wraper-white">
-                          {riderData.count && (
-                            <h5>
-                              <strong>{riderData.count}</strong>
-                            </h5>
-                          )}
-                        </div>
-                      );
-                    })()}
                   </div>
                 </div>
               </div>
@@ -247,7 +215,7 @@ const StatsThirdSection = ({
                                     className="name-wraper name-wraper-white"
                                     key={index}
                                   >
-                                    {renderFlag(rider?.rider_country)}
+                                    {renderFlag(rider?.team_country)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
                                   {rider?.count && (
@@ -287,7 +255,7 @@ const StatsThirdSection = ({
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
                                   <div className="name-wraper name-wraper-white">
-                                    {renderFlag(rider?.rider_country)}
+                                    {renderFlag(rider?.team_country)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
 
@@ -304,7 +272,7 @@ const StatsThirdSection = ({
                   </div>
 
                   {/*Box 7 - Most Consistent GCTeams*/}
-                  <div className="col-lg-7 col-md-6">
+                  {/* <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box7]?.message}</h4>
@@ -325,12 +293,13 @@ const StatsThirdSection = ({
                                     className="name-wraper name-wraper-white"
                                     key={index}
                                   >
+                                    {renderFlag(rider?.flag)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
-                                  {rider?.totalPoints && (
+                                  {rider?.gcWinCount && (
                                     <h5>
-                                      <strong>{rider.totalPoints} </strong>
-                                      points
+                                      <strong>{rider.gcWinCount} </strong>
+                                      count
                                     </h5>
                                   )}
                                 </>
@@ -343,7 +312,7 @@ const StatsThirdSection = ({
                         )}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/*Box 8 - longest Races */}
                   <div className="col-lg-5 col-md-6">
@@ -367,6 +336,7 @@ const StatsThirdSection = ({
                                     className="name-wraper name-wraper-white"
                                     key={index}
                                   >
+                                    {renderFlag(rider?.country)}
                                     <h6>{rider?.race || "..."}</h6>
                                   </div>
                                   {rider?.distance && (
@@ -386,6 +356,40 @@ const StatsThirdSection = ({
                       </div>
                     </div>
                   </div>
+
+
+                  {/* Box4: race Count */}
+                  <div className="col-lg-7 col-md-6">
+                    <div className="races">
+                      <div className="text-wraper">
+                        <h3 className="font-size-change">
+                          {data?.[fixedApis.box4]?.message}
+                        </h3>
+                        {(() => {
+                          if (!data?.[fixedApis.box4]) {
+                            return <ErrorMessage errorType="no_data" />;
+                          }
+
+                          const response = data[fixedApis.box4];
+                          const riderData = response?.data;
+
+                          if (!riderData) {
+                            return <ErrorMessage errorType="no_data_found" />;
+                          }
+                          return (
+                            <div className="name-wraper name-wraper-white">
+                              {riderData.count && (
+                                <h5>
+                                  <strong>{riderData.count}</strong>
+                                </h5>
+                              )}
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
 
@@ -412,7 +416,7 @@ const StatsThirdSection = ({
                             <li key={index}>
                               <strong>{index + 1}</strong>
                               <div className="name-wraper name-wraper-green">
-                                {renderFlag(rider?.rider_country)}
+                                {renderFlag(rider?.team_country)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
 
