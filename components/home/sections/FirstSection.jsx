@@ -63,7 +63,7 @@ const FirstSection = () => {
     return { error: true, errorType: "no_data_found" };
   };
 
- return (
+  return (
     <section className="home-banner">
       <div className="container">
         <div className="row">
@@ -96,7 +96,7 @@ const FirstSection = () => {
               {/* First Section - Top Stage Winners */}
               <div className="col-lg-3 col-md-5">
                 <div className="list-white-cart">
-                   <h4>{getSectionData(fixedApis.section2).data?.[0]?.raceName}</h4>
+                  <h4>{getSectionData(fixedApis.section2).data?.[0]?.raceName}</h4>
                   {getSectionData(fixedApis.section2).error ? (
                     <ErrorMessage
                       errorType={getSectionData(fixedApis.section2).errorType}
@@ -175,15 +175,15 @@ const FirstSection = () => {
                         );
                       })}
                     </ul>
-                   
+
                   </>
                 )}
               </div>
-               <div className="d-md-none d-flex justify-content-end pt-4">
-                      <a href="#?" className="alle-link m-0">
-                        Alle uitslagen <img src="/images/arow2.svg" alt="" />
-                      </a>
-                    </div>
+              <div className="d-md-none d-flex justify-content-end pt-4">
+                <a href="#?" className="alle-link m-0">
+                  Alle uitslagen <img src="/images/arow2.svg" alt="" />
+                </a>
+              </div>
             </>
           )}
         </div>

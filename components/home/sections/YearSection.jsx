@@ -383,41 +383,45 @@ const YearSection = () => {
                       }
 
                       const response = data[fixedApis.box6];
-                      const riderData = response?.data;
+                      const teams = response?.data?.data; // Array
 
-                      if (!riderData) {
+                      if (!Array.isArray(teams) || teams.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
                       return (
                         <>
-                          <div className="name-wraper name-wraper-white">
-                            {renderFlag(riderData?.country)}
-                            <h6>{riderData?.team || "..."}</h6>
-                          </div>
-                          {riderData?.numberOfWinningRiders && (
-                            <h5>
-                              <strong>
-                                {riderData.numberOfWinningRiders}{" "}
-                              </strong>
-                              riders
-                            </h5>
-                          )}
+                          {teams.slice(0, 1).map((team, index) => (
+                            <div key={index} className="team-card">
+                              <div className="name-wraper name-wraper-white">
+                                {renderFlag(team?.country)}
+                                <h6>{team?.teamName || team?.officialTeamName || "..."}</h6>
+                              </div>
 
-                          <img
-                            src="/images/player7.png"
-                            alt=""
-                            className="absolute-img"
-                          />
-                          <a href="#?" className="green-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
+                              {team?.numberOfWinningRiders && (
+                                <h5>
+                                  <strong>{team.numberOfWinningRiders} </strong>
+                                  riders
+                                </h5>
+                              )}
+
+                              <img
+                                src="/images/player7.png"
+                                alt=""
+                                className="absolute-img"
+                              />
+                              <a href="#?" className="green-circle-btn">
+                                <img src="/images/arow.svg" alt="" />
+                              </a>
+                            </div>
+                          ))}
                         </>
                       );
                     })()}
                   </div>
                 </div>
               </div>
+
               {/*Box 7 - Finished  Races*/}
 
               <div className="col-lg-3 col-md-6">
@@ -506,12 +510,12 @@ const YearSection = () => {
                                 className="name-wraper name-wraper-white"
                                 key={index}
                               >
-                           
-                                  <>
-                                    {renderFlag(race?.country_code)}
-                                    <h6>{race?.race_name || "..."}</h6>
-                                  </>
-                              
+
+                                <>
+                                  {renderFlag(race?.country_code)}
+                                  <h6>{race?.race_name || "..."}</h6>
+                                </>
+
                               </div>
 
                               {race?.count && (

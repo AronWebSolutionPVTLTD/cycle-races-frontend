@@ -452,34 +452,39 @@ const StatsSecondSection = ({
                       }
 
                       const response = data[fixedApis.box9];
-                      const riderData = response?.data.data;
+                      const riders = response?.data?.data;
 
-                      if (!riderData) {
+                      if (!Array.isArray(riders) || riders.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
                       return (
                         <>
-                          <div className="name-wraper name-wraper-green">
-                            {renderFlag(riderData?.rider_country)}
-                            <h6>{riderData?.name || "..."}</h6>
-                          </div>
-                          {riderData?.weight && (
-                            <h5>
-                              <strong>{riderData.weight}</strong>
-                              kilogram
-                            </h5>
-                          )}
+                          {riders.slice(0, 1).map((rider, index) => (
+                            <div key={index} className="rider-card">
+                              <div className="name-wraper name-wraper-green">
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.name || "..."}</h6>
+                              </div>
 
-                          <a href="#?" className="white-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
+                              {rider?.weight && (
+                                <h5>
+                                  <strong>{rider.weight}</strong> kilogram
+                                </h5>
+                              )}
+
+                              <a href="#?" className="white-circle-btn">
+                                <img src="/images/arow.svg" alt="" />
+                              </a>
+                            </div>
+                          ))}
                         </>
                       );
                     })()}
                   </div>
                 </div>
               </div>
+              
 
               {/* Box10: GC TOp 10  */}
               <div className="col-lg-4 col-md-6">

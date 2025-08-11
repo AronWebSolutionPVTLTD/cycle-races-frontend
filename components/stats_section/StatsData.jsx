@@ -130,27 +130,32 @@ const StatsData = ({
                       }
 
                       const response = data[fixedApis.box2];
-                      const riderData = response?.data;
+                      const teams = response?.data?.data;
 
-                      if (!riderData) {
+                      if (!Array.isArray(teams) || teams.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
                       return (
                         <>
-                          <div className="name-wraper name-wraper-green">
-                            {renderFlag(riderData?.country)}
-                            <h6>{riderData?.team || "..."}</h6>
-                          </div>
-                          {riderData?.win && (
-                            <h5>
-                              <strong>{riderData.win} </strong>
-                            </h5>
-                          )}
+                          {teams.slice(0, 1).map((team, index) => (
+                            <div key={index} className="team-card">
+                              <div className="name-wraper name-wraper-green">
+                                {renderFlag(team?.country)}
+                                <h6>{team?.team || "..."}</h6>
+                              </div>
 
-                          <a href="#?" className="white-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
+                              {team?.win && (
+                                <h5>
+                                  <strong>{team.win} </strong>
+                                </h5>
+                              )}
+
+                              <a href="#?" className="white-circle-btn">
+                                <img src="/images/arow.svg" alt="" />
+                              </a>
+                            </div>
+                          ))}
                         </>
                       );
                     })()}
@@ -252,32 +257,37 @@ const StatsData = ({
                       }
 
                       const response = data[fixedApis.box5];
-                      const riderData = response?.data;
+                      const riders = response?.data?.data;
 
-                      if (!riderData) {
+                      if (!Array.isArray(riders) || riders.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
                       return (
                         <>
-                          <div className="name-wraper name-wraper-white">
-                            {renderFlag(riderData?.country)}
-                            <h6>{riderData?.rider_name || "..."}</h6>
-                          </div>
-                          {riderData?.totalKOMTitles && (
-                            <h5>
-                              <strong>{riderData.totalKOMTitles} </strong>wins
-                            </h5>
-                          )}
+                          {riders.slice(0, 1).map((rider, index) => (
+                            <div key={index} className="rider-card">
+                              <div className="name-wraper name-wraper-white">
+                                {renderFlag(rider?.country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
+                              </div>
 
-                          <img
-                            src="/images/player1.png"
-                            alt=""
-                            className="absolute-img"
-                          />
-                          <a href="#?" className="green-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
+                              {rider?.totalKOMTitles && (
+                                <h5>
+                                  <strong>{rider.totalKOMTitles} </strong>wins
+                                </h5>
+                              )}
+
+                              <img
+                                src="/images/player1.png"
+                                alt=""
+                                className="absolute-img"
+                              />
+                              <a href="#?" className="green-circle-btn">
+                                <img src="/images/arow.svg" alt="" />
+                              </a>
+                            </div>
+                          ))}
                         </>
                       );
                     })()}
