@@ -2,6 +2,7 @@ import React from "react";
 import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
+import Link from "next/link";
 
 const fixedApis = {
   box1: "mostWin",
@@ -181,12 +182,12 @@ const YearSection = () => {
                         alt=""
                         className="absolute-img"
                       />
-                      <a href="#?" className="glob-btn green-bg-btn">
+                      <Link href="/most-wins" className="glob-btn green-bg-btn">
                         <strong>volledige stats</strong>{" "}
                         <span>
                           <img src="/images/arow.svg" alt="" />
                         </span>
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -395,7 +396,11 @@ const YearSection = () => {
                             <div key={index} className="team-card">
                               <div className="name-wraper name-wraper-white">
                                 {renderFlag(team?.country)}
-                                <h6>{team?.teamName || team?.officialTeamName || "..."}</h6>
+                                <h6>
+                                  {team?.teamName ||
+                                    team?.officialTeamName ||
+                                    "..."}
+                                </h6>
                               </div>
 
                               {team?.numberOfWinningRiders && (
@@ -510,12 +515,10 @@ const YearSection = () => {
                                 className="name-wraper name-wraper-white"
                                 key={index}
                               >
-
                                 <>
                                   {renderFlag(race?.country_code)}
                                   <h6>{race?.race_name || "..."}</h6>
                                 </>
-
                               </div>
 
                               {race?.count && (

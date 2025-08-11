@@ -209,7 +209,7 @@ export default function Riders() {
         // >
         //   Loading riders data...
         // </li>
-<ListSkeleton/>
+        <ListSkeleton />
       );
     }
 
@@ -280,7 +280,7 @@ export default function Riders() {
         //   />
         //   <p>Loading statistics...</p>
         // </div>
-        <CardSkeleton/>
+        <CardSkeleton />
       );
     }
 
