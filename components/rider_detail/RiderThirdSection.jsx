@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
@@ -27,6 +28,18 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
       params.year = filterYear;
     }
     return params;
+  };
+
+  const buildUrlWithParams = (statsPath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+      )
+      .join("&");
+
+    const basePath = `/riders/${riderId}/${statsPath}`;
+    return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
   const raceEndpoints = [
@@ -99,6 +112,8 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
       response,
     ];
 
+    console.log("paths", paths);
+
     for (const path of paths) {
       if (Array.isArray(path) && path.length > 0) {
         return { data: path, error: false };
@@ -150,9 +165,9 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           </li>
                         ))}
                     </ul>
-                    <a href="#?" className="green-circle-btn">
+                    <Link href={buildUrlWithParams("get-grand-tours-ridden")} className="green-circle-btn">
                       <img src="/images/arow.svg" alt="" />
-                    </a>
+                    </Link>
                   </>
                 )}
               </div>
@@ -172,25 +187,27 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     const response = data[fixedApis.box2];
                     const riderData = response?.data?.data?.raceData;
 
-                    if (!riderData) {
+                    if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+
+                    const firstRider = riderData[0];
 
                     return (
                       <>
                         <div className="name-wraper name-wraper-green">
-                          {renderFlag(riderData?.country)}
-                          <h6>{riderData?.race || "..."}</h6>
+                          {renderFlag(firstRider?.country)}
+                          <h6>{firstRider?.race || "..."}</h6>
                         </div>
-                        {riderData?.year && (
+                        {firstRider?.year && (
                           <h5>
-                            <strong>{riderData.year} </strong>
+                            <strong>{firstRider.year} </strong>
                           </h5>
                         )}
 
-                        <a href="#?" className="white-circle-btn">
+                        <Link href={buildUrlWithParams("last-victory")} className="white-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -213,11 +230,13 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     }
 
                     const response = data[fixedApis.box3];
-                    const riderData = response?.data?.data;
+                    const riderData = response?.data?.data?.raceData;
 
-                    if (!riderData) {
+                    if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+
+                    const firstRider = riderData[0];
 
                     // return (
                     //   <>
@@ -235,21 +254,20 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
-                          {renderFlag(riderData?.raceData?.country_code)}
-                          <h6>
-                            ({riderData?.raceData?.country_name || "..."})
-                          </h6>
+                          {renderFlag(firstRider?.country_code)}
+                          <h6>({firstRider?.country_name || "..."})</h6>
                         </div>
 
-                        {riderData?.raceData?.races_count && (
+                        {firstRider?.races_count && (
                           <h5>
-                            <strong>{riderData.raceData?.races_count} </strong>race days
+                            <strong>{firstRider.races_count} </strong>
+                            race days
                           </h5>
                         )}
 
-                        <a href="#?" className="green-circle-btn">
+                        <Link href={buildUrlWithParams("get-rider-most-raced-country")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -269,29 +287,31 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     }
 
                     const response = data[fixedApis.box4];
-                    const riderData = response?.data?.data;
+                    const riderData = response?.data?.data?.results;
 
-                    if (!riderData) {
+                    if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+
+                    const firstRider = riderData[0];
 
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
-                          {renderFlag(riderData?.country_code)}
+                          {renderFlag(firstRider?.country_code)}
                           <h6>
-                            {riderData?.race || "..."} ({riderData.year})
+                            {firstRider?.race || "..."} ({firstRider.year})
                           </h6>
                         </div>
-                        {riderData?.best_stage_rank && (
+                        {firstRider?.best_stage_rank && (
                           <h5>
-                            <strong>{riderData.best_stage_rank} </strong>
+                            <strong>{firstRider.best_stage_rank} </strong>
                           </h5>
                         )}
 
-                        <a href="#?" className="green-circle-btn">
+                        <Link href={buildUrlWithParams("get-best-stage-result")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -321,7 +341,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-
                         {/* {riderData?.dnf_count && (
                           <h5>
                             <strong>{riderData.dnf_count} </strong>
@@ -336,9 +355,9 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           alt=""
                           className="absolute-img"
                         />
-                        <a href="#?" className="green-circle-btn">
+                        <Link href={buildUrlWithParams("get-grand-tour-dnfs")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -376,9 +395,9 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           </li>
                         ))}
                     </ul>
-                    <a href="#?" className="green-circle-btn">
+                    <Link href={buildUrlWithParams("get-first-rank-in-grand-tours")} className="green-circle-btn">
                       <img src="/images/arow.svg" alt="" />
-                    </a>
+                    </Link>
                   </>
                 )}
               </div>
@@ -398,27 +417,29 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     }
 
                     const response = data[fixedApis.box7];
-                    const riderData = response?.data.data.first_grand_tour_win;
+                    const riderData = response?.data.data;
 
-                    if (!riderData) {
+                    if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+
+                    const firstRider = riderData[0];
 
                     return (
                       <>
                         <div className="name-wraper name-wraper-green">
-                          {renderFlag(riderData?.country_code)}
-                          <h6>{riderData?.race || "..."}</h6>
+                          {renderFlag(firstRider?.country_code)}
+                          <h6>{firstRider?.race_name   || "..."}</h6>
                         </div>
-                        {riderData?.year && (
+                        {firstRider?.year && (
                           <h5>
-                            <strong>{riderData.year} </strong>
+                            <strong>{firstRider.year} </strong>
                           </h5>
                         )}
 
-                        <a href="#?" className="white-circle-btn">
+                        <Link href={buildUrlWithParams("get-first-ever-grand-tour-win")} className="white-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -454,12 +475,13 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           </h5>
                         )} */}
                         <h5>
-                          <strong>{riderData?.total_racing_days ?? 0}</strong>days
+                          <strong>{riderData?.total_racing_days ?? 0}</strong>
+                          days
                         </h5>
 
-                        <a href="#?" className="white-circle-btn">
+                        <Link href={buildUrlWithParams("get-total-racing-days-in-grand-tours")} className="white-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -495,12 +517,15 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           </h5>
                         )} */}
                         <h5>
-                          <strong>{riderData?.total_distance_raced ?? 0}</strong>kilometers
+                          <strong>
+                            {riderData?.total_distance_raced ?? 0}
+                          </strong>
+                          kilometers
                         </h5>
 
-                        <a href="#?" className="green-circle-btn">
+                        <Link href={buildUrlWithParams("get-total-distance-raced-in-grand-tours")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -538,9 +563,9 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           </li>
                         ))}
                     </ul>
-                    <a href="#?" className="green-circle-btn">
+                    <Link href={buildUrlWithParams("get-best-monument-results")} className="green-circle-btn">
                       <img src="/images/arow.svg" alt="" />
-                    </a>
+                    </Link>
                   </>
                 )}
               </div>
@@ -580,9 +605,9 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           </h5>
                         )}
 
-                        <a href="#?" className="green-circle-btn">
+                        <Link href={buildUrlWithParams("get-best-paris-roubaix-result")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -618,9 +643,9 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           </li>
                         ))}
                     </ul>
-                    <a href="#?" className="green-circle-btn">
+                    <Link href={buildUrlWithParams("get-first-rank-in-monuments")} className="green-circle-btn">
                       <img src="/images/arow.svg" alt="" />
-                    </a>
+                    </Link>
                   </>
                 )}
               </div>
@@ -638,28 +663,30 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     }
 
                     const response = data[fixedApis.box13];
-                    const riderData = response?.data?.best_gc;
+                    const riderData = response?.data?.best_gc_results;
 
-                    if (!riderData) {
+                    if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+
+                    const firstRider = riderData[0];
 
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
-                          {renderFlag(riderData?.country_code)}
-                          <h6>{riderData?.race || "..."}</h6>
+                          {renderFlag(firstRider?.country_code)}
+                          <h6>{firstRider?.race || "..."}</h6>
                         </div>
-                        {riderData?.gcRank && (
+                        {firstRider?.gcRank && (
                           <h5>
-                            <strong>{riderData.gcRank} </strong>
+                            <strong>{firstRider.gcRank} </strong>
                             rank
                           </h5>
                         )}
 
-                        <a href="#?" className="white-circle-btn">
+                        <Link href={buildUrlWithParams("get-best-gc-result")} className="white-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -682,27 +709,29 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     }
 
                     const response = data[fixedApis.box14];
-                    const riderData = response?.data?.data;
+                    const riderData = response?.data?.data?.teammates;
 
-                    if (!riderData) {
+                    if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+
+                    const firstRider = riderData[0];
 
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
-                          {renderFlag(riderData?.country)}
-                          <h6>{riderData?.top_teammate || "..."}</h6>
+                          {renderFlag(firstRider?.country)}
+                          <h6>{firstRider?.top_teammate || "..."}</h6>
                         </div>
-                        {riderData?.times_raced && (
+                        {firstRider?.times_raced && (
                           <h5>
-                            <strong>{riderData.times_raced} </strong>
+                            <strong>{firstRider.times_raced} </strong>
                           </h5>
                         )}
 
-                        <a href="#?" className="green-circle-btn">
+                        <Link href={buildUrlWithParams("team-mates")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -738,9 +767,9 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           </li>
                         ))}
                     </ul>
-                    <a href="#?" className="green-circle-btn">
+                    <Link href={buildUrlWithParams("get-rider-last-place-finishes")} className="green-circle-btn">
                       <img src="/images/arow.svg" alt="" />
-                    </a>
+                    </Link>
                   </>
                 )}
               </div>

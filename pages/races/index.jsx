@@ -412,7 +412,7 @@ export default function Results() {
                         <h6>{item.team_name}</h6>
                         <Link
                           href={`/race-result/${encodeURIComponent(
-                            item.race_id
+                            item.race_name
                           )}`}
                           className="r-details"
                         >

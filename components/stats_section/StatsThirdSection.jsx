@@ -2,6 +2,7 @@ import React from "react";
 import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
+import Link from "next/link";
 
 const StatsThirdSection = ({
   selectedNationality,
@@ -26,6 +27,16 @@ const StatsThirdSection = ({
     if (selectedNationality) params.rider_country = selectedNationality;
     if (selectedTeam) params.team_name = selectedTeam;
     return params;
+  };
+
+  // Helper function to build URLs with query parameters
+  const buildUrlWithParams = (basePath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+      .join('&');
+    
+    return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
   const endpointsToFetch = Object.values(fixedApis);
@@ -98,9 +109,12 @@ const StatsThirdSection = ({
                             </li>
                           ))}
                       </ul>
-                      <a href="#?" className="white-circle-btn">
+                      <Link
+                        href={buildUrlWithParams("/stats/grand-tour-stage-wins")}
+                        className="white-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -139,9 +153,12 @@ const StatsThirdSection = ({
                             </>
                           ))}
 
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href={buildUrlWithParams("/stats/most-kms-raced")}
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -181,9 +198,12 @@ const StatsThirdSection = ({
                             </>
                           ))}
 
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href={buildUrlWithParams("/stats/top3-stage-teams")}
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -226,9 +246,12 @@ const StatsThirdSection = ({
                                 </>
                               ))}
 
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href={buildUrlWithParams("/stats/top-gc-riders-by-team")}
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -263,9 +286,12 @@ const StatsThirdSection = ({
                                 </li>
                               ))}
                           </ul>
-                          <a href="#?" className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams("/stats/top-gc-teams")}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
                       )}
                     </div>
@@ -348,15 +374,17 @@ const StatsThirdSection = ({
                                 </>
                               ))}
 
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href={buildUrlWithParams("/stats/longest-races")}
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
                     </div>
                   </div>
-
 
                   {/* Box4: race Count */}
                   <div className="col-lg-7 col-md-6">
@@ -389,7 +417,6 @@ const StatsThirdSection = ({
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
 
@@ -430,12 +457,12 @@ const StatsThirdSection = ({
                         alt=""
                         className="absolute-img"
                       />
-                      <a href="#?" className="glob-btn">
+                      <Link href={buildUrlWithParams("/stats/top10-gc-teams")} className="glob-btn">
                         <strong>volledige stats</strong>{" "}
                         <span>
                           <img src="/images/arow.svg" alt="" />
                         </span>
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>

@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
 export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
+  const router = useRouter();
+  const raceName = router.query.name || name; // Get name from router or fallback to prop
+
   const fixedApis = {
     box1: "getTopGC_RidersLastYear",
     box2: "getRiderWithMostStageWins",
@@ -24,6 +29,19 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
     }
     if (selectedNationality) params.nationality = selectedNationality;
     return params;
+  };
+
+  // Helper function to build URLs with query parameters for race-specific stats
+  const buildUrlWithParams = (statsPath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+      )
+      .join("&");
+
+    const basePath = `/races/${raceName}/${statsPath}`;
+    return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
   const stageEndpoints = [
@@ -122,19 +140,25 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                         alt=""
                         className="absolute-img"
                       />
-                      <a href="#?" className="glob-btn green-bg-btn">
+                      <Link
+                        href={buildUrlWithParams("top-gc-riders-last-year")}
+                        className="glob-btn green-bg-btn"
+                      >
                         <strong>volledige stats</strong>{" "}
                         <span>
                           <img src="/images/arow.svg" alt="" />
                         </span>
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
                 <div className="d-md-none d-flex justify-content-end pt-4">
-                  <a href="#?" className="alle-link m-0">
+                  <Link
+                    href={buildUrlWithParams("top-gc-riders-last-year")}
+                    className="alle-link m-0"
+                  >
                     Alle statistieken <img src="/images/arow2.svg" alt="" />
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -143,7 +167,10 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 2 - Rider With MostStageWins*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams("rider-most-stage-wins")}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box2]?.message}</h4>
 
@@ -170,9 +197,14 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                                 </h5>
                               )}
 
-                              <a href="#?" className="white-circle-btn mt-2">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "rider-most-stage-wins"
+                                )}
+                                className="white-circle-btn mt-2"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
                           );
                         })()}
@@ -180,11 +212,13 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-
                   {/*Box 3 - Most Racing  Days */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams("most-gc-wins-in-race")}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4> {data?.[fixedApis.box3]?.message}</h4>
                         {(() => {
@@ -194,27 +228,35 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
 
                           const response = data[fixedApis.box3];
                           const riderData = response?.data?.data?.most_gc_wins;
-
-                          if (!riderData) {
+                          // handle as array and length 0
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
-
+                          const rider = riderData[0];
                           return (
                             <>
                               <div className="name-wraper name-wraper-white">
-                                {renderFlag(riderData?.nationality)}
-                                <h6>{riderData?.rider_name || "..."}</h6>
+                                {renderFlag(rider?.nationality)}
+                                <h6>{rider?.rider_name || "..."}</h6>
                               </div>
-                              {riderData?.wins && (
+                              {rider?.wins && (
                                 <h5>
-                                  <strong>{riderData.wins}</strong>
+                                  <strong>{rider.wins}</strong>
                                   times
                                 </h5>
                               )}
 
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "most-gc-wins-in-race"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
                           );
                         })()}
@@ -231,7 +273,10 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                         const response = data?.[fixedApis.box4];
                         const riderList = response?.data?.data;
 
-                        if (!Array.isArray(riderList) || riderList.length === 0) {
+                        if (
+                          !Array.isArray(riderList) ||
+                          riderList.length === 0
+                        ) {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
 
@@ -246,26 +291,33 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                                   </div>
 
                                   {rider?.year && (
-                                    <span className="fw-bold">{rider.year}</span>
+                                    <span className="fw-bold">
+                                      {rider.year}
+                                    </span>
                                   )}
                                 </li>
                               ))}
                             </ul>
 
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href={buildUrlWithParams("last-winner")}
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="arrow" />
-                            </a>
+                            </Link>
                           </>
                         );
                       })()}
                     </div>
                   </div>
 
-
                   {/*Box 5 -Rider With Most GCTop10s */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams("rider-most-gc-top10s")}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box5]?.message}</h4>
                         {(() => {
@@ -276,7 +328,10 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                           const response = data[fixedApis.box5];
                           const ridersArray = response?.data?.riders;
 
-                          if (!Array.isArray(ridersArray) || ridersArray.length === 0) {
+                          if (
+                            !Array.isArray(ridersArray) ||
+                            ridersArray.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
 
@@ -294,9 +349,14 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                                     </h5>
                                   )}
 
-                                  <a href="#?" className="green-circle-btn">
+                                  <Link
+                                    href={buildUrlWithParams(
+                                      "rider-most-gc-top10s"
+                                    )}
+                                    className="green-circle-btn"
+                                  >
                                     <img src="/images/arow.svg" alt="" />
-                                  </a>
+                                  </Link>
                                 </div>
                               ))}
                             </>
@@ -305,13 +365,15 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
               {/*Box 6 - Rider with most DNFS*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link
+                    href={buildUrlWithParams("rider-most-dnfs")}
+                    className="pabs"
+                  ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {(() => {
@@ -322,7 +384,10 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                       const response = data[fixedApis.box6];
                       const ridersArray = response?.data?.riders;
 
-                      if (!Array.isArray(ridersArray) || ridersArray.length === 0) {
+                      if (
+                        !Array.isArray(ridersArray) ||
+                        ridersArray.length === 0
+                      ) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
@@ -345,9 +410,12 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                                 alt=""
                                 className="absolute-img"
                               />
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams("rider-most-dnfs")}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </div>
                           ))}
                         </>
@@ -388,7 +456,10 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
               {/*Box 8 - Rider With MostGCPodiums*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link
+                    href={buildUrlWithParams("rider-most-gc-podiums")}
+                    className="pabs"
+                  ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box8]?.message}</h4>
                     {(() => {
@@ -399,7 +470,10 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                       const response = data[fixedApis.box8];
                       const ridersArray = response?.data?.top_riders;
 
-                      if (!Array.isArray(ridersArray) || ridersArray.length === 0) {
+                      if (
+                        !Array.isArray(ridersArray) ||
+                        ridersArray.length === 0
+                      ) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
@@ -417,9 +491,14 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                                 </h5>
                               )}
 
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "rider-most-gc-podiums"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </div>
                           ))}
                         </>
@@ -432,7 +511,10 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
               {/*Box 9 - Rider With MostStarts */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                  <Link
+                    href={buildUrlWithParams("rider-most-starts")}
+                    className="pabs"
+                  ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box9]?.message}</h4>
                     {(() => {
@@ -442,26 +524,29 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
 
                       const response = data[fixedApis.box9];
                       const riderData = response?.data.data;
-
-                      if (!riderData) {
+                      // handle as array and length 0
+                      if (!Array.isArray(riderData) || riderData.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
-
+                      const rider = riderData[0];
                       return (
                         <>
                           <div className="name-wraper name-wraper-white">
-                            {renderFlag(riderData?.country)}
-                            <h6>{riderData?.rider_name || "..."}</h6>
+                            {renderFlag(rider?.country)}
+                            <h6>{rider?.rider_name || "..."}</h6>
                           </div>
-                          {riderData?.count && (
+                          {rider?.count && (
                             <h5>
-                              <strong>{riderData.count}</strong>
+                              <strong>{rider.count}</strong>
                             </h5>
                           )}
 
-                          <a href="#?" className="white-circle-btn">
+                          <Link
+                            href={buildUrlWithParams("rider-most-starts")}
+                            className="white-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
                       );
                     })()}

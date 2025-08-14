@@ -323,12 +323,13 @@ export default function RaceResultPage() {
                         </h5>
                         <h6>{rider.team_name}</h6>
                         <h6 className="time-result">
-                          {index === 0
+                          {/* {index === 0
                             ? formatTimeToDisplay(rider.time)
                             : getTimeGapDisplay(
                                 race.riders[0]?.time,
                                 rider.time
-                              )}
+                              )} */}
+                          {rider.time}
                         </h6>
                         <Link href="#" className="r-details">
                           <img src="/images/hover-arow.svg" alt="Details" />

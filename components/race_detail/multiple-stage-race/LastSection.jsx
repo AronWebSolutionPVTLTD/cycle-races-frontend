@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
 export const LastSection = ({ selectedYear, selectedNationality, name }) => {
+  const router = useRouter();
+  const raceName = router.query.name || name; // Get name from router or fallback to prop
   const fixedApis = {
     box1: "getMostMountainClassificationWins",
     box2: "getMostSprintClassificationWins",
@@ -29,6 +33,19 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
     }
     if (selectedNationality) params.nationality = selectedNationality;
     return params;
+  };
+
+  // Helper function to build URLs with query parameters for race-specific stats
+  const buildUrlWithParams = (statsPath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+      )
+      .join("&");
+
+    const basePath = `/races/${raceName}/${statsPath}`;
+    return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
   const stageEndpoints = [
@@ -65,7 +82,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
     // Try most common paths in order
     const paths = [
-      response?.data?.data?.top_teams,
+      response?.data?.top_teams,
       response?.data?.data?.most_used_finish_cities,
       response?.data?.data,
       response?.data?.data?.most_used_departure_cities,
@@ -134,19 +151,29 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         alt=""
                         className="absolute-img"
                       />
-                      <a href="#?" className="glob-btn green-bg-btn">
+                      <Link
+                        href={buildUrlWithParams(
+                          "most-mountain-classification-wins"
+                        )}
+                        className="glob-btn green-bg-btn"
+                      >
                         <strong>volledige stats</strong>{" "}
                         <span>
                           <img src="/images/arow.svg" alt="" />
                         </span>
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
                 <div className="d-md-none d-flex justify-content-end pt-4">
-                  <a href="#?" className="alle-link m-0">
+                  <Link
+                    href={buildUrlWithParams(
+                      "most-mountain-classification-wins"
+                    )}
+                    className="alle-link m-0"
+                  >
                     Alle statistieken <img src="/images/arow2.svg" alt="" />
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -155,7 +182,12 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 2 - Most Sprint Classification Wins*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams(
+                          "most-sprint-classification-wins"
+                        )}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box2]?.message}</h4>
                         {getBoxData(fixedApis.box2).error ? (
@@ -192,9 +224,14 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               alt=""
                               className="absolute-img"
                             />
-                            <a href="#?" className="white-circle-btn">
+                            <Link
+                              href={buildUrlWithParams(
+                                "most-sprint-classification-wins"
+                              )}
+                              className="white-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -204,7 +241,12 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 3 - Youngest wins */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams(
+                          "most-youngster-classification-wins"
+                        )}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box3]?.message}</h4>
                         {getBoxData(fixedApis.box3).error ? (
@@ -235,9 +277,14 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                   )}
                                 </>
                               ))}
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href={buildUrlWithParams(
+                                "most-youngster-classification-wins"
+                              )}
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -247,7 +294,10 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 4 - Rider With MostFinishes*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams("rider-with-most-finishes")}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box4]?.message}</h4>
                         {(() => {
@@ -258,28 +308,36 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                           const response = data[fixedApis.box4];
                           const riderData = response?.data?.top_rider;
 
-                          if (!riderData) {
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
 
-                          return (
+                          return riderData.slice(0, 1).map((rider, index) => (
                             <>
                               <div className="name-wraper name-wraper-white">
-                                {renderFlag(riderData?.rider_country)}
-                                <h6>{riderData?.rider_name || "..."}</h6>
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
                               </div>
-                              {riderData?.finish_count && (
+                              {rider?.finish_count && (
                                 <h5>
-                                  <strong>{riderData.finish_count}</strong>
+                                  <strong>{rider.finish_count}</strong>
                                   times
                                 </h5>
                               )}
 
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "rider-with-most-finishes"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -327,7 +385,10 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   </div> */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams("oldest-stage-winner")}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box5]?.message}</h4>
                         {(() => {
@@ -338,7 +399,10 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                           const response = data[fixedApis.box5];
                           const riderArray = response?.data?.data;
 
-                          if (!Array.isArray(riderArray) || riderArray.length === 0) {
+                          if (
+                            !Array.isArray(riderArray) ||
+                            riderArray.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
 
@@ -356,9 +420,14 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                       jaar
                                     </h5>
                                   )}
-                                  <a href="#?" className="white-circle-btn">
+                                  <Link
+                                    href={buildUrlWithParams(
+                                      "oldest-stage-winner"
+                                    )}
+                                    className="white-circle-btn"
+                                  >
                                     <img src="/images/arow.svg" alt="" />
-                                  </a>
+                                  </Link>
                                 </div>
                               ))}
                             </>
@@ -421,7 +490,10 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                       const response = data[fixedApis.box6];
                       const riderArray = response?.data?.data;
 
-                      if (!Array.isArray(riderArray) || riderArray.length === 0) {
+                      if (
+                        !Array.isArray(riderArray) ||
+                        riderArray.length === 0
+                      ) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
@@ -439,9 +511,12 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                 </h5>
                               )}
 
-                              <a href="#?" className="white-circle-btn">
+                              <Link
+                                href={buildUrlWithParams("youngest-winner")}
+                                className="white-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </div>
                           ))}
                         </>
@@ -451,11 +526,13 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-
               {/*Box 7 - Edition*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link
+                    href={buildUrlWithParams("fastest-edition-of-race")}
+                    className="pabs"
+                  ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {(() => {
@@ -466,7 +543,10 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                       const response = data[fixedApis.box7];
                       const riderArray = response?.data?.data;
 
-                      if (!Array.isArray(riderArray) || riderArray.length === 0) {
+                      if (
+                        !Array.isArray(riderArray) ||
+                        riderArray.length === 0
+                      ) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
@@ -479,7 +559,12 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               </div>
 
                               {item?.total_time_formatted && (
-                                <div style={{ position: "relative", height: "80px" }}>
+                                <div
+                                  style={{
+                                    position: "relative",
+                                    height: "80px",
+                                  }}
+                                >
                                   <h5
                                     style={{
                                       position: "absolute",
@@ -496,9 +581,14 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                 </div>
                               )}
 
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "fastest-edition-of-race"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </div>
                           ))}
                         </>
@@ -508,11 +598,13 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-
               {/*Box 8 - Longest Stage InRace*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link
+                    href={buildUrlWithParams("longest-stage-in-race")}
+                    className="pabs"
+                  ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box8]?.message}</h4>
                     {(() => {
@@ -521,29 +613,32 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                       }
 
                       const response = data[fixedApis.box8];
-                      const riderData = response?.data.data;
+                      const riderData = response?.data;
 
-                      if (!riderData) {
+                      if (!Array.isArray(riderData) || riderData.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
-                      return (
+                      return riderData.slice(0, 1).map((rider, index) => (
                         <>
                           <div className="name-wraper name-wraper-white">
-                            <h6>{riderData?.subtitle || "..."}</h6>
+                            <h6>{rider?.subtitle || "..."}</h6>
                           </div>
-                          {riderData?.distance_km && (
+                          {rider?.distance_km && (
                             <h5>
-                              <strong>{riderData.distance_km} </strong>
+                              <strong>{rider.distance_km} </strong>
                               kilometers
                             </h5>
                           )}
 
-                          <a href="#?" className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams("longest-stage-in-race")}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
-                      );
+                      ));
                     })()}
                   </div>
                 </div>
@@ -582,9 +677,12 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               )}
                             </>
                           ))}
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href={buildUrlWithParams("most-stage-departures")}
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -596,7 +694,10 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 10 - Team With MostWins*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams("team-with-most-wins")}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box10]?.message}</h4>
                         {getBoxData(fixedApis.box10).error ? (
@@ -605,8 +706,8 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                           />
                         ) : (
                           <>
-                            {(Array.isArray(getBoxData(fixedApis.box10).data)
-                              ? getBoxData(fixedApis.box10).data
+                            {(Array.isArray(getBoxData(fixedApis.box10)?.data)
+                              ? getBoxData(fixedApis.box10)?.data
                               : []
                             )
                               .slice(0, 1)
@@ -627,9 +728,12 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                   )}
                                 </>
                               ))}
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href={buildUrlWithParams("team-with-most-wins")}
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -639,7 +743,10 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 11 - Most Stage Finishes */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams("most-stage-finishes")}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box11]?.message}</h4>
                         {getBoxData(fixedApis.box11).error ? (
@@ -669,9 +776,12 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                   )}
                                 </>
                               ))}
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href={buildUrlWithParams("most-stage-finishes")}
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -681,7 +791,10 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 12 -Youngest Top10 Riders*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams("youngest-top10-riders")}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box12]?.message}</h4>
                         {getBoxData(fixedApis.box12).error ? (
@@ -712,9 +825,12 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                   )}
                                 </>
                               ))}
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href={buildUrlWithParams("youngest-top10-riders")}
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -724,7 +840,10 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 13 - Shortest Stage InRace*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams("shortest-stage-in-race")}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box13]?.message}</h4>
                         {(() => {
@@ -733,16 +852,19 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                           }
 
                           const response = data[fixedApis.box13];
-                          const riderData = response?.data?.data;
+                          const riderData = response?.data;
 
-                          if (!riderData) {
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
 
-                          return (
+                          return riderData.slice(0, 1).map((rider, index) => (
                             <>
                               <div className="name-wraper name-wraper-white">
-                                <h6>{riderData?.subtitle || "..."}</h6>
+                                <h6>{rider?.subtitle || "..."}</h6>
                               </div>
                               {/* {riderData?.distance_km && (
                                 <h5>
@@ -751,14 +873,20 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                 </h5>
                               )} */}
                               <h5>
-                                <strong>{riderData?.distance_km ?? 0}</strong>kilometers
+                                <strong>{rider?.distance_km ?? 0}</strong>
+                                kilometers
                               </h5>
 
-                              <a href="#?" className="white-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "shortest-stage-in-race"
+                                )}
+                                className="white-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -802,19 +930,25 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         alt=""
                         className="absolute-img"
                       />
-                      <a href="#?" className="glob-btn green-bg-btn">
+                      <Link
+                        href={buildUrlWithParams("oldest-top10-finisher")}
+                        className="glob-btn green-bg-btn"
+                      >
                         <strong>volledige stats</strong>{" "}
                         <span>
                           <img src="/images/arow.svg" alt="" />
                         </span>
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
                 <div className="d-md-none d-flex justify-content-end pt-4">
-                  <a href="#?" className="alle-link m-0">
+                  <Link
+                    href={buildUrlWithParams("oldest-top10-finisher")}
+                    className="alle-link m-0"
+                  >
                     Alle statistieken <img src="/images/arow2.svg" alt="" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </>

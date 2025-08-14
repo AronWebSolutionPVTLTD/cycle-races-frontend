@@ -8,11 +8,29 @@ import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
 import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
 
-// Helper function to get value from item using multiple possible keys
+// Helper function to get value from item using multiple possible keys (supports dot notation)
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   for (const key of possibleKeys) {
-    if (item[key] !== undefined && item[key] !== null) {
-      return item[key];
+    // Handle dot notation for nested objects (e.g., "rider.name")
+    if (key.includes(".")) {
+      const keys = key.split(".");
+      let value = item;
+      for (const k of keys) {
+        if (value && value[k] !== undefined && value[k] !== null) {
+          value = value[k];
+        } else {
+          value = null;
+          break;
+        }
+      }
+      if (value !== null && value !== undefined) {
+        return value;
+      }
+    } else {
+      // Handle direct property access
+      if (item[key] !== undefined && item[key] !== null) {
+        return item[key];
+      }
     }
   }
   return defaultValue;
@@ -64,16 +82,20 @@ export default function DynamicSlugPage() {
       const config = getSlugConfig(slug);
 
       // Get query parameters from URL
-      const { year, rider_country, team_name } = router.query;
-      
+      const { year, rider_country, team_name, name, nationality } =
+        router.query;
+
       // Build query parameters object
-      const queryParams = { slug: slug };
+      const queryParams = {};
       if (year) queryParams.year = year;
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
-
+      if (nationality) queryParams.nationality = nationality;
       // Hit the API with the slug parameter and query parameters
-      const response = await fetchData(config.apiEndpoint, queryParams);
+      const response = await fetchData(config.apiEndpoint, queryParams, {
+        name: name,
+        idType: config.idType,
+      });
       if (response && response.data) {
         if (response?.data?.riders) {
           response.data = response.data.riders;
@@ -89,6 +111,72 @@ export default function DynamicSlugPage() {
             ...response.data.data.shortest_stage_races,
             ...response.data.data.shortest_one_day_races,
           ];
+        }
+        if (slug === "longest-races") {
+          response.data = [
+            ...response.data.data.longest_stage_races,
+            ...response.data.data.longest_one_day_races,
+          ];
+        }
+        if (slug === "top3-rank-one-teams-gc") {
+          response.data = response.data.teams;
+        }
+        if (slug === "top-gc-riders-last-year") {
+          response.data = response.data.data.top_riders;
+        }
+        if (slug === "rider-most-stage-wins") {
+          response.data = response.data.data.riders;
+        }
+        if (slug === "most-gc-wins-in-race") {
+          response.data = response.data.data.most_gc_wins;
+        }
+        if (slug === "rider-most-gc-podiums") {
+          response.data = response.data.top_riders;
+        }
+        if (slug === "rider-with-most-finishes") {
+          response.data = response.data.top_rider;
+        }
+        if (slug === "most-stage-departures") {
+          response.data = response.data.data.most_used_departure_cities;
+        }
+        if (slug === "team-with-most-wins") {
+          response.data = response.data.top_teams;
+        }
+        if (slug === "most-stage-finishes") {
+          response.data = response.data.data.most_used_finish_cities;
+        }
+        if (slug === "most-wins") {
+          response.data = response.data.most_wins;
+        }
+        if (slug === "most-podiums-by-rider") {
+          response.data = response.data.data.top_rider;
+        }
+        if (slug === "race-participants") {
+          response.data = response.data.rider_participation;
+        }
+        if (slug === "team-with-most-wins-in-race") {
+          response.data = response.data.data.most_wins_team;
+        }
+        if (slug === "most-top10-by-rider") {
+          response.data = response.data.data.top_rider;
+        }
+        if (slug === "last-winner") {
+          response.data = response.data.winners;
+        }
+        if (slug === "previous-editions") {
+          response.data = response.data.previouseditions;
+        }
+        if (slug === "rider-with-most-dnf") {
+          response.data = response.data.data.top_rider;
+        }
+        if (slug === "rider-with-most-consecutive-wins") {
+          response.data = response.data.top_streak;
+        }
+        if (slug === "winners-from-country") {
+          response.data = response.data.winners;
+        }
+        if (slug === "last-winner-from-country") {
+          response.data = response.data.lastWinner;
         }
         setPageData(response.data);
         // Extract title from API response
@@ -190,12 +278,30 @@ export default function DynamicSlugPage() {
   const hasTeamData = (data, config) => {
     return data.some((item) => {
       for (const key of config.itemConfig.team) {
-        if (
-          item[key] !== undefined &&
-          item[key] !== null &&
-          item[key] !== "N/A"
-        ) {
-          return true;
+        // Handle dot notation for nested objects
+        if (key.includes(".")) {
+          const keys = key.split(".");
+          let value = item;
+          for (const k of keys) {
+            if (value && value[k] !== undefined && value[k] !== null) {
+              value = value[k];
+            } else {
+              value = null;
+              break;
+            }
+          }
+          if (value !== null && value !== undefined && value !== "N/A") {
+            return true;
+          }
+        } else {
+          // Handle direct property access
+          if (
+            item[key] !== undefined &&
+            item[key] !== null &&
+            item[key] !== "N/A"
+          ) {
+            return true;
+          }
         }
       }
       return false;
@@ -206,12 +312,30 @@ export default function DynamicSlugPage() {
   const hasNameData = (data, config) => {
     return data.some((item) => {
       for (const key of config.itemConfig.name) {
-        if (
-          item[key] !== undefined &&
-          item[key] !== null &&
-          item[key] !== "N/A"
-        ) {
-          return true;
+        // Handle dot notation for nested objects (e.g., "rider.name")
+        if (key.includes(".")) {
+          const keys = key.split(".");
+          let value = item;
+          for (const k of keys) {
+            if (value && value[k] !== undefined && value[k] !== null) {
+              value = value[k];
+            } else {
+              value = null;
+              break;
+            }
+          }
+          if (value !== null && value !== undefined && value !== "N/A") {
+            return true;
+          }
+        } else {
+          // Handle direct property access
+          if (
+            item[key] !== undefined &&
+            item[key] !== null &&
+            item[key] !== "N/A"
+          ) {
+            return true;
+          }
         }
       }
       return false;
@@ -221,12 +345,30 @@ export default function DynamicSlugPage() {
   const hasCountData = (data, config) => {
     return data.some((item) => {
       for (const key of config.itemConfig.count) {
-        if (
-          item[key] !== undefined &&
-          item[key] !== null &&
-          item[key] !== "N/A"
-        ) {
-          return true;
+        // Handle dot notation for nested objects
+        if (key.includes(".")) {
+          const keys = key.split(".");
+          let value = item;
+          for (const k of keys) {
+            if (value && value[k] !== undefined && value[k] !== null) {
+              value = value[k];
+            } else {
+              value = null;
+              break;
+            }
+          }
+          if (value !== null && value !== undefined && value !== "N/A") {
+            return true;
+          }
+        } else {
+          // Handle direct property access
+          if (
+            item[key] !== undefined &&
+            item[key] !== null &&
+            item[key] !== "N/A"
+          ) {
+            return true;
+          }
         }
       }
       return false;
@@ -428,6 +570,18 @@ export default function DynamicSlugPage() {
                 <ul className="breadcrumb">
                   <li>
                     <Link href="/">Home</Link>
+                  </li>
+                  <li>
+                    <Link href="/races">Races</Link>
+                  </li>
+                  <li>
+                    <Link href={`/races/${router.query.name}`}>
+                      {router.query.name
+                        ? router.query.name
+                            .replace(/-/g, " ")
+                            .replace(/\b\w/g, (l) => l.toUpperCase())
+                        : "Race"}
+                    </Link>
                   </li>
                   <li>{pageHeading}</li>
                 </ul>

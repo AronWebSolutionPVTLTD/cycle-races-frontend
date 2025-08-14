@@ -64,16 +64,19 @@ export default function DynamicSlugPage() {
       const config = getSlugConfig(slug);
 
       // Get query parameters from URL
-      const { year, rider_country, team_name } = router.query;
-      
+      const { year, rider_country, team_name, id } = router.query;
+
       // Build query parameters object
-      const queryParams = { slug: slug };
+      const queryParams = {};
       if (year) queryParams.year = year;
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
-
+      if (id) queryParams.id = id;
       // Hit the API with the slug parameter and query parameters
-      const response = await fetchData(config.apiEndpoint, queryParams);
+      const response = await fetchData(config.apiEndpoint, queryParams, {
+        id: id,
+        idType: config.idType,
+      });
       if (response && response.data) {
         if (response?.data?.riders) {
           response.data = response.data.riders;
@@ -89,6 +92,82 @@ export default function DynamicSlugPage() {
             ...response.data.data.shortest_stage_races,
             ...response.data.data.shortest_one_day_races,
           ];
+        }
+        if (slug === "longest-races") {
+          response.data = [
+            ...response.data.data.longest_stage_races,
+            ...response.data.data.longest_one_day_races,
+          ];
+        }
+        if (slug === "top3-rank-one-teams-gc") {
+          response.data = response.data.teams;
+        }
+        if (slug === "last-victory") {
+          response.data = response.data.data.raceData;
+        }
+        if (slug === "wins-in-one-day") {
+          response.data = response.data.data.wins;
+        }
+        if (slug === "rider-years-active") {
+          response.data = response.data.data.years_and_teams;
+        }
+        if (slug === "rider-wins-by-season") {
+          response.data = response.data.data.wins_per_season;
+        }
+        if (slug === "rider-best-monument-results") {
+          response.data = response.data.data.best_monument_results;
+        }
+        if (slug === "get-top10-stages-in-grand-tours") {
+          response.data = response.data.data.top_10_stages;
+        }
+        if (slug === "get-rider-longest-no-win-streak") {
+          response.data =
+            response.data.data.longest_streak_without_win.races_in_streak;
+        }
+        if (slug === "contact-history") {
+          response.data = response.data.data.contracts;
+        }
+        if (slug === "home-country-wins") {
+          response.data = response.data.data[0].races;
+        }
+        if (slug === "get-grand-tours-ridden") {
+          response.data = response.data.data.grand_tours_ridden;
+        }
+        if (slug === "get-rider-most-raced-country") {
+          response.data = response.data.data.raceData;
+        }
+        if (slug === "get-best-stage-result") {
+          response.data = response.data.data.results;
+        }
+        if (slug === "get-first-rank-in-grand-tours") {
+          response.data = response.data.data.first_rank_races;
+        }
+        if (slug === "get-total-racing-days-in-grand-tours") {
+          response.data = response.data.data.grand_tour_racing_days;
+        }
+        if (slug === "get-total-distance-raced-in-grand-tours") {
+          response.data = response.data.data.grand_tour_distance;
+        }
+        if (slug === "get-best-monument-results") {
+          response.data = response.data.data.best_monument_results;
+        }
+        if (slug === "get-best-paris-roubaix-result") {
+          response.data = response.data.data.results;
+        }
+        if (slug === "get-first-rank-in-monuments") {
+          response.data = response.data.data.first_rank_races;
+        }
+        if (slug === "get-best-gc-result") {
+          response.data = response.data.best_gc_results;
+        }
+        if (slug === "team-mates") {
+          response.data = response.data.data.teammates;
+        }
+        if (slug === "get-rider-last-place-finishes") {
+          response.data = response.data.data.last_place_finishes;
+        }
+        if (slug === "rider-from-same-home-town") {
+          response.data = response.data.data.others_from_same_birthplace;
         }
         setPageData(response.data);
         // Extract title from API response
@@ -428,6 +507,14 @@ export default function DynamicSlugPage() {
                 <ul className="breadcrumb">
                   <li>
                     <Link href="/">Home</Link>
+                  </li>
+                  <li>
+                    <Link href="/riders">Riders</Link>
+                  </li>
+                  <li>
+                    <Link href={`/riders/${router.query.id}`}>
+                      Rider Details
+                    </Link>
                   </li>
                   <li>{pageHeading}</li>
                 </ul>

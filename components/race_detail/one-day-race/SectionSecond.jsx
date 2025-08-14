@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
@@ -30,6 +31,18 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
     return params;
   };
 
+  const buildUrlWithParams = (statsPath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+      )
+      .join("&");
+
+    const basePath = `/races/${name}/${statsPath}`;
+    return queryString ? `${basePath}?${queryString}` : basePath;
+  };
+
   const OnedayEndpoints = [
     fixedApis.box1,
     fixedApis.box2,
@@ -47,18 +60,12 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
   // Define endpoint mappings for specific cases if needed
   const endpointsMappings = {};
 
-
-  const {
-    data,
-    loading,
-    error,
-  } = useMultipleData(OnedayEndpoints, {
+  const { data, loading, error } = useMultipleData(OnedayEndpoints, {
     name: name,
     queryParams: buildQueryParams(),
     endpointsMappings: endpointsMappings,
     idType: "oneDayRaceStats",
   });
-
 
   // Function to get box data similar to LastSection
   const getBoxData = (endpoint) => {
@@ -95,7 +102,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
     return { error: true, errorType: "no_data_found" };
   };
-  console.log(selectedNationality, "nato")
+  console.log(selectedNationality, "nato");
   return (
     <section className="home-sec5">
       <div className="container">
@@ -110,7 +117,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
           {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-
               {/* box1 - Most wins */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
@@ -148,21 +154,25 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           className="absolute-img"
                         />
 
-                        <a href="#?" className="white-circle-btn">
+                        <Link
+                          href={buildUrlWithParams("most-wins-nationality")}
+                          className="white-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
                 </div>
               </div>
 
-
               {/* box2 - Total  Wins by nationality*/}
               <div className="col-lg-4 col-md-6">
                 <div className="races">
                   <div className="text-wraper">
-                    <h3 className="fs-chenge">{data?.[fixedApis.box2]?.message}</h3>
+                    <h3 className="fs-chenge">
+                      {data?.[fixedApis.box2]?.message}
+                    </h3>
                     {(() => {
                       if (!data?.[fixedApis.box2]) {
                         return <ErrorMessage errorType="no_data" />;
@@ -189,9 +199,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               {/* box3- Most Participations ByRider */}
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart">
-                  <h4>
-                    {data?.[fixedApis.box3]?.message}
-                  </h4>
+                  <h4>{data?.[fixedApis.box3]?.message}</h4>
                   {getBoxData(fixedApis.box3).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box3).errorType}
@@ -211,19 +219,26 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                                 <h6>{rider?.name || "..."}</h6>
                               </div>
 
-                              {rider?.participations && <span>{rider.participations}</span>}
+                              {rider?.participations && (
+                                <span>{rider.participations}</span>
+                              )}
                             </li>
                           ))}
                       </ul>
-                      <a href="#?" className="green-circle-btn">
+                      <Link
+                        href={buildUrlWithParams(
+                          "most-participations-by-rider"
+                        )}
+                        className="green-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
               </div>
 
-            {/*Box 5 - Top5 Spanish Results*/}
+              {/*Box 5 - Top5 Spanish Results*/}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart">
                   <h4 className="fs-chenge">
@@ -258,12 +273,15 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                         alt=""
                         className="absolute-img"
                       />
-                      <a href="#?" className="glob-btn">
+                      <Link
+                        href={buildUrlWithParams("top5-spanish-results")}
+                        className="glob-btn"
+                      >
                         <strong>volledige stats</strong>{" "}
                         <span>
                           <img src="/images/arow.svg" alt="" />
                         </span>
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -284,28 +302,35 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           const response = data[fixedApis.box6];
                           const riderData = response?.data;
 
-
-                          if (!riderData) {
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
 
-                          return (
+                          return riderData.slice(0, 1).map((rider, index) => (
                             <>
                               <div className="name-wraper">
-                                {renderFlag(riderData?.rider_country)}
-                                <h6>{riderData?.rider_name || "..."}</h6>
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
                               </div>
-                              {riderData?.year && (
+                              {rider?.year && (
                                 <h5>
-                                  <strong>{riderData?.year}</strong>
+                                  <strong>{rider?.year}</strong>
                                 </h5>
                               )}
 
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "last-race-winner-by-nationality"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -323,26 +348,36 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                           const response = data[fixedApis.box7];
                           const riderData = response?.data;
-                          if (!riderData) {
+
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
-                          return (
+
+                          return riderData.slice(0, 1).map((rider, index) => (
                             <>
                               <div className="name-wraper">
-                                {renderFlag(riderData?.rider_country)}
-                                <h6>{riderData?.rider_name || "..."}</h6>
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
                               </div>
-                              {riderData?.top10_count && (
+                              {rider?.top10_count && (
                                 <h5>
-                                  <strong>{riderData?.top10_count}</strong>times
+                                  <strong>{rider.top10_count}</strong>times
                                 </h5>
                               )}
 
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "top10-spanish-finishes"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -360,26 +395,36 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                           const response = data[fixedApis.box8];
                           const riderData = response?.data;
-                          if (!riderData) {
+
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
-                          return (
+                          return riderData.slice(0, 1).map((rider, index) => (
                             <>
                               <div className="name-wraper">
-                                {renderFlag(riderData?.rider_country)}
-                                <h6>{riderData?.rider_name || "..."}</h6>
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
                               </div>
-                              {riderData?.podium_count && (
+                              {rider?.podium_count && (
                                 <h5>
-                                  <strong>{riderData?.podium_count}</strong>times
+                                  <strong>{rider.podium_count}</strong>
+                                  times
                                 </h5>
                               )}
 
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "top-spanish-podium-reach"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -398,26 +443,35 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                           const response = data[fixedApis.box9];
                           const riderData = response?.data;
-                          if (!riderData) {
+
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
-                          return (
+                          return riderData.slice(0, 1).map((rider, index) => (
                             <>
                               <div className="name-wraper">
-                                {renderFlag(riderData?.nationality)}
-                                <h6>{riderData?.rider_name || "..."}</h6>
+                                {renderFlag(rider?.nationality)}
+                                <h6>{rider?.rider_name || "..."}</h6>
                               </div>
-                              {riderData?.date_of_birth && (
+                              {rider?.date_of_birth && (
                                 <h5>
-                                  <strong>{riderData?.date_of_birth}</strong>
+                                  <strong>{rider.date_of_birth}</strong>
                                 </h5>
                               )}
 
-                              <a href="#?" className="white-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "youngest-spanish-participant"
+                                )}
+                                className="white-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -425,76 +479,81 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-               {/*Box 10 - Oldest Participant*/}
-                  <div className="col-lg-4 col-md-6">
-                    <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
-                      <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box10]?.message}</h4>
-                        {(() => {
-                          if (!data?.[fixedApis.box10]) {
-                            return <ErrorMessage errorType="no_data" />;
-                          }
+              {/*Box 10 - Oldest Participant*/}
+              <div className="col-lg-4 col-md-6">
+                <div className="team-cart">
+                  <a href="#?" className="pabs"></a>
+                  <div className="text-wraper">
+                    <h4>{data?.[fixedApis.box10]?.message}</h4>
+                    {(() => {
+                      if (!data?.[fixedApis.box10]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
 
-                          const response = data[fixedApis.box10];
-                          const riderData = response?.data;
+                      const response = data[fixedApis.box10];
+                      const riderData = response?.data;
 
-                          if (!riderData) {
-                            return <ErrorMessage errorType="no_data_found" />;
-                          }
+                      if (!Array.isArray(riderData) || riderData.length === 0) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
 
-                          return (
-                            <>
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(riderData?.nationality)}
-                                <h6>{riderData?.rider_name || "..."}</h6>
-                              </div>
-                              {riderData?.date_of_birth && (
-                                <h5>
-                                  <strong>{riderData.date_of_birth}</strong>jaar
-                                </h5>
-                              )}
-                              <a href="#?" className="green-circle-btn">
-                                <img src="/images/arow.svg" alt="" />
-                              </a>
-                            </>
-                          );
-                        })()}
-                      </div>
-                    </div>
+                      return riderData.slice(0, 1).map((rider, index) => (
+                        <>
+                          <div className="name-wraper name-wraper-white">
+                            {renderFlag(rider?.nationality)}
+                            <h6>{rider?.rider_name || "..."}</h6>
+                          </div>
+                          {rider?.date_of_birth && (
+                            <h5>
+                              <strong>{rider.date_of_birth}</strong>jaar
+                            </h5>
+                          )}
+                          <Link
+                            href={buildUrlWithParams(
+                              "oldest-spanish-participant"
+                            )}
+                            className="green-circle-btn"
+                          >
+                            <img src="/images/arow.svg" alt="" />
+                          </Link>
+                        </>
+                      ));
+                    })()}
                   </div>
+                </div>
+              </div>
 
-                  {/*Box 11 - Rider Participation Count*/}
-                  <div className="col-lg-5 col-md-6">
-                    <div className="races">
-                      <div className="text-wraper">
-                        <h3 className="fs-chenge" style={{textAlign:"center"}}>
-                          {data?.[fixedApis.box11]?.message}
-                        </h3>
-                        {(() => {
-                          if (!data?.[fixedApis.box11]) {
-                            return <ErrorMessage errorType="no_data" />;
-                          }
+              {/*Box 11 - Rider Participation Count*/}
+              <div className="col-lg-5 col-md-6">
+                <div className="races">
+                  <div className="text-wraper">
+                    <h3 className="fs-chenge" style={{ textAlign: "center" }}>
+                      {data?.[fixedApis.box11]?.message}
+                    </h3>
+                    {(() => {
+                      if (!data?.[fixedApis.box11]) {
+                        return <ErrorMessage errorType="no_data" />;
+                      }
 
-                          const response = data[fixedApis.box11];
-                          const riderData = response;
+                      const response = data[fixedApis.box11];
+                      const riderData = response;
 
-                          if (!riderData) {
-                            return <ErrorMessage errorType="no_data_found" />;
-                          }
-                          return (
-                            <div className="name-wraper name-wraper-white">
-                              <h5>
-                                <strong>{riderData.count}</strong>
-                              </h5>
-                            </div>
-                          );
-                        })()}
-                      </div>
-                    </div>
+                      if (!riderData) {
+                        return <ErrorMessage errorType="no_data_found" />;
+                      }
+                      return (
+                        <div className="name-wraper name-wraper-white">
+                          <h5>
+                            <strong>{riderData.count}</strong>
+                          </h5>
+                        </div>
+                      );
+                    })()}
                   </div>
+                </div>
+              </div>
 
-                     {/* Box4: Rider with most DNFs  */}
+              {/* Box4: Rider with most DNFs  */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <a href="#?" className="pabs"></a>
@@ -507,28 +566,33 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                       const response = data[fixedApis.box4];
                       const riderData = response?.data;
-                      if (!riderData) {
+
+                      if (!Array.isArray(riderData) || riderData.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
-                      return (
+                      return riderData.slice(0, 1).map((rider, index) => (
                         <>
                           <div className="name-wraper">
-                            {renderFlag(riderData?.rider?.nationality)}
-                            <h6>{riderData?.rider?.name || "..."}</h6>
+                            {renderFlag(rider?.rider?.nationality)}
+                            <h6>{rider?.rider?.name || "..."}</h6>
                           </div>
-                          {riderData?.totalDNFs && (
+                          {rider?.totalDNFs && (
                             <h5>
-                              <strong>{riderData?.totalDNFs}</strong>
+                              <strong>{rider.totalDNFs}</strong>
                               times
                             </h5>
                           )}
-
-                          <a href="#?" className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams(
+                              "most-dnfs-by-nationality-one-day-race"
+                            )}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
-                      );
+                      ));
                     })()}
                   </div>
                 </div>

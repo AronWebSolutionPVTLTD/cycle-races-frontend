@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
-export const RaceDetail = ({ selectedNationality, name }) => {
+export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
   const fixedApis = {
     box1: "mostWins",
     box2: "getTotalEdition",
@@ -20,16 +21,24 @@ export const RaceDetail = ({ selectedNationality, name }) => {
   const buildQueryParams = () => {
     let params = {};
     if (selectedNationality) params.nationality = selectedNationality;
+    if (selectedYear) params.year = selectedYear;
     return params;
   };
 
-  // Separate race and stage endpoints
-  const raceEndpoints = [
-    fixedApis.box1,
-    fixedApis.box2,
-    fixedApis.box4,
+  const buildUrlWithParams = (statsPath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+      )
+      .join("&");
 
-  ];
+    const basePath = `/races/${name}/${statsPath}`;
+    return queryString ? `${basePath}?${queryString}` : basePath;
+  };
+
+  // Separate race and stage endpoints
+  const raceEndpoints = [fixedApis.box1, fixedApis.box2, fixedApis.box4];
 
   const onedayRace = [
     fixedApis.box3,
@@ -137,9 +146,12 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                             </li>
                           ))}
                       </ul>
-                      <a href="#?" className="green-circle-btn">
+                      <Link
+                        href={buildUrlWithParams("most-wins-in-race")}
+                        className="green-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -185,27 +197,38 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                       }
 
                       const response = data[fixedApis.box3];
-                      const riderData = response?.data.data.top_rider;
+                      const ridersArray = response?.data?.data?.top_rider;
 
-                      if (!riderData) {
+                      if (
+                        !Array.isArray(ridersArray) ||
+                        ridersArray.length === 0
+                      ) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
                       return (
                         <>
-                          <div className="name-wraper name-wraper-white">
-                            {renderFlag(riderData?.rider_country)}
-                            <h6>{riderData?.rider_name || "..."}</h6>
-                          </div>
-                          {riderData?.podiums && (
-                            <h5>
-                              <strong>{riderData.podiums}</strong>times
-                            </h5>
-                          )}
-
-                          <a href="#?" className="green-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
+                          {ridersArray.slice(0, 1).map((rider, index) => (
+                            <div key={index} className="rider-item">
+                              <div className="name-wraper name-wraper-white">
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
+                              </div>
+                              {rider?.podiums && (
+                                <h5>
+                                  <strong>{rider.podiums}</strong> times
+                                </h5>
+                              )}
+                              <Link
+                                href={buildUrlWithParams(
+                                  "most-podiums-by-rider"
+                                )}
+                                className="green-circle-btn"
+                              >
+                                <img src="/images/arow.svg" alt="" />
+                              </Link>
+                            </div>
+                          ))}
                         </>
                       );
                     })()}
@@ -228,27 +251,29 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                       const response = data[fixedApis.box4];
                       const riderData = response?.data.rider_participation;
 
-                      if (!riderData) {
+                      if (!Array.isArray(riderData) || riderData.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
-
-                      return (
+                      return riderData.slice(0, 1).map((rider, index) => (
                         <>
                           <div className="name-wraper name-wraper-white">
-                            {renderFlag(riderData?.rider_country)}
-                            <h6>{riderData?.rider_name || "..."}</h6>
+                            {renderFlag(rider?.rider_country)}
+                            <h6>{rider?.rider_name || "..."}</h6>
                           </div>
-                          {riderData?.participations && (
+                          {rider?.participations && (
                             <h5>
-                              <strong>{riderData.participations}</strong>times
+                              <strong>{rider.participations}</strong>times
                             </h5>
                           )}
 
-                          <a href="#?" className="white-circle-btn">
+                          <Link
+                            href={buildUrlWithParams("race-participants")}
+                            className="white-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
-                      );
+                      ));
                     })()}
                   </div>
                 </div>
@@ -270,19 +295,21 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                           const response = data[fixedApis.box5];
                           const riderData = response?.data.data.most_wins_team;
 
-                          if (!riderData) {
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
-
-                          return (
+                          return riderData.slice(0, 1).map((rider, index) => (
                             <>
                               <div className="name-wraper name-wraper-white">
-                                {/* {renderFlag(rider?.nationality)} */}
-                                <h6>{riderData?.team_name || "..."}</h6>
+                                {renderFlag(rider?.nationality)}
+                                <h6>{rider?.team_name || "..."}</h6>
                               </div>
-                              {riderData?.wins && (
+                              {rider?.wins && (
                                 <h5>
-                                  <strong>{riderData.wins}</strong>times
+                                  <strong>{rider.wins}</strong>times
                                 </h5>
                               )}
 
@@ -291,11 +318,16 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                                 alt=""
                                 className="absolute-img"
                               />
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "team-with-most-wins-in-race"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -315,19 +347,22 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                           const response = data[fixedApis.box6];
                           const riderData = response?.data.data.top_rider;
 
-                          if (!riderData) {
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
 
-                          return (
+                          return riderData.slice(0, 1).map((rider, index) => (
                             <>
                               <div className="name-wraper name-wraper-green">
-                                {renderFlag(riderData?.rider_country)}
-                                <h6>{riderData?.rider_name || "..."}</h6>
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
                               </div>
-                              {riderData?.top_10s && (
+                              {rider?.top_10s && (
                                 <h5>
-                                  <strong>{riderData.top_10s}</strong>times
+                                  <strong>{rider.top_10s}</strong>times
                                 </h5>
                               )}
 
@@ -336,11 +371,14 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                                 alt=""
                                 className="absolute-img"
                               />
-                              <a href="#?" className="white-circle-btn">
+                              <Link
+                                href={buildUrlWithParams("most-top10-by-rider")}
+                                className="white-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -372,9 +410,12 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                                 </li>
                               ))}
                           </ul>
-                          <a href="#?" className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams("last-winner")}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
                       )}
                     </div>
@@ -393,15 +434,17 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                           const response = data[fixedApis.box8];
                           const riderData = response?.data.data;
 
-                          if (!riderData) {
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
 
-                          return (
+                          return riderData.slice(0, 1).map((rider, index) => (
                             <>
                               <div className="name-wraper name-wraper-green">
-
-                                <h6>{riderData?.year || "..."}</h6>
+                                <h6>{rider?.year || "..."}</h6>
                               </div>
                               {/* {riderData?.time && (
                                 <h5>
@@ -409,12 +452,17 @@ export const RaceDetail = ({ selectedNationality, name }) => {
 
                                 </h5>
                               )} */}
-                                   {riderData?.time && (
-                                <div style={{ position: "relative", height: "80px" }}>
+                              {rider?.time && (
+                                <div
+                                  style={{
+                                    position: "relative",
+                                    height: "80px",
+                                  }}
+                                >
                                   <h5
                                     style={{
                                       position: "absolute",
-                                      top: "60px", 
+                                      top: "60px",
                                       left: 40,
                                       right: 0,
                                       textAlign: "center",
@@ -422,16 +470,21 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                                       color: "#cbcbc7",
                                     }}
                                   >
-                                    {riderData.time}
+                                    {rider.time}
                                   </h5>
                                 </div>
                               )}
 
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "fastest-race-edition"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -474,12 +527,15 @@ export const RaceDetail = ({ selectedNationality, name }) => {
                         alt=""
                         className="absolute-img"
                       />
-                      <a href="#?" className="glob-btn green-bg-btn">
+                      <Link
+                        href={buildUrlWithParams("previous-editions")}
+                        className="glob-btn green-bg-btn"
+                      >
                         <strong>volledige stats</strong>{" "}
                         <span>
                           <img src="/images/arow.svg" alt="" />
                         </span>
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>

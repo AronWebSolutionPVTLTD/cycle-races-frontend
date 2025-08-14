@@ -65,7 +65,7 @@ export default function DynamicSlugPage() {
 
       // Get query parameters from URL
       const { year, rider_country, team_name } = router.query;
-      
+
       // Build query parameters object
       const queryParams = { slug: slug };
       if (year) queryParams.year = year;
@@ -89,6 +89,15 @@ export default function DynamicSlugPage() {
             ...response.data.data.shortest_stage_races,
             ...response.data.data.shortest_one_day_races,
           ];
+        }
+        if (slug === "longest-races") {
+          response.data = [
+            ...response.data.data.longest_stage_races,
+            ...response.data.data.longest_one_day_races,
+          ];
+        }
+        if (slug === "top3-rank-one-teams-gc") {
+          response.data = response.data.teams;
         }
         setPageData(response.data);
         // Extract title from API response
@@ -428,6 +437,9 @@ export default function DynamicSlugPage() {
                 <ul className="breadcrumb">
                   <li>
                     <Link href="/">Home</Link>
+                  </li>
+                  <li>
+                    <Link href="/stats">Stats</Link>
                   </li>
                   <li>{pageHeading}</li>
                 </ul>

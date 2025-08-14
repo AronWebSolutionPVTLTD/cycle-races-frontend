@@ -1,13 +1,15 @@
 import React from "react";
 import { useMultipleData } from "../home_api_data";
-import { BoxSkeleton, BoxSkeleton2, ErrorMessage, ErrorStats } from "../loading&error";
+import {
+  BoxSkeleton,
+  BoxSkeleton2,
+  ErrorMessage,
+  ErrorStats,
+} from "../loading&error";
 import { renderFlag } from "../RenderFlag";
+import Link from "next/link";
 
-const StatsData = ({
-  selectedNationality,
-  selectedTeam,
-  selectedYear,
-}) => {
+const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
   const fixedApis = {
     box1: "mostSecondPlaces",
     box2: "teamWithMostNationalities",
@@ -24,6 +26,16 @@ const StatsData = ({
     if (selectedNationality) params.rider_country = selectedNationality;
     if (selectedTeam) params.team_name = selectedTeam;
     return params;
+  };
+
+  // Helper function to build URLs with query parameters
+  const buildUrlWithParams = (basePath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+      .join('&');
+    
+    return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
   const endpointsToFetch = Object.values(fixedApis);
@@ -90,7 +102,10 @@ const StatsData = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white" key={index}>
+                              <div
+                                className="name-wraper name-wraper-white"
+                                key={index}
+                              >
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -109,9 +124,12 @@ const StatsData = ({
                           alt=""
                           className="absolute-img"
                         />
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href={buildUrlWithParams("/stats/most-second-places")}
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -151,9 +169,12 @@ const StatsData = ({
                                 </h5>
                               )}
 
-                              <a href="#?" className="white-circle-btn">
+                              <Link
+                                href={buildUrlWithParams("/stats/team-most-nationalities")}
+                                className="white-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </div>
                           ))}
                         </>
@@ -182,7 +203,10 @@ const StatsData = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white" key={index}>
+                              <div
+                                className="name-wraper name-wraper-white"
+                                key={index}
+                              >
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -200,9 +224,12 @@ const StatsData = ({
                           alt=""
                           className="absolute-img"
                         />
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href={buildUrlWithParams("/stats/youngest-most-wins")}
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -237,9 +264,12 @@ const StatsData = ({
                             </li>
                           ))}
                       </ul>
-                      <a href="#?" className="green-circle-btn">
+                      <Link
+                        href={buildUrlWithParams("/stats/oldest-riders")}
+                        className="green-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -283,9 +313,12 @@ const StatsData = ({
                                 alt=""
                                 className="absolute-img"
                               />
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams("/stats/most-mountain-wins")}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </div>
                           ))}
                         </>
@@ -314,7 +347,10 @@ const StatsData = ({
                           .slice(0, 1)
                           .map((race, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white" key={index}>
+                              <div
+                                className="name-wraper name-wraper-white"
+                                key={index}
+                              >
                                 {renderFlag(race?.country_code)}
                                 <h6>
                                   {race?.race || "..."} ({race?.year})
@@ -333,9 +369,12 @@ const StatsData = ({
                           alt=""
                           className="absolute-img"
                         />
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href={buildUrlWithParams("/stats/shortest-races")}
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -386,7 +425,9 @@ const StatsData = ({
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
-                      <ErrorMessage errorType={getBoxData(fixedApis.box7).errorType} />
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box7).errorType}
+                      />
                     ) : (
                       <>
                         {(Array.isArray(getBoxData(fixedApis.box7).data)
@@ -407,9 +448,12 @@ const StatsData = ({
                                 </h5>
                               )}
 
-                              <a href="#?" className="white-circle-btn">
+                              <Link
+                                href={buildUrlWithParams("/stats/lightest-rider")}
+                                className="white-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </React.Fragment>
                           ))}
                       </>

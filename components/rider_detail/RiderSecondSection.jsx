@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
@@ -21,6 +22,18 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
       params.year = filterYear;
     }
     return params;
+  };
+
+  const buildUrlWithParams = (statsPath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+      )
+      .join("&");
+
+    const basePath = `/riders/${riderId}/${statsPath}`;
+    return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
   const raceEndpoints = [fixedApis.box1, fixedApis.box3];
@@ -142,12 +155,12 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                       alt=""
                       className="absolute-img"
                     />
-                    <a href="#?" className="glob-btn">
+                    <Link href={buildUrlWithParams("get-top10-stages-in-grand-tours")} className="glob-btn">
                       <strong>volledige stats</strong>{" "}
                       <span>
                         <img src="/images/arow.svg" alt="" />
                       </span>
-                    </a>
+                    </Link>
                   </>
                 )}
               </div>
@@ -169,25 +182,28 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                         const response = data[fixedApis.box2];
                         const riderData = response?.data.data;
 
-                        if (!riderData) {
+
+                        if (!Array.isArray(riderData) || riderData.length === 0) {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
+
+                        const firstRider = riderData[0];
 
                         return (
                           <>
                             <div className="name-wraper name-wraper-white">
-                              {renderFlag(riderData?.country_code)}
-                              <h6>{riderData?.raceTitle || "..."}</h6>
+                              {renderFlag(firstRider?.country_code)}
+                              <h6>{firstRider?.race_full_title || "..."}</h6>
                             </div>
-                            {riderData?.age && (
+                            {firstRider?.age && (
                               <h5>
-                                <strong>{riderData.age} </strong>jaar
+                                <strong>{firstRider.age} </strong>jaar
                               </h5>
                             )}
 
-                            <a href="#?" className="green-circle-btn">
+                            <Link href={buildUrlWithParams("get-rider-first-win")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         );
                       })()}
@@ -209,25 +225,27 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                         const response = data[fixedApis.box3];
                         const riderData = response?.data.data;
 
-                        if (!riderData) {
+                        if (!Array.isArray(riderData) || riderData.length === 0) {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
+
+                        const firstRider = riderData[0];
 
                         return (
                           <>
                             <div className="name-wraper name-wraper-green">
-                              {renderFlag(riderData?.country_code)}
-                              <h6>{riderData?.race || "..."}</h6>
+                              {renderFlag(firstRider?.country_code)}
+                              <h6>{firstRider?.race || "..."}</h6>
                             </div>
-                            {riderData?.best_gc_rank && (
+                            {firstRider?.best_gc_rank && (
                               <h5>
-                                <strong>{riderData.best_gc_rank} </strong>rank
+                                <strong>{firstRider.best_gc_rank} </strong>rank
                               </h5>
                             )}
 
-                            <a href="#?" className="white-circle-btn">
+                            <Link href={buildUrlWithParams("best-gc-results")} className="white-circle-btn">
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         );
                       })()}
@@ -272,9 +290,9 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                               </h5>
                             )}
 
-                            <a href="#?" className="green-circle-btn">
+                            <Link href={buildUrlWithParams("get-rider-longest-no-win-streak")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         );
                       })()}
@@ -310,9 +328,9 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                               </li>
                             ))}
                         </ul>
-                        <a href="#?" className="green-circle-btn">
+                        <Link href={buildUrlWithParams("contact-history")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -334,27 +352,29 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                     const response = data[fixedApis.box6];
                     const riderData = response?.data.data;
 
-                    if (!riderData) {
+                    if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+
+                    const firstRider = riderData[0];
 
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
-                          {renderFlag(riderData?.best_country_code)}
+                          {renderFlag(firstRider?.best_country_code)}
                           <h6>
-                            ({riderData?.best_country_name || "..."})
+                            ({firstRider?.best_country_name || "..."})
                           </h6>
                         </div>
-                        {riderData?.winCount && (
+                        {firstRider?.winCount && (
                           <h5>
-                            <strong>{riderData.winCount} </strong>wins
+                            <strong>{firstRider.winCount} </strong>wins
                           </h5>
                         )}
 
-                        <a href="#?" className="green-circle-btn">
+                        <Link href={buildUrlWithParams("best-country")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -378,9 +398,11 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                     const response = data[fixedApis.box7];
                     const riderData = response?.data.data;
 
-                    if (!riderData) {
+                    if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+
+                    const firstRider = riderData[0];
 
                     return (
                       <>
@@ -392,12 +414,12 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                           </h5>
                         )} */}
                         <h5>
-                          <strong>{riderData?.total_home_country_wins ?? 0}</strong>wins
+                          <strong>{firstRider?.total_home_country_wins ?? 0}</strong>wins
                         </h5>
 
-                        <a href="#?" className="white-circle-btn">
+                        <Link href={buildUrlWithParams("home-country-wins")} className="white-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -431,9 +453,9 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                           </li>
                         ))}
                     </ul>
-                    <a href="#?" className="green-circle-btn">
+                    <Link href={buildUrlWithParams("rider-from-same-home-town")} className="green-circle-btn">
                       <img src="/images/arow.svg" alt="" />
-                    </a>
+                    </Link>
                   </>
                 )}
               </div>
@@ -477,9 +499,9 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                         alt=""
                         className="absolute-img"
                       />
-                      <a href="#?" className="white-circle-btn">
+                      <Link href={buildUrlWithParams("get-rider-all-victories")} className="white-circle-btn">
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>

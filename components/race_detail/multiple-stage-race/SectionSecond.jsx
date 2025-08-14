@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
 export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
+  const router = useRouter();
+  const raceName = router.query.name || name; // Get name from router or fallback to prop
   // Define single API endpoint for each section box
   const fixedApis = {
     box1: "getLastRaceWinnerByNationality",
@@ -26,6 +30,19 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
     }
     if (selectedNationality) params.nationality = selectedNationality;
     return params;
+  };
+
+  // Helper function to build URLs with query parameters for race-specific stats
+  const buildUrlWithParams = (statsPath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+      )
+      .join("&");
+
+    const basePath = `/races/${raceName}/${statsPath}`;
+    return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
   const stageEndpoints = [
@@ -108,7 +125,12 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 1 - Last Race Winner*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams(
+                          "last-race-winner-by-nationality"
+                        )}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box1]?.message}</h4>
                         {(() => {
@@ -119,19 +141,22 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           const response = data[fixedApis.box1];
                           const riderData = response?.data;
 
-                          if (!riderData) {
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
 
-                          return (
+                          return riderData.slice(0, 1).map((rider, index) => (
                             <>
                               <div className="name-wraper name-wraper-white">
-                                {renderFlag(riderData?.rider_country)}
-                                <h6>{riderData?.rider_name || "..."}</h6>
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
                               </div>
-                              {riderData?.year && (
+                              {rider?.year && (
                                 <h5>
-                                  <strong>{riderData.year} </strong>
+                                  <strong>{rider.year} </strong>
                                 </h5>
                               )}
 
@@ -140,11 +165,16 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                                 alt=""
                                 className="absolute-img"
                               />
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "last-race-winner-by-nationality"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -153,7 +183,12 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 2 - Most StageWins ByNationality */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams(
+                          "most-stage-wins-by-nationality"
+                        )}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box2]?.message}</h4>
                         {getBoxData(fixedApis.box2).error ? (
@@ -189,9 +224,14 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               alt=""
                               className="absolute-img"
                             />
-                            <a href="#?" className="white-circle-btn">
+                            <Link
+                              href={buildUrlWithParams(
+                                "most-stage-wins-by-nationality"
+                              )}
+                              className="white-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -228,9 +268,14 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                                 </li>
                               ))}
                           </ul>
-                          <a href="#?" className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams(
+                              "most-participations-by-rider"
+                            )}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
                       )}
                     </div>
@@ -239,30 +284,38 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 4 - MostDNFs By Nationality */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
+                      <Link
+                        href={buildUrlWithParams("most-dnfs-by-nationality")}
+                        className="pabs"
+                      ></Link>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box4]?.message}</h4>
                         {(() => {
-                          if (!data?.[fixedApis.box4]) {
-                            return <ErrorMessage errorType="no_data" />;
-                          }
-
+                          // if (
+                          //   !Array.isArray(data?.[fixedApis.box4]) ||
+                          //   data?.[fixedApis.box4].length === 0
+                          // ) {
+                          //   return <ErrorMessage errorType="no_data" />;
+                          // }
                           const response = data[fixedApis.box4];
-                          const riderData = response?.data?.rider;
+                          const riderData = response?.data;
 
-                          if (!riderData) {
+                          if (
+                            !Array.isArray(riderData) ||
+                            riderData.length === 0
+                          ) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
 
-                          return (
+                          return riderData.slice(0, 1).map((rider, index) => (
                             <>
                               <div className="name-wraper name-wraper-white">
-                                {renderFlag(riderData?.nationality)}
-                                <h6>{riderData?.name || "..."}</h6>
+                                {renderFlag(rider?.rider?.nationality)}
+                                <h6>{rider?.rider?.name || "..."}</h6>
                               </div>
-                              {response?.data?.totalDNFs && (
+                              {rider?.totalDNFs && (
                                 <h5>
-                                  <strong>{response?.data?.totalDNFs}</strong>
+                                  <strong>{rider.totalDNFs}</strong>
                                   dnfs
                                 </h5>
                               )}
@@ -272,11 +325,16 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                                 alt=""
                                 className="absolute-img"
                               />
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "most-dnfs-by-nationality"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -322,48 +380,57 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                         alt=""
                         className="absolute-img"
                       />
-                      <a href="#?" className="glob-btn green-bg-btn">
+                      <Link
+                        href={buildUrlWithParams(
+                          "most-top10-race-by-nationality"
+                        )}
+                        className="glob-btn green-bg-btn"
+                      >
                         <strong>volledige stats</strong>{" "}
                         <span>
                           <img src="/images/arow.svg" alt="" />
                         </span>
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
                 <div className="d-md-none d-flex justify-content-end pt-4">
-                  <a href="#?" className="alle-link m-0">
+                  <Link
+                    href={buildUrlWithParams("most-top10-race-by-nationality")}
+                    className="alle-link m-0"
+                  >
                     Alle statistieken <img src="/images/arow2.svg" alt="" />
-                  </a>
+                  </Link>
                 </div>
               </div>
               {/*Box 6 - Team with most rider*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link
+                    href={buildUrlWithParams(
+                      "rider-podium-reach-by-nationality"
+                    )}
+                    className="pabs"
+                  ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {(() => {
-                      if (!data?.[fixedApis.box6]) {
-                        return <ErrorMessage errorType="no_data" />;
-                      }
-
                       const response = data[fixedApis.box6];
                       const riderData = response?.data;
 
-                      if (!riderData) {
+                      if (!Array.isArray(riderData) || riderData.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
-                      return (
+                      return riderData.slice(0, 1).map((rider, index) => (
                         <>
                           <div className="name-wraper name-wraper-white">
-                            {renderFlag(riderData?.rider_country)}
-                            <h6>{riderData?.rider_name || "..."}</h6>
+                            {renderFlag(rider?.rider_country)}
+                            <h6>{rider?.rider_name || "..."}</h6>
                           </div>
-                          {riderData?.podium_count && (
+                          {rider?.podium_count && (
                             <h5>
-                              <strong>{riderData.podium_count}</strong>
+                              <strong>{rider.podium_count}</strong>
                               times
                             </h5>
                           )}
@@ -373,11 +440,16 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                             alt=""
                             className="absolute-img"
                           />
-                          <a href="#?" className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams(
+                              "rider-podium-reach-by-nationality"
+                            )}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
-                      );
+                      ));
                     })()}
                   </div>
                 </div>
@@ -386,7 +458,12 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                  <Link
+                    href={buildUrlWithParams(
+                      "youngest-participant-by-nationality"
+                    )}
+                    className="pabs"
+                  ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
@@ -422,9 +499,14 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           alt=""
                           className="absolute-img"
                         />
-                        <a href="#?" className="white-circle-btn">
+                        <Link
+                          href={buildUrlWithParams(
+                            "youngest-participant-by-nationality"
+                          )}
+                          className="white-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -495,9 +577,14 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               )}
                             </>
                           ))}
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href={buildUrlWithParams(
+                            "oldest-participant-by-nationality"
+                          )}
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>

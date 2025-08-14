@@ -2,6 +2,7 @@ import React from "react";
 import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
+import Link from "next/link";
 
 const StatsSecondSection = ({
   selectedNationality,
@@ -21,7 +22,7 @@ const StatsSecondSection = ({
     box10: "gcTop10s",
     box11: "sprintWins",
     box12: "DnfTeams",
-    box13: "top3teamwithrank1"
+    box13: "top3teamwithrank1",
   };
 
   const buildQueryParams = () => {
@@ -30,6 +31,18 @@ const StatsSecondSection = ({
     if (selectedNationality) params.rider_country = selectedNationality;
     if (selectedTeam) params.team_name = selectedTeam;
     return params;
+  };
+
+  // Helper function to build URLs with query parameters
+  const buildUrlWithParams = (basePath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+      )
+      .join("&");
+
+    return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
   const endpointsToFetch = Object.values(fixedApis);
@@ -110,12 +123,15 @@ const StatsSecondSection = ({
                         alt=""
                         className="absolute-img"
                       />
-                      <a href="#?" className="glob-btn">
+                      <Link
+                        href={buildUrlWithParams("/stats/most-stage-wins")}
+                        className="glob-btn"
+                      >
                         <strong>volledige stats</strong>{" "}
                         <span>
                           <img src="/images/arow.svg" alt="" />
                         </span>
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -153,9 +169,14 @@ const StatsSecondSection = ({
                                 </>
                               ))}
 
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href={buildUrlWithParams(
+                                "/stats/most-podium-in-gc"
+                              )}
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -193,9 +214,14 @@ const StatsSecondSection = ({
                                 </>
                               ))}
 
-                            <a href="#?" className="white-circle-btn">
+                            <Link
+                              href={buildUrlWithParams(
+                                "/stats/most-consistent-gc"
+                              )}
+                              className="white-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -220,7 +246,10 @@ const StatsSecondSection = ({
                               .slice(0, 1)
                               .map((rider, index) => (
                                 <>
-                                  <div className="name-wraper name-wraper-white" key={index}>
+                                  <div
+                                    className="name-wraper name-wraper-white"
+                                    key={index}
+                                  >
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -232,9 +261,14 @@ const StatsSecondSection = ({
                                 </>
                               ))}
 
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href={buildUrlWithParams(
+                                "/stats/best-classics-riders"
+                              )}
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -271,9 +305,12 @@ const StatsSecondSection = ({
                                 </>
                               ))}
 
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href={buildUrlWithParams("/stats/oldest-riders")}
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -312,9 +349,12 @@ const StatsSecondSection = ({
                             </>
                           ))}
 
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href={buildUrlWithParams("/stats/youngest-riders")}
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -352,9 +392,12 @@ const StatsSecondSection = ({
                             </>
                           ))}
 
-                        <a href="#?" className="white-circle-btn">
+                        <Link
+                          href={buildUrlWithParams("/stats/oldest-most-wins")}
+                          className="white-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -407,7 +450,9 @@ const StatsSecondSection = ({
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box8]?.message}</h4>
                     {getBoxData(fixedApis.box8).error ? (
-                      <ErrorMessage errorType={getBoxData(fixedApis.box8).errorType} />
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box8).errorType}
+                      />
                     ) : (
                       <>
                         {(Array.isArray(getBoxData(fixedApis.box8).data)
@@ -428,9 +473,14 @@ const StatsSecondSection = ({
                                 </h5>
                               )}
 
-                              <a href="#?" className="white-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "/stats/lightest-rider"
+                                )}
+                                className="white-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </React.Fragment>
                           ))}
                       </>
@@ -438,7 +488,6 @@ const StatsSecondSection = ({
                   </div>
                 </div>
               </div>
-
 
               {/* Box9: most weight Rider  */}
               <div className="col-lg-3 col-md-6">
@@ -473,9 +522,14 @@ const StatsSecondSection = ({
                                 </h5>
                               )}
 
-                              <a href="#?" className="white-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "/stats/most-weight-riders"
+                                )}
+                                className="white-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </div>
                           ))}
                         </>
@@ -484,12 +538,10 @@ const StatsSecondSection = ({
                   </div>
                 </div>
               </div>
-              
 
               {/* Box10: GC TOp 10  */}
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart lime-green-cart">
-
                   <h4>{data?.[fixedApis.box10]?.message}</h4>
                   {getBoxData(fixedApis.box10).error ? (
                     <ErrorMessage
@@ -515,9 +567,12 @@ const StatsSecondSection = ({
                             </li>
                           ))}
                       </ul>
-                      <a href="#?" className="white-circle-btn">
+                      <Link
+                        href={buildUrlWithParams("/stats/top-gc-riders")}
+                        className="white-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -613,28 +668,29 @@ const StatsSecondSection = ({
                       const response = data[fixedApis.box12];
                       const riderData = response?.data;
 
-                      if (!riderData) {
+                      if (!Array.isArray(riderData) || riderData.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
-                      return (
-                        <>
+                      return riderData.slice(0, 1).map((rider, index) => (
+                        <div key={index} className="rider-card">
                           <div className="name-wraper name-wraper-white">
-                            {renderFlag(riderData?.flag)}
-                            <h6>{riderData?.team_name || "..."}</h6>
+                            {renderFlag(rider?.flag)}
+                            <h6>{rider?.team_name || "..."}</h6>
                           </div>
-                          {riderData?.dnfCount && (
+                          {rider?.dnfCount && (
                             <h5>
-                              <strong>{riderData.dnfCount}</strong>
-                              dnf
+                              <strong>{rider.dnfCount}</strong> dnf
                             </h5>
                           )}
-
-                          <a href="#?" className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams("/stats/dnf-teams")}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
-                        </>
-                      );
+                          </Link>
+                        </div>
+                      ));
                     })()}
                   </div>
                 </div>
@@ -688,35 +744,48 @@ const StatsSecondSection = ({
                       }
 
                       const response = data[fixedApis.box13];
-                      const riderData = response?.data;
+                      const riderData = response?.data?.teams;
 
-                      if (!riderData) {
+                      if (!Array.isArray(riderData) || riderData.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
 
                       return (
                         <>
-                          <div className="name-wraper name-wraper-white">
-                            {renderFlag(riderData?.flag)}
-                            <h6>{riderData?.team_name || "..."}</h6>
-                          </div>
-                          {riderData?.maxConsecutiveWins && (
-                            <h5>
-                              <strong>{riderData.maxConsecutiveWins}</strong>
-                              wins
-                            </h5>
-                          )}
+                          {riderData.slice(0, 1).map((rider, index) => (
+                            <div key={index} className="rider-card">
+                              <div className="name-wraper name-wraper-white">
+                                {renderFlag(rider?.flag)}
+                                <h6>{rider?.team_name || "..."}</h6>
+                              </div>
+                              {rider?.year && (
+                                <h5>
+                                  <strong>{rider.year} </strong>
+                                </h5>
+                              )}
+                              {rider?.maxConsecutiveWins && (
+                                <h5>
+                                  <strong>{rider.maxConsecutiveWins}</strong>
+                                  wins
+                                </h5>
+                              )}
+                            </div>
+                          ))}
 
-                          <a href="#?" className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams(
+                              "/stats/top3-rank-one-teams-gc"
+                            )}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
                       );
                     })()}
                   </div>
                 </div>
               </div>
-
             </>
           )}
         </div>

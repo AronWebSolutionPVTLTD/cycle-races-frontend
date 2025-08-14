@@ -13,10 +13,7 @@ const OneDayRace = ({ selectedYear, selectedNationality, name }) => {
         selectedNationality={selectedNationality}
         name={name}
       />
-       <RaceMostWin 
-      selectedNationality={selectedNationality}
-         name={name}
-         />
+      <RaceMostWin selectedNationality={selectedNationality} name={name} />
 
       <SectionSecond
         selectedYear={selectedYear !== "All time" ? selectedYear : null}
@@ -24,12 +21,13 @@ const OneDayRace = ({ selectedYear, selectedNationality, name }) => {
         name={name}
       />
 
-<Mostparticipants 
-      selectedNationality={selectedNationality}
-         name={name}
-         />
+      <Mostparticipants
+        selectedYear={selectedYear !== "All time" ? selectedYear : null}
+        selectedNationality={selectedNationality}
+        name={name}
+      />
 
-<LastSection
+      <LastSection
         selectedYear={selectedYear !== "All time" ? selectedYear : null}
         selectedNationality={selectedNationality}
         name={name}

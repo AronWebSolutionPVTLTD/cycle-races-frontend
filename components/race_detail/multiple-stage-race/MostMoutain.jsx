@@ -5,6 +5,7 @@ import { renderFlag } from "@/components/RenderFlag";
 
 const MostMoutainWin = ({
   // Optional filter props - component will work with or without them
+  selectedYear = null,
   selectedNationality = null,
   name = null,
 }) => {
@@ -15,6 +16,7 @@ const MostMoutainWin = ({
   const buildQueryParams = () => {
     let params = {};
     if (selectedNationality) params.nationality = selectedNationality;
+    if (selectedYear) params.year = selectedYear;
     return params;
   };
 

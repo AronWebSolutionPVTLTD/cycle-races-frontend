@@ -7,6 +7,7 @@ import {
   TwoSectionSkeleton2,
 } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
+import Link from "next/link";
 
 const UpcomingYear = () => {
   // Fixed APIs for each box - no random selection
@@ -15,7 +16,7 @@ const UpcomingYear = () => {
     // box2: "tourDownUnder24",
     box2: "getUpcomingRacesByDate",
     // box3: "mostWinTourDownUnder",
-    box3: "getUpcomingRacesByDate"
+    box3: "getUpcomingRacesByDate",
   };
 
   const endpointsToFetch = Object.values(fixedApis);
@@ -153,26 +154,31 @@ const UpcomingYear = () => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <li key={index}>
-                              {Array.isArray(rider.last_year_top_riders) && rider.last_year_top_riders.length > 0 && (
-                                <ul>
-                                  {rider.last_year_top_riders.map((rider, i) => (
-                                    <li key={i}>
-                                      <div className="name-wraper name-wraper-white">
-                                        {renderFlag(rider?.country)}
-                                        <h6>{rider?.name || "..."}</h6>
-                                      </div>
-                                      {rider?.time && <span>{rider.time}</span>}
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
+                              {Array.isArray(rider.last_year_top_riders) &&
+                                rider.last_year_top_riders.length > 0 && (
+                                  <ul>
+                                    {rider.last_year_top_riders.map(
+                                      (rider, i) => (
+                                        <li key={i}>
+                                          <div className="name-wraper name-wraper-white">
+                                            {renderFlag(rider?.country)}
+                                            <h6>{rider?.name || "..."}</h6>
+                                          </div>
+                                          {rider?.time && (
+                                            <span>{rider.time}</span>
+                                          )}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                )}
                             </li>
                           ))}
                       </ul>
 
-                      <a href="#?" className="green-circle-btn">
+                      <Link href="/upcoming-races-last-year-riders" className="green-circle-btn">
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -213,29 +219,32 @@ const UpcomingYear = () => {
                           .slice(0, 1)
                           .map((winner, index) => (
                             <li key={index}>
+                              {Array.isArray(winner.all_time_top_winners) &&
+                                winner.all_time_top_winners.length > 0 && (
+                                  <ul>
+                                    {winner.all_time_top_winners.map(
+                                      (winner, i) => (
+                                        <li key={i}>
+                                          <div className="name-wraper name-wraper-white">
+                                            {renderFlag(winner?.country)}
+                                            <h6>{winner?.name || "..."}</h6>
+                                          </div>
 
-                              {Array.isArray(winner.all_time_top_winners) && winner.all_time_top_winners.length > 0 && (
-                                <ul>
-                                  {winner.all_time_top_winners.map((winner, i) => (
-                                    <li key={i}>
-                                      <div className="name-wraper name-wraper-white">
-                                        {renderFlag(winner?.country)}
-                                        <h6>{winner?.name || "..."}</h6>
-                                      </div>
-
-                                      {winner?.wins && <span>{winner.wins}</span>}
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-
+                                          {winner?.wins && (
+                                            <span>{winner.wins}</span>
+                                          )}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                )}
                             </li>
                           ))}
                       </ul>
 
-                      <a href="#?" className="green-circle-btn">
+                      <Link href="/most-win-upcoming-rider-last-year" className="green-circle-btn">
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>

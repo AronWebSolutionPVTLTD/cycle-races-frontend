@@ -125,7 +125,7 @@ export default function RaceDetailsPage() {
     setYearInput(value);
   }, []);
 
-  // Effects
+  // Effects  
   useEffect(() => {
     if (router.isReady && decodedRaceName) {
       fetchRaceDetails(decodedRaceName);

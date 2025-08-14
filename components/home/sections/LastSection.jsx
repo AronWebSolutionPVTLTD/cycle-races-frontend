@@ -2,6 +2,7 @@ import React from "react";
 import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton2, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
+import Link from "next/link";
 
 const fixedApis = {
   box1: "mostSecondPlaces",
@@ -91,9 +92,12 @@ const LastSection = () => {
                           alt=""
                           className="absolute-img"
                         />
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href="/most-second-places"
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -133,9 +137,12 @@ const LastSection = () => {
                                 </h5>
                               )}
 
-                              <a href="#?" className="white-circle-btn">
+                              <Link
+                                href="/team-most-nationalities"
+                                className="white-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </div>
                           ))}
                         </>
@@ -144,7 +151,6 @@ const LastSection = () => {
                   </div>
                 </div>
               </div>
-
 
               {/*Box 3 - Most youngest  wins*/}
               <div className="col-lg-4 col-md-6">
@@ -183,9 +189,12 @@ const LastSection = () => {
                           alt=""
                           className="absolute-img"
                         />
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href="/youngest-most-wins"
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -220,9 +229,12 @@ const LastSection = () => {
                             </li>
                           ))}
                       </ul>
-                      <a href="#?" className="green-circle-btn">
+                      <Link
+                        href="/oldest-active-riders"
+                        className="green-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -266,9 +278,12 @@ const LastSection = () => {
                                 alt=""
                                 className="absolute-img"
                               />
-                              <a href="#?" className="green-circle-btn">
+                              <Link
+                                href="/most-mountain-wins"
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </div>
                           ))}
                         </>
@@ -316,9 +331,12 @@ const LastSection = () => {
                           alt=""
                           className="absolute-img"
                         />
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href="/shortest-races"
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -332,7 +350,9 @@ const LastSection = () => {
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
-                      <ErrorMessage errorType={getBoxData(fixedApis.box7).errorType} />
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box7).errorType}
+                      />
                     ) : (
                       <>
                         {(Array.isArray(getBoxData(fixedApis.box7).data)
@@ -353,9 +373,12 @@ const LastSection = () => {
                                 </h5>
                               )}
 
-                              <a href="#?" className="white-circle-btn">
+                              <Link
+                                href="/lightest-rider"
+                                className="white-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </React.Fragment>
                           ))}
                       </>
@@ -363,7 +386,6 @@ const LastSection = () => {
                   </div>
                 </div>
               </div>
-
             </>
           )}
         </div>

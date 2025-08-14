@@ -2,6 +2,7 @@ import React from "react";
 import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
+import Link from "next/link";
 
 const StatsFirstSection = ({
   selectedNationality,
@@ -26,6 +27,16 @@ const StatsFirstSection = ({
     if (selectedNationality) params.rider_country = selectedNationality;
     if (selectedTeam) params.team_name = selectedTeam;
     return params;
+  };
+
+  // Helper function to build URLs with query parameters
+  const buildUrlWithParams = (basePath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+      .join('&');
+    
+    return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
   const endpointsToFetch = Object.values(fixedApis);
@@ -109,12 +120,15 @@ const StatsFirstSection = ({
                         alt=""
                         className="absolute-img"
                       />
-                      <a href="#?" className="glob-btn green-bg-btn">
+                      <Link
+                        href={buildUrlWithParams("/stats/most-wins")}
+                        className="glob-btn green-bg-btn"
+                      >
                         <strong>volledige stats</strong>{" "}
                         <span>
                           <img src="/images/arow.svg" alt="" />
                         </span>
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -159,9 +173,12 @@ const StatsFirstSection = ({
                               alt=""
                               className="absolute-img"
                             />
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href={buildUrlWithParams("/stats/top-rider-stage")}
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -208,9 +225,12 @@ const StatsFirstSection = ({
                               alt=""
                               className="absolute-img"
                             />
-                            <a href="#?" className="white-circle-btn">
+                            <Link
+                              href={buildUrlWithParams("/stats/most-racing-days")}
+                              className="white-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -245,9 +265,12 @@ const StatsFirstSection = ({
                                 </li>
                               ))}
                           </ul>
-                          <a href="#?" className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams("/stats/team-most-stage-wins")}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
                       )}
                     </div>
@@ -281,9 +304,12 @@ const StatsFirstSection = ({
                                 </li>
                               ))}
                           </ul>
-                          <a href="#?" className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams("/stats/most-podium-in-stages")}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
                       )}
                     </div>
@@ -310,30 +336,44 @@ const StatsFirstSection = ({
 
                       return (
                         <>
-                          {teams.slice(0, 1).map((team, index) => ( // limit 3
-                            <div key={index} className="team-card">
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(team?.country)}
-                                <h6>{team?.teamName || team?.officialTeamName || "..."}</h6>
+                          {teams.slice(0, 1).map(
+                            (
+                              team,
+                              index // limit 3
+                            ) => (
+                              <div key={index} className="team-card">
+                                <div className="name-wraper name-wraper-white">
+                                  {renderFlag(team?.country)}
+                                  <h6>
+                                    {team?.teamName ||
+                                      team?.officialTeamName ||
+                                      "..."}
+                                  </h6>
+                                </div>
+
+                                {team?.numberOfWinningRiders && (
+                                  <h5>
+                                    <strong>
+                                      {team.numberOfWinningRiders}{" "}
+                                    </strong>
+                                    riders
+                                  </h5>
+                                )}
+
+                                <img
+                                  src="/images/player7.png"
+                                  alt=""
+                                  className="absolute-img"
+                                />
+                                <Link
+                                  href={buildUrlWithParams("/stats/team-with-most-rider")}
+                                  className="green-circle-btn"
+                                >
+                                  <img src="/images/arow.svg" alt="" />
+                                </Link>
                               </div>
-
-                              {team?.numberOfWinningRiders && (
-                                <h5>
-                                  <strong>{team.numberOfWinningRiders} </strong>
-                                  riders
-                                </h5>
-                              )}
-
-                              <img
-                                src="/images/player7.png"
-                                alt=""
-                                className="absolute-img"
-                              />
-                              <a href="#?" className="green-circle-btn">
-                                <img src="/images/arow.svg" alt="" />
-                              </a>
-                            </div>
-                          ))}
+                            )
+                          )}
                         </>
                       );
                     })()}
@@ -397,9 +437,12 @@ const StatsFirstSection = ({
                             </li>
                           ))}
                       </ul>
-                      <a href="#?" className="white-circle-btn">
+                      <Link
+                        href={buildUrlWithParams("/stats/most-gc-wins")}
+                        className="white-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -441,9 +484,12 @@ const StatsFirstSection = ({
                             </>
                           ))}
 
-                        <a href="#?" className="green-circle-btn">
+                        <Link
+                          href={buildUrlWithParams("/stats/most-dnfs")}
+                          className="green-circle-btn"
+                        >
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>

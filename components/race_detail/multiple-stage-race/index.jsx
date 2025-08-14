@@ -6,29 +6,31 @@ import MostStageWins from "./MostStageWin";
 import MostMoutainWin from "./MostMoutain";
 import { LastSection } from "./LastSection";
 
-
-
 const MultipleStageRace = ({ selectedYear, selectedNationality, name }) => {
   return (
     <>
- <FirstSection
+      <FirstSection
         selectedYear={selectedYear !== "All time" ? selectedYear : null}
         selectedNationality={selectedNationality}
         name={name}
       />
-       <MostStageWins
-         selectedNationality={selectedNationality}
-         name={name}/>
+      <MostStageWins
+        selectedYear={selectedYear !== "All time" ? selectedYear : null}
+        selectedNationality={selectedNationality}
+        name={name}
+      />
       <SectionSecond
         selectedYear={selectedYear !== "All time" ? selectedYear : null}
         selectedNationality={selectedNationality}
         name={name}
-      /> 
+      />
       <MostMoutainWin
+        selectedYear={selectedYear !== "All time" ? selectedYear : null}
         selectedNationality={selectedNationality}
-         name={name}/>
-   
-        <LastSection
+        name={name}
+      />
+
+      <LastSection
         selectedYear={selectedYear !== "All time" ? selectedYear : null}
         selectedNationality={selectedNationality}
         name={name}

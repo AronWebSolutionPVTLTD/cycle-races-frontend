@@ -3,6 +3,7 @@ import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
+import Image from "next/image";
 
 const fixedApis = {
   box1: "mostWin",
@@ -240,9 +241,12 @@ const YearSection = () => {
                               alt=""
                               className="absolute-img"
                             />
-                            <a href="#?" className="green-circle-btn">
+                            <Link
+                              href="/top-rider-stage"
+                              className="green-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -288,9 +292,12 @@ const YearSection = () => {
                               alt=""
                               className="absolute-img"
                             />
-                            <a href="#?" className="white-circle-btn">
+                            <Link
+                              href="/most-racing-days"
+                              className="white-circle-btn"
+                            >
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         )}
                       </div>
@@ -325,9 +332,9 @@ const YearSection = () => {
                                 </li>
                               ))}
                           </ul>
-                          <a href="#?" className="green-circle-btn">
+                          <Link href="/team-most-stage-wins" className="green-circle-btn">
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
                       )}
                     </div>
@@ -363,9 +370,9 @@ const YearSection = () => {
                                 </li>
                               ))}
                           </ul>
-                          <a href="#?" className="green-circle-btn">
+                          <Link href="/riders-with-birthday-today" className="green-circle-btn">
                             <img src="/images/arow.svg" alt="" />
-                          </a>
+                          </Link>
                         </>
                       )}
                     </div>
@@ -415,9 +422,9 @@ const YearSection = () => {
                                 alt=""
                                 className="absolute-img"
                               />
-                              <a href="#?" className="green-circle-btn">
+                              <Link href="/team-with-most-rider" className="green-circle-btn">
                                 <img src="/images/arow.svg" alt="" />
-                              </a>
+                              </Link>
                             </div>
                           ))}
                         </>
@@ -484,9 +491,9 @@ const YearSection = () => {
                             </li>
                           ))}
                       </ul>
-                      <a href="#?" className="white-circle-btn">
+                      <Link href="/most-gc-wins" className="white-circle-btn">
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -529,9 +536,14 @@ const YearSection = () => {
                             </>
                           ))}
 
-                        <a href="#?" className="green-circle-btn">
-                          <img src="/images/arow.svg" alt="" />
-                        </a>
+                        <Link href="/most-dnfs" className="green-circle-btn">
+                          <Image
+                            src="/images/arow.svg"
+                            alt=""
+                            width={10}
+                            height={10}
+                          />
+                        </Link>
                       </>
                     )}
                   </div>

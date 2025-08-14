@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
@@ -21,6 +22,18 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
       params.year = filterYear;
     }
     return params;
+  };
+
+  const buildUrlWithParams = (statsPath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+      )
+      .join("&");
+
+    const basePath = `/riders/${riderId}/${statsPath}`;
+    return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
   const riderEndpoints = [
@@ -99,25 +112,27 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                     const response = data[fixedApis.box1];
                     const riderData = response?.data?.data?.raceData;
 
-                    if (!riderData) {
+                    if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+
+                    const firstRider = riderData[0];
 
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
-                          {renderFlag(riderData?.country)}
-                          <h6>{riderData?.race || "..."}</h6>
+                          {renderFlag(firstRider?.country)}
+                          <h6>{firstRider?.race || "..."}</h6>
                         </div>
-                        {riderData?.totalKOMTitles && (
+                        {firstRider?.totalKOMTitles && (
                           <h5>
-                            <strong>{riderData.totalKOMTitles} </strong>wins
+                            <strong>{firstRider.totalKOMTitles} </strong>wins
                           </h5>
                         )}
 
-                        <a href="#?" className="green-circle-btn">
+                        <Link href={buildUrlWithParams("last-victory")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -177,12 +192,17 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                       return <ErrorMessage errorType="no_data" />;
                     }
 
-                    if (!Array.isArray(riderDataArray) || riderDataArray.length === 0) {
+                    if (
+                      !Array.isArray(riderDataArray) ||
+                      riderDataArray.length === 0
+                    ) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
 
                     // ✅ Find correct rider by ID
-                    const riderData = riderDataArray.find((r) => r.rider_id === riderId);
+                    const riderData = riderDataArray.find(
+                      (r) => r.rider_id === riderId
+                    );
 
                     if (!riderData) {
                       return <ErrorMessage errorType="no_data_found" />;
@@ -191,16 +211,17 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-green">
-                          <h6>{riderData?.total_uci_points || "..."}</h6>uci points
+                          <h6>{riderData?.total_uci_points || "..."}</h6>uci
+                          points
                         </div>
                         {riderData?.rank && (
                           <h5>
                             <strong>{riderData.rank}</strong> rank
                           </h5>
                         )}
-                        <a href="#?" className="white-circle-btn">
+                        <Link href={buildUrlWithParams("uci-points")} className="white-circle-btn">
                           <img src="/images/arow.svg" alt="arrow" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -222,21 +243,22 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                     const response = data[fixedApis.box3];
                     const riderData = response?.data;
 
-                    if (!riderData) {
+                    if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+
+                    const firstRider = riderData[0];
 
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
-                          {renderFlag(riderData?.flag)}
-                          <h6>{riderData?.teamName || "..."}</h6>
+                          {renderFlag(firstRider?.flag)}
+                          <h6>{firstRider?.teamName || "..."}</h6>
                         </div>
-                        {riderData?.yearsInTeam && (
+                        {firstRider?.yearsInTeam && (
                           <h5>
-                            <strong>{riderData.yearsInTeam} </strong>years
+                            <strong>{firstRider.yearsInTeam} </strong>years
                           </h5>
-
                         )}
 
                         {/* <img
@@ -244,9 +266,9 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           alt=""
                           className="absolute-img"
                         /> */}
-                        <a href="#?" className="green-circle-btn">
+                        <Link href={buildUrlWithParams("current-team")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     );
                   })()}
@@ -315,9 +337,9 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                               </h5>
                             )}
 
-                            <a href="#?" className="green-circle-btn">
+                            <Link href={buildUrlWithParams("wins-in-one-day")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         );
                       })()}
@@ -378,8 +400,9 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                         return (
                           <>
                             <div className="name-wraper name-wraper-green">
-
-                              <h6>Since {riderData?.professional_since || "..."}</h6>
+                              <h6>
+                                Since {riderData?.professional_since || "..."}
+                              </h6>
                             </div>
                             {riderData?.career_duration_years && (
                               <h5>
@@ -389,14 +412,13 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                                 jaar
                               </h5>
                             )}
-                            <a href="#?" className="green-circle-btn">
+                            <Link href={buildUrlWithParams("rider-years-active")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         );
                       })()}
                     </div>
-
                   </div>
                 </div>
 
@@ -427,9 +449,9 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                               </li>
                             ))}
                         </ul>
-                        <a href="#?" className="green-circle-btn">
+                        <Link href={buildUrlWithParams("rider-wins-by-season")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -451,27 +473,29 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                         const response = data[fixedApis.box8];
                         const riderData = response?.data?.data;
 
-                        if (!riderData) {
+                        if (!Array.isArray(riderData) || riderData.length === 0) {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
+
+                        const firstRider = riderData[0];
 
                         return (
                           <>
                             <div className="name-wraper name-wraper-green">
-                              {renderFlag(riderData?.country)}
-                              <h6>{riderData?.race || "..."}</h6>
+                              {renderFlag(firstRider?.country)}
+                              <h6>{firstRider?.race || "..."}</h6>
                             </div>
-                            {riderData?.days_since_last_win && (
+                            {firstRider?.days_since_last_win && (
                               <h5>
                                 <strong>
-                                  {riderData.days_since_last_win}{" "}
+                                  {firstRider.days_since_last_win}{" "}
                                 </strong>
                                 days
                               </h5>
                             )}
-                            <a href="#?" className="green-circle-btn">
+                            <Link href={buildUrlWithParams("time-since-last-victory")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </>
                         );
                       })()}
@@ -518,12 +542,12 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                       alt=""
                       className="absolute-img"
                     />
-                    <a href="#?" className="glob-btn">
+                    <Link href={buildUrlWithParams("rider-best-monument-results")} className="glob-btn">
                       <strong>volledige stats</strong>{" "}
                       <span>
                         <img src="/images/arow.svg" alt="" />
                       </span>
-                    </a>
+                    </Link>
                   </>
                 )}
               </div>
