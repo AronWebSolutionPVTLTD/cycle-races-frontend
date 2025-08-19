@@ -2,7 +2,7 @@ import Link from "next/link";
 import Flag from "react-world-flags";
 
 // components/SidebarList.js
-export default function SidebarList({ title, riders }) {
+export default function SidebarList({ title, riders, link }) {
 
     return (
       <div className="list-white-cart">
@@ -19,7 +19,7 @@ export default function SidebarList({ title, riders }) {
             </li>
           ))}
         </ul>
-        <Link href="#" className="green-circle-btn">
+        <Link href={`/${link}`} className="green-circle-btn">
           <img src="/images/arow.svg" alt="arrow" />
         </Link>
       </div>

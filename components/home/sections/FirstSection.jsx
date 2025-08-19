@@ -7,6 +7,7 @@ import {
   TwoSectionSkeleton,
 } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
+import Link from "next/link";
 
 function convertDateRange(dateStr) {
   const format = (d) => {
@@ -96,7 +97,9 @@ const FirstSection = () => {
               {/* First Section - Top Stage Winners */}
               <div className="col-lg-3 col-md-5">
                 <div className="list-white-cart">
-                  <h4>{getSectionData(fixedApis.section2).data?.[0]?.raceName}</h4>
+                  <h4>
+                    {getSectionData(fixedApis.section2).data?.[0]?.raceName}
+                  </h4>
                   {getSectionData(fixedApis.section2).error ? (
                     <ErrorMessage
                       errorType={getSectionData(fixedApis.section2).errorType}
@@ -123,9 +126,14 @@ const FirstSection = () => {
                           ))}
                       </ul>
 
-                      <a href="#?" className="green-circle-btn">
+                      <Link
+                        href={`/races/${encodeURIComponent(
+                          getSectionData(fixedApis.section2).data?.[0]?.raceName
+                        )}`}
+                        className="green-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -142,7 +150,6 @@ const FirstSection = () => {
                     {/* <div className="section-title mb-3">
                       <h4>{data?.[fixedApis.section2]?.message}</h4>
                     </div> */}
-
                     <ul className="transparent-cart">
                       {(Array.isArray(getSectionData(fixedApis.section2).data)
                         ? getSectionData(fixedApis.section2).data
@@ -168,14 +175,16 @@ const FirstSection = () => {
                               <a href="#?">{result?.result[0]?.rider}</a>
                             </h6>
                             <h6>{result?.result[0]?.team}</h6>
-                            <a href="#?" className="r-details">
+                            <Link
+                              href={`/races/${result?.raceName}`}
+                              className="r-details"
+                            >
                               <img src="/images/hover-arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </li>
                         );
                       })}
                     </ul>
-
                   </>
                 )}
               </div>

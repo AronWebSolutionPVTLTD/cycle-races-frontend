@@ -320,6 +320,7 @@ export default function Riders() {
           <SidebarList
             title={oldestRiders.title}
             riders={formatRidersForSidebar(oldestRiders.data)}
+            link="oldest-riders"
           />
         )}
 
@@ -327,6 +328,7 @@ export default function Riders() {
           <SidebarList
             title={youngestRiders.title}
             riders={formatRidersForSidebar(youngestRiders.data)}
+            link="youngest-riders"
           />
         )}
 
@@ -334,6 +336,7 @@ export default function Riders() {
           <SidebarList
             title={victoryRiders.title}
             riders={formatRidersForSidebar(victoryRiders.data, true)}
+            link="victory-ranking"
           />
         )}
       </>

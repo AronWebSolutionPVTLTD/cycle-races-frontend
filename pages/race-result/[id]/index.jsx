@@ -99,47 +99,71 @@ export default function RaceResultPage() {
 
       // Add winners by nationality if available
       if (winnersByNationality?.data?.data?.length > 0) {
-        const topNationality = winnersByNationality.data.data[0];
+        const topNationality = winnersByNationality?.data?.data?.[0];
         stats.push({
           title: winnersByNationality?.message || "Top Nationality",
-          rider: topNationality.country_code.toUpperCase(),
-          flag: topNationality.country_code.toLowerCase(),
-          value: topNationality.wins,
+          rider: topNationality?.country_name?.toUpperCase(),
+          flag: topNationality?.country_code?.toLowerCase(),
+          value: topNationality?.wins,
           unit: "wins",
+          link: "race-winners-by-nationality",
         });
       }
 
       // Add oldest rider if available
-      if (oldestRider?.data) {
+      if (
+        oldestRider?.data?.data?.length > 0 ||
+        oldestRider?.data?.riders?.length > 0
+      ) {
+        const oldestData =
+          oldestRider?.data?.data?.[0] || oldestRider?.data?.riders?.[0];
         stats.push({
           title: oldestRider?.message || "Oldest Rider",
-          rider: oldestRider.data.rider_name,
-          flag: oldestRider.data.rider_country.toLowerCase(),
-          value: oldestRider.data.age,
+          rider: oldestData?.rider_name || oldestData?.name,
+          flag:
+            oldestData?.rider_country?.toLowerCase() ||
+            oldestData?.country?.toLowerCase(),
+          value: oldestData?.age,
           unit: "jaar",
+          link: "oldest-rider-in-race",
         });
       }
 
       // Add youngest rider if available
-      if (youngestRider?.data) {
+      if (
+        youngestRider?.data?.data?.length > 0 ||
+        youngestRider?.data?.riders?.length > 0
+      ) {
+        const youngestData =
+          youngestRider?.data?.data?.[0] || youngestRider?.data?.riders?.[0];
         stats.push({
           title: youngestRider?.message || "Youngest Rider",
-          rider: youngestRider.data.rider_name,
-          flag: youngestRider.data.rider_country.toLowerCase(),
-          value: youngestRider.data.age,
+          rider: youngestData?.rider_name || youngestData?.name,
+          flag:
+            youngestData?.rider_country?.toLowerCase() ||
+            youngestData?.country?.toLowerCase(),
+          value: youngestData?.age,
           unit: "jaar",
+          link: "youngest-rider-in-race",
         });
       }
 
       // Add best team if available
-      if (bestTeam?.data) {
+      if (bestTeam?.data?.data?.length > 0) {
+        const bestTeamData = bestTeam.data.data[0];
         stats.push({
-          title: bestTeam.message || "Best Team",
-          rider: bestTeam.data.team_name,
-          speed: bestTeam.data.rider_count,
-          flag: "/images/team-icon.svg",
-          value: bestTeam.data.rider_count,
-          unit: "riders",
+          title: bestTeam?.message || "Best Team",
+          rider: bestTeamData?.team_name || bestTeamData?.name,
+          flag:
+            bestTeamData?.country_code?.toLowerCase() ||
+            bestTeamData?.country?.toLowerCase() ||
+            "/images/team-icon.svg",
+          value:
+            bestTeamData?.rider_count ||
+            bestTeamData?.performance_score ||
+            bestTeamData?.score,
+          unit: bestTeamData?.rider_count ? "riders" : "points",
+          link: "best-team-in-race",
         });
       }
 
@@ -184,6 +208,30 @@ export default function RaceResultPage() {
       .padStart(2, "0")}`;
   };
 
+  const buildQueryParams = () => {
+    const params = {
+      raceId: id,
+      year: selectedYear,
+    };
+
+    if (selectedMonth) {
+      params.month = getMonthNumber(selectedMonth);
+    }
+
+    return params;
+  };
+
+  const buildUrlWithParams = (statsPath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+      )
+      .join("&");
+
+    const basePath = `/race-result/${id}/${statsPath}`;
+    return queryString ? `${basePath}?${queryString}` : basePath;
+  };
   const getTimeGapDisplay = (baseTime, compareTime) => {
     if (!baseTime || !compareTime) return ""; // empty string if either time missing
 
@@ -331,7 +379,10 @@ export default function RaceResultPage() {
                               )} */}
                           {rider.time}
                         </h6>
-                        <Link href="#" className="r-details">
+                        <Link
+                          href={`/riders/${rider.rider_id}`}
+                          className="r-details"
+                        >
                           <img src="/images/hover-arow.svg" alt="Details" />
                         </Link>
                       </li>
@@ -373,7 +424,10 @@ export default function RaceResultPage() {
                       {stat.unit && ` ${stat.unit}`}
                     </h5>
 
-                    <Link href="#" className="green-circle-btn">
+                    <Link
+                      href={buildUrlWithParams(stat.link)}
+                      className="green-circle-btn"
+                    >
                       <img src="/images/arow.svg" alt="" />
                     </Link>
                   </div>

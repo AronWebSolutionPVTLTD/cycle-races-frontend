@@ -50,6 +50,25 @@ export default function DynamicSlugPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [apiTitle, setApiTitle] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
+
+  // Generate year options (current year back to 1990)
+  const currentYear = new Date().getFullYear();
+  const years = [];
+  for (let year = currentYear; year >= 1990; year--) {
+    years.push(year.toString());
+  }
+
+  // Handle year change
+  const handleYearChange = (e) => {
+    setSelectedYear(e.target.value);
+  };
+
+  // Get the appropriate back link based on current URL
+  const getBackLink = () => {
+    const { name } = router.query;
+    return `/races/${name}`;
+  };
 
   // Get configuration for current slug
   const getSlugConfig = (slug) => {
@@ -73,7 +92,7 @@ export default function DynamicSlugPage() {
     if (slug) {
       fetchSlugData();
     }
-  }, [slug]);
+  }, [slug, selectedYear]);
 
   // Function to fetch data based on slug
   const fetchSlugData = async () => {
@@ -82,12 +101,12 @@ export default function DynamicSlugPage() {
       const config = getSlugConfig(slug);
 
       // Get query parameters from URL
-      const { year, rider_country, team_name, name, nationality } =
+      const { rider_country, team_name, name, nationality } =
         router.query;
 
       // Build query parameters object
       const queryParams = {};
-      if (year) queryParams.year = year;
+      if (selectedYear) queryParams.year = selectedYear;
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
       if (nationality) queryParams.nationality = nationality;
@@ -156,6 +175,9 @@ export default function DynamicSlugPage() {
         }
         if (slug === "team-with-most-wins-in-race") {
           response.data = response.data.data.most_wins_team;
+        }
+        if (slug === "most-wins-in-race") {
+          response.data = response.data.most_wins;
         }
         if (slug === "most-top10-by-rider") {
           response.data = response.data.data.top_rider;
@@ -595,7 +617,34 @@ export default function DynamicSlugPage() {
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                <h5>Popular</h5>
+                <div className="filter-section">
+                  <div className="row align-items-center">
+                    <div className="col-lg-6">
+                      <div className="filter-dropdown">
+                        <select
+                          value={selectedYear}
+                          onChange={handleYearChange}
+                          id="yearSelect"
+                        >
+                          {years.map((year) => (
+                            <option key={year} value={year}>
+                              {year}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                                         <div className="col-lg-6 text-end">
+                       <Link
+                         href={getBackLink()}
+                         className="btn btn-primary all-stats-btn"
+                       >
+                         <span>ALLE STATS</span>
+                         <img src="/images/arow.svg" alt="arrow" />
+                       </Link>
+                     </div>
+                  </div>
+                </div>
               </div>
               <div className="col-lg-9 col-md-7">
                 <ul className="head-heading ctm-head-heading">

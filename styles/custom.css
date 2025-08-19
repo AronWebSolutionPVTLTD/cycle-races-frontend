@@ -52,3 +52,53 @@
     display: flex;
     align-items: center;
   }
+
+  /*---------------Filter section______________*/
+  .filter-section {
+    margin-bottom: 30px;
+    padding: 20px 0;
+  }
+
+  .filter-dropdown select {
+    background-color: #2b534d;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 150px;
+  }
+
+  .filter-dropdown select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(26, 95, 122, 0.3);
+  }
+
+  .all-stats-btn {
+    background-color: #2b534d !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 25px !important;
+    padding: 10px 20px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .all-stats-btn:hover {
+    background-color: #2b534d !important;
+    color: white !important;
+    transform: translateY(-2px);
+  }
+
+  .all-stats-btn img {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+  }

@@ -100,9 +100,12 @@ const UpcomingYear = () => {
                               {renderFlag(race?.country)}
                               {race.race}
                             </h5>
-                            <a href="#?" className="r-details">
+                            <Link
+                              href={`/races/${race?.race}`}
+                              className="r-details"
+                            >
                               <img src="/images/hover-arow.svg" alt="" />
-                            </a>
+                            </Link>
                           </li>
                         ))}
                     </ul>
@@ -176,7 +179,10 @@ const UpcomingYear = () => {
                           ))}
                       </ul>
 
-                      <Link href="/upcoming-races-last-year-riders" className="green-circle-btn">
+                      <Link
+                        href="/upcoming-races-last-year-riders"
+                        className="green-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
                       </Link>
                     </>
@@ -222,8 +228,9 @@ const UpcomingYear = () => {
                               {Array.isArray(winner.all_time_top_winners) &&
                                 winner.all_time_top_winners.length > 0 && (
                                   <ul>
-                                    {winner.all_time_top_winners.map(
-                                      (winner, i) => (
+                                    {winner.all_time_top_winners
+                                      .slice(0, 5)
+                                      .map((winner, i) => (
                                         <li key={i}>
                                           <div className="name-wraper name-wraper-white">
                                             {renderFlag(winner?.country)}
@@ -234,15 +241,17 @@ const UpcomingYear = () => {
                                             <span>{winner.wins}</span>
                                           )}
                                         </li>
-                                      )
-                                    )}
+                                      ))}
                                   </ul>
                                 )}
                             </li>
                           ))}
                       </ul>
 
-                      <Link href="/most-win-upcoming-rider-last-year" className="green-circle-btn">
+                      <Link
+                        href="/most-win-upcoming-rider-last-year"
+                        className="green-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
                       </Link>
                     </>

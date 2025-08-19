@@ -44,6 +44,27 @@ export default function Results() {
     return months.findIndex((month) => month === monthName) + 1;
   };
 
+  const buildQueryParams = () => {
+    const params = {
+      year: selectedYear,
+    };
+
+    if (selectedMonth) {
+      params.month = getMonthNumber(selectedMonth);
+    }
+
+    return params;
+  };
+
+  const buildUrlWithParams = (statsPath) => {
+    const params = buildQueryParams();
+    const queryString = Object.keys(params)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+      .join('&');
+    
+    return `/${statsPath}?${queryString}`;
+  };
+
   // Fetch data from API with filters
   const fetchRaceResults = async () => {
     setLoading(true);
@@ -91,6 +112,7 @@ export default function Results() {
           rider: topRider.rider_name,
           flag: topRider.rider_country.toLowerCase(),
           speed: `${topRider.wins}`,
+          link: "current-victory-ranking",
           // image: '/images/player6.png'
         });
       }
@@ -103,6 +125,7 @@ export default function Results() {
           rider: topTeam.team_name,
           // flag: '/images/flag-placeholder.svg',
           speed: `${topTeam.total_wins}`,
+          link: "current-team-ranking",
           // image: '/images/player6.png'
         });
       }
@@ -115,6 +138,7 @@ export default function Results() {
           rider: best.rider_name,
           flag: best.rider_country.toLowerCase(),
           speed: best.wins,
+          link: "best-riders-of-recent-year",
           // image: '/images/player6.png'
         });
       }
@@ -231,7 +255,6 @@ export default function Results() {
     setShowSearchDropdown(false);
     fetchRaceResults();
   };
-  
 
   return (
     <>
@@ -469,9 +492,12 @@ export default function Results() {
                         className="absolute-img" 
                         onError={(e) => { e.target.src = '/images/player-placeholder.png' }}
                       /> */}
-                      <a href="#" className="green-circle-btn">
+                      <Link
+                        href={buildUrlWithParams(race.link)}
+                        className="green-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
-                      </a>
+                      </Link>
                     </div>
                   ))
                 ) : (

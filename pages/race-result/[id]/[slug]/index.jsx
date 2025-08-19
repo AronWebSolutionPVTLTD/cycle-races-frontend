@@ -32,9 +32,7 @@ export default function DynamicSlugPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [apiTitle, setApiTitle] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(
-    new Date().getFullYear().toString()
-  );
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
 
   // Generate year options (current year back to 1990)
   const currentYear = new Date().getFullYear();
@@ -50,7 +48,8 @@ export default function DynamicSlugPage() {
 
   // Get the appropriate back link based on current URL
   const getBackLink = () => {
-    return router.back();
+    const { id } = router.query;
+    return `/race-result/${id}`;
   };
 
   // Get configuration for current slug
@@ -84,16 +83,19 @@ export default function DynamicSlugPage() {
       const config = getSlugConfig(slug);
 
       // Get query parameters from URL
-      const { rider_country, team_name } = router.query;
+      const { rider_country, team_name, id } = router.query;
 
       // Build query parameters object
-      const queryParams = { slug: slug };
+      const queryParams = {};
       if (selectedYear) queryParams.year = selectedYear;
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
-
+      if (id) queryParams.id = id;
       // Hit the API with the slug parameter and query parameters
-      const response = await fetchData(config.apiEndpoint, queryParams);
+      const response = await fetchData(config.apiEndpoint, queryParams, {
+        name: id,
+        idType: config.idType,
+      });
       if (response && response.data) {
         if (response?.data?.riders) {
           response.data = response.data.riders;
@@ -110,14 +112,81 @@ export default function DynamicSlugPage() {
             ...response.data.data.shortest_one_day_races,
           ];
         }
-        if (slug === "current-victory-ranking") {
-          response.data = response.data.top_riders;
+        if (slug === "longest-races") {
+          response.data = [
+            ...response.data.data.longest_stage_races,
+            ...response.data.data.longest_one_day_races,
+          ];
         }
-        if (slug === "current-team-ranking") {
-          response.data = response.data.recent_team_rankings;
+        if (slug === "top3-rank-one-teams-gc") {
+          response.data = response.data.teams;
         }
-        if (slug === "best-riders-of-recent-year") {
-          response.data = response.data.top_riders;
+        if (slug === "last-victory") {
+          response.data = response.data.data.raceData;
+        }
+        if (slug === "wins-in-one-day") {
+          response.data = response.data.data.wins;
+        }
+        if (slug === "rider-years-active") {
+          response.data = response.data.data.years_and_teams;
+        }
+        if (slug === "rider-wins-by-season") {
+          response.data = response.data.data.wins_per_season;
+        }
+        if (slug === "rider-best-monument-results") {
+          response.data = response.data.data.best_monument_results;
+        }
+        if (slug === "get-top10-stages-in-grand-tours") {
+          response.data = response.data.data.top_10_stages;
+        }
+        if (slug === "get-rider-longest-no-win-streak") {
+          response.data =
+            response.data.data.longest_streak_without_win.races_in_streak;
+        }
+        if (slug === "contact-history") {
+          response.data = response.data.data.contracts;
+        }
+        if (slug === "home-country-wins") {
+          response.data = response.data.data[0].races;
+        }
+        if (slug === "get-grand-tours-ridden") {
+          response.data = response.data.data.grand_tours_ridden;
+        }
+        if (slug === "get-rider-most-raced-country") {
+          response.data = response.data.data.raceData;
+        }
+        if (slug === "get-best-stage-result") {
+          response.data = response.data.data.results;
+        }
+        if (slug === "get-first-rank-in-grand-tours") {
+          response.data = response.data.data.first_rank_races;
+        }
+        if (slug === "get-total-racing-days-in-grand-tours") {
+          response.data = response.data.data.grand_tour_racing_days;
+        }
+        if (slug === "get-total-distance-raced-in-grand-tours") {
+          response.data = response.data.data.grand_tour_distance;
+        }
+        if (slug === "get-best-monument-results") {
+          response.data = response.data.data.best_monument_results;
+        }
+        if (slug === "get-best-paris-roubaix-result") {
+          response.data = response.data.data.results;
+        }
+        if (slug === "get-first-rank-in-monuments") {
+          response.data = response.data.data.first_rank_races;
+        }
+        if (slug === "get-best-gc-result") {
+          response.data = response.data.best_gc_results;
+        }
+        if (slug === "team-mates") {
+          response.data = response.data.data.teammates;
+        }
+        if (slug === "get-rider-last-place-finishes") {
+          response.data = response.data.data.last_place_finishes;
+        }
+        if (slug === "rider-from-same-home-town") {
+          response.data = response.data.data.others_from_same_birthplace;
         }
         setPageData(response.data);
         // Extract title from API response
@@ -458,6 +527,14 @@ export default function DynamicSlugPage() {
                   <li>
                     <Link href="/">Home</Link>
                   </li>
+                  <li>
+                    <Link href="/races">Races</Link>
+                  </li>
+                  <li>
+                    <Link href={`/race-result/${router.query.id}`}>
+                      Race Details
+                    </Link>
+                  </li>
                   <li>{pageHeading}</li>
                 </ul>
                 <h1>{pageHeading}</h1>
@@ -487,15 +564,15 @@ export default function DynamicSlugPage() {
                         </select>
                       </div>
                     </div>
-                    <div className="col-lg-6 text-end">
-                      <button
-                        onClick={() => getBackLink()}
-                        className="btn btn-primary all-stats-btn"
-                      >
-                        <span>ALLE STATS</span>
-                        <img src="/images/arow.svg" alt="arrow" />
-                      </button>
-                    </div>
+                                         <div className="col-lg-6 text-end">
+                       <Link
+                         href={getBackLink()}
+                         className="btn btn-primary all-stats-btn"
+                       >
+                         <span>ALLE STATS</span>
+                         <img src="/images/arow.svg" alt="arrow" />
+                       </Link>
+                     </div>
                   </div>
                 </div>
               </div>
