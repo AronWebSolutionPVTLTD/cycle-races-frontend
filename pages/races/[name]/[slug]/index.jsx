@@ -117,88 +117,88 @@ export default function DynamicSlugPage() {
       });
       if (response && response.data) {
         if (response?.data?.riders) {
-          response.data = response.data.riders;
+          response.data = response?.data?.riders;
         }
         if (slug === "upcoming-races-last-year-riders") {
-          response.data = response.data.races[0].last_year_top_riders;
+          response.data = response?.data?.races[0]?.last_year_top_riders;
         }
         if (slug === "most-win-upcoming-rider-last-year") {
-          response.data = response.data.races[0].all_time_top_winners;
+          response.data = response?.data?.races[0]?.all_time_top_winners;
         }
         if (slug === "shortest-races") {
           response.data = [
-            ...response.data.data.shortest_stage_races,
-            ...response.data.data.shortest_one_day_races,
+            ...response?.data?.data?.shortest_stage_races,
+            ...response?.data?.data?.shortest_one_day_races,
           ];
         }
         if (slug === "longest-races") {
           response.data = [
-            ...response.data.data.longest_stage_races,
-            ...response.data.data.longest_one_day_races,
+            ...response?.data?.data?.longest_stage_races,
+            ...response?.data?.data?.longest_one_day_races,
           ];
         }
         if (slug === "top3-rank-one-teams-gc") {
-          response.data = response.data.teams;
+          response.data = response?.data?.teams;
         }
         if (slug === "top-gc-riders-last-year") {
-          response.data = response.data.data.top_riders;
+          response.data = response?.data?.data?.top_riders;
         }
         if (slug === "rider-most-stage-wins") {
-          response.data = response.data.data.riders;
+          response.data = response?.data?.data?.riders;
         }
         if (slug === "most-gc-wins-in-race") {
-          response.data = response.data.data.most_gc_wins;
+          response.data = response?.data?.data?.most_gc_wins;
         }
         if (slug === "rider-most-gc-podiums") {
-          response.data = response.data.top_riders;
+          response.data = response?.data?.top_riders;
         }
         if (slug === "rider-with-most-finishes") {
-          response.data = response.data.top_rider;
+          response.data = response?.data?.top_rider;
         }
         if (slug === "most-stage-departures") {
-          response.data = response.data.data.most_used_departure_cities;
+          response.data = response?.data?.data?.most_used_departure_cities;
         }
         if (slug === "team-with-most-wins") {
-          response.data = response.data.top_teams;
+          response.data = response?.data?.top_teams;
         }
         if (slug === "most-stage-finishes") {
-          response.data = response.data.data.most_used_finish_cities;
+          response.data = response?.data?.data?.most_used_finish_cities;
         }
         if (slug === "most-wins") {
-          response.data = response.data.most_wins;
+          response.data = response?.data?.most_wins;
         }
         if (slug === "most-podiums-by-rider") {
-          response.data = response.data.data.top_rider;
+          response.data = response?.data?.data?.top_rider;
         }
         if (slug === "race-participants") {
-          response.data = response.data.rider_participation;
+          response.data = response?.data?.rider_participation;
         }
         if (slug === "team-with-most-wins-in-race") {
-          response.data = response.data.data.most_wins_team;
+          response.data = response?.data?.data?.most_wins_team;
         }
         if (slug === "most-wins-in-race") {
-          response.data = response.data.most_wins;
+          response.data = response?.data?.most_wins;
         }
         if (slug === "most-top10-by-rider") {
-          response.data = response.data.data.top_rider;
+          response.data = response?.data?.data?.top_rider;
         }
         if (slug === "last-winner") {
-          response.data = response.data.winners;
+          response.data = response?.data?.winners;
         }
         if (slug === "previous-editions") {
-          response.data = response.data.previouseditions;
+          response.data = response?.data?.previouseditions;
         }
         if (slug === "rider-with-most-dnf") {
-          response.data = response.data.data.top_rider;
+          response.data = response?.data?.data?.top_rider;
         }
         if (slug === "rider-with-most-consecutive-wins") {
-          response.data = response.data.top_streak;
+          response.data = response?.data?.top_streak;
         }
         if (slug === "winners-from-country") {
-          response.data = response.data.winners;
+          response.data = response?.data?.winners;
         }
         if (slug === "last-winner-from-country") {
-          response.data = response.data.lastWinner;
+          response.data = response?.data?.lastWinner;
         }
         setPageData(response.data);
         // Extract title from API response

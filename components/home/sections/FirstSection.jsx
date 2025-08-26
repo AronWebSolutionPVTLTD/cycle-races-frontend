@@ -154,36 +154,38 @@ const FirstSection = () => {
                       {(Array.isArray(getSectionData(fixedApis.section2).data)
                         ? getSectionData(fixedApis.section2).data
                         : []
-                      ).map((result, index) => {
-                        const { start, end } = convertDateRange(result?.date);
-                        return (
-                          <li key={index}>
-                            <span>
-                              {/* {new Date(result.date).toLocaleDateString(
+                      )
+                        .slice(1)
+                        .map((result, index) => {
+                          const { start, end } = convertDateRange(result?.date);
+                          return (
+                            <li key={index}>
+                              <span>
+                                {/* {new Date(result.date).toLocaleDateString(
                                 "en-GB",
                                 { day: "2-digit", month: "2-digit" }
                               )} */}
-                              {start}
-                              {end ? ` - ${end}` : ""}
-                            </span>
-                            <h5>
-                              {renderFlag(result?.raceCountry)}
-                              <a href="#?">{result.raceName}</a>
-                            </h5>
-                            <h6>
-                              {renderFlag(result?.result[0]?.riderCountry)}
-                              <a href="#?">{result?.result[0]?.rider}</a>
-                            </h6>
-                            <h6>{result?.result[0]?.team}</h6>
-                            <Link
-                              href={`/races/${result?.raceName}`}
-                              className="r-details"
-                            >
-                              <img src="/images/hover-arow.svg" alt="" />
-                            </Link>
-                          </li>
-                        );
-                      })}
+                                {start}
+                                {end ? ` - ${end}` : ""}
+                              </span>
+                              <h5>
+                                {renderFlag(result?.raceCountry)}
+                                <a href="#?">{result.raceName}</a>
+                              </h5>
+                              <h6>
+                                {renderFlag(result?.result[0]?.riderCountry)}
+                                <a href="#?">{result?.result[0]?.rider}</a>
+                              </h6>
+                              <h6>{result?.result[0]?.team}</h6>
+                              <Link
+                                href={`/races/${result?.raceName}`}
+                                className="r-details"
+                              >
+                                <img src="/images/hover-arow.svg" alt="" />
+                              </Link>
+                            </li>
+                          );
+                        })}
                     </ul>
                   </>
                 )}

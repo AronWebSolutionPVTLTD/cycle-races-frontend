@@ -160,8 +160,9 @@ const UpcomingYear = () => {
                               {Array.isArray(rider.last_year_top_riders) &&
                                 rider.last_year_top_riders.length > 0 && (
                                   <ul>
-                                    {rider.last_year_top_riders.map(
-                                      (rider, i) => (
+                                    {rider.last_year_top_riders
+                                      .slice(0, 5)
+                                      .map((rider, i) => (
                                         <li key={i}>
                                           <div className="name-wraper name-wraper-white">
                                             {renderFlag(rider?.country)}
@@ -171,8 +172,7 @@ const UpcomingYear = () => {
                                             <span>{rider.time}</span>
                                           )}
                                         </li>
-                                      )
-                                    )}
+                                      ))}
                                   </ul>
                                 )}
                             </li>

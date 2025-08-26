@@ -96,28 +96,28 @@ export default function DynamicSlugPage() {
       const response = await fetchData(config.apiEndpoint, queryParams);
       if (response && response.data) {
         if (response?.data?.riders) {
-          response.data = response.data.riders;
+          response.data = response?.data?.riders;
         }
         if (slug === "upcoming-races-last-year-riders") {
-          response.data = response.data.races[0].last_year_top_riders;
+          response.data = response?.data?.races[0]?.last_year_top_riders;
         }
         if (slug === "most-win-upcoming-rider-last-year") {
-          response.data = response.data.races[0].all_time_top_winners;
+          response.data = response?.data?.races[0]?.all_time_top_winners;
         }
         if (slug === "shortest-races") {
           response.data = [
-            ...response.data.data.shortest_stage_races,
-            ...response.data.data.shortest_one_day_races,
+            ...response?.data?.data?.shortest_stage_races,
+            ...response?.data?.data?.shortest_one_day_races,
           ];
         }
         if (slug === "longest-races") {
           response.data = [
-            ...response.data.data.longest_stage_races,
-            ...response.data.data.longest_one_day_races,
+            ...response?.data?.data?.longest_stage_races,
+            ...response?.data?.data?.longest_one_day_races,
           ];
         }
         if (slug === "top3-rank-one-teams-gc") {
-          response.data = response.data.teams;
+          response.data = response?.data?.teams;
         }
         setPageData(response.data);
         // Extract title from API response
