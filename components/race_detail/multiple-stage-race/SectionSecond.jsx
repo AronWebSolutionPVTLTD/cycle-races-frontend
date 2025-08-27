@@ -107,7 +107,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
   };
 
   return (
-    <section className="home-sec5">
+    <section className="home-sec5 aaaa">
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}

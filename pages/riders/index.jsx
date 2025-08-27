@@ -361,9 +361,10 @@ export default function Riders() {
                   <li>Riders</li>
                 </ul>
                 <h1>Riders</h1>
-                <div className="searchInput" ref={searchRef}>
+                <div className="searchInput 333" ref={searchRef}>
                   <form onSubmit={handleSearchSubmit}>
                     <div className="wraper">
+                      <div className="wrap-top">
                       <input
                         type="text"
                         placeholder="welke renner zoek je?"
@@ -388,8 +389,11 @@ export default function Riders() {
                           onClick={handleSearchReset}
                         />
                       </div>
-                      {showSuggestions && searchSuggestions.length > 0 && (
-                        <div>
+                      </div>
+                      
+                    </div>
+                    {showSuggestions && searchSuggestions.length > 0 && (
+                        <div className="wrap-bottom">
                           <ul>
                             {searchSuggestions.map((rider) => (
                               <li
@@ -405,7 +409,6 @@ export default function Riders() {
                           </ul>
                         </div>
                       )}
-                    </div>
                   </form>
                 </div>
               </div>
@@ -427,7 +430,7 @@ export default function Riders() {
 
                 <ul className="transparent-cart">{renderRidersList()}</ul>
               </div>
-              <div className="col-lg-3 col-md-5">{renderSidebars()}</div>
+              <div className="col-lg-3 col-md-5 33">{renderSidebars()}</div>
             </div>
           </div>
         </section>

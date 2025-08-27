@@ -10,7 +10,7 @@ import Flag from "react-world-flags";
       return (
         <Flag 
           code={code.toUpperCase()} 
-          style={{ width: "20px", height: "20px", marginRight: "10px" }} 
+          style={{ width: "20px", height: "20px", marginRight: "0" }} 
         />
       );
     } catch (err) {

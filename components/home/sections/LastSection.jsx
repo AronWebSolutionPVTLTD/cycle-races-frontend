@@ -57,7 +57,7 @@ const LastSection = () => {
               {/* Box 1 - Most Second  Places */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href="/most-second-places" className="pabs"/>
                   <div className="text-wraper">
                     <h4> {data?.[fixedApis.box1]?.message} </h4>
                     {getBoxData(fixedApis.box1).error ? (
@@ -106,8 +106,8 @@ const LastSection = () => {
 
               {/* Box 2 -  Most nationality  */}
               <div className="col-lg-4 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                <div className="team-cart lime-green-team-cart img-active 11">
+                  <Link href="/team-most-nationalities" className="pabs"/>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box2]?.message}</h4>
                     {(() => {
@@ -126,7 +126,7 @@ const LastSection = () => {
                         <>
                           {teams.slice(0, 1).map((team, index) => (
                             <div key={index} className="team-card">
-                              <div className="name-wraper name-wraper-green">
+                              <div className="name-wraper name-wraper-green name-left">
                                 {renderFlag(team?.country)}
                                 <h6>{team?.team || "..."}</h6>
                               </div>
@@ -155,7 +155,7 @@ const LastSection = () => {
               {/*Box 3 - Most youngest  wins*/}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href="/youngest-most-wins" className="pabs"/>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box3]?.message}</h4>
                     {getBoxData(fixedApis.box3).error ? (
@@ -204,6 +204,7 @@ const LastSection = () => {
               {/*Box 4 - Most olderst Riders*/}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
+                  <Link href="/oldest-active-riders" className="pabs"/>
                   <h4>{data?.[fixedApis.box4]?.message}</h4>
                   {getBoxData(fixedApis.box4).error ? (
                     <ErrorMessage
@@ -243,7 +244,7 @@ const LastSection = () => {
               {/*Box 5 - Mountain  */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href="/most-mountain-wins" className="pabs"/>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box5]?.message}</h4>
                     {(() => {
@@ -296,7 +297,7 @@ const LastSection = () => {
               {/*Box 6 - Shortest race */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href="/shortest-races" className="pabs"/>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {getBoxData(fixedApis.box6).error ? (
@@ -345,8 +346,8 @@ const LastSection = () => {
 
               {/*Box 7 -lightestRider */}
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                <div className="team-cart lime-green-team-cart img-active 22">
+                  <Link href="/lightest-rider" className="pabs"/>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
@@ -362,7 +363,7 @@ const LastSection = () => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <React.Fragment key={index}>
-                              <div className="name-wraper name-wraper-green">
+                              <div className="name-wraper name-wraper-green name-left">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.name || "..."}</h6>
                               </div>

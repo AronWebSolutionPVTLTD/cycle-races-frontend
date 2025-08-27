@@ -10,20 +10,46 @@ import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
 
 function convertDateRange(dateStr) {
+  const monthNames = [
+    "jan", "feb", "mar", "apr", "may", "jun",
+    "jul", "aug", "sep", "oct", "nov", "dec"
+  ];
+
   const format = (d) => {
     const [day, month] = d.split(".");
-    return `${day.padStart(2, "0")}/${month.padStart(2, "0")}`;
+    return {
+      day: parseInt(day),
+      month: parseInt(month)
+    };
   };
 
   if (dateStr.includes(" - ")) {
     const [start, end] = dateStr.split(" - ");
-    return {
-      start: format(start),
-      end: format(end),
-    };
+    const startDate = format(start);
+    const endDate = format(end);
+    
+    // Check if same month
+    if (startDate.month === endDate.month) {
+      return {
+        start: `${startDate.day} - ${endDate.day} ${monthNames[startDate.month - 1]}`,
+        end: null,
+      };
+    } else {
+      // Different months - keep current format
+      const formatOld = (d) => {
+        const [day, month] = d.split(".");
+        return `${day.padStart(2, "0")}/${month.padStart(2, "0")}`;
+      };
+      return {
+        start: formatOld(start),
+        end: formatOld(end),
+      };
+    }
   } else {
+    // Single date
+    const date = format(dateStr);
     return {
-      start: format(dateStr),
+      start: `${date.day} ${monthNames[date.month - 1]}`,
       end: null,
     };
   }
@@ -65,13 +91,13 @@ const FirstSection = () => {
   };
 
   return (
-    <section className="home-banner">
+    <section className="home-banner ctm-home-banner">
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
             <div className="d-flex justify-content-between align-items-center">
               <h2>uitslagen</h2>
-              <a href="#?" className="alle-link m-0 d-md-inline-block d-none">
+              <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
                 Alle uitslagen <img src="/images/arow2.svg" alt="" />
               </a>
             </div>
@@ -97,6 +123,10 @@ const FirstSection = () => {
               {/* First Section - Top Stage Winners */}
               <div className="col-lg-3 col-md-5">
                 <div className="list-white-cart">
+                <Link
+                    href={`/races/${encodeURIComponent(
+                      getSectionData(fixedApis.section2).data?.[0]?.raceName
+                    )}`} className="pabs"/>
                   <h4>
                     {getSectionData(fixedApis.section2).data?.[0]?.raceName}
                   </h4>
@@ -159,8 +189,8 @@ const FirstSection = () => {
                         .map((result, index) => {
                           const { start, end } = convertDateRange(result?.date);
                           return (
-                            <li key={index}>
-                              <span>
+                            <li className="hoverState-li" key={index}>
+                              <span className="text-capitalize">
                                 {/* {new Date(result.date).toLocaleDateString(
                                 "en-GB",
                                 { day: "2-digit", month: "2-digit" }
@@ -191,7 +221,7 @@ const FirstSection = () => {
                 )}
               </div>
               <div className="d-md-none d-flex justify-content-end pt-4">
-                <a href="#?" className="alle-link m-0">
+                <a href="/races" className="alle-link m-0">
                   Alle uitslagen <img src="/images/arow2.svg" alt="" />
                 </a>
               </div>

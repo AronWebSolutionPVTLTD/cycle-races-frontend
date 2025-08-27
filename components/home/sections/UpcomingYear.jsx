@@ -55,7 +55,7 @@ const UpcomingYear = () => {
           <div className="col-lg-12">
             <div className="d-flex justify-content-between align-items-center">
               <h2>aankomend</h2>
-              <a href="#?" className="alle-link m-0 d-md-inline-block d-none">
+              <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
                 Alle wedstrijden <img src="/images/arow2.svg" alt="" />
               </a>
             </div>
@@ -87,14 +87,14 @@ const UpcomingYear = () => {
                 ) : (
                   <>
                     {/* <h4>{data?.[fixedApis.box1]?.message}</h4> */}
-                    <ul className="transparent-cart">
+                    <ul className="transparent-cart sss">
                       {(Array.isArray(getBoxData(fixedApis.box1).data)
                         ? getBoxData(fixedApis.box1).data
                         : []
                       )
                         .slice(0, 5)
                         .map((race, index) => (
-                          <li key={index}>
+                          <li className="hoverState-li" key={index}>
                             <span>{race.date}</span>
                             <h5>
                               {renderFlag(race?.country)}
@@ -111,8 +111,8 @@ const UpcomingYear = () => {
                     </ul>
                   </>
                 )}
-                <div className="d-md-none d-flex justify-content-end pt-4">
-                  <a href="#?" className="alle-link m-0">
+                <div className="d-md-none d-flex justify-content-end pb-4 mb-4">
+                  <a href="/races" className="alle-link m-0">
                     Alle wedstrijden <img src="/images/arow2.svg" alt="" />
                   </a>
                 </div>
@@ -120,7 +120,8 @@ const UpcomingYear = () => {
 
               {/* Box 2 -tour Down Under24 */}
               <div className="col-lg-3 col-md-6">
-                <div className="list-white-cart">
+                <div className="list-white-cart h-auto">
+                  <Link href="/upcoming-races-last-year-riders" className="pabs"/>
                   <h4>{data?.[fixedApis.box2]?.message}</h4>
                   {getBoxData(fixedApis.box2).error ? (
                     <ErrorMessage
@@ -149,7 +150,8 @@ const UpcomingYear = () => {
                             </li>
                           ))}
                       </ul> */}
-                      <ul>
+                      <div className="d-flex justify-content-end" style={{color: "#2b534d"}}><p className="fw-bold">Time</p></div>
+                      <ul className="mb-0">
                         {(Array.isArray(getBoxData(fixedApis.box2).data)
                           ? getBoxData(fixedApis.box2).data
                           : []
@@ -157,13 +159,15 @@ const UpcomingYear = () => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <li key={index}>
+                              
                               {Array.isArray(rider.last_year_top_riders) &&
                                 rider.last_year_top_riders.length > 0 && (
-                                  <ul>
+                                  <ul className="mb-0">
                                     {rider.last_year_top_riders
                                       .slice(0, 5)
                                       .map((rider, i) => (
                                         <li key={i}>
+                                          <strong>{rider.rank}</strong>
                                           <div className="name-wraper name-wraper-white">
                                             {renderFlag(rider?.country)}
                                             <h6>{rider?.name || "..."}</h6>
@@ -193,6 +197,7 @@ const UpcomingYear = () => {
               {/* Box 3 - most Win TourDownUnder */}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
+                  <Link href="/most-win-upcoming-rider-last-year" className="pabs"/>
                   <h4>{data?.[fixedApis.box3]?.data.winners_message}</h4>
                   {getBoxData(fixedApis.box3).error ? (
                     <ErrorMessage
@@ -217,7 +222,7 @@ const UpcomingYear = () => {
                             </li>
                           ))}
                       </ul> */}
-                      <ul>
+                      <ul className="mb-0">
                         {(Array.isArray(getBoxData(fixedApis.box3).data)
                           ? getBoxData(fixedApis.box3).data
                           : []
@@ -227,11 +232,12 @@ const UpcomingYear = () => {
                             <li key={index}>
                               {Array.isArray(winner.all_time_top_winners) &&
                                 winner.all_time_top_winners.length > 0 && (
-                                  <ul>
+                                  <ul className="mb-0">
                                     {winner.all_time_top_winners
                                       .slice(0, 5)
                                       .map((winner, i) => (
                                         <li key={i}>
+                                           <strong>{winner.rank}</strong>
                                           <div className="name-wraper name-wraper-white">
                                             {renderFlag(winner?.country)}
                                             <h6>{winner?.name || "..."}</h6>

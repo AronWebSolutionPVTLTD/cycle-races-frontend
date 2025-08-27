@@ -16,7 +16,7 @@ export default function Search() {
   };
 
   return (
-    <div className="searchInput">
+    <div className="searchInput sdsdsd">
       <form onSubmit={handleSearch}>
         <div className="wraper">
           <input 

@@ -100,7 +100,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
   };
 
   return (
-    <section className="home-sec5">
+    <section className="home-sec5 sdsdsd11">
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}

@@ -76,7 +76,7 @@ const SearchBox = () => {
   }, []);
 
   return (
-    <div className="searchInput">
+    <div className="searchInput 111">
       <input type="text" placeholder="Search..." />
       <ul className="resultBox"></ul>
     </div>

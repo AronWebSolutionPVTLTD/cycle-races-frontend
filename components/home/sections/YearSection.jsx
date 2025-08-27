@@ -133,7 +133,7 @@ const YearSection = () => {
         <div className="row">
           <div className="col-lg-12 d-flex justify-content-between align-items-center">
             <h2>dit jaar</h2>
-            <a href="#?" className="alle-link m-0 d-md-inline-block d-none">
+            <a href="/stats" className="alle-link m-0 d-md-inline-block d-none">
               Alle statistieken <img src="/images/arow2.svg" alt="" />
             </a>
           </div>
@@ -149,16 +149,19 @@ const YearSection = () => {
             <>
               {/* Box 1 - Most  won */}
               <div className="col-lg-5 box6">
-                <div className="list-white-cart lime-green-cart">
-                  <h4 className="fs-chenge">
-                    {data?.[fixedApis.box1]?.message}
-                  </h4>
+                <div className="list-white-cart lime-green-cart ctm-card">
+                  <Link href="/most-wins" className="pabs"></Link>
+                  
                   {getBoxData(fixedApis.box1).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box1).errorType}
                     />
                   ) : (
                     <>
+                    <div className="card-content-wraper">
+                      <h4 className="fs-chenge">
+                        {data?.[fixedApis.box1]?.message}
+                      </h4>
                       <ul>
                         {(Array.isArray(getBoxData(fixedApis.box1).data)
                           ? getBoxData(fixedApis.box1).data
@@ -177,23 +180,27 @@ const YearSection = () => {
                             </li>
                           ))}
                       </ul>
-
+                      </div>
+                      <div className="image_link-wraper">
                       <img
                         src="/images/player3.png"
                         alt=""
                         className="absolute-img"
                       />
-                      <Link href="/most-wins" className="glob-btn green-bg-btn">
-                        <strong>volledige stats</strong>{" "}
-                        <span>
-                          <img src="/images/arow.svg" alt="" />
-                        </span>
-                      </Link>
+                      <div className="link_box">
+                        <Link href="/most-wins" className="glob-btn green-bg-btn">
+                          <strong>volledige stats</strong>{" "}
+                          <span>
+                            <img src="/images/arow.svg" alt="" />
+                          </span>
+                        </Link>
+                        </div>
+                      </div>
                     </>
                   )}
                 </div>
                 <div className="d-md-none d-flex justify-content-end pt-4">
-                  <a href="#?" className="alle-link m-0">
+                  <a href="/stats" className="alle-link m-0">
                     Alle statistieken <img src="/images/arow2.svg" alt="" />
                   </a>
                 </div>
@@ -205,7 +212,7 @@ const YearSection = () => {
 
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
+                      <Link href="/top-rider-stage" className="pabs"/>
                       <div className="text-wraper">
                         <h4> {data?.[fixedApis.box2]?.message}</h4>
                         {getBoxData(fixedApis.box2).error ? (
@@ -255,8 +262,8 @@ const YearSection = () => {
 
                   {/*Box 3 - Most Racing  Days */}
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart lime-green-team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                    <div className="team-cart lime-green-team-cart img-active 33">
+                      <Link href="/most-racing-days" className="pabs"/>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box3]?.message}</h4>
                         {getBoxData(fixedApis.box3).error ? (
@@ -307,6 +314,7 @@ const YearSection = () => {
                   {/*Box 4 - Top stage rider by team*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
+                      <Link href="/team-most-stage-wins" className="pabs"/>
                       <h4>{data?.[fixedApis.box4]?.message}</h4>
                       {getBoxData(fixedApis.box4).error ? (
                         <ErrorMessage
@@ -343,6 +351,7 @@ const YearSection = () => {
                   {/*Box 5 - Birthdays */}
                   <div className="col-lg-5 col-md-6">
                     <div className="list-white-cart">
+                      <Link href="/riders-with-birthday-today" className="pabs"/>
                       <h4>{data?.[fixedApis.box5]?.message}</h4>
                       {getBoxData(fixedApis.box5).error ? (
                         <ErrorMessage
@@ -358,7 +367,7 @@ const YearSection = () => {
                               .slice(0, 3)
                               .map((rider, index) => (
                                 <li key={index}>
-                                  <strong>{index + 1}</strong>
+                                  {/* <strong>{index + 1}</strong> */}
                                   <div className="name-wraper name-wraper-white">
                                     {renderFlag(rider?.nationality)}
                                     <h6>{rider?.name || "..."}</h6>
@@ -382,7 +391,7 @@ const YearSection = () => {
               {/*Box 6 - Team with most rider*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href="/team-with-most-rider" className="pabs"/>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {(() => {
@@ -401,7 +410,7 @@ const YearSection = () => {
                         <>
                           {teams.slice(0, 1).map((team, index) => (
                             <div key={index} className="team-card">
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white sss">
                                 {renderFlag(team?.country)}
                                 <h6>
                                   {team?.teamName ||
@@ -466,6 +475,7 @@ const YearSection = () => {
               {/*Box 8 - Most GC wins*/}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart lime-green-cart">
+                  <Link href="/most-gc-wins" className="pabs"/>
                   <h4>{data?.[fixedApis.box8]?.message}</h4>
                   {getBoxData(fixedApis.box8).error ? (
                     <ErrorMessage
@@ -502,7 +512,7 @@ const YearSection = () => {
               {/*Box 9 - Most DNF */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href="/most-dnfs" className="pabs"/>
                   <div className="text-wraper">
                     <h4> {data?.[fixedApis.box9]?.message}</h4>
                     {getBoxData(fixedApis.box9).error ? (
@@ -519,7 +529,7 @@ const YearSection = () => {
                           .map((race, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white"
+                                className="name-wraper name-wraper-white name-left"
                                 key={index}
                               >
                                 <>

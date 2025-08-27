@@ -90,16 +90,19 @@ const StatsSecondSection = ({
             <>
               {/*Box 1 - Most stage wins*/}
               <div className="col-lg-5 box6">
-                <div className="list-white-cart">
-                  <h4 className="fs-chenge">
-                    {data?.[fixedApis.box1]?.message}
-                  </h4>
+                <div className="list-white-cart ctm-card">
+                  <Link href={buildUrlWithParams("/stats/most-stage-wins")} className="pabs" />
+                  
                   {getBoxData(fixedApis.box1).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box1).errorType}
                     />
                   ) : (
                     <>
+                    <div className="card-content-wraper">
+                    <h4 className="fs-chenge">
+                      {data?.[fixedApis.box1]?.message}
+                    </h4>
                       <ul>
                         {(Array.isArray(getBoxData(fixedApis.box1).data)
                           ? getBoxData(fixedApis.box1).data
@@ -108,7 +111,7 @@ const StatsSecondSection = ({
                           .slice(0, 5)
                           .map((rider, index) => (
                             <li key={index}>
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white aa">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -117,21 +120,25 @@ const StatsSecondSection = ({
                             </li>
                           ))}
                       </ul>
-
-                      <img
-                        src="/images/player3.png"
-                        alt=""
-                        className="absolute-img"
-                      />
-                      <Link
-                        href={buildUrlWithParams("/stats/most-stage-wins")}
-                        className="glob-btn"
-                      >
-                        <strong>volledige stats</strong>{" "}
-                        <span>
-                          <img src="/images/arow.svg" alt="" />
-                        </span>
-                      </Link>
+                      <div className="image_link-wraper">
+                        <img
+                          src="/images/player3.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                        <div className="link_box">
+                          <Link
+                            href={buildUrlWithParams("/stats/most-stage-wins")}
+                            className="glob-btn"
+                          >
+                            <strong>volledige stats</strong>{" "}
+                            <span>
+                              <img src="/images/arow.svg" alt="" />
+                            </span>
+                          </Link>
+                          </div>
+                        </div>
+                      </div>
                     </>
                   )}
                 </div>
@@ -142,6 +149,9 @@ const StatsSecondSection = ({
                   {/*Box 2 - GC podium*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
+                      <Link href={buildUrlWithParams(
+                                "/stats/most-podium-in-gc"
+                              )} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box2]?.message}</h4>
                         {getBoxData(fixedApis.box2).error ? (
@@ -157,7 +167,7 @@ const StatsSecondSection = ({
                               .slice(0, 1)
                               .map((rider, index) => (
                                 <>
-                                  <div className="name-wraper name-wraper-white">
+                                  <div className="name-wraper name-wraper-white name-left">
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -186,7 +196,9 @@ const StatsSecondSection = ({
                   {/*Box 3 -most Consistent GC*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link href={buildUrlWithParams(
+                                "/stats/most-consistent-gc"
+                              )} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box3]?.message}</h4>
                         {getBoxData(fixedApis.box3).error ? (
@@ -202,7 +214,7 @@ const StatsSecondSection = ({
                               .slice(0, 1)
                               .map((rider, index) => (
                                 <>
-                                  <div className="name-wraper name-wraper-green">
+                                  <div className="name-wraper name-wraper-green name-left">
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -231,6 +243,9 @@ const StatsSecondSection = ({
                   {/*Box 4 - Best Classic*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
+                      <Link href={buildUrlWithParams(
+                                "/stats/best-classics-riders"
+                              )} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box4]?.message}</h4>
                         {getBoxData(fixedApis.box4).error ? (
@@ -247,7 +262,7 @@ const StatsSecondSection = ({
                               .map((rider, index) => (
                                 <>
                                   <div
-                                    className="name-wraper name-wraper-white"
+                                    className="name-wraper name-wraper-white name-left"
                                     key={index}
                                   >
                                     {renderFlag(rider?.rider_country)}
@@ -278,6 +293,7 @@ const StatsSecondSection = ({
                   {/*Box 5 - oldest Rider */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
+                      <Link href={buildUrlWithParams("/stats/oldest-riders")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box5]?.message}</h4>
                         {getBoxData(fixedApis.box5).error ? (
@@ -293,7 +309,7 @@ const StatsSecondSection = ({
                               .slice(0, 1)
                               .map((rider, index) => (
                                 <>
-                                  <div className="name-wraper name-wraper-white">
+                                  <div className="name-wraper name-wraper-white name-left">
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -322,6 +338,7 @@ const StatsSecondSection = ({
               {/* box6 - youngest Rider */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
+                  <Link href={buildUrlWithParams("/stats/youngest-riders")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {getBoxData(fixedApis.box6).error ? (
@@ -337,7 +354,7 @@ const StatsSecondSection = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white name-left">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -364,7 +381,7 @@ const StatsSecondSection = ({
               {/* box7 - oldest Most Wins*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                  <Link href={buildUrlWithParams("/stats/oldest-most-wins")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
@@ -380,7 +397,7 @@ const StatsSecondSection = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-green">
+                              <div className="name-wraper name-wraper-green name-left">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -446,7 +463,9 @@ const StatsSecondSection = ({
               </div> */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                  <Link href={buildUrlWithParams(
+                                  "/stats/lightest-rider"
+                                )} className="pabs" /> 
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box8]?.message}</h4>
                     {getBoxData(fixedApis.box8).error ? (
@@ -462,7 +481,7 @@ const StatsSecondSection = ({
                           .slice(0, 1)
                           .map((rider, index) => (
                             <React.Fragment key={index}>
-                              <div className="name-wraper name-wraper-green">
+                              <div className="name-wraper name-wraper-green name-left">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.name || "..."}</h6>
                               </div>
@@ -492,7 +511,9 @@ const StatsSecondSection = ({
               {/* Box9: most weight Rider  */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                  <Link  href={buildUrlWithParams(
+                                  "/stats/most-weight-riders"
+                                )} className="pabs"/>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box9]?.message}</h4>
                     {(() => {
@@ -511,7 +532,7 @@ const StatsSecondSection = ({
                         <>
                           {riders.slice(0, 1).map((rider, index) => (
                             <div key={index} className="rider-card">
-                              <div className="name-wraper name-wraper-green">
+                              <div className="name-wraper name-wraper-green name-left">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.name || "..."}</h6>
                               </div>
@@ -542,6 +563,7 @@ const StatsSecondSection = ({
               {/* Box10: GC TOp 10  */}
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart lime-green-cart">
+                  <Link href={buildUrlWithParams("/stats/top-gc-riders")} className="pabs" />
                   <h4>{data?.[fixedApis.box10]?.message}</h4>
                   {getBoxData(fixedApis.box10).error ? (
                     <ErrorMessage
@@ -558,7 +580,7 @@ const StatsSecondSection = ({
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-green">
+                              <div className="name-wraper name-wraper-green qb">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -658,6 +680,7 @@ const StatsSecondSection = ({
               </div>       */}
               <div className="col-lg-4   col-md-6">
                 <div className="team-cart">
+                  <Link href={buildUrlWithParams("/stats/dnf-teams")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box12]?.message}</h4>
                     {(() => {
@@ -674,7 +697,7 @@ const StatsSecondSection = ({
 
                       return riderData.slice(0, 1).map((rider, index) => (
                         <div key={index} className="rider-card">
-                          <div className="name-wraper name-wraper-white">
+                          <div className="name-wraper name-wraper-white name-left">
                             {renderFlag(rider?.flag)}
                             <h6>{rider?.team_name || "..."}</h6>
                           </div>
@@ -736,6 +759,9 @@ const StatsSecondSection = ({
               </div> */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
+                  <Link href={buildUrlWithParams(
+                              "/stats/top3-rank-one-teams-gc"
+                            )} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box13]?.message}</h4>
                     {(() => {
@@ -754,7 +780,7 @@ const StatsSecondSection = ({
                         <>
                           {riderData.slice(0, 1).map((rider, index) => (
                             <div key={index} className="rider-card">
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white name-left">
                                 {renderFlag(rider?.flag)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>

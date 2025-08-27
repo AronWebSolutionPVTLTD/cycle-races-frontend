@@ -275,9 +275,10 @@ export default function Results() {
                   <li>results</li>
                 </ul>
                 <h1>Results</h1>
-                <div className="searchInput">
+                <div className="searchInput 222">
                   <form onSubmit={handleSearch}>
                     <div className="wraper">
+                      <div className="wrap-top">
                       <input
                         type="text"
                         placeholder="welke wedstrijd zoek je?"
@@ -302,8 +303,10 @@ export default function Results() {
                         />
                       </div>
                     </div>
+                    
+                    </div>
                     {showSearchDropdown && searchResults.length > 0 && (
-                      <div>
+                      <div className="wrap-bottom">
                         <ul>
                           {searchResults.map((result, index) => (
                             <li
@@ -312,7 +315,7 @@ export default function Results() {
                                 handleSuggestionSelect(result.race_name)
                               }
                             >
-                              <span>{result.race_name}</span>
+                              <div><span>{result.race_name}</span></div>
                             </li>
                           ))}
                         </ul>
@@ -466,7 +469,7 @@ export default function Results() {
                 ) : featuredRaces.length > 0 ? (
                   featuredRaces.map((race, index) => (
                     <div className="team-cart" key={index}>
-                      <a href="#" className="pabs"></a>
+                      <Link href={buildUrlWithParams(race.link)} className="pabs"></Link>
                       <div className="text-wraper">
                         <h4 className="font-size-change">{race.title}</h4>
                         <div className="name-wraper">

@@ -101,7 +101,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             {/* First Card */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("last-victory")} className="pabs" />
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box1]?.message}</h4>
                   {(() => {
@@ -181,7 +181,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             </div> */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("uci-points")} className="pabs" />
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box2]?.message}</h4>
                   {(() => {
@@ -232,7 +232,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             {/* third Section */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("current-team")} className="pabs" />
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box3]?.message}</h4>
                   {(() => {
@@ -306,17 +306,18 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            <div className="col-lg-7 box5">
+            <div className="col-lg-7 box5 sss">
               <div className="row">
                 {/* Box5: Wins in one day */}
-
-                <div className="col-lg-5 col-md-6">
+ 
+                <div className="col-lg-5 col-md-6 12121">
                   <div className="team-cart">
-                    <a href="#?" className="pabs"></a>
+                    <Link href={buildUrlWithParams("wins-in-one-day")} className="pabs" />
                     <div className="text-wraper">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box5]?.message}
                       </h4>
+                      
                       {(() => {
                         if (!data?.[fixedApis.box5]) {
                           return <ErrorMessage errorType="no_data" />;
@@ -331,11 +332,9 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                         return (
                           <>
-                            {riderData?.one_day_race_wins && (
-                              <h5>
-                                <strong>{riderData.one_day_race_wins} </strong>
-                              </h5>
-                            )}
+                            <h5>
+                              <strong>{riderData?.one_day_race_wins ?? 0}</strong>wins
+                            </h5>
 
                             <Link href={buildUrlWithParams("wins-in-one-day")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="" />
@@ -380,7 +379,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 </div> */}
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart">
-                    <a href="#?" className="pabs"></a>
+                    <Link href={buildUrlWithParams("rider-years-active")} className="pabs" />
                     <div className="text-wraper">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box6]?.message}
@@ -460,7 +459,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 {/*Box 8 - Time Since LastVictory */}
                 <div className="col-lg-5 col-md-6">
                   <div className="team-cart">
-                    <a href="#?" className="pabs"></a>
+                    <Link href={buildUrlWithParams("time-since-last-victory")} className="pabs" />
                     <div className="text-wraper">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box8]?.message}

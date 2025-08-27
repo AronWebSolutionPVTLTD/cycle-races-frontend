@@ -393,7 +393,7 @@ export default function RaceResultPage() {
               )}
             </div>
 
-            <div className="col-lg-3 col-md-5">
+            <div className="col-lg-3 col-md-5 111">
               {loadingFeatured ? (
                 <div className="loading-spinner">
                   <CardSkeleton />
@@ -405,6 +405,7 @@ export default function RaceResultPage() {
               ) : featuredStats.length > 0 ? (
                 featuredStats.map((stat, index) => (
                   <div className="team-cart" key={index}>
+                    <Link href={buildUrlWithParams(stat.link)} className="pabs" />
                     <div className="text-wraper">
                       <h4 className="font-size-change">{stat.title}</h4>
                       <div className="name-wraper">

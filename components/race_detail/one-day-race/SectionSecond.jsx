@@ -104,7 +104,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
   };
   console.log(selectedNationality, "nato");
   return (
-    <section className="home-sec5">
+    <section className="home-sec5 dddd">
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
@@ -120,7 +120,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               {/* box1 - Most wins */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                  <Link href={buildUrlWithParams("most-wins-nationality")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box1]?.message}</h4>
                     {getBoxData(fixedApis.box1).error ? (
@@ -199,6 +199,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               {/* box3- Most Participations ByRider */}
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart">
+                  <Link href={buildUrlWithParams("most-participations-by-rider")} className="pabs" />
                   <h4>{data?.[fixedApis.box3]?.message}</h4>
                   {getBoxData(fixedApis.box3).error ? (
                     <ErrorMessage
@@ -241,6 +242,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               {/*Box 5 - Top5 Spanish Results*/}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart">
+                  <Link href={buildUrlWithParams("top5-spanish-results")} className="pabs" />
                   <h4 className="fs-chenge">
                     {data?.[fixedApis.box5]?.message}
                   </h4>
@@ -292,6 +294,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 6 - LastRace Winner By Nationality,*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
+                      <Link href={buildUrlWithParams("last-race-winner-by-nationality")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box6]?.message}</h4>
                         {(() => {
@@ -339,6 +342,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 7 -Top10 Finishes*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
+                      <Link href={buildUrlWithParams("top10-spanish-finishes")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box7]?.message}</h4>
                         {(() => {
@@ -386,6 +390,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 8 - Top Podium Reach*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
+                      <Link href={buildUrlWithParams("top-spanish-podium-reach")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box8]?.message}</h4>
                         {(() => {
@@ -433,7 +438,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 9 -Youngest Participant */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link href={buildUrlWithParams("youngest-spanish-participant")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box9]?.message}</h4>
                         {(() => {
@@ -482,7 +487,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               {/*Box 10 - Oldest Participant*/}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href={buildUrlWithParams("oldest-spanish-participant")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box10]?.message}</h4>
                     {(() => {
@@ -556,7 +561,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               {/* Box4: Rider with most DNFs  */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href={buildUrlWithParams("most-dnfs-by-nationality-one-day-race")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box4]?.message}</h4>
                     {(() => {

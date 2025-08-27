@@ -278,7 +278,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/*Box 4 - Best StageResult*/}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("get-best-stage-result")} className="pabs" />
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box4]?.message}</h4>
                   {(() => {
@@ -322,7 +322,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/*Box 5 - Grand TourDNFs  */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("get-grand-tour-dnfs")} className="pabs" />
                 <div className="text-wraper">
                   <h4 className="font-size-change">
                     {data?.[fixedApis.box5]?.message}
@@ -368,6 +368,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/*Box 6 - First RankInGrand Tours */}
             <div className="col-lg-3 col-md-6">
               <div className="list-white-cart">
+                <Link href={buildUrlWithParams("get-first-rank-in-grand-tours")} className="pabs" />
                 <h4>{data?.[fixedApis.box6]?.message}</h4>
                 {getBoxData(fixedApis.box6).error ? (
                   <ErrorMessage
@@ -406,7 +407,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/*Box 7 -First RankInMonuments */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("get-first-ever-grand-tour-win")} className="pabs" />
                 <div className="text-wraper">
                   <h4 className="font-size-change">
                     {data?.[fixedApis.box7]?.message}
@@ -450,7 +451,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/*Box 8 -Total RacingDays InGrandTours */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("get-total-racing-days-in-grand-tours")} className="pabs" />
                 <div className="text-wraper">
                   <h4 className="font-size-change">
                     {data?.[fixedApis.box8]?.message}
@@ -492,7 +493,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/*Box 9 - TotalDistance Raced In GrandTours*/}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("get-total-distance-raced-in-grand-tours")} className="pabs" />
                 <div className="text-wraper">
                   <h4 className="font-size-change">
                     {data?.[fixedApis.box9]?.message}
@@ -536,6 +537,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/*Box 10 - BestMonument Results*/}
             <div className="col-lg-3 col-md-6">
               <div className="list-white-cart">
+                <Link href={buildUrlWithParams("get-best-monument-results")} className="pabs" />
                 <h4>{data?.[fixedApis.box10]?.message}</h4>
                 {getBoxData(fixedApis.box10).error ? (
                   <ErrorMessage
@@ -574,7 +576,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/*Box 11 - Best ParisRoubaix Result*/}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("get-best-paris-roubaix-result")} className="pabs" />
                 <div className="text-wraper">
                   <h4 className="font-size-change">
                     {data?.[fixedApis.box11]?.message}
@@ -618,6 +620,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/*Box 12 - First Rank InMonuments*/}
             <div className="col-lg-3 col-md-6">
               <div className="list-white-cart">
+                <Link href={buildUrlWithParams("get-first-rank-in-monuments")} className="pabs" />
                 <h4>{data?.[fixedApis.box12]?.message}</h4>
                 {getBoxData(fixedApis.box12).error ? (
                   <ErrorMessage
@@ -654,7 +657,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/* Box 13 -  Last Victory  */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("get-best-gc-result")} className="pabs" />
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box13]?.message}</h4>
                   {(() => {
@@ -698,7 +701,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
             <div className="col-lg-3 col-md-6">
               <div className="team-cart">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("team-mates")} className="pabs" />
                 <div className="text-wraper">
                   <h4 className="font-size-change">
                     {data?.[fixedApis.box14]?.message}
@@ -742,6 +745,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/* Box 15 - Rider LastPlace Finishes*/}
             <div className="col-lg-3 col-md-6">
               <div className="list-white-cart">
+                <Link href={buildUrlWithParams("get-rider-last-place-finishes")} className="pabs" />
                 <h4>{data?.[fixedApis.box15]?.message}</h4>
                 {getBoxData(fixedApis.box15).error ? (
                   <ErrorMessage

@@ -83,7 +83,8 @@ const StatsThirdSection = ({
             <>
               {/* First Card */}
               <div className="col-lg-4 col-md-6">
-                <div className="list-white-cart lime-green-cart">
+                <div className="list-white-cart lime-green-cart aa">
+                  <Link href={buildUrlWithParams("/stats/grand-tour-stage-wins")} className="pabs"/>
                   <h4>{data?.[fixedApis.box1]?.message}</h4>
                   {getBoxData(fixedApis.box1).error ? (
                     <ErrorMessage
@@ -123,6 +124,7 @@ const StatsThirdSection = ({
               {/* SEcond Card */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
+                  <Link href={buildUrlWithParams("/stats/most-kms-raced")} className="pabs"/>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box2]?.message}</h4>
                     {getBoxData(fixedApis.box2).error ? (
@@ -139,7 +141,7 @@ const StatsThirdSection = ({
                           .map((rider, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white"
+                                className="name-wraper name-wraper-white name-left"
                                 key={index}
                               >
                                 {renderFlag(rider?.rider_country)}
@@ -168,6 +170,7 @@ const StatsThirdSection = ({
               {/* third Section */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
+                  <Link href={buildUrlWithParams("/stats/top3-stage-teams")} className="pabs"/>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box3]?.message}</h4>
                     {getBoxData(fixedApis.box3).error ? (
@@ -184,7 +187,7 @@ const StatsThirdSection = ({
                           .map((rider, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white"
+                                className="name-wraper name-wraper-white name-left"
                                 key={index}
                               >
                                 {renderFlag(rider?.team_country)}
@@ -216,6 +219,7 @@ const StatsThirdSection = ({
 
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
+                      <Link href={buildUrlWithParams("/stats/top-gc-riders-by-team")} className="pabs"/>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box5]?.message}</h4>
                         {getBoxData(fixedApis.box5).error ? (
@@ -232,7 +236,7 @@ const StatsThirdSection = ({
                               .map((rider, index) => (
                                 <>
                                   <div
-                                    className="name-wraper name-wraper-white"
+                                    className="name-wraper name-wraper-white name-left"
                                     key={index}
                                   >
                                     {renderFlag(rider?.team_country)}
@@ -261,6 +265,7 @@ const StatsThirdSection = ({
                   {/*Box 6 -top 3GC Team */}
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
+                      <Link href={buildUrlWithParams("/stats/top-gc-teams")} className="pabs"/>
                       <h4>{data?.[fixedApis.box6]?.message}</h4>
                       {getBoxData(fixedApis.box6).error ? (
                         <ErrorMessage
@@ -277,7 +282,7 @@ const StatsThirdSection = ({
                               .map((rider, index) => (
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
-                                  <div className="name-wraper name-wraper-white">
+                                  <div className="name-wraper name-wraper-white 15">
                                     {renderFlag(rider?.team_country)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
@@ -343,6 +348,7 @@ const StatsThirdSection = ({
                   {/*Box 8 - longest Races */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
+                      <Link href={buildUrlWithParams("/stats/longest-races")} className="pabs"/>
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box8]?.message}</h4>
                         {getBoxData(fixedApis.box8).error ? (
@@ -359,7 +365,7 @@ const StatsThirdSection = ({
                               .map((rider, index) => (
                                 <>
                                   <div
-                                    className="name-wraper name-wraper-white"
+                                    className="name-wraper name-wraper-white name-left"
                                     key={index}
                                   >
                                     {renderFlag(rider?.country)}
@@ -405,7 +411,7 @@ const StatsThirdSection = ({
                             return <ErrorMessage errorType="no_data_found" />;
                           }
                           return (
-                            <div className="name-wraper name-wraper-white">
+                            <div className="name-wraper name-wraper-white 17">
                               {riderData.count && (
                                 <h5>
                                   <strong>{riderData.count}</strong>
@@ -422,17 +428,20 @@ const StatsThirdSection = ({
 
               {/*Box 9 - top 1o GC Teams  */}
               <div className="col-lg-5 box6">
-                <div className="list-white-cart lime-green-cart">
-                  <h4 className="fs-chenge">
-                    {" "}
-                    {data?.[fixedApis.box9]?.message}
-                  </h4>
+                <div className="list-white-cart lime-green-cart ctm-card">
+                  <Link href={buildUrlWithParams("/stats/top10-gc-teams")} className="pabs"/>
+                  
                   {getBoxData(fixedApis.box9).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box9).errorType}
                     />
                   ) : (
                     <>
+                    <div className="card-content-wraper">
+                    <h4 className="fs-chenge">
+                      {" "}
+                      {data?.[fixedApis.box9]?.message}
+                    </h4>
                       <ul>
                         {(Array.isArray(getBoxData(fixedApis.box9).data)
                           ? getBoxData(fixedApis.box9).data
@@ -452,17 +461,22 @@ const StatsThirdSection = ({
                           ))}
                       </ul>
 
-                      <img
-                        src="/images/player6.png"
-                        alt=""
-                        className="absolute-img"
-                      />
-                      <Link href={buildUrlWithParams("/stats/top10-gc-teams")} className="glob-btn">
-                        <strong>volledige stats</strong>{" "}
-                        <span>
-                          <img src="/images/arow.svg" alt="" />
-                        </span>
-                      </Link>
+                      <div className="image_link-wraper">
+                        <img
+                          src="/images/player6.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                          <div className="link_box">
+                            <Link href={buildUrlWithParams("/stats/top10-gc-teams")} className="glob-btn">
+                              <strong>volledige stats</strong>{" "}
+                              <span>
+                                <img src="/images/arow.svg" alt="" />
+                              </span>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
                     </>
                   )}
                 </div>

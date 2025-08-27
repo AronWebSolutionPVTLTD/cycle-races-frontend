@@ -6,6 +6,7 @@ export default function SidebarList({ title, riders, link }) {
 
     return (
       <div className="list-white-cart">
+        <Link href={`/${link}`} className="pabs" />
         <h4>{title}</h4>
         <ul>
           {riders.map((rider, index) => (

@@ -569,6 +569,9 @@ section.home-banner ul.transparent-cart li h5 {
     section.home-sec2 .box5{order: 5;}
     section.home-sec2 .box6{order: 6;}
     section.home-sec2 .box7{order: 7;}
+    .ctm-home-banner{
+        padding-top: 76px!important;
+    }
 }
 
 /* nav ber css end */
@@ -579,6 +582,9 @@ section.home-banner ul.transparent-cart li h5 {
     /* header .header-content-wraper .menu-wraper .search-wraper {
         display: none;
     } */
+    header .header-content-wraper a.logo{
+        flex: 0 0 117px;
+    }
     header .header-content-wraper .menu-wraper ul li::after {
         background-image: url(../public/images/mobile-line.svg);
     }
@@ -676,6 +682,11 @@ section.home-banner ul.transparent-cart li h5 {
         padding: 0.81rem 0.75rem;
         position: absolute;
         bottom: 1.01rem;
+        width: calc(100% - 9.75rem);
+    }
+    .name-wraper.name-left {
+        left: 1rem !important;
+        width: calc( 100% - 5rem ) !important;
     }
     .team-cart.class-for-mobile {
         min-height: 11rem;
@@ -811,7 +822,7 @@ section.home-banner ul.transparent-cart li h5 {
         font-size: 0.9rem;
     } 
     footer {
-        padding: 4rem 0;
+        padding: 4rem 0 0;
     }   
     footer .footer-content-wraper .content-wrap {
         position: static;
@@ -1135,6 +1146,20 @@ section.home-banner ul.transparent-cart li h5 {
         padding-right: 6rem;
     }
 
+    section.home-banner ul.transparent-cart li a.r-details {
+        opacity: 1;
+        z-index: 1;
+        bottom: 1rem;
+        transform: none;
+        top: unset;
+    }
+    .wrap-bottom {
+        font-size: 18px;
+        line-height: 18px;
+    }
+    .list-white-cart.lime-green-cart a.glob-btn span {
+        background-color: #fff !important;
+    }
 }
 
 @media screen and (max-width: 639px) {}

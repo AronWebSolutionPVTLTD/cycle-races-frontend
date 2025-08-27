@@ -91,7 +91,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
   };
 
   return (
-    <section className="home-sec5">
+    <section className="home-sec5 11111111">
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}

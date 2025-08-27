@@ -42,7 +42,7 @@ export const Loading = () => (
     };
 
     return (
-      <div className="text-danger text-center py-3">
+      <div className="text-danger text-center py-3 noData-error">
         {errorMessages[errorType] || errorMessages.general}
       </div>
     );

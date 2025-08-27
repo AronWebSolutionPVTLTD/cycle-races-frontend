@@ -92,7 +92,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
   };
 
   return (
-    <section className="home-sec5">
+    <section className="home-sec5 bbbbb">
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
@@ -108,7 +108,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/* box1 - Most DNF*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href={buildUrlWithParams("rider-with-most-dnf")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box1]?.message}</h4>
                     {(() => {
@@ -153,7 +153,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/* box2 - Rider With Most Finishes*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href={buildUrlWithParams("rider-with-most-finishes")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box2]?.message}</h4>
                     {(() => {
@@ -198,7 +198,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/* box3 - Rider With Consecutive WIns*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href={buildUrlWithParams("rider-with-most-consecutive-wins")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box3]?.message}</h4>
                     {(() => {
@@ -238,7 +238,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
 
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                  <Link href={buildUrlWithParams("longest-race-edition")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box4]?.message}</h4>
                     {(() => {
@@ -278,7 +278,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                   {/* Box5: Edition With Most DNFs */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
+                      <Link href={buildUrlWithParams("edition-with-most-dnfs")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box5]?.message}</h4>
                         {(() => {
@@ -342,7 +342,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                   {/*Box 6 -Country With MostWins */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <a href="#?" className="pabs"></a>
+                      <Link href={buildUrlWithParams("country-with-most-wins")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box6]?.message}</h4>
                         {(() => {
@@ -390,7 +390,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                   {/*Box 7 - Most Successful TeamInRace*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
-                      <a href="#?" className="pabs"></a>
+                      <Link href={buildUrlWithParams("most-successful-team-in-race")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box7]?.message}</h4>
                         {(() => {
@@ -432,6 +432,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                   {/*Box 8 - Oldest Top 10Rider */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
+                      <Link href={buildUrlWithParams("oldest-top10-rider")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box8]?.message}</h4>
                         {(() => {
@@ -475,6 +476,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/*Box 9 - Most debut riders*/}
               <div className="col-lg-5 col-md-6">
                 <div className="list-white-cart lime-green-cart">
+                  <Link href={buildUrlWithParams("debut-riders-in-race")} className="pabs" />
                   <h4 className="fs-chenge">
                     {data?.[fixedApis.box9]?.message}
                   </h4>
@@ -564,6 +566,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               </div> */}
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart">
+                  <Link href={buildUrlWithParams("winners-from-country")} className="pabs" />
                   <h4>{data?.[fixedApis.box10]?.message}</h4>
                   {getBoxData(fixedApis.box10).error ? (
                     <ErrorMessage
@@ -599,7 +602,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/* Box11: Youngest  top 10 */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
-                  <a href="#?" className="pabs"></a>
+                  <Link href={buildUrlWithParams("youngest-top10-rider")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box11]?.message}</h4>
                     {(() => {
@@ -637,7 +640,7 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/*Box 12 -Last Winner FromCountry */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                  <Link href={buildUrlWithParams("last-winner-from-country")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box12]?.message}</h4>
                     {(() => {

@@ -124,6 +124,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
             {/*Box 1 - Top10 Stages InGrandTours */}
             <div className="col-lg-5 box6">
               <div className="list-white-cart lime-green-cart">
+                <Link href={buildUrlWithParams("get-top10-stages-in-grand-tours")} className="pabs" />
                 <h4 className="fs-chenge">{data?.[fixedApis.box1]?.message}</h4>
                 {getBoxData(fixedApis.box1).error ? (
                   <ErrorMessage
@@ -171,7 +172,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                 {/*Box 2 - Rider FirstWin*/}
                 <div className="col-lg-5 col-md-6">
                   <div className="team-cart">
-                    <a href="#?" className="pabs"></a>
+                    <Link href={buildUrlWithParams("get-rider-first-win")} className="pabs" />
                     <div className="text-wraper">
                       <h4>{data?.[fixedApis.box2]?.message}</h4>
                       {(() => {
@@ -214,7 +215,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                 {/*Box 3 -GC Results */}
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart lime-green-team-cart img-active">
-                    <a href="#?" className="pabs"></a>
+                    <Link href={buildUrlWithParams("best-gc-results")} className="pabs" />
                     <div className="text-wraper">
                       <h4>{data?.[fixedApis.box3]?.message}</h4>
                       {(() => {
@@ -256,7 +257,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                 {/*Box 4 - Rider LongestNoWinStreak*/}
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart">
-                    <a href="#?" className="pabs"></a>
+                    <Link href={buildUrlWithParams("get-rider-longest-no-win-streak")} className="pabs" />
                     <div className="text-wraper">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box4]?.message}
@@ -303,6 +304,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                 {/*Box 5 - contract History */}
                 <div className="col-lg-5 col-md-6">
                   <div className="list-white-cart">
+                    <Link href={buildUrlWithParams("contact-history")} className="pabs" />
                     <h4>{data?.[fixedApis.box5]?.message}</h4>
                     {getBoxData(fixedApis.box5).error ? (
                       <ErrorMessage
@@ -341,7 +343,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
             {/* box6 - best Country */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("best-country")} className="pabs" />
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box6]?.message}</h4>
                   {(() => {
@@ -385,7 +387,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
             {/* box7 - home country wins*/}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("home-country-wins")} className="pabs" />
                 <div className="text-wraper">
                   <h4 className="font-size-change">
                     {data?.[fixedApis.box7]?.message}
@@ -430,6 +432,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
             {/* box8 -  Rider from same home town InOneDay */}
             <div className="col-lg-3 col-md-6">
               <div className="list-white-cart">
+                <Link href={buildUrlWithParams("rider-from-same-home-town")} className="pabs" />
                 <h4>{data?.[fixedApis.box8]?.message}</h4>
                 {getBoxData(fixedApis.box8).error ? (
                   <ErrorMessage
@@ -464,7 +467,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
             {/* Box9: Rider AllVictories  */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
-                <a href="#?" className="pabs"></a>
+                <Link href={buildUrlWithParams("get-rider-all-victories")} className="pabs" />
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box9]?.message}</h4>
                   {getBoxData(fixedApis.box9).error ? (
