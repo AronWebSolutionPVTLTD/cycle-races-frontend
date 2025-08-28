@@ -295,8 +295,8 @@ const LastSection = () => {
               </div>
 
               {/*Box 6 - Shortest race */}
-              <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+              <div className="col-lg-3 col-md-6 ss">
+                <div className="list-white-cart team-cart">
                   <Link href="/shortest-races" className="pabs"/>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
@@ -314,8 +314,8 @@ const LastSection = () => {
                           .map((race, index) => (
                             <>
                               <div className="name-wraper name-wraper-white">
+                              {renderFlag(race?.country_code)}
                                 <h6>
-                                  {renderFlag(race?.country_code)}
                                   {race?.race || "..."} ({race?.year})
                                 </h6>
                               </div>

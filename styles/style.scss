@@ -2932,3 +2932,14 @@ header.sticky-header.sticky-top .menu-wraper ul li a {
   font-weight: 500;
   padding: 0 10px;
 }
+.hoverState-li .pabs {
+  position: absolute;
+  inset: 0;
+}
+.list-white-cart.team-cart .name-wraper img {
+  max-width: 1.125rem;
+  max-height: 0.74469rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

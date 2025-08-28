@@ -511,7 +511,7 @@ const YearSection = () => {
 
               {/*Box 9 - Most DNF */}
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="list-white-cart team-cart">
                   <Link href="/most-dnfs" className="pabs"/>
                   <div className="text-wraper">
                     <h4> {data?.[fixedApis.box9]?.message}</h4>

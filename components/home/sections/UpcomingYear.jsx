@@ -95,6 +95,7 @@ const UpcomingYear = () => {
                         .slice(0, 5)
                         .map((race, index) => (
                           <li className="hoverState-li" key={index}>
+                            <Link href={`/races/${race?.race}`} className="pabs"/>
                             <span>{race.date}</span>
                             <h5>
                               {renderFlag(race?.country)}
@@ -150,7 +151,6 @@ const UpcomingYear = () => {
                             </li>
                           ))}
                       </ul> */}
-                      <div className="d-flex justify-content-end" style={{color: "#2b534d"}}><p className="fw-bold">Time</p></div>
                       <ul className="mb-0">
                         {(Array.isArray(getBoxData(fixedApis.box2).data)
                           ? getBoxData(fixedApis.box2).data

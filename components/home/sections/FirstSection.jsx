@@ -190,6 +190,7 @@ const FirstSection = () => {
                           const { start, end } = convertDateRange(result?.date);
                           return (
                             <li className="hoverState-li" key={index}>
+                              <Link href={`/races/${result?.raceName}`} className="pabs"/>
                               <span className="text-capitalize">
                                 {/* {new Date(result.date).toLocaleDateString(
                                 "en-GB",
