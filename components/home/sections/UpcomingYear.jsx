@@ -9,6 +9,53 @@ import {
 import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
 
+
+function convertDateRange(dateStr) {
+  const monthNames = [
+    "jan", "feb", "mar", "apr", "may", "jun",
+    "jul", "aug", "sep", "oct", "nov", "dec"
+  ];
+
+  const format = (d) => {
+    const [day, month] = d.split(".");
+    return {
+      day: parseInt(day),
+      month: parseInt(month)
+    };
+  };
+
+  if (dateStr.includes(" - ")) {
+    const [start, end] = dateStr.split(" - ");
+    const startDate = format(start);
+    const endDate = format(end);
+    
+    // Check if same month
+    if (startDate.month === endDate.month) {
+      return {
+        start: `${startDate.day} - ${endDate.day} ${monthNames[startDate.month - 1]}`,
+        end: null,
+      };
+    } else {
+      // Different months - keep current format
+      const formatOld = (d) => {
+        const [day, month] = d.split(".");
+        return `${day.padStart(2, "0")}/${month.padStart(2, "0")}`;
+      };
+      return {
+        start: formatOld(start),
+        end: formatOld(end),
+      };
+    }
+  } else {
+    // Single date
+    const date = format(dateStr);
+    return {
+      start: `${date.day} ${monthNames[date.month - 1]}`,
+      end: null,
+    };
+  }
+}
+
 const UpcomingYear = () => {
   // Fixed APIs for each box - no random selection
   const fixedApis = {
@@ -93,10 +140,19 @@ const UpcomingYear = () => {
                         : []
                       )
                         .slice(0, 5)
-                        .map((race, index) => (
+                        .map((race, index) => {
+                          const { start, end } = convertDateRange(race?.date);
+                          return (
                           <li className="hoverState-li" key={index}>
                             <Link href={`/races/${race?.race}`} className="pabs"/>
-                            <span>{race.date}</span>
+                            <span className="text-capitalize">
+                                {/* {new Date(result.date).toLocaleDateString(
+                                "en-GB",
+                                { day: "2-digit", month: "2-digit" }
+                              )} */}
+                                {start}
+                                {end ? ` - ${end}` : ""}
+                              </span>
                             <h5>
                               {renderFlag(race?.country)}
                               {race.race}
@@ -108,7 +164,8 @@ const UpcomingYear = () => {
                               <img src="/images/hover-arow.svg" alt="" />
                             </Link>
                           </li>
-                        ))}
+                        )
+                      })}
                     </ul>
                   </>
                 )}
