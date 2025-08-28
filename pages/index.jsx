@@ -18,7 +18,11 @@ export default function Home() {
       <main>
         <FirstSection />
         <YearSection />
-        <MostWin />
+        <MostWin 
+        apiEndpoint="mostWin"
+        title="Most Wins"
+        dataField="wins"
+        />
         <UpcomingYear />
         <LastSection />
       </main>

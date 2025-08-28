@@ -135,7 +135,7 @@ select {
   font-size: 1rem;
   font-style: normal;
   font-weight: 5;
-  line-height: 0.5rem; /* 50% */
+  line-height: 1; /* 50% */
   letter-spacing: -0.022rem;
   text-transform: uppercase;
   border-radius: 5.625rem;
@@ -2942,4 +2942,28 @@ header.sticky-header.sticky-top .menu-wraper ul li a {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+// breadcrumb css 
+.breadcrumb li a {
+  position: relative;
+}
+
+.breadcrumb li a::after {
+  content: '';
+  width: 0;
+  height: 1px;
+  background: #678F89;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.breadcrumb li a:hover::after {
+  width: 100%;
+}
+
+.breadcrumb li a:hover {
+  color: #678F89 !important;
 }

@@ -170,7 +170,7 @@ const StatsFirstSection = ({
 
                                   {rider?.count && (
                                     <h5>
-                                      <strong>{rider.count} </strong> wins
+                                      <strong>{rider.count} </strong> Times
                                     </h5>
                                   )}
                                 </div>

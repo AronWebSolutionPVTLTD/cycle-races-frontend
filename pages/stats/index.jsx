@@ -198,6 +198,9 @@ export default function Stats() {
               selectedNationality={selectedNationality}
               selectedTeam={selectedTeam}
               selectedYear={selectedYear}
+              apiEndpoint="mostWin"
+              title="Most Wins"
+              dataField="wins"
             />
 
             <StatsData
@@ -210,6 +213,14 @@ export default function Stats() {
               selectedNationality={selectedNationality}
               selectedTeam={selectedTeam}
               selectedYear={selectedYear}
+            />
+            <MostWin
+              selectedNationality={selectedNationality}
+              selectedTeam={selectedTeam}
+              selectedYear={selectedYear}
+              apiEndpoint="mostStageWins"
+              title="Most Stage"
+              dataField="count"
             />
             <StatsThirdSection
               selectedNationality={selectedNationality}

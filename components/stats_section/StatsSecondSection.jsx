@@ -111,6 +111,7 @@ const StatsSecondSection = ({
                           .slice(0, 5)
                           .map((rider, index) => (
                             <li key={index}>
+                              <strong>{index + 1}</strong>
                               <div className="name-wraper name-wraper-white aa">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -218,9 +219,9 @@ const StatsSecondSection = ({
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
-                                  {rider?.total_gc_races && (
+                                  {rider?.avg_rank && (
                                     <h5>
-                                      <strong>{rider.total_gc_races} </strong>
+                                      <strong>{rider.avg_rank} </strong>
                                     </h5>
                                   )}
                                 </>

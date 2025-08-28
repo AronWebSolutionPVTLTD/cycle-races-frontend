@@ -8,9 +8,13 @@ const MostWin = ({
   selectedNationality = null,
   selectedTeam = null,
   selectedYear = null,
+  // New props for different data types
+  apiEndpoint = "mostWin",
+  title = "Most Wins",
+  dataField = "wins", // wins, count, etc.
 }) => {
   const apiOptions = {
-    box1: "mostWin",
+    box1: apiEndpoint,
   };
 
   const buildQueryParams = () => {
@@ -53,7 +57,7 @@ const endpointsToFetch = Object.values(apiOptions);
     return { error: true, errorType: "no_data_found" };
   };
   return (
-    <section className="home-sec3">
+    <section className="home-sec3 sdsdd">
       <div className="container">
         <div className="row">
           {loading && (
@@ -72,7 +76,7 @@ const endpointsToFetch = Object.values(apiOptions);
   <div className="col-lg-12">
     <div className="winning-box">
       <div className="text-wraper">
-        <h3>{data?.[apiOptions.box1].message || "Most Wins"}</h3>
+        <h3>{data?.[apiOptions.box1].message || title}</h3>
         {getBoxData(apiOptions.box1).error ? (
           <ErrorMessage errorType={getBoxData(apiOptions.box1).errorType} />
         ) : (
@@ -105,12 +109,22 @@ const endpointsToFetch = Object.values(apiOptions);
           : []
         )
           .slice(0, 1)
-          .map((rider, index) => (
-            <div key={`count-${index}`} className="win-count">
-              {rider.wins && <span>{rider.wins}</span>}
-              {rider.count && <span>{rider.count}</span>}
-            </div>
-          ))
+          .map((rider, index) => {
+            // Debug: Log the rider data to see what fields are available
+            console.log(`MostWin ${apiEndpoint} rider data:`, rider);
+            
+            // Try multiple possible field names for the data
+            const possibleFields = [dataField, 'wins', 'count', 'races', 'podiums', 'stages'];
+            const value = possibleFields.find(field => rider[field] !== undefined && rider[field] !== null);
+            
+            console.log(`MostWin ${apiEndpoint} found value:`, value, 'for rider:', rider.rider_name);
+            
+            return (
+              <div key={`count-${index}`} className="win-count">
+                {value && <span>{rider[value]}</span>}
+              </div>
+            );
+          })
       )}
     </div>
   </div>

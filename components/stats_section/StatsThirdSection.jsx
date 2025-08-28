@@ -149,7 +149,7 @@ const StatsThirdSection = ({
                               </div>
                               {rider?.total_distance && (
                                 <h5>
-                                  <strong>{rider.total_distance} </strong>
+                                  <strong>{rider.total_distance}</strong> KM
                                 </h5>
                               )}
                             </>
