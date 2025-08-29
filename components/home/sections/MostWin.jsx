@@ -111,13 +111,13 @@ const endpointsToFetch = Object.values(apiOptions);
           .slice(0, 1)
           .map((rider, index) => {
             // Debug: Log the rider data to see what fields are available
-            console.log(`MostWin ${apiEndpoint} rider data:`, rider);
+            // console.log(`MostWin ${apiEndpoint} rider data:`, rider);
             
             // Try multiple possible field names for the data
             const possibleFields = [dataField, 'wins', 'count', 'races', 'podiums', 'stages'];
             const value = possibleFields.find(field => rider[field] !== undefined && rider[field] !== null);
             
-            console.log(`MostWin ${apiEndpoint} found value:`, value, 'for rider:', rider.rider_name);
+            // console.log(`MostWin ${apiEndpoint} found value:`, value, 'for rider:', rider.rider_name);
             
             return (
               <div key={`count-${index}`} className="win-count">

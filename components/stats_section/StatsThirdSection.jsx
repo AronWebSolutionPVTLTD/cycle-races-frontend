@@ -262,45 +262,7 @@ const StatsThirdSection = ({
                     </div>
                   </div>
 
-                  {/*Box 6 -top 3GC Team */}
-                  <div className="col-lg-7 col-md-6">
-                    <div className="list-white-cart">
-                      <Link href={buildUrlWithParams("/stats/top-gc-teams")} className="pabs"/>
-                      <h4>{data?.[fixedApis.box6]?.message}</h4>
-                      {getBoxData(fixedApis.box6).error ? (
-                        <ErrorMessage
-                          errorType={getBoxData(fixedApis.box6).errorType}
-                        />
-                      ) : (
-                        <>
-                          <ul>
-                            {(Array.isArray(getBoxData(fixedApis.box6).data)
-                              ? getBoxData(fixedApis.box6).data
-                              : []
-                            )
-                              .slice(0, 3)
-                              .map((rider, index) => (
-                                <li key={index}>
-                                  <strong>{index + 1}</strong>
-                                  <div className="name-wraper name-wraper-white 15">
-                                    {renderFlag(rider?.team_country)}
-                                    <h6>{rider?.team_name || "..."}</h6>
-                                  </div>
-
-                                  {rider?.count && <span>{rider.count}</span>}
-                                </li>
-                              ))}
-                          </ul>
-                          <Link
-                            href={buildUrlWithParams("/stats/top-gc-teams")}
-                            className="green-circle-btn"
-                          >
-                            <img src="/images/arow.svg" alt="" />
-                          </Link>
-                        </>
-                      )}
-                    </div>
-                  </div>
+                 
 
                   {/*Box 7 - Most Consistent GCTeams*/}
                   {/* <div className="col-lg-7 col-md-6">
@@ -346,7 +308,7 @@ const StatsThirdSection = ({
                   </div> */}
 
                   {/*Box 8 - longest Races */}
-                  <div className="col-lg-5 col-md-6">
+                  <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("/stats/longest-races")} className="pabs"/>
                       <div className="text-wraper">
@@ -392,8 +354,48 @@ const StatsThirdSection = ({
                     </div>
                   </div>
 
+                   {/*Box 6 -top 3GC Team */}
+                   <div className="col-lg-12 col-md-6">
+                    <div className="list-white-cart">
+                      <Link href={buildUrlWithParams("/stats/top-gc-teams")} className="pabs"/>
+                      <h4>{data?.[fixedApis.box6]?.message}</h4>
+                      {getBoxData(fixedApis.box6).error ? (
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box6).errorType}
+                        />
+                      ) : (
+                        <>
+                          <ul>
+                            {(Array.isArray(getBoxData(fixedApis.box6).data)
+                              ? getBoxData(fixedApis.box6).data
+                              : []
+                            )
+                              .slice(0, 3)
+                              .map((rider, index) => (
+                                <li key={index}>
+                                  <strong>{index + 1}</strong>
+                                  <div className="name-wraper name-wraper-white 15">
+                                    {renderFlag(rider?.team_country)}
+                                    <h6>{rider?.team_name || "..."}</h6>
+                                  </div>
+
+                                  {rider?.count && <span>{rider.count}</span>}
+                                </li>
+                              ))}
+                          </ul>
+                          <Link
+                            href={buildUrlWithParams("/stats/top-gc-teams")}
+                            className="green-circle-btn"
+                          >
+                            <img src="/images/arow.svg" alt="" />
+                          </Link>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
                   {/* Box4: race Count */}
-                  <div className="col-lg-7 col-md-6">
+                  {/* <div className="col-lg-7 col-md-6">
                     <div className="races">
                       <div className="text-wraper">
                         <h3 className="font-size-change">
@@ -422,7 +424,7 @@ const StatsThirdSection = ({
                         })()}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 

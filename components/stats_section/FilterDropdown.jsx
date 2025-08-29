@@ -1,83 +1,3 @@
-// export const FilterDropdown = ({
-//     ref,
-//     isOpen,
-//     toggle,
-//     options,
-//     selectedValue,
-//     placeholder,
-//     onSelect,
-//     loading,
-//     includeAllOption = true,
-//     allOptionText
-//   }) => (
-//     <li className={isOpen ? 'active' : ''} ref={ref}>
-//       <div className="form-select" onClick={toggle}>
-//         {selectedValue || placeholder}
-//       </div>
-      
-//       {isOpen && (
-//         <div className="dropdown-menu show">
-//           <div className="search-container">
-//             <div className="input-group">
-//               {/* <span className="input-group-text">
-//                 <svg 
-//                   xmlns="http://www.w3.org/2000/svg" 
-//                   width="16" 
-//                   height="16" 
-//                   fill="currentColor" 
-//                   className="bi bi-search" 
-//                   viewBox="0 0 16 16"
-//                 >
-//                   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-//                 </svg>
-//               </span> */}
-//               <input
-//                 type="text"
-//                 className="form-control"
-//                 placeholder={`Search ${placeholder.toLowerCase()}...`}
-//                 value={selectedValue}
-//                 onChange={(e) => onSelect(e.target.value)}
-//                 onKeyDown={(e) => {
-//                   if (e.key === 'Enter') {
-//                     toggle();
-//                   }
-//                 }}
-//               />
-//             </div>
-//           </div>
-          
-//           {loading ? (
-//             <div className="text-center p-3">
-//               <div className="spinner-border spinner-border-sm" role="status">
-//                 <span className="visually-hidden">Loading...</span>
-//               </div>
-//             </div>
-//           ) : (
-//             <ul className="dropdown-options">
-//               {includeAllOption && (
-//                 <li 
-//                   className="dropdown-item"
-//                   onClick={() => onSelect('')}
-//                 >
-//                   {allOptionText}
-//                 </li>
-//               )}
-//               {options.map(option => (
-//                 <li 
-//                   key={option} 
-//                   className="dropdown-item"
-//                   onClick={() => onSelect(option)}
-//                 >
-//                   {option}
-//                 </li>
-//               ))}
-//             </ul>
-//           )}
-//         </div>
-//       )}
-//     </li>
-//   );
-
 import { useState, forwardRef, useEffect } from 'react';
 
 export const FilterDropdown = forwardRef(({
@@ -90,45 +10,108 @@ export const FilterDropdown = forwardRef(({
   onInputChange,
   loading,
   includeAllOption = true,
-  allOptionText
+  allOptionText,
+  classname='',
+  optionKey = null, // For simple string options
+  displayKey = null, // For object options - what to display
+  valueKey = null // For object options - what to use as value
 }, ref) => {
   const [inputValue, setInputValue] = useState('');
-  
-  // Update input value when dropdown opens or selectedValue changes
+
   useEffect(() => {
     if (!isOpen) {
       setInputValue(selectedValue || '');
+    } else {
+      setInputValue('');
     }
   }, [isOpen, selectedValue]);
-  
+
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
-    
-    // If onInputChange is provided, call it with the new value
+
     if (onInputChange) {
       onInputChange(value);
     }
   };
-  
+
   const handleItemSelect = (value) => {
     setInputValue(value);
     onSelect(value);
   };
-  
-  // Filter options based on input value unless parent is handling filtering
-  const filteredOptions = onInputChange 
-    ? options // Parent component is handling filtering
-    : options.filter(option => 
-        option.toLowerCase().includes((inputValue || '').toLowerCase())
-      );
-  
+
+  // Helper function to get display text from option
+  const getOptionDisplayText = (option) => {
+    if (typeof option === 'string') {
+      return option;
+    }
+    if (option && typeof option === 'object') {
+      if (displayKey) {
+        return option[displayKey] || '';
+      }
+      if (optionKey) {
+        return option[optionKey] || '';
+      }
+      return option.country_name || option.name || option.label || JSON.stringify(option);
+    }
+    return String(option);
+  };
+
+  // Helper function to get option value (for comparison and selection)
+  const getOptionValue = (option) => {
+    if (typeof option === 'string') {
+      return option;
+    }
+    if (option && typeof option === 'object') {
+      if (valueKey) {
+        return option[valueKey] || '';
+      }
+      if (optionKey) {
+        return option[optionKey] || '';
+      }
+      return option.country_name || option.name || option.label || JSON.stringify(option);
+    }
+    return String(option);
+  };
+
+  // Helper function to get the display text for selected value
+  const getSelectedDisplayText = () => {
+    if (!selectedValue) return placeholder;
+    
+    // For object options, find the matching option and get its display text
+    if (valueKey && options && options.length > 0 && typeof options[0] === 'object') {
+      const selectedOption = options.find(option => option[valueKey] === selectedValue);
+      if (selectedOption) {
+        return getOptionDisplayText(selectedOption);
+      }
+    }
+    
+    // For string options or fallback
+    return selectedValue;
+  };
+
+  // Filter options based on input value
+  const filteredOptions = onInputChange
+    ? options
+    : options?.filter(option => {
+        const displayText = getOptionDisplayText(option);
+        return displayText.toLowerCase().includes((inputValue || '').toLowerCase());
+      });
+
+  const displayOptions = inputValue === '' ? options : filteredOptions;
+
+  // Check if selected value matches an option
+  const isOptionSelected = (option) => {
+    const optionValue = getOptionValue(option);
+    return selectedValue === optionValue;
+  };
+
   return (
-    <li className={isOpen ? 'active' : ''} ref={ref}>
-      <div className="form-select" onClick={toggle}>
-        {selectedValue || placeholder}
+    <li className={`filter-dropdown-list ${classname} ${isOpen ? 'active' : ''}`} ref={ref}>
+      <div className={`form-select`} onClick={toggle}>
+        {getSelectedDisplayText()}
       </div>
-      
+
       {isOpen && (
         <div className="dropdown-menu show">
           <div className="search-container">
@@ -136,7 +119,7 @@ export const FilterDropdown = forwardRef(({
               <input
                 type="text"
                 className="form-control"
-                placeholder={`Search ${placeholder.toLowerCase()}...`}
+                placeholder={`Search`}
                 value={inputValue}
                 onChange={handleInputChange}
                 onKeyDown={(e) => {
@@ -148,7 +131,7 @@ export const FilterDropdown = forwardRef(({
               />
             </div>
           </div>
-          
+
           {loading ? (
             <div className="text-center p-3">
               <div className="spinner-border spinner-border-sm" role="status">
@@ -158,23 +141,23 @@ export const FilterDropdown = forwardRef(({
           ) : (
             <ul className="dropdown-options">
               {includeAllOption && (
-                <li 
-                  className="dropdown-item"
+                <li
+                  className={`dropdown-item ${selectedValue === '' ? 'selected' : ''}`}
                   onClick={() => handleItemSelect('')}
                 >
                   {allOptionText || 'All'}
                 </li>
               )}
-              {filteredOptions.map(option => (
-                <li 
-                  key={option} 
-                  className="dropdown-item"
-                  onClick={() => handleItemSelect(option)}
+              {(onInputChange ? options : displayOptions).map(option => (
+                <li
+                  key={getOptionValue(option)}
+                  className={`dropdown-item ${isOptionSelected(option) ? 'selected' : ''}`}
+                  onClick={() => handleItemSelect(getOptionValue(option))}
                 >
-                  {option}
+                  {getOptionDisplayText(option)}
                 </li>
               ))}
-              {filteredOptions.length === 0 && inputValue && (
+              {(onInputChange ? options : displayOptions).length === 0 && inputValue && (
                 <li className="dropdown-item text-muted">
                   No matches found
                 </li>

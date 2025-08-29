@@ -16,10 +16,7 @@ export default function Stats() {
   const [selectedYear, setSelectedYear] = useState(
     new Date().getFullYear().toString()
   );
-  // const [selectedYear, setSelectedYear] = useState("2015");
-  const [yearInput, setYearInput] = useState(
-    new Date().getFullYear().toString()
-  );
+  const [yearInput, setYearInput] = useState("");
   const [selectedNationality, setSelectedNationality] = useState("");
   const [selectedTeam, setSelectedTeam] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +48,8 @@ export default function Stats() {
 
       if (response.status && response.data) {
         setTeams(response.data.team_names || []);
-        setNationalities(response.data.rider_countries || []);
+        console.log('response',response.data.rider_countries);
+        setNationalities((response.data.rider_countries || []).slice(2));
       }
     } catch (error) {
       console.error("Error fetching filters data:", error);
@@ -92,11 +90,22 @@ export default function Stats() {
     };
   }, []);
 
-  // Filter years based on input
+
   const getFilteredYears = (searchValue) => {
-    return withoutAllTime.filter((year) =>
-      year.toLowerCase().includes((searchValue || "").toLowerCase())
-    );
+    if (!searchValue || searchValue.trim() === '') {
+      return withoutAllTime;
+    }
+
+
+    const hasNumbers = /\d/.test(searchValue);
+    if (hasNumbers) {
+      return withoutAllTime.filter((year) =>
+        year.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+
+
+    return withoutAllTime;
   };
 
   const handleYearInputChange = (value) => {
@@ -107,7 +116,7 @@ export default function Stats() {
     switch (type) {
       case "year":
         setSelectedYear(value);
-        setYearInput(value);
+        setYearInput("");
         setShowYearDropdown(false);
         fetchFiltersData();
         break;
@@ -143,7 +152,7 @@ export default function Stats() {
               </ul>
               <h1>statistieken</h1>
 
-              <ul className="filter">
+              <ul className="filter sss">
                 {/* Year Dropdown with input change handling */}
                 <FilterDropdown
                   ref={yearDropdownRef}
@@ -156,6 +165,7 @@ export default function Stats() {
                   onInputChange={handleYearInputChange}
                   loading={false}
                   includeAllOption={false}
+                  classname="year-dropdown"
                 />
 
                 {/* Nationality Dropdown */}
@@ -171,6 +181,9 @@ export default function Stats() {
                   onSelect={(value) => handleSelection("nationality", value)}
                   loading={isLoading}
                   allOptionText="All Nationalities"
+                  classname="nationality-dropdown"
+                  displayKey="country_name"
+                  valueKey="country_code"
                 />
 
                 {/* Teams Dropdown */}
@@ -184,8 +197,65 @@ export default function Stats() {
                   onSelect={(value) => handleSelection("team", value)}
                   loading={isLoading}
                   allOptionText="All Teams"
+                  classname="team-dropdown"
                 />
               </ul>
+            {/* Show selected filters summary and reset button */}
+            {(selectedYear && selectedYear !== "2025" || selectedNationality || selectedTeam) && (
+              <div className="filter-summary">
+                <span className="filter-summary-text">
+                  Filter:
+                  {/* Show year if selected and not "All time" */}
+                  {selectedYear && selectedYear !== "All time" && (
+                    <> {selectedYear}</>
+                  )}
+                  {/* Show nationality if selected */}
+                  {selectedNationality && (
+                    <>
+                      {selectedYear && selectedYear !== "All time" ? "," : ""}
+                      {" "}
+                      {/* Find the display name for the selected nationality */}
+                      {(() => {
+                        const natObj = nationalities?.find(
+                          n =>
+                            (n.country_code || n) === selectedNationality
+                        );
+                        return natObj
+                          ? natObj.country_name || natObj.name || natObj.label || selectedNationality
+                          : selectedNationality;
+                      })()}
+                    </>
+                  )}
+                  {/* Show team if selected */}
+                  {selectedTeam && (
+                    <>
+                      {(selectedYear && selectedYear !== "All time") || selectedNationality ? "," : ""}
+                      {" "}
+                      {/* Find the display name for the selected team */}
+                      {(() => {
+                        const teamObj = teams?.find(
+                          t => (t.value || t) === selectedTeam
+                        );
+                        return teamObj
+                          ? teamObj.label || teamObj.name || selectedTeam
+                          : selectedTeam;
+                      })()}
+                    </>
+                  )}
+                </span>
+                <button className="reset-filter-btn"
+                  onClick={() => {
+                    setSelectedYear("2025");
+                    setSelectedNationality("");
+                    setSelectedTeam("");
+                  }}
+                  aria-label="Reset filter"
+                >
+                  Reset filter
+                  <span className="reset-filter-btn-icon">×</span>
+                </button>
+              </div>
+            )}
             </div>
 
             <StatsFirstSection

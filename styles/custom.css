@@ -1,4 +1,4 @@
-.dropdown-menu {
+/* .dropdown-menu {
     position: absolute;
     width: 400px;
     z-index: 1000;
@@ -40,65 +40,216 @@
     content: "▼";
     margin-left: 0.5rem;
     font-size: 0.8rem;
-  }
+  } */
+.dropdown-menu {
+  position: absolute;
+  width: 150px;
+  z-index: 1000;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: 0.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, .075);
+}
 
-  /* ----------------stats list css_______________ */
-  .listdata{
-    margin-bottom: 2px;
-  }
+.dropdown-options {
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-  /*---------------Most win section______________*/
-  .most-win{
-    display: flex;
-    align-items: center;
-  }
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: #495057;
+  font-weight: normal;
+  transition: background-color 0.15s ease-in-out;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  /*---------------Filter section______________*/
-  .filter-section {
-    margin-bottom: 30px;
-    padding: 20px 0;
-  }
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
 
-  .filter-dropdown select {
-    background-color: #2b534d;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    min-width: 150px;
-  }
+/* Selected item styling - matching your green theme */
+.dropdown-item.selected {
+  background-color: #2B534D !important;
+  color: white !important;
+  font-weight: 500;
+}
 
-  .filter-dropdown select:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(26, 95, 122, 0.3);
-  }
+.dropdown-item.selected:hover {
+  background-color: #2B534D !important;
+  color: white !important;
+}
 
-  .all-stats-btn {
-    background-color: #2b534d !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 25px !important;
-    padding: 10px 20px !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    text-decoration: none !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    transition: all 0.3s ease !important;
-  }
+.search-container {
+  padding: 0.5rem;
+  border-bottom: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
 
-  .all-stats-btn:hover {
-    background-color: #2b534d !important;
-    color: white !important;
-    transform: translateY(-2px);
-  }
+.input-group .form-control {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  width: 100%;
+}
 
-  .all-stats-btn img {
-    width: 16px;
-    height: 16px;
-    filter: brightness(0) invert(1);
+.input-group .form-control:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
+
+.form-select {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.375rem 0.75rem;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: inherit;
+  min-height: 38px;
+  width: 150px;
+  position: relative;
+}
+
+/* Remove the ::after pseudo-element to eliminate duplicate icon */
+/* .form-select::after {
+    content: "▼";
+    font-size: 0.8rem;
+    color: #6c757d;
+    transition: transform 0.15s ease-in-out;
+    flex-shrink: 0;
+  } */
+
+/* .active .form-select::after {
+    transform: rotate(180deg);
+  } */
+
+/* Ensure the text takes available space */
+.select-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Text muted for no results */
+.text-muted {
+  color: #6c757d !important;
+  font-style: italic;
+}
+
+/* Loading spinner styles */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.1em;
+}
+
+.spinner-border {
+  display: inline-block;
+  vertical-align: text-bottom;
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
   }
+}
+
+/* Center loading text */
+.text-center {
+  text-align: center;
+}
+
+.p-3 {
+  padding: 1rem;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* ----------------stats list css_______________ */
+.listdata {
+  margin-bottom: 2px;
+}
+
+/*---------------Most win section______________*/
+.most-win {
+  display: flex;
+  align-items: center;
+}
+
+/*---------------Filter section______________*/
+.filter-section {
+  margin-bottom: 30px;
+  padding: 20px 0;
+}
+
+.filter-dropdown select {
+  background-color: #2b534d;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.filter-dropdown select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(26, 95, 122, 0.3);
+}
+
+.all-stats-btn {
+  background-color: #2b534d !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 25px !important;
+  padding: 10px 20px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  transition: all 0.3s ease !important;
+}
+
+.all-stats-btn:hover {
+  background-color: #2b534d !important;
+  color: white !important;
+  transform: translateY(-2px);
+}
+
+.all-stats-btn img {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1);
+}
+section.stats-sec1 ul.filter > li:not(.active) {
+  border-radius: 60px;
+}
