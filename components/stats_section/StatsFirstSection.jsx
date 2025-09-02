@@ -37,7 +37,7 @@ const StatsFirstSection = ({
     const queryString = Object.keys(params)
       .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
       .join('&');
-    
+
     return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
@@ -89,54 +89,54 @@ const StatsFirstSection = ({
               <div className="col-lg-5 box6">
                 <div className="list-white-cart lime-green-cart 11 ctm-card">
                   <Link href={buildUrlWithParams("/stats/most-wins")} className="pabs" />
-                  
+
                   {getBoxData(fixedApis.box1).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box1).errorType}
                     />
                   ) : (
                     <>
-                    <div className="card-content-wraper">
-                      <h4 className="fs-chenge">
-                        {" "}
-                        {data?.[fixedApis.box1]?.message}
-                      </h4>
-                      <ul>
-                        {(Array.isArray(getBoxData(fixedApis.box1).data)
-                          ? getBoxData(fixedApis.box1).data
-                          : []
-                        )
-                          .slice(0, 5)
-                          .map((rider, index) => (
-                            <li key={index}>
-                              <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-green sdsd" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
-                                {renderFlag(rider?.rider_country)}
-                                {console.log('---rider---',rider)}
-                                <h6>{rider?.rider_name || "..."}</h6>
-                              </div>
+                      <div className="card-content-wraper">
+                        <h4 className="fs-chenge">
+                          {" "}
+                          {data?.[fixedApis.box1]?.message}
+                        </h4>
+                        <ul>
+                          {(Array.isArray(getBoxData(fixedApis.box1).data)
+                            ? getBoxData(fixedApis.box1).data
+                            : []
+                          )
+                            .slice(0, 5)
+                            .map((rider, index) => (
+                              <li key={index}>
+                                <strong>{index + 1}</strong>
+                                <div className="name-wraper name-wraper-green sdsd" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                  {renderFlag(rider?.rider_country)}
+                                  {console.log('---rider---', rider)}
+                                  <h6>{rider?.rider_name || "..."}</h6>
+                                </div>
 
-                              {rider?.wins && <span>{rider.wins}</span>}
-                            </li>
-                          ))}
-                      </ul>
+                                {rider?.wins && <span>{rider.wins}</span>}
+                              </li>
+                            ))}
+                        </ul>
                       </div>
                       <div className="image_link-wraper">
-                      <img
-                        src="/images/player3.png"
-                        alt=""
-                        className="absolute-img"
-                      />
-                      <div className="link_box">
-                        <Link
-                          href={buildUrlWithParams("/stats/most-wins")}
-                          className="glob-btn green-bg-btn"
-                        >
-                          <strong>volledige stats</strong>{" "}
-                          <span>
-                            <img src="/images/arow.svg" alt="" />
-                          </span>
-                        </Link>
+                        <img
+                          src="/images/player3.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                        <div className="link_box">
+                          <Link
+                            href={buildUrlWithParams("/stats/most-wins")}
+                            className="glob-btn green-bg-btn"
+                          >
+                            <strong>volledige stats</strong>{" "}
+                            <span>
+                              <img src="/images/arow.svg" alt="" />
+                            </span>
+                          </Link>
                         </div>
                       </div>
                     </>
@@ -150,7 +150,7 @@ const StatsFirstSection = ({
 
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <Link href={buildUrlWithParams("/stats/top-rider-stage")} className="pabs"/>
+                      <Link href={buildUrlWithParams("/stats/top-rider-stage")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box2]?.message}</h4>
                         {getBoxData(fixedApis.box2).error ? (
@@ -166,7 +166,7 @@ const StatsFirstSection = ({
                               .slice(0, 1)
                               .map((rider, index) => (
                                 <div key={index}>
-                                  <div className="name-wraper name-wraper-white">
+                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -198,7 +198,7 @@ const StatsFirstSection = ({
                   {/*Box 3 - Most Racing  Days */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <Link href={buildUrlWithParams("/stats/most-racing-days")} className="pabs"/>
+                      <Link href={buildUrlWithParams("/stats/most-racing-days")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box3]?.message}</h4>
 
@@ -216,7 +216,7 @@ const StatsFirstSection = ({
                               .map((rider, index) => (
                                 <>
                                   <div
-                                    className="name-wraper name-wraper-green 2223"
+                                    className="name-wraper name-wraper-green " onClick={() => router.push(`/riders/${rider?.rider_id}`)}
                                     key={index}
                                   >
                                     {renderFlag(rider?.rider_country)}
@@ -250,7 +250,7 @@ const StatsFirstSection = ({
                   {/*Box 4 - Top stage rider by team*/}
                   <div className="col-lg-7 col-md-6 11">
                     <div className="list-white-cart">
-                      <Link href={buildUrlWithParams("/stats/team-most-stage-wins")} className="pabs"/>
+                      <Link href={buildUrlWithParams("/stats/team-most-stage-wins")} className="pabs" />
                       <h4>{data?.[fixedApis.box4]?.message}</h4>
                       {getBoxData(fixedApis.box4).error ? (
                         <ErrorMessage
@@ -290,7 +290,7 @@ const StatsFirstSection = ({
                   {/*Box 5 - Birthdays */}
                   <div className="col-lg-5 col-md-6">
                     <div className="list-white-cart">
-                      <Link href={buildUrlWithParams("/stats/most-podium-in-stages")} className="pabs"/>
+                      <Link href={buildUrlWithParams("/stats/most-podium-in-stages")} className="pabs" />
                       <h4>{data?.[fixedApis.box5]?.message}</h4>
                       {getBoxData(fixedApis.box5).error ? (
                         <ErrorMessage
@@ -307,7 +307,7 @@ const StatsFirstSection = ({
                               .map((rider, index) => (
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
-                                  <div className="name-wraper name-wraper-white">
+                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -331,7 +331,7 @@ const StatsFirstSection = ({
               {/*Box 6 - Team with most rider*/}
               <div className="col-lg-3 col-md-6 11">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("/stats/team-with-most-rider")} className="pabs"/>
+                  <Link href={buildUrlWithParams("/stats/team-with-most-rider")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {(() => {
@@ -424,7 +424,7 @@ const StatsFirstSection = ({
               {/*Box 8 - Most GC wins*/}
               <div className="col-lg-3 col-md-6 33">
                 <div className="list-white-cart lime-green-cart 22">
-                  <Link href={buildUrlWithParams("/stats/most-gc-wins")} className="pabs"/>
+                  <Link href={buildUrlWithParams("/stats/most-gc-wins")} className="pabs" />
                   <h4>{data?.[fixedApis.box8]?.message}</h4>
                   {getBoxData(fixedApis.box8).error ? (
                     <ErrorMessage
@@ -441,7 +441,7 @@ const StatsFirstSection = ({
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-green 111">
+                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -464,7 +464,7 @@ const StatsFirstSection = ({
               {/*Box 9 - Most DNF */}
               <div className="col-lg-3 col-md-6 44">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("/stats/most-dnfs")} className="pabs"/>
+                  <Link href={buildUrlWithParams("/stats/most-dnfs")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box9]?.message}</h4>
 
@@ -482,7 +482,7 @@ const StatsFirstSection = ({
                           .map((rider, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white name-left"
+                                className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${rider?.race_name}`)}
                                 key={index}
                               >
                                 {renderFlag(rider?.country_code)}

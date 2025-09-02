@@ -8,6 +8,7 @@ import {
 } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
   const fixedApis = {
@@ -27,6 +28,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
     if (selectedTeam) params.team_name = selectedTeam;
     return params;
   };
+  const router = useRouter()
 
   // Helper function to build URLs with query parameters
   const buildUrlWithParams = (basePath) => {
@@ -34,7 +36,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
     const queryString = Object.keys(params)
       .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
       .join('&');
-    
+
     return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
@@ -84,7 +86,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               {/* Box 1 - Most Second  Places */}
               <div className="col-lg-4 col-md-6 ">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("/stats/most-second-places")} className="pabs"/>
+                  <Link href={buildUrlWithParams("/stats/most-second-places")} className="pabs" />
                   <div className="text-wraper">
                     <h4 className="font-size-change">
                       {data?.[fixedApis.box1]?.message}
@@ -103,7 +105,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           .map((rider, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white dd"
+                                className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.rider_key}`)}
                                 key={index}
                               >
                                 {renderFlag(rider?.rider_country)}
@@ -139,7 +141,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               {/* Box 2 -  Most nationality  */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <Link href={buildUrlWithParams("/stats/team-most-nationalities")} className="pabs"/>
+                  <Link href={buildUrlWithParams("/stats/team-most-nationalities")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box2]?.message}</h4>
                     {(() => {
@@ -158,7 +160,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                         <>
                           {teams.slice(0, 1).map((team, index) => (
                             <div key={index} className="team-card">
-                              <div className="name-wraper name-wraper-green name-left">
+                              <div className="name-wraper name-wraper-green name-left" >
                                 {renderFlag(team?.country)}
                                 <h6>{team?.team || "..."}</h6>
                               </div>
@@ -187,7 +189,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               {/*Box 3 - Most youngest  wins*/}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("/stats/youngest-most-wins")} className="pabs"/>
+                  <Link href={buildUrlWithParams("/stats/youngest-most-wins")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box3]?.message}</h4>
                     {getBoxData(fixedApis.box3).error ? (
@@ -204,7 +206,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           .map((rider, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white 21"
+                                className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.rider_id}`)}
                                 key={index}
                               >
                                 {renderFlag(rider?.rider_country)}
@@ -256,7 +258,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-white 22">
+                              <div className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -279,7 +281,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               {/*Box 5 - Mountain  */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("/stats/most-mountain-wins")} className="pabs"/>
+                  <Link href={buildUrlWithParams("/stats/most-mountain-wins")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box5]?.message}</h4>
                     {(() => {
@@ -298,7 +300,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                         <>
                           {riders.slice(0, 1).map((rider, index) => (
                             <div key={index} className="rider-card">
-                              <div className="name-wraper name-wraper-white 23">
+                              <div className="name-wraper name-wraper-white 23" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -332,7 +334,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               {/*Box 6 - Shortest race */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("/stats/shortest-races")} className="pabs"/>
+                  <Link href={buildUrlWithParams("/stats/shortest-races")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {getBoxData(fixedApis.box6).error ? (
@@ -349,7 +351,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           .map((race, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white 24"
+                                className="name-wraper name-wraper-white 24" onClick={() => router.push(`/races/${race?.race}`)}
                                 key={index}
                               >
                                 {renderFlag(race?.country_code)}
@@ -382,47 +384,9 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                 </div>
               </div>
               {/*Box 7 -Lightest rider */}
-              {/* <div className="col-lg-3 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
-                  <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box7]?.message}</h4>
-                    {(() => {
-                      if (!data?.[fixedApis.box7]) {
-                        return <ErrorMessage errorType="no_data" />;
-                      }
-
-                      const response = data[fixedApis.box7];
-                      const riderData = response?.data.data;
-
-                      if (!riderData) {
-                        return <ErrorMessage errorType="no_data_found" />;
-                      }
-
-                      return (
-                        <>
-                          <div className="name-wraper name-wraper-green">
-                            {renderFlag(riderData?.rider_country)}
-                            <h6>{riderData?.name || "..."}</h6>
-                          </div>
-                          {riderData?.weight && (
-                            <h5>
-                              <strong>{riderData.weight} </strong>kg
-                            </h5>
-                          )}
-
-                          <a href="#?" className="white-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
-                        </>
-                      );
-                    })()}
-                  </div>
-                </div>
-              </div> */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <Link href={buildUrlWithParams("/stats/lightest-rider")} className="pabs"/>
+                  <Link href={buildUrlWithParams("/stats/lightest-rider")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
@@ -438,7 +402,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <React.Fragment key={index}>
-                              <div className="name-wraper name-wraper-green name-left">
+                              <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/riders/${rider?._id}`)} >
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.name || "..."}</h6>
                               </div>
