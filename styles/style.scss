@@ -1361,7 +1361,7 @@ section.stats-sec1 {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     li {
       color: var(--Dark-Green, #2b534d);
       font-family: Roboto;
@@ -1487,6 +1487,9 @@ section.stats-sec1 {
       position: absolute;
       right: 1rem;
       bottom: 1rem;
+      @media (min-width: 768px) {
+        font-size: 0.9rem;
+      }
       span {
         background-color: #d0f068;
       }
@@ -2775,6 +2778,7 @@ a.glob-btn:hover, .list-white-cart:hover a.glob-btn {
 }
 .name-wraper {
   position: relative;
+  z-index: 1;
 }
 .name-wraper.name-wraper-white:hover {
   background: rgba(8, 43, 26, 0.1) !important;
@@ -3125,4 +3129,9 @@ li.dropdown-item.selected {
 
 .reset-filter-btn-icon {
   font-size: 20px;
+}
+@media (min-width: 768px) {
+  .filter-section-wrapper {
+    padding-bottom: 2.5rem;
+  }
 }

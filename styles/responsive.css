@@ -837,7 +837,7 @@ section.home-banner ul.transparent-cart li h5 {
         /* overflow: hidden; */
         overflow-x: auto; 
         margin: 1rem 0 2rem;
-        width: calc(100dvw - 12px);
+        width: calc(100dvw - 24px);
     }
     ul.filter:has(.filter-dropdown-list.active){
         overflow: unset;

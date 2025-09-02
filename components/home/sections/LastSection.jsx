@@ -3,6 +3,7 @@ import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton2, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const fixedApis = {
   box1: "mostSecondPlaces",
@@ -15,6 +16,7 @@ const fixedApis = {
 };
 
 const LastSection = () => {
+  const router = useRouter();
   const endpointsToFetch = Object.values(fixedApis);
   const { data, loading, error } = useMultipleData(endpointsToFetch);
 
@@ -73,7 +75,7 @@ const LastSection = () => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <div key={index}>
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_key}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -171,7 +173,7 @@ const LastSection = () => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <div key={index}>
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -221,7 +223,7 @@ const LastSection = () => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -263,11 +265,10 @@ const LastSection = () => {
                         <>
                           {riders.slice(0, 1).map((rider, index) => (
                             <div key={index} className="rider-card">
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
-
                               {rider?.totalKOMTitles && (
                                 <h5>
                                   <strong>{rider.totalKOMTitles} </strong>wins
@@ -313,7 +314,7 @@ const LastSection = () => {
                           .slice(0, 1)
                           .map((race, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/races/${race?.race}`)}>
                               {renderFlag(race?.country_code)}
                                 <h6>
                                   {race?.race || "..."} ({race?.year})
@@ -363,7 +364,7 @@ const LastSection = () => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <React.Fragment key={index}>
-                              <div className="name-wraper name-wraper-green name-left">
+                              <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/riders/${rider?._id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.name || "..."}</h6>
                               </div>

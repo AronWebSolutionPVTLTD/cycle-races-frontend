@@ -4,6 +4,7 @@ import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const fixedApis = {
   box1: "mostWin",
@@ -20,6 +21,7 @@ const fixedApis = {
 const YearSection = () => {
   const endpointsToFetch = Object.values(fixedApis);
   const { data, loading, error } = useMultipleData(endpointsToFetch);
+  const router = useRouter();
 
   // Enhanced error checking function
   // const getBoxData = (key) => {
@@ -158,7 +160,7 @@ const YearSection = () => {
                     />
                   ) : (
                     <>
-                    <div className="card-content-wraper">
+                    <div className="card-content-wraper aaaa">
                       <h4 className="fs-chenge">
                         {data?.[fixedApis.box1]?.message}
                       </h4>
@@ -171,7 +173,7 @@ const YearSection = () => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-green">
+                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -206,8 +208,8 @@ const YearSection = () => {
                 </div>
               </div>
 
-              <div className="col-lg-7 box5">
-                <div className="row">
+              <div className="col-lg-7 box5 d-flex flex-column">
+                <div className="row flex-grow-1">
                   {/*Box 2 - Most top 10 stage*/}
 
                   <div className="col-lg-5 col-md-6">
@@ -230,6 +232,7 @@ const YearSection = () => {
                                 <>
                                   <div
                                     className="name-wraper name-wraper-white"
+                                    onClick={() => router.push(`/riders/${rider?.rider_id}`)}
                                     key={index}
                                   >
                                     {renderFlag(rider?.rider_country)}
@@ -281,6 +284,7 @@ const YearSection = () => {
                                 <>
                                   <div
                                     className="name-wraper name-wraper-green"
+                                    onClick={() => router.push(`/riders/${rider?.rider_id}`)}
                                     key={index}
                                   >
                                     {renderFlag(rider?.rider_country)}
@@ -368,7 +372,8 @@ const YearSection = () => {
                               .map((rider, index) => (
                                 <li key={index}>
                                   {/* <strong>{index + 1}</strong> */}
-                                  <div className="name-wraper name-wraper-white">
+                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?._id}`)}>
+                                    {console.log('---rider birthday---',rider)}
                                     {renderFlag(rider?.nationality)}
                                     <h6>{rider?.name || "..."}</h6>
                                   </div>
@@ -492,7 +497,7 @@ const YearSection = () => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-green">
+                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -530,6 +535,7 @@ const YearSection = () => {
                             <>
                               <div
                                 className="name-wraper name-wraper-white name-left"
+                                onClick={()=>router.push(`/races/${race?.race_name}`)}
                                 key={index}
                               >
                                 <>

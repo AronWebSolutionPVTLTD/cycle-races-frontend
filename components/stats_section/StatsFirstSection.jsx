@@ -3,6 +3,7 @@ import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const StatsFirstSection = ({
   selectedNationality,
@@ -28,6 +29,7 @@ const StatsFirstSection = ({
     if (selectedTeam) params.team_name = selectedTeam;
     return params;
   };
+  const router = useRouter();
 
   // Helper function to build URLs with query parameters
   const buildUrlWithParams = (basePath) => {
@@ -108,8 +110,9 @@ const StatsFirstSection = ({
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-green sdsd">
+                              <div className="name-wraper name-wraper-green sdsd" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
+                                {console.log('---rider---',rider)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
 
@@ -141,8 +144,8 @@ const StatsFirstSection = ({
                 </div>
               </div>
 
-              <div className="col-lg-7 box5">
-                <div className="row">
+              <div className="col-lg-7 box5 d-flex flex-column">
+                <div className="row flex-grow-1">
                   {/*Box 2 - Most top 10 stage*/}
 
                   <div className="col-lg-5 col-md-6">

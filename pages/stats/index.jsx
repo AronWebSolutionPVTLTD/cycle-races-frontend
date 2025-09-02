@@ -152,7 +152,7 @@ export default function Stats() {
                 <li>stats</li>
               </ul>
               <h1>statistieken</h1>
-
+              <div className="filter-section-wrapper">
               <ul className="filter sss">
                 {/* Year Dropdown with input change handling */}
                 <FilterDropdown
@@ -227,6 +227,7 @@ export default function Stats() {
                       })()}
                     </>
                   )}
+                  
                   {/* Show team if selected */}
                   {selectedTeam && (
                     <>
@@ -257,6 +258,7 @@ export default function Stats() {
                 </button>
               </div>
             )}
+            </div>
             </div>
 
             <StatsFirstSection

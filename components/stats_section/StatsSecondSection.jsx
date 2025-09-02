@@ -145,104 +145,11 @@ const StatsSecondSection = ({
                 </div>
               </div>
 
-              <div className="col-lg-7 box5">
-                <div className="row">
-                  {/*Box 2 - GC podium*/}
-                  <div className="col-lg-5 col-md-6">
-                    <div className="team-cart">
-                      <Link href={buildUrlWithParams(
-                                "/stats/most-podium-in-gc"
-                              )} className="pabs" />
-                      <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box2]?.message}</h4>
-                        {getBoxData(fixedApis.box2).error ? (
-                          <ErrorMessage
-                            errorType={getBoxData(fixedApis.box2).errorType}
-                          />
-                        ) : (
-                          <>
-                            {(Array.isArray(getBoxData(fixedApis.box2).data)
-                              ? getBoxData(fixedApis.box2).data
-                              : []
-                            )
-                              .slice(0, 1)
-                              .map((rider, index) => (
-                                <>
-                                  <div className="name-wraper name-wraper-white name-left">
-                                    {renderFlag(rider?.rider_country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
-                                  </div>
-                                  {rider?.count && (
-                                    <h5>
-                                      <strong>{rider.count} </strong>
-                                    </h5>
-                                  )}
-                                </>
-                              ))}
-
-                            <Link
-                              href={buildUrlWithParams(
-                                "/stats/most-podium-in-gc"
-                              )}
-                              className="green-circle-btn"
-                            >
-                              <img src="/images/arow.svg" alt="" />
-                            </Link>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/*Box 3 -most Consistent GC*/}
-                  <div className="col-lg-7 col-md-6">
-                    <div className="team-cart lime-green-team-cart img-active">
-                      <Link href={buildUrlWithParams(
-                                "/stats/most-consistent-gc"
-                              )} className="pabs" />
-                      <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box3]?.message}</h4>
-                        {getBoxData(fixedApis.box3).error ? (
-                          <ErrorMessage
-                            errorType={getBoxData(fixedApis.box3).errorType}
-                          />
-                        ) : (
-                          <>
-                            {(Array.isArray(getBoxData(fixedApis.box3).data)
-                              ? getBoxData(fixedApis.box3).data
-                              : []
-                            )
-                              .slice(0, 1)
-                              .map((rider, index) => (
-                                <>
-                                  <div className="name-wraper name-wraper-green name-left">
-                                    {renderFlag(rider?.rider_country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
-                                  </div>
-                                  {rider?.avg_rank && (
-                                    <h5>
-                                      <strong>{rider.avg_rank} </strong>
-                                    </h5>
-                                  )}
-                                </>
-                              ))}
-
-                            <Link
-                              href={buildUrlWithParams(
-                                "/stats/most-consistent-gc"
-                              )}
-                              className="white-circle-btn"
-                            >
-                              <img src="/images/arow.svg" alt="" />
-                            </Link>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+              <div className="col-lg-7 box5 d-flex flex-column">
+                <div className="row flex-grow-1">
 
                   {/*Box 4 - Best Classic*/}
-                  <div className="col-lg-7 col-md-6">
+                  <div className="col-lg-12 col-md-12">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams(
                                 "/stats/best-classics-riders"
@@ -291,8 +198,104 @@ const StatsSecondSection = ({
                     </div>
                   </div>
 
+                  {/*Box 2 - GC podium*/}
+                  <div className="col-lg-6 col-md-6">
+                    <div className="team-cart">
+                      <Link href={buildUrlWithParams(
+                                "/stats/most-podium-in-gc"
+                              )} className="pabs" />
+                      <div className="text-wraper">
+                        <h4>{data?.[fixedApis.box2]?.message}</h4>
+                        {getBoxData(fixedApis.box2).error ? (
+                          <ErrorMessage
+                            errorType={getBoxData(fixedApis.box2).errorType}
+                          />
+                        ) : (
+                          <>
+                            {(Array.isArray(getBoxData(fixedApis.box2).data)
+                              ? getBoxData(fixedApis.box2).data
+                              : []
+                            )
+                              .slice(0, 1)
+                              .map((rider, index) => (
+                                <>
+                                  <div className="name-wraper name-wraper-white name-left">
+                                    {renderFlag(rider?.rider_country)}
+                                    <h6>{rider?.rider_name || "..."}</h6>
+                                  </div>
+                                  {rider?.count && (
+                                    <h5>
+                                      <strong>{rider.count} </strong>
+                                    </h5>
+                                  )}
+                                </>
+                              ))}
+
+                            <Link
+                              href={buildUrlWithParams(
+                                "/stats/most-podium-in-gc"
+                              )}
+                              className="green-circle-btn"
+                            >
+                              <img src="/images/arow.svg" alt="" />
+                            </Link>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/*Box 3 -most Consistent GC*/}
+                  {/* <div className="col-lg-7 col-md-6">
+                    <div className="team-cart lime-green-team-cart img-active">
+                      <Link href={buildUrlWithParams(
+                                "/stats/most-consistent-gc"
+                              )} className="pabs" />
+                      <div className="text-wraper">
+                        <h4>{data?.[fixedApis.box3]?.message}</h4>
+                        {getBoxData(fixedApis.box3).error ? (
+                          <ErrorMessage
+                            errorType={getBoxData(fixedApis.box3).errorType}
+                          />
+                        ) : (
+                          <>
+                            {(Array.isArray(getBoxData(fixedApis.box3).data)
+                              ? getBoxData(fixedApis.box3).data
+                              : []
+                            )
+                              .slice(0, 1)
+                              .map((rider, index) => (
+                                <>
+                                  <div className="name-wraper name-wraper-green name-left">
+                                    {renderFlag(rider?.rider_country)}
+                                    <h6>{rider?.rider_name || "..."}</h6>
+                                  </div>
+                                  {rider?.avg_rank && (
+                                    <h5>
+                                      <strong>{rider.avg_rank} </strong>
+                                    </h5>
+                                  )}
+                                </>
+                              ))}
+
+                            <Link
+                              href={buildUrlWithParams(
+                                "/stats/most-consistent-gc"
+                              )}
+                              className="white-circle-btn"
+                            >
+                              <img src="/images/arow.svg" alt="" />
+                            </Link>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div> */}
+
+                  
+
                   {/*Box 5 - oldest Rider */}
-                  <div className="col-lg-5 col-md-6">
+                  <div className="col-lg-6 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("/stats/oldest-riders")} className="pabs" />
                       <div className="text-wraper">

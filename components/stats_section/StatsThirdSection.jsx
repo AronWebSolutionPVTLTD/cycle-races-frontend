@@ -213,8 +213,8 @@ const StatsThirdSection = ({
                 </div>
               </div>
 
-              <div className="col-lg-7 box5">
-                <div className="row">
+              <div className="col-lg-7 box5 d-flex flex-column">
+                <div className="row flex-grow-1">
                   {/* Box5: GC Rider by team */}
 
                   <div className="col-lg-5 col-md-6">

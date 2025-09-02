@@ -8,6 +8,7 @@ import {
 } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 
 function convertDateRange(dateStr) {
@@ -57,6 +58,7 @@ function convertDateRange(dateStr) {
 }
 
 const UpcomingYear = () => {
+  const router = useRouter();
   // Fixed APIs for each box - no random selection
   const fixedApis = {
     box1: "getUpcomingRacesByDate",
@@ -177,8 +179,8 @@ const UpcomingYear = () => {
               </div>
 
               {/* Box 2 -tour Down Under24 */}
-              <div className="col-lg-3 col-md-6">
-                <div className="list-white-cart h-auto">
+              <div className="col-lg-3 col-md-6 sssss">
+                <div className="list-white-cart">
                   <Link href="/upcoming-races-last-year-riders" className="pabs"/>
                   <h4>{data?.[fixedApis.box2]?.message}</h4>
                   {getBoxData(fixedApis.box2).error ? (
@@ -225,7 +227,8 @@ const UpcomingYear = () => {
                                       .map((rider, i) => (
                                         <li key={i}>
                                           <strong>{rider.rank}</strong>
-                                          <div className="name-wraper name-wraper-white">
+                                          {console.log('riderrrr',rider)}
+                                          <div className="name-wraper name-wraper-white 111111" onClick={() => router.push(`/riders/${rider?.id}`)}>
                                             {renderFlag(rider?.country)}
                                             <h6>{rider?.name || "..."}</h6>
                                           </div>
@@ -252,7 +255,7 @@ const UpcomingYear = () => {
               </div>
 
               {/* Box 3 - most Win TourDownUnder */}
-              <div className="col-lg-3 col-md-6">
+              <div className="col-lg-3 col-md-6 11">
                 <div className="list-white-cart">
                   <Link href="/most-win-upcoming-rider-last-year" className="pabs"/>
                   <h4>{data?.[fixedApis.box3]?.data.winners_message}</h4>
