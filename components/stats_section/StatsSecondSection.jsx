@@ -339,7 +339,7 @@ const StatsSecondSection = ({
               {/* box6 - youngest Rider */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("/stats/youngest-riders")} className="pabs" />
+                  <Link href={buildUrlWithParams("/stats/youngest-riders-stats")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {getBoxData(fixedApis.box6).error ? (
@@ -368,7 +368,7 @@ const StatsSecondSection = ({
                           ))}
 
                         <Link
-                          href={buildUrlWithParams("/stats/youngest-riders")}
+                          href={buildUrlWithParams("/stats/youngest-riders-stats")}
                           className="green-circle-btn"
                         >
                           <img src="/images/arow.svg" alt="" />
