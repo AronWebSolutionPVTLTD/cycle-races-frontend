@@ -36,13 +36,14 @@ export default function Stats() {
       setIsLoading(true);
 
       const queryParams = {};
-      if (selectedTeam) queryParams.q_team = selectedTeam;
-      if (selectedNationality) queryParams.q_country = selectedNationality;
-      if (selectedYear) queryParams.q_year = selectedYear;
+      // if (selectedTeam) queryParams.q_team = selectedTeam;
+      // if (selectedNationality) queryParams.q_country = selectedNationality;
+      if (selectedYear) queryParams.year = selectedYear;
 
       const response = await callAPI(
         "GET",
         "/teams/getAllTeamsForFilters",
+        {},
         queryParams
       );
 

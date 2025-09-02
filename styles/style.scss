@@ -2980,11 +2980,11 @@ header.sticky-header.sticky-top .menu-wraper ul li a {
   flex: 1;
   padding: 10px;
 }
-body:has(.filter .filter-dropdown-list.active) {
-  height: 100%;
-  overflow: hidden;
-  padding-right: 13px;
-}
+// body:has(.filter .filter-dropdown-list.active) {
+//   height: 100%;
+//   overflow: hidden;
+//   padding-right: 13px;
+// }
 .dropdown-overlay {
   position: fixed;
   inset: 0;
