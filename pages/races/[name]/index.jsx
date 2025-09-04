@@ -15,7 +15,7 @@ export default function RaceDetailsPage() {
   const { name } = router.query;
 
   // State management
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
+  const [selectedYear, setSelectedYear] = useState("All-time");
   const [yearInput, setYearInput] = useState('');
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [selectedNationality, setSelectedNationality] = useState("");
@@ -34,7 +34,7 @@ export default function RaceDetailsPage() {
   const [error, setError] = useState(null);
 
   const { withoutAllTime } = generateYearOptions();
-
+  const allYearOptions = ["All-time", ...withoutAllTime];
   // Refs for handling clicks outside dropdowns
   const yearDropdownRef = useRef(null);
   const nationalityDropdownRef = useRef(null);
@@ -53,7 +53,7 @@ export default function RaceDetailsPage() {
 
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
-      return withoutAllTime;
+      return allYearOptions;
     }
 
 
@@ -63,9 +63,11 @@ export default function RaceDetailsPage() {
         year.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
+    return allYearOptions.filter((year) =>
+      year.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
-
-    return withoutAllTime;
+    // return withoutAllTime;
   };
 
   // Fetch nationalities and teams based on filters
@@ -76,7 +78,7 @@ export default function RaceDetailsPage() {
       setIsLoadingFilters(true);
       const queryParams = {};
       if (selectedNationality) queryParams.q_country = selectedNationality;
-      // if (selectedYear && selectedYear !== "All time") queryParams.q_year = selectedYear;
+      if (selectedYear && selectedYear !== "All-time") queryParams.q_year = selectedYear;
 
       const response = await callAPI(
         "GET",
@@ -280,7 +282,7 @@ export default function RaceDetailsPage() {
                   {raceData?.is_stage_race ? (
                     <MultipleStageRace
                       selectedYear={
-                        selectedYear !== "All time" ? selectedYear : null
+                        selectedYear !== "All-time" ? selectedYear : null
                       }
                       selectedNationality={selectedNationality}
                       name={decodedRaceName}
@@ -288,7 +290,7 @@ export default function RaceDetailsPage() {
                   ) : (
                     <OneDayRace
                       selectedYear={
-                        selectedYear !== "All time" ? selectedYear : null
+                        selectedYear !== "All-time" ? selectedYear : null
                       }
                       selectedNationality={selectedNationality}
                       name={decodedRaceName}

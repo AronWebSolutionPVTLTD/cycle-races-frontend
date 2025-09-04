@@ -15,16 +15,17 @@ export default function RiderDetail({ initialRider }) {
   const [rider, setRider] = useState(initialRider || null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filterYear, setFilterYear] = useState("2025");
+  const [filterYear, setFilterYear] = useState("All-time");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
 
   // Available filter options
   const { withoutAllTime } = generateYearOptions();
+  const allYearOptions = ["All-time", ...withoutAllTime];
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
-      return withoutAllTime;
+      return allYearOptions;
     }
     const hasNumbers = /\d/.test(searchValue);
     if (hasNumbers) {
@@ -32,7 +33,10 @@ export default function RiderDetail({ initialRider }) {
         year.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
-    return withoutAllTime;
+    // return withoutAllTime;
+    return allYearOptions.filter((year) =>
+      year.toLowerCase().includes(searchValue.toLowerCase())
+    );
   };
 
   const handleSelection = (type, value) => {
@@ -292,11 +296,18 @@ export default function RiderDetail({ initialRider }) {
               </ul>
             </div>
             {/* Random Stats Section */}
-            <RiderFirstSection riderId={rider._id} filterYear={filterYear} />
+            <RiderFirstSection riderId={rider._id} 
+             filterYear={
+              filterYear !== "All-time" ? filterYear : null
+            }/>
 
-            <RiderSecondSection riderId={rider._id} filterYear={filterYear} />
+            <RiderSecondSection riderId={rider._id} filterYear={
+              filterYear !== "All-time" ? filterYear : null
+            }/>
 
-            <RiderThirdSection riderId={rider._id} filterYear={filterYear} />
+            <RiderThirdSection riderId={rider._id}filterYear={
+              filterYear !== "All-time" ? filterYear : null
+            } />
           </div>
         </div>
       </section>
