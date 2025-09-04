@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { callAPI } from "@/lib/api";
 import Flag from "react-world-flags";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import {
   ErrorStats,
   ListSkeleton,
 } from "@/components/loading&error";
+import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
 export default function RaceResultPage() {
   const router = useRouter();
@@ -18,10 +19,17 @@ export default function RaceResultPage() {
   const [race, setRace] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedYear, setSelectedYear] = useState("2024");
+  const [selectedYear, setSelectedYear] = useState(
+    new Date().getFullYear().toString()
+  );
   // const [searchTerm, setSearchTerm] = useState('');
   // const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   // const [searchResults, setSearchResults] = useState([]);
+
+  const [showYearDropdown, setShowYearDropdown] = useState(false);
+  const [yearInput, setYearInput] = useState("");
+  const yearDropdownRef = useRef(null);
+
   const [featuredStats, setFeaturedStats] = useState([]);
   const [loadingFeatured, setLoadingFeatured] = useState(true);
   const [errorFeatured, setErrorFeatured] = useState(null);
@@ -42,6 +50,47 @@ export default function RaceResultPage() {
     "December",
   ];
   const [selectedMonth, setSelectedMonth] = useState("");
+
+  const getFilteredYears = (searchValue) => {
+    if (!searchValue || searchValue.trim() === '') {
+      return withoutAllTime;
+    }
+    const hasNumbers = /\d/.test(searchValue);
+    if (hasNumbers) {
+      return withoutAllTime.filter((year) =>
+        year.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+    return withoutAllTime;
+  };
+
+  const handleSelection = (type, value) => {
+    switch (type) {
+      case "year":
+        setSelectedYear(value);
+        setYearInput("");
+        setShowYearDropdown(false);
+        break;
+    }
+  };
+  const handleYearInputChange = (value) => {
+    setYearInput(value);
+  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        yearDropdownRef.current &&
+        !yearDropdownRef.current.contains(event.target)
+      ) {
+        setShowYearDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Convert month name to number (1-12)
   const getMonthNumber = (monthName) => {
@@ -253,6 +302,7 @@ export default function RaceResultPage() {
 
   return (
     <main>
+      <div className="dropdown-overlay"></div>
       <section className="riders-sec1">
         <div className="container">
           <div className="row">
@@ -281,7 +331,20 @@ export default function RaceResultPage() {
           <div className="row">
             <div className="col-lg-12">
               <ul className="filter">
-                <li className="active">
+                <FilterDropdown
+                  ref={yearDropdownRef}
+                  isOpen={showYearDropdown}
+                  toggle={() => setShowYearDropdown(!showYearDropdown)}
+                  options={getFilteredYears(yearInput)}
+                  selectedValue={selectedYear}
+                  placeholder="Year"
+                  onSelect={(value) => handleSelection("year", value)}
+                  onInputChange={handleYearInputChange}
+                  loading={false}
+                  includeAllOption={false}
+                  classname="year-dropdown"
+                />
+                {/* <li className="active">
                   <select
                     value={selectedYear}
                     onChange={handleYearChange}
@@ -293,7 +356,7 @@ export default function RaceResultPage() {
                       </option>
                     ))}
                   </select>
-                </li>
+                </li> */}
                 {months.map((month) => (
                   <li
                     key={month}
@@ -311,8 +374,8 @@ export default function RaceResultPage() {
                   </li>
                 ))}
               </ul>
-              <div className="select-box">
-                <select
+              <div className="select-box sdsdsdsdsd">
+                {/* <select
                   value={selectedYear}
                   onChange={handleYearChange}
                   className="active"
@@ -322,7 +385,7 @@ export default function RaceResultPage() {
                       {year}
                     </option>
                   ))}
-                </select>
+                </select> */}
                 <select value={selectedMonth} onChange={handleMonthChange}>
                   <option value="">Month</option>
                   {months.map((month) => (

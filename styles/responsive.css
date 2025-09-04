@@ -522,7 +522,10 @@ section.home-banner ul.transparent-cart li h5 {
     }
     header {
         padding: 1rem 0;
-        position: relative;
+        
+    }
+    header + main{
+        padding-top: 70px;
     }
     header .header-content-wraper .menu-wraper .search-wraper {
         position: relative;
@@ -1059,7 +1062,7 @@ section.home-banner ul.transparent-cart li h5 {
     section.rider-details-sec .top-wraper ul.plyr-dtls {
         flex-wrap: wrap;
         gap: .5rem 1.25rem;
-        margin-top: -16%;
+        /* margin-top: -16%; */
         width: 77%;
         margin-left: auto;
     }

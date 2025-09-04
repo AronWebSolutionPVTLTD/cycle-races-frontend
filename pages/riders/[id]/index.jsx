@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { callAPI } from "@/lib/api";
 import { generateYearOptions } from "@/components/GetYear";
 import RiderFirstSection from "@/components/rider_detail/RiderFirstSection";
 import { renderFlag } from "@/components/RenderFlag";
 import RiderSecondSection from "@/components/rider_detail/RiderSecondSection";
 import RiderThirdSection from "@/components/rider_detail/RiderThirdSection";
+import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
 export default function RiderDetail({ initialRider }) {
   const router = useRouter();
@@ -14,11 +15,53 @@ export default function RiderDetail({ initialRider }) {
   const [rider, setRider] = useState(initialRider || null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filterYear, setFilterYear] = useState("All-time");
+  const [filterYear, setFilterYear] = useState("2025");
+  const [showYearDropdown, setShowYearDropdown] = useState(false);
+  const [yearInput, setYearInput] = useState("");
+  const yearDropdownRef = useRef(null);
 
   // Available filter options
   const { withoutAllTime } = generateYearOptions();
+  const getFilteredYears = (searchValue) => {
+    if (!searchValue || searchValue.trim() === '') {
+      return withoutAllTime;
+    }
+    const hasNumbers = /\d/.test(searchValue);
+    if (hasNumbers) {
+      return withoutAllTime.filter((year) =>
+        year.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+    return withoutAllTime;
+  };
 
+  const handleSelection = (type, value) => {
+    switch (type) {
+      case "year":
+        setFilterYear(value);
+        setYearInput("");
+        setShowYearDropdown(false);
+        break;
+    }
+  };
+  const handleYearInputChange = (value) => {
+    setYearInput(value);
+  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        yearDropdownRef.current &&
+        !yearDropdownRef.current.contains(event.target)
+      ) {
+        setShowYearDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   // Fetch rider details using rider ID
   // const fetchRiderDetails = async (riderId) => {
   //   try {
@@ -177,6 +220,7 @@ export default function RiderDetail({ initialRider }) {
   }
   return (
     <main>
+      <div className="dropdown-overlay"></div>
       <section className="rider-details-sec pb-0 rider-details-sec-top">
         <div className="top-wrapper-main">
           <div className="container">
@@ -219,7 +263,20 @@ export default function RiderDetail({ initialRider }) {
           <div className="row">
             <div className="col-lg-12">
               <ul className="filter">
-                <li className="active">
+              <FilterDropdown
+                ref={yearDropdownRef}
+                isOpen={showYearDropdown}
+                toggle={() => setShowYearDropdown(!showYearDropdown)}
+                options={getFilteredYears(yearInput)}
+                selectedValue={filterYear}
+                placeholder="Year"
+                onSelect={(value) => handleSelection("year", value)}
+                onInputChange={handleYearInputChange}
+                loading={false}
+                includeAllOption={false}
+                classname="year-dropdown"
+              />
+                {/* <li className="active">
                   <select
                     value={filterYear}
                     onChange={(e) => setFilterYear(e.target.value)}
@@ -231,7 +288,7 @@ export default function RiderDetail({ initialRider }) {
                       </option>
                     ))}
                   </select>
-                </li>
+                </li> */}
               </ul>
             </div>
             {/* Random Stats Section */}

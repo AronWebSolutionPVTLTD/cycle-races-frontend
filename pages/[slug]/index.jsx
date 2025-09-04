@@ -3,10 +3,12 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { fetchData } from "@/lib/api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
 import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
+import { generateYearOptions } from "@/components/GetYear";
+import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
 // Helper function to get value from item using multiple possible keys
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
@@ -36,6 +38,52 @@ export default function DynamicSlugPage() {
     new Date().getFullYear().toString()
   );
 
+  const [showYearDropdown, setShowYearDropdown] = useState(false);
+  const { withoutAllTime } = generateYearOptions();
+  const [yearInput, setYearInput] = useState("");
+  const yearDropdownRef = useRef(null);
+
+  const getFilteredYears = (searchValue) => {
+    if (!searchValue || searchValue.trim() === '') {
+      return withoutAllTime;
+    }
+    const hasNumbers = /\d/.test(searchValue);
+    if (hasNumbers) {
+      return withoutAllTime.filter((year) =>
+        year.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+    return withoutAllTime;
+  };
+
+  const handleSelection = (type, value) => {
+    switch (type) {
+      case "year":
+        setSelectedYear(value);
+        setYearInput("");
+        setShowYearDropdown(false);
+        break;
+    }
+  };
+
+  const handleYearInputChange = (value) => {
+    setYearInput(value);
+  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        yearDropdownRef.current &&
+        !yearDropdownRef.current.contains(event.target)
+      ) {
+        setShowYearDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   // Generate year options (current year back to 1990)
   const currentYear = new Date().getFullYear();
   const years = [];
@@ -450,6 +498,7 @@ export default function DynamicSlugPage() {
       </Head>
 
       <main>
+      <div class="dropdown-overlay"></div>
         <section className="riders-sec1">
           <div className="container">
             <div className="row">
@@ -466,15 +515,30 @@ export default function DynamicSlugPage() {
           </div>
         </section>
 
-        <section className="home-banner riders-sec2">
+        <section className="home-banner riders-sec2 dsdsd">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
                 <div className="filter-section">
                   <div className="row align-items-center">
                     <div className="col-lg-6">
+                    <ul className="filter">
+                      <FilterDropdown
+                        ref={yearDropdownRef}
+                        isOpen={showYearDropdown}
+                        toggle={() => setShowYearDropdown(!showYearDropdown)}
+                        options={getFilteredYears(yearInput)}
+                        selectedValue={selectedYear}
+                        placeholder="Year"
+                        onSelect={(value) => handleSelection("year", value)}
+                        onInputChange={handleYearInputChange}
+                        loading={false}
+                        includeAllOption={false}
+                        classname="year-dropdown"
+                      />
+                      </ul>
                       <div className="filter-dropdown">
-                        <select
+                        {/* <select
                           value={selectedYear}
                           onChange={handleYearChange}
                           id="yearSelect"
@@ -484,7 +548,7 @@ export default function DynamicSlugPage() {
                               {year}
                             </option>
                           ))}
-                        </select>
+                        </select> */}
                       </div>
                     </div>
                     <div className="col-lg-6 text-end">

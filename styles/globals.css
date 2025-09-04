@@ -20,8 +20,8 @@ body {
       #f7f6f0 52.84%,
       rgba(247, 246, 240, 0) 61.45%
     ),
-    url("../public/images/body-bg.jpg") no-repeat -7.211px -21.475px/156.959%
-      47.659%,
+    /* url("../public/images/body-bg.jpg") no-repeat -7.211px -21.475px/156.959%
+      47.659%, */
     #f7f6f0;
   text-rendering: optimizeLegibility;
   min-height: 100vh;

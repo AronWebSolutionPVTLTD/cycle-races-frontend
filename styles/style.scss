@@ -21,8 +21,8 @@ body {
       #f7f6f0 52.84%,
       rgba(247, 246, 240, 0) 61.45%
     ),
-    url("../public/images/body-bg.jpg") no-repeat -7.211px -21.475px / 156.959%
-      47.659%,
+    // url("../public/images/body-bg.jpg") no-repeat -7.211px -21.475px / 156.959%
+    //   47.659%,
     #f7f6f0;
   text-rendering: optimizeLegibility;
   min-height: 100vh;
@@ -1688,6 +1688,21 @@ section.riders-sec1 {
         saturate(3604%) hue-rotate(105deg) brightness(91%) contrast(94%);
     }
   }
+  .search-icon{
+    color: #d0f068;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    &:hover {
+      color: #2b534d;
+    }
+    svg {
+      width: 2.0625rem;
+      height: 2.0625rem;
+      cursor: pointer;
+      
+    }
+  } 
   .searchInput .icon input[type="reset"] {
     width: 45px !important;
     height: 45px !important;
@@ -1844,7 +1859,8 @@ section.result-sec1 {
   ul.head-heading {
     margin-bottom: 2rem;
     display: grid;
-    grid-template-columns: 5.375rem 26.0625rem 13.5rem auto;
+    grid-template-columns: 6rem 25.5rem 11.375rem 12.75rem;
+    gap: 1.5rem;
     li {
       color: var(--Text, #cbcbc7);
       font-family: "Univers";
@@ -3005,13 +3021,17 @@ body:has(.filter .filter-dropdown-list.active) .dropdown-overlay {
   visibility: visible;
   pointer-events: all;
 }
-section.stats-sec1 ul.filter .filter-dropdown-list {
+section.stats-sec1 ul.filter .filter-dropdown-list, 
+.filter .filter-dropdown-list {
   border-radius: 10px;
   position: relative;
   overflow: unset !important;
   min-width: 94px;
+  border-radius: 30px;
+  background: #fff;
 }
-section.stats-sec1 ul.filter .filter-dropdown-list.active{
+section.stats-sec1 ul.filter .filter-dropdown-list.active,
+.filter .filter-dropdown-list.active{
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   z-index: 999;
@@ -3024,19 +3044,23 @@ li.year-dropdown {
 
 li.year-dropdown .form-select {
   width: 100%;
-  border: 0;
+  border: 1px solid transparent;
+  transition: none;
 }
 
 .filter .dropdown-menu {
   width: 100%;
   max-width: 100%;
   min-width: 100%;
-  border: 0;
+  border: 1px solid transparent;
+  border-top: 0;
   box-shadow: none;
   border-radius: 0 0 10px 10px;
   padding: 0 12px 12px;
 }
-
+.filter .dropdown-menu.show {
+  border-color: #D0F068;
+}
 .filter .dropdown-menu .dropdown-options {
   padding: 8px 12px;
   margin: 0 -12px;
@@ -3044,13 +3068,16 @@ li.year-dropdown .form-select {
 .filter .search-container{
   margin: 0 -12px;
 }
-section.stats-sec1 .filter .filter-dropdown-list.active .form-select {
+section.stats-sec1 .filter .filter-dropdown-list.active .form-select,
+.filter .filter-dropdown-list.active .form-select {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   border: 1px solid #D0F068;
   border-bottom: 0;
+  border-radius: 10px 10px 0 0;
 }
-section.stats-sec1 ul.filter .filter-dropdown-list .form-select{
+section.stats-sec1 ul.filter .filter-dropdown-list .form-select,
+.filter .filter-dropdown-list .form-select{
   border: 0;
   width: 100%;
   background: none;
@@ -3091,7 +3118,8 @@ li.dropdown-item {
   padding-left: 0;
   padding-right: 0;
 }
-section.stats-sec1 ul.filter .filter-dropdown-list.active .dropdown-menu {
+section.stats-sec1 ul.filter .filter-dropdown-list.active .dropdown-menu,
+.filter .filter-dropdown-list.active .dropdown-menu {
   border: 1px solid #D0F068;
   border-top: 0;
 }
@@ -3134,4 +3162,52 @@ li.dropdown-item.selected {
   .filter-section-wrapper {
     padding-bottom: 1rem;
   }
+}
+
+.search-wraper a {
+  display: inline-flex !important;
+  width: 2.0625rem;
+  height: 2.0625rem;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  color: #d0f068;
+  transition: all 0.3s ease;
+}
+
+.search-wraper a svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.search-wraper a:hover {
+  color: #2b534d;
+}
+.filter li.active{
+  position: relative;
+  z-index: 999;
+  overflow: unset !important;
+}
+.filter li.active{
+  border-radius: 10px 10px 0 0 !important;
+}
+.dropdown-options .dropdown-item {
+  border-radius: 30px;
+}
+.dropdown-options .dropdown-item:hover {
+  background: none;
+}
+
+header{
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+header + main{
+  padding-top: 193px;
+}
+header.absolute-header + main {
+  padding: 0;
 }

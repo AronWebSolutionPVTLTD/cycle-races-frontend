@@ -3,10 +3,12 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { fetchData } from "@/lib/api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
 import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
+import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
+import { generateYearOptions } from "@/components/GetYear";
 
 // Helper function to get value from item using multiple possible keys
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
@@ -34,6 +36,12 @@ export default function DynamicSlugPage() {
   const [apiTitle, setApiTitle] = useState(null);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
 
+  
+  const [showYearDropdown, setShowYearDropdown] = useState(false);
+  const [yearInput, setYearInput] = useState("");
+  const yearDropdownRef = useRef(null);
+  const { withoutAllTime } = generateYearOptions();
+
   // Generate year options (current year back to 1990)
   const currentYear = new Date().getFullYear();
   const years = [];
@@ -45,6 +53,47 @@ export default function DynamicSlugPage() {
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
   };
+
+  const getFilteredYears = (searchValue) => {
+    if (!searchValue || searchValue.trim() === '') {
+      return withoutAllTime;
+    }
+    const hasNumbers = /\d/.test(searchValue);
+    if (hasNumbers) {
+      return withoutAllTime.filter((year) =>
+        year.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+    return withoutAllTime;
+  };
+
+  const handleSelection = (type, value) => {
+    switch (type) {
+      case "year":
+        setSelectedYear(value);
+        setYearInput("");
+        setShowYearDropdown(false);
+        break;
+    }
+  };
+  const handleYearInputChange = (value) => {
+    setYearInput(value);
+  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        yearDropdownRef.current &&
+        !yearDropdownRef.current.contains(event.target)
+      ) {
+        setShowYearDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Get the appropriate back link based on current URL
   const getBackLink = () => {
@@ -519,6 +568,7 @@ export default function DynamicSlugPage() {
       </Head>
 
       <main>
+        <div className="dropdown-overlay"></div>
         <section className="riders-sec1">
           <div className="container">
             <div className="row">
@@ -550,7 +600,22 @@ export default function DynamicSlugPage() {
                 <div className="filter-section">
                   <div className="row align-items-center">
                     <div className="col-lg-6">
-                      <div className="filter-dropdown">
+                      <ul className="filter">
+                      <FilterDropdown
+                        ref={yearDropdownRef}
+                        isOpen={showYearDropdown}
+                        toggle={() => setShowYearDropdown(!showYearDropdown)}
+                        options={getFilteredYears(yearInput)}
+                        selectedValue={selectedYear}
+                        placeholder="Year"
+                        onSelect={(value) => handleSelection("year", value)}
+                        onInputChange={handleYearInputChange}
+                        loading={false}
+                        includeAllOption={false}
+                        classname="year-dropdown"
+                      />
+                      </ul>
+                      {/* <div className="filter-dropdown">
                         <select
                           value={selectedYear}
                           onChange={handleYearChange}
@@ -562,7 +627,7 @@ export default function DynamicSlugPage() {
                             </option>
                           ))}
                         </select>
-                      </div>
+                      </div> */}
                     </div>
                                          <div className="col-lg-6 text-end">
                        <Link

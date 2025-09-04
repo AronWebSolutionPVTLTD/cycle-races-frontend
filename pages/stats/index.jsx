@@ -140,7 +140,7 @@ export default function Stats() {
       <Head>
         <title>Stats - Wielerstats</title>
       </Head>
-
+      <div className="dropdown-overlay"></div>
       <section className="stats-sec1 lazy">
         <div className="container">
           <div className="row">

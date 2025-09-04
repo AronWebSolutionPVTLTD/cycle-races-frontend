@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { RiSearchLine } from "react-icons/ri";
 
 export default function Header() {
   const pathname = usePathname();
@@ -147,12 +148,7 @@ if (!atTop) {
             </div>
             <div className="search-wraper">
               <a href="#?">
-                <Image
-                  src="/images/search-icon.svg"
-                  alt="Search"
-                  width={20}
-                  height={20}
-                />
+                <RiSearchLine />
               </a>
             </div>
           </div>

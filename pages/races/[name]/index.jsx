@@ -15,10 +15,8 @@ export default function RaceDetailsPage() {
   const { name } = router.query;
 
   // State management
-  const [selectedYear, setSelectedYear] = useState("All time");
-  const [yearInput, setYearInput] = useState(
-    new Date().getFullYear().toString()
-  );
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
+  const [yearInput, setYearInput] = useState('');
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [selectedNationality, setSelectedNationality] = useState("");
 
@@ -35,7 +33,7 @@ export default function RaceDetailsPage() {
   // Error state
   const [error, setError] = useState(null);
 
-  const { withAllTime } = generateYearOptions();
+  const { withoutAllTime } = generateYearOptions();
 
   // Refs for handling clicks outside dropdowns
   const yearDropdownRef = useRef(null);
@@ -47,11 +45,28 @@ export default function RaceDetailsPage() {
     [name]
   );
 
-  const filteredYears = useMemo(() => {
-    return withAllTime.filter((year) =>
-      year.toLowerCase().includes((yearInput || "").toLowerCase())
-    );
-  }, [withAllTime, yearInput]);
+  // const filteredYears = useMemo(() => {
+  //   return withAllTime.filter((year) =>
+  //     year.toLowerCase().includes((yearInput || "").toLowerCase())
+  //   );
+  // }, [withAllTime, yearInput]);
+
+  const getFilteredYears = (searchValue) => {
+    if (!searchValue || searchValue.trim() === '') {
+      return withoutAllTime;
+    }
+
+
+    const hasNumbers = /\d/.test(searchValue);
+    if (hasNumbers) {
+      return withoutAllTime.filter((year) =>
+        year.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+
+
+    return withoutAllTime;
+  };
 
   // Fetch nationalities and teams based on filters
   const fetchFiltersData = useCallback(async () => {
@@ -92,6 +107,7 @@ export default function RaceDetailsPage() {
         `/raceDetailsStats/${raceName}/getRaceDetails`,
         {}
       );
+      console.log('response----',response)
 
       if (response.status && response.data) {
         setRaceData(response.data);
@@ -111,12 +127,14 @@ export default function RaceDetailsPage() {
     switch (type) {
       case "year":
         setSelectedYear(value);
-        setYearInput(value);
+        setYearInput('');
         setShowYearDropdown(false);
+        fetchFiltersData();
         break;
       case "nationality":
         setSelectedNationality(value);
         setShowNationalityDropdown(false);
+        fetchFiltersData();
         break;
     }
   }, []);
@@ -169,6 +187,7 @@ export default function RaceDetailsPage() {
         <title>{raceData?.race_name || "Race"} | Cycling Stats</title>
       </Head>
       <main>
+        <div className="dropdown-overlay"></div>
         <section className="rider-details-sec pb-0 rider-details-sec-top">
           <div className="top-wrapper-main">
             <div className="container">
@@ -231,7 +250,7 @@ export default function RaceDetailsPage() {
                     ref={yearDropdownRef}
                     isOpen={showYearDropdown}
                     toggle={() => setShowYearDropdown(!showYearDropdown)}
-                    options={filteredYears}
+                    options={getFilteredYears(yearInput)}
                     selectedValue={selectedYear}
                     placeholder="Year"
                     onSelect={(value) => handleSelection("year", value)}
@@ -252,6 +271,7 @@ export default function RaceDetailsPage() {
                     onSelect={(value) => handleSelection("nationality", value)}
                     loading={isLoadingFilters}
                     allOptionText="All Nationalities"
+                    classname="nationality-dropdown"
                   />
                 </ul>
               </div>

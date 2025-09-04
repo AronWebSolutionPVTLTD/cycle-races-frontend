@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { callAPI } from "../../lib/api";
 import Flag from "react-world-flags";
 import { generateYearOptions } from "@/components/GetYear";
+import { RiSearchLine } from "react-icons/ri";
 import {
   CardSkeleton,
   ErrorStats,
   ListSkeleton,
 } from "@/components/loading&error";
+import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
 export default function Results() {
   const [raceResults, setRaceResults] = useState([]);
@@ -22,8 +24,10 @@ export default function Results() {
   const [featuredRaces, setFeaturedRaces] = useState([]);
   const [error, setError] = useState(null);
   const [errorFeatured, setErrorFeatured] = useState(null);
-
+  const [showYearDropdown, setShowYearDropdown] = useState(false);
   const { withoutAllTime } = generateYearOptions();
+  const [yearInput, setYearInput] = useState("");
+  
   const months = [
     "Januari",
     "Februari",
@@ -38,6 +42,37 @@ export default function Results() {
     "November",
     "December",
   ];
+
+  const yearDropdownRef = useRef(null);
+  
+  const getFilteredYears = (searchValue) => {
+    if (!searchValue || searchValue.trim() === '') {
+      return withoutAllTime;
+    }
+
+    const hasNumbers = /\d/.test(searchValue);
+    if (hasNumbers) {
+      return withoutAllTime.filter((year) =>
+        year.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+
+    return withoutAllTime;
+  };
+
+  const handleYearInputChange = (value) => {
+    setYearInput(value);
+  };
+
+  const handleSelection = (type, value) => {
+    switch (type) {
+      case "year":
+        setSelectedYear(value);
+        setYearInput("");
+        setShowYearDropdown(false);
+        break;
+    }
+  };
 
   // Convert month name to number (1-12)
   const getMonthNumber = (monthName) => {
@@ -65,23 +100,33 @@ export default function Results() {
     return `/${statsPath}?${queryString}`;
   };
 
-  // Fetch data from API with filters
-  const fetchRaceResults = async () => {
+  // Fetch data from API with filters - FIXED VERSION
+  const fetchRaceResults = async (customSearchTerm = null) => {
     setLoading(true);
     setError(null);
+    
     try {
+      const searchQuery = customSearchTerm !== null ? customSearchTerm : searchTerm;
+      
       const monthParam = selectedMonth
         ? `&month=${getMonthNumber(selectedMonth)}`
         : "";
-      const searchParam = searchTerm
-        ? `&search=${encodeURIComponent(searchTerm)}`
+      const searchParam = searchQuery && searchQuery.trim()
+        ? `&search=${encodeURIComponent(searchQuery.trim())}`
         : "";
 
       const endpoint = `stages/getRecentStageRaceWinners?year=${selectedYear}${monthParam}${searchParam}`;
+      
+      console.log('Fetching with endpoint:', endpoint);
+      console.log('Search query being used:', searchQuery);
+      
       const data = await callAPI("GET", endpoint);
-
+      
+      console.log('API Response:', data);
+      console.log('Race results count:', data.recent_stage_race_winners?.length || 0);
+      
       setRaceResults(data.recent_stage_race_winners || []);
-      setSearchResults([]); // Clear search results after fetching
+      
     } catch (error) {
       console.error("Error fetching race results:", error);
       setError("Failed to load race results. Please try again later.");
@@ -113,7 +158,6 @@ export default function Results() {
           flag: topRider.rider_country.toLowerCase(),
           speed: `${topRider.wins}`,
           link: "current-victory-ranking",
-          // image: '/images/player6.png'
         });
       }
 
@@ -123,10 +167,8 @@ export default function Results() {
         featured.push({
           title: teamRes.message,
           rider: topTeam.team_name,
-          // flag: '/images/flag-placeholder.svg',
           speed: `${topTeam.total_wins}`,
           link: "current-team-ranking",
-          // image: '/images/player6.png'
         });
       }
 
@@ -139,7 +181,6 @@ export default function Results() {
           flag: best.rider_country.toLowerCase(),
           speed: best.wins,
           link: "best-riders-of-recent-year",
-          // image: '/images/player6.png'
         });
       }
 
@@ -155,17 +196,23 @@ export default function Results() {
     }
   };
 
-  // Initial data fetch and close dropdown on click outside
+  // Initial data fetch
   useEffect(() => {
     fetchRaceResults();
     fetchFeaturedRaces();
   }, [selectedYear, selectedMonth]);
 
-  // Close search dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".searchInput")) {
         setShowSearchDropdown(false);
+      }
+      if (
+        yearDropdownRef.current &&
+        !yearDropdownRef.current.contains(event.target)
+      ) {
+        setShowYearDropdown(false);
       }
     };
 
@@ -175,27 +222,27 @@ export default function Results() {
     };
   }, []);
 
-  // Debounce search to avoid excessive API calls
+  // Debounced search for suggestions - FIXED VERSION
   useEffect(() => {
     if (searchTerm.length >= 2) {
       const delayDebounce = setTimeout(() => {
         fetchSearchSuggestions();
-      }, 300); // 300ms delay
+      }, 300);
 
       return () => clearTimeout(delayDebounce);
     } else {
       setSearchResults([]);
       setShowSearchDropdown(false);
     }
-  }, [searchTerm]);
+  }, [searchTerm, selectedYear, selectedMonth]);
 
-  // Fetch search suggestions separately from results
+  // Fetch search suggestions - FIXED VERSION
   const fetchSearchSuggestions = async () => {
     try {
       const monthParam = selectedMonth
         ? `&month=${getMonthNumber(selectedMonth)}`
         : "";
-      const searchParam = `&search=${encodeURIComponent(searchTerm)}`;
+      const searchParam = `&search=${encodeURIComponent(searchTerm.trim())}`;
 
       const endpoint = `stages/getRecentStageRaceWinners?year=${selectedYear}${monthParam}${searchParam}`;
       const data = await callAPI("GET", endpoint);
@@ -205,37 +252,55 @@ export default function Results() {
         new Set(
           (data.recent_stage_race_winners || []).map((item) => item.race_name)
         )
-      ).map((raceName) => {
-        return {
-          race_name: raceName,
-        };
-      });
+      )
+      .filter(raceName => raceName.toLowerCase() !== searchTerm.toLowerCase())
+    .map((raceName) => ({
+      race_name: raceName,
+      // .map((raceName) => ({
+      //   race_name: raceName,
+      }));
 
+      console.log('Search suggestions:', uniqueRaces);
+      
       setSearchResults(uniqueRaces);
       setShowSearchDropdown(uniqueRaces.length > 0);
-    } catch (error) {
+    } catch (error) { 
       console.error("Error fetching search suggestions:", error);
       setSearchResults([]);
+      setShowSearchDropdown(false);
     }
   };
 
   // Handle search input change
   const handleSearchInput = (e) => {
-    setSearchTerm(e.target.value);
+    const value = e.target.value; 
+    setSearchTerm(value);
+    
+    // If input is cleared, fetch all results
+    if (value.trim() === "") {
+      fetchRaceResults("");
+      setSearchResults([]);
+    setShowSearchDropdown(false);
+    }
   };
 
-  // Handle search form submission
+  // Handle search form submission - FIXED VERSION
   const handleSearch = (e) => {
     e.preventDefault();
     setShowSearchDropdown(false);
     fetchRaceResults();
   };
 
-  // Handle search suggestion selection
+  // Handle search suggestion selection - FIXED VERSION
   const handleSuggestionSelect = (raceName) => {
+    console.log('Selected race:', raceName);
+    
     setSearchTerm(raceName);
     setShowSearchDropdown(false);
-    fetchRaceResults();
+    setSearchResults([]);
+    
+    // Immediately fetch results with the selected race name
+    fetchRaceResults(raceName);
   };
 
   // Handle year change
@@ -248,13 +313,18 @@ export default function Results() {
     setSelectedMonth(e.target.value);
   };
 
-  // Clear search
+  // Clear search - FIXED VERSION
   const clearSearch = () => {
     setSearchTerm("");
     setSearchResults([]);
     setShowSearchDropdown(false);
-    fetchRaceResults();
+    fetchRaceResults("");
   };
+
+  // Debug logging
+  useEffect(() => {
+    console.log('Current race results:', raceResults.length, raceResults);
+  }, [raceResults]);
 
   return (
     <>
@@ -264,6 +334,7 @@ export default function Results() {
         <link rel="icon" href="/images/fav-icon.svg" type="image/svg+xml" />
       </Head>
       <main>
+        <div className="dropdown-overlay"></div>
         <section className="riders-sec1">
           <div className="container">
             <div className="row">
@@ -279,31 +350,28 @@ export default function Results() {
                   <form onSubmit={handleSearch}>
                     <div className="wraper">
                       <div className="wrap-top">
-                      <input
-                        type="text"
-                        placeholder="welke wedstrijd zoek je?"
-                        value={searchTerm}
-                        onChange={handleSearchInput}
-                        onFocus={() =>
-                          searchResults.length > 0 &&
-                          setShowSearchDropdown(true)
-                        }
-                      />
-                      <div className="icon">
-                        <img
-                          src="/images/search-icon.svg"
-                          alt="Search"
-                          onClick={handleSearch}
-                        />
                         <input
-                          type="reset"
-                          value=""
-                          className="close"
-                          onClick={clearSearch}
+                          type="text"
+                          placeholder="welke wedstrijd zoek je?"
+                          value={searchTerm}
+                          onChange={handleSearchInput}
+                          onFocus={() =>
+                            searchResults.length > 0 &&
+                            setShowSearchDropdown(true)
+                          }
                         />
+                        <div className="icon">
+                          <span className="search-icon" onClick={handleSearch}>
+                            <RiSearchLine />
+                          </span>
+                          <input
+                            type="reset"
+                            value=""
+                            className="close"
+                            onClick={clearSearch}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    
                     </div>
                     {showSearchDropdown && searchResults.length > 0 && (
                       <div className="wrap-bottom">
@@ -315,7 +383,9 @@ export default function Results() {
                                 handleSuggestionSelect(result.race_name)
                               }
                             >
-                              <div><span>{result.race_name}</span></div>
+                              <div>
+                                <span>{result.race_name}</span>
+                              </div>
                             </li>
                           ))}
                         </ul>
@@ -333,19 +403,19 @@ export default function Results() {
             <div className="row">
               <div className="col-lg-12">
                 <ul className="filter">
-                  <li className="active">
-                    <select
-                      value={selectedYear}
-                      onChange={handleYearChange}
-                      id="yearSelect"
-                    >
-                      {withoutAllTime.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                  </li>
+                  <FilterDropdown
+                    ref={yearDropdownRef}
+                    isOpen={showYearDropdown}
+                    toggle={() => setShowYearDropdown(!showYearDropdown)}
+                    options={getFilteredYears(yearInput)}
+                    selectedValue={selectedYear}
+                    placeholder="Year"
+                    onSelect={(value) => handleSelection("year", value)}
+                    onInputChange={handleYearInputChange}
+                    loading={false}
+                    includeAllOption={false}
+                    classname="year-dropdown"
+                  />
                   {months.map((month) => (
                     <li
                       key={month}
@@ -364,17 +434,6 @@ export default function Results() {
                   ))}
                 </ul>
                 <div className="select-box">
-                  <select
-                    value={selectedYear}
-                    onChange={handleYearChange}
-                    className="active"
-                  >
-                    {withoutAllTime.map((year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
                   <select value={selectedMonth} onChange={handleMonthChange}>
                     <option value="">Month</option>
                     {months.map((month) => (
@@ -417,11 +476,14 @@ export default function Results() {
                             }}
                           />
                           <Link
-                            href={`/races/${encodeURIComponent(
-                              item.race_name
-                            )}`}
+                            href={`/races/${encodeURIComponent(item.race_name)}`}
                           >
                             {item.race_name}
+                            {item.is_stage_race && (
+                              <span style={{ color: "inherit" }}>
+                                - Stage {item?.stage_number}
+                              </span>
+                            )}
                           </Link>
                         </h5>
                         <h6>
@@ -453,7 +515,12 @@ export default function Results() {
                     ))}
                   </ul>
                 ) : (
-                  <div className="no-results">No race results found</div>
+                  <div className="no-results">
+                    {searchTerm.trim() 
+                      ? `No results found for "${searchTerm}"`
+                      : "No race results found"
+                    }
+                  </div>
                 )}
               </div>
 
@@ -473,14 +540,16 @@ export default function Results() {
                       <div className="text-wraper">
                         <h4 className="font-size-change">{race.title}</h4>
                         <div className="name-wraper">
-                          <Flag
-                            code={race?.flag}
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                              marginLeft: "10px",
-                            }}
-                          />
+                          {race.flag && (
+                            <Flag
+                              code={race.flag}
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginLeft: "10px",
+                              }}
+                            />
+                          )}
                           <h6>{race.rider}</h6>
                         </div>
                       </div>
@@ -489,12 +558,6 @@ export default function Results() {
                           <strong>{race.speed}</strong> wins
                         </h5>
                       )}
-                      {/* <img 
-                        src={race.image} 
-                        alt="" 
-                        className="absolute-img" 
-                        onError={(e) => { e.target.src = '/images/player-placeholder.png' }}
-                      /> */}
                       <Link
                         href={buildUrlWithParams(race.link)}
                         className="green-circle-btn"
