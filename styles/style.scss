@@ -3218,3 +3218,6 @@ ul.filter > li:not(.filter-dropdown-list).active {
     border-radius: 3.75rem !important;
     overflow: hidden !important;
 }
+.searchInput:has(.wrap-bottom) {
+  z-index: 9999;
+}

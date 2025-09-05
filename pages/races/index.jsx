@@ -134,7 +134,7 @@ export default function Results() {
     return `/${statsPath}?${queryString}`;
   };
 
-  // Fetch data from API with filters - FIXED VERSION
+  // Fetch data from API with filters - GLOBAL SEARCH VERSION
   const fetchRaceResults = async (customSearchTerm = null) => {
     setLoading(true);
     setError(null);
@@ -142,9 +142,11 @@ export default function Results() {
     try {
       const searchQuery = customSearchTerm !== null ? customSearchTerm : searchTerm;
       
-      const monthParam = selectedMonth
-        ? `&month=${getMonthNumber(selectedMonth)}`
-        : "";
+      // When searching, ignore month filter to search across all months
+      const monthParam = (searchQuery && searchQuery.trim()) 
+        ? "" // No month filter when searching globally
+        : (selectedMonth ? `&month=${getMonthNumber(selectedMonth)}` : "");
+      
       const searchParam = searchQuery && searchQuery.trim()
         ? `&search=${encodeURIComponent(searchQuery.trim())}`
         : "";
@@ -153,6 +155,7 @@ export default function Results() {
       
       console.log('Fetching with endpoint:', endpoint);
       console.log('Search query being used:', searchQuery);
+      console.log('Month filter applied:', !(searchQuery && searchQuery.trim()));
       
       const data = await callAPI("GET", endpoint);
       
@@ -230,9 +233,12 @@ export default function Results() {
     }
   };
 
-  // Initial data fetch
+  // Initial data fetch - GLOBAL SEARCH VERSION
   useEffect(() => {
-    fetchRaceResults();
+    // Only refetch if no search term is active, otherwise maintain search results
+    if (!searchTerm || searchTerm.trim() === "") {
+      fetchRaceResults();
+    }
     fetchFeaturedRaces();
   }, [selectedYear, selectedMonth]);
 
@@ -256,29 +262,31 @@ export default function Results() {
     };
   }, []);
 
-  // Debounced search for suggestions - FIXED VERSION
+  // Debounced search for suggestions - GLOBAL SEARCH VERSION
   useEffect(() => {
+    console.log('Search suggestions useEffect triggered:', { searchTerm, selectedYear, searchTermLength: searchTerm.length });
+    
     if (searchTerm.length >= 2) {
+      console.log('Setting up debounced search suggestions...');
       const delayDebounce = setTimeout(() => {
         fetchSearchSuggestions();
       }, 300);
 
       return () => clearTimeout(delayDebounce);
     } else {
+      console.log('Clearing search suggestions (term too short or empty)');
       setSearchResults([]);
       setShowSearchDropdown(false);
     }
-  }, [searchTerm, selectedYear, selectedMonth]);
+  }, [searchTerm, selectedYear]); // Removed selectedMonth dependency for global search
 
-  // Fetch search suggestions - FIXED VERSION
+  // Fetch search suggestions - GLOBAL SEARCH VERSION
   const fetchSearchSuggestions = async () => {
     try {
-      const monthParam = selectedMonth
-        ? `&month=${getMonthNumber(selectedMonth)}`
-        : "";
+      // For search suggestions, always search globally (no month filter)
       const searchParam = `&search=${encodeURIComponent(searchTerm.trim())}`;
 
-      const endpoint = `stages/getRecentStageRaceWinners?year=${selectedYear}${monthParam}${searchParam}`;
+      const endpoint = `stages/getRecentStageRaceWinners?year=${selectedYear}${searchParam}`;
       const data = await callAPI("GET", endpoint);
 
       // Extract unique race names from results for the dropdown
@@ -288,13 +296,12 @@ export default function Results() {
         )
       )
       .filter(raceName => raceName.toLowerCase() !== searchTerm.toLowerCase())
-    .map((raceName) => ({
-      race_name: raceName,
-      // .map((raceName) => ({
-      //   race_name: raceName,
+      .map((raceName) => ({
+        race_name: raceName,
       }));
 
-      console.log('Search suggestions:', uniqueRaces);
+      console.log('Search suggestions (global):', uniqueRaces);
+      console.log('Setting dropdown visibility:', uniqueRaces.length > 0);
       
       setSearchResults(uniqueRaces);
       setShowSearchDropdown(uniqueRaces.length > 0);
@@ -305,17 +312,18 @@ export default function Results() {
     }
   };
 
-  // Handle search input change
+  // Handle search input change - GLOBAL SEARCH VERSION
   const handleSearchInput = (e) => {
     const value = e.target.value; 
     setSearchTerm(value);
     
-    // If input is cleared, fetch all results
+    // If input is cleared, fetch all results and hide suggestions
     if (value.trim() === "") {
       fetchRaceResults("");
       setSearchResults([]);
-    setShowSearchDropdown(false);
+      setShowSearchDropdown(false);
     }
+    // The useEffect will handle fetching suggestions for non-empty values
   };
 
   // Handle search form submission - FIXED VERSION
@@ -389,10 +397,11 @@ export default function Results() {
                           placeholder="welke wedstrijd zoek je?"
                           value={searchTerm}
                           onChange={handleSearchInput}
-                          onFocus={() =>
-                            searchResults.length > 0 &&
-                            setShowSearchDropdown(true)
-                          }
+                          onFocus={() => {
+                            if (searchResults.length > 0) {
+                              setShowSearchDropdown(true);
+                            }
+                          }}
                         />
                         <div className="icon">
                           <span className="search-icon" onClick={handleSearch}>
@@ -459,7 +468,7 @@ export default function Results() {
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          setSelectedMonth(month);
+                          setSelectedMonth(selectedMonth === month ? "" : month);
                         }}
                       >
                         {month}
