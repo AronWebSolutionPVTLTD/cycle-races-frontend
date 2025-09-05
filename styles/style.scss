@@ -3038,8 +3038,8 @@ section.stats-sec1 ul.filter .filter-dropdown-list.active,
   
 }
 li.year-dropdown {
-  max-width: 94px !important;
-  width: 94px;
+  max-width: 100px !important;
+  width: 100px;
 }
 
 li.year-dropdown .form-select {
@@ -3210,4 +3210,11 @@ header + main{
 }
 header.absolute-header + main {
   padding: 0;
+}
+.searchInput input:focus::placeholder {
+    opacity: 0;
+}
+ul.filter > li:not(.filter-dropdown-list).active {
+    border-radius: 3.75rem !important;
+    overflow: hidden !important;
 }

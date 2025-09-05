@@ -12,6 +12,40 @@ import {
 } from "@/components/loading&error";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
+function convertDateRange(dateStr) {
+  const monthNames = [
+    "jan","feb","mar","apr","may","jun",
+    "jul","aug","sep","oct","nov","dec"
+  ];
+
+  const parse = (d) => {
+    const [day, month] = d.split(".");
+    return { day: parseInt(day, 10), month: parseInt(month, 10) };
+  };
+
+  if (dateStr.includes(" - ")) {
+    const [start, end] = dateStr.split(" - ");
+    const s = parse(start);
+    const e = parse(end);
+
+    if (s.month === e.month) {
+      // 14 - 18 May
+      return { start: `${s.day} - ${e.day} ${monthNames[s.month - 1]}`, end: null };
+    } else {
+      // 29 May - 1 Jun
+      return {
+        start: `${s.day} ${monthNames[s.month - 1]}`,
+        end: `${e.day} ${monthNames[e.month - 1]}`
+      };
+    }
+  } else {
+    // Single date -> 20 Apr
+    const d = parseInt(dateStr.split(".")[0], 10);
+    const m = parseInt(dateStr.split(".")[1], 10);
+    return { start: `${d} ${monthNames[m - 1]}`, end: null };
+  }
+}
+
 export default function Results() {
   const [raceResults, setRaceResults] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -463,9 +497,11 @@ export default function Results() {
                   </div>
                 ) : raceResults.length > 0 ? (
                   <ul className="transparent-cart">
-                    {raceResults.map((item, idx) => (
-                      <li key={idx}>
-                        <span>{item.date}</span>
+                    {raceResults.map((item, idx) => {
+                        const { start, end } = convertDateRange(item?.date);
+                        return(
+                          <li key={idx}>
+                        <span className="text-capitalize">{start} {end ? ` - ${end}` : ""}</span>
                         <h5>
                           <Flag
                             code={item.country_code.toUpperCase()}
@@ -504,15 +540,18 @@ export default function Results() {
                           )}`}
                           className="r-details"
                         >
-                          <img
+                          {/* <img
                             src="/images/eye.svg"
                             alt="Details"
                             width="24"
                             height="24"
-                          />
+                          /> */}
+                          <img src="/images/hover-arow.svg" alt="" />
                         </Link>
                       </li>
-                    ))}
+                        )
+                        
+                      })}
                   </ul>
                 ) : (
                   <div className="no-results">
