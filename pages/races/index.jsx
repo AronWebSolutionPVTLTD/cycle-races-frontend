@@ -53,13 +53,12 @@ export default function Results() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
-  const [selectedYear, setSelectedYear] = useState("2025");
+  const [selectedYear, setSelectedYear] = useState("All-time");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [featuredRaces, setFeaturedRaces] = useState([]);
   const [error, setError] = useState(null);
   const [errorFeatured, setErrorFeatured] = useState(null);
   const [showYearDropdown, setShowYearDropdown] = useState(false);
-  const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
   
   const months = [
@@ -76,12 +75,13 @@ export default function Results() {
     "November",
     "December",
   ];
-
+  const { withoutAllTime } = generateYearOptions();
+  const allYearOptions = ["All-time", ...withoutAllTime];
   const yearDropdownRef = useRef(null);
   
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
-      return withoutAllTime;
+      return allYearOptions;
     }
 
     const hasNumbers = /\d/.test(searchValue);
@@ -90,8 +90,9 @@ export default function Results() {
         year.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
-
-    return withoutAllTime;
+    return allYearOptions.filter((year) =>
+      year.toLowerCase().includes(searchValue.toLowerCase())
+    );
   };
 
   const handleYearInputChange = (value) => {
@@ -151,7 +152,9 @@ export default function Results() {
         ? `&search=${encodeURIComponent(searchQuery.trim())}`
         : "";
 
-      const endpoint = `stages/getRecentStageRaceWinners?year=${selectedYear}${monthParam}${searchParam}`;
+      // Only include year parameter if selectedYear is not "All-time"
+      const yearParam = selectedYear !== "All-time" ? `year=${selectedYear}` : "";
+      const endpoint = `stages/getRecentStageRaceWinners?${yearParam}${monthParam}${searchParam}`;
       
       console.log('Fetching with endpoint:', endpoint);
       console.log('Search query being used:', searchQuery);
@@ -178,10 +181,13 @@ export default function Results() {
     setLoadingFeatured(true);
     setErrorFeatured(null);
     try {
+      // Only include year parameter if selectedYear is not "All-time"
+      const yearParam = selectedYear !== "All-time" ? `?year=${selectedYear}` : "";
+      
       const [victoryRes, teamRes, bestRes] = await Promise.all([
-        callAPI("GET", `stages/getCurrentVictoryRanking?year=${selectedYear}`),
-        callAPI("GET", `stages/getCurrentTeamRanking?year=${selectedYear}`),
-        callAPI("GET", `stages/getBestRidersOfRecentYear?year=${selectedYear}`),
+        callAPI("GET", `stages/getCurrentVictoryRanking${yearParam}`),
+        callAPI("GET", `stages/getCurrentTeamRanking${yearParam}`),
+        callAPI("GET", `stages/getBestRidersOfRecentYear${yearParam}`),
       ]);
 
       const featured = [];
@@ -285,8 +291,11 @@ export default function Results() {
     try {
       // For search suggestions, always search globally (no month filter)
       const searchParam = `&search=${encodeURIComponent(searchTerm.trim())}`;
+      
+      // Only include year parameter if selectedYear is not "All-time"
+      const yearParam = selectedYear !== "All-time" ? `year=${selectedYear}&` : "";
 
-      const endpoint = `stages/getRecentStageRaceWinners?year=${selectedYear}${searchParam}`;
+      const endpoint = `stages/getRecentStageRaceWinners?${yearParam}${searchParam}`;
       const data = await callAPI("GET", endpoint);
 
       // Extract unique race names from results for the dropdown
