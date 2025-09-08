@@ -29,13 +29,13 @@ function convertDateRange(dateStr) {
     const e = parse(end);
 
     if (s.month === e.month) {
-      // 14 - 18 May
-      return { start: `${s.day} - ${e.day} ${monthNames[s.month - 1]}`, end: null };
+      // For same-month ranges, only show the first day and month
+      return { start: `${s.day} ${monthNames[s.month - 1]}`, end: null };
     } else {
-      // 29 May - 1 Jun
+      // For cross-month ranges, only show the first day and month
       return {
         start: `${s.day} ${monthNames[s.month - 1]}`,
-        end: `${e.day} ${monthNames[e.month - 1]}`
+        end: null
       };
     }
   } else {
@@ -516,10 +516,11 @@ export default function Results() {
                 ) : raceResults.length > 0 ? (
                   <ul className="transparent-cart">
                     {raceResults.map((item, idx) => {
-                        const { start, end } = convertDateRange(item?.date);
+                       const { start, end } = convertDateRange(item?.date);
                         return(
                           <li key={idx}>
-                        <span className="text-capitalize">{start} {end ? ` - ${end}` : ""}</span>
+                        {/* <span className="text-capitalize">{start} {end ? ` - ${end}` : ""}</span> */}
+                        <span className="text-capitalize">{start}</span>
                         <h5>
                           <Flag
                             code={item.country_code.toUpperCase()}
