@@ -60,6 +60,7 @@ export default function Results() {
   const [errorFeatured, setErrorFeatured] = useState(null);
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
+  const parentRef = useRef(null);
 
   const months = [
     "Januari",
@@ -377,6 +378,22 @@ export default function Results() {
     console.log('Current race results:', raceResults.length, raceResults);
   }, [raceResults]);
 
+
+  const handleFocus = () => {
+    if (searchResults.length > 0) {
+      setShowSearchDropdown(true);
+    }
+    if (parentRef.current) {
+      parentRef.current.classList.add("active-parent");
+    }
+  };
+
+  const handleBlur = () => {
+    if (parentRef.current) {
+      parentRef.current.classList.remove("active-parent");
+    }
+  };
+
   return (
     <>
       <Head>
@@ -397,7 +414,7 @@ export default function Results() {
                   <li>results</li>
                 </ul>
                 <h1>Results</h1>
-                <div className="searchInput 222">
+                <div ref={parentRef} className="searchInput 222">
                   <form onSubmit={handleSearch}>
                     <div className="wraper">
                       <div className="wrap-top">
@@ -406,11 +423,8 @@ export default function Results() {
                           placeholder="welke wedstrijd zoek je?"
                           value={searchTerm}
                           onChange={handleSearchInput}
-                          onFocus={() => {
-                            if (searchResults.length > 0) {
-                              setShowSearchDropdown(true);
-                            }
-                          }}
+                          onFocus={handleFocus}
+                          onBlur={handleBlur}
                         />
                         <div className="icon">
                           <span className="search-icon" onClick={handleSearch}>
@@ -485,7 +499,7 @@ export default function Results() {
                     </li>
                   ))}
                 </ul>
-                <div className="select-box">
+                {/* <div className="select-box wwwwww">
                   <select value={selectedMonth} onChange={handleMonthChange}>
                     <option value="">Month</option>
                     {months.map((month) => (
@@ -494,7 +508,7 @@ export default function Results() {
                       </option>
                     ))}
                   </select>
-                </div>
+                </div> */}
               </div>
 
               <div className="col-lg-9 col-md-7">

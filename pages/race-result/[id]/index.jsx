@@ -374,8 +374,8 @@ export default function RaceResultPage() {
                   </li>
                 ))}
               </ul>
-              <div className="select-box sdsdsdsdsd">
-                {/* <select
+              {/* <div className="select-box sdsdsdsdsd">
+                <select
                   value={selectedYear}
                   onChange={handleYearChange}
                   className="active"
@@ -385,8 +385,8 @@ export default function RaceResultPage() {
                       {year}
                     </option>
                   ))}
-                </select> */}
-                <select value={selectedMonth} onChange={handleMonthChange}>
+                </select>
+                <select className="qqqqqq" value={selectedMonth} onChange={handleMonthChange}>
                   <option value="">Month</option>
                   {months.map((month) => (
                     <option key={month} value={month}>
@@ -394,7 +394,7 @@ export default function RaceResultPage() {
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> */}
             </div>
 
             <div className="col-lg-9 col-md-7">

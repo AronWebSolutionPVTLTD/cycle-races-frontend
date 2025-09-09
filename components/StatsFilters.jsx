@@ -2,7 +2,7 @@ const StatsFilters = () => (
     <div className="col-lg-3 col-md-6">
       <ul className="filter">
         <li className="active">
-          <select name="" id="">
+          <select className="eeeeee" name="" id="">
             <option value="">All-time</option>
           </select>
         </li>

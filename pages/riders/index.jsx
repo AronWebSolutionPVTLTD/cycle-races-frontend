@@ -342,6 +342,21 @@ export default function Riders() {
     );
   };
 
+  const handleFocus = () => {
+    if (searchSuggestions.length > 0) {
+       setShowSuggestions(true)
+    }
+    if (searchRef.current) {
+      searchRef.current.classList.add("active-parent");
+    }
+  };
+
+  const handleBlur = () => {
+    if (searchRef.current) {
+      searchRef.current.classList.remove("active-parent");
+    }
+  };
+
   return (
     <>
       <Head>
@@ -370,10 +385,8 @@ export default function Riders() {
                           placeholder="welke renner zoek je?"
                           value={searchQuery}
                           onChange={handleSearchChange}
-                          onFocus={() =>
-                            searchSuggestions.length > 0 &&
-                            setShowSuggestions(true)
-                          }
+                          onFocus={handleFocus}
+                          onBlur={handleBlur}
                         />
                         <div className="icon">
                           <img

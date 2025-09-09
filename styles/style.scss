@@ -3687,3 +3687,12 @@ main:has(.wrap-bottom) .dropdown-overlay {
   align-items: center;
   gap: .5rem;
 }
+main:has(.active-parent) .dropdown-overlay {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.searchInput.active-parent {
+  z-index: 9999;
+}
