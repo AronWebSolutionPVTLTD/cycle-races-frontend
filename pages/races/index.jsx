@@ -145,9 +145,7 @@ export default function Results() {
       const searchQuery = customSearchTerm !== null ? customSearchTerm : searchTerm;
 
       // When searching, ignore month filter to search across all months
-      const monthParam = (searchQuery && searchQuery.trim())
-        ? "" // No month filter when searching globally
-        : (selectedMonth ? `&month=${getMonthNumber(selectedMonth)}` : "");
+      const monthParam =  (selectedMonth ? `&month=${getMonthNumber(selectedMonth)}` : "");
 
       const searchParam = searchQuery && searchQuery.trim()
         ? `&search=${encodeURIComponent(searchQuery.trim())}`
@@ -162,11 +160,7 @@ export default function Results() {
       console.log('Month filter applied:', !(searchQuery && searchQuery.trim()));
 
       const data = await callAPI("GET", endpoint);
-
-      console.log('API Response:', data);
-      console.log('Race results count:', data.recent_stage_race_winners?.length || 0);
-
-      setRaceResults(data.recent_stage_race_winners || []);
+     setRaceResults(data.recent_stage_race_winners || []);
 
     } catch (error) {
       console.error("Error fetching race results:", error);
@@ -243,9 +237,9 @@ export default function Results() {
   // Initial data fetch - GLOBAL SEARCH VERSION
   useEffect(() => {
     // Only refetch if no search term is active, otherwise maintain search results
-    if (!searchTerm || searchTerm.trim() === "") {
+    // if (!searchTerm || searchTerm.trim() === "") {
       fetchRaceResults();
-    }
+    // }
     fetchFeaturedRaces();
   }, [selectedYear, selectedMonth]);
 
@@ -375,7 +369,7 @@ export default function Results() {
 
   // Debug logging
   useEffect(() => {
-    console.log('Current race results:', raceResults.length, raceResults);
+    // console.log('Current race results:', raceResults.length, raceResults);
   }, [raceResults]);
 
 
@@ -535,7 +529,6 @@ export default function Results() {
                         <li className="hoverState-li" key={idx}>
                           <Link href={`/races/${encodeURIComponent(item.race_name)}`} className="pabs" />
                           {/* <span className="text-capitalize">{start} {end ? ` - ${end}` : ""}</span> */}
-                          {console.log('race item', item)}
                           <span className="text-capitalize">{start}</span>
                           <h5>
                             <Flag
