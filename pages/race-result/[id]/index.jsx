@@ -326,7 +326,7 @@ export default function RaceResultPage() {
         </div>
       </section>
 
-      <section className="home-banner result-sec1">
+      <section className="home-banner result-sec1 sdsdssd">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
@@ -419,7 +419,8 @@ export default function RaceResultPage() {
                     ?.sort((a, b) => a.rank - b.rank)
                     .slice(0, 25)
                     .map((rider, index) => (
-                      <li key={index}>
+                      <li className="hoverState-li" key={index}>
+                        <Link href={`/riders/${rider.rider_id}`} className="pabs" />
                         <span>{index + 1}</span>
                         <h5>
                           <Flag

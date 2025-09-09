@@ -397,7 +397,7 @@ export default function DynamicSlugPage() {
       return (
         <li
           key={item._id || item.id || index}
-          className="content-item ctm-head-heading"
+          className="content-item ctm-head-heading hoverState-li"
         >
           {columns}
         </li>
@@ -485,8 +485,8 @@ export default function DynamicSlugPage() {
   const pageTitle = apiTitle
     ? `${apiTitle} | Cycling Stats`
     : slug
-    ? `${formatSlugForDisplay(slug)} | Cycling Stats`
-    : "Page | Cycling Stats";
+      ? `${formatSlugForDisplay(slug)} | Cycling Stats`
+      : "Page | Cycling Stats";
   const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
 
   return (

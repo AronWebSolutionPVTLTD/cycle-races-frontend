@@ -399,7 +399,7 @@ export default function DynamicSlugPage() {
       return (
         <li
           key={item._id || item.id || index}
-          className="content-item ctm-head-heading"
+          className="content-item ctm-head-heading hoverState-li"
         >
           {columns}
         </li>
@@ -487,8 +487,8 @@ export default function DynamicSlugPage() {
   const pageTitle = apiTitle
     ? `${apiTitle} | Cycling Stats`
     : slug
-    ? `${formatSlugForDisplay(slug)} | Cycling Stats`
-    : "Page | Cycling Stats";
+      ? `${formatSlugForDisplay(slug)} | Cycling Stats`
+      : "Page | Cycling Stats";
   const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
 
   return (
@@ -498,7 +498,7 @@ export default function DynamicSlugPage() {
       </Head>
 
       <main>
-      <div class="dropdown-overlay"></div>
+        <div class="dropdown-overlay"></div>
         <section className="riders-sec1">
           <div className="container">
             <div className="row">
@@ -522,20 +522,20 @@ export default function DynamicSlugPage() {
                 <div className="filter-section">
                   <div className="row align-items-center">
                     <div className="col-lg-6">
-                    <ul className="filter">
-                      <FilterDropdown
-                        ref={yearDropdownRef}
-                        isOpen={showYearDropdown}
-                        toggle={() => setShowYearDropdown(!showYearDropdown)}
-                        options={getFilteredYears(yearInput)}
-                        selectedValue={selectedYear}
-                        placeholder="Year"
-                        onSelect={(value) => handleSelection("year", value)}
-                        onInputChange={handleYearInputChange}
-                        loading={false}
-                        includeAllOption={false}
-                        classname="year-dropdown"
-                      />
+                      <ul className="filter">
+                        <FilterDropdown
+                          ref={yearDropdownRef}
+                          isOpen={showYearDropdown}
+                          toggle={() => setShowYearDropdown(!showYearDropdown)}
+                          options={getFilteredYears(yearInput)}
+                          selectedValue={selectedYear}
+                          placeholder="Year"
+                          onSelect={(value) => handleSelection("year", value)}
+                          onInputChange={handleYearInputChange}
+                          loading={false}
+                          includeAllOption={false}
+                          classname="year-dropdown"
+                        />
                       </ul>
                       <div className="filter-dropdown">
                         {/* <select
@@ -570,7 +570,7 @@ export default function DynamicSlugPage() {
                   ))}
                 </ul>
 
-                <ul className="transparent-cart ctm-transparent-cart">
+                <ul className="transparent-cart ctm-transparent-cart sdsdd">
                   {renderContent()}
                 </ul>
               </div>

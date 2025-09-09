@@ -242,14 +242,14 @@ export default function Riders() {
     return firstTenRiders.map((team) =>
       team.riders && team.riders.length > 0
         ? team.riders.map((rider) => (
-            <RiderCard
-              key={rider._id || rider.rider_id}
-              name={rider.riderName}
-              team={team.teamName}
-              flag={rider.riderCountry}
-              riderId={rider.rider_id}
-            />
-          ))
+          <RiderCard
+            key={rider._id || rider.rider_id}
+            name={rider.riderName}
+            team={team.teamName}
+            flag={rider.riderCountry}
+            riderId={rider.rider_id}
+          />
+        ))
         : null
     );
   };
@@ -263,8 +263,8 @@ export default function Riders() {
         showVictories && rider.victories
           ? `${rider.victories} wins`
           : rider.age
-          ? `${rider.age} jaar`
-          : "",
+            ? `${rider.age} jaar`
+            : "",
       flag: rider.country || rider.riderCountry || "/images/flag-default.svg",
     }));
   };
@@ -309,8 +309,7 @@ export default function Riders() {
       data: sidebarsData?.victoryRanking?.data?.data || [],
       title:
         sidebarsData?.victoryRanking?.message ||
-        `Meeste overwinningen (${
-          sidebarsData?.victoryRanking?.data?.year || ""
+        `Meeste overwinningen (${sidebarsData?.victoryRanking?.data?.year || ""
         })`,
     };
 
@@ -350,6 +349,7 @@ export default function Riders() {
       </Head>
 
       <main>
+        <div className="dropdown-overlay"></div>
         <section className="riders-sec1">
           <div className="container">
             <div className="row">
@@ -365,50 +365,50 @@ export default function Riders() {
                   <form onSubmit={handleSearchSubmit}>
                     <div className="wraper">
                       <div className="wrap-top">
-                      <input
-                        type="text"
-                        placeholder="welke renner zoek je?"
-                        value={searchQuery}
-                        onChange={handleSearchChange}
-                        onFocus={() =>
-                          searchSuggestions.length > 0 &&
-                          setShowSuggestions(true)
-                        }
-                      />
-                      <div className="icon">
-                        <img
-                          src="/images/search-icon.svg"
-                          alt="Search"
-                          onClick={handleSearchSubmit}
-                          style={{ cursor: "pointer" }}
-                        />
                         <input
-                          type="reset"
-                          value=""
-                          className="close"
-                          onClick={handleSearchReset}
+                          type="text"
+                          placeholder="welke renner zoek je?"
+                          value={searchQuery}
+                          onChange={handleSearchChange}
+                          onFocus={() =>
+                            searchSuggestions.length > 0 &&
+                            setShowSuggestions(true)
+                          }
                         />
+                        <div className="icon">
+                          <img
+                            src="/images/search-icon.svg"
+                            alt="Search"
+                            onClick={handleSearchSubmit}
+                            style={{ cursor: "pointer" }}
+                          />
+                          <input
+                            type="reset"
+                            value=""
+                            className="close"
+                            onClick={handleSearchReset}
+                          />
+                        </div>
                       </div>
-                      </div>
-                      
+
                     </div>
                     {showSuggestions && searchSuggestions.length > 0 && (
-                        <div className="wrap-bottom">
-                          <ul>
-                            {searchSuggestions.map((rider) => (
-                              <li
-                                key={rider._id || rider.rider_id}
-                                onClick={() => handleSelectSuggestion(rider)}
-                              >
-                                <div>
-                                  <span>{rider.riderName}</span>
-                                  <span>({rider.teamName})</span>
-                                </div>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                      <div className="wrap-bottom">
+                        <ul>
+                          {searchSuggestions.map((rider) => (
+                            <li
+                              key={rider._id || rider.rider_id}
+                              onClick={() => handleSelectSuggestion(rider)}
+                            >
+                              <div>
+                                <span>{rider.riderName}</span>
+                                <span>({rider.teamName})</span>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </form>
                 </div>
               </div>
