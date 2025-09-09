@@ -14,8 +14,8 @@ import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
 function convertDateRange(dateStr) {
   const monthNames = [
-    "jan","feb","mar","apr","may","jun",
-    "jul","aug","sep","oct","nov","dec"
+    "jan", "feb", "mar", "apr", "may", "jun",
+    "jul", "aug", "sep", "oct", "nov", "dec"
   ];
 
   const parse = (d) => {
@@ -60,7 +60,7 @@ export default function Results() {
   const [errorFeatured, setErrorFeatured] = useState(null);
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
-  
+
   const months = [
     "Januari",
     "Februari",
@@ -78,7 +78,7 @@ export default function Results() {
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions = ["All-time", ...withoutAllTime];
   const yearDropdownRef = useRef(null);
-  
+
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
       return allYearOptions;
@@ -131,7 +131,7 @@ export default function Results() {
     const queryString = Object.keys(params)
       .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
       .join('&');
-    
+
     return `/${statsPath}?${queryString}`;
   };
 
@@ -139,15 +139,15 @@ export default function Results() {
   const fetchRaceResults = async (customSearchTerm = null) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const searchQuery = customSearchTerm !== null ? customSearchTerm : searchTerm;
-      
+
       // When searching, ignore month filter to search across all months
-      const monthParam = (searchQuery && searchQuery.trim()) 
+      const monthParam = (searchQuery && searchQuery.trim())
         ? "" // No month filter when searching globally
         : (selectedMonth ? `&month=${getMonthNumber(selectedMonth)}` : "");
-      
+
       const searchParam = searchQuery && searchQuery.trim()
         ? `&search=${encodeURIComponent(searchQuery.trim())}`
         : "";
@@ -155,18 +155,18 @@ export default function Results() {
       // Only include year parameter if selectedYear is not "All-time"
       const yearParam = selectedYear !== "All-time" ? `year=${selectedYear}` : "";
       const endpoint = `stages/getRecentStageRaceWinners?${yearParam}${monthParam}${searchParam}`;
-      
+
       console.log('Fetching with endpoint:', endpoint);
       console.log('Search query being used:', searchQuery);
       console.log('Month filter applied:', !(searchQuery && searchQuery.trim()));
-      
+
       const data = await callAPI("GET", endpoint);
-      
+
       console.log('API Response:', data);
       console.log('Race results count:', data.recent_stage_race_winners?.length || 0);
-      
+
       setRaceResults(data.recent_stage_race_winners || []);
-      
+
     } catch (error) {
       console.error("Error fetching race results:", error);
       setError("Failed to load race results. Please try again later.");
@@ -183,7 +183,7 @@ export default function Results() {
     try {
       // Only include year parameter if selectedYear is not "All-time"
       const yearParam = selectedYear !== "All-time" ? `?year=${selectedYear}` : "";
-      
+
       const [victoryRes, teamRes, bestRes] = await Promise.all([
         callAPI("GET", `stages/getCurrentVictoryRanking${yearParam}`),
         callAPI("GET", `stages/getCurrentTeamRanking${yearParam}`),
@@ -271,7 +271,7 @@ export default function Results() {
   // Debounced search for suggestions - GLOBAL SEARCH VERSION
   useEffect(() => {
     console.log('Search suggestions useEffect triggered:', { searchTerm, selectedYear, searchTermLength: searchTerm.length });
-    
+
     if (searchTerm.length >= 2) {
       console.log('Setting up debounced search suggestions...');
       const delayDebounce = setTimeout(() => {
@@ -291,7 +291,7 @@ export default function Results() {
     try {
       // For search suggestions, always search globally (no month filter)
       const searchParam = `&search=${encodeURIComponent(searchTerm.trim())}`;
-      
+
       // Only include year parameter if selectedYear is not "All-time"
       const yearParam = selectedYear !== "All-time" ? `year=${selectedYear}&` : "";
 
@@ -304,17 +304,17 @@ export default function Results() {
           (data.recent_stage_race_winners || []).map((item) => item.race_name)
         )
       )
-      .filter(raceName => raceName.toLowerCase() !== searchTerm.toLowerCase())
-      .map((raceName) => ({
-        race_name: raceName,
-      }));
+        .filter(raceName => raceName.toLowerCase() !== searchTerm.toLowerCase())
+        .map((raceName) => ({
+          race_name: raceName,
+        }));
 
       console.log('Search suggestions (global):', uniqueRaces);
       console.log('Setting dropdown visibility:', uniqueRaces.length > 0);
-      
+
       setSearchResults(uniqueRaces);
       setShowSearchDropdown(uniqueRaces.length > 0);
-    } catch (error) { 
+    } catch (error) {
       console.error("Error fetching search suggestions:", error);
       setSearchResults([]);
       setShowSearchDropdown(false);
@@ -323,9 +323,9 @@ export default function Results() {
 
   // Handle search input change - GLOBAL SEARCH VERSION
   const handleSearchInput = (e) => {
-    const value = e.target.value; 
+    const value = e.target.value;
     setSearchTerm(value);
-    
+
     // If input is cleared, fetch all results and hide suggestions
     if (value.trim() === "") {
       fetchRaceResults("");
@@ -345,11 +345,11 @@ export default function Results() {
   // Handle search suggestion selection - FIXED VERSION
   const handleSuggestionSelect = (raceName) => {
     console.log('Selected race:', raceName);
-    
+
     setSearchTerm(raceName);
     setShowSearchDropdown(false);
     setSearchResults([]);
-    
+
     // Immediately fetch results with the selected race name
     fetchRaceResults(raceName);
   };
@@ -516,66 +516,69 @@ export default function Results() {
                 ) : raceResults.length > 0 ? (
                   <ul className="transparent-cart">
                     {raceResults.map((item, idx) => {
-                       const { start, end } = convertDateRange(item?.date);
-                        return(
-                          <li className="hoverState-li" key={idx}>
-                            <Link href={`/races/${encodeURIComponent(item.race_name)}`} className="pabs"/>
-                        {/* <span className="text-capitalize">{start} {end ? ` - ${end}` : ""}</span> */}
-                        <span className="text-capitalize">{start}</span>
-                        <h5>
-                          <Flag
-                            code={item.country_code.toUpperCase()}
-                            style={{
-                              width: "30px",
-                              height: "20px",
-                              marginRight: "10px",
-                            }}
-                          />
+                      const { start, end } = convertDateRange(item?.date);
+                      return (
+                        <li className="hoverState-li" key={idx}>
+                          <Link href={`/races/${encodeURIComponent(item.race_name)}`} className="pabs" />
+                          {/* <span className="text-capitalize">{start} {end ? ` - ${end}` : ""}</span> */}
+                          {console.log('race item', item)}
+                          <span className="text-capitalize">{start}</span>
+                          <h5>
+                            <Flag
+                              code={item.country_code.toUpperCase()}
+                              style={{
+                                width: "30px",
+                                height: "20px",
+                                marginRight: "10px",
+                              }}
+                            />
+                            <Link
+                              href={`/races/${encodeURIComponent(item.race_name)}`}
+                            >
+                              {item.race_name}
+                              {item.is_stage_race && (
+                                <span style={{ color: "inherit" }}>
+                                  - Stage {item?.stage_number}
+                                </span>
+                              )}
+                            </Link>
+                          </h5>
+                          <h6 className="rider--name">
+                            <Link className="link" href={`/riders/${item?.rider_id}`}>
+                              <Flag
+                                code={item.rider_country.toUpperCase()}
+                                style={{
+                                  width: "30px",
+                                  height: "20px",
+                                  marginRight: "10px",
+                                }}
+                              />
+                              {item.rider_name}
+                            </Link>
+                          </h6>
+                          <h6>{item.team_name}</h6>
                           <Link
-                            href={`/races/${encodeURIComponent(item.race_name)}`}
+                            href={`/race-result/${encodeURIComponent(
+                              item.race_name
+                            )}`}
+                            className="r-details"
                           >
-                            {item.race_name}
-                            {item.is_stage_race && (
-                              <span style={{ color: "inherit" }}>
-                                - Stage {item?.stage_number}
-                              </span>
-                            )}
-                          </Link>
-                        </h5>
-                        <h6>
-                          <Flag
-                            code={item.rider_country.toUpperCase()}
-                            style={{
-                              width: "30px",
-                              height: "20px",
-                              marginRight: "10px",
-                            }}
-                          />
-                          {item.rider_name}
-                        </h6>
-                        <h6>{item.team_name}</h6>
-                        <Link
-                          href={`/race-result/${encodeURIComponent(
-                            item.race_name
-                          )}`}
-                          className="r-details"
-                        >
-                          {/* <img
+                            {/* <img
                             src="/images/eye.svg"
                             alt="Details"
                             width="24"
                             height="24"
                           /> */}
-                          <img src="/images/hover-arow.svg" alt="" />
-                        </Link>
-                      </li>
-                        )
-                        
-                      })}
+                            <img src="/images/hover-arow.svg" alt="" />
+                          </Link>
+                        </li>
+                      )
+
+                    })}
                   </ul>
                 ) : (
                   <div className="no-results">
-                    {searchTerm.trim() 
+                    {searchTerm.trim()
                       ? `No results found for "${searchTerm}"`
                       : "No race results found"
                     }

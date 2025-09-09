@@ -3677,3 +3677,13 @@ main:has(.wrap-bottom) .dropdown-overlay {
   visibility: visible;
   pointer-events: all;
 }
+
+.rider--name {
+  position: relative !important;
+}
+
+.rider--name .link {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
