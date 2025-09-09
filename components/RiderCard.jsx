@@ -8,7 +8,8 @@ export default function RiderCard({ name, team, flag, riderId }) {
 
 
   return (
-    <li>
+    <li className="hoverState-li">
+      <Link href={`/riders/${riderId}`} className="pabs"/>
       <h5>
 
   <Flag code={flag.toUpperCase()} style={{ width: '30px', height: '20px', marginRight: '10px' }} />

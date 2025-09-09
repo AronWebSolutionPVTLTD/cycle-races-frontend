@@ -518,7 +518,8 @@ export default function Results() {
                     {raceResults.map((item, idx) => {
                        const { start, end } = convertDateRange(item?.date);
                         return(
-                          <li key={idx}>
+                          <li className="hoverState-li" key={idx}>
+                            <Link href={`/races/${encodeURIComponent(item.race_name)}`} className="pabs"/>
                         {/* <span className="text-capitalize">{start} {end ? ` - ${end}` : ""}</span> */}
                         <span className="text-capitalize">{start}</span>
                         <h5>
