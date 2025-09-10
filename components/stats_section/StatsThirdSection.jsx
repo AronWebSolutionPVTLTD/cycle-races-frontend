@@ -221,7 +221,7 @@ const StatsThirdSection = ({
 
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <Link href={buildUrlWithParams("/stats/top-gc-riders-by-team")} className="pabs" />
+                      <Link href={buildUrlWithParams("/stats/team-with-most-gc-wins")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box5]?.message}</h4>
                         {getBoxData(fixedApis.box5).error ? (
@@ -253,7 +253,7 @@ const StatsThirdSection = ({
                               ))}
 
                             <Link
-                              href={buildUrlWithParams("/stats/top-gc-riders-by-team")}
+                              href={buildUrlWithParams("/stats/team-with-most-gc-wins")}
                               className="green-circle-btn"
                             >
                               <img src="/images/arow.svg" alt="" />

@@ -2517,7 +2517,15 @@ section.riders-sec2 ul.ctm-head-heading {
   align-items: center;
   gap: 10px;
 }
+/* section.riders-sec2 ul.ctm-head-heading li *:not(:first-child){
+  flex: 1;
+}
+section.riders-sec2 ul.ctm-head-heading li *:first-child {
+  flex: 0 0 40px !important;
+  max-width: 40px;
+} */
 section.riders-sec2 ul.ctm-head-heading li {
   flex: 1;
 }
+ /* 
 /* Add other global styles */
