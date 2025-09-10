@@ -26,6 +26,17 @@ const getCountryCode = (item, config) => {
   return country.toUpperCase();
 };
 
+
+const getRiderId = (item) => {
+  const keys = ["rider_id", "riderId", "_id", "id","rider_key"];
+  for (const key of keys) {
+    if (item && item[key] !== undefined && item[key] !== null && item[key] !== "") {
+      return item[key];
+    }
+  }
+  return null;
+};
+
 export default function DynamicSlugPage() {
   const router = useRouter();
   const { slug } = router.query;
@@ -162,7 +173,7 @@ export default function DynamicSlugPage() {
             ...response?.data?.data?.longest_one_day_races,
           ];
         }
-        if (slug === "top3-rank-one-teams-gc") {
+        if (slug === "team-with-most-consecutive-wins") {
           response.data = response?.data?.teams;
         }
         setPageData(response.data);
@@ -193,6 +204,7 @@ export default function DynamicSlugPage() {
 
   // Get dynamic headers based on slug configuration and available data
   const getDynamicHeaders = () => {
+
     const config = getSlugConfig(slug);
 
     // If we have page data, use dynamic headers based on actual data
@@ -201,7 +213,6 @@ export default function DynamicSlugPage() {
       if (config.dataPath && pageData[config.dataPath]) {
         dataArray = pageData[config.dataPath];
       }
-
       if (Array.isArray(dataArray)) {
         return getDynamicHeadersBasedOnData(dataArray, config);
       }
@@ -307,7 +318,6 @@ export default function DynamicSlugPage() {
       return false;
     });
   };
-
   // Helper function to get dynamic headers based on available data
   const getDynamicHeadersBasedOnData = (data, config) => {
     const headers = [];
@@ -316,7 +326,6 @@ export default function DynamicSlugPage() {
     config.headers.forEach((header) => {
       headers.push(header);
     });
-
     return headers;
   };
 
@@ -327,13 +336,27 @@ export default function DynamicSlugPage() {
     // Check if name data exists
     const nameDataExists = hasNameData(data, config);
     const countDataExists = hasCountData(data, config);
+
     return data.map((item, index) => {
       const columns = [];
+      columns.push(
+        <div
+          key="srno"
+          className="sr-no"
+          style={{ width: "40px", fontWeight: "bold", textAlign: "center" }}
+        >
+          {index + 1}
+        </div>
+      );
 
       // NAME column with flag - only add if name data exists
       if (nameDataExists) {
+        const riderId = getRiderId(item);
+        const clickableProps = riderId
+          ? { onClick: () => router.push(`/riders/${riderId}`), style: { cursor: "pointer" } }
+          : {};
         columns.push(
-          <div key="name" className="rider-name">
+          <div key="name" className="rider-name" {...clickableProps}>
             <Flag
               code={getCountryCode(item, config)}
               style={{
@@ -343,7 +366,12 @@ export default function DynamicSlugPage() {
                 flexShrink: 0,
               }}
             />
-            <span>{getItemValue(item, config.itemConfig.name)}</span>
+            <span>
+              {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage" ? `-${item?.type?.toUpperCase()} ${item?.stage_number}` : ""
+                }`}
+            </span>
+
+
           </div>
         );
       }
@@ -488,6 +516,7 @@ export default function DynamicSlugPage() {
       ? `${formatSlugForDisplay(slug)} | Cycling Stats`
       : "Page | Cycling Stats";
   const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
+  const srNoHeaderLabel = "";
 
   return (
     <>
@@ -521,8 +550,8 @@ export default function DynamicSlugPage() {
             <div className="row">
               <div className="col-lg-12">
                 <div className="filter-section">
-                  <div className="row align-items-center">
-                    <div className="col-lg-6">
+                  <div className="row align-items-center sdsd bts__wrap">
+                    <div className="col">
                       <ul className="filter">
                         <FilterDropdown
                           ref={yearDropdownRef}
@@ -552,26 +581,29 @@ export default function DynamicSlugPage() {
                         </select>
                       </div> */}
                     </div>
-                    <div className="col-lg-6 text-end">
-                      <button
-                        onClick={() => getBackLink()}
-                        className="btn btn-primary all-stats-btn"
-                      >
-                        <span>ALLE STATS</span>
-                        <img src="/images/arow.svg" alt="arrow" />
-                      </button>
+                    <div className="col text-end">
+
+                      <Link className="glob-btn green-bg-btn" href="/stats">
+                        <strong>ALLE STATS</strong>
+                        <span className="green-circle-btn">
+                          <img alt="" src="/images/arow.svg" />
+                        </span>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="col-lg-9 col-md-7">
-                <ul className="head-heading ctm-head-heading">
+                <ul className="head-heading ctm-head-heading srno">
+                  <li>
+                    {srNoHeaderLabel}
+                  </li>
                   {getDynamicHeaders().map((header, index) => (
                     <li key={index}>{header}</li>
                   ))}
                 </ul>
 
-                <ul className="transparent-cart ctm-transparent-cart">
+                <ul className="transparent-cart ctm-transparent-cart srno">
                   {renderContent()}
                 </ul>
               </div>

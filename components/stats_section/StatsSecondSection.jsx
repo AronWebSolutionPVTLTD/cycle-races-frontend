@@ -18,7 +18,7 @@ const StatsSecondSection = ({
     box5: "oldestRider",
     box6: "youngestRider",
     box7: "oldestMostWins",
-    box8: "lightestRider",
+    box8: "youngestMostWins",
     box9: "mostweightRider",
     box10: "gcTop10s",
     box11: "sprintWins",
@@ -387,7 +387,7 @@ const StatsSecondSection = ({
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link href={buildUrlWithParams(
-                    "/stats/lightest-rider"
+                    "/stats/youngest-most-wins"
                   )} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box8]?.message}</h4>
@@ -406,18 +406,18 @@ const StatsSecondSection = ({
                             <React.Fragment key={index}>
                               <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
-                                <h6>{rider?.name || "..."}</h6>
+                                <h6>{rider?.rider_name || "..."}</h6>
                               </div>
 
-                              {rider?.weight && (
+                              {rider?.wins && (
                                 <h5>
-                                  <strong>{rider.weight}</strong> kilogram
+                                  <strong>{rider.wins}</strong> wins
                                 </h5>
                               )}
 
                               <Link
                                 href={buildUrlWithParams(
-                                  "/stats/lightest-rider"
+                                  "/stats/youngest-most-wins"
                                 )}
                                 className="white-circle-btn"
                               >
@@ -609,7 +609,7 @@ const StatsSecondSection = ({
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams(
-                    "/stats/top3-rank-one-teams-gc"
+                    "/stats/team-with-most-consecutive-wins"
                   )} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box13]?.message}</h4>
@@ -649,7 +649,7 @@ const StatsSecondSection = ({
 
                           <Link
                             href={buildUrlWithParams(
-                              "/stats/top3-rank-one-teams-gc"
+                              "/stats/team-with-most-consecutive-wins"
                             )}
                             className="green-circle-btn"
                           >

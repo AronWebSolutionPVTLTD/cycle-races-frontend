@@ -911,14 +911,15 @@ section.home-banner ul.transparent-cart li h5 {
         display: none;
     }
     section.riders-sec1 h1 {
-        font-size: 2rem;
+        font-size: 3rem;
         line-height: 3rem;
-        margin-bottom: 2rem;
+        margin-bottom: 16px;
         letter-spacing: -0.1875rem;
         line-height: 2.75rem;
+        padding-bottom: 24px;
     }
     section.riders-sec1 ul.breadcrumb {
-        margin-bottom: 1rem;
+        margin-bottom: 20px;
     }
     section.riders-sec1 {
         padding: 2rem 0 0;

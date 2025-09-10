@@ -167,7 +167,7 @@ export default function DynamicSlugPage() {
             ...response?.data?.data?.longest_one_day_races,
           ];
         }
-        if (slug === "top3-rank-one-teams-gc") {
+        if (slug === "team-with-most-consecutive-wins") {
           response.data = response?.data?.teams;
         }
         if (slug === "last-victory") {
