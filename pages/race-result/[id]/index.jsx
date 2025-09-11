@@ -326,7 +326,7 @@ export default function RaceResultPage() {
         </div>
       </section>
 
-      <section className="home-banner result-sec1 sdsdssd">
+      <section className="home-banner result-sec1 race-result-page sdsdssd">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
@@ -422,7 +422,8 @@ export default function RaceResultPage() {
                       <li className="hoverState-li" key={index}>
                         <Link href={`/riders/${rider.rider_id}`} className="pabs" />
                         <span>{index + 1}</span>
-                        <h5>
+                        <h5 className="rider--name">
+                          <Link href={`/riders/${rider.rider_id}`} className="link">
                           <Flag
                             code={rider.country_code?.toUpperCase()}
                             style={{
@@ -432,6 +433,7 @@ export default function RaceResultPage() {
                             }}
                           />
                           {rider.rider_name.toUpperCase()}
+                          </Link>
                         </h5>
                         <h6>{rider.team_name}</h6>
                         <h6 className="time-result">

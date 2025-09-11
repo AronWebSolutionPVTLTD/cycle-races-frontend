@@ -870,8 +870,10 @@ section.home-banner {
       margin-bottom: .5rem;
       border-bottom: 2px dashed #cbcbc7;
       display: grid;
-      grid-template-columns: 6rem 25.5rem 11.375rem 12.75rem;
-      gap: 1.5rem;
+      // grid-template-columns: 6rem 25.5rem 11.375rem 12.75rem;
+      grid-template-columns: 6rem 25.5rem 11.375rem auto;
+      // gap: 1.5rem;
+      gap: 32px;
       position: relative;
       padding-right: 20px;
       transition: all 0.3s ease-in-out;
@@ -959,6 +961,12 @@ section.home-banner {
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        word-break: break-word;
+        @media ( min-width: 768px ){
+          &:not(.rider--name){
+            padding-right: 55px;
+          }
+        }
 
         a {
           transition: all 0.3s ease-in-out;
@@ -2131,8 +2139,10 @@ section.result-sec1 {
   ul.head-heading {
     margin-bottom: 2rem;
     display: grid;
-    grid-template-columns: 6rem 25.5rem 11.375rem 12.75rem;
-    gap: 1.5rem;
+    // grid-template-columns: 6rem 25.5rem 11.375rem 12.75rem;
+    grid-template-columns: 6rem 25.5rem 11.375rem auto;
+    // gap: 1.5rem;
+    gap: 32px;
 
     li {
       color: var(--Text, #cbcbc7);
@@ -3251,8 +3261,10 @@ p.disclaimer-text {
   gap: 10px;
 }
 
-.ctm-head-heading>* {
-  flex: 1 !important;
+@media ( min-width: 768px ){
+  .ctm-head-heading>* {
+    flex: 1 !important;
+  }
 }
 // .ctm-head-heading > *:not(:first-child) {
 //   flex: 1 1 auto;
@@ -3736,3 +3748,98 @@ main:has(.active-parent) .dropdown-overlay {
   object-fit: contain;
 }
 }
+
+section.riders-sec2 ul.ctm-head-heading{
+  // gap: 1.5rem;
+  gap: 32px;
+}
+.srno .sr_no {
+  flex: 0 0 20px !important;
+}
+
+.ctm-head-heading .sr-no {
+  flex: 0 0 20px !important;
+}
+.green-circle-btn-2:hover img {
+  filter: none !important;
+}
+.ctm-table-head li:last-child {
+  text-align: right !important;
+}
+.table_cols_list {
+  font-weight: 500;
+  color: #2B534D !important;
+}
+.table_cols_list .team-name, 
+.table_cols_list .team-name span,
+.table_cols_list .rider-name, .table_cols_list .rider-name span  {
+  color: #2B534D !important;
+}
+.container{
+  max-width: 1336px;
+}
+.rider--name .link{
+  position: relative;
+}
+.rider--name .link::after {
+  content: "";
+  width: 0%;
+  height: 1px;
+  background-color: #2b534d;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: all 0.3s ease-in-out;
+}
+.rider--name .link:hover::after{
+  width: 100%;
+}
+
+section.home-banner.result-sec1.race-result-page li.hoverState-li,
+section.home-banner.result-sec1.race-result-page ul.head-heading {
+  grid-template-columns: 3rem 20.5rem 22rem auto;
+}
+@media ( min-width: 768px ){
+  .table-ul .table-li {
+    display: grid !important;
+  }
+  .sluggy-page .table-head{
+    display: grid !important;
+    grid-template-columns: 3rem 16rem 20rem auto !important;
+  }
+}
+
+.sluggy-page .table-ul .table-li,
+.sluggy-page .table-head{
+  grid-template-columns: 3rem 16rem 20rem auto !important;
+}
+
+.table-ul .table-li >*:last-child,
+.sluggy-page .table-head > *:last-child {
+  text-align: right;
+}
+.stats_slug-page li.content-item.ctm-head-heading {
+  display: flex !important;
+}
+
+.stats_slug-page li.content-item.ctm-head-heading .team-name {
+  flex: 1 !important;
+}
+@media ( max-width: 767px ){
+  .ctm-table-head,.table-head{
+    display: none !important;
+  }
+  .sluggy-page .table-ul .table-li .team-name {
+    flex: 1;
+  }
+}
+@media ( max-width: 575px ){
+  .bts__wrap .col:last-child {
+    padding-left: 0;
+}
+
+.bts__wrap .green-bg-btn {
+    padding-left: 15px;
+}
+}
+

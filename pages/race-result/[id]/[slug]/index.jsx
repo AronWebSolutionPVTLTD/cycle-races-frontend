@@ -405,18 +405,19 @@ export default function DynamicSlugPage() {
       // NAME column with flag - only add if name data exists
       if (nameDataExists) {
         columns.push(
-          <div key="name" className="rider-name">
+          <h5 key="name" className="rider--name">
+            <Link href={""} className="link">
             <Flag
               code={getCountryCode(item, config)}
               style={{
                 width: "30px",
                 height: "20px",
-                marginRight: "10px",
                 flexShrink: 0,
               }}
             />
-            <span>{getItemValue(item, config.itemConfig.name)}</span>
-          </div>
+            {getItemValue(item, config.itemConfig.name)}
+            </Link>
+          </h5>
         );
       }
 
@@ -460,7 +461,7 @@ export default function DynamicSlugPage() {
       // COUNT column
       if (countDataExists) {
         columns.push(
-          <div key="count" className="count">
+          <div key="count" className="count text-right">
             {getItemValue(item, config.itemConfig.count)}
           </div>
         );
@@ -469,7 +470,7 @@ export default function DynamicSlugPage() {
       return (
         <li
           key={item._id || item.id || index}
-          className="content-item ctm-head-heading"
+          className="content-item ctm-head-heading hoverState-li table_cols_list"
         >
           {columns}
         </li>
@@ -593,7 +594,7 @@ export default function DynamicSlugPage() {
           </div>
         </section>
 
-        <section className="home-banner riders-sec2">
+        <section className="home-banner riders-sec2 stats_slug-page">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -642,7 +643,7 @@ export default function DynamicSlugPage() {
                 </div>
               </div>
               <div className="col-lg-9 col-md-7">
-                <ul className="head-heading ctm-head-heading">
+                <ul className="head-heading ctm-head-heading table-head">
                   {getDynamicHeaders().map((header, index) => (
                     <li key={index}>{header}</li>
                   ))}

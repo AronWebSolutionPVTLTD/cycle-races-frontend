@@ -486,7 +486,7 @@ section.home-banner ul.transparent-cart li h5 {
         display: none;
     }
     body{
-        background-image: url(../public/images/mobile-bg.png);
+        /* background-image: url(../public/images/mobile-bg.png); */
         background-repeat: no-repeat;
         background-position: top 60px left;
         background-color: #F7F6F0;

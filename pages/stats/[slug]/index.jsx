@@ -340,39 +340,35 @@ export default function DynamicSlugPage() {
     return data.map((item, index) => {
       const columns = [];
       columns.push(
-        <div
+        <span
           key="srno"
-          className="sr-no"
-          style={{ width: "40px", fontWeight: "bold", textAlign: "center" }}
-        >
+          className="sr-no">
           {index + 1}
-        </div>
+        </span>
       );
 
       // NAME column with flag - only add if name data exists
       if (nameDataExists) {
         const riderId = getRiderId(item);
         const clickableProps = riderId
-          ? { onClick: () => router.push(`/riders/${riderId}`), style: { cursor: "pointer" } }
+          ? { onClick: () => router.push(`/riders/${riderId}`)}
           : {};
         columns.push(
-          <div key="name" className="rider-name" {...clickableProps}>
+          <h5 key="name" className="rider--name" {...clickableProps}>
+            <Link href={`/riders/${riderId}`} className="fw-bold link">
             <Flag
               code={getCountryCode(item, config)}
               style={{
                 width: "30px",
                 height: "20px",
-                marginRight: "10px",
                 flexShrink: 0,
               }}
             />
-            <span>
+            
               {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage" ? `-${item?.type?.toUpperCase()} ${item?.stage_number}` : ""
                 }`}
-            </span>
-
-
-          </div>
+            </Link>
+          </h5>
         );
       }
 
@@ -416,7 +412,7 @@ export default function DynamicSlugPage() {
       // COUNT column
       if (countDataExists) {
         columns.push(
-          <div key="count" className="count">
+          <div key="count" className="count text-end">
             {getItemValue(item, config.itemConfig.count)}
           </div>
         );
@@ -425,7 +421,7 @@ export default function DynamicSlugPage() {
       return (
         <li
           key={item._id || item.id || index}
-          className="content-item ctm-head-heading hoverState-li"
+          className="content-item ctm-head-heading hoverState-li table_cols_list"
         >
           {columns}
         </li>
@@ -545,7 +541,7 @@ export default function DynamicSlugPage() {
           </div>
         </section>
 
-        <section className="home-banner riders-sec2">
+        <section className="home-banner riders-sec2 stats_slug-page">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -583,9 +579,9 @@ export default function DynamicSlugPage() {
                     </div>
                     <div className="col text-end">
 
-                      <Link className="glob-btn green-bg-btn" href="/stats">
+                      <Link className="glob-btn green-bg-btn green-bg-btn" href="/stats">
                         <strong>ALLE STATS</strong>
-                        <span className="green-circle-btn">
+                        <span className="green-circle-btn green-circle-btn-2">
                           <img alt="" src="/images/arow.svg" />
                         </span>
                       </Link>
@@ -594,8 +590,8 @@ export default function DynamicSlugPage() {
                 </div>
               </div>
               <div className="col-lg-9 col-md-7">
-                <ul className="head-heading ctm-head-heading srno">
-                  <li>
+                <ul className="head-heading ctm-head-heading srno ctm-table-head">
+                  <li className="sr_no">
                     {srNoHeaderLabel}
                   </li>
                   {getDynamicHeaders().map((header, index) => (

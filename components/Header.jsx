@@ -8,7 +8,7 @@ import { RiSearchLine } from "react-icons/ri";
 export default function Header() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-const [isDetailPage, setIsDetailPage] = useState(false);
+  const [isDetailPage, setIsDetailPage] = useState(false);
   const [scrollDirection, setScrollDirection] = useState("");
   const [atTop, setAtTop] = useState(true);
   const [showStickyTop, setShowStickyTop] = useState(false);
@@ -30,9 +30,9 @@ useEffect(() => {
 
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
-    setAtTop(currentScrollY <= 200);
+    setAtTop(currentScrollY <= 100);
 
-    if (currentScrollY > 200) {
+    if (currentScrollY > 100) {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         setShowStickyTop(true);
