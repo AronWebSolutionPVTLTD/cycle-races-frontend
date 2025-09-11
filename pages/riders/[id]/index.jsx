@@ -254,7 +254,7 @@ export default function RiderDetail({ initialRider }) {
                 <h1>{rider.name || "..."}</h1>
               </div>
               <ul className="plyr-dtls">
-                <li>{renderFlag(rider?.nationality)}</li>
+                <li>{renderFlag(rider?.nationality)} {rider?.country}</li>
                 <li>{rider.date_of_birth || "..."}</li>
                 <li>{rider.birth_place || "..."}</li>
               </ul>
