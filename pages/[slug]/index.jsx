@@ -29,7 +29,7 @@ const getCountryCode = (item, config) => {
 export default function DynamicSlugPage() {
   const router = useRouter();
   const { slug } = router.query;
-
+  const srNoHeaderLabel = "";
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -42,6 +42,7 @@ export default function DynamicSlugPage() {
   const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
+console.log(slug,"asfhjd")
 
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
@@ -331,11 +332,34 @@ export default function DynamicSlugPage() {
     const countDataExists = hasCountData(data, config);
     return data.map((item, index) => {
       const columns = [];
-
+      if(slug == "riders-with-birthday-today"){
+        columns.push(
+          <span
+            key="srno"
+            className="sr-no"
+            style={{ width: "40px", fontWeight: "bold", textAlign: "center" }}
+          >
+           
+          </span>
+        );
+      }
+      else{
+        columns.push(
+          <span
+            key="srno"
+            className="sr-no"
+            style={{ width: "40px", fontWeight: "bold", textAlign: "center" }}
+          >
+            {index + 1}
+          </span>
+        );
+      }
+   
       // NAME column with flag - only add if name data exists
       if (nameDataExists) {
         columns.push(
-          <div key="name" className="rider-name">
+          <h5 key="name" className="rider--name">
+            <Link href={""} className="link">
             <Flag
               code={getCountryCode(item, config)}
               style={{
@@ -345,8 +369,9 @@ export default function DynamicSlugPage() {
                 flexShrink: 0,
               }}
             />
-            <span>{getItemValue(item, config.itemConfig.name)}</span>
-          </div>
+            {getItemValue(item, config.itemConfig.name)}
+            </Link>
+          </h5>
         );
       }
 
@@ -399,7 +424,7 @@ export default function DynamicSlugPage() {
       return (
         <li
           key={item._id || item.id || index}
-          className="content-item ctm-head-heading hoverState-li"
+          className="content-item ctm-head-heading hoverState-li table_cols_list table-li"
         >
           {columns}
         </li>
@@ -515,13 +540,13 @@ export default function DynamicSlugPage() {
           </div>
         </section>
 
-        <section className="home-banner riders-sec2 dsdsd">
+        <section className="home-banner riders-sec2 sluggy-page">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
                 <div className="filter-section">
-                  <div className="row align-items-center">
-                    <div className="col-lg-6">
+                  <div className="row align-items-center bts__wrap">
+                    <div className="col">
                       <ul className="filter">
                         <FilterDropdown
                           ref={yearDropdownRef}
@@ -551,26 +576,33 @@ export default function DynamicSlugPage() {
                         </select> */}
                       </div>
                     </div>
-                    <div className="col-lg-6 text-end">
-                      <button
-                        onClick={() => getBackLink()}
-                        className="btn btn-primary all-stats-btn"
-                      >
-                        <span>ALLE STATS</span>
-                        <img src="/images/arow.svg" alt="arrow" />
-                      </button>
+                    <div className="col">
+                      <Link
+                         href="/stats"
+                         className="glob-btn green-bg-btn green-bg-btn"
+                       >
+                         <strong>ALLE STATS</strong>
+                          <span className="green-circle-btn green-circle-btn-2">
+                            <img alt="" src="/images/arow.svg" />
+                          </span>
+                       </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-9 col-md-7">
-                <ul className="head-heading ctm-head-heading">
+              <div className="col-lg-9 col-md-12">
+                <ul className="head-heading ctm-head-heading table-head">
+<li>
+                    {srNoHeaderLabel}
+                  </li>
+                
                   {getDynamicHeaders().map((header, index) => (
+                    
                     <li key={index}>{header}</li>
                   ))}
                 </ul>
 
-                <ul className="transparent-cart ctm-transparent-cart sdsdd">
+                <ul className="transparent-cart ctm-transparent-cart table-ul">
                   {renderContent()}
                 </ul>
               </div>

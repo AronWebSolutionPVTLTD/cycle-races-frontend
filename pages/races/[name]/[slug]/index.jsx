@@ -667,8 +667,8 @@ export default function DynamicSlugPage() {
             <div className="row">
               <div className="col-lg-12">
                 <div className="filter-section">
-                  <div className="row align-items-center">
-                    <div className="col-lg-6">
+                  <div className="row align-items-center sdsd bts__wrap">
+                    <div className="col">
                     <ul className="filter">
                       <FilterDropdown
                         ref={yearDropdownRef}
@@ -698,13 +698,15 @@ export default function DynamicSlugPage() {
                         </select>
                       </div> */}
                     </div>
-                                         <div className="col-lg-6 text-end">
+                    <div className="col">
                        <Link
                          href={getBackLink()}
-                         className="btn btn-primary all-stats-btn"
+                         className="glob-btn green-bg-btn green-bg-btn"
                        >
-                         <span>ALLE STATS</span>
-                         <img src="/images/arow.svg" alt="arrow" />
+                         <strong>ALLE STATS</strong>
+                          <span className="green-circle-btn green-circle-btn-2">
+                            <img alt="" src="/images/arow.svg" />
+                          </span>
                        </Link>
                      </div>
                   </div>
