@@ -46,9 +46,9 @@
   width: 150px;
   z-index: 1000;
   background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, .15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, .075);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 .dropdown-options {
@@ -76,13 +76,13 @@
 
 /* Selected item styling - matching your green theme */
 .dropdown-item.selected {
-  background-color: #2B534D !important;
+  background-color: #2b534d !important;
   color: white !important;
   font-weight: 500;
 }
 
 .dropdown-item.selected:hover {
-  background-color: #2B534D !important;
+  background-color: #2b534d !important;
   color: white !important;
 }
 
@@ -103,7 +103,7 @@
 .input-group .form-control:focus {
   border-color: #80bdff;
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .form-select {
@@ -252,4 +252,145 @@
 }
 section.stats-sec1 ul.filter > li:not(.active) {
   border-radius: 60px;
+}
+
+/* start detail pages css  */
+
+.stat-main-sec {
+  padding-top: 64px !important;
+}
+
+/* =========================
+   Slug Page Table (safe scoped)
+   ========================= */
+
+/* Table Head */
+
+/* Table Body */
+section.stat-main-sec ul.slug-table-body {
+  padding: 0 0 64px;
+  margin: 0;
+  list-style: none;
+}
+section.slug-main-section section.riders-sec1 h1 {
+  padding-bottom: 32px;
+}
+ul.slug-table-body li {
+  padding-bottom: 1.5rem;
+  margin-bottom: 8px;
+  border-bottom: 2px dashed #cbcbc7;
+  display: grid;
+  grid-template-columns: 4rem 25.5rem 11.375rem 12.75rem;
+  gap: 1.5rem;
+  position: relative;
+  padding-right: 20px;
+  transition: all 0.8s ease-in-out;
+}
+
+section.stat-main-sec ul.slug-table-body li:last-child {
+  margin: 0;
+}
+
+/* Serial number cell */
+ul.slug-table-body li .sr-no {
+  color: #2b534d;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.125rem;
+  letter-spacing: -0.022rem;
+  flex: unset !important;
+}
+
+/* Rider name */
+ul.slug-table-body li h5 {
+  color: #2b534d;
+  font-family: "Univers", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.2rem;
+  letter-spacing: -0.05rem;
+  text-transform: uppercase;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+ul.slug-table-body li h5 a {
+  color: #2b534d;
+  font-weight: 500 !important;
+}
+
+/* Team */
+section.stat-main-sec ul.slug-table-body li h6 {
+  color: #082b1a;
+  font-family: Roboto, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+section.stat-main-sec ul.slug-table-body li h6 a {
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  color: #082b1a;
+}
+
+section.stat-main-sec ul.slug-table-body li h6 a::after {
+  content: "";
+  width: 0%;
+  height: 1px;
+  background-color: #082b1a;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+section.stat-main-sec ul.slug-table-body li h6 a:hover::after {
+  width: 100%;
+}
+
+section.stat-main-sec ul.slug-table-head {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  margin: 32px 0 1rem;
+  list-style: none;
+  font-weight: 600;
+}
+ul.slug-table-head li {
+  flex: 1 1;
+  font-size: 18px;
+  font-weight: 700;
+  color: #cbcbc7;
+  letter-spacing: -0.35px;
+  line-height: 1;
+  font-family: "Univers";
+}
+
+ul.slug-table-head li:last-child {
+  text-align: right;
+}
+.pt-161px {
+  padding-top: 161px !important;
+}
+.table_cols_list.col--4 .rider--name {
+  flex: 1 0 26% !important;
+}
+
+.slug-table-main:has(.table_cols_list.col--4 .rider--name) .slug-table-head li:first-child {
+  flex: 1 0 26%;
+}
+
+.table_cols_list.col--4 .team-name {
+  flex: 1 0 25% !important;
+}
+
+.slug-table-main:has(.table_cols_list.col--4 .team-name) .slug-table-head li:nth-child(2) {
+  flex: 1 0 25%;
 }
