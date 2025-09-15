@@ -301,7 +301,7 @@ export default function RaceResultPage() {
   };
 
   return (
-    <main>
+    <div>
       <div className="dropdown-overlay"></div>
       <section className="riders-sec1">
         <div className="container">
@@ -506,6 +506,6 @@ export default function RaceResultPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
