@@ -26,6 +26,21 @@ const getCountryCode = (item, config) => {
   return country.toUpperCase();
 };
 
+const getRiderId = (item) => {
+  const keys = ["rider_id", "riderId", "_id", "id", "rider_key"];
+  for (const key of keys) {
+    if (
+      item &&
+      item[key] !== undefined &&
+      item[key] !== null &&
+      item[key] !== ""
+    ) {
+      return item[key];
+    }
+  }
+  return null;
+};
+
 export default function DynamicSlugPage() {
   const router = useRouter();
   const { slug } = router.query;
@@ -42,10 +57,10 @@ export default function DynamicSlugPage() {
   const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
-console.log(slug,"asfhjd")
+  console.log(slug, "asfhjd");
 
   const getFilteredYears = (searchValue) => {
-    if (!searchValue || searchValue.trim() === '') {
+    if (!searchValue || searchValue.trim() === "") {
       return withoutAllTime;
     }
     const hasNumbers = /\d/.test(searchValue);
@@ -330,46 +345,41 @@ console.log(slug,"asfhjd")
     // Check if name data exists
     const nameDataExists = hasNameData(data, config);
     const countDataExists = hasCountData(data, config);
+
     return data.map((item, index) => {
       const columns = [];
-      if(slug == "riders-with-birthday-today"){
-        columns.push(
-          <span
-            key="srno"
-            className="sr-no"
-            style={{ width: "40px", fontWeight: "bold", textAlign: "center" }}
-          >
-           
-          </span>
-        );
-      }
-      else{
-        columns.push(
-          <span
-            key="srno"
-            className="sr-no"
-            style={{ width: "40px", fontWeight: "bold", textAlign: "center" }}
-          >
-            {index + 1}
-          </span>
-        );
-      }
-   
+      // columns.push(
+      //   <span key="srno" className="sr-no">
+      //     {index + 1}
+      //   </span>
+      // );
+
       // NAME column with flag - only add if name data exists
       if (nameDataExists) {
+        const riderId = getRiderId(item);
+        const clickableProps = riderId
+          ? { onClick: () => router.push(`/riders/${riderId}`) }
+          : {};
         columns.push(
-          <h5 key="name" className="rider--name">
-            <Link href={""} className="link">
-            <Flag
-              code={getCountryCode(item, config)}
-              style={{
-                width: "30px",
-                height: "20px",
-                marginRight: "10px",
-                flexShrink: 0,
-              }}
-            />
-            {getItemValue(item, config.itemConfig.name)}
+          <h5 key="name" className="rider--name" {...clickableProps}>
+            <span key="srno" className="sr-no">
+              {index + 1}.
+            </span>
+            <Link href={`/riders/${riderId}`} className="link">
+              <Flag
+                code={getCountryCode(item, config)}
+                style={{
+                  width: "30px",
+                  height: "20px",
+                  flexShrink: 0,
+                }}
+              />
+
+              {`${getItemValue(item, config.itemConfig.name)} ${
+                item?.type === "stage"
+                  ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                  : ""
+              }`}
             </Link>
           </h5>
         );
@@ -380,7 +390,10 @@ console.log(slug,"asfhjd")
         // If no name data exists, show flag with team
         if (!nameDataExists) {
           columns.push(
-            <div key="team" className="team-name">
+            <h5 key="name" className="rider--name">
+              <span key="srno" className="sr-no">
+                {index + 1}.
+              </span>
               <Flag
                 code={getCountryCode(item, config)}
                 style={{
@@ -391,7 +404,7 @@ console.log(slug,"asfhjd")
                 }}
               />
               <span>{getItemValue(item, config.itemConfig.team)}</span>
-            </div>
+            </h5>
           );
         } else {
           // If name data exists, show team without flag (flag is already shown with name)
@@ -415,7 +428,7 @@ console.log(slug,"asfhjd")
       // COUNT column
       if (countDataExists) {
         columns.push(
-          <div key="count" className="count">
+          <div key="count" className="count text-end">
             {getItemValue(item, config.itemConfig.count)}
           </div>
         );
@@ -424,7 +437,7 @@ console.log(slug,"asfhjd")
       return (
         <li
           key={item._id || item.id || index}
-          className="content-item ctm-head-heading hoverState-li table_cols_list table-li"
+          className={`content-item ctm-head-heading hoverState-li table_cols_list col--${columns.length}`}
         >
           {columns}
         </li>
@@ -512,19 +525,20 @@ console.log(slug,"asfhjd")
   const pageTitle = apiTitle
     ? `${apiTitle} | Cycling Stats`
     : slug
-      ? `${formatSlugForDisplay(slug)} | Cycling Stats`
-      : "Page | Cycling Stats";
+    ? `${formatSlugForDisplay(slug)} | Cycling Stats`
+    : "Page | Cycling Stats";
   const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
+  // const srNoHeaderLabel = "";
 
   return (
     <>
       <Head>
         <title>{pageTitle}</title>
       </Head>
+      <section className="slug-main-section">
+        <div className="dropdown-overlay"></div>
 
-      <main>
-        <div class="dropdown-overlay"></div>
-        <section className="riders-sec1">
+        <section className="riders-sec1 pt-161px">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -532,84 +546,68 @@ console.log(slug,"asfhjd")
                   <li>
                     <Link href="/">Home</Link>
                   </li>
+                  <li>
+                    <Link href="/stats">Stats</Link>
+                  </li>
                   <li>{pageHeading}</li>
                 </ul>
-                <h1>{pageHeading}</h1>
+                <h1 className="mb-0">{pageHeading}</h1>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="home-banner riders-sec2 sluggy-page">
+        <section className="stat-main-sec">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                <div className="filter-section">
-                  <div className="row align-items-center bts__wrap">
-                    <div className="col">
-                      <ul className="filter">
-                        <FilterDropdown
-                          ref={yearDropdownRef}
-                          isOpen={showYearDropdown}
-                          toggle={() => setShowYearDropdown(!showYearDropdown)}
-                          options={getFilteredYears(yearInput)}
-                          selectedValue={selectedYear}
-                          placeholder="Year"
-                          onSelect={(value) => handleSelection("year", value)}
-                          onInputChange={handleYearInputChange}
-                          loading={false}
-                          includeAllOption={false}
-                          classname="year-dropdown"
-                        />
-                      </ul>
-                      <div className="filter-dropdown">
-                        {/* <select
-                          value={selectedYear}
-                          onChange={handleYearChange}
-                          id="yearSelect"
-                        >
-                          {years.map((year) => (
-                            <option key={year} value={year}>
-                              {year}
-                            </option>
-                          ))}
-                        </select> */}
-                      </div>
-                    </div>
-                    <div className="col">
-                      <Link
-                         href="/stats"
-                         className="glob-btn green-bg-btn green-bg-btn"
-                       >
-                         <strong>ALLE STATS</strong>
-                          <span className="green-circle-btn green-circle-btn-2">
-                            <img alt="" src="/images/arow.svg" />
-                          </span>
-                       </Link>
-                    </div>
+                <div className="row align-items-center sdsd bts__wrap">
+                  <div className="col">
+                    <ul className="filter">
+                      <FilterDropdown
+                        ref={yearDropdownRef}
+                        isOpen={showYearDropdown}
+                        toggle={() => setShowYearDropdown(!showYearDropdown)}
+                        options={getFilteredYears(yearInput)}
+                        selectedValue={selectedYear}
+                        placeholder="Year"
+                        onSelect={(value) => handleSelection("year", value)}
+                        onInputChange={handleYearInputChange}
+                        loading={false}
+                        includeAllOption={false}
+                        classname="year-dropdown"
+                      />
+                    </ul>
                   </div>
+                  {/* <div className="col text-end">
+                    <Link className="glob-btn green-bg-btn" href="/stats">
+                      <strong>ALLE STATS</strong>
+                      <span className="green-circle-btn green-circle-btn-2">
+                        <img alt="" src="/images/arow.svg" />
+                      </span>
+                    </Link>
+                  </div> */}
                 </div>
               </div>
-              <div className="col-lg-9 col-md-12">
-                <ul className="head-heading ctm-head-heading table-head">
-<li>
-                    {srNoHeaderLabel}
-                  </li>
-                
+
+              <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
+                <ul
+                  className={`slug-table-head col--${
+                    getDynamicHeaders().length
+                  }`}
+                >
+                  {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (
-                    
                     <li key={index}>{header}</li>
                   ))}
                 </ul>
 
-                <ul className="transparent-cart ctm-transparent-cart table-ul">
-                  {renderContent()}
-                </ul>
+                <ul className="slug-table-body">{renderContent()}</ul>
               </div>
             </div>
           </div>
         </section>
-      </main>
+      </section>
     </>
   );
 }
