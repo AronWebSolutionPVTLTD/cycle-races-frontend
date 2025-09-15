@@ -5,10 +5,10 @@ import { useRouter } from "next/router";
 import { fetchData } from "@/lib/api";
 import { useEffect, useRef, useState } from "react";
 import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
-import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { generateYearOptions } from "@/components/GetYear";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
+import { renderFlag } from "@/components/RenderFlag";
 
 // Helper function to get value from item using multiple possible keys
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
@@ -360,16 +360,8 @@ export default function DynamicSlugPage() {
               {index + 1}.
             </span>
             <Link href={`/riders/${riderId}`} className="link">
-              <Flag
-                code={getCountryCode(item, config)}
-                style={{
-                  width: "30px",
-                  height: "20px",
-                  flexShrink: 0,
-                }}
-              />
-
-              {`${getItemValue(item, config.itemConfig.name)} ${
+         {renderFlag(getCountryCode(item, config))}
+ {`${getItemValue(item, config.itemConfig.name)} ${
                 item?.type === "stage" && item?.stage_number !== undefined
                   ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
                   : ""
@@ -388,15 +380,7 @@ export default function DynamicSlugPage() {
               <span key="srno" className="sr-no">
                 {index + 1}.
               </span>
-              <Flag
-                code={getCountryCode(item, config)}
-                style={{
-                  width: "30px",
-                  height: "20px",
-                  marginRight: "10px",
-                  flexShrink: 0,
-                }}
-              />
+       {renderFlag(getCountryCode(item, config))}
               <span>{getItemValue(item, config.itemConfig.team)}</span>
             </h5>
           );
