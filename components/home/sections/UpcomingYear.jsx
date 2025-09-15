@@ -258,7 +258,7 @@ const UpcomingYear = () => {
               <div className="col-lg-3 col-md-6 11">
                 <div className="list-white-cart">
                   <Link href="/most-win-upcoming-rider-last-year" className="pabs"/>
-                  <h4>{data?.[fixedApis.box3]?.data.winners_message}</h4>
+                  <h4>{data?.[fixedApis.box3]?.data?.winners_message}</h4>
                   {getBoxData(fixedApis.box3).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box3).errorType}

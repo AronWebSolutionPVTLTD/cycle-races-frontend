@@ -116,7 +116,7 @@ const YearSection = () => {
       response?.data?.data,
       // response?.data,
       response?.data?.data?.sorted,
-      response?.data.riders,
+      response?.data?.riders,
       response,
     ];
 

@@ -53,8 +53,6 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
     fixedApis.box10,
     fixedApis.box11,
     fixedApis.box12,
-    fixedApis.box13,
-    fixedApis.box14,
   ];
 
   // Define endpoint mappings for specific cases if needed

@@ -379,18 +379,88 @@ ul.slug-table-head li:last-child {
 .pt-161px {
   padding-top: 161px !important;
 }
-.table_cols_list.col--4 .rider--name {
-  flex: 1 0 26% !important;
+@media ( min-width: 768px ){
+  .table_cols_list.col--4 .rider--name {
+    flex: 1 0 26% !important;
+  }
+  
+  .slug-table-main:has(.table_cols_list.col--4 .rider--name) .slug-table-head li:first-child {
+    flex: 1 0 26%;
+  }
+  
+  .table_cols_list.col--4 .team-name {
+    flex: 1 0 25% !important;
+  }
+  
+  .slug-table-main:has(.table_cols_list.col--4 .team-name) .slug-table-head li:nth-child(2) {
+    flex: 1 0 25%;
+  }
 }
 
-.slug-table-main:has(.table_cols_list.col--4 .rider--name) .slug-table-head li:first-child {
-  flex: 1 0 26%;
+@media ( max-width: 767px ){
+  section.pt-161px {
+    padding-top: 136px !important;
+  }
+  section.slug-main-section .breadcrumb {
+    margin-bottom: 32px !important;
+}
+  section.slug-main-section section.riders-sec1 h1 {
+    padding-bottom: 24px;
+  }
+  .stat-main-sec {
+    padding-top: 48px !important;
+}
+.container{
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.bts__wrap {
+  margin: 0 !important;
+  align-items: flex-end !important;
+}
+.slug-table-main {
+  margin-top: 48px !important;
 }
 
-.table_cols_list.col--4 .team-name {
-  flex: 1 0 25% !important;
+.slug-table-main .slug-table-head {
+  display: none !important;
+}
+ul.slug-table-body li:hover {
+  background: none !important;
+  border-color: #cbcbc7 !important;
+}
+ul.slug-table-body li > *:first-child {
+  width: 100%;
+  font-size: 18px !important;
+  line-height: 18px;
 }
 
-.slug-table-main:has(.table_cols_list.col--4 .team-name) .slug-table-head li:nth-child(2) {
-  flex: 1 0 25%;
+ul.slug-table-body li {
+  flex-wrap: wrap;
+  row-gap: 8px !important;
+  column-gap: 24px !important;
+  justify-content: space-between;
+  padding: 0 0 14px !important;
+  margin-bottom: 16px !important;
+  align-items: flex-end !important;
+}
+
+ul.slug-table-body {
+  font-size: 16px !important;
+  line-height: 24px !important;
+}
+ul.slug-table-body li>*:nth-child(2) {
+  flex: 1;
+}
+ul.slug-table-body li.col--2 >*:first-child {
+  flex: 1;
+}
+
+ul.slug-table-body li.col--2 >*:nth-child(2) {
+  flex: 0 0 auto;
+}
+
+ul.slug-table-body li.col--2 {
+  align-items: center !important;
+}
 }
