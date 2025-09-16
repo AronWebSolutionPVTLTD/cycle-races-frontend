@@ -1,6 +1,7 @@
 // pages/riders/index.js
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import RiderCard from "@/components/RiderCard";
 import SidebarList from "@/components/SidebarList";
 import { getTeamsRiders } from "@/lib/api";
@@ -8,8 +9,10 @@ import { useEffect, useState, useRef } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { useMultipleData } from "@/components/home_api_data";
 import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
+import { RiSearchLine } from "react-icons/ri";
 
 export default function Riders() {
+  const router = useRouter();
   const [teamRiders, setTeamRiders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -197,6 +200,11 @@ export default function Riders() {
 
       setFirstTenRiders(filteredList);
     }
+
+    // Navigate directly to rider detail page per UX requirement
+    if (rider?.rider_id) {
+      router.push(`/riders/${rider.rider_id}`);
+    }
   };
 
   // Display content based on state
@@ -239,11 +247,11 @@ export default function Riders() {
       );
     }
 
-    return firstTenRiders.map((team) =>
+    return firstTenRiders.map((team, teamIndex) =>
       team.riders && team.riders.length > 0
-        ? team.riders.map((rider) => (
+        ? team.riders.map((rider, riderIndex) => (
           <RiderCard
-            key={rider._id || rider.rider_id}
+            key={`rider-${teamIndex}-${riderIndex}-${team.teamName}-${rider.rider_id || rider._id || rider.riderName}`}
             name={rider.riderName}
             team={team.teamName}
             flag={rider.riderCountry}
@@ -344,7 +352,7 @@ export default function Riders() {
 
   const handleFocus = () => {
     if (searchSuggestions.length > 0) {
-       setShowSuggestions(true)
+      setShowSuggestions(true)
     }
     if (searchRef.current) {
       searchRef.current.classList.add("active-parent");
@@ -382,19 +390,30 @@ export default function Riders() {
                       <div className="wrap-top">
                         <input
                           type="text"
-                          placeholder="welke renner zoek je?"
+                          placeholder="Wie zoek je ?"
                           value={searchQuery}
                           onChange={handleSearchChange}
                           onFocus={handleFocus}
                           onBlur={handleBlur}
                         />
                         <div className="icon">
-                          <img
-                            src="/images/search-icon.svg"
-                            alt="Search"
-                            onClick={handleSearchSubmit}
-                            style={{ cursor: "pointer" }}
-                          />
+                          <span className="search-icon" onClick={handleSearchSubmit}>
+                            {/* <RiSearchLine /> */}
+
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width={48}
+                              height={48}
+                              viewBox="0 0 48 48"
+                              fill="none"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M39.1632 34.3632L48 43.2L43.2 48L34.3632 39.1656C30.6672 42.1224 26.6928 43.2 21.6 43.2C9.6912 43.2 0 33.5112 0 21.6C0 9.6888 9.6912 0 21.6 0C33.5088 0 43.2 9.6888 43.2 21.6C43.2 26.6904 42.1224 30.6648 39.1632 34.3632ZM21.6008 36.0008C13.6602 36.0008 7.2008 29.5414 7.2008 21.6008C7.2008 13.6623 13.6602 7.2008 21.6008 7.2008C29.5414 7.2008 36.0008 13.6623 36.0008 21.6008C36.0008 29.5414 29.5414 36.0008 21.6008 36.0008Z"
+                                fill="#D0F068"
+                              />
+                            </svg>   </span>
                           <input
                             type="reset"
                             value=""
@@ -408,14 +427,13 @@ export default function Riders() {
                     {showSuggestions && searchSuggestions.length > 0 && (
                       <div className="wrap-bottom">
                         <ul>
-                          {searchSuggestions.map((rider) => (
+                          {searchSuggestions.map((rider, idx) => (
                             <li
-                              key={rider._id || rider.rider_id}
+                              key={`suggestion-${idx}-${rider.teamName}-${rider.rider_id || rider._id || rider.riderName}`}
                               onClick={() => handleSelectSuggestion(rider)}
                             >
                               <div>
-                                <span>{rider.riderName}</span>
-                                <span>({rider.teamName})</span>
+                                <span>{`${rider.riderName} (${rider.teamName})`}</span>
                               </div>
                             </li>
                           ))}
