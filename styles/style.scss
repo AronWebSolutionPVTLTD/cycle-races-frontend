@@ -3844,3 +3844,17 @@ section.home-banner.result-sec1.race-result-page ul.head-heading {
 }
 }
 
+.search-icon path {
+  transition: all 0.3s ease;
+}
+
+.search-icon:hover path {
+  fill: #2b534d;
+}
+.menu-wraper .search-wraper a path {
+  transition: all 0.3s ease;
+}
+
+.menu-wraper .search-wraper a:hover path {
+  fill: #2b534d;
+}

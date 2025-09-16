@@ -154,12 +154,7 @@ export default function Results() {
       // Only include year parameter if selectedYear is not "All-time"
       const yearParam = selectedYear !== "All-time" ? `year=${selectedYear}` : "";
       const endpoint = `stages/getRecentStageRaceWinners?${yearParam}${monthParam}${searchParam}`;
-
-      console.log('Fetching with endpoint:', endpoint);
-      console.log('Search query being used:', searchQuery);
-      console.log('Month filter applied:', !(searchQuery && searchQuery.trim()));
-
-      const data = await callAPI("GET", endpoint);
+     const data = await callAPI("GET", endpoint);
      setRaceResults(data.recent_stage_race_winners || []);
 
     } catch (error) {
@@ -265,17 +260,13 @@ export default function Results() {
 
   // Debounced search for suggestions - GLOBAL SEARCH VERSION
   useEffect(() => {
-    console.log('Search suggestions useEffect triggered:', { searchTerm, selectedYear, searchTermLength: searchTerm.length });
-
     if (searchTerm.length >= 2) {
-      console.log('Setting up debounced search suggestions...');
-      const delayDebounce = setTimeout(() => {
+    const delayDebounce = setTimeout(() => {
         fetchSearchSuggestions();
       }, 300);
 
       return () => clearTimeout(delayDebounce);
     } else {
-      console.log('Clearing search suggestions (term too short or empty)');
       setSearchResults([]);
       setShowSearchDropdown(false);
     }
@@ -303,9 +294,6 @@ export default function Results() {
         .map((raceName) => ({
           race_name: raceName,
         }));
-
-      console.log('Search suggestions (global):', uniqueRaces);
-      console.log('Setting dropdown visibility:', uniqueRaces.length > 0);
 
       setSearchResults(uniqueRaces);
       setShowSearchDropdown(uniqueRaces.length > 0);
@@ -422,7 +410,20 @@ export default function Results() {
                         />
                         <div className="icon">
                           <span className="search-icon" onClick={handleSearch}>
-                            <RiSearchLine />
+                          <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width={48}
+                              height={48}
+                              viewBox="0 0 48 48"
+                              fill="none"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M39.1632 34.3632L48 43.2L43.2 48L34.3632 39.1656C30.6672 42.1224 26.6928 43.2 21.6 43.2C9.6912 43.2 0 33.5112 0 21.6C0 9.6888 9.6912 0 21.6 0C33.5088 0 43.2 9.6888 43.2 21.6C43.2 26.6904 42.1224 30.6648 39.1632 34.3632ZM21.6008 36.0008C13.6602 36.0008 7.2008 29.5414 7.2008 21.6008C7.2008 13.6623 13.6602 7.2008 21.6008 7.2008C29.5414 7.2008 36.0008 13.6623 36.0008 21.6008C36.0008 29.5414 29.5414 36.0008 21.6008 36.0008Z"
+                                fill="#D0F068"
+                              />
+                            </svg> 
                           </span>
                           <input
                             type="reset"

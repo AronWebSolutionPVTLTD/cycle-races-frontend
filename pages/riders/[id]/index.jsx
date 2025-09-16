@@ -108,8 +108,7 @@ export default function RiderDetail({ initialRider }) {
         const riderData = response.data.data;
         setRider(riderData);
       } else {
-        console.error("Invalid API response format:", response);
-        throw new Error("Invalid response format from API");
+      throw new Error("Invalid response format from API");
       }
     } catch (err) {
       console.error("Error fetching rider details:", err);
