@@ -383,7 +383,7 @@ export default function Results() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/images/fav-icon.svg" type="image/svg+xml" />
       </Head>
-      <main>
+      <main className="inner-pages-main">
         <div className="dropdown-overlay"></div>
         <section className="riders-sec1">
           <div className="container">
@@ -462,7 +462,7 @@ export default function Results() {
         <section className="home-banner result-sec1">
           <div className="container">
             <div className="row">
-              <div className="col-lg-12">
+              <div className="col-lg-12 filter---wrap">
                 <ul className="filter">
                   <FilterDropdown
                     ref={yearDropdownRef}
@@ -506,7 +506,7 @@ export default function Results() {
                 </div> */}
               </div>
 
-              <div className="col-lg-9 col-md-7">
+              <div className="col-lg-9 col-md-7 ctm-table-wrap">
                 <ul className="head-heading">
                   <li>Date</li>
                   <li>Race</li>
@@ -523,11 +523,11 @@ export default function Results() {
                     <ErrorStats message={error} />
                   </div>
                 ) : raceResults.length > 0 ? (
-                  <ul className="transparent-cart">
+                  <ul className="transparent-cart ctm-table-ul">
                     {raceResults.map((item, idx) => {
                       const { start, end } = convertDateRange(item?.date);
                       return (
-                        <li className="hoverState-li" key={idx}>
+                        <li className="hoverState-li custom-list-el" key={idx}>
                           <Link href={`/races/${encodeURIComponent(item.race_name)}`} className="pabs" />
                           {/* <span className="text-capitalize">{start} {end ? ` - ${end}` : ""}</span> */}
                           <span className="text-capitalize">{start}</span>

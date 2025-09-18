@@ -394,7 +394,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     </>
                   )}
                 </div>
-                <div className="d-md-none d-flex justify-content-end pt-4">
+                <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
                   <Link
                     href={buildUrlWithParams("most-top10-race-by-nationality")}
                     className="alle-link m-0"

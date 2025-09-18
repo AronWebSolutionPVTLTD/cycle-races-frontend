@@ -91,17 +91,18 @@ const FirstSection = () => {
   };
 
   return (
-    <section className="home-banner ctm-home-banner">
+    <section className="home-banner ctm-home-banner pb-96px">
       <div className="container">
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="d-flex justify-content-between align-items-center">
+      <div className="col-lg-12">
+            <div className="d-flex justify-content-between align-items-center section-header">
               <h2>uitslagen</h2>
               <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
                 Alle uitslagen <img src="/images/arow2.svg" alt="" />
               </a>
             </div>
           </div>
+        <div className="row">
+          
 
           {/* Show loading state */}
           {loading && (
@@ -189,7 +190,7 @@ const FirstSection = () => {
                         .map((result, index) => {
                           const { start, end } = convertDateRange(result?.date);
                           return (
-                            <li className="hoverState-li" key={index}>
+                            <li className="hoverState-li custom-list-el" key={index}>
                               <Link href={`/races/${result?.raceName}`} className="pabs"/>
                               <span className="text-capitalize">
                                 {/* {new Date(result.date).toLocaleDateString(
@@ -199,15 +200,16 @@ const FirstSection = () => {
                                 {start}
                                 {end ? ` - ${end}` : ""}
                               </span>
-                              <h5>
+                              {result?.raceName && <h5>
                                 {renderFlag(result?.raceCountry)}
                                 <a href="#?">{result.raceName}</a>
-                              </h5>
-                              <h6>
+                              </h5>}
+                              {result?.result[0]?.rider &&
+                               <h6>
                                 {renderFlag(result?.result[0]?.riderCountry)}
                                 <a href="#?">{result?.result[0]?.rider}</a>
-                              </h6>
-                              <h6>{result?.result[0]?.team}</h6>
+                              </h6>}
+                              {result?.result[0]?.team && <h6>{result?.result[0]?.team}</h6>}
                               <Link
                                 href={`/races/${result?.raceName}`}
                                 className="r-details"
@@ -221,7 +223,7 @@ const FirstSection = () => {
                   </>
                 )}
               </div>
-              <div className="d-md-none d-flex justify-content-end pt-4">
+              <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
                 <a href="/races" className="alle-link m-0">
                   Alle uitslagen <img src="/images/arow2.svg" alt="" />
                 </a>
