@@ -301,7 +301,7 @@ export default function RaceResultPage() {
   };
 
   return (
-    <div>
+    <main className="inner-pages-main race-result-main">
       <div className="dropdown-overlay"></div>
       <section className="riders-sec1">
         <div className="container">
@@ -329,7 +329,7 @@ export default function RaceResultPage() {
       <section className="home-banner result-sec1 race-result-page sdsdssd">
         <div className="container">
           <div className="row">
-            <div className="col-lg-12">
+            <div className="col-lg-12 filter---wrap">
               <ul className="filter">
                 <FilterDropdown
                   ref={yearDropdownRef}
@@ -397,14 +397,14 @@ export default function RaceResultPage() {
               </div> */}
             </div>
 
-            <div className="col-lg-9 col-md-7">
+            <div className="col-lg-9 col-md-7 ctm-table-wrap">
               <ul className="head-heading">
                 <li>#</li>
                 <li>Name</li>
                 <li>Team</li>
                 <li>Time</li>
               </ul>
-
+ 
               {isLoading || !isRouterReady ? (
                 <div className="loading-spinner">
                   <ListSkeleton />
@@ -414,12 +414,12 @@ export default function RaceResultPage() {
                   <ErrorStats message={error} />
                 </div>
               ) : race.riders.length > 0 ? (
-                <ul className="transparent-cart">
+                <ul className="transparent-cart ctm-table-ul">
                   {race.riders
                     ?.sort((a, b) => a.rank - b.rank)
                     .slice(0, 25)
                     .map((rider, index) => (
-                      <li className="hoverState-li" key={index}>
+                      <li className="hoverState-li custom-list-el" key={index}>
                         <Link href={`/riders/${rider.rider_id}`} className="pabs" />
                         <span>{index + 1}</span>
                         <h5 className="rider--name">
@@ -506,6 +506,6 @@ export default function RaceResultPage() {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

@@ -8,7 +8,7 @@ export default function RiderCard({ name, team, flag, riderId }) {
 
 
   return (
-    <li className="hoverState-li">
+    <li className="hoverState-li custom-list-el">
       <Link href={`/riders/${riderId}`} className="pabs"/>
       <h5 className="rider--name">
   <Link
