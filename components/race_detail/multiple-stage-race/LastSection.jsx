@@ -100,7 +100,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
   };
 
   return (
-    <section className="home-sec5 sdsdsd11">
+    <section className="home-sec5 sdsdsd11 home-sec5--last">
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
@@ -115,53 +115,63 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
             <>
               {/* Box 1 - MostMountain Classification Wins*/}
               <div className="col-lg-5 box6">
-                <div className="list-white-cart">
-                  <h4 className="fs-chenge">
-                    {data?.[fixedApis.box1]?.message}
-                  </h4>
+                <div className="list-white-cart ctm-card">
+                  <Link href={buildUrlWithParams(
+                    "most-mountain-classification-wins"
+                  )} className="pabs" />
+
                   {getBoxData(fixedApis.box1).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box1).errorType}
                     />
                   ) : (
                     <>
-                      <ul>
-                        {(Array.isArray(getBoxData(fixedApis.box1).data)
-                          ? getBoxData(fixedApis.box1).data
-                          : []
-                        )
-                          .slice(0, 5)
-                          .map((rider, index) => (
-                            <li key={index}>
-                              <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-green">
-                                {renderFlag(rider?.rider_country)}
-                                <h6>{rider?.rider_name || "..."}</h6>
-                              </div>
+                      <div className="card-content-wraper">
+                        <h4 className="fs-chenge">
+                          {data?.[fixedApis.box1]?.message}
+                        </h4>
+                        <ul>
+                          {(Array.isArray(getBoxData(fixedApis.box1).data)
+                            ? getBoxData(fixedApis.box1).data
+                            : []
+                          )
+                            .slice(0, 5)
+                            .map((rider, index) => (
+                              <li key={index}>
+                                <strong>{index + 1}</strong>
+                                <div className="name-wraper name-wraper-green">
+                                  {renderFlag(rider?.rider_country)}
+                                  <h6>{rider?.rider_name || "..."}</h6>
+                                </div>
 
-                              {rider?.mountain_wins && (
-                                <span>{rider.mountain_wins}</span>
-                              )}
-                            </li>
-                          ))}
-                      </ul>
+                                {rider?.mountain_wins && (
+                                  <span>{rider.mountain_wins}</span>
+                                )}
+                              </li>
+                            ))}
+                        </ul>
 
-                      <img
-                        src="/images/player3.png"
-                        alt=""
-                        className="absolute-img"
-                      />
-                      <Link
-                        href={buildUrlWithParams(
-                          "most-mountain-classification-wins"
-                        )}
-                        className="glob-btn green-bg-btn"
-                      >
-                        <strong>volledige stats</strong>{" "}
-                        <span>
-                          <img src="/images/arow.svg" alt="" />
-                        </span>
-                      </Link>
+                      </div>
+                      <div className="image_link-wraper">
+                        <img
+                          src="/images/player3.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                        <div className="link_box">
+                          <Link
+                            href={buildUrlWithParams(
+                              "most-mountain-classification-wins"
+                            )}
+                            className="glob-btn green-bg-btn"
+                          >
+                            <strong>volledige stats</strong>{" "}
+                            <span>
+                              <img src="/images/arow.svg" alt="" />
+                            </span>
+                          </Link>
+                        </div>
+                      </div>
                     </>
                   )}
                 </div>
@@ -896,49 +906,58 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
               {/*Box 14 - OldestTop 10 Finisher */}
               <div className="col-lg-5 box6">
-                <div className="list-white-cart">
-                  <h4 className="fs-chenge">
-                    {data?.[fixedApis.box14]?.message}
-                  </h4>
+                <div className="list-white-cart ctm-card">
+                  <Link href={buildUrlWithParams("oldest-top10-finisher")} className="pabs" />
                   {getBoxData(fixedApis.box14).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box14).errorType}
                     />
                   ) : (
                     <>
-                      <ul>
-                        {(Array.isArray(getBoxData(fixedApis.box14).data)
-                          ? getBoxData(fixedApis.box14).data
-                          : []
-                        )
-                          .slice(0, 5)
-                          .map((rider, index) => (
-                            <li key={index}>
-                              <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-green">
-                                {renderFlag(rider?.country)}
-                                <h6>{rider?.rider_name || "..."}</h6>
-                              </div>
+                      <div className="card-content-wraper">
+                        <h4 className="fs-chenge">
+                          {data?.[fixedApis.box14]?.message}
+                        </h4>
+                        <ul>
+                          {(Array.isArray(getBoxData(fixedApis.box14).data)
+                            ? getBoxData(fixedApis.box14).data
+                            : []
+                          )
+                            .slice(0, 5)
+                            .map((rider, index) => (
+                              <li key={index}>
+                                <strong>{index + 1}</strong>
+                                <div className="name-wraper name-wraper-green">
+                                  {renderFlag(rider?.country)}
+                                  <h6>{rider?.rider_name || "..."}</h6>
+                                </div>
 
-                              {rider?.age && <span>{rider.age}</span>}
-                            </li>
-                          ))}
-                      </ul>
+                                {rider?.age && <span>{rider.age}</span>}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
 
-                      <img
-                        src="/images/player3.png"
-                        alt=""
-                        className="absolute-img"
-                      />
-                      <Link
-                        href={buildUrlWithParams("oldest-top10-finisher")}
-                        className="glob-btn green-bg-btn"
-                      >
-                        <strong>volledige stats</strong>{" "}
-                        <span>
-                          <img src="/images/arow.svg" alt="" />
-                        </span>
-                      </Link>
+                      <div className="image_link-wraper">
+                        <img
+                          src="/images/player3.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                        <div className="link_box">
+
+
+                          <Link
+                            href={buildUrlWithParams("oldest-top10-finisher")}
+                            className="glob-btn green-bg-btn"
+                          >
+                            <strong>volledige stats</strong>{" "}
+                            <span>
+                              <img src="/images/arow.svg" alt="" />
+                            </span>
+                          </Link>
+                        </div>
+                      </div>
                     </>
                   )}
                 </div>

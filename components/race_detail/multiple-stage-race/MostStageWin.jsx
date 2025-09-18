@@ -161,7 +161,7 @@ const MostStageWins = ({
   const boxData = getBoxData(apiOptions.box1);
 
   return (
-    <section className="home-sec3 sdsdsd">
+    <section className="home-sec3 sdsdsd p-0 pb-96px">
       <div className="container">
         <div className="row">
           {loading && (

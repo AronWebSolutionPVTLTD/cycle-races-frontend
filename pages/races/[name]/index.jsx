@@ -109,7 +109,7 @@ export default function RaceDetailsPage() {
         `/raceDetailsStats/${raceName}/getRaceDetails`,
         {}
       );
-      console.log('response----',response)
+      console.log('response----', response)
 
       if (response.status && response.data) {
         setRaceData(response.data);
@@ -188,7 +188,7 @@ export default function RaceDetailsPage() {
       <Head>
         <title>{raceData?.race_name || "Race"} | Cycling Stats</title>
       </Head>
-      <main>
+      <main className="inner-pages-main rider-detail-main race-detail-main">
         <div className="dropdown-overlay"></div>
         <section className="rider-details-sec pb-0 rider-details-sec-top">
           <div className="top-wrapper-main">
@@ -217,7 +217,7 @@ export default function RaceDetailsPage() {
 
                   <ul className="plyr-dtls">
                     {raceData.country_code && (
-                      <li>
+                      <li className="country">
                         <Flag
                           code={raceData.country_code}
                           style={{
@@ -226,6 +226,7 @@ export default function RaceDetailsPage() {
                             marginLeft: "10px",
                           }}
                         />
+                        {raceData?.country_name}
                       </li>
                     )}
                     {raceData.year && (

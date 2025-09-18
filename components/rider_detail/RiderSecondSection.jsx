@@ -111,7 +111,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
 
   return (
     <div className="col-12">
-      <div className="row" 
+      <div className="row"
       // style={{ marginBottom: "30px" }}
       >
         {loading && <BoxSkeleton />}
@@ -125,45 +125,52 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
           <>
             {/*Box 1 - Top10 Stages InGrandTours */}
             <div className="col-lg-5 box6">
-              <div className="list-white-cart lime-green-cart">
+              <div className="list-white-cart lime-green-cart ctm-card">
                 <Link href={buildUrlWithParams("get-top10-stages-in-grand-tours")} className="pabs" />
-                <h4 className="fs-chenge">{data?.[fixedApis.box1]?.message}</h4>
+
                 {getBoxData(fixedApis.box1).error ? (
                   <ErrorMessage
                     errorType={getBoxData(fixedApis.box1).errorType}
                   />
                 ) : (
                   <>
-                    <ul>
-                      {(Array.isArray(getBoxData(fixedApis.box1).data)
-                        ? getBoxData(fixedApis.box1).data
-                        : []
-                      )
-                        .slice(0, 5)
-                        .map((rider, index) => (
-                          <li key={index}>
-                            <div className="name-wraper name-wraper-green">
-                              {renderFlag(rider?.country)}
-                              <h6>{rider?.race || "..."}</h6>
-                            </div>
+                    <div className="card-content-wraper">
+                      <h4 className="fs-chenge">{data?.[fixedApis.box1]?.message}</h4>
+                      <ul>
+                        {(Array.isArray(getBoxData(fixedApis.box1).data)
+                          ? getBoxData(fixedApis.box1).data
+                          : []
+                        )
+                          .slice(0, 5)
+                          .map((rider, index) => (
+                            <li key={index}>
+                              <div className="name-wraper name-wraper-green">
+                                {renderFlag(rider?.country)}
+                                <h6>{rider?.race || "..."}</h6>
+                              </div>
 
-                            {rider?.rank && <span>{rider.rank}</span>}
-                            {rider?.year && <span>{rider.year}</span>}
-                          </li>
-                        ))}
-                    </ul>
+                              {rider?.rank && <span>{rider.rank}</span>}
+                              {rider?.year && <span>{rider.year}</span>}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
 
-                    <img
-                      src="/images/player3.png"
-                      alt=""
-                      className="absolute-img"
-                    />
-                    <Link href={buildUrlWithParams("get-top10-stages-in-grand-tours")} className="glob-btn">
-                      <strong>volledige stats</strong>{" "}
-                      <span>
-                        <img src="/images/arow.svg" alt="" />
-                      </span>
-                    </Link>
+                    <div className="image_link-wraper">
+                      <img
+                        src="/images/player3.png"
+                        alt=""
+                        className="absolute-img"
+                      />
+                      <div className="link_box">
+                        <Link href={buildUrlWithParams("get-top10-stages-in-grand-tours")} className="glob-btn">
+                          <strong>volledige stats</strong>{" "}
+                          <span>
+                            <img src="/images/arow.svg" alt="" />
+                          </span>
+                        </Link>
+                      </div>
+                    </div>
                   </>
                 )}
               </div>
