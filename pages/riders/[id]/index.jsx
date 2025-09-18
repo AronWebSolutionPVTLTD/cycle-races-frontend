@@ -222,7 +222,7 @@ export default function RiderDetail({ initialRider }) {
     );
   }
   return (
-    <main>
+    <main className="inner-pages-main rider-detail-main">
       <div className="dropdown-overlay"></div>
       <section className="rider-details-sec pb-0 rider-details-sec-top">
         <div className="top-wrapper-main">
@@ -241,21 +241,29 @@ export default function RiderDetail({ initialRider }) {
                 {rider.image_url ? (
                   <img src={rider.image_url} alt={rider.name || "Rider"} />
                 ) : (
-                  <img
-                    src="/images/player6.png"
-                    alt=""
-                    className="absolute-img"
-                  />
+                  <div className="hdr-img_wrap">
+                    <img
+                      src="/images/player6.png"
+                      alt=""
+                      className="absolute-img"
+                    />
+                    <ul className="plyr-dtls d-flex d-md-none mobile_plyr-dtls">
+                      <li className="country">{renderFlag(rider?.nationality)} {rider?.country}</li>
+                      <li className="age">{rider.date_of_birth || "..."} ({rider?.age})</li>
+                      <li className="place">{rider.birth_place || "..."}</li>
+                    </ul>
+
+                  </div>
                   // <div className="placeholder-image" style={{ width: 200, height: 200, background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   //   <span>No Image</span>
                   // </div>
                 )}
                 <h1>{rider.name || "..."}</h1>
               </div>
-              <ul className="plyr-dtls">
-                <li>{renderFlag(rider?.nationality)} {rider?.country}</li>
-                <li>{rider.date_of_birth || "..."} ({rider?.age})</li>
-                <li>{rider.birth_place || "..."}</li>
+              <ul className="plyr-dtls d-md-flex d-none">
+                <li className="country">{renderFlag(rider?.nationality)} {rider?.country}</li>
+                <li className="age">{rider.date_of_birth || "..."} ({rider?.age})</li>
+                <li className="place">{rider.birth_place || "..."}</li>
               </ul>
             </div>
           </div>
@@ -263,8 +271,7 @@ export default function RiderDetail({ initialRider }) {
       </section>
       <section className="rider-details-sec">
         <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
+          <div className="col-lg-12">
               <ul className="filter">
               <FilterDropdown
                 ref={yearDropdownRef}
@@ -294,6 +301,7 @@ export default function RiderDetail({ initialRider }) {
                 </li> */}
               </ul>
             </div>
+          <div className="row">
             {/* Random Stats Section */}
             <RiderFirstSection riderId={rider._id} 
              filterYear={

@@ -165,7 +165,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                     </>
                   )}
                 </div>
-                <div className="d-md-none d-flex justify-content-end pt-4">
+                <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
                   <Link
                     href={buildUrlWithParams(
                       "most-mountain-classification-wins"
@@ -942,7 +942,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                     </>
                   )}
                 </div>
-                <div className="d-md-none d-flex justify-content-end pt-4">
+                <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
                   <Link
                     href={buildUrlWithParams("oldest-top10-finisher")}
                     className="alle-link m-0"

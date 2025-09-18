@@ -43,7 +43,7 @@ const LastSection = () => {
   };
 
   return (
-    <section className="home-sec2">
+    <section className="home-sec2 pb-96px  lg-pb-64px">
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton2 />}

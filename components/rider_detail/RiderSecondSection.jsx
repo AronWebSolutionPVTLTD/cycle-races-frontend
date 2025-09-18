@@ -110,8 +110,10 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
   };
 
   return (
-    <>
-      <div className="row" style={{ marginBottom: "30px" }}>
+    <div className="col-12">
+      <div className="row" 
+      // style={{ marginBottom: "30px" }}
+      >
         {loading && <BoxSkeleton />}
 
         {/* Show global error if all data failed */}
@@ -513,7 +515,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

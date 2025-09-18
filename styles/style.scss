@@ -3858,3 +3858,272 @@ section.home-banner.result-sec1.race-result-page ul.head-heading {
 .menu-wraper .search-wraper a:hover path {
   fill: #2b534d;
 }
+
+// my new css
+header{
+  padding: 27px 0;
+}
+.ctm-home-banner{
+  padding-top: 0 !important;
+}
+.pb-96px {
+  padding-bottom: 96px !important;
+}
+section.home-sec2 .row {
+  gap: 32px 0;
+}
+.row{
+  --bs-gutter-x: 2rem;
+}
+.section-header {
+  margin-bottom: 48px;
+  align-items: flex-end !important;
+}
+.section-header h2 {
+  margin: 0 !important;
+}
+@media ( min-width: 768px ) and ( max-width: 1140px ) {
+  .section-header {
+    margin-bottom: 32px;
+  }
+  .row{
+    --bs-gutter-x: 1.3rem;
+
+  }
+  .pb-96px{
+    padding-bottom: 48px !important;
+  }
+  section.home-sec2 .row {
+    gap: 16px 0;
+  }
+}
+@media ( max-width: 991px ){
+  section.home-sec4.pb-96px {
+    padding-bottom: 16px !important;
+}
+.lg-pb-64px{
+  padding-bottom: 64px !important;
+}
+main.home-main {
+  padding-top: 161px !important;
+}
+}
+@media ( max-width: 767px ) {
+  .section-header {
+    margin-bottom: 24px;
+  }
+  main.home-main {
+    padding-top: 136px !important;
+}
+.ctm-home-banner {
+  padding-top: 0 !important;
+}
+.section-header h2 {
+  font-size: 48px;
+  line-height: 44px;
+  letter-spacing: -3px;
+}
+.mobile_link_wrap {
+  padding-top: 32px !important;
+}
+.pb-96px {
+  padding-bottom: 64px !important;
+}
+  section.home-sec2 .lime-green-cart.ctm-card{
+    min-height: unset;
+  }
+  section.home-banner.ctm-home-banner.pb-96px {
+    padding-top: 0 !important;
+}
+section.home-banner.ctm-home-banner.pb-96px {
+  padding-top: 0 !important;
+}
+
+.hoverState-li.custom-list-el {
+  padding: 0 0 14px !important;
+  row-gap: 8px !important;
+  margin-bottom: 16px !important;
+}
+
+.hoverState-li.custom-list-el:last-child {
+  margin-bottom: 0 !important;
+}
+li.hoverState-li.custom-list-el a.r-details{
+  opacity: 1 !important;
+  transform: none !important;
+}
+li.hoverState-li.custom-list-el a.r-details {
+  position: static !important;
+  margin-left: auto !important;
+  margin-right: unset !important;
+}
+}
+
+// inner pages css 
+main.inner-pages-main {
+  padding-top: 161px;
+}
+main.inner-pages-main section.stats-sec1 h1 {
+  margin-bottom: 64px;
+  padding-bottom: 32px;
+}
+main.inner-pages-main section.stats-sec1 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+section.stats-sec1 .row{
+  gap: 0;
+}
+.filter-section-wrapper{
+  padding-bottom: 64px;
+}
+.filter-section-wrapper .filter {
+  margin: 0 !important;
+}
+main.inner-pages-main section.home-sec2 .row {
+  row-gap: 32px;
+}
+main.inner-pages-main section.riders-sec1 h1 {
+  padding-bottom: 32px;
+  margin-bottom: 64px;
+}
+main.inner-pages-main section.riders-sec1 {
+  padding-top: 0;
+}
+.ctm-table-wrap .ctm-table-ul {
+  padding-top: 0 !important;
+}
+
+.ctm-table-wrap .head-heading {
+  margin-bottom: 16px !important;
+}
+.inner-pages-main .race-result-page {
+    padding-top: 0;
+}
+img.light-logo {display: none;}
+
+header.absolute-header.sticky-header.sticky-top img.dark-logo {
+    display: none;
+}
+
+header.absolute-header.sticky-header.sticky-top img.light-logo {
+    display: block;
+}
+main.inner-pages-main .rider-details-sec-top {
+    padding-top: 161px !important;
+}
+.plyr-dtls .country {
+    color: #fff !important;
+    font-size: 14px !important;
+}
+
+ul.plyr-dtls li::after {
+    background-color: #678f89 !important;
+}
+section.rider-details-sec .row{
+  row-gap: 32px !important;
+}
+@media ( min-width: 768px ){
+  section.riders-sec2 ul.head-heading{
+    gap: 32px !important;
+  }
+}
+@media ( max-width: 991px ){
+  header.absolute-header.sticky-header.sticky-top img.dark-logo {
+    display: block;
+}
+
+header.absolute-header.sticky-header.sticky-top img.light-logo {
+    display: none;
+}
+}
+@media ( max-width: 767px ){
+    main.inner-pages-main {
+      padding-top: 136px;
+  }
+  main.inner-pages-main section.stats-sec1 h1,
+  main.inner-pages-main section.riders-sec1 h1 {
+    padding-bottom: 24px;
+    margin-bottom: 48px;
+    font-size: 48px;
+    line-height: 44px;
+    letter-spacing: -3px;
+}
+.filter-section-wrapper {
+  padding-bottom: 48px;
+}
+main.inner-pages-main section.home-sec2 .row {
+  row-gap: 16px;
+}
+.mb-pb-16px{
+  padding-bottom: 16px !important;
+}
+.ctm-table-ul{
+  margin-top: 0 !important;
+}
+  main.inner-pages-main section.riders-sec1 {
+    padding-bottom: 48px !important;
+    padding-top: 0 !important;
+  }
+  main.inner-pages-main section.riders-sec1 ul.breadcrumb{
+    margin-bottom: 30px;
+  }
+  section.riders-sec1 .searchInput{
+    padding: 28px 24px !important;
+  }
+  section.riders-sec1 .searchInput .wrap-top input{
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: -0.35px;
+    padding-right: 42px !important;
+  }
+
+.filter---wrap:not(.filter-dropdown-list.active){
+  max-width: 100dvw;
+  overflow-x: auto !important;
+}
+main.inner-pages-main:has(.year-dropdown.active) {
+    overflow-x: hidden;
+}
+  .filter---wrap:has(.filter-dropdown-list.active) {
+    overflow: unset !important;
+}
+section.result-sec1 ul.filter{
+  display: flex !important;
+}
+li.filter-dropdown-list.year-dropdown{
+  min-width: 100px;
+}
+main.inner-pages-main section.home-banner.result-sec1 {
+  padding-top: 0;
+}
+
+main.inner-pages-main ul.filter {
+  margin-bottom: 32px;
+}
+.inner-riders-main section.riders-sec1 h1 {
+    margin-bottom: 32px !important;
+}
+
+main.inner-riders-main section.riders-sec1 {
+    padding-bottom: 64px !important;
+}
+
+main.inner-riders-main section.home-banner.riders-sec2 {
+    padding-top: 0 !important;
+}
+main.race-result-main section.riders-sec1 {
+    padding-bottom: 0 !important;
+}
+section.rider-details-sec .row{
+  row-gap: 16px !important;
+}
+.rider-detail-main section.rider-details-sec:not(.rider-details-sec-top) {
+    padding-top: 64px !important;
+}
+main.inner-pages-main .rider-details-sec-top {
+    padding-top: 104px !important;
+}
+.rider-detail-main ul.filter {margin: 0 0 48px !important;}
+}
+

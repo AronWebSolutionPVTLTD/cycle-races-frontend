@@ -68,7 +68,10 @@ if (!atTop) {
             {!isDetailPage ? (
               <img src="/images/site-logo.svg" alt="Wielerstats Logo" />
             ) : (
-              <img src="/images/dark-bg-logo.svg" alt="Wielerstats Logo" />
+              <>
+              <img src="/images/dark-bg-logo.svg" alt="Wielerstats Logo" className="dark-logo" />
+              <img src="/images/site-logo.svg" className="light-logo" alt="Wielerstats Logo" />
+              </>
             )}
           </Link>
           <div className="menu-wraper">

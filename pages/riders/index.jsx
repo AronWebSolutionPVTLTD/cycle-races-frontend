@@ -371,7 +371,7 @@ export default function Riders() {
         <title>Riders | Cycling Stats</title>
       </Head>
 
-      <main>
+      <main className="inner-pages-main inner-riders-main">
         <div className="dropdown-overlay"></div>
         <section className="riders-sec1">
           <div className="container">
@@ -453,13 +453,13 @@ export default function Riders() {
               <div className="col-lg-12">
                 <h5>Popular</h5>
               </div>
-              <div className="col-lg-9 col-md-7">
-                <ul className="head-heading">
+              <div className="col-lg-9 col-md-7 ctm-table-wrap">
+                <ul className="head-heading ctm-table-ul">
                   <li>Name</li>
                   <li>Team</li>
                 </ul>
 
-                <ul className="transparent-cart">{renderRidersList()}</ul>
+                <ul className="transparent-cart ctm-table-ul">{renderRidersList()}</ul>
               </div>
               <div className="col-lg-3 col-md-5 33">{renderSidebars()}</div>
             </div>

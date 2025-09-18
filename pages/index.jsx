@@ -15,7 +15,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="home-main">
         <FirstSection />
         <YearSection />
         <MostWin 

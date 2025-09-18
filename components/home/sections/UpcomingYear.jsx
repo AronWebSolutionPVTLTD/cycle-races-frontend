@@ -98,17 +98,18 @@ const UpcomingYear = () => {
   };
 
   return (
-    <section className="home-sec4">
+    <section className="home-sec4 pb-96px">
       <div className="container">
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="d-flex justify-content-between align-items-center">
+      <div className="col-lg-12">
+            <div className="d-flex justify-content-between align-items-center section-header">
               <h2>aankomend</h2>
               <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
                 Alle wedstrijden <img src="/images/arow2.svg" alt="" />
               </a>
             </div>
           </div>
+        <div className="row">
+          
 
           {/* Show loading state */}
           {loading && (
@@ -145,7 +146,7 @@ const UpcomingYear = () => {
                         .map((race, index) => {
                           const { start, end } = convertDateRange(race?.date);
                           return (
-                          <li className="hoverState-li" key={index}>
+                          <li className="hoverState-li custom-list-el" key={index}>
                             <Link href={`/races/${race?.race}`} className="pabs"/>
                             <span className="text-capitalize">
                                 {/* {new Date(result.date).toLocaleDateString(
@@ -171,7 +172,7 @@ const UpcomingYear = () => {
                     </ul>
                   </>
                 )}
-                <div className="d-md-none d-flex justify-content-end pb-4 mb-4">
+                <div className="d-md-none d-flex justify-content-end mobile_link_wrap-2">
                   <a href="/races" className="alle-link m-0">
                     Alle wedstrijden <img src="/images/arow2.svg" alt="" />
                   </a>

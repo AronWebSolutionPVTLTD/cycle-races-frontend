@@ -57,7 +57,7 @@ const endpointsToFetch = Object.values(apiOptions);
     return { error: true, errorType: "no_data_found" };
   };
   return (
-    <section className="home-sec3 sdsdd">
+    <section className="home-sec3 sdsdd pb-96px">
       <div className="container">
         <div className="row">
           {loading && (

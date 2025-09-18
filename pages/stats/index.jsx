@@ -140,6 +140,7 @@ export default function Stats() {
       <Head>
         <title>Stats - Wielerstats</title>
       </Head>
+      <main className="inner-pages-main">
       <div className="dropdown-overlay"></div>
       <section className="stats-sec1 lazy">
         <div className="container">
@@ -260,6 +261,8 @@ export default function Stats() {
             )}
             </div>
             </div>
+            </div>
+            </div>
 
             <StatsFirstSection
               selectedNationality={selectedNationality}
@@ -300,9 +303,9 @@ export default function Stats() {
               selectedTeam={selectedTeam}
               selectedYear={selectedYear}
             />
-          </div>
-        </div>
+        
       </section>
+      </main>
     </>
   );
 }
