@@ -132,14 +132,14 @@ const YearSection = () => {
   return (
     <section className="home-sec2 pb-96px">
       <div className="container">
-      <div className="col-lg-12 d-flex justify-content-between align-items-center section-header">
-            <h2>dit jaar</h2>
-            <a href="/stats" className="alle-link m-0 d-md-inline-block d-none">
-              Alle statistieken <img src="/images/arow2.svg" alt="" />
-            </a>
-          </div>
+        <div className="col-lg-12 d-flex justify-content-between align-items-center section-header">
+          <h2>dit jaar</h2>
+          <a href="/stats" className="alle-link m-0 d-md-inline-block d-none">
+            Alle statistieken <img src="/images/arow2.svg" alt="" />
+          </a>
+        </div>
         <div className="row">
-          
+
           {loading && <BoxSkeleton />}
 
           {/* Show global error if all data failed */}
@@ -374,7 +374,6 @@ const YearSection = () => {
                                 <li key={index}>
                                   {/* <strong>{index + 1}</strong> */}
                                   <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?._id}`)}>
-                                    {console.log('---rider birthday---', rider)}
                                     {renderFlag(rider?.nationality)}
                                     <h6>{rider?.name || "..."}</h6>
                                   </div>

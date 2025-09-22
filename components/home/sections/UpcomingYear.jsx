@@ -29,7 +29,7 @@ function convertDateRange(dateStr) {
     const [start, end] = dateStr.split(" - ");
     const startDate = format(start);
     const endDate = format(end);
-    
+
     // Check if same month
     if (startDate.month === endDate.month) {
       return {
@@ -100,16 +100,16 @@ const UpcomingYear = () => {
   return (
     <section className="home-sec4 pb-96px">
       <div className="container">
-      <div className="col-lg-12">
-            <div className="d-flex justify-content-between align-items-center section-header">
-              <h2>aankomend</h2>
-              <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
-                Alle wedstrijden <img src="/images/arow2.svg" alt="" />
-              </a>
-            </div>
+        <div className="col-lg-12">
+          <div className="d-flex justify-content-between align-items-center section-header">
+            <h2>aankomend</h2>
+            <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
+              Alle wedstrijden <img src="/images/arow2.svg" alt="" />
+            </a>
           </div>
+        </div>
         <div className="row">
-          
+
 
           {/* Show loading state */}
           {loading && (
@@ -146,9 +146,9 @@ const UpcomingYear = () => {
                         .map((race, index) => {
                           const { start, end } = convertDateRange(race?.date);
                           return (
-                          <li className="hoverState-li custom-list-el" key={index}>
-                            <Link href={`/races/${race?.race}`} className="pabs"/>
-                            <span className="text-capitalize">
+                            <li className="hoverState-li custom-list-el" key={index}>
+                              <Link href={`/races/${race?.race}`} className="pabs" />
+                              <span className="text-capitalize">
                                 {/* {new Date(result.date).toLocaleDateString(
                                 "en-GB",
                                 { day: "2-digit", month: "2-digit" }
@@ -156,19 +156,19 @@ const UpcomingYear = () => {
                                 {start}
                                 {end ? ` - ${end}` : ""}
                               </span>
-                            <h5>
-                              {renderFlag(race?.country)}
-                              {race.race}
-                            </h5>
-                            <Link
-                              href={`/races/${race?.race}`}
-                              className="r-details"
-                            >
-                              <img src="/images/hover-arow.svg" alt="" />
-                            </Link>
-                          </li>
-                        )
-                      })}
+                              <h5>
+                                {renderFlag(race?.country)}
+                                {race.race}
+                              </h5>
+                              <Link
+                                href={`/races/${race?.race}`}
+                                className="r-details"
+                              >
+                                <img src="/images/hover-arow.svg" alt="" />
+                              </Link>
+                            </li>
+                          )
+                        })}
                     </ul>
                   </>
                 )}
@@ -182,7 +182,7 @@ const UpcomingYear = () => {
               {/* Box 2 -tour Down Under24 */}
               <div className="col-lg-3 col-md-6 sssss">
                 <div className="list-white-cart">
-                  <Link href="/upcoming-races-last-year-riders" className="pabs"/>
+                  <Link href="/upcoming-races-last-year-riders" className="pabs" />
                   <h4>{data?.[fixedApis.box2]?.message}</h4>
                   {getBoxData(fixedApis.box2).error ? (
                     <ErrorMessage
@@ -219,7 +219,7 @@ const UpcomingYear = () => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <li key={index}>
-                              
+
                               {Array.isArray(rider.last_year_top_riders) &&
                                 rider.last_year_top_riders.length > 0 && (
                                   <ul className="mb-0">
@@ -228,7 +228,6 @@ const UpcomingYear = () => {
                                       .map((rider, i) => (
                                         <li key={i}>
                                           <strong>{rider.rank}</strong>
-                                          {console.log('riderrrr',rider)}
                                           <div className="name-wraper name-wraper-white 111111" onClick={() => router.push(`/riders/${rider?.id}`)}>
                                             {renderFlag(rider?.country)}
                                             <h6>{rider?.name || "..."}</h6>
@@ -258,7 +257,7 @@ const UpcomingYear = () => {
               {/* Box 3 - most Win TourDownUnder */}
               <div className="col-lg-3 col-md-6 11">
                 <div className="list-white-cart">
-                  <Link href="/most-win-upcoming-rider-last-year" className="pabs"/>
+                  <Link href="/most-win-upcoming-rider-last-year" className="pabs" />
                   <h4>{data?.[fixedApis.box3]?.data?.winners_message}</h4>
                   {getBoxData(fixedApis.box3).error ? (
                     <ErrorMessage
@@ -298,7 +297,7 @@ const UpcomingYear = () => {
                                       .slice(0, 5)
                                       .map((winner, i) => (
                                         <li key={i}>
-                                           <strong>{winner.rank}</strong>
+                                          <strong>{winner.rank}</strong>
                                           <div className="name-wraper name-wraper-white">
                                             {renderFlag(winner?.country)}
                                             <h6>{winner?.name || "..."}</h6>
