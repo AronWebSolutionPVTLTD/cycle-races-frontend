@@ -149,10 +149,6 @@ const UpcomingYear = () => {
                             <li className="hoverState-li custom-list-el" key={index}>
                               <Link href={`/races/${race?.race}`} className="pabs" />
                               <span className="text-capitalize">
-                                {/* {new Date(result.date).toLocaleDateString(
-                                "en-GB",
-                                { day: "2-digit", month: "2-digit" }
-                              )} */}
                                 {start}
                                 {end ? ` - ${end}` : ""}
                               </span>
@@ -190,27 +186,6 @@ const UpcomingYear = () => {
                     />
                   ) : (
                     <>
-                      {/* <ul>
-                        {(Array.isArray(getBoxData(fixedApis.box2).data)
-                          ? getBoxData(fixedApis.box2).data
-                          : []
-                        )
-                          .slice(0, 1)
-                          .map((team, index) => (
-                            <li key={index}>
-                              <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(team?.rider_country)}
-                                <h6>{team?.rider_name || "..."}</h6>
-                              </div>
-                              {team?.rider_time && (
-                                <span>{team.rider_time} </span>
-                              )}
-
-                              
-                            </li>
-                          ))}
-                      </ul> */}
                       <ul className="mb-0">
                         {(Array.isArray(getBoxData(fixedApis.box2).data)
                           ? getBoxData(fixedApis.box2).data
@@ -228,7 +203,7 @@ const UpcomingYear = () => {
                                       .map((rider, i) => (
                                         <li key={i}>
                                           <strong>{rider.rank}</strong>
-                                          <div className="name-wraper name-wraper-white 111111" onClick={() => router.push(`/riders/${rider?.id}`)}>
+                                          <div className="name-wraper name-wraper-white 111111" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                             {renderFlag(rider?.country)}
                                             <h6>{rider?.name || "..."}</h6>
                                           </div>
@@ -265,23 +240,6 @@ const UpcomingYear = () => {
                     />
                   ) : (
                     <>
-                      {/* <ul>
-                        {(Array.isArray(getBoxData(fixedApis.box3).data)
-                          ? getBoxData(fixedApis.box3).data
-                          : []
-                        )
-                          .slice(0, 5)
-                          .map((team, index) => (
-                            <li key={index}>
-                              <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(team?.country)}
-                                <h6>{team?.rider_name || "..."}</h6>
-                              </div>
-                              {team?.winCount && <span>{team.winCount}</span>}
-                            </li>
-                          ))}
-                      </ul> */}
                       <ul className="mb-0">
                         {(Array.isArray(getBoxData(fixedApis.box3).data)
                           ? getBoxData(fixedApis.box3).data
@@ -298,7 +256,7 @@ const UpcomingYear = () => {
                                       .map((winner, i) => (
                                         <li key={i}>
                                           <strong>{winner.rank}</strong>
-                                          <div className="name-wraper name-wraper-white">
+                                          <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${winner?.rider_id}`)} >
                                             {renderFlag(winner?.country)}
                                             <h6>{winner?.name || "..."}</h6>
                                           </div>
