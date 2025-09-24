@@ -106,7 +106,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 <Link href={buildUrlWithParams("last-victory")} className="pabs" />
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box1]?.message}</h4>
-                  {(() => {
+                  {/* {(() => {
                     if (!data?.[fixedApis.box1]) {
                       return <ErrorMessage errorType="no_data" />;
                     }
@@ -117,27 +117,61 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                     if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+                    // show first three riders
+                    const firstThreeRiders = riderData.slice(0, 3);
 
-                    const firstRider = riderData[0];
+                    firstThreeRiders.map((firstRider, index) => {
+                      return (
+                        <>
+                          <div className="name-wraper name-wraper-white" index={index}>
+                            {renderFlag(firstRider?.country)}
+                            <h6>{firstRider?.race || "..."}</h6>
+                          </div>
+                          {firstRider?.totalKOMTitles && (
+                            <h5>
+                              <strong>{firstRider.totalKOMTitles} </strong>wins
+                            </h5>
+                          )}
 
-                    return (
-                      <>
+                          <Link href={buildUrlWithParams("last-victory")} className="green-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                          </Link>
+                        </>
+                      );
+                    })
+                  })()} */}
+                  {!data?.[fixedApis.box1] ? (
+                    <ErrorMessage errorType="no_data" />
+                  ) : (() => {
+                    const riderData = data[fixedApis.box1]?.data?.data?.raceData;
+
+                    if (!Array.isArray(riderData) || riderData.length === 0) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
+                    return riderData.slice(0, 3).map((firstRider, index) => (
+                      <div key={index} className="rider-item" style={{ marginBottom: '8px' }}>
                         <div className="name-wraper name-wraper-white">
                           {renderFlag(firstRider?.country)}
                           <h6>{firstRider?.race || "..."}</h6>
                         </div>
+
                         {firstRider?.totalKOMTitles && (
                           <h5>
-                            <strong>{firstRider.totalKOMTitles} </strong>wins
+                            <strong>{firstRider.totalKOMTitles}</strong> wins
                           </h5>
                         )}
 
-                        <Link href={buildUrlWithParams("last-victory")} className="green-circle-btn">
-                          <img src="/images/arow.svg" alt="" />
+                        <Link
+                          href={buildUrlWithParams("last-victory")}
+                          className="green-circle-btn"
+                        >
+                          <img src="/images/arow.svg" alt="arrow" />
                         </Link>
-                      </>
-                    );
+                      </div>
+                    ));
                   })()}
+
                 </div>
               </div>
             </div>

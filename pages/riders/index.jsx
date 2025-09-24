@@ -181,7 +181,7 @@ export default function Riders() {
   // Handle suggestion selection
   const handleSelectSuggestion = (rider) => {
     setSearchQuery(rider.riderName);
-    setShowSuggestions(false);
+    // setShowSuggestions(false);
     setSelectedRider(rider);
 
     // Create a filtered list with just the selected rider's team

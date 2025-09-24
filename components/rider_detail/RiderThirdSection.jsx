@@ -125,7 +125,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
   return (
     <div className="col-12">
-      <div className="row" 
+      <div className="row"
       // style={{ marginBottom: "30px" }}
       >
         {loading && <BoxSkeleton />}
@@ -159,11 +159,12 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                             <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.country)}
                               <h6>
-                                {rider?.race || "..."} ({rider.year})
+                                {rider?.race || "..."}
+                                {/* ({rider.year}) */}
                               </h6>
                             </div>
 
-                            {rider?.best_rank && <span>{rider.best_rank}</span>}
+                            {rider?.count && <span>{rider.count}</span>}
                           </li>
                         ))}
                     </ul>
@@ -257,7 +258,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                       <>
                         <div className="name-wraper name-wraper-white">
                           {renderFlag(firstRider?.country_code)}
-                          <h6>({firstRider?.country_name || "..."})</h6>
+                          <h6>{firstRider?.country_name || "..."}</h6>
                         </div>
 
                         {firstRider?.races_count && (
@@ -390,7 +391,8 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                             <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.country_code)}
                               <h6>
-                                {rider?.race || "..."} ({rider.year})
+                                {rider?.race || "..."}
+                                {/* ({rider.year}) */}
                               </h6>
                             </div>
 
@@ -432,7 +434,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                       <>
                         <div className="name-wraper name-wraper-green">
                           {renderFlag(firstRider?.country_code)}
-                          <h6>{firstRider?.race_name   || "..."}</h6>
+                          <h6>{firstRider?.race_name || "..."}</h6>
                         </div>
                         {firstRider?.year && (
                           <h5>
@@ -493,7 +495,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             </div>
 
             {/*Box 9 - TotalDistance Raced In GrandTours*/}
-            <div className="col-lg-3 col-md-6">
+            <div className="col-lg-3 col-md-6 total-distance-raced-cart">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("get-total-distance-raced-in-grand-tours")} className="pabs" />
                 <div className="text-wraper">
@@ -559,7 +561,8 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                             <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.country)}
                               <h6>
-                                {rider?.race || "..."} ({rider.year})
+                                {rider?.race || "..."} 
+                                {/* ({rider.year}) */}
                               </h6>
                             </div>
 

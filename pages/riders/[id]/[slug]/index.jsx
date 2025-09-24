@@ -50,7 +50,7 @@ export default function DynamicSlugPage() {
   const [error, setError] = useState(null);
   const [apiTitle, setApiTitle] = useState(null);
   const [selectedYear, setSelectedYear] = useState(
-    new Date().getFullYear().toString()
+    null
   );
 
   const [showYearDropdown, setShowYearDropdown] = useState(false);
@@ -444,11 +444,10 @@ export default function DynamicSlugPage() {
                 }}
               />
 
-              {`${getItemValue(item, config.itemConfig.name)} ${
-                item?.type === "stage"
-                  ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                  : ""
-              }`}
+              {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
+                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                : ""
+                }`}
             </Link>
           </h5>
         );
@@ -594,8 +593,8 @@ export default function DynamicSlugPage() {
   const pageTitle = apiTitle
     ? `${apiTitle} | Cycling Stats`
     : slug
-    ? `${formatSlugForDisplay(slug)} | Cycling Stats`
-    : "Page | Cycling Stats";
+      ? `${formatSlugForDisplay(slug)} | Cycling Stats`
+      : "Page | Cycling Stats";
   const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
   // const srNoHeaderLabel = "";
 
@@ -661,9 +660,8 @@ export default function DynamicSlugPage() {
 
               <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
                 <ul
-                  className={`slug-table-head col--${
-                    getDynamicHeaders().length
-                  }`}
+                  className={`slug-table-head col--${getDynamicHeaders().length
+                    }`}
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (
