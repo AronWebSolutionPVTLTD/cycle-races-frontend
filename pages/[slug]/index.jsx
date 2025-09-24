@@ -152,7 +152,7 @@ export default function DynamicSlugPage() {
 
       // Build query parameters object
       const queryParams = { slug: slug };
-      if (selectedYear) queryParams.year = selectedYear;
+      if (selectedYear && slug !== "upcoming-races-last-year-riders" && slug !== "most-win-upcoming-rider-last-year") queryParams.year = selectedYear;
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
 
@@ -166,6 +166,7 @@ export default function DynamicSlugPage() {
           response.data = response?.data?.races[0]?.last_year_top_riders;
         }
         if (slug === "most-win-upcoming-rider-last-year") {
+          response.message = response?.data?.winners_message
           response.data = response?.data?.races[0]?.all_time_top_winners;
         }
         if (slug === "shortest-races") {
@@ -375,11 +376,10 @@ export default function DynamicSlugPage() {
                 }}
               />
 
-              {`${getItemValue(item, config.itemConfig.name)} ${
-                item?.type === "stage"
-                  ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                  : ""
-              }`}
+              {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
+                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                : ""
+                }`}
             </Link>
           </h5>
         );
@@ -525,8 +525,8 @@ export default function DynamicSlugPage() {
   const pageTitle = apiTitle
     ? `${apiTitle} | Cycling Stats`
     : slug
-    ? `${formatSlugForDisplay(slug)} | Cycling Stats`
-    : "Page | Cycling Stats";
+      ? `${formatSlugForDisplay(slug)} | Cycling Stats`
+      : "Page | Cycling Stats";
   const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
   // const srNoHeaderLabel = "";
 
@@ -592,9 +592,8 @@ export default function DynamicSlugPage() {
 
               <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
                 <ul
-                  className={`slug-table-head col--${
-                    getDynamicHeaders().length
-                  }`}
+                  className={`slug-table-head col--${getDynamicHeaders().length
+                    }`}
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (
