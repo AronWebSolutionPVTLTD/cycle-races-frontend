@@ -145,7 +145,7 @@ export default function Results() {
       const searchQuery = customSearchTerm !== null ? customSearchTerm : searchTerm;
 
       // When searching, ignore month filter to search across all months
-      const monthParam =  (selectedMonth ? `&month=${getMonthNumber(selectedMonth)}` : "");
+      const monthParam = (selectedMonth ? `&month=${getMonthNumber(selectedMonth)}` : "");
 
       const searchParam = searchQuery && searchQuery.trim()
         ? `&search=${encodeURIComponent(searchQuery.trim())}`
@@ -154,8 +154,8 @@ export default function Results() {
       // Only include year parameter if selectedYear is not "All-time"
       const yearParam = selectedYear !== "All-time" ? `year=${selectedYear}` : "";
       const endpoint = `stages/getRecentStageRaceWinners?${yearParam}${monthParam}${searchParam}`;
-     const data = await callAPI("GET", endpoint);
-     setRaceResults(data.recent_stage_race_winners || []);
+      const data = await callAPI("GET", endpoint);
+      setRaceResults(data.recent_stage_race_winners || []);
 
     } catch (error) {
       console.error("Error fetching race results:", error);
@@ -233,7 +233,7 @@ export default function Results() {
   useEffect(() => {
     // Only refetch if no search term is active, otherwise maintain search results
     // if (!searchTerm || searchTerm.trim() === "") {
-      fetchRaceResults();
+    fetchRaceResults();
     // }
     fetchFeaturedRaces();
   }, [selectedYear, selectedMonth]);
@@ -261,7 +261,7 @@ export default function Results() {
   // Debounced search for suggestions - GLOBAL SEARCH VERSION
   useEffect(() => {
     if (searchTerm.length >= 2) {
-    const delayDebounce = setTimeout(() => {
+      const delayDebounce = setTimeout(() => {
         fetchSearchSuggestions();
       }, 300);
 
@@ -410,7 +410,7 @@ export default function Results() {
                         />
                         <div className="icon">
                           <span className="search-icon" onClick={handleSearch}>
-                          <svg
+                            <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width={48}
                               height={48}
@@ -423,7 +423,7 @@ export default function Results() {
                                 d="M39.1632 34.3632L48 43.2L43.2 48L34.3632 39.1656C30.6672 42.1224 26.6928 43.2 21.6 43.2C9.6912 43.2 0 33.5112 0 21.6C0 9.6888 9.6912 0 21.6 0C33.5088 0 43.2 9.6888 43.2 21.6C43.2 26.6904 42.1224 30.6648 39.1632 34.3632ZM21.6008 36.0008C13.6602 36.0008 7.2008 29.5414 7.2008 21.6008C7.2008 13.6623 13.6602 7.2008 21.6008 7.2008C29.5414 7.2008 36.0008 13.6623 36.0008 21.6008C36.0008 29.5414 29.5414 36.0008 21.6008 36.0008Z"
                                 fill="#D0F068"
                               />
-                            </svg> 
+                            </svg>
                           </span>
                           <input
                             type="reset"
@@ -531,7 +531,7 @@ export default function Results() {
                           <Link href={`/races/${encodeURIComponent(item.race_name)}`} className="pabs" />
                           {/* <span className="text-capitalize">{start} {end ? ` - ${end}` : ""}</span> */}
                           <span className="text-capitalize">{start}</span>
-                          <h5>
+                          <h5 className="race-name-el">
                             <Flag
                               code={item.country_code.toUpperCase()}
                               style={{

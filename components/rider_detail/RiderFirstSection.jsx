@@ -102,7 +102,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
           <>
             {/* First Card */}
             <div className="col-lg-3 col-md-6">
-              <div className="team-cart">
+              <div className="team-cart list-team-cart">
                 <Link href={buildUrlWithParams("last-victory")} className="pabs" />
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box1]?.message}</h4>
@@ -150,8 +150,8 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                     }
 
                     return riderData.slice(0, 3).map((firstRider, index) => (
-                      <div key={index} className="rider-item" style={{ marginBottom: '8px' }}>
-                        <div className="name-wraper name-wraper-white">
+                      <div key={index} className="rider-item">
+                        <div className="name-wraper name-wraper-white name-left">
                           {renderFlag(firstRider?.country)}
                           <h6>{firstRider?.race || "..."}</h6>
                         </div>
@@ -162,59 +162,21 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           </h5>
                         )}
 
-                        <Link
-                          href={buildUrlWithParams("last-victory")}
-                          className="green-circle-btn"
-                        >
-                          <img src="/images/arow.svg" alt="arrow" />
-                        </Link>
                       </div>
                     ));
                   })()}
+
+                  <Link
+                    href={buildUrlWithParams("last-victory")}
+                    className="green-circle-btn"
+                  >
+                    <img src="/images/arow.svg" alt="arrow" />
+                  </Link>
 
                 </div>
               </div>
             </div>
 
-            {/* SEcond Card */}
-            {/* <div className="col-lg-3 col-md-6">
-              <div className="team-cart lime-green-team-cart img-active">
-                <a href="#?" className="pabs"></a>
-                <div className="text-wraper">
-                  <h4>{data?.[fixedApis.box2]?.message}</h4>
-                  {(() => {
-                    if (!data?.[fixedApis.box2]) {
-                      return <ErrorMessage errorType="no_data" />;
-                    }
-
-                    const response = data[fixedApis.box2];
-                    const riderData = response?.data?.data;
-
-                    if (!riderData) {
-                      return <ErrorMessage errorType="no_data_found" />;
-                    }
-
-                    return (
-                      <>
-                        <div className="name-wraper name-wraper-green">
-                          {renderFlag(riderData?.nationality)}
-                          <h6>{riderData?.rider_name || "..."}</h6>
-                        </div>
-                        {riderData?.total_uci_points && (
-                          <h5>
-                            <strong>{riderData.total_uci_points} </strong>
-                          </h5>
-                        )}
-
-                        <a href="#?" className="white-circle-btn">
-                          <img src="/images/arow.svg" alt="" />
-                        </a>
-                      </>
-                    );
-                  })()}
-                </div>
-              </div>
-            </div> */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
                 <Link href={buildUrlWithParams("uci-points")} className="pabs" />
@@ -266,7 +228,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             </div>
 
             {/* third Section */}
-            <div className="col-lg-3 col-md-6">
+            <div className="col-lg-3 col-md-6 www">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("current-team")} className="pabs" />
                 <div className="text-wraper">
@@ -287,7 +249,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-white">
+                        <div className="name-wraper name-wraper-white name-left">
                           {renderFlag(firstRider?.flag)}
                           <h6>{firstRider?.teamName || "..."}</h6>
                         </div>
@@ -382,38 +344,8 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                   </div>
                 </div>
 
-                {/*Box 6 - Rider YearsActive */}
-                {/* <div className="col-lg-7 col-md-6">
-                  <div className="team-cart lime-green-team-cart img-active">
-                    <a href="#?" className="pabs"></a>
-                    <div className="text-wraper">
-                      <h4>{data?.[fixedApis.box6]?.message}</h4>
-                      {getBoxData(fixedApis.box6).error ? (
-                        <ErrorMessage
-                          errorType={getBoxData(fixedApis.box6).errorType}
-                        />
-                      ) : (
-                        <>
-                          {(Array.isArray(getBoxData(fixedApis.box6).data)
-                            ? getBoxData(fixedApis.box6).data
-                            : []
-                          )
-                            .slice(0, 1)
-                            .map((rider, index) => (
-                              <h5 key={index}>
-                                <strong>{rider} </strong>
-                              </h5>
-                            ))}
 
-                          <a href="#?" className="white-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div> */}
-                <div className="col-lg-7 col-md-6">
+                <div className="col-lg-7 col-md-6 qq">
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("rider-years-active")} className="pabs" />
                     <div className="text-wraper">
@@ -434,7 +366,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                         return (
                           <>
-                            <div className="name-wraper name-wraper-green">
+                            <div className="name-wraper name-wraper-green name-left">
                               <h6>
                                 Since {riderData?.professional_since || "..."}
                               </h6>
@@ -458,7 +390,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 </div>
 
                 {/*Box 7 - Rider Wins BySeason*/}
-                <div className="col-lg-7 col-md-6">
+                <div className="col-lg-7 col-md-6 qw">
                   <div className="list-white-cart">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
@@ -476,7 +408,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{index + 1}</strong>
-                                <div className="name-wraper name-wraper-white">
+                                <div className="name-wraper name-wraper-white ">
                                   <h6>{rider?.year || "..."}</h6>
                                 </div>
 
@@ -516,7 +448,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                         return (
                           <>
-                            <div className="name-wraper name-wraper-green">
+                            <div className="name-wraper name-wraper-green name-left">
                               {renderFlag(firstRider?.country)}
                               <h6>{firstRider?.race || "..."}</h6>
                             </div>

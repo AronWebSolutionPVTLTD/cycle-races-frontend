@@ -152,9 +152,9 @@ const UpcomingYear = () => {
                                 {start}
                                 {end ? ` - ${end}` : ""}
                               </span>
-                              <h5>
+                              <h5 className="race-name-el">
                                 {renderFlag(race?.country)}
-                                {race.race}
+                                <a>{race.race}</a>
                               </h5>
                               <Link
                                 href={`/races/${race?.race}`}

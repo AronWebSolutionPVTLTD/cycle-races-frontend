@@ -362,19 +362,20 @@ export default function DynamicSlugPage() {
           ? { onClick: () => router.push(`/riders/${riderId}`) }
           : {};
         columns.push(
-          <h5 key="name" className="rider--name" {...clickableProps}>
+          <h5 key="name" className="rider--name race-name-el" {...clickableProps}>
             <span key="srno" className="sr-no">
               {index + 1}.
             </span>
+            <Flag
+              code={getCountryCode(item, config)}
+              style={{
+                width: "30px",
+                height: "20px",
+                flexShrink: 0,
+              }}
+            />
             <Link href={`/riders/${riderId}`} className="link">
-              <Flag
-                code={getCountryCode(item, config)}
-                style={{
-                  width: "30px",
-                  height: "20px",
-                  flexShrink: 0,
-                }}
-              />
+
 
               {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
                 ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
@@ -390,7 +391,7 @@ export default function DynamicSlugPage() {
         // If no name data exists, show flag with team
         if (!nameDataExists) {
           columns.push(
-            <h5 key="name" className="rider--name">
+            <h5 key="name" className="rider--name race-name-el">
               <span key="srno" className="sr-no">
                 {index + 1}.
               </span>
@@ -403,7 +404,7 @@ export default function DynamicSlugPage() {
                   flexShrink: 0,
                 }}
               />
-              <span>{getItemValue(item, config.itemConfig.team)}</span>
+              <a>{getItemValue(item, config.itemConfig.team)}</a>
             </h5>
           );
         } else {

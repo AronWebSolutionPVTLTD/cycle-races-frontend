@@ -443,10 +443,18 @@ export default function DynamicSlugPage() {
             : {};
 
         columns.push(
-          <h5 key="name" className="rider--name" {...clickableProps}>
+          <h5 key="name" className="rider--name race-name-el" {...clickableProps}>
             <span key="srno" className="sr-no">
               {index + 1}.
             </span>
+            <Flag
+              code={getCountryCode(item, config)}
+              style={{
+                width: "30px",
+                height: "20px",
+                flexShrink: 0,
+              }}
+            />
             <Link
               href={
                 entity?.type === "race"
@@ -455,18 +463,11 @@ export default function DynamicSlugPage() {
               }
               className="link"
             >
-              <Flag
-                code={getCountryCode(item, config)}
-                style={{
-                  width: "30px",
-                  height: "20px",
-                  flexShrink: 0,
-                }}
-              />
+
 
               {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
-                  ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                  : ""
+                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                : ""
                 }`}
             </Link>
           </h5>
@@ -498,7 +499,7 @@ export default function DynamicSlugPage() {
         } else {
           // If name data exists, show team without flag (flag is already shown with name)
           columns.push(
-            <div key="team" className="team-name">
+            <div key="team" className="team-name date">
               {getItemValue(item, config.itemConfig.team)}
             </div>
           );
@@ -517,7 +518,7 @@ export default function DynamicSlugPage() {
       // COUNT column
       if (countDataExists) {
         columns.push(
-          <div key="count" className="count text-end">
+          <div key="count" className="count rank text-end">
             {getItemValue(item, config.itemConfig.count)}
           </div>
         );
@@ -681,12 +682,12 @@ export default function DynamicSlugPage() {
 
               <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
                 <ul
-                  className={`slug-table-head col--${getDynamicHeaders().length
+                  className={`slug-table-head sdsd col--${getDynamicHeaders().length
                     }`}
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (
-                    <li key={index}>{header}</li>
+                    <li className={`slug-list-head ${header}`} key={index}>{header}</li>
                   ))}
                 </ul>
 

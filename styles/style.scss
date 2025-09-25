@@ -1307,7 +1307,7 @@ section.home-sec4 {
       margin-bottom: .5rem;
       border-bottom: 2px dashed #cbcbc7;
       display: grid;
-      grid-template-columns: 4rem 25.5rem;
+      grid-template-columns: 4rem auto;
       gap: 1.5rem;
       position: relative;
       padding-right: 20px;
@@ -4295,12 +4295,77 @@ section.rider-details-sec .row {
     bottom: 0 !important;
   }
 }
+
 .ctm-lime-green-team-cart {
-    background: #d0f068 !important;
+  background: #d0f068 !important;
 }
+
 .total-distance-raced-cart h5 strong {
-    font-size: 3rem;
+  font-size: 3rem;
 }
+
 .noData-error {
-    color: #2B534D !important;
+  color: #2B534D !important;
+}
+
+.race-name-el a {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+li.empty-state.ctm-empty-state {
+  display: block;
+  font-family: Roboto;
+  font-weight: 400;
+  color: #2b534d;
+}
+
+@media (min-width: 768px) {
+  .slug-table-body .table_cols_list.col--3:has(.date) .rider--name {
+    flex: 1 !important;
+  }
+
+  .slug-table-body .table_cols_list.col--3 .date {
+    flex: 0 0 20% !important;
+  }
+
+  .slug-table-body .table_cols_list.col--3 .count.rank {
+    flex: 0 0 10% !important;
+  }
+
+  .slug-table-head.col--3 .slug-list-head.DATE,
+  .slug-table-head.col--3 .slug-list-head.YEAR {
+    flex: 0 0 20%;
+  }
+
+  .slug-table-head.col--3 .slug-list-head.RANK,
+  .slug-table-head.col--3 .slug-list-head.POSITION {
+    flex: 0 0 10%;
+  }
+}
+
+.team-cart:has(.white-circle-btn) {
+  padding-bottom: 4.75rem;
+}
+
+.list-team-cart .rider-item {
+  margin-bottom: 0.5rem;
+}
+
+.list-team-cart {
+  padding-bottom: 4.75rem !important;
+}
+
+.list-team-cart .rider-item .name-wraper {
+  position: static !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+@media (max-width: 767px) {
+  .total-distance-raced-cart .team-cart h5 {
+    top: 2.2rem;
+  }
 }
