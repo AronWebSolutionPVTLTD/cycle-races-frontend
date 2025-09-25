@@ -26,20 +26,23 @@ const getCountryCode = (item, config) => {
   return country.toUpperCase();
 };
 
-const getRiderId = (item) => {
-  const keys = ["rider_id", "riderId", "_id", "id", "rider_key"];
+const getRiderOrRaceId = (item) => {
+  // if race_name exists → redirect to race
+  if (item?.race_name && item?._id) {
+    return { type: "race", id: item.race_name };
+  }
+
+  // else fallback to rider
+  const keys = ["_id", "rider_id", "riderId", "id", "rider_key"];
   for (const key of keys) {
-    if (
-      item &&
-      item[key] !== undefined &&
-      item[key] !== null &&
-      item[key] !== ""
-    ) {
-      return item[key];
+    if (item?.[key]) {
+      return { type: "rider", id: item[key] };
     }
   }
+
   return null;
 };
+
 
 export default function DynamicSlugPage() {
   const router = useRouter();
@@ -425,16 +428,33 @@ export default function DynamicSlugPage() {
 
       // NAME column with flag - only add if name data exists
       if (nameDataExists) {
-        const riderId = getRiderId(item);
-        const clickableProps = riderId
-          ? { onClick: () => router.push(`/riders/${riderId}`) }
-          : {};
+        const entity = getRiderOrRaceId(item);
+
+        const clickableProps =
+          entity?.id && entity?.type
+            ? {
+              onClick: () =>
+                router.push(
+                  entity.type === "race"
+                    ? `/race-result/${entity?.id}`
+                    : `/riders/${entity?.id}`
+                ),
+            }
+            : {};
+
         columns.push(
           <h5 key="name" className="rider--name" {...clickableProps}>
             <span key="srno" className="sr-no">
               {index + 1}.
             </span>
-            <Link href={`/riders/${riderId}`} className="link">
+            <Link
+              href={
+                entity?.type === "race"
+                  ? `/race-result/${entity?.id}`
+                  : `/riders/${entity?.id}`
+              }
+              className="link"
+            >
               <Flag
                 code={getCountryCode(item, config)}
                 style={{
@@ -445,13 +465,14 @@ export default function DynamicSlugPage() {
               />
 
               {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
-                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                : ""
+                  ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                  : ""
                 }`}
             </Link>
           </h5>
         );
       }
+
 
       // TEAM column - only add if team data exists
       if (teamDataExists) {

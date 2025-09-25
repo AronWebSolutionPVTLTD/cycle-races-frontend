@@ -233,7 +233,7 @@ export default function RaceResultPage() {
         fetchRaceDetails(id);
       }
     }
-  }, [router.isReady, id]);
+  }, [router.isReady, id, selectedMonth, selectedYear]);
 
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
