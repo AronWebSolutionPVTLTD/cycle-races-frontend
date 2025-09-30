@@ -146,11 +146,11 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                             <li key={index}>
                               <div className="name-wraper name-wraper-green">
                                 {renderFlag(rider?.country)}
-                                <h6>{rider?.race || "..."}</h6>
+                                <h6>{rider?.race || "..."} ({rider.year}) {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}</h6>
                               </div>
 
-                              {rider?.rank && <span>{rider.rank}</span>}
-                              {rider?.year && <span>{rider.year}</span>}
+                              {rider?.count && <span>{rider.count}</span>}
+                              {/* {rider?.year && <span>{rider.year}</span>} */}
                             </li>
                           ))}
                       </ul>

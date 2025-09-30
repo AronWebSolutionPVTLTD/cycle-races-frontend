@@ -11,17 +11,33 @@ import {
 } from "@/components/loading&error";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
-export default function RaceResultPage() {
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  const { year, month } = context.query;
+
+  console.log(id, year, "contextparams");
+
+  return {
+    props: {
+      id,
+      year: year || new Date().getFullYear().toString(),
+      month: month || "",
+    },
+  };
+}
+
+
+export default function RaceResultPage({ year, month }) {
   const router = useRouter();
   const { id } = router.query;
   const [isRouterReady, setIsRouterReady] = useState(false);
 
+  console.log(id, year, "routerquery", router.query);
+
   const [race, setRace] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(
-    new Date().getFullYear().toString()
-  );
+  const [selectedYear, setSelectedYear] = useState(year);
   // const [searchTerm, setSearchTerm] = useState('');
   // const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   // const [searchResults, setSearchResults] = useState([]);
@@ -51,6 +67,11 @@ export default function RaceResultPage() {
   ];
   const [selectedMonth, setSelectedMonth] = useState("");
 
+  useEffect(() => {
+    // Convert "01" to 0 index, "02" to 1, etc.
+    const index = parseInt(month, 10) - 1;
+    setSelectedMonth(months[index]);
+  }, [month]);
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
       return withoutAllTime;
@@ -130,10 +151,10 @@ export default function RaceResultPage() {
       // Fetch all stats in parallel
       const [winnersByNationality, oldestRider, youngestRider, bestTeam] =
         await Promise.all([
-          callAPI("GET", `/stages/${raceId}/getRaceWinnersByNationality`),
-          callAPI("GET", `/stages/${raceId}/getOldestRiderInRace`),
-          callAPI("GET", `/stages/${raceId}/getYoungestRiderInRace`),
-          callAPI("GET", `/stages/${raceId}/getBestTeamInRace`),
+          callAPI("GET", `/stages/${raceId}/getRaceWinnersByNationality?year=${selectedYear}`),
+          callAPI("GET", `/stages/${raceId}/getOldestRiderInRace?year=${selectedYear}`),
+          callAPI("GET", `/stages/${raceId}/getYoungestRiderInRace?year=${selectedYear}`),
+          callAPI("GET", `/stages/${raceId}/getBestTeamInRace?year=${selectedYear}`),
         ]);
 
       console.log(
@@ -404,7 +425,7 @@ export default function RaceResultPage() {
                 <li>Team</li>
                 <li>Time</li>
               </ul>
- 
+
               {isLoading || !isRouterReady ? (
                 <div className="loading-spinner">
                   <ListSkeleton />
@@ -424,15 +445,15 @@ export default function RaceResultPage() {
                         <span>{index + 1}</span>
                         <h5 className="rider--name">
                           <Link href={`/riders/${rider.rider_id}`} className="link">
-                          <Flag
-                            code={rider.country_code?.toUpperCase()}
-                            style={{
-                              width: "30px",
-                              height: "20px",
-                              marginRight: "10px",
-                            }}
-                          />
-                          {rider.rider_name.toUpperCase()}
+                            <Flag
+                              code={rider.country_code?.toUpperCase()}
+                              style={{
+                                width: "30px",
+                                height: "20px",
+                                marginRight: "10px",
+                              }}
+                            />
+                            {rider.rider_name.toUpperCase()}
                           </Link>
                         </h5>
                         <h6>{rider.team_name}</h6>

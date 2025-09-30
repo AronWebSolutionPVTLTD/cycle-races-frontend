@@ -28,8 +28,8 @@ const getCountryCode = (item, config) => {
 
 const getRiderOrRaceId = (item) => {
   // if race_name exists → redirect to race
-  if (item?.race_name && item?._id) {
-    return { type: "race", id: item.race_name };
+  if ((item?.race_name || item?.race)) {
+    return { type: "race", id: item?.race_name || item?.race };
   }
 
   // else fallback to rider
@@ -255,6 +255,9 @@ export default function DynamicSlugPage() {
         if (slug === "rider-from-same-home-town") {
           response.data = response?.data?.data?.others_from_same_birthplace;
         }
+        if(slug === "get-grand-tour-dnfs"){
+          response.data = response?.data?.data?.dnfs;
+        }
         setPageData(response.data);
         // Extract title from API response
         if (response.message) {
@@ -430,47 +433,58 @@ export default function DynamicSlugPage() {
       if (nameDataExists) {
         const entity = getRiderOrRaceId(item);
 
-        const clickableProps =
-          entity?.id && entity?.type
-            ? {
-              onClick: () =>
-                router.push(
-                  entity.type === "race"
-                    ? `/race-result/${entity?.id}`
-                    : `/riders/${entity?.id}`
-                ),
-            }
-            : {};
+        const hasEntity = entity?.id && entity?.type;
+
+        // Extract year and month safely
+        const raceDate = item?.race_date?.split(".") || [];
+        const year = raceDate[2] || item?.year || "";
+        const month = raceDate[1] || "";
+
+        // Determine URL only if entity exists
+        const url =
+          hasEntity && entity.type === "race"
+            ? `/race-result/${entity.id}?year=${year}&month=${month}`
+            : hasEntity
+              ? `/riders/${entity.id}`
+              : null;
 
         columns.push(
-          <h5 key="name" className="rider--name" {...clickableProps}>
+          <h5
+            key="name"
+            className={`rider--name ${hasEntity ? "clickable" : ""}`}
+            {...(hasEntity
+              ? {
+                onClick: () => router.push(url),
+              }
+              : {})}
+          >
             <span key="srno" className="sr-no">
               {index + 1}.
             </span>
-            <Link
-              href={
-                entity?.type === "race"
-                  ? `/race-result/${entity?.id}`
-                  : `/riders/${entity?.id}`
-              }
-              className="link"
-            >
-              <Flag
-                code={getCountryCode(item, config)}
-                style={{
-                  width: "30px",
-                  height: "20px",
-                  flexShrink: 0,
-                }}
-              />
 
-              {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
-                  ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                  : ""
-                }`}
-            </Link>
+            {hasEntity ? (
+              <Link href={url} className="link">
+                <Flag
+                  code={getCountryCode(item, config)}
+                  style={{ width: "30px", height: "20px", flexShrink: 0 }}
+                />
+                {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage" ? `-${item.type.toUpperCase()} ${item.stage_number}` : ""
+                  }`}
+              </Link>
+            ) : (
+              // Render as plain text if no entity
+              <>
+                <Flag
+                  code={getCountryCode(item, config)}
+                  style={{ width: "30px", height: "20px", flexShrink: 0 }}
+                />
+                {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage" ? `-${item.type.toUpperCase()} ${item.stage_number}` : ""
+                  }`}
+              </>
+            )}
           </h5>
         );
+
       }
 
 

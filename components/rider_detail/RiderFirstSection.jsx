@@ -75,6 +75,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
       response?.data,
       response?.data?.riders,
       response,
+      response?.data?.data?.raceData,
     ];
 
     for (const path of paths) {
@@ -102,44 +103,10 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
           <>
             {/* First Card */}
             <div className="col-lg-3 col-md-6">
-              <div className="team-cart">
+              {/* <div className="team-cart">
                 <Link href={buildUrlWithParams("last-victory")} className="pabs" />
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box1]?.message}</h4>
-                  {/* {(() => {
-                    if (!data?.[fixedApis.box1]) {
-                      return <ErrorMessage errorType="no_data" />;
-                    }
-
-                    const response = data[fixedApis.box1];
-                    const riderData = response?.data?.data?.raceData;
-
-                    if (!Array.isArray(riderData) || riderData.length === 0) {
-                      return <ErrorMessage errorType="no_data_found" />;
-                    }
-                    // show first three riders
-                    const firstThreeRiders = riderData.slice(0, 3);
-
-                    firstThreeRiders.map((firstRider, index) => {
-                      return (
-                        <>
-                          <div className="name-wraper name-wraper-white" index={index}>
-                            {renderFlag(firstRider?.country)}
-                            <h6>{firstRider?.race || "..."}</h6>
-                          </div>
-                          {firstRider?.totalKOMTitles && (
-                            <h5>
-                              <strong>{firstRider.totalKOMTitles} </strong>wins
-                            </h5>
-                          )}
-
-                          <Link href={buildUrlWithParams("last-victory")} className="green-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </Link>
-                        </>
-                      );
-                    })
-                  })()} */}
                   {!data?.[fixedApis.box1] ? (
                     <ErrorMessage errorType="no_data" />
                   ) : (() => {
@@ -153,7 +120,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                       <div key={index} className="rider-item" style={{ marginBottom: '8px' }}>
                         <div className="name-wraper name-wraper-white">
                           {renderFlag(firstRider?.country)}
-                          <h6>{firstRider?.race || "..."}</h6>
+                          <h6>{firstRider?.race || "..."} {firstRider?.tab_name !== null && `Stage ${firstRider?.stage_number}` }</h6>
                         </div>
 
                         {firstRider?.totalKOMTitles && (
@@ -173,6 +140,49 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                   })()}
 
                 </div>
+              </div> */}
+              <div className="list-white-cart lime-green-cart ctm-card">
+                <Link href={buildUrlWithParams("last-victory")} className="pabs" />
+                {getBoxData(fixedApis.box1).error ? (
+                  <ErrorMessage
+                    errorType={getBoxData(fixedApis.box1).errorType}
+                  />
+                ) : (
+                  <>
+                    <div className="card-content-wraper">
+                      <h4 className="fs-chenge">
+                        {" "}
+                        {data?.[fixedApis.box1]?.message}
+                      </h4>
+                      <ul>
+                        {(Array.isArray(getBoxData(fixedApis.box1)?.data)
+                          ? getBoxData(fixedApis.box1)?.data
+                          : []
+                        )
+                          .slice(0, 3)
+                          .map((rider, index) => (
+                            <li key={index}>
+                              <div className="name-wraper name-wraper-white">
+                                {renderFlag(rider?.country)}
+                                <h6>{rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}` }</h6>
+                              </div>
+
+                              {/* {rider?.rank && <span>{rider.rank}</span>} */}
+                              {rider?.year && <span>{rider.year}</span>}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+
+                    <div className="image_link-wraper">
+                      <div className="link_box">
+                        <Link href={buildUrlWithParams("last-victory")} className="green-circle-btn">
+                            <img src="/images/arow.svg" alt="" />
+                        </Link>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
