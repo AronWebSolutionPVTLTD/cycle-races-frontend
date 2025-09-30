@@ -512,7 +512,7 @@ export default function DynamicSlugPage() {
         } else {
           // If name data exists, show team without flag (flag is already shown with name)
           columns.push(
-            <div key="team" className="team-name">
+            <div key="team" className="team-name date">
               {getItemValue(item, config.itemConfig.team)}
             </div>
           );
@@ -531,7 +531,7 @@ export default function DynamicSlugPage() {
       // COUNT column
       if (countDataExists) {
         columns.push(
-          <div key="count" className="count text-end">
+          <div key="count" className="count rank text-end">
             {getItemValue(item, config.itemConfig.count)}
           </div>
         );
@@ -695,12 +695,12 @@ export default function DynamicSlugPage() {
 
               <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
                 <ul
-                  className={`slug-table-head col--${getDynamicHeaders().length
+                  className={`slug-table-head sdsd col--${getDynamicHeaders().length
                     }`}
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (
-                    <li key={index}>{header}</li>
+                    <li className={`slug-list-head ${header}`} key={index}>{header}</li>
                   ))}
                 </ul>
 

@@ -27,7 +27,7 @@ function convertDateRange(dateStr) {
     const [start, end] = dateStr.split(" - ");
     const startDate = format(start);
     const endDate = format(end);
-    
+
     // Check if same month
     if (startDate.month === endDate.month) {
       return {
@@ -93,16 +93,16 @@ const FirstSection = () => {
   return (
     <section className="home-banner ctm-home-banner pb-96px">
       <div className="container">
-      <div className="col-lg-12">
-            <div className="d-flex justify-content-between align-items-center section-header">
-              <h2>uitslagen</h2>
-              <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
-                Alle uitslagen <img src="/images/arow2.svg" alt="" />
-              </a>
-            </div>
+        <div className="col-lg-12">
+          <div className="d-flex justify-content-between align-items-center section-header">
+            <h2>uitslagen</h2>
+            <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
+              Alle uitslagen <img src="/images/arow2.svg" alt="" />
+            </a>
           </div>
+        </div>
         <div className="row">
-          
+
 
           {/* Show loading state */}
           {loading && (
@@ -124,10 +124,10 @@ const FirstSection = () => {
               {/* First Section - Top Stage Winners */}
               <div className="col-lg-3 col-md-5">
                 <div className="list-white-cart">
-                <Link
+                  <Link
                     href={`/races/${encodeURIComponent(
                       getSectionData(fixedApis.section2).data?.[0]?.raceName
-                    )}`} className="pabs"/>
+                    )}`} className="pabs" />
                   <h4>
                     {getSectionData(fixedApis.section2).data?.[0]?.raceName}
                   </h4>
@@ -191,7 +191,7 @@ const FirstSection = () => {
                           const { start, end } = convertDateRange(result?.date);
                           return (
                             <li className="hoverState-li custom-list-el" key={index}>
-                              <Link href={`/races/${result?.raceName}`} className="pabs"/>
+                              <Link href={`/races/${result?.raceName}`} className="pabs" />
                               <span className="text-capitalize">
                                 {/* {new Date(result.date).toLocaleDateString(
                                 "en-GB",
@@ -200,15 +200,15 @@ const FirstSection = () => {
                                 {start}
                                 {end ? ` - ${end}` : ""}
                               </span>
-                              {result?.raceName && <h5>
+                              {result?.raceName && <h5 className="race-name-el">
                                 {renderFlag(result?.raceCountry)}
-                                <a href="#?">{result.raceName}</a>
+                                <a>{result.raceName}</a>
                               </h5>}
                               {result?.result[0]?.rider &&
-                               <h6>
-                                {renderFlag(result?.result[0]?.riderCountry)}
-                                <a href="#?">{result?.result[0]?.rider}</a>
-                              </h6>}
+                                <h6>
+                                  {renderFlag(result?.result[0]?.riderCountry)}
+                                  <a href="#?">{result?.result[0]?.rider}</a>
+                                </h6>}
                               {result?.result[0]?.team && <h6>{result?.result[0]?.team}</h6>}
                               <Link
                                 href={`/races/${result?.raceName}`}
