@@ -191,6 +191,7 @@ export default function DynamicSlugPage() {
         if (slug === "last-victory") {
           response.data = response?.data?.data?.raceData;
         }
+
         if (slug === "wins-in-one-day") {
           response.data = response?.data?.data?.wins;
         }
@@ -255,7 +256,7 @@ export default function DynamicSlugPage() {
         if (slug === "rider-from-same-home-town") {
           response.data = response?.data?.data?.others_from_same_birthplace;
         }
-        if(slug === "get-grand-tour-dnfs"){
+        if (slug === "get-grand-tour-dnfs") {
           response.data = response?.data?.data?.dnfs;
         }
         setPageData(response.data);
@@ -631,6 +632,7 @@ export default function DynamicSlugPage() {
       ? `${formatSlugForDisplay(slug)} | Cycling Stats`
       : "Page | Cycling Stats";
   const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
+  console.log("pageHeading", apiTitle);
   // const srNoHeaderLabel = "";
 
   return (

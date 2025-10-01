@@ -6,7 +6,7 @@ import { renderFlag } from "../RenderFlag";
 const RiderThirdSection = ({ riderId, filterYear }) => {
   const fixedApis = {
     box1: "getGrandToursRidden",
-    box2: "lastVictory",
+    box2: "getRiderLastVictorOneData",
     box3: "getRiderMostRacedCountry",
     box4: "getBestStageResult",
     box5: "getGrandTourDNFs",
@@ -156,7 +156,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         .map((rider, index) => (
                           <li key={index}>
                             <strong>{index + 1}</strong>
-                            <div className="name-wraper name-wraper-white">
+                            <div className="name-wraper name-wraper-white sdsdsd">
                               {renderFlag(rider?.country)}
                               <h6>
                                 {rider?.race || "..."}
@@ -164,7 +164,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                               </h6>
                             </div>
 
-                            {rider?.count && <span>{rider.count}</span>}
+                            {rider?.count ? <span>{rider.count}</span> : <span>0</span>}
                           </li>
                         ))}
                     </ul>
@@ -186,7 +186,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     if (!data?.[fixedApis.box2]) {
                       return <ErrorMessage errorType="no_data" />;
                     }
-
+                    console.log("Box 2 Data:", data?.[fixedApis.box2])
                     const response = data[fixedApis.box2];
                     const riderData = response?.data?.data?.raceData;
 
@@ -207,7 +207,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                             <strong>{firstRider.year} </strong>
                           </h5>
                         )}
-
                         <Link href={buildUrlWithParams("last-victory")} className="white-circle-btn">
                           <img src="/images/arow.svg" alt="" />
                         </Link>
@@ -377,7 +376,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                             <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.country_code)}
                               <h6>
-                                {rider?.race || "..."}
+                                {rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}
                                 {/* ({rider.year}) */}
                               </h6>
                             </div>

@@ -165,7 +165,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                             <li key={index}>
                               <div className="name-wraper name-wraper-white">
                                 {renderFlag(rider?.country)}
-                                <h6>{rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}` }</h6>
+                                <h6>{rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}</h6>
                               </div>
 
                               {/* {rider?.rank && <span>{rider.rank}</span>} */}
@@ -178,7 +178,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                     <div className="image_link-wraper">
                       <div className="link_box">
                         <Link href={buildUrlWithParams("last-victory")} className="green-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
+                          <img src="/images/arow.svg" alt="" />
                         </Link>
                       </div>
                     </div>
@@ -219,7 +219,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-green">
-                          <h6>{riderData?.total_uci_points || "..."}</h6>uci
+                          <h6>{riderData?.total_uci_points || "..."}</h6>UCI
                           points
                         </div>
                         {riderData?.rank && (
