@@ -4369,3 +4369,11 @@ li.empty-state.ctm-empty-state {
     top: 2.2rem;
   }
 }
+
+.name-wraper:hover h6 {
+  text-decoration: underline !important;
+}
+
+.name-wraper h6::after {
+  display: none !important;
+}

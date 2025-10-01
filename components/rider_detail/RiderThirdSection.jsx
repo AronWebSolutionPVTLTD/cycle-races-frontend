@@ -547,7 +547,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                               {renderFlag(rider?.country)}
                               <h6>
                                 {rider?.race || "..."}
-                                {/* ({rider.year}) */}
+                                ({rider.year})
                               </h6>
                             </div>
 
