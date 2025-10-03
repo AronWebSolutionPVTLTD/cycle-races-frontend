@@ -718,7 +718,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         </div>
                         {firstRider?.times_raced && (
                           <h5>
-                            <strong>{firstRider.times_raced} </strong>
+                            <strong>{firstRider.times_raced} </strong>Race days
                           </h5>
                         )}
 

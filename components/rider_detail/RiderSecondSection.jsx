@@ -149,7 +149,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                                 <h6>{rider?.race || "..."} ({rider.year}) {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}</h6>
                               </div>
 
-                              {rider?.count && <span>{rider.count}</span>}
+                              {rider?.rank && <span>{rider.rank}</span>}
                               {/* {rider?.year && <span>{rider.year}</span>} */}
                             </li>
                           ))}
@@ -239,13 +239,13 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
 
-                        const firstRider = riderData[0];
+                        // const firstRider = riderData[0];
 
                         return (
                           <>
                             <div className="name-wraper name-wraper-green name-left">
-                              {renderFlag(firstRider?.country_code)}
-                              <h6>{firstRider?.race || "..."}</h6>
+                              {/* {renderFlag(firstRider?.country_code)} */}
+                              {/* <h6>{firstRider?.race || "..."}</h6> */}
                             </div>
                             {/* {firstRider?.best_gc_rank && (
                               <h5>
