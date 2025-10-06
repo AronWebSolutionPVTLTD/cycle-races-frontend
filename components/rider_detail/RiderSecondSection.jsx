@@ -243,10 +243,10 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
 
                         return (
                           <>
-                            <div className="name-wraper name-wraper-green name-left">
-                              {/* {renderFlag(firstRider?.country_code)} */}
-                              {/* <h6>{firstRider?.race || "..."}</h6> */}
-                            </div>
+                            {/* <div className="name-wraper name-wraper-green name-left">
+                              {renderFlag(firstRider?.country_code)}
+                              <h6>{firstRider?.race || "..."}</h6>
+                            </div> */}
                             {/* {firstRider?.best_gc_rank && (
                               <h5>
                                 <strong>{firstRider.best_gc_rank} </strong>rank
