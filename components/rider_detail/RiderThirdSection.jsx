@@ -752,7 +752,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.country)}
-                              <h6>{rider?.race || "..."} {""} - {rider?.type?.toLowerCase() === "stage" ? `${rider.type.toUpperCase()} ${rider.stage_number}` : ""}</h6>
+                              <h6>{rider?.race || "..."} {""} - {rider?.type?.toLowerCase() === "stage" ? `${rider.type.toLowerCase()} ${rider.stage_number}` : ""}</h6>
                             </div>
 
                             {rider?.rank && <span>{rider.rank}</span>}
