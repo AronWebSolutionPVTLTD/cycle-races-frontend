@@ -19,23 +19,25 @@ export default function RiderDetail({ initialRider }) {
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
+  const [dynamicYears, setDynamicYears] = useState([]);
+  const [yearsLoading, setYearsLoading] = useState(false);
 
   // Available filter options
   const { withoutAllTime } = generateYearOptions();
-  const allYearOptions = ["All-time", ...withoutAllTime];
+  const allYearOptions = dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
       return allYearOptions;
     }
     const hasNumbers = /\d/.test(searchValue);
     if (hasNumbers) {
-      return withoutAllTime.filter((year) =>
-        year.toLowerCase().includes(searchValue.toLowerCase())
+      return dynamicYears.filter((year) =>
+        year.toString().toLowerCase().includes(searchValue.toLowerCase())
       );
     }
     // return withoutAllTime;
     return allYearOptions.filter((year) =>
-      year.toLowerCase().includes(searchValue.toLowerCase())
+      year.toString().toLowerCase().includes(searchValue.toLowerCase())
     );
   };
 
@@ -66,6 +68,27 @@ export default function RiderDetail({ initialRider }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Fetch active years for the rider
+  const fetchRiderActiveYears = async (riderId) => {
+
+    try {
+      setYearsLoading(true);
+      const response = await callAPI("GET", `/rider-stats/${riderId}/getRiderActiveYears`);
+      
+      if (response && response.data.data.years) {
+        const years = response.data.data.years;
+        setDynamicYears(years);
+      }
+    } catch (err) {
+      console.error("Error fetching rider active years:", err);
+      // Fallback to static years if API fails
+      setDynamicYears([]);
+    } finally {
+      setYearsLoading(false);
+    }
+  };
+
   // Fetch rider details using rider ID
   // const fetchRiderDetails = async (riderId) => {
   //   try {
@@ -156,6 +179,7 @@ export default function RiderDetail({ initialRider }) {
       if (id) {
         const riderId = id;
         fetchRiderDetails(riderId);
+        fetchRiderActiveYears(riderId);
       } else {
         setError("No rider ID found in URL");
         setIsLoading(false);
@@ -282,7 +306,7 @@ export default function RiderDetail({ initialRider }) {
                 placeholder="Year"
                 onSelect={(value) => handleSelection("year", value)}
                 onInputChange={handleYearInputChange}
-                loading={false}
+                loading={yearsLoading}
                 includeAllOption={false}
                 classname="year-dropdown"
               />

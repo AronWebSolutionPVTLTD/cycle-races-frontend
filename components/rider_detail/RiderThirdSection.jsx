@@ -112,8 +112,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
       response,
     ];
 
-    console.log("paths", paths);
-
     for (const path of paths) {
       if (Array.isArray(path) && path.length > 0) {
         return { data: path, error: false };
@@ -186,7 +184,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     if (!data?.[fixedApis.box2]) {
                       return <ErrorMessage errorType="no_data" />;
                     }
-                    console.log("Box 2 Data:", data?.[fixedApis.box2])
+                   
                     const response = data[fixedApis.box2];
                     const riderData = response?.data?.data?.raceData;
 
@@ -754,7 +752,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.country)}
-                              <h6>{rider?.race || "..."}</h6>
+                             <h6>{rider?.race || "..."} {""} - {rider?.type?.toLowerCase()==="stage" ? `${rider.type.toUpperCase()} ${rider.stage_number}`:""}</h6> 
                             </div>
 
                             {rider?.rank && <span>{rider.rank}</span>}

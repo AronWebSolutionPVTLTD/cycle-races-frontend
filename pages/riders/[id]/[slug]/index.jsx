@@ -469,7 +469,7 @@ export default function DynamicSlugPage() {
                   code={getCountryCode(item, config)}
                   style={{ width: "30px", height: "20px", flexShrink: 0 }}
                 />
-                {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage" ? `-${item.type.toUpperCase()} ${item.stage_number}` : ""
+                {`${getItemValue(item, config.itemConfig.name)} ${item?.type?.toLowerCase() === "stage" ? `- ${item.type.toUpperCase()} ${item.stage_number}` : ""
                   }`}
               </Link>
             ) : (
@@ -479,7 +479,7 @@ export default function DynamicSlugPage() {
                   code={getCountryCode(item, config)}
                   style={{ width: "30px", height: "20px", flexShrink: 0 }}
                 />
-                {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage" ? `-${item.type.toUpperCase()} ${item.stage_number}` : ""
+                {`${getItemValue(item, config.itemConfig.name)} ${item?.type?.toLowerCase() === "stage" ? `- ${item.type.toUpperCase()} ${item.stage_number}` : ""
                   }`}
               </>
             )}

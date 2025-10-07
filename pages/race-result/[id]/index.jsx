@@ -172,7 +172,7 @@ export default function RaceResultPage({ year, month }) {
         const topNationality = winnersByNationality?.data?.data?.[0];
         stats.push({
           title: winnersByNationality?.message || "Top Nationality",
-          rider: topNationality?.country_name?.toUpperCase(),
+          rider: topNationality?.country_name,
           flag: topNationality?.country_code?.toLowerCase(),
           value: topNationality?.wins,
           unit: "wins",
