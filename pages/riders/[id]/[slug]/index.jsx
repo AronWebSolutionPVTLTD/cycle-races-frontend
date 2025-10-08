@@ -164,6 +164,7 @@ export default function DynamicSlugPage() {
         idType: config.idType,
       });
       if (response && response.data) {
+        console.log("response?.data?.data2", response);
         if (response?.data?.riders) {
           response.data = response?.data?.riders;
         }
@@ -191,6 +192,10 @@ export default function DynamicSlugPage() {
         if (slug === "last-victory") {
           response.data = response?.data?.data?.raceData;
         }
+        if (slug === "rider-last-victory") {
+          response.data = response?.data?.data?.raceData;
+        }
+
 
         if (slug === "wins-in-one-day") {
           response.data = response?.data?.data?.wins;
@@ -626,12 +631,25 @@ export default function DynamicSlugPage() {
     );
   };
 
+  // Custom heading overrides for specific slugs
+  const getCustomHeading = (slug, apiTitle) => {
+    // const customHeadings = {
+    //   'last-victory': 'Rider Last Victory'
+    // };
+
+    // if (customHeadings[slug]) {
+    //   return customHeadings[slug];
+    // }
+
+    return apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
+  };
+
   const pageTitle = apiTitle
     ? `${apiTitle} | Cycling Stats`
     : slug
       ? `${formatSlugForDisplay(slug)} | Cycling Stats`
       : "Page | Cycling Stats";
-  const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
+  const pageHeading = getCustomHeading(slug, apiTitle);
   console.log("pageHeading", apiTitle);
   // const srNoHeaderLabel = "";
 

@@ -186,6 +186,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     }
 
                     const response = data[fixedApis.box2];
+                    console.log("getRiderLastVictorOneData API Response:", response);
                     const riderData = response?.data?.data?.raceData;
 
                     if (!Array.isArray(riderData) || riderData.length === 0) {
@@ -752,9 +753,10 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
                               {renderFlag(rider?.country)}
-                              <h6>{rider?.race || "..."} {""} - {rider?.type?.toLowerCase() === "stage" ? `${rider.type.toLowerCase()} ${rider.stage_number}` : ""}</h6>
+                              <h6>{rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}
+                                {/* {""} - {rider?.type?.toLowerCase() === "stage" ? `${rider.type.toUpperCase()} ${rider.stage_number}` : ""} */}
+                              </h6>
                             </div>
-
                             {rider?.rank && <span>{rider.rank}</span>}
                           </li>
                         ))}
