@@ -446,7 +446,7 @@ export default function RaceResultPage({ year, month }) {
                         <h5 className="rider--name">
                           <Link href={`/riders/${rider.rider_id}`} className="link">
                             <Flag
-                              code={rider.country_code?.toUpperCase()}
+                              code={rider.rider_country?.toUpperCase()}
                               style={{
                                 width: "30px",
                                 height: "20px",

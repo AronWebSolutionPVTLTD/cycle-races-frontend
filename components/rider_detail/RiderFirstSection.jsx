@@ -2,8 +2,11 @@ import Link from "next/link";
 import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
+import { useRouter } from "next/router";
+
 
 const RiderFirstSection = ({ riderId, filterYear }) => {
+  const router = useRouter();
   const fixedApis = {
     box1: "lastVictory",
     box2: "uciPoints",
@@ -17,6 +20,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
   };
 
   const buildQueryParams = () => {
+
     let params = {};
     if (filterYear && filterYear !== "All-time") {
       params.year = filterYear;
@@ -25,6 +29,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
   };
 
   const buildUrlWithParams = (statsPath) => {
+
     const params = buildQueryParams();
     const queryString = Object.keys(params)
       .map(
@@ -62,6 +67,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
   });
 
   const getBoxData = (endpoint) => {
+
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
 
@@ -125,6 +131,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-white">
+                                <Link href={`/races/${rider?.race}`} className="pabs" />
                                 {renderFlag(rider?.country)}
                                 <h6>
                                   {rider?.race || "..."}{" "}
@@ -425,6 +432,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                         return (
                           <>
                             <div className="name-wraper name-wraper-green name-left">
+                              <Link href={`/races/${firstRider?.race}`} className="pabs" />
                               {renderFlag(firstRider?.country)}
                               <h6>{firstRider?.race || "..."}</h6>
                             </div>
@@ -472,6 +480,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-white">
+                                <Link href={`/races/${rider?.race}`} className="pabs" />
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.race || "..."}</h6>
                               </div>

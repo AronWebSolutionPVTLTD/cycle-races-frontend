@@ -2,8 +2,9 @@ import Link from "next/link";
 import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
-
+import { useRouter } from "next/router";
 const RiderThirdSection = ({ riderId, filterYear }) => {
+  const router = useRouter();
   const fixedApis = {
     box1: "getGrandToursRidden",
     box2: "getRiderLastVictorOneData",
@@ -155,6 +156,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white sdsdsd">
+                              <Link href={`/races/${rider?.race}`} className="pabs" />
                               {renderFlag(rider?.country)}
                               <h6>
                                 {rider?.race || "..."}
@@ -198,6 +200,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-green name-left">
+                          <Link href={`/races/${firstRider?.race}`} className="pabs" />
                           {renderFlag(firstRider?.country)}
                           <h6>{firstRider?.race || "..."}</h6>
                         </div>
@@ -285,6 +288,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-white name-left">
+                          <Link href={`/races/${firstRider?.race}`} className="pabs" />
                           {renderFlag(firstRider?.country_code)}
                           <h6>
                             {firstRider?.race || "..."} ({firstRider.year})
@@ -373,6 +377,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
+                              <Link href={`/races/${rider?.race}`} className="pabs" />
                               {renderFlag(rider?.country_code)}
                               <h6>
                                 {rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}
@@ -417,6 +422,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-green name-left">
+                          <Link href={`/races/${firstRider?.race}`} className="pabs" />
                           {renderFlag(firstRider?.country_code)}
                           <h6>{firstRider?.race_name || "..."}</h6>
                         </div>
@@ -543,6 +549,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
+                              <Link href={`/races/${rider?.race}`} className="pabs" />
                               {renderFlag(rider?.country)}
                               <h6>
                                 {rider?.race || "..."}
@@ -585,6 +592,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-white">
+                          <Link href={`/races/${riderData?.race}`} className="pabs" />
                           {renderFlag(riderData?.country_code)}
                           <h6>
                             {riderData?.race_name || "..."} ({riderData.year})
@@ -627,6 +635,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
+                              <Link href={`/races/${rider?.race}`} className="pabs" />
                               {renderFlag(rider?.country_code)}
                               <h6>{rider?.race || "..."}</h6>
                             </div>
@@ -666,6 +675,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-white name-left">
+                          <Link href={`/races/${firstRider?.race}`} className="pabs" />
                           {renderFlag(firstRider?.country_code)}
                           <h6>{firstRider?.race || "..."}</h6>
                         </div>
@@ -711,7 +721,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-white name-left">
+                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${firstRider?.rider_id}`)}>
                           {renderFlag(firstRider?.country)}
                           <h6>{firstRider?.top_teammate || "..."}</h6>
                         </div>
@@ -752,6 +762,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
+                              <Link href={`/races/${rider?.race}`} className="pabs" />
                               {renderFlag(rider?.country)}
                               <h6>{rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}
                                 {/* {""} - {rider?.type?.toLowerCase() === "stage" ? `${rider.type.toUpperCase()} ${rider.stage_number}` : ""} */}
