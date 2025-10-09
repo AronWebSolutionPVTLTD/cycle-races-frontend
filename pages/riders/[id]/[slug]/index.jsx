@@ -189,7 +189,7 @@ export default function DynamicSlugPage() {
         if (slug === "team-with-most-consecutive-wins") {
           response.data = response?.data?.teams;
         }
-        if (slug === "last-victory") {
+        if (slug === "rider-last-victories") {
           response.data = response?.data?.data?.raceData;
         }
         if (slug === "rider-last-victory") {

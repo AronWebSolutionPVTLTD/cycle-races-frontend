@@ -110,7 +110,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             {/* First Card */}
             <div className="col-lg-3 col-md-6">
               <div className="list-white-cart lime-green-cart ctm-card">
-                <Link href={buildUrlWithParams("last-victory")} className="pabs" />
+                <Link href={buildUrlWithParams("rider-last-victories")} className="pabs" />
                 {getBoxData(fixedApis.box1).error ? (
                   <ErrorMessage
                     errorType={getBoxData(fixedApis.box1).errorType}
@@ -150,7 +150,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                     <div className="image_link-wraper">
                       <div className="link_box">
-                        <Link href={buildUrlWithParams("last-victory")} className="green-circle-btn">
+                        <Link href={buildUrlWithParams("rider-last-victories")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
                         </Link>
                       </div>

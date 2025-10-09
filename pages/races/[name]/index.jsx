@@ -32,12 +32,10 @@ export default function RaceDetailsPage() {
 
   // Error state
   const [error, setError] = useState(null);
-
-  const { withoutAllTime } = generateYearOptions();
-  const allYearOptions = ["All-time", ...withoutAllTime];
-  // Refs for handling clicks outside dropdowns
   const yearDropdownRef = useRef(null);
   const nationalityDropdownRef = useRef(null);
+  const [dynamicYears, setDynamicYears] = useState([]);
+  const [yearsLoading, setYearsLoading] = useState(false);
 
   // Memoized values
   const decodedRaceName = useMemo(
@@ -51,6 +49,10 @@ export default function RaceDetailsPage() {
   //   );
   // }, [withAllTime, yearInput]);
 
+  const { withoutAllTime } = generateYearOptions();
+  const allYearOptions = dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
+ 
+
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
       return allYearOptions;
@@ -59,7 +61,7 @@ export default function RaceDetailsPage() {
 
     const hasNumbers = /\d/.test(searchValue);
     if (hasNumbers) {
-      return withoutAllTime.filter((year) =>
+      return dynamicYears.filter((year) =>
         year.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
@@ -95,6 +97,27 @@ export default function RaceDetailsPage() {
       setIsLoadingFilters(false);
     }
   }, [selectedNationality, decodedRaceName]);
+
+
+   // Fetch active years for the rider
+  const fetchRaceActiveYears = async (raceName) => {
+
+    try {
+      setYearsLoading(true);
+      const response = await callAPI("GET",`/raceDetailsStats/${raceName}/getRaceActiveYears`,);
+      
+      if (response && response.data.data.years) {
+        const years = response.data.data.years;
+        setDynamicYears(years);
+      }
+    } catch (err) {
+      console.error("Error fetching rider active years:", err);
+      // Fallback to static years if API fails
+      setDynamicYears([]);
+    } finally {
+      setYearsLoading(false);
+    }
+  };
 
   // Fetch race details
   const fetchRaceDetails = useCallback(async (raceName) => {
@@ -149,6 +172,7 @@ export default function RaceDetailsPage() {
   useEffect(() => {
     if (router.isReady && decodedRaceName) {
       fetchRaceDetails(decodedRaceName);
+      fetchRaceActiveYears(decodedRaceName)
     }
   }, [router.isReady, decodedRaceName, fetchRaceDetails]);
 

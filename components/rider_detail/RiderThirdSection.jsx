@@ -209,7 +209,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                             <strong>{firstRider.year} </strong>
                           </h5>
                         )}
-                        <Link href={buildUrlWithParams("last-victory")} className="white-circle-btn">
+                        <Link href={buildUrlWithParams("rider-last-victory")} className="white-circle-btn">
                           <img src="/images/arow.svg" alt="" />
                         </Link>
                       </>
