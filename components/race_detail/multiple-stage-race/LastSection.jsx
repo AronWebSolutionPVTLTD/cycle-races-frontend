@@ -139,7 +139,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{index + 1}</strong>
-                                <div className="name-wraper name-wraper-green">
+                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?._id}`)}>
                                   {renderFlag(rider?.rider_country)}
                                   <h6>{rider?.rider_name || "..."}</h6>
                                 </div>
@@ -215,8 +215,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                 <>
                                   <div
                                     className="name-wraper name-wraper-green"
-                                    key={index}
-                                  >
+                                    key={index} onClick={() => router.push(`/riders/${rider?._id}`)} >
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -274,8 +273,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                 <>
                                   <div
                                     className="name-wraper name-wraper-green"
-                                    key={index}
-                                  >
+                                    key={index} onClick={() => router.push(`/riders/${rider?._id}`)} >
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -327,7 +325,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -354,45 +352,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   </div>
 
                   {/*Box 5 - Oldest Stage Winner */}
-                  {/* <div className="col-lg-5 col-md-6">
-                    <div className="team-cart lime-green-team-cart img-active">
-                      <a href="#?" className="pabs"></a>
-                      <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box5]?.message}</h4>
-                        {(() => {
-                          if (!data?.[fixedApis.box5]) {
-                            return <ErrorMessage errorType="no_data" />;
-                          }
-
-                          const response = data[fixedApis.box5];
-                          const riderData = response?.data?.data;
-
-                          if (!riderData) {
-                            return <ErrorMessage errorType="no_data_found" />;
-                          }
-
-                          return (
-                            <>
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(riderData?.country)}
-                                <h6>{riderData?.rider_name || "..."}</h6>
-                              </div>
-                              {riderData?.age && (
-                                <h5>
-                                  <strong>{riderData.age}</strong>
-                                  jaar
-                                </h5>
-                              )}
-
-                              <a href="#?" className="white-circle-btn">
-                                <img src="/images/arow.svg" alt="" />
-                              </a>
-                            </>
-                          );
-                        })()}
-                      </div>
-                    </div>
-                  </div> */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link
@@ -420,7 +379,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                             <>
                               {riderArray.slice(0, 1).map((rider, index) => (
                                 <div key={index} className="rider-item">
-                                  <div className="name-wraper name-wraper-white">
+                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                     {renderFlag(rider?.country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -449,44 +408,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
               {/*Box 6 - Youngest Winner*/}
-              {/* <div className="col-lg-3 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
-                  <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box6]?.message}</h4>
-                    {(() => {
-                      if (!data?.[fixedApis.box6]) {
-                        return <ErrorMessage errorType="no_data" />;
-                      }
 
-                      const response = data[fixedApis.box6];
-                      const riderData = response?.data.data;
-
-                      if (!riderData) {
-                        return <ErrorMessage errorType="no_data_found" />;
-                      }
-
-                      return (
-                        <>
-                          <div className="name-wraper name-wraper-white">
-                            {renderFlag(riderData?.country)}
-                            <h6>{riderData?.rider_name || "..."}</h6>
-                          </div>
-                          {riderData?.age && (
-                            <h5>
-                              <strong>{riderData.age}</strong>
-                            </h5>
-                          )}
-
-                          <a href="#?" className="white-circle-btn">
-                            <img src="/images/arow.svg" alt="" />
-                          </a>
-                        </>
-                      );
-                    })()}
-                  </div>
-                </div>
-              </div> */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <a href="#?" className="pabs"></a>
@@ -511,7 +433,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         <>
                           {riderArray.slice(0, 1).map((rider, index) => (
                             <div key={index} className="rider-item">
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -822,8 +744,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                 <>
                                   <div
                                     className="name-wraper name-wraper-green"
-                                    key={index}
-                                  >
+                                    key={index} onClick={() => router.push(`/riders/${rider?.rider_id}`)} >
                                     {renderFlag(rider?.country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -876,12 +797,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               <div className="name-wraper name-wraper-white">
                                 <h6>{rider?.subtitle || "..."}</h6>
                               </div>
-                              {/* {riderData?.distance_km && (
-                                <h5>
-                                  <strong>{riderData.distance_km}</strong>
-                                  kilometers
-                                </h5>
-                              )} */}
                               <h5>
                                 <strong>{rider?.distance_km ?? 0}</strong>
                                 kilometers
@@ -927,7 +842,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{index + 1}</strong>
-                                <div className="name-wraper name-wraper-green">
+                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                   {renderFlag(rider?.country)}
                                   <h6>{rider?.rider_name || "..."}</h6>
                                 </div>
