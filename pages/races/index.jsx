@@ -528,7 +528,7 @@ export default function Results() {
                       const { start, end } = convertDateRange(item?.date);
                       return (
                         <li className="hoverState-li custom-list-el" key={idx}>
-                          <Link href={`/races/${encodeURIComponent(item.race_name)}`} className="pabs" />
+                          <Link href={`/races/${encodeURIComponent(item.race_name)}?year=${selectedYear}`} className="pabs" />
                           {/* <span className="text-capitalize">{start} {end ? ` - ${end}` : ""}</span> */}
                           <span className="text-capitalize">{start}</span>
                           <h5 className="race-name-el">
@@ -541,7 +541,7 @@ export default function Results() {
                               }}
                             />
                             <Link
-                              href={`/races/${encodeURIComponent(item.race_name)}`}
+                              href={`/races/${encodeURIComponent(item.race_name)}?year=${selectedYear}`}
                             >
                               {item.race_name}
                               {item.is_stage_race && (

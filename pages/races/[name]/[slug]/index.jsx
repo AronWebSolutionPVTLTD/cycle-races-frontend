@@ -10,6 +10,16 @@ import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
 
+export async function getServerSideProps(context) {
+  const { year, month } = context.query;
+
+  return {
+    props: {
+      year: year || "",
+    },
+  };
+}
+
 // Helper function to get value from item using multiple possible keys (supports dot notation)
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   for (const key of possibleKeys) {
@@ -59,7 +69,7 @@ const getRiderId = (item) => {
   return null;
 };
 
-export default function DynamicSlugPage() {
+export default function DynamicSlugPage({ year }) {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -68,7 +78,7 @@ export default function DynamicSlugPage() {
   const [error, setError] = useState(null);
   const [apiTitle, setApiTitle] = useState(null);
   const [selectedYear, setSelectedYear] = useState(
-    new Date().getFullYear().toString()
+    year
   );
 
   const [showYearDropdown, setShowYearDropdown] = useState(false);
@@ -510,11 +520,10 @@ export default function DynamicSlugPage() {
                 }}
               />
 
-              {`${getItemValue(item, config.itemConfig.name)} ${
-                item?.type === "stage"
-                  ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                  : ""
-              }`}
+              {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
+                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                : ""
+                }`}
             </Link>
           </h5>
         );
@@ -660,8 +669,8 @@ export default function DynamicSlugPage() {
   const pageTitle = apiTitle
     ? `${apiTitle} | Cycling Stats`
     : slug
-    ? `${formatSlugForDisplay(slug)} | Cycling Stats`
-    : "Page | Cycling Stats";
+      ? `${formatSlugForDisplay(slug)} | Cycling Stats`
+      : "Page | Cycling Stats";
   const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
   // const srNoHeaderLabel = "";
 
@@ -727,9 +736,8 @@ export default function DynamicSlugPage() {
 
               <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
                 <ul
-                  className={`slug-table-head col--${
-                    getDynamicHeaders().length
-                  }`}
+                  className={`slug-table-head col--${getDynamicHeaders().length
+                    }`}
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (

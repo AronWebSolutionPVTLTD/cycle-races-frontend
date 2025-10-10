@@ -223,7 +223,7 @@ export default function RaceResultPage({ year, month }) {
         const bestTeamData = bestTeam.data.data[0];
         stats.push({
           title: bestTeam?.message || "Best Team",
-          rider: bestTeamData?.team_name || bestTeamData?.name, 
+          rider: bestTeamData?.team_name || bestTeamData?.name,
           flag:
             bestTeamData?.country_code?.toLowerCase() ||
             bestTeamData?.country?.toLowerCase() ||
@@ -394,14 +394,14 @@ export default function RaceResultPage({ year, month }) {
                     </Link>
                   </li>
                 ))}
-                     <div className="col text-end">
-                    <Link className="glob-btn green-bg-btn" href="/stats">
-                      <strong>ALLE STATS</strong>
-                      <span className="green-circle-btn green-circle-btn-2">
-                        <img alt="" src="/images/arow.svg" />
-                      </span>
-                    </Link>
-                  </div>
+                <div className="col text-end">
+                  <Link className="glob-btn green-bg-btn" href="/stats">
+                    <strong>ALLE STATS</strong>
+                    <span className="green-circle-btn green-circle-btn-2">
+                      <img alt="" src="/images/arow.svg" />
+                    </span>
+                  </Link>
+                </div>
               </ul>
               {/* <div className="select-box sdsdsdsdsd">
                 <select
@@ -424,7 +424,7 @@ export default function RaceResultPage({ year, month }) {
                   ))}
                 </select>
               </div> */}
-              
+
             </div>
 
             <div className="col-lg-9 col-md-7 ctm-table-wrap">

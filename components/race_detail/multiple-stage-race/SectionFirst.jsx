@@ -306,7 +306,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                             </ul>
 
                             <Link
-                              href={buildUrlWithParams("last-winner")}
+                              href={buildUrlWithParams("last-winner-stage")}
                               className="green-circle-btn"
                             >
                               <img src="/images/arow.svg" alt="arrow" />

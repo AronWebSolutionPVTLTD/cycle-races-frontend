@@ -10,12 +10,22 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import Flag from "react-world-flags";
 
-export default function RaceDetailsPage() {
+export async function getServerSideProps(context) {
+  const { year, month } = context.query;
+
+  return {
+    props: {
+      year: year || "All-time",
+    },
+  };
+}
+
+export default function RaceDetailsPage({ year }) {
   const router = useRouter();
   const { name } = router.query;
 
   // State management
-  const [selectedYear, setSelectedYear] = useState("All-time");
+  const [selectedYear, setSelectedYear] = useState(year);
   const [yearInput, setYearInput] = useState('');
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [selectedNationality, setSelectedNationality] = useState("");
@@ -51,7 +61,7 @@ export default function RaceDetailsPage() {
 
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions = dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
- 
+
 
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
@@ -99,13 +109,13 @@ export default function RaceDetailsPage() {
   }, [selectedNationality, decodedRaceName]);
 
 
-   // Fetch active years for the rider
+  // Fetch active years for the rider
   const fetchRaceActiveYears = async (raceName) => {
 
     try {
       setYearsLoading(true);
-      const response = await callAPI("GET",`/raceDetailsStats/${raceName}/getRaceActiveYears`,);
-      
+      const response = await callAPI("GET", `/raceDetailsStats/${raceName}/getRaceActiveYears`,);
+
       if (response && response.data.data.years) {
         const years = response.data.data.years;
         setDynamicYears(years);
@@ -331,8 +341,3 @@ export default function RaceDetailsPage() {
   );
 }
 
-export async function getServerSideProps(context) {
-  return {
-    props: {},
-  };
-}
