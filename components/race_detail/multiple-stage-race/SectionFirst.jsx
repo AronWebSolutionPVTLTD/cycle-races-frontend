@@ -169,7 +169,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              <div className="col-lg-7 box5">
+              <div className="col-lg-7 box5 d-flex flex-row">
                 <div className="row">
                   {/*Box 2 - Rider With MostStageWins*/}
                   <div className="col-lg-7 col-md-6">

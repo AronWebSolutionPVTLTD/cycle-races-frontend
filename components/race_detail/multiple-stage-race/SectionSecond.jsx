@@ -497,7 +497,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                               {rider?.age && (
                                 <h5>
-                                  <strong>{rider.age} </strong> days
+                                  <strong>{rider.age} </strong> years
                                 </h5>
                               )}
                             </>

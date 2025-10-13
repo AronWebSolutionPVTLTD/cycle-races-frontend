@@ -35,6 +35,12 @@ export const FilterDropdown = forwardRef(({
     }
   }, [isOpen, selectedValue]);
 
+  const isAllOption = () => {
+    if (!selectedValue) return false;
+    const allOptions = ["All-time","All-Nationalities", ""];
+    return allOptions.includes(selectedValue);
+  };
+
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
@@ -43,6 +49,7 @@ export const FilterDropdown = forwardRef(({
       onInputChange(value);
     }
   };
+
 
   const handleItemSelect = (value) => {
     setInputValue(value);
@@ -96,7 +103,7 @@ export const FilterDropdown = forwardRef(({
 
   return (
     <li className={`filter-dropdown-list ${classname} ${isOpen ? 'active' : ''}`} ref={ref}>
-      <div className="form-select" onClick={toggle}>
+      <div  className={`form-select ${selectedValue && !isAllOption() ? "selected" : ""}`} onClick={toggle}>
         {getSelectedDisplayText()}
       </div>
 
@@ -134,7 +141,7 @@ export const FilterDropdown = forwardRef(({
                   onClick={() => handleItemSelect('')}
                   ref={el => (optionRefs.current[''] = el)}
                 >
-                  {allOptionText || 'All'}
+                  {allOptionText}
                 </li>
               )}
               {(onInputChange ? options : displayOptions).map(option => {

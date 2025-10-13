@@ -187,7 +187,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              <div className="col-lg-7 box5">
+              <div className="col-lg-7 box5 d-flex flex-row">
                 <div className="row">
                   {/*Box 2 - Most Sprint Classification Wins*/}
                   <div className="col-lg-5 col-md-6">
@@ -303,7 +303,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart img-active">
                       <Link
-                        href={buildUrlWithParams("rider-with-most-finishes")}
+                        href={buildUrlWithParams("rider-with-most-finish")}
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
@@ -338,7 +338,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                               <Link
                                 href={buildUrlWithParams(
-                                  "rider-with-most-finishes"
+                                  "rider-with-most-finish"
                                 )}
                                 className="green-circle-btn"
                               >
@@ -621,7 +621,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              <div className="col-lg-7 box5">
+              <div className="col-lg-7 box5 d-flex flex-row">
                 <div className="row">
                   {/*Box 10 - Team With MostWins*/}
                   <div className="col-lg-5 col-md-6">

@@ -199,7 +199,9 @@
 .most-win {
   display: flex;
   align-items: center;
+  gap:8px
 }
+
 
 /*---------------Filter section______________*/
 .filter-section {

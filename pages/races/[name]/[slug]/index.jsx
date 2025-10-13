@@ -229,6 +229,9 @@ export default function DynamicSlugPage({ year }) {
         if (slug === "rider-with-most-finishes") {
           response.data = response?.data?.top_rider;
         }
+           if (slug === "rider-with-most-finish") {
+          response.data = response?.data?.top_rider;
+        }
         if (slug === "most-stage-departures") {
           response.data = response?.data?.data?.most_used_departure_cities;
         }

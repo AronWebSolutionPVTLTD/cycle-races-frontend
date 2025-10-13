@@ -28,7 +28,7 @@ export default function RaceDetailsPage({ year }) {
   const [selectedYear, setSelectedYear] = useState(year);
   const [yearInput, setYearInput] = useState('');
   const [showYearDropdown, setShowYearDropdown] = useState(false);
-  const [selectedNationality, setSelectedNationality] = useState("");
+  const [selectedNationality, setSelectedNationality] = useState("All-Nationalities");
 
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
 
@@ -61,7 +61,9 @@ export default function RaceDetailsPage({ year }) {
 
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions = dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
-
+const allNationalityOptions = useMemo(() => {
+ return ["All-Nationalities", ...nationalities];
+}, [nationalities]);
 
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
@@ -89,7 +91,12 @@ export default function RaceDetailsPage({ year }) {
     try {
       setIsLoadingFilters(true);
       const queryParams = {};
-      if (selectedNationality) queryParams.q_country = selectedNationality;
+      // if (selectedNationality) queryParams.q_country = selectedNationality;
+      // Only add nationality to query if it's not "All-Nationalities"
+    if (selectedNationality && selectedNationality !== "All-Nationalities") {
+      queryParams.nationality = selectedNationality;
+      console.log(queryParams,"parama")
+    }
       if (selectedYear && selectedYear !== "All-time") queryParams.q_year = selectedYear;
 
       const response = await callAPI(
@@ -302,12 +309,12 @@ export default function RaceDetailsPage({ year }) {
                     toggle={() =>
                       setShowNationalityDropdown(!showNationalityDropdown)
                     }
-                    options={nationalities}
+              options={allNationalityOptions}
                     selectedValue={selectedNationality}
                     placeholder="Nationaliteit"
                     onSelect={(value) => handleSelection("nationality", value)}
                     loading={isLoadingFilters}
-                    allOptionText="All Nationalities"
+                    includeAllOption={false}
                     classname="nationality-dropdown"
                   />
                 </ul>
@@ -319,7 +326,9 @@ export default function RaceDetailsPage({ year }) {
                       selectedYear={
                         selectedYear !== "All-time" ? selectedYear : null
                       }
-                      selectedNationality={selectedNationality}
+                      selectedNationality={
+          selectedNationality !== "All-Nationalities" ? selectedNationality : null
+        }
                       name={decodedRaceName}
                     />
                   ) : (
@@ -327,7 +336,9 @@ export default function RaceDetailsPage({ year }) {
                       selectedYear={
                         selectedYear !== "All-time" ? selectedYear : null
                       }
-                      selectedNationality={selectedNationality}
+                      selectedNationality={
+          selectedNationality !== "All-Nationalities" ? selectedNationality : null
+        }
                       name={decodedRaceName}
                     />
                   )}

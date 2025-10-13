@@ -5,7 +5,11 @@ import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
-export const LastSection = ({ selectedYear = null, selectedNationality = null, name = null }) => {
+export const LastSection = ({
+  selectedYear = null,
+  selectedNationality = null,
+  name = null,
+}) => {
   const fixedApis = {
     box1: "getRiderWithMostDNF",
     box2: "getRiderWithMostFinishes",
@@ -106,7 +110,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/* box1 - Most DNF*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("rider-with-most-dnf")} className="pabs" />
+                  <Link
+                    href={buildUrlWithParams("rider-with-most-dnf")}
+                    className="pabs"
+                  />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box1]?.message}</h4>
                     {(() => {
@@ -138,7 +145,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                             alt=""
                             className="absolute-img"
                           />
-                          <Link href={buildUrlWithParams("rider-with-most-dnf")} className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams("rider-with-most-dnf")}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
                         </>
@@ -151,7 +161,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/* box2 - Rider With Most Finishes*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("rider-with-most-finishes")} className="pabs" />
+                  <Link
+                    href={buildUrlWithParams("rider-with-most-finishes")}
+                    className="pabs"
+                  />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box2]?.message}</h4>
                     {(() => {
@@ -170,7 +183,12 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                         <>
                           <div className="name-wraper name-wraper-white">
                             {renderFlag(rider?.rider_country)}
-                            <h6>{rider?.rider_name || "..."}</h6>
+                            <h6>
+                              {rider?.rider_name
+                                ? rider.rider_name.charAt(0).toUpperCase() +
+                                  rider.rider_name.slice(1)
+                                : "..."}
+                            </h6>
                           </div>
                           {rider?.finish_count && (
                             <h5>
@@ -183,7 +201,12 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                             alt=""
                             className="absolute-img"
                           />
-                          <Link href={buildUrlWithParams("rider-with-most-finishes")} className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams(
+                              "rider-with-most-finishes"
+                            )}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
                         </>
@@ -196,7 +219,12 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/* box3 - Rider With Consecutive WIns*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("rider-with-most-consecutive-wins")} className="pabs" />
+                  <Link
+                    href={buildUrlWithParams(
+                      "rider-with-most-consecutive-wins"
+                    )}
+                    className="pabs"
+                  />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box3]?.message}</h4>
                     {(() => {
@@ -222,7 +250,12 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                               <strong>{rider.streak}</strong>times
                             </h5>
                           )}
-                          <Link href={buildUrlWithParams("rider-with-most-consecutive-wins")} className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams(
+                              "rider-with-most-consecutive-wins"
+                            )}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
                         </>
@@ -236,7 +269,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
 
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <Link href={buildUrlWithParams("longest-race-edition")} className="pabs" />
+                  <Link
+                    href={buildUrlWithParams("longest-race-edition")}
+                    className="pabs"
+                  />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box4]?.message}</h4>
                     {(() => {
@@ -261,7 +297,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                               <strong>{rider.distance_km}</strong>kilometers
                             </h5>
                           )}
-                          <Link href={buildUrlWithParams("longest-race-edition")} className="white-circle-btn">
+                          <Link
+                            href={buildUrlWithParams("longest-race-edition")}
+                            className="white-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
                         </>
@@ -276,7 +315,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                   {/* Box5: Edition With Most DNFs */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <Link href={buildUrlWithParams("edition-with-most-dnfs")} className="pabs" />
+                      <Link
+                        href={buildUrlWithParams("edition-with-most-dnfs")}
+                        className="pabs"
+                      />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box5]?.message}</h4>
                         {(() => {
@@ -316,7 +358,11 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                                 {renderFlag(rider?.country)}
                                 <h6>
                                   {rider?.race_name
-                                    ? `${rider.race_name} (${rider.year})`
+                                    ? `${rider.race_name
+                                        .charAt(0)
+                                        .toUpperCase()}${rider.race_name.slice(
+                                        1
+                                      )} (${rider.year})`
                                     : "..."}
                                 </h6>
                               </div>
@@ -327,7 +373,12 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                                 </h5>
                               )}
 
-                              <Link href={buildUrlWithParams("edition-with-most-dnfs")} className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "edition-with-most-dnfs"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
                             </>
@@ -340,7 +391,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                   {/*Box 6 -Country With MostWins */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <Link href={buildUrlWithParams("country-with-most-wins")} className="pabs" />
+                      <Link
+                        href={buildUrlWithParams("country-with-most-wins")}
+                        className="pabs"
+                      />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box6]?.message}</h4>
                         {(() => {
@@ -375,7 +429,12 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                                 alt=""
                                 className="absolute-img"
                               />
-                              <Link href={buildUrlWithParams("country-with-most-wins")} className="white-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "country-with-most-wins"
+                                )}
+                                className="white-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
                             </>
@@ -388,7 +447,12 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                   {/*Box 7 - Most Successful TeamInRace*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
-                      <Link href={buildUrlWithParams("most-successful-team-in-race")} className="pabs" />
+                      <Link
+                        href={buildUrlWithParams(
+                          "most-successful-team-in-race"
+                        )}
+                        className="pabs"
+                      />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box7]?.message}</h4>
                         {(() => {
@@ -417,7 +481,12 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                                   <strong>{rider.wins}</strong>wins
                                 </h5>
                               )}
-                              <Link href={buildUrlWithParams("most-successful-team-in-race")} className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams(
+                                  "most-successful-team-in-race"
+                                )}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
                             </>
@@ -430,7 +499,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                   {/*Box 8 - Oldest Top 10Rider */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <Link href={buildUrlWithParams("oldest-top10-rider")} className="pabs" />
+                      <Link
+                        href={buildUrlWithParams("oldest-top10-rider")}
+                        className="pabs"
+                      />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box8]?.message}</h4>
                         {(() => {
@@ -460,7 +532,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                                 </h5>
                               )}
 
-                              <Link href={buildUrlWithParams("oldest-top10-rider")} className="green-circle-btn">
+                              <Link
+                                href={buildUrlWithParams("oldest-top10-rider")}
+                                className="green-circle-btn"
+                              >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
                             </>
@@ -474,7 +549,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/*Box 9 - Most debut riders*/}
               <div className="col-lg-5 col-md-6">
                 <div className="list-white-cart lime-green-cart">
-                  <Link href={buildUrlWithParams("debut-riders-in-race")} className="pabs" />
+                  <Link
+                    href={buildUrlWithParams("debut-riders-in-race")}
+                    className="pabs"
+                  />
                   <h4 className="fs-chenge">
                     {data?.[fixedApis.box9]?.message}
                   </h4>
@@ -506,7 +584,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                         alt=""
                         className="absolute-img"
                       />
-                      <Link href={buildUrlWithParams("debut-riders-in-race")} className="glob-btn green-bg-btn">
+                      <Link
+                        href={buildUrlWithParams("debut-riders-in-race")}
+                        className="glob-btn green-bg-btn"
+                      >
                         <strong>volledige stats</strong>{" "}
                         <span>
                           <img src="/images/arow.svg" alt="" />
@@ -564,7 +645,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               </div> */}
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart">
-                  <Link href={buildUrlWithParams("winners-from-country")} className="pabs" />
+                  <Link
+                    href={buildUrlWithParams("winners-from-country")}
+                    className="pabs"
+                  />
                   <h4>{data?.[fixedApis.box10]?.message}</h4>
                   {getBoxData(fixedApis.box10).error ? (
                     <ErrorMessage
@@ -589,7 +673,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                             </li>
                           ))}
                       </ul>
-                      <Link href={buildUrlWithParams("winners-from-country")} className="green-circle-btn">
+                      <Link
+                        href={buildUrlWithParams("winners-from-country")}
+                        className="green-circle-btn"
+                      >
                         <img src="/images/arow.svg" alt="" />
                       </Link>
                     </>
@@ -600,7 +687,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/* Box11: Youngest  top 10 */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("youngest-top10-rider")} className="pabs" />
+                  <Link
+                    href={buildUrlWithParams("youngest-top10-rider")}
+                    className="pabs"
+                  />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box11]?.message}</h4>
                     {(() => {
@@ -625,7 +715,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                               <strong>{rider.rank}</strong>times
                             </h5>
                           )}
-                          <Link href={buildUrlWithParams("youngest-top10-rider")} className="green-circle-btn">
+                          <Link
+                            href={buildUrlWithParams("youngest-top10-rider")}
+                            className="green-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
                         </>
@@ -638,7 +731,10 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
               {/*Box 12 -Last Winner FromCountry */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <Link href={buildUrlWithParams("last-winner-from-country")} className="pabs" />
+                  <Link
+                    href={buildUrlWithParams("last-winner-from-country")}
+                    className="pabs"
+                  />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box12]?.message}</h4>
                     {(() => {
@@ -669,7 +765,12 @@ export const LastSection = ({ selectedYear = null, selectedNationality = null, n
                             alt=""
                             className="absolute-img"
                           />
-                          <Link href={buildUrlWithParams("last-winner-from-country")} className="white-circle-btn">
+                          <Link
+                            href={buildUrlWithParams(
+                              "last-winner-from-country"
+                            )}
+                            className="white-circle-btn"
+                          >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
                         </>
