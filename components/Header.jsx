@@ -21,7 +21,7 @@ export default function Header() {
    
 useEffect(() => {
   const riderDetailRegex = /^\/riders\/[\w\d-%\s]+$/;
-  const raceDetailRegex = /^\/races\/[\w\d-%\s]+$/;
+  const raceDetailRegex = /^\/races\/[^/]+$/;
   setIsDetailPage(riderDetailRegex.test(pathname) || raceDetailRegex.test(pathname));
 }, [pathname]);
 

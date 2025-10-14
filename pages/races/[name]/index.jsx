@@ -26,9 +26,10 @@ export default function RaceDetailsPage({ year }) {
 
   // State management
   const [selectedYear, setSelectedYear] = useState(year);
-  const [yearInput, setYearInput] = useState('');
+  const [yearInput, setYearInput] = useState("");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
-  const [selectedNationality, setSelectedNationality] = useState("All-Nationalities");
+  const [selectedNationality, setSelectedNationality] =
+    useState("All-Nationalities");
 
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
 
@@ -60,16 +61,16 @@ export default function RaceDetailsPage({ year }) {
   // }, [withAllTime, yearInput]);
 
   const { withoutAllTime } = generateYearOptions();
-  const allYearOptions = dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
-const allNationalityOptions = useMemo(() => {
- return ["All-Nationalities", ...nationalities];
-}, [nationalities]);
+  const allYearOptions =
+    dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
+  const allNationalityOptions = useMemo(() => {
+    return ["All-Nationalities", ...nationalities];
+  }, [nationalities]);
 
   const getFilteredYears = (searchValue) => {
-    if (!searchValue || searchValue.trim() === '') {
+    if (!searchValue || searchValue.trim() === "") {
       return allYearOptions;
     }
-
 
     const hasNumbers = /\d/.test(searchValue);
     if (hasNumbers) {
@@ -93,11 +94,11 @@ const allNationalityOptions = useMemo(() => {
       const queryParams = {};
       // if (selectedNationality) queryParams.q_country = selectedNationality;
       // Only add nationality to query if it's not "All-Nationalities"
-    if (selectedNationality && selectedNationality !== "All-Nationalities") {
-      queryParams.nationality = selectedNationality;
-      console.log(queryParams,"parama")
-    }
-      if (selectedYear && selectedYear !== "All-time") queryParams.q_year = selectedYear;
+      if (selectedNationality && selectedNationality !== "All-Nationalities") {
+        queryParams.nationality = selectedNationality;
+      }
+      if (selectedYear && selectedYear !== "All-time")
+        queryParams.q_year = selectedYear;
 
       const response = await callAPI(
         "GET",
@@ -115,13 +116,14 @@ const allNationalityOptions = useMemo(() => {
     }
   }, [selectedNationality, decodedRaceName]);
 
-
   // Fetch active years for the rider
   const fetchRaceActiveYears = async (raceName) => {
-
     try {
       setYearsLoading(true);
-      const response = await callAPI("GET", `/raceDetailsStats/${raceName}/getRaceActiveYears`,);
+      const response = await callAPI(
+        "GET",
+        `/raceDetailsStats/${raceName}/getRaceActiveYears`
+      );
 
       if (response && response.data.data.years) {
         const years = response.data.data.years;
@@ -149,9 +151,8 @@ const allNationalityOptions = useMemo(() => {
         `/raceDetailsStats/${raceName}/getRaceDetails`,
         {}
       );
-      console.log('response----', response)
-
-      if (response.status && response.data) {
+      
+ if (response.status && response.data) {
         setRaceData(response.data);
       } else {
         setError("Failed to load race details");
@@ -169,7 +170,7 @@ const allNationalityOptions = useMemo(() => {
     switch (type) {
       case "year":
         setSelectedYear(value);
-        setYearInput('');
+        setYearInput("");
         setShowYearDropdown(false);
         fetchFiltersData();
         break;
@@ -185,11 +186,11 @@ const allNationalityOptions = useMemo(() => {
     setYearInput(value);
   }, []);
 
-  // Effects  
+  // Effects
   useEffect(() => {
     if (router.isReady && decodedRaceName) {
       fetchRaceDetails(decodedRaceName);
-      fetchRaceActiveYears(decodedRaceName)
+      fetchRaceActiveYears(decodedRaceName);
     }
   }, [router.isReady, decodedRaceName, fetchRaceDetails]);
 
@@ -273,11 +274,11 @@ const allNationalityOptions = useMemo(() => {
                     {raceData.year && (
                       <li className="text-sm">{raceData.year}</li>
                     )}
-                    {raceData.total_riders && (
+                    {/* {raceData.total_riders && (
                       <li className="text-sm">
                         total riders ({raceData.total_riders})
                       </li>
-                    )}
+                    )} */}
                   </ul>
                 </div>
               ) : null}
@@ -309,7 +310,7 @@ const allNationalityOptions = useMemo(() => {
                     toggle={() =>
                       setShowNationalityDropdown(!showNationalityDropdown)
                     }
-              options={allNationalityOptions}
+                    options={allNationalityOptions}
                     selectedValue={selectedNationality}
                     placeholder="Nationaliteit"
                     onSelect={(value) => handleSelection("nationality", value)}
@@ -327,8 +328,10 @@ const allNationalityOptions = useMemo(() => {
                         selectedYear !== "All-time" ? selectedYear : null
                       }
                       selectedNationality={
-          selectedNationality !== "All-Nationalities" ? selectedNationality : null
-        }
+                        selectedNationality !== "All-Nationalities"
+                          ? selectedNationality
+                          : null
+                      }
                       name={decodedRaceName}
                     />
                   ) : (
@@ -337,8 +340,10 @@ const allNationalityOptions = useMemo(() => {
                         selectedYear !== "All-time" ? selectedYear : null
                       }
                       selectedNationality={
-          selectedNationality !== "All-Nationalities" ? selectedNationality : null
-        }
+                        selectedNationality !== "All-Nationalities"
+                          ? selectedNationality
+                          : null
+                      }
                       name={decodedRaceName}
                     />
                   )}
@@ -351,4 +356,3 @@ const allNationalityOptions = useMemo(() => {
     </>
   );
 }
-

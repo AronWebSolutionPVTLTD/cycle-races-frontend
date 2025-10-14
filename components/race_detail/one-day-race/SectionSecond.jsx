@@ -102,7 +102,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
     return { error: true, errorType: "no_data_found" };
   };
-  console.log(selectedNationality, "nato");
+  
   return (
     <section className="home-sec5 dddd">
       <div className="container">

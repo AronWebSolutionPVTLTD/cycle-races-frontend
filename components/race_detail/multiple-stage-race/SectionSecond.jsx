@@ -120,7 +120,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
           {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              <div className="col-lg-7 box5">
+              <div className="col-lg-7 box5 d-flex flex-row">
                 <div className="row">
                   {/*Box 1 - Last Race Winner*/}
                   <div className="col-lg-7 col-md-6">
