@@ -265,8 +265,8 @@ export default function DynamicSlugPage({ year }) {
         if (slug === "rider-from-same-home-town") {
           response.data = response?.data?.data?.others_from_same_birthplace;
         }
-        if(slug ==="race-winners-by-nationality"){
-           response.data = response?.data?.data?.[0]?.riders;
+        if (slug === "race-winners-by-nationality") {
+          response.data = response?.data?.data?.[0]?.riders;
         }
         setPageData(response.data);
         // Extract title from API response
@@ -461,8 +461,8 @@ export default function DynamicSlugPage({ year }) {
               />
 
               {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
-                  ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                  : ""
+                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                : ""
                 }`}
             </Link>
           </h5>
