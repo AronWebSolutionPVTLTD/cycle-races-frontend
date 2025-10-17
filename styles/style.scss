@@ -4378,19 +4378,33 @@ li.empty-state.ctm-empty-state {
 .name-wraper h6::after {
   display: none !important;
 }
+
 .filter-dropdown-list:not(.active) .form-select:hover {
-    background: #668f89 !important;
-    color: #fff;
+  background: #668f89 !important;
+  color: #fff;
 }
 
 .filter-dropdown-list:not(.active) .form-select:hover::after {
-    filter: invert(1);
+  filter: invert(1);
 }
+
 ul.filter li:not(.active) .form-select.selected {
-    background: #2c534d !important;
-    color: #fff;
+  background: #2c534d !important;
+  color: #fff;
 }
 
 ul.filter li:not(.active) .form-select.selected::after {
-    filter: invert(1);
+  filter: invert(1);
+}
+
+header.absolute-header .header-content-wraper .menu-wraper ul li:not(.active):hover a {
+  color: #d0f068 !important;
+}
+
+header.absolute-header .header-content-wraper .menu-wraper ul li:not(.active) a::after {
+  background-color: #d0f068 !important;
+}
+
+header.absolute-header .header-content-wraper .menu-wraper .search-wraper a:hover path {
+  fill: #fff !important;
 }
