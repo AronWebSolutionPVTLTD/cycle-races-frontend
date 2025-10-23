@@ -303,9 +303,9 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                                 </strong>
                               </h6>
                             </div> */}
-                            {riderData?.streak_count && (
+                            {riderData?.total_days && (
                               <h5>
-                                <strong>{riderData.streak_count}</strong>
+                                <strong>{riderData.total_days}</strong>
                                 days
                               </h5>
                             )}

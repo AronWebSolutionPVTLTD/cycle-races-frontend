@@ -350,7 +350,7 @@ export default function RaceResultPage({ year, month }) {
       <section className="home-banner result-sec1 race-result-page sdsdssd">
         <div className="container">
           <div className="row">
-            <div className="col-lg-12 filter---wrap">
+            <div className="col-lg-12 filter---wrap filter---wrap-race-result">
               <ul className="filter">
                 <FilterDropdown
                   ref={yearDropdownRef}
@@ -394,15 +394,18 @@ export default function RaceResultPage({ year, month }) {
                     </Link>
                   </li>
                 ))}
-                <div className="col text-end">
-                  <Link className="glob-btn green-bg-btn" href="/stats">
+              </ul>
+              <div className="col text-end">
+                  <Link className="glob-btn green-bg-btn"   
+                            href={`/races/${encodeURIComponent(id)}?year=${selectedYear}`}
+                      
+                          >
                     <strong>ALLE STATS</strong>
                     <span className="green-circle-btn green-circle-btn-2">
                       <img alt="" src="/images/arow.svg" />
                     </span>
                   </Link>
                 </div>
-              </ul>
               {/* <div className="select-box sdsdsdsdsd">
                 <select
                   value={selectedYear}
@@ -485,7 +488,7 @@ export default function RaceResultPage({ year, month }) {
                     ))}
                 </ul>
               ) : (
-                <div className="no-results">No race results found</div>
+                <div className="text-center">No race results found</div>
               )}
             </div>
 
@@ -536,6 +539,7 @@ export default function RaceResultPage({ year, month }) {
           </div>
         </div>
       </section>
+      
     </main>
   );
 }

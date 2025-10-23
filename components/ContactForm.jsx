@@ -1,15 +1,28 @@
-import { useState } from 'react'
+import { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function ContactForm() {
-  const [email, setEmail] = useState('')
-  const [message, setMessage] = useState('')
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [captchaVerified, setCaptchaVerified] = useState(false);
+  const handleCaptchaChange = (token) => {
+    if (token) {
+      setCaptchaVerified(true);
+      console.log("Captcha verified:", token);
+    }
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+    if (!captchaVerified) {
+      alert("Please verify that you are not a robot!");
+      return;
+    }
+    alert("Form submitted successfully!");
+  };
 
   return (
-    <form onSubmit={()=>handleSubmit(e)}>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <label htmlFor="email">E-Mailadres</label>
       <input
         type="email"
@@ -27,10 +40,22 @@ export default function ContactForm() {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <div className="flex-box items-center gap-3">
+      {/* <div className="flex-box items-center gap-3">
         <img src="/images/rb.png" alt="" width={40} height={40} />
         <input type="submit" value="verzend je bericht" className="glob-btn" />
+      </div> */}
+      <div className="flex-box items-center gap-3">
+        <ReCAPTCHA
+          sitekey="6LeIFPQrAAAAAGIKDWoD9aVMgCxeK6I7EbcdUXYh"
+          onChange={handleCaptchaChange}
+        />
+
+        <input
+          type="submit"
+          value="verzend je bericht"
+          className="glob-btn contact-global-btn"
+        />
       </div>
     </form>
-  )
+  );
 }

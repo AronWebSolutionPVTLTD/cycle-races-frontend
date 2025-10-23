@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <>
     <footer>
-      <div className="container footer-content-wraper">
+      <div className="footer-content-wraper">
         <div className="row">
           <div className='col-md-5 d-sm-flex justify-content-between d-md-grid'>
             <div className="content-wrap content-wrap-intro">
@@ -107,8 +107,8 @@ const Footer = () => {
         </div>
       </div>
         <div className='footer_bottom py-2 py-md-0'>    
-        <div className='container'>
-            <div className='row'>
+        <div className='footer-bottom-content-wraper'>
+            <div className='row align-items-center' >
                 <div className='col-md-4 my-2 my-md-4 text-center text-md-start'>
                     <p className='m-0 fw-medium'>© Wielerstats</p>
                 </div>

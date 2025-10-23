@@ -319,12 +319,7 @@ footer {
 
   .footer-content-wraper {
     display: block;
-
-    @media (min-width: 992px) {
-      & {
-        padding: 0 120px;
-      }
-    }
+    padding: 0 15px;
 
     p {
       color: #fff;
@@ -871,7 +866,7 @@ section.home-banner {
       border-bottom: 2px dashed #cbcbc7;
       display: grid;
       // grid-template-columns: 6rem 25.5rem 11.375rem 12.75rem;
-      grid-template-columns: 6rem 25.5rem 11.375rem auto;
+      grid-template-columns: 5rem 25.5rem 11.375rem auto;
       // gap: 1.5rem;
       gap: 32px;
       position: relative;
@@ -2141,7 +2136,7 @@ section.result-sec1 {
     margin-bottom: 2rem;
     display: grid;
     // grid-template-columns: 6rem 25.5rem 11.375rem 12.75rem;
-    grid-template-columns: 6rem 25.5rem 11.375rem auto;
+    grid-template-columns: 5rem 25.5rem 11.375rem auto;
     // gap: 1.5rem;
     gap: 32px;
 
@@ -4393,4 +4388,68 @@ ul.filter li:not(.active) .form-select.selected {
 
 ul.filter li:not(.active) .form-select.selected::after {
     filter: invert(1);
+}
+input.glob-btn.contact-global-btn:hover {
+    background: #638c87;
+}
+.footer-bottom-content-wraper {
+    padding: 0 15px;
+}
+.filter---wrap-race-result {
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 1rem;
+    row-gap: 4rem;
+}
+.filter---wrap-race-result .filter{
+  margin: 0;
+}
+@media ( max-width: 767px ){
+  .filter---wrap-race-result .filter{
+    margin-bottom: 0 !important;
+  }
+  .filter---wrap-race-result{
+    grid-template-columns: 1fr 212px;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .team-cart img.absolute-img {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+  }
+}
+.ctm_card_2 .image_link-wraper a.green-circle-btn {
+    position: static;
+    margin-top: -15px;
+}
+@media ( min-width: 992px ){
+  .header_overlay{
+    display: none !important;
+  }
+}
+@media ( max-width: 991px ){
+  .header_overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    background: #0000002d;
+    z-index: 9;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: all;
+    transition: all 0.3s ease;
+  }
+  body:has(.slim-nav.active) .header_overlay{
+    pointer-events: all;
+    opacity: 1;
+    visibility: visible;
+  }
+  body:has(.slim-nav.active) .slim-container .slim-nav{
+    padding-top: 3rem;
+    margin-top: 0;
+  }
 }

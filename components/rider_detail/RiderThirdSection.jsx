@@ -591,7 +591,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-white">
+                        <div className="name-wraper name-wraper-white name-left">
                           <Link href={`/races/${riderData?.race}`} className="pabs" />
                           {renderFlag(riderData?.country_code)}
                           <h6>

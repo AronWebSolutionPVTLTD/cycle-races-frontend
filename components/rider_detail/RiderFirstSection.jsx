@@ -109,7 +109,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
           <>
             {/* First Card */}
             <div className="col-lg-3 col-md-6">
-              <div className="list-white-cart lime-green-cart ctm-card">
+              <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
                 <Link href={buildUrlWithParams("rider-last-victories")} className="pabs" />
                 {getBoxData(fixedApis.box1).error ? (
                   <ErrorMessage
@@ -191,9 +191,8 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-green">
-                          <h6>{riderData?.total_uci_points || "..."}</h6>UCI
-                          points
+                        <div className="name-wraper name-wraper-green name-left">
+                          <h6>{riderData?.total_uci_points || "..."} UCI points</h6>
                         </div>
                         {riderData?.rank && (
                           <h5>

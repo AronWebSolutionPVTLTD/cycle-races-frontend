@@ -62,6 +62,7 @@ if (!atTop) {
 
   return (
     <header className={headerClass}>
+      <div className="header_overlay"></div>
       <div className="container">
         <div className="header-content-wraper">
           <Link href="/" className="logo">
