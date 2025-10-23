@@ -186,7 +186,7 @@ export const LastSection = ({
                             <h6>
                               {rider?.rider_name
                                 ? rider.rider_name.charAt(0).toUpperCase() +
-                                  rider.rider_name.slice(1)
+                                rider.rider_name.slice(1)
                                 : "..."}
                             </h6>
                           </div>
@@ -329,64 +329,51 @@ export const LastSection = ({
                           const response = data[fixedApis.box5];
                           const riderData = response?.data?.data;
 
-                          if (
-                            !Array.isArray(riderData) ||
-                            riderData.length === 0
-                          ) {
+                          if (!Array.isArray(riderData) || riderData.length === 0) {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
 
-                          // return (
-                          //   <>
-                          //     <div className="name-wraper name-wraper-white">
-                          //       {renderFlag(riderData?.country)}
-                          //       <h6>{riderData?.race_name || "..." ||riderData?.year}</h6>
-                          //     </div>
-                          //     {riderData?.dnf_count && (
-                          //       <h5>
-                          //         <strong>{riderData.dnf_count}</strong>dnfs
-                          //       </h5>
-                          //     )}
-                          //     <a href="#?" className="green-circle-btn">
-                          //       <img src="/images/arow.svg" alt="" />
-                          //     </a>
-                          //   </>
-                          // );
-                          return riderData.slice(0, 1).map((rider, index) => (
-                            <>
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(rider?.country)}
-                                <h6>
-                                  {rider?.race_name
-                                    ? `${rider.race_name
-                                        .charAt(0)
-                                        .toUpperCase()}${rider.race_name.slice(
-                                        1
-                                      )} (${rider.year})`
-                                    : "..."}
-                                </h6>
-                              </div>
+                          return riderData.slice(0, 1).map((rider, index) => {
+                            // ✅ Capitalize each word of race_name
+                            const formattedRaceName = rider?.race_name
+                              ? rider.race_name
+                                .split(" ")
+                                .map(
+                                  (word) =>
+                                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                                )
+                                .join(" ")
+                              : "...";
 
-                              {rider?.dnf_count && (
-                                <h5>
-                                  <strong>{rider.dnf_count}</strong> dnfs
-                                </h5>
-                              )}
+                            return (
+                              <>
+                                <div className="name-wraper name-wraper-white">
+                                  {renderFlag(rider?.country)}
+                                  <h6>
+                                    {formattedRaceName} ({rider?.year})
+                                  </h6>
+                                </div>
 
-                              <Link
-                                href={buildUrlWithParams(
-                                  "edition-with-most-dnfs"
+                                {rider?.dnf_count && (
+                                  <h5>
+                                    <strong>{rider.dnf_count}</strong> dnfs
+                                  </h5>
                                 )}
-                                className="green-circle-btn"
-                              >
-                                <img src="/images/arow.svg" alt="" />
-                              </Link>
-                            </>
-                          ));
+
+                                <Link
+                                  href={buildUrlWithParams("edition-with-most-dnfs")}
+                                  className="green-circle-btn"
+                                >
+                                  <img src="/images/arow.svg" alt="" />
+                                </Link>
+                              </>
+                            );
+                          });
                         })()}
                       </div>
                     </div>
                   </div>
+
 
                   {/*Box 6 -Country With MostWins */}
                   <div className="col-lg-7 col-md-6">

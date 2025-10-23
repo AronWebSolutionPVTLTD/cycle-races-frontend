@@ -126,7 +126,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                             .slice(0, 5)
                             .map((rider, index) => (
                               <li key={index}>
-                                <strong>{index + 1}</strong>
+                                <strong>{rider.rank}</strong>
                                 <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
 
                                   {renderFlag(rider?.country)}

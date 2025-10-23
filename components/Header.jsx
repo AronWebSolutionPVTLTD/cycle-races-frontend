@@ -12,52 +12,63 @@ export default function Header() {
   const [scrollDirection, setScrollDirection] = useState("");
   const [atTop, setAtTop] = useState(true);
   const [showStickyTop, setShowStickyTop] = useState(false);
-    const router=useRouter();
-    const isActive = (path) => pathname === path;
+  const router = useRouter();
+  const isActive = (path) => {
+    const router = useRouter();
 
-    const toggleNav = () => {
-      setIsOpen(!isOpen);
-    };
-   
-useEffect(() => {
-  const riderDetailRegex = /^\/riders\/[\w\d-%\s]+$/;
-  const raceDetailRegex = /^\/races\/[^/]+$/;
-  setIsDetailPage(riderDetailRegex.test(pathname) || raceDetailRegex.test(pathname));
-}, [pathname]);
-
-useEffect(() => {
-  let timeoutId = null;
-
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-    setAtTop(currentScrollY <= 100);
-
-    if (currentScrollY > 100) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        setShowStickyTop(true);
-      }, 50); // delay in ms
-    } else {
-      clearTimeout(timeoutId);
-      setShowStickyTop(false);
+    // Special case for home
+    if (path === "/") {
+      return router.pathname === "/";
     }
+
+    // For other routes, check if the current path starts with it
+    return router.asPath.startsWith(path);
   };
 
-  window.addEventListener("scroll", handleScroll);
 
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-    clearTimeout(timeoutId);
+  const toggleNav = () => {
+    setIsOpen(!isOpen);
   };
-}, []);
 
-let headerClass = isDetailPage ? "absolute-header" : "relative-header";
-if (!atTop) {
-  headerClass += " sticky-header";
-  if (showStickyTop) {
-    headerClass += " sticky-top";
+  useEffect(() => {
+    const riderDetailRegex = /^\/riders\/[\w\d-%\s]+$/;
+    const raceDetailRegex = /^\/races\/[^/]+$/;
+    setIsDetailPage(riderDetailRegex.test(pathname) || raceDetailRegex.test(pathname));
+  }, [pathname]);
+
+  useEffect(() => {
+    let timeoutId = null;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setAtTop(currentScrollY <= 100);
+
+      if (currentScrollY > 100) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          setShowStickyTop(true);
+        }, 50); // delay in ms
+      } else {
+        clearTimeout(timeoutId);
+        setShowStickyTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
+  let headerClass = isDetailPage ? "absolute-header" : "relative-header";
+  if (!atTop) {
+    headerClass += " sticky-header";
+    if (showStickyTop) {
+      headerClass += " sticky-top";
+    }
   }
-}
 
 
   return (
@@ -70,8 +81,8 @@ if (!atTop) {
               <img src="/images/site-logo.svg" alt="Wielerstats Logo" />
             ) : (
               <>
-              <img src="/images/dark-bg-logo.svg" alt="Wielerstats Logo" className="dark-logo" />
-              <img src="/images/site-logo.svg" className="light-logo" alt="Wielerstats Logo" />
+                <img src="/images/dark-bg-logo.svg" alt="Wielerstats Logo" className="dark-logo" />
+                <img src="/images/site-logo.svg" className="light-logo" alt="Wielerstats Logo" />
               </>
             )}
           </Link>
@@ -102,30 +113,19 @@ if (!atTop) {
                     }}
                   >
                     <li className={isActive("/") ? "active" : ""}>
-                      <Link href="/" onClick={()=>setIsOpen(false)}>Home</Link>
+                      <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
                     </li>
+
                     <li className={isActive("/stats") ? "active" : ""}>
-                      <Link
-                        href="/stats"
-                        onClick={()=>setIsOpen(false)}
-                      >
-                        Stats
-                      </Link>
+                      <Link href="/stats" onClick={() => setIsOpen(false)}>Stats</Link>
                     </li>
-                    <li  className={isActive("/races") ? "active" : ""}>  
-                      <Link
-                        href="/races"
-                       onClick={()=>setIsOpen(false)}
-                      >
-                        Races
-                      </Link>
+
+                    <li className={isActive("/races") ? "active" : ""}>
+                      <Link href="/races" onClick={() => setIsOpen(false)}>Races</Link>
                     </li>
-                    <li
-                      className={`slim-last ${
-                        isActive("/riders") ? "active" : ""
-                      }`}
-                    >
-                      <Link href="/riders" onClick={()=>setIsOpen(false)}>Riders</Link>
+
+                    <li className={`slim-last ${isActive("/riders") ? "active" : ""}`}>
+                      <Link href="/riders" onClick={() => setIsOpen(false)}>Riders</Link>
                     </li>
                   </ul>
                 </nav>
@@ -152,7 +152,7 @@ if (!atTop) {
             </div>
             <div className="search-wraper">
               <a href="#?">
-              <svg
+                <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={48}
                   height={48}

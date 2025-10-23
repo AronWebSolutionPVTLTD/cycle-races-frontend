@@ -127,7 +127,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     <div className="team-cart">
                       <Link
                         href={buildUrlWithParams(
-                          "last-race-winner-by-nationality"
+                          "last-race-winner-nationality"
                         )}
                         className="pabs"
                       ></Link>
@@ -167,7 +167,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               />
                               <Link
                                 href={buildUrlWithParams(
-                                  "last-race-winner-by-nationality"
+                                  "last-race-winner-nationality"
                                 )}
                                 className="green-circle-btn"
                               >

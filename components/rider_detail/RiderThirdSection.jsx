@@ -677,7 +677,11 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         <div className="name-wraper name-wraper-white name-left">
                           <Link href={`/races/${firstRider?.race}`} className="pabs" />
                           {renderFlag(firstRider?.country_code)}
-                          <h6>{firstRider?.race || "..."}</h6>
+                          {/* <h6>{firstRider?.race || "..."}</h6> */}
+                          <h6>
+                            {firstRider?.race || "..."}{" "}
+                            {firstRider?.year ? `(${firstRider.year})` : ""}
+                          </h6>
                         </div>
                         {firstRider?.gcRank && (
                           <h5>
@@ -764,9 +768,15 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                             <div className="name-wraper name-wraper-white">
                               <Link href={`/races/${rider?.race}`} className="pabs" />
                               {renderFlag(rider?.country)}
-                              <h6>{rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}
-                                {/* {""} - {rider?.type?.toLowerCase() === "stage" ? `${rider.type.toUpperCase()} ${rider.stage_number}` : ""} */}
+                              {/* <h6>{rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}
+
+                              </h6> */}
+                              <h6>
+                                {rider?.race || "..."}{" "}
+                                {rider?.year ? `(${rider.year})` : ""}{" "}
+                                {rider?.tab_name !== null ? `Stage ${rider.stage_number}` : ""}
                               </h6>
+
                             </div>
                             {rider?.rank && <span>{rider.rank}</span>}
                           </li>
