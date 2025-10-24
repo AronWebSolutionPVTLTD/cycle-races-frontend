@@ -1,8 +1,7 @@
-import Image from 'next/image'
-import Link from 'next/link'
+"use client";
+
 import ContactForm from '../components/ContactForm'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+
 
 export const metadata = {
   title: 'Contact | Wielerstats',

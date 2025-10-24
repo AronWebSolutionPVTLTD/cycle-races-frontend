@@ -303,12 +303,12 @@ export default function RaceResultPage({ year, month }) {
     return queryString ? `${basePath}?${queryString}` : basePath;
   };
   const getTimeGapDisplay = (baseTime, compareTime) => {
-    if (!baseTime || !compareTime) return ""; // empty string if either time missing
+    if (!baseTime || !compareTime) return ""; 
 
     const base = convertTimeToSeconds(baseTime);
     const compare = convertTimeToSeconds(compareTime);
 
-    if (base === null || compare === null) return ""; // empty if parse failed
+    if (base === null || compare === null) return ""; 
 
     const diff = compare - base;
 
@@ -338,7 +338,8 @@ export default function RaceResultPage({ year, month }) {
                 <li>{race?.race_name}</li>
               </ul>
               {isLoading ? (
-                "Loading..."
+                <h3 className="text-center my-4">Loading...</h3>
+              
               ) : (
                 <h1>{race?.race_name.toUpperCase()}</h1>
               )}
@@ -430,12 +431,11 @@ export default function RaceResultPage({ year, month }) {
 
             </div>
 
-            <div className="col-lg-9 col-md-7 ctm-table-wrap">
-              <ul className="head-heading">
-                <li>#</li>
-                <li>Name</li>
-                <li>Team</li>
-                <li>Time</li>
+            <div className="col-lg-9 col-md-7 ctm-table-wrap ctm-race-result-wrap">
+              <ul className="head-heading ctm-race-result-head">
+                <li className="name">Name</li>
+                <li className="team">Team</li>
+                <li className="time">Time</li>
               </ul>
 
               {isLoading || !isRouterReady ? (
@@ -452,10 +452,10 @@ export default function RaceResultPage({ year, month }) {
                     ?.sort((a, b) => a.rank - b.rank)
                     .slice(0, 25)
                     .map((rider, index) => (
-                      <li className="hoverState-li custom-list-el" key={index}>
+                      <li className="hoverState-li custom-list-el race-result-ctm-el" key={index}>
                         <Link href={`/riders/${rider.rider_id}`} className="pabs" />
-                        <span>{index + 1}</span>
                         <h5 className="rider--name">
+                          <span className="race-result-index">{index + 1}</span>
                           <Link href={`/riders/${rider.rider_id}`} className="link">
                             <Flag
                               code={rider.rider_country?.toUpperCase()}
@@ -468,7 +468,7 @@ export default function RaceResultPage({ year, month }) {
                             {rider.rider_name.toUpperCase()}
                           </Link>
                         </h5>
-                        <h6>{rider.team_name}</h6>
+                        <h6 className="team_name">{rider.team_name}</h6>
                         <h6 className="time-result">
                           {/* {index === 0
                             ? formatTimeToDisplay(rider.time)

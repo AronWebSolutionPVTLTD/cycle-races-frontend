@@ -4429,6 +4429,7 @@ input.glob-btn.contact-global-btn:hover {
 @media ( min-width: 992px ){
   .header_overlay{
     display: none !important;
+    
   }
 }
 @media ( max-width: 991px ){
@@ -4436,8 +4437,8 @@ input.glob-btn.contact-global-btn:hover {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100dvw;
-    height: 100dvh;
+    width: 100%;  
+    height: 100%;
     background: #0000002d;
     z-index: 9;
     opacity: 0;
@@ -4454,4 +4455,90 @@ input.glob-btn.contact-global-btn:hover {
     padding-top: 3rem;
     margin-top: 0;
   }
+  li.hoverState-li.custom-list-el.race-result-ctm-el span.race-result-index {
+      width: auto !important;
+      color: #2b534d;
+      font-family: "Univers";
+      font-size: 1.125rem;
+      font-style: normal;
+      font-weight: 5;
+      line-height: 1.2rem;
+      letter-spacing: -0.022rem;
+      text-transform: uppercase;
+  }
+  li.hoverState-li.custom-list-el.race-result-ctm-el h6.time-result {
+    padding: 0;
+    width: auto;
+  }
+  li.hoverState-li.custom-list-el.race-result-ctm-el{
+    justify-content: space-between;
+  }
+  li.hoverState-li.custom-list-el.race-result-ctm-el h6{
+    width: auto;
+    max-width: 70%;
+  }
+  li.hoverState-li.custom-list-el.race-result-ctm-el a.r-details{
+    display: none !important;
+  }
+}
+.slug-table-head.col--3 li.slug-list-head.YEARS {
+    flex: 0 0 10%;
+}
+
+@media ( min-width: 992px ){
+  ul.head-heading.ctm-race-result-head {
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-right: 35px;
+}
+
+ul.head-heading.ctm-race-result-head li.name {
+    flex: 0 0 40%;
+}
+
+ul.head-heading.ctm-race-result-head li.team {
+    flex: 0 0 40%;
+}
+
+ul.head-heading.ctm-race-result-head li.time {
+    flex: 0 0 10%;
+    text-align: right;
+}
+
+li.hoverState-li.custom-list-el.race-result-ctm-el {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-right: 35px !important;
+}
+
+li.hoverState-li.custom-list-el.race-result-ctm-el h6.team_name {
+    padding: 0;
+}
+
+li.hoverState-li.custom-list-el.race-result-ctm-el h5.rider--name {
+    flex: 0 0 40%;
+}
+
+li.hoverState-li.custom-list-el.race-result-ctm-el h6.team_name {
+    flex: 0 0 40%;
+}
+
+li.hoverState-li.custom-list-el.race-result-ctm-el h6.time-result {
+    flex: 0 0 10%;
+    padding: 0;
+    justify-content: flex-end;
+}
+
+li.hoverState-li.custom-list-el.race-result-ctm-el h5.rider--name span.race-result-index {
+    color: #2b534d;
+    font-family: "Univers";
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 5;
+    line-height: 1.2rem;
+    letter-spacing: -0.022rem;
+    text-transform: uppercase;
+}
 }

@@ -35,9 +35,9 @@ section.home-banner ul.transparent-cart li h5 {
     section.home-banner ul.transparent-cart li h5 {
         width: 100%;
     }
-    section.home-banner ul.transparent-cart li h6 {
+    /* section.home-banner ul.transparent-cart li h6 {
         width: 47%;
-    }
+    } */
     section.home-sec4 ul.transparent-cart li {
         grid-template-columns: 1fr;
     }
@@ -244,7 +244,7 @@ section.home-banner ul.transparent-cart li h5 {
         width: 100%;
     }
     section.home-banner ul.transparent-cart li h6 {
-        width: 47%;
+        /* width: 47%; */
     }
     section.home-sec4 {
         padding-bottom: 4rem;
@@ -642,7 +642,7 @@ section.home-banner ul.transparent-cart li h5 {
         width: 100%;
     }
     section.home-banner ul.transparent-cart li h6 {
-        width: 45.5%;
+        width: 80%;
     }
     section.home-banner a.alle-link {
         margin-top: 2rem;
@@ -1076,7 +1076,7 @@ section.home-banner ul.transparent-cart li h5 {
     }
     section.rider-details-sec .races h5 {
         font-size: 1.5rem;
-        text-align: left;
+        /* text-align: left; */
     }
     section.rider-details-sec .races h5 strong {
         font-size: 3rem;
