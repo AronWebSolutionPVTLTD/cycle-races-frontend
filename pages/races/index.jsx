@@ -328,9 +328,9 @@ export default function Results() {
         allRaces.length === 1
           ? allRaces // Show the exact match if it's the only result
           : allRaces.filter(
-              (race) =>
-                race.race_name.toLowerCase() !== trimmedSearch.toLowerCase()
-            );
+            (race) =>
+              race.race_name.toLowerCase() !== trimmedSearch.toLowerCase()
+          );
       setSearchResults(uniqueRaces);
       setShowSearchDropdown(uniqueRaces.length > 0);
     } catch (error) {

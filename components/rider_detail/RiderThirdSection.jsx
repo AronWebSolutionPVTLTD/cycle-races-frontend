@@ -729,9 +729,9 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                           {renderFlag(firstRider?.country)}
                           <h6>{firstRider?.top_teammate || "..."}</h6>
                         </div>
-                        {firstRider?.times_raced && (
+                        {firstRider?.number_of_race && (
                           <h5>
-                            <strong>{firstRider.times_raced} </strong>Race days
+                            <strong>{firstRider.number_of_race} </strong>Race days
                           </h5>
                         )}
 

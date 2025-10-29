@@ -131,7 +131,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-white">
-                                <Link href={`/races/${rider?.race}`} className="pabs" />
+                                <Link href={`/race-result/${rider?.race}`} className="pabs" />
                                 {renderFlag(rider?.country)}
                                 <h6>
                                   {rider?.race || "..."}{" "}
@@ -257,7 +257,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             </div>
 
             {/* Box4: Rider Total Wins  */}
-            <div className="col-lg-3 col-md-6">
+            <div className="col-lg-3 col-md-6 sss">
               <div className="races">
                 <div className="text-wraper">
                   <h3 className="font-size-change">

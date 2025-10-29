@@ -306,7 +306,7 @@ ul.slug-table-body li .sr-no {
 /* Rider name */
 ul.slug-table-body li h5 {
   color: #2b534d;
-  font-family: "Univers", sans-serif;
+  font-family: "Archivo", sans-serif;
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.2rem;
@@ -372,7 +372,7 @@ ul.slug-table-head li {
   color: #cbcbc7;
   letter-spacing: -0.35px;
   line-height: 1;
-  font-family: "Univers";
+  font-family: "Archivo", sans-serif;
 }
 
 ul.slug-table-head li:last-child {

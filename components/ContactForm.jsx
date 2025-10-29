@@ -106,11 +106,11 @@ export default function ContactForm() {
       setCaptchaVerified(false);
       return;
     }
-console.log(token,"token")
+    console.log(token, "token")
     try {
       const response = await callAPI(
         "POST",
-        "communication/verify-captcha", 
+        "communication/verify-captcha",
         { token }
       );
 
@@ -156,7 +156,7 @@ console.log(token,"token")
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate form fields
     if (!validateForm()) {
       showNotification("error", "Vul alle verplichte velden correct in!");
@@ -202,12 +202,11 @@ console.log(token,"token")
   return (
     <form onSubmit={handleSubmit} noValidate>
       {notification.message && (
-        <div 
-          className={`notification mb-3 p-3 rounded ${
-            notification.type === "success" 
-              ? "bg-green-100 text-green-800 border border-green-300" 
-              : "bg-red-100 text-red-800 border border-red-300"
-          }`}
+        <div
+          className={`notification mb-3 p-3 rounded ${notification.type === "success"
+            ? "bg-green-100 text-green-800 border border-green-300"
+            : "bg-red-100 text-red-800 border border-red-300"
+            }`}
           style={{
             backgroundColor: notification.type === "success" ? "#d4edda" : "#f8d7da",
             color: notification.type === "success" ? "#155724" : "#721c24",
@@ -265,7 +264,7 @@ console.log(token,"token")
       <div className="flex-box items-center gap-3 my-4">
         <ReCAPTCHA
           ref={recaptchaRef}
-          sitekey="6LeIFPQrAAAAAGIKDWoD9aVMgCxeK6I7EbcdUXYh"
+          sitekey="6LeRpvUrAAAAALKa4-G-53v7-dwckhCAzqTMwXhB"
           onChange={handleCaptchaChange}
         />
 

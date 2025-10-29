@@ -303,12 +303,12 @@ export default function RaceResultPage({ year, month }) {
     return queryString ? `${basePath}?${queryString}` : basePath;
   };
   const getTimeGapDisplay = (baseTime, compareTime) => {
-    if (!baseTime || !compareTime) return ""; 
+    if (!baseTime || !compareTime) return "";
 
     const base = convertTimeToSeconds(baseTime);
     const compare = convertTimeToSeconds(compareTime);
 
-    if (base === null || compare === null) return ""; 
+    if (base === null || compare === null) return "";
 
     const diff = compare - base;
 
@@ -339,7 +339,7 @@ export default function RaceResultPage({ year, month }) {
               </ul>
               {isLoading ? (
                 <h3 className="text-center my-4">Loading...</h3>
-              
+
               ) : (
                 <h1>{race?.race_name.toUpperCase()}</h1>
               )}
@@ -379,7 +379,7 @@ export default function RaceResultPage({ year, month }) {
                     ))}
                   </select>
                 </li> */}
-                {months.map((month) => (
+                {/* {months.map((month) => (
                   <li
                     key={month}
                     className={selectedMonth === month ? "active" : ""}
@@ -394,19 +394,19 @@ export default function RaceResultPage({ year, month }) {
                       {month}
                     </Link>
                   </li>
-                ))}
+                ))} */}
               </ul>
               <div className="col text-end">
-                  <Link className="glob-btn green-bg-btn"   
-                            href={`/races/${encodeURIComponent(id)}?year=${selectedYear}`}
-                      
-                          >
-                    <strong>ALLE STATS</strong>
-                    <span className="green-circle-btn green-circle-btn-2">
-                      <img alt="" src="/images/arow.svg" />
-                    </span>
-                  </Link>
-                </div>
+                <Link className="glob-btn green-bg-btn"
+                  href={`/races/${encodeURIComponent(id)}`}
+
+                >
+                  <strong>ALLE STATS</strong>
+                  <span className="green-circle-btn green-circle-btn-2">
+                    <img alt="" src="/images/arow.svg" />
+                  </span>
+                </Link>
+              </div>
               {/* <div className="select-box sdsdsdsdsd">
                 <select
                   value={selectedYear}
@@ -450,7 +450,7 @@ export default function RaceResultPage({ year, month }) {
                 <ul className="transparent-cart ctm-table-ul">
                   {race.riders
                     ?.sort((a, b) => a.rank - b.rank)
-                    .slice(0, 25)
+                    // .slice(0, 50)
                     .map((rider, index) => (
                       <li className="hoverState-li custom-list-el race-result-ctm-el" key={index}>
                         <Link href={`/riders/${rider.rider_id}`} className="pabs" />
@@ -478,12 +478,12 @@ export default function RaceResultPage({ year, month }) {
                               )} */}
                           {rider.time}
                         </h6>
-                        <Link
+                        {/* <Link
                           href={`/riders/${rider.rider_id}`}
                           className="r-details"
                         >
                           <img src="/images/hover-arow.svg" alt="Details" />
-                        </Link>
+                        </Link> */}
                       </li>
                     ))}
                 </ul>
@@ -539,7 +539,7 @@ export default function RaceResultPage({ year, month }) {
           </div>
         </div>
       </section>
-      
+
     </main>
   );
 }

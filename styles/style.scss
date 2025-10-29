@@ -1,5 +1,6 @@
 // Font(Roboto)
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
 
 @font-face {
   font-family: "Univers";
@@ -149,10 +150,10 @@ select {
 .glob-btn {
   min-height: 3.5rem;
   color: #fff;
-  font-family: "Univers";
+  font-family: "Archivo", sans-serif;
   font-size: 1rem;
   font-style: normal;
-  font-weight: 5;
+  font-weight: 500;
   line-height: 1;
   /* 50% */
   letter-spacing: -0.022rem;
@@ -196,10 +197,10 @@ select {
 
 h2 {
   color: #2b534d;
-  font-family: "Univers";
+  font-family: "Archivo", sans-serif;
   font-size: 5rem;
   font-style: normal;
-  font-weight: 5;
+  font-weight: 500;
   line-height: 4rem;
   /* 80% */
   letter-spacing: -0.25rem;
@@ -413,14 +414,6 @@ footer {
   background: #fff;
   margin-top: 4rem;
 
-  .container {
-    @media (min-width: 992px) {
-      & {
-        padding: 0 120px;
-      }
-    }
-  }
-
   p {
     color: #2b534d;
   }
@@ -491,10 +484,10 @@ footer {
   // }
   h4 {
     color: #2b534d;
-    font-family: "Univers";
+    font-family: "Archivo", sans-serif;
     font-size: 1.125rem;
     font-style: normal;
-    font-weight: 5;
+    font-weight: 500;
     line-height: 1.125rem;
     /* 100% */
     letter-spacing: -0.022rem;
@@ -519,10 +512,10 @@ footer {
 
       strong {
         color: #2b534d;
-        font-family: "Univers";
+        font-family: "Archivo", sans-serif;
         font-size: 1.125rem;
         font-style: normal;
-        font-weight: 5;
+        font-weight: 500;
         line-height: 2.5rem;
         /* 222.222% */
         letter-spacing: -0.022rem;
@@ -675,10 +668,10 @@ footer {
 
     h4 {
       color: #2b534d;
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 1.125rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 1.125rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -749,10 +742,10 @@ footer {
   h5 {
     min-height: 5.125rem;
     color: #cbcbc7;
-    font-family: "Univers";
+    font-family: "Archivo", sans-serif;
     font-size: 1.125rem;
     font-style: normal;
-    font-weight: 5;
+    font-weight: 500;
     line-height: 1.125rem;
     /* 100% */
     letter-spacing: -0.022rem;
@@ -765,10 +758,10 @@ footer {
     strong {
       display: block;
       color: #cbcbc7;
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 5rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 4rem;
       /* 80% */
       letter-spacing: -0.25rem;
@@ -916,10 +909,10 @@ section.home-banner {
 
       h5 {
         color: #2b534d;
-        font-family: "Univers";
+        font-family: "Archivo", sans-serif;
         font-size: 1.125rem;
         font-style: normal;
-        font-weight: 5;
+        font-weight: 500;
         line-height: 1.2rem;
         /* 100% */
         letter-spacing: -0.022rem;
@@ -1044,10 +1037,10 @@ section.home-sec2 {
 
     h4 {
       color: #2b534d;
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 1.125rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 2rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -1064,10 +1057,10 @@ section.home-sec2 {
 
     h5 {
       color: #2b534d;
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 1.125rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 1.125rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -1117,10 +1110,10 @@ section.home-sec2 {
 
     h5 {
       color: #2b534d;
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 2rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 2rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -1236,10 +1229,10 @@ section.home-sec3 {
 
       h3 {
         color: #fff;
-        font-family: "Univers";
+        font-family: "Archivo", sans-serif;
         font-size: 3rem;
         font-style: normal;
-        font-weight: 5;
+        font-weight: 500;
         line-height: 3rem;
         /* 100% */
         letter-spacing: -0.02188rem;
@@ -1262,10 +1255,10 @@ section.home-sec3 {
 
     span {
       color: #d0f068;
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 16rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 16rem;
       /* 100% */
       letter-spacing: -0.25rem;
@@ -1351,10 +1344,10 @@ section.home-sec4 {
 
       h5 {
         color: #2b534d;
-        font-family: "Univers";
+        font-family: "Archivo", sans-serif;
         font-size: 1.125rem;
         font-style: normal;
-        font-weight: 5;
+        font-weight: 500;
         line-height: 1.125rem;
         /* 100% */
         letter-spacing: -0.022rem;
@@ -1536,10 +1529,10 @@ section.stats-sec1 {
 
   h1 {
     color: var(--Dark-Green, #2b534d);
-    font-family: "Univers";
+    font-family: "Archivo", sans-serif;
     font-size: 8rem;
     font-style: normal;
-    font-weight: 5;
+    font-weight: 500;
     line-height: 6.875rem;
     /* 85.938% */
     letter-spacing: -0.25rem;
@@ -1650,10 +1643,10 @@ section.stats-sec1 {
 
     h5 {
       color: #5b604e;
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 2rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 2rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -1687,10 +1680,10 @@ section.stats-sec1 {
 
     h5 {
       color: #cbcbc7;
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 1.125rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 1.125rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -1800,10 +1793,10 @@ section.riders-sec1 {
 
   h1 {
     color: var(--Dark-Green, #2b534d);
-    font-family: "Univers";
+    font-family: "Archivo", sans-serif;
     font-size: 8rem;
     font-style: normal;
-    font-weight: 5;
+    font-weight: 500;
     line-height: 6.875rem;
     /* 85.938% */
     letter-spacing: -0.25rem;
@@ -1842,7 +1835,7 @@ section.riders-sec1 {
   .searchInput input {
     height: 3rem;
     width: 100%;
-    font-family: "Univers";
+    font-family: "Archivo", sans-serif;
     outline: none;
     border: none;
     font-size: 1.8rem;
@@ -1853,10 +1846,10 @@ section.riders-sec1 {
 
     &::placeholder {
       color: var(--Text, #cbcbc7);
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 2rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 2rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -1884,10 +1877,10 @@ section.riders-sec1 {
     display: none;
     cursor: default;
     color: var(--Text, #cbcbc7);
-    font-family: "Univers";
+    font-family: "Archivo", sans-serif;
     font-size: 1.5rem;
     font-style: normal;
-    font-weight: 5;
+    font-weight: 500;
     line-height: 1.5rem;
     /* 100% */
     letter-spacing: -0.022rem;
@@ -2008,8 +2001,8 @@ section.riders-sec2 {
     line-height: 2rem;
     letter-spacing: -0.35px;
     text-transform: uppercase;
-    font-weight: 5;
-    font-family: "Univers";
+    font-weight: 500;
+    font-family: "Archivo", sans-serif;
     font-style: normal;
     margin-bottom: 4rem;
   }
@@ -2021,10 +2014,10 @@ section.riders-sec2 {
 
     li {
       color: var(--Text, #cbcbc7);
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 18px;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 1.5rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -2142,10 +2135,10 @@ section.result-sec1 {
 
     li {
       color: var(--Text, #cbcbc7);
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 18px;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 1.5rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -2258,10 +2251,10 @@ section.contact-sec1 {
 
     h1 {
       color: var(--Dark-Green, #2b534d);
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 8rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 700;
       line-height: 6.875rem;
       letter-spacing: -0.25rem;
       text-transform: uppercase;
@@ -2408,10 +2401,10 @@ section.cookiePolicy-sec1 {
 
     h1 {
       color: var(--Dark-Green, #2b534d);
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 8rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 700;
       line-height: 6.875rem;
       letter-spacing: -0.25rem;
       text-transform: uppercase;
@@ -2430,12 +2423,12 @@ section.cookiePolicy-sec1 {
   }
 
   h4 {
-    font-family: "Univers";
+    font-family: "Archivo", sans-serif;
     font-size: 1.5rem;
     line-height: 1.5rem;
     letter-spacing: -0.0219rem;
     text-transform: uppercase;
-    font-weight: 5;
+    font-weight: 500;
     margin: 1.625rem 0 2.125rem;
     color: #2b534d;
   }
@@ -2549,10 +2542,10 @@ section.rider-details-sec {
 
       h1 {
         color: var(--Dark-Green, #2b534d);
-        font-family: "Univers";
+        font-family: "Archivo", sans-serif;
         font-size: 8rem;
         font-style: normal;
-        font-weight: 5;
+        font-weight: 700;
         line-height: 6.875rem;
         letter-spacing: -0.25rem;
         text-transform: uppercase;
@@ -2706,10 +2699,10 @@ section.rider-details-sec {
 
     h5 {
       color: #2b534d;
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 2rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 2rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -2749,10 +2742,10 @@ section.rider-details-sec {
 
     h4 {
       color: #2b534d;
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 1.125rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 2rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -2769,10 +2762,10 @@ section.rider-details-sec {
 
     h5 {
       color: #2b534d;
-      font-family: "Univers";
+      font-family: "Archivo", sans-serif;
       font-size: 1.125rem;
       font-style: normal;
-      font-weight: 5;
+      font-weight: 500;
       line-height: 1.125rem;
       /* 100% */
       letter-spacing: -0.022rem;
@@ -2880,10 +2873,10 @@ section.race-details-sec {
 
       h1 {
         color: var(--Dark-Green, #2b534d);
-        font-family: "Univers";
+        font-family: "Archivo", sans-serif;
         font-size: 8rem;
         font-style: normal;
-        font-weight: 5;
+        font-weight: 500;
         line-height: 6.875rem;
         letter-spacing: -0.25rem;
         text-transform: uppercase;
@@ -2998,7 +2991,7 @@ header.absolute-header {
   width: 100%;
   z-index: 100;
 
-  .header-content-wraper .menu-wraper ul li.active a {
+  &:not(.sticky-header) .header-content-wraper .menu-wraper ul li.active a {
     background-color: #678f89;
     color: #fff;
   }
@@ -3080,20 +3073,20 @@ div#__next {
   min-height: 100dvh;
 }
 
-header .header-content-wraper .menu-wraper ul li:not(.active) a::after {
-  content: "";
-  width: 0%;
-  height: 1px;
-  background-color: #2b534d;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  transition: all 0.3s ease-in-out;
-}
+// header .header-content-wraper .menu-wraper ul li:not(.active) a::after {
+//   content: "";
+//   width: 0%;
+//   height: 1px;
+//   background-color: #2b534d;
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   transition: all 0.3s ease-in-out;
+// }
 
-header .header-content-wraper .menu-wraper ul li:hover a::after {
-  width: 100%;
-}
+// header .header-content-wraper .menu-wraper ul li:hover a::after {
+//   width: 100%;
+// }
 
 header.sticky-header {
   transform: translateY(-100%);
@@ -3326,7 +3319,7 @@ p.disclaimer-text {
 
 .wrap-bottom {
   margin-top: 0;
-  font-family: "Univers";
+  font-family: "Archivo", sans-serif;
   font-size: 24px;
   line-height: 24px;
   letter-spacing: -0.35px;
@@ -3388,6 +3381,10 @@ section.riders-sec1 .searchInput:has(.wrap-bottom) {
 
 header.sticky-header.sticky-top .menu-wraper ul li a {
   color: #2b534d;
+}
+
+header.sticky-header.sticky-top .menu-wraper ul li:not(.active):hover a {
+  color: #678F89;
 }
 
 .noData-error {
@@ -4389,55 +4386,79 @@ ul.filter li:not(.active) .form-select.selected {
 }
 
 ul.filter li:not(.active) .form-select.selected::after {
-    filter: invert(1);
+  filter: invert(1);
 }
+
 input.glob-btn.contact-global-btn:hover {
-    background: #638c87;
+  background: #638c87;
 }
+
 .footer-bottom-content-wraper {
-    padding: 0 15px;
+  padding: 0 15px;
 }
+
 .filter---wrap-race-result {
-    margin-bottom: 3rem;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: 1rem;
-    row-gap: 4rem;
+  margin-bottom: 3rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 1rem;
+  row-gap: 4rem;
 }
-.filter---wrap-race-result .filter{
+
+.filter---wrap-race-result .filter {
   margin: 0;
 }
-@media ( max-width: 767px ){
-  .filter---wrap-race-result .filter{
+
+@media (max-width: 767px) {
+  .filter---wrap-race-result .filter {
     margin-bottom: 0 !important;
   }
-  .filter---wrap-race-result{
+
+  .filter---wrap-race-result {
     grid-template-columns: 1fr 212px;
     align-items: center;
     margin-bottom: 32px;
   }
+
   .team-cart img.absolute-img {
     position: absolute !important;
     bottom: 0 !important;
     left: 0 !important;
   }
-}
-.ctm_card_2 .image_link-wraper a.green-circle-btn {
-    position: static;
-    margin-top: -15px;
-}
-@media ( min-width: 992px ){
-  .header_overlay{
-    display: none !important;
-    
+
+  .filter---wrap a.glob-btn.green-bg-btn {
+    font-size: 14px;
+  }
+
+  section.home-banner.result-sec1.race-result-page .filter---wrap.filter---wrap-race-result {
+    max-width: 100%;
+  }
+
+  li.hoverState-li.custom-list-el.race-result-ctm-el h6.team_name,
+  .hoverState-li.custom-list-el h6.team-name {
+    font-size: .8rem !important;
+    line-height: .8rem !important;
   }
 }
-@media ( max-width: 991px ){
-  .header_overlay{
+
+.ctm_card_2 .image_link-wraper a.green-circle-btn {
+  position: static;
+  margin-top: -15px;
+}
+
+@media (min-width: 992px) {
+  .header_overlay {
+    display: none !important;
+
+  }
+}
+
+@media (max-width: 991px) {
+  .header_overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;  
+    width: 100%;
     height: 100%;
     background: #0000002d;
     z-index: 9;
@@ -4446,99 +4467,116 @@ input.glob-btn.contact-global-btn:hover {
     pointer-events: all;
     transition: all 0.3s ease;
   }
-  body:has(.slim-nav.active) .header_overlay{
+
+  body:has(.slim-nav.active) .header_overlay {
     pointer-events: all;
     opacity: 1;
     visibility: visible;
   }
-  body:has(.slim-nav.active) .slim-container .slim-nav{
+
+  body:has(.slim-nav.active) .slim-container .slim-nav {
     padding-top: 3rem;
     margin-top: 0;
   }
+
   li.hoverState-li.custom-list-el.race-result-ctm-el span.race-result-index {
-      width: auto !important;
-      color: #2b534d;
-      font-family: "Univers";
-      font-size: 1.125rem;
-      font-style: normal;
-      font-weight: 5;
-      line-height: 1.2rem;
-      letter-spacing: -0.022rem;
-      text-transform: uppercase;
+    width: auto !important;
+    color: #2b534d;
+    font-family: "Archivo", sans-serif;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.2rem;
+    letter-spacing: -0.022rem;
+    text-transform: uppercase;
   }
+
   li.hoverState-li.custom-list-el.race-result-ctm-el h6.time-result {
     padding: 0;
     width: auto;
   }
-  li.hoverState-li.custom-list-el.race-result-ctm-el{
+
+  li.hoverState-li.custom-list-el.race-result-ctm-el {
     justify-content: space-between;
   }
-  li.hoverState-li.custom-list-el.race-result-ctm-el h6{
+
+  li.hoverState-li.custom-list-el.race-result-ctm-el h6 {
     width: auto;
     max-width: 70%;
   }
-  li.hoverState-li.custom-list-el.race-result-ctm-el a.r-details{
+
+  li.hoverState-li.custom-list-el.race-result-ctm-el a.r-details {
     display: none !important;
   }
 }
+
 .slug-table-head.col--3 li.slug-list-head.YEARS {
-    flex: 0 0 10%;
+  flex: 0 0 10%;
 }
 
-@media ( min-width: 992px ){
+@media (min-width: 992px) {
   ul.head-heading.ctm-race-result-head {
     display: flex !important;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding-right: 35px;
-}
+  }
 
-ul.head-heading.ctm-race-result-head li.name {
+  ul.head-heading.ctm-race-result-head li.name {
     flex: 0 0 40%;
-}
+  }
 
-ul.head-heading.ctm-race-result-head li.team {
+  ul.head-heading.ctm-race-result-head li.team {
     flex: 0 0 40%;
-}
+  }
 
-ul.head-heading.ctm-race-result-head li.time {
+  ul.head-heading.ctm-race-result-head li.time {
     flex: 0 0 10%;
     text-align: right;
-}
+  }
 
-li.hoverState-li.custom-list-el.race-result-ctm-el {
+  li.hoverState-li.custom-list-el.race-result-ctm-el {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding-right: 35px !important;
-}
+    // padding-right: 35px !important;
+  }
 
-li.hoverState-li.custom-list-el.race-result-ctm-el h6.team_name {
+  li.hoverState-li.custom-list-el.race-result-ctm-el h6.team_name {
     padding: 0;
-}
+  }
 
-li.hoverState-li.custom-list-el.race-result-ctm-el h5.rider--name {
+  li.hoverState-li.custom-list-el.race-result-ctm-el h5.rider--name {
     flex: 0 0 40%;
-}
+  }
 
-li.hoverState-li.custom-list-el.race-result-ctm-el h6.team_name {
+  li.hoverState-li.custom-list-el.race-result-ctm-el h6.team_name {
     flex: 0 0 40%;
-}
+  }
 
-li.hoverState-li.custom-list-el.race-result-ctm-el h6.time-result {
+  li.hoverState-li.custom-list-el.race-result-ctm-el h6.time-result {
     flex: 0 0 10%;
     padding: 0;
     justify-content: flex-end;
-}
+  }
 
-li.hoverState-li.custom-list-el.race-result-ctm-el h5.rider--name span.race-result-index {
+  li.hoverState-li.custom-list-el.race-result-ctm-el h5.rider--name span.race-result-index {
     color: #2b534d;
-    font-family: "Univers";
+    font-family: "Archivo", sans-serif;
     font-size: 1.125rem;
     font-style: normal;
-    font-weight: 5;
+    font-weight: 500;
     line-height: 1.2rem;
     letter-spacing: -0.022rem;
     text-transform: uppercase;
+  }
 }
+
+@media (hover:hover) {
+  header.absolute-header:not(.sticky-top) .header-content-wraper .menu-wraper ul li:not(.active) a:hover {
+    color: #678F89 !important;
+  }
+
+  header.absolute-header:not(.sticky-top) .search-wraper a:hover path {
+    fill: #fff !important;
+  }
 }

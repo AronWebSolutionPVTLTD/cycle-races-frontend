@@ -151,8 +151,8 @@ export default function RaceDetailsPage({ year }) {
         `/raceDetailsStats/${raceName}/getRaceDetails`,
         {}
       );
-      
- if (response.status && response.data) {
+
+      if (response.status && response.data) {
         setRaceData(response.data);
       } else {
         setError("Failed to load race details");

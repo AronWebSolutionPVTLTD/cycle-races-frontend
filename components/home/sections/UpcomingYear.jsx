@@ -168,7 +168,7 @@ const UpcomingYear = () => {
                     </ul>
                   </>
                 )}
-                <div className="d-md-none d-flex justify-content-end mobile_link_wrap-2">
+                <div className="d-md-none d-flex justify-content-end mobile_link_wrap-2 pt-4 mb-3">
                   <a href="/races" className="alle-link m-0">
                     Alle wedstrijden <img src="/images/arow2.svg" alt="" />
                   </a>
