@@ -455,8 +455,8 @@ export default function RaceResultPage({ year, month, stageNumber }) {
                     .map((rider, index) => (
                       <li className="hoverState-li custom-list-el race-result-ctm-el" key={index}>
                         <Link href={`/riders/${rider.rider_id}`} className="pabs" />
-                        <h5 className="rider--name">
-                          <span className="race-result-index">{index + 1}</span>
+                        <h5 className="rider--name fw-900">
+                          <span className="race-result-index fw-900">{index + 1}</span>
                           <Link href={`/riders/${rider.rider_id}`} className="link">
                             <Flag
                               code={rider.rider_country?.toUpperCase()}
