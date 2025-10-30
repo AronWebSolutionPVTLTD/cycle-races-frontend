@@ -429,7 +429,7 @@ export default function Results() {
                   </li>
                   <li>results</li>
                 </ul>
-                <h1>Results</h1>
+                <h1 className="fw-900 fst-italic">Results</h1>
                 <div ref={parentRef} className="searchInput 222">
                   <form onSubmit={handleSearch}>
                     <div className="wraper">
@@ -615,7 +615,7 @@ export default function Results() {
                           <Link
                             href={`/race-result/${encodeURIComponent(
                               item.race_name
-                            )}`}
+                            )}?stageNumber=${item.stage_number}&year=${item.year}`}
                             className="r-details"
                           >
                             <img src="/images/hover-arow.svg" alt="" />

@@ -13,7 +13,7 @@ import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
-  const { year, month } = context.query;
+  const { year, month, stageNumber } = context.query;
 
   console.log(id, year, "contextparams");
 
@@ -22,16 +22,16 @@ export async function getServerSideProps(context) {
       id,
       year: year || new Date().getFullYear().toString(),
       month: month || "",
+      stageNumber: stageNumber || "",
     },
   };
 }
 
 
-export default function RaceResultPage({ year, month }) {
+export default function RaceResultPage({ year, month, stageNumber }) {
   const router = useRouter();
   const { id } = router.query;
   const [isRouterReady, setIsRouterReady] = useState(false);
-
   console.log(id, year, "routerquery", router.query);
 
   const [race, setRace] = useState(null);
@@ -127,9 +127,10 @@ export default function RaceResultPage({ year, month }) {
         : "";
       const response = await callAPI(
         "GET",
-        `/raceDetailsStats/${raceId}/getRaceDetails?year=${selectedYear}${monthParam}`
+        `/raceDetailsStats/${raceId}/getRaceDetails?year=${selectedYear}${monthParam}&stageNumber=${stageNumber || ""}`
       );
       if (response?.data) {
+        console.log(response.data, "race details response");
         setRace(response.data);
         await fetchFeaturedStats(raceId);
       } else {
@@ -254,7 +255,7 @@ export default function RaceResultPage({ year, month }) {
         fetchRaceDetails(id);
       }
     }
-  }, [router.isReady, id, selectedMonth, selectedYear]);
+  }, [router.isReady, id, selectedYear]);
 
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
@@ -478,12 +479,12 @@ export default function RaceResultPage({ year, month }) {
                               )} */}
                           {rider.time}
                         </h6>
-                        {/* <Link
+                        <Link
                           href={`/riders/${rider.rider_id}`}
                           className="r-details"
                         >
                           <img src="/images/hover-arow.svg" alt="Details" />
-                        </Link> */}
+                        </Link>
                       </li>
                     ))}
                 </ul>

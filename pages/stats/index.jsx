@@ -49,7 +49,7 @@ export default function Stats() {
 
       if (response.status && response.data) {
         setTeams(response.data.team_names || []);
-        console.log('response',response.data.rider_countries);
+        console.log('response', response.data.rider_countries);
         setNationalities((response.data.rider_countries || []).slice(2));
       }
     } catch (error) {
@@ -141,170 +141,170 @@ export default function Stats() {
         <title>Stats - Wielerstats</title>
       </Head>
       <main className="inner-pages-main">
-      <div className="dropdown-overlay"></div>
-      <section className="stats-sec1 lazy">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <ul className="breadcrumb">
-                <li>
-                  <Link href="/">home</Link>
-                </li>
-                <li>stats</li>
-              </ul>
-              <h1>statistieken</h1>
-              <div className="filter-section-wrapper">
-              <ul className="filter sss">
-                {/* Year Dropdown with input change handling */}
-                <FilterDropdown
-                  ref={yearDropdownRef}
-                  isOpen={showYearDropdown}
-                  toggle={() => setShowYearDropdown(!showYearDropdown)}
-                  options={getFilteredYears(yearInput)}
-                  selectedValue={selectedYear}
-                  placeholder="Year"
-                  onSelect={(value) => handleSelection("year", value)}
-                  onInputChange={handleYearInputChange}
-                  loading={false}
-                  includeAllOption={false}
-                  classname="year-dropdown"
-                />
+        <div className="dropdown-overlay"></div>
+        <section className="stats-sec1 lazy">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                <ul className="breadcrumb">
+                  <li>
+                    <Link href="/">home</Link>
+                  </li>
+                  <li>stats</li>
+                </ul>
+                <h1 className="fw-900 fst-italic">statistieken</h1>
+                <div className="filter-section-wrapper">
+                  <ul className="filter sss">
+                    {/* Year Dropdown with input change handling */}
+                    <FilterDropdown
+                      ref={yearDropdownRef}
+                      isOpen={showYearDropdown}
+                      toggle={() => setShowYearDropdown(!showYearDropdown)}
+                      options={getFilteredYears(yearInput)}
+                      selectedValue={selectedYear}
+                      placeholder="Year"
+                      onSelect={(value) => handleSelection("year", value)}
+                      onInputChange={handleYearInputChange}
+                      loading={false}
+                      includeAllOption={false}
+                      classname="year-dropdown"
+                    />
 
-                {/* Nationality Dropdown */}
-                <FilterDropdown
-                  ref={nationalityDropdownRef}
-                  isOpen={showNationalityDropdown}
-                  toggle={() =>
-                    setShowNationalityDropdown(!showNationalityDropdown)
-                  }
-                  options={nationalities}
-                  selectedValue={selectedNationality}
-                  placeholder="Nationaliteit"
-                  onSelect={(value) => handleSelection("nationality", value)}
-                  loading={isLoading}
-                  allOptionText="All Nationalities"
-                  classname="nationality-dropdown"
-                  displayKey="country_name"
-                  valueKey="country_code"
-                />
+                    {/* Nationality Dropdown */}
+                    <FilterDropdown
+                      ref={nationalityDropdownRef}
+                      isOpen={showNationalityDropdown}
+                      toggle={() =>
+                        setShowNationalityDropdown(!showNationalityDropdown)
+                      }
+                      options={nationalities}
+                      selectedValue={selectedNationality}
+                      placeholder="Nationaliteit"
+                      onSelect={(value) => handleSelection("nationality", value)}
+                      loading={isLoading}
+                      allOptionText="All Nationalities"
+                      classname="nationality-dropdown"
+                      displayKey="country_name"
+                      valueKey="country_code"
+                    />
 
-                {/* Teams Dropdown */}
-                <FilterDropdown
-                  ref={teamDropdownRef}
-                  isOpen={showTeamDropdown}
-                  toggle={() => setShowTeamDropdown(!showTeamDropdown)}
-                  options={teams}
-                  selectedValue={selectedTeam}
-                  placeholder="Team"
-                  onSelect={(value) => handleSelection("team", value)}
-                  loading={isLoading}
-                  allOptionText="All Teams"
-                  classname="team-dropdown"
-                />
-              </ul>
-            {/* Show selected filters summary and reset button */}
-            {(selectedYear && selectedYear !== "2025" || selectedNationality || selectedTeam) && (
-              <div className="filter-summary">
-                <span className="filter-summary-text">
-                  Filter:
-                  {/* Show year if selected and not "All time" */}
-                  {selectedYear && selectedYear !== "All time" && (
-                    <> {selectedYear}</>
+                    {/* Teams Dropdown */}
+                    <FilterDropdown
+                      ref={teamDropdownRef}
+                      isOpen={showTeamDropdown}
+                      toggle={() => setShowTeamDropdown(!showTeamDropdown)}
+                      options={teams}
+                      selectedValue={selectedTeam}
+                      placeholder="Team"
+                      onSelect={(value) => handleSelection("team", value)}
+                      loading={isLoading}
+                      allOptionText="All Teams"
+                      classname="team-dropdown"
+                    />
+                  </ul>
+                  {/* Show selected filters summary and reset button */}
+                  {(selectedYear && selectedYear !== "2025" || selectedNationality || selectedTeam) && (
+                    <div className="filter-summary">
+                      <span className="filter-summary-text">
+                        Filter:
+                        {/* Show year if selected and not "All time" */}
+                        {selectedYear && selectedYear !== "All time" && (
+                          <> {selectedYear}</>
+                        )}
+                        {/* Show nationality if selected */}
+                        {selectedNationality && (
+                          <>
+                            {selectedYear && selectedYear !== "All time" ? "," : ""}
+                            {" "}
+                            {/* Find the display name for the selected nationality */}
+                            {(() => {
+                              const natObj = nationalities?.find(
+                                n =>
+                                  (n.country_code || n) === selectedNationality
+                              );
+                              return natObj
+                                ? natObj.country_name || natObj.name || natObj.label || selectedNationality
+                                : selectedNationality;
+                            })()}
+                          </>
+                        )}
+
+                        {/* Show team if selected */}
+                        {selectedTeam && (
+                          <>
+                            {(selectedYear && selectedYear !== "All time") || selectedNationality ? "," : ""}
+                            {" "}
+                            {/* Find the display name for the selected team */}
+                            {(() => {
+                              const teamObj = teams?.find(
+                                t => (t.value || t) === selectedTeam
+                              );
+                              return teamObj
+                                ? teamObj.label || teamObj.name || selectedTeam
+                                : selectedTeam;
+                            })()}
+                          </>
+                        )}
+                      </span>
+                      <button className="reset-filter-btn"
+                        onClick={() => {
+                          setSelectedYear("2025");
+                          setSelectedNationality("");
+                          setSelectedTeam("");
+                        }}
+                        aria-label="Reset filter"
+                      >
+                        Reset filter
+                        <span className="reset-filter-btn-icon">×</span>
+                      </button>
+                    </div>
                   )}
-                  {/* Show nationality if selected */}
-                  {selectedNationality && (
-                    <>
-                      {selectedYear && selectedYear !== "All time" ? "," : ""}
-                      {" "}
-                      {/* Find the display name for the selected nationality */}
-                      {(() => {
-                        const natObj = nationalities?.find(
-                          n =>
-                            (n.country_code || n) === selectedNationality
-                        );
-                        return natObj
-                          ? natObj.country_name || natObj.name || natObj.label || selectedNationality
-                          : selectedNationality;
-                      })()}
-                    </>
-                  )}
-                  
-                  {/* Show team if selected */}
-                  {selectedTeam && (
-                    <>
-                      {(selectedYear && selectedYear !== "All time") || selectedNationality ? "," : ""}
-                      {" "}
-                      {/* Find the display name for the selected team */}
-                      {(() => {
-                        const teamObj = teams?.find(
-                          t => (t.value || t) === selectedTeam
-                        );
-                        return teamObj
-                          ? teamObj.label || teamObj.name || selectedTeam
-                          : selectedTeam;
-                      })()}
-                    </>
-                  )}
-                </span>
-                <button className="reset-filter-btn"
-                  onClick={() => {
-                    setSelectedYear("2025");
-                    setSelectedNationality("");
-                    setSelectedTeam("");
-                  }}
-                  aria-label="Reset filter"
-                >
-                  Reset filter
-                  <span className="reset-filter-btn-icon">×</span>
-                </button>
+                </div>
               </div>
-            )}
             </div>
-            </div>
-            </div>
-            </div>
+          </div>
 
-            <StatsFirstSection
-              selectedNationality={selectedNationality}
-              selectedTeam={selectedTeam}
-              selectedYear={selectedYear}
-            />
+          <StatsFirstSection
+            selectedNationality={selectedNationality}
+            selectedTeam={selectedTeam}
+            selectedYear={selectedYear}
+          />
 
-            <MostWin
-              selectedNationality={selectedNationality}
-              selectedTeam={selectedTeam}
-              selectedYear={selectedYear}
-              apiEndpoint="mostWin"
-              title="Most Wins"
-              dataField="wins"
-            />
+          <MostWin
+            selectedNationality={selectedNationality}
+            selectedTeam={selectedTeam}
+            selectedYear={selectedYear}
+            apiEndpoint="mostWin"
+            title="Most Wins"
+            dataField="wins"
+          />
 
-            <StatsData
-              selectedNationality={selectedNationality}
-              selectedTeam={selectedTeam}
-              selectedYear={selectedYear}
-            />
+          <StatsData
+            selectedNationality={selectedNationality}
+            selectedTeam={selectedTeam}
+            selectedYear={selectedYear}
+          />
 
-            <StatsSecondSection
-              selectedNationality={selectedNationality}
-              selectedTeam={selectedTeam}
-              selectedYear={selectedYear}
-            />
-            <MostWin
-              selectedNationality={selectedNationality}
-              selectedTeam={selectedTeam}
-              selectedYear={selectedYear}
-              apiEndpoint="mostStageWins"
-              title="Most Stage"
-              dataField="count"
-            />
-            <StatsThirdSection
-              selectedNationality={selectedNationality}
-              selectedTeam={selectedTeam}
-              selectedYear={selectedYear}
-            />
-        
-      </section>
+          <StatsSecondSection
+            selectedNationality={selectedNationality}
+            selectedTeam={selectedTeam}
+            selectedYear={selectedYear}
+          />
+          <MostWin
+            selectedNationality={selectedNationality}
+            selectedTeam={selectedTeam}
+            selectedYear={selectedYear}
+            apiEndpoint="mostStageWins"
+            title="Most Stage"
+            dataField="count"
+          />
+          <StatsThirdSection
+            selectedNationality={selectedNationality}
+            selectedTeam={selectedTeam}
+            selectedYear={selectedYear}
+          />
+
+        </section>
       </main>
     </>
   );

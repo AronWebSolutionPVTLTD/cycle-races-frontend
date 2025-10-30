@@ -95,7 +95,7 @@ const FirstSection = () => {
       <div className="container">
         <div className="col-lg-12">
           <div className="d-flex justify-content-between align-items-center section-header">
-            <h2>uitslagen</h2>
+            <h2 className="fw-900 fst-italic">uitslagen</h2>
             <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
               Alle uitslagen <img src="/images/arow2.svg" alt="" />
             </a>
@@ -128,7 +128,7 @@ const FirstSection = () => {
                     href={`/races/${encodeURIComponent(
                       getSectionData(fixedApis.section2).data?.[0]?.raceName
                     )}`} className="pabs" />
-                  <h4>
+                  <h4 className="fw-900">
                     {getSectionData(fixedApis.section2).data?.[0]?.raceName}
                   </h4>
                   {getSectionData(fixedApis.section2).error ? (
@@ -200,7 +200,7 @@ const FirstSection = () => {
                                 {start}
                                 {end ? ` - ${end}` : ""}
                               </span>
-                              {result?.raceName && <h5 className="race-name-el">
+                              {result?.raceName && <h5 className="race-name-el fw-900">
                                 {renderFlag(result?.raceCountry)}
                                 <a>{result.raceName}</a>
                               </h5>}

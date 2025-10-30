@@ -451,7 +451,7 @@ export default function Riders() {
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                <h5>Popular</h5>
+                <h5 className="fw-900">Popular</h5>
               </div>
               <div className="col-lg-9 col-md-7 ctm-table-wrap">
                 <ul className="head-heading ctm-table-ul">

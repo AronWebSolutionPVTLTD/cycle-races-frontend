@@ -4580,3 +4580,27 @@ input.glob-btn.contact-global-btn:hover {
     fill: #fff !important;
   }
 }
+
+.fw-900,
+.ctm-card .card-content-wraper>h4,
+.team-cart .text-wraper>h4,
+.list-white-cart>h4,
+.races .text-wraper h3,
+.winning-box .text-wraper h3,
+.team-cart h5,
+.ctm-table-wrap .head-heading li,
+.custom-list-el .race-name-el,
+.wrap-top input[type="text"],
+.wrap-top input[type="text"]::placeholder,
+.wrap-bottom li {
+  font-weight: 900 !important;
+}
+
+.team-cart h5 strong,
+section.home-sec2 .races h5 strong,
+.win-count span,
+.section-header>h2,
+section h1 {
+  font-weight: 900 !important;
+  font-style: italic !important;
+}

@@ -619,7 +619,7 @@ export default function DynamicSlugPage({ year }) {
       <Head>
         <title>{pageTitle}</title>
       </Head>
-      <section className="slug-main-section">
+      <section className="slug-main-section ppp">
         <div className="dropdown-overlay"></div>
 
         <section className="riders-sec1 pt-161px">

@@ -362,8 +362,8 @@ export default function DynamicSlugPage() {
           ? { onClick: () => router.push(`/riders/${riderId}`) }
           : {};
         columns.push(
-          <h5 key="name" className="rider--name race-name-el" {...clickableProps}>
-            <span key="srno" className="sr-no">
+          <h5 key="name" className="rider--name race-name-el " {...clickableProps}>
+            <span key="srno" className="sr-no fw-900">
               {index + 1}.
             </span>
             <Flag
@@ -374,7 +374,7 @@ export default function DynamicSlugPage() {
                 flexShrink: 0,
               }}
             />
-            <Link href={`/riders/${riderId}`} className="link">
+            <Link href={`/riders/${riderId}`} className="link fw-900">
 
 
               {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"

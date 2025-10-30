@@ -320,7 +320,7 @@ ul.slug-table-body li h5 {
 
 ul.slug-table-body li h5 a {
   color: #2b534d;
-  font-weight: 500 !important;
+  font-weight: 900 !important;
 }
 
 /* Team */
@@ -368,7 +368,7 @@ section.stat-main-sec ul.slug-table-head {
 ul.slug-table-head li {
   flex: 1 1;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 900;
   color: #cbcbc7;
   letter-spacing: -0.35px;
   line-height: 1;
