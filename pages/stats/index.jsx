@@ -139,6 +139,7 @@ export default function Stats() {
     <>
       <Head>
         <title>Stats - Wielerstats</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <main className="inner-pages-main">
         <div className="dropdown-overlay"></div>

@@ -360,12 +360,11 @@ export default function DynamicSlugPage() {
               {index + 1}.
             </span>
             <Link href={`/riders/${riderId}`} className="link">
-         {renderFlag(getCountryCode(item, config))}
- {`${getItemValue(item, config.itemConfig.name)} ${
-                item?.type === "stage" && item?.stage_number !== undefined
+              {renderFlag(getCountryCode(item, config))}
+              {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage" && item?.stage_number !== undefined
                   ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
                   : ""
-              }`}
+                }`}
             </Link>
           </h5>
         );
@@ -380,7 +379,7 @@ export default function DynamicSlugPage() {
               <span key="srno" className="sr-no">
                 {index + 1}.
               </span>
-       {renderFlag(getCountryCode(item, config))}
+              {renderFlag(getCountryCode(item, config))}
               <span>{getItemValue(item, config.itemConfig.team)}</span>
             </h5>
           );
@@ -503,8 +502,8 @@ export default function DynamicSlugPage() {
   const pageTitle = apiTitle
     ? `${apiTitle} | Cycling Stats`
     : slug
-    ? `${formatSlugForDisplay(slug)} | Cycling Stats`
-    : "Page | Cycling Stats";
+      ? `${formatSlugForDisplay(slug)} | Cycling Stats`
+      : "Page | Cycling Stats";
   const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
   // const srNoHeaderLabel = "";
 
@@ -512,6 +511,7 @@ export default function DynamicSlugPage() {
     <>
       <Head>
         <title>{pageTitle}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <section className="slug-main-section">
         <div className="dropdown-overlay"></div>

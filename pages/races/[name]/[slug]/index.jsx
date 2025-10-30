@@ -229,7 +229,7 @@ export default function DynamicSlugPage({ year }) {
         if (slug === "rider-with-most-finishes") {
           response.data = response?.data?.top_rider;
         }
-           if (slug === "rider-with-most-finish") {
+        if (slug === "rider-with-most-finish") {
           response.data = response?.data?.top_rider;
         }
         if (slug === "most-stage-departures") {
@@ -681,6 +681,7 @@ export default function DynamicSlugPage({ year }) {
     <>
       <Head>
         <title>{pageTitle}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <section className="slug-main-section">
         <div className="dropdown-overlay"></div>

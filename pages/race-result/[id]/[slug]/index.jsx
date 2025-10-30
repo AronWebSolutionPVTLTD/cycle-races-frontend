@@ -618,6 +618,7 @@ export default function DynamicSlugPage({ year }) {
     <>
       <Head>
         <title>{pageTitle}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <section className="slug-main-section ppp">
         <div className="dropdown-overlay"></div>

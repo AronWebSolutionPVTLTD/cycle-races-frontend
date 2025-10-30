@@ -369,6 +369,7 @@ export default function Riders() {
     <>
       <Head>
         <title>Riders | Cycling Stats</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
       <main className="inner-pages-main inner-riders-main">
