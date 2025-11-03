@@ -40,17 +40,14 @@ function convertDateRange(dateStr) {
     const e = parse(end);
 
     if (s.month === e.month) {
-      // For same-month ranges, only show the first day and month
       return { start: `${s.day} ${monthNames[s.month - 1]}`, end: null };
     } else {
-      // For cross-month ranges, only show the first day and month
       return {
         start: `${s.day} ${monthNames[s.month - 1]}`,
         end: null,
       };
     }
   } else {
-    // Single date -> 20 Apr
     const d = parseInt(dateStr.split(".")[0], 10);
     const m = parseInt(dateStr.split(".")[1], 10);
     return { start: `${d} ${monthNames[m - 1]}`, end: null };
@@ -65,13 +62,16 @@ export default function Results() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
-  const [selectedYear, setSelectedYear] = useState("All-time");
+  // const [selectedYear, setSelectedYear] = useState("All-time");
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
   const [selectedMonth, setSelectedMonth] = useState("");
   const [featuredRaces, setFeaturedRaces] = useState([]);
   const [error, setError] = useState(null);
   const [errorFeatured, setErrorFeatured] = useState(null);
   const [showYearDropdown, setShowYearDropdown] = useState(false);
+  const [showMonthDropdown, setShowMonthDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
+  const [monthInput, setMonthInput] = useState("");
   const parentRef = useRef(null);
 
   const months = [
@@ -91,6 +91,7 @@ export default function Results() {
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions = ["All-time", ...withoutAllTime];
   const yearDropdownRef = useRef(null);
+  const monthDropdownRef = useRef(null);
 
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
@@ -108,8 +109,21 @@ export default function Results() {
     );
   };
 
+  const getFilteredMonths = (searchValue) => {
+    if (!searchValue || searchValue.trim() === "") {
+      return months;
+    }
+    return months.filter((month) =>
+      month.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  };
+
   const handleYearInputChange = (value) => {
     setYearInput(value);
+  };
+
+  const handleMonthInputChange = (value) => {
+    setMonthInput(value);
   };
 
   const handleSelection = (type, value) => {
@@ -119,10 +133,14 @@ export default function Results() {
         setYearInput("");
         setShowYearDropdown(false);
         break;
+      case "month":
+        setSelectedMonth(value);
+        setMonthInput("");
+        setShowMonthDropdown(false);
+        break;
     }
   };
 
-  // Convert month name to number (1-12)
   const getMonthNumber = (monthName) => {
     return months.findIndex((month) => month === monthName) + 1;
   };
@@ -150,7 +168,6 @@ export default function Results() {
     return `/${statsPath}?${queryString}`;
   };
 
-  // Fetch data from API with filters - GLOBAL SEARCH VERSION
   const fetchRaceResults = async (customSearchTerm = null) => {
     setLoading(true);
     setError(null);
@@ -159,7 +176,6 @@ export default function Results() {
       const searchQuery =
         customSearchTerm !== null ? customSearchTerm : searchTerm;
 
-      // When searching, ignore month filter to search across all months
       const monthParam = selectedMonth
         ? `&month=${getMonthNumber(selectedMonth)}`
         : "";
@@ -169,7 +185,6 @@ export default function Results() {
           ? `&search=${encodeURIComponent(searchQuery.trim())}`
           : "";
 
-      // Only include year parameter if selectedYear is not "All-time"
       const yearParam =
         selectedYear !== "All-time" ? `year=${selectedYear}` : "";
       const endpoint = `stages/getRecentStageRaceWinners?${yearParam}${monthParam}${searchParam}`;
@@ -184,12 +199,10 @@ export default function Results() {
     }
   };
 
-  // Fetch featured races data
   const fetchFeaturedRaces = async () => {
     setLoadingFeatured(true);
     setErrorFeatured(null);
     try {
-      // Only include year parameter if selectedYear is not "All-time"
       const yearParam =
         selectedYear !== "All-time" ? `?year=${selectedYear}` : "";
 
@@ -201,7 +214,6 @@ export default function Results() {
 
       const featured = [];
 
-      // Top Victory Rider
       if (victoryRes.data?.top_riders?.length) {
         const topRider = victoryRes.data.top_riders[0];
         featured.push({
@@ -213,7 +225,6 @@ export default function Results() {
         });
       }
 
-      // Top Team
       if (teamRes.data?.recent_team_rankings?.length) {
         const topTeam = teamRes.data.recent_team_rankings[0];
         featured.push({
@@ -224,7 +235,6 @@ export default function Results() {
         });
       }
 
-      // Best Rider of the Year
       if (bestRes?.data?.top_riders?.length) {
         const best = bestRes.data.top_riders[0];
         featured.push({
@@ -248,16 +258,11 @@ export default function Results() {
     }
   };
 
-  // Initial data fetch - GLOBAL SEARCH VERSION
   useEffect(() => {
-    // Only refetch if no search term is active, otherwise maintain search results
-    // if (!searchTerm || searchTerm.trim() === "") {
     fetchRaceResults();
-    // }
     fetchFeaturedRaces();
   }, [selectedYear, selectedMonth]);
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".searchInput")) {
@@ -269,6 +274,12 @@ export default function Results() {
       ) {
         setShowYearDropdown(false);
       }
+      if (
+        monthDropdownRef.current &&
+        !monthDropdownRef.current.contains(event.target)
+      ) {
+        setShowMonthDropdown(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -277,12 +288,10 @@ export default function Results() {
     };
   }, []);
 
-  // Debounced search for suggestions - GLOBAL SEARCH VERSION
   useEffect(() => {
     const trimmedSearch = searchTerm.trim();
 
     if (trimmedSearch.length >= 2) {
-      // Shorter delay for better paste responsiveness
       const delayDebounce = setTimeout(() => {
         fetchSearchSuggestions();
       }, 150);
@@ -294,7 +303,6 @@ export default function Results() {
     }
   }, [searchTerm, selectedYear]);
 
-  // Fetch search suggestions - GLOBAL SEARCH VERSION
   const fetchSearchSuggestions = async () => {
     const trimmedSearch = searchTerm.trim();
     if (trimmedSearch.length < 2) {
@@ -304,17 +312,13 @@ export default function Results() {
     }
 
     try {
-      // For search suggestions, always search globally (no month filter)
       const searchParam = `&search=${encodeURIComponent(trimmedSearch)}`;
-
-      // Only include year parameter if selectedYear is not "All-time"
       const yearParam =
         selectedYear !== "All-time" ? `year=${selectedYear}&` : "";
 
       const endpoint = `stages/getRecentStageRaceWinners?${yearParam}${searchParam}`;
       const data = await callAPI("GET", endpoint);
 
-      // Extract unique race names from results for the dropdown
       const allRaces = Array.from(
         new Set(
           (data.recent_stage_race_winners || []).map((item) => item.race_name)
@@ -323,10 +327,9 @@ export default function Results() {
         race_name: raceName,
       }));
 
-      // If we have only one result and it's an exact match, still show it for navigation
       const uniqueRaces =
         allRaces.length === 1
-          ? allRaces // Show the exact match if it's the only result
+          ? allRaces
           : allRaces.filter(
             (race) =>
               race.race_name.toLowerCase() !== trimmedSearch.toLowerCase()
@@ -340,48 +343,38 @@ export default function Results() {
     }
   };
 
-  // Handle search input change - GLOBAL SEARCH VERSION
   const handleSearchInput = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
 
-    // If input is cleared, fetch all results and hide suggestions
     if (value.trim() === "") {
       fetchRaceResults("");
       setSearchResults([]);
       setShowSearchDropdown(false);
     }
-    // The useEffect will handle fetching suggestions for non-empty values
   };
 
-  // Handle search form submission - FIXED VERSION
   const handleSearch = (e) => {
     e.preventDefault();
     setShowSearchDropdown(false);
     fetchRaceResults();
   };
 
-  // Handle search suggestion selection - Navigate to race detail page
   const handleSuggestionSelect = (raceName) => {
     setSearchTerm(raceName);
     setShowSearchDropdown(false);
     setSearchResults([]);
-
-    // Navigate to race detail page using Next.js router
     router.push(`/races/${encodeURIComponent(raceName)}?year=${selectedYear}`);
   };
 
-  // Handle year change
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
   };
 
-  // Handle month change
   const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
   };
 
-  // Clear search - FIXED VERSION
   const clearSearch = () => {
     setSearchTerm("");
     setSearchResults([]);
@@ -389,13 +382,11 @@ export default function Results() {
     fetchRaceResults("");
   };
 
-  // Debug logging
   useEffect(() => {
     // console.log('Current race results:', raceResults.length, raceResults);
   }, [raceResults]);
 
   const handleFocus = () => {
-    // Show dropdown if we have results
     if (searchResults.length > 0) {
       setShowSearchDropdown(true);
     }
@@ -442,11 +433,9 @@ export default function Results() {
                           onFocus={handleFocus}
                           onBlur={handleBlur}
                           onPaste={(e) => {
-                            // Force re-render after paste to ensure state updates
                             setTimeout(() => {
                               const pastedValue = e.target.value;
                               setSearchTerm(pastedValue);
-                              // Force dropdown to show after paste
                               if (pastedValue.trim().length >= 2) {
                                 setShowSearchDropdown(true);
                               }
@@ -486,7 +475,7 @@ export default function Results() {
                             <li
                               key={index}
                               onMouseDown={(e) => {
-                                e.preventDefault(); // Prevent blur event
+                                e.preventDefault();
                                 handleSuggestionSelect(result.race_name);
                               }}
                             >
@@ -523,10 +512,27 @@ export default function Results() {
                     includeAllOption={false}
                     classname="year-dropdown"
                   />
+
+                  {/* Mobile Month Dropdown */}
+                  <FilterDropdown
+                    ref={monthDropdownRef}
+                    isOpen={showMonthDropdown}
+                    toggle={() => setShowMonthDropdown(!showMonthDropdown)}
+                    options={getFilteredMonths(monthInput)}
+                    selectedValue={selectedMonth}
+                    placeholder="Month"
+                    onSelect={(value) => handleSelection("month", value)}
+                    onInputChange={handleMonthInputChange}
+                    loading={false}
+                    includeAllOption={false}
+                    classname="month-dropdown d-lg-none"
+                  />
+
+                  {/* Desktop Month Links */}
                   {months.map((month) => (
                     <li
                       key={month}
-                      className={selectedMonth === month ? "active" : ""}
+                      className={`d-none d-lg-block ${selectedMonth === month ? "active" : ""}`}
                     >
                       <Link
                         href="#"
@@ -616,7 +622,7 @@ export default function Results() {
                             href={`/race-result/${encodeURIComponent(
                               item.race_name
                             )}?stageNumber=${item.stage_number}&year=${item.year}`}
-                            className="r-details"
+                            className="r-details d-none"
                           >
                             <img src="/images/hover-arow.svg" alt="" />
                           </Link>

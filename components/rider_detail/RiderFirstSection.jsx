@@ -131,7 +131,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-white">
-                                <Link href={`/race-result/${rider?.race}`} className="pabs" />
+                                <Link href={`/race-result/${rider?.race}?year=${rider.year}`} className="pabs" />
                                 {renderFlag(rider?.country)}
                                 <h6>
                                   {rider?.race || "..."}{" "}

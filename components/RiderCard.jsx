@@ -8,7 +8,7 @@ export default function RiderCard({ name, team, flag, riderId }) {
 
 
   return (
-    <li className="hoverState-li custom-list-el">
+    <li className="hoverState-li custom-list-el ss">
       <Link href={`/riders/${riderId}`} className="pabs" />
       <h5 className="rider--name fw-900">
         <Link
@@ -26,7 +26,7 @@ export default function RiderCard({ name, team, flag, riderId }) {
         </Link>
       </h5>
       <h6 className="team-name">{team}</h6>
-      <a href={`/riders/${riderId}`} className="r-details">
+      <a href={`/riders/${riderId}`} className="r-details d-none">
         <img src="images/hover-arow.svg" alt="" />
       </a>
       {/* {isValidRiderId ?(

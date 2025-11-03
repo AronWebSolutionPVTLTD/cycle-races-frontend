@@ -4608,3 +4608,18 @@ section h1 {
   font-weight: 900 !important;
   font-style: italic !important;
 }
+
+ul.filter li a:hover {
+  background: #668f89 !important;
+  color: #fff !important;
+}
+
+@media (max-width: 991px) {
+  header.absolute-header.sticky-header .header-content-wraper .menu-wraper ul li a {
+    color: #fff;
+  }
+
+  header.absolute-header.sticky-header .header-content-wraper .menu-wraper ul li.active a {
+    background: #678f89 !important;
+  }
+}
