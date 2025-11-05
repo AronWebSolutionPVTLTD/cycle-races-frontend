@@ -424,7 +424,9 @@ export default function DynamicSlugPage() {
     // Check if team data exists
     const teamDataExists = hasTeamData(data, config);
     // Check if name data exists
+    console.log(teamDataExists, "teamDataExists");
     const nameDataExists = hasNameData(data, config);
+    console.log(nameDataExists, "nameDataExists");
     const countDataExists = hasCountData(data, config);
 
     return data.map((item, index) => {
@@ -445,11 +447,13 @@ export default function DynamicSlugPage() {
         const raceDate = item?.race_date?.split(".") || [];
         const year = raceDate[2] || item?.year || "";
         const month = raceDate[1] || "";
+        const stageNumber = item?.stage_number || "";
+        const tabName = item?.tab_name || "";
 
         // Determine URL only if entity exists
         const url =
           hasEntity && entity.type === "race"
-            ? `/race-result/${entity.id}?year=${year}&month=${month}`
+            ? `/race-result/${entity.id}?year=${year}&month=${month}&stageNumber=${stageNumber}&tab=${tabName}`
             : hasEntity
               ? `/riders/${entity.id}`
               : null;

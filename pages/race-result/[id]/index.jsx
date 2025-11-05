@@ -13,7 +13,7 @@ import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
-  const { year, month, stageNumber } = context.query;
+  const { year, month, stageNumber, tab } = context.query;
 
   console.log(id, year, "contextparams");
 
@@ -23,12 +23,13 @@ export async function getServerSideProps(context) {
       year: year || new Date().getFullYear().toString(),
       month: month || "",
       stageNumber: stageNumber || "",
+      tab: tab || "",
     },
   };
 }
 
 
-export default function RaceResultPage({ year, month, stageNumber }) {
+export default function RaceResultPage({ year, month, stageNumber, tab }) {
   const router = useRouter();
   const { id } = router.query;
   const [isRouterReady, setIsRouterReady] = useState(false);
@@ -127,7 +128,7 @@ export default function RaceResultPage({ year, month, stageNumber }) {
         : "";
       const response = await callAPI(
         "GET",
-        `/raceDetailsStats/${raceId}/getRaceDetails?year=${selectedYear}${monthParam}&stageNumber=${stageNumber || ""}`
+        `/raceDetailsStats/${raceId}/getRaceDetails?year=${selectedYear}${monthParam}&stageNumber=${stageNumber || ""}&tabName=${tab || ""}`
       );
       if (response?.data) {
         console.log(response.data, "race details response");
@@ -456,7 +457,7 @@ export default function RaceResultPage({ year, month, stageNumber }) {
                       <li className="hoverState-li custom-list-el race-result-ctm-el" key={index}>
                         <Link href={`/riders/${rider.rider_id}`} className="pabs" />
                         <h5 className="rider--name fw-900">
-                          <span className="race-result-index fw-900">{index + 1}</span>
+                          <span className="race-result-index fw-900">{index + 1}.</span>
                           <Link href={`/riders/${rider.rider_id}`} className="link">
                             <Flag
                               code={rider.rider_country?.toUpperCase()}
@@ -479,12 +480,12 @@ export default function RaceResultPage({ year, month, stageNumber }) {
                               )} */}
                           {rider.time}
                         </h6>
-                        <Link
+                        {/* <Link
                           href={`/riders/${rider.rider_id}`}
                           className="r-details"
                         >
                           <img src="/images/hover-arow.svg" alt="Details" />
-                        </Link>
+                        </Link> */}
                       </li>
                     ))}
                 </ul>

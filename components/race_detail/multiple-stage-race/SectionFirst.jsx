@@ -434,9 +434,9 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
 
               {/*Box 7 - Edition*/}
               <div className="col-lg-3 col-md-6">
-                <div className="races team-cart">
+                <div className="races">
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box7]?.message}</h4>
+                    <h3 className="font-size-change">{data?.[fixedApis.box7]?.message}</h3>
                     {(() => {
                       if (!data?.[fixedApis.box7]) {
                         return <ErrorMessage errorType="no_data" />;
@@ -450,7 +450,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                       }
                       return (
                         <div className="name-wraper">
-                          <h5>
+                          <h5 className="fst-italic" >
                             <strong>{riderData.number_of_editions}</strong>
                           </h5>
                         </div>

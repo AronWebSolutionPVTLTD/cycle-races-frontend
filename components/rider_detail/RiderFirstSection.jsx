@@ -257,10 +257,10 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             </div>
 
             {/* Box4: Rider Total Wins  */}
-            <div className="col-lg-3 col-md-6 sss">
+            <div className="col-lg-3 col-md-6">
               <div className="races">
                 <div className="text-wraper">
-                  <h3 className="font-size-change">
+                  <h3 className="text-uppercase fw-900">
                     {data?.[fixedApis.box4]?.message}
                   </h3>
                   {(() => {
@@ -276,11 +276,10 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                     }
                     return (
                       <div className="name-wraper">
-                        <h5>
+                        <h5 className="fst-italic">
                           <strong>{riderData.total_wins}</strong>
                         </h5>
-                      </div>
-                    );
+                      </div>);
                   })()}
                 </div>
               </div>

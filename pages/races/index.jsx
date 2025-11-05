@@ -525,7 +525,7 @@ export default function Results() {
                     onInputChange={handleMonthInputChange}
                     loading={false}
                     includeAllOption={false}
-                    classname="month-dropdown d-lg-none"
+                    classname="year-dropdown d-lg-none"
                   />
 
                   {/* Desktop Month Links */}
@@ -622,7 +622,7 @@ export default function Results() {
                             href={`/race-result/${encodeURIComponent(
                               item.race_name
                             )}?stageNumber=${item.stage_number}&year=${item.year}`}
-                            className="r-details d-none"
+                            className="r-details"
                           >
                             <img src="/images/hover-arow.svg" alt="" />
                           </Link>

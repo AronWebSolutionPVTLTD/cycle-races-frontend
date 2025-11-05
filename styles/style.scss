@@ -1642,7 +1642,7 @@ section.stats-sec1 {
     background-color: #f7f6f0;
 
     h5 {
-      color: #5b604e;
+      color: #2b534d;
       font-family: "Archivo", sans-serif;
       font-size: 2rem;
       font-style: normal;
@@ -1655,9 +1655,10 @@ section.stats-sec1 {
 
       strong {
         display: block;
-        color: #5b604e;
+        color: #2b534d;
         font-size: 5rem;
         line-height: 4rem;
+        font-weight: 900;
         /* 80% */
         letter-spacing: -0.25rem;
         margin-top: 0.25rem;
@@ -2715,6 +2716,7 @@ section.rider-details-sec {
         color: #2b534d;
         font-size: 5rem;
         line-height: 4rem;
+        font-weight: 900;
         /* 80% */
         letter-spacing: -0.25rem;
         margin-top: 0.25rem;
@@ -3594,6 +3596,7 @@ li.dropdown-item.selected {
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 40px;
+  padding-top: 24px;
 }
 
 .filter-summary-text {
@@ -4601,8 +4604,10 @@ input.glob-btn.contact-global-btn:hover {
 }
 
 .team-cart h5 strong,
+.section.stats-sec1 .races h5 strong,
 section.home-sec2 .races h5 strong,
 .win-count span,
+
 .section-header>h2,
 section h1 {
   font-weight: 900 !important;
