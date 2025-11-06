@@ -452,8 +452,8 @@ const YearSection = () => {
 
               <div className="col-lg-3 col-md-6">
                 <div className="races">
-                  <div className="text-wraper">
-                    <h3>{data?.[fixedApis.box7]?.message}</h3>
+                  <div className="text-wraper text-center">
+                    <h3 className="text-uppercase fw-900 font-archivo">{data?.[fixedApis.box7]?.message}</h3>
                     {(() => {
                       if (!data?.[fixedApis.box7]) {
                         return <ErrorMessage errorType="no_data" />;

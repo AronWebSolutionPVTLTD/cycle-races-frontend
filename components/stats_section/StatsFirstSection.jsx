@@ -396,8 +396,8 @@ const StatsFirstSection = ({
               {/*Box 7 - Finished  Races*/}
               <div className="col-lg-3 col-md-6 22">
                 <div className="races">
-                  <div className="text-wraper">
-                    <h3>{data?.[fixedApis.box7]?.message}</h3>
+                  <div className="text-wraper text-center">
+                    <h3 className="font-archivo text-uppercase fw-900">{data?.[fixedApis.box7]?.message}</h3>
                     {(() => {
                       if (!data?.[fixedApis.box7]) {
                         return <ErrorMessage errorType="no_data" />;
