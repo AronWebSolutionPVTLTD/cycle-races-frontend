@@ -87,7 +87,7 @@ const StatsThirdSection = ({
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart lime-green-cart aa">
                   <Link href={buildUrlWithParams("/stats/grand-tour-stage-wins")} className="pabs" />
-                  <h4>{data?.[fixedApis.box1]?.message}</h4>
+                  <h4 className="fs-medium">{data?.[fixedApis.box1]?.message}</h4>
                   {getBoxData(fixedApis.box1).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box1).errorType}
@@ -128,7 +128,7 @@ const StatsThirdSection = ({
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/most-kms-raced")} className="pabs" />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box2]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box2]?.message}</h4>
                     {getBoxData(fixedApis.box2).error ? (
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box2).errorType}
@@ -174,7 +174,7 @@ const StatsThirdSection = ({
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/top3-stage-teams")} className="pabs" />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box3]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                     {getBoxData(fixedApis.box3).error ? (
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box3).errorType}
@@ -314,7 +314,7 @@ const StatsThirdSection = ({
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("/stats/longest-races")} className="pabs" />
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box8]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box8]?.message}</h4>
                         {getBoxData(fixedApis.box8).error ? (
                           <ErrorMessage
                             errorType={getBoxData(fixedApis.box8).errorType}
@@ -360,7 +360,7 @@ const StatsThirdSection = ({
                   <div className="col-lg-12 col-md-6">
                     <div className="list-white-cart">
                       <Link href={buildUrlWithParams("/stats/top-gc-teams")} className="pabs" />
-                      <h4>{data?.[fixedApis.box6]?.message}</h4>
+                      <h4 className="font-size-change">{data?.[fixedApis.box6]?.message}</h4>
                       {getBoxData(fixedApis.box6).error ? (
                         <ErrorMessage
                           errorType={getBoxData(fixedApis.box6).errorType}
@@ -489,7 +489,7 @@ const StatsThirdSection = ({
           )}
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 

@@ -269,7 +269,7 @@ const YearSection = () => {
                     <div className="team-cart lime-green-team-cart img-active 33">
                       <Link href="/most-racing-days" className="pabs" />
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box3]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                         {getBoxData(fixedApis.box3).error ? (
                           <ErrorMessage
                             errorType={getBoxData(fixedApis.box3).errorType}
@@ -320,7 +320,7 @@ const YearSection = () => {
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
                       <Link href="/team-most-stage-wins" className="pabs" />
-                      <h4>{data?.[fixedApis.box4]?.message}</h4>
+                      <h4 className="font-size-change">{data?.[fixedApis.box4]?.message}</h4>
                       {getBoxData(fixedApis.box4).error ? (
                         <ErrorMessage
                           errorType={getBoxData(fixedApis.box4).errorType}
@@ -453,7 +453,7 @@ const YearSection = () => {
               <div className="col-lg-3 col-md-6">
                 <div className="races">
                   <div className="text-wraper text-center">
-                    <h3 className="text-uppercase fw-900 font-archivo">{data?.[fixedApis.box7]?.message}</h3>
+                    <h3 className="text-uppercase fw-900 font-archivo fs-chenge">{data?.[fixedApis.box7]?.message}</h3>
                     {(() => {
                       if (!data?.[fixedApis.box7]) {
                         return <ErrorMessage errorType="no_data" />;

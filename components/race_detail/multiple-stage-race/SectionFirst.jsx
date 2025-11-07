@@ -179,7 +179,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box2]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box2]?.message}</h4>
 
                         {(() => {
                           const response = data?.[fixedApis.box2];
@@ -274,7 +274,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 4 - Last Winner*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
-                      <h4>{data?.[fixedApis.box4]?.message}</h4>
+                      <h4 className="font-size-change">{data?.[fixedApis.box4]?.message}</h4>
 
                       {(() => {
                         const response = data?.[fixedApis.box4];
@@ -436,7 +436,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-3 col-md-6">
                 <div className="races">
                   <div className="text-wraper text-center">
-                    <h3 className="font-size-change fw-900 font-archivo text-uppercase">{data?.[fixedApis.box7]?.message}</h3>
+                    <h3 className=" fw-900 font-archivo text-uppercase fs-chenge ">{data?.[fixedApis.box7]?.message}</h3>
                     {(() => {
                       if (!data?.[fixedApis.box7]) {
                         return <ErrorMessage errorType="no_data" />;

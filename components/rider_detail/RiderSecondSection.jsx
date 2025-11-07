@@ -229,7 +229,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                   <div className="team-cart lime-green-team-cart img-active">
                     <Link href={buildUrlWithParams("best-gc-results")} className="pabs" />
                     <div className="text-wraper">
-                      <h4>{data?.[fixedApis.box3]?.message}</h4>
+                      <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                       {(() => {
                         if (!data?.[fixedApis.box3]) {
                           return <ErrorMessage errorType="no_data" />;
@@ -408,7 +408,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
               <div className="team-cart lime-green-team-cart img-active">
                 <Link href={buildUrlWithParams("home-country-wins")} className="pabs" />
                 <div className="text-wraper">
-                  <h4 className="font-size-change">
+                  <h4>
                     {data?.[fixedApis.box7]?.message}
                   </h4>
                   {(() => {

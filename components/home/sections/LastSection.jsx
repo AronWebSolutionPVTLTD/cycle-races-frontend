@@ -59,9 +59,9 @@ const LastSection = () => {
               {/* Box 1 - Most Second  Places */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
-                  <Link href="/most-second-places" className="pabs"/>
+                  <Link href="/most-second-places" className="pabs" />
                   <div className="text-wraper">
-                    <h4> {data?.[fixedApis.box1]?.message} </h4>
+                    <h4 className="font-size-change"> {data?.[fixedApis.box1]?.message} </h4>
                     {getBoxData(fixedApis.box1).error ? (
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box1).errorType}
@@ -109,9 +109,9 @@ const LastSection = () => {
               {/* Box 2 -  Most nationality  */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active 11">
-                  <Link href="/team-most-nationalities" className="pabs"/>
+                  <Link href="/team-most-nationalities" className="pabs" />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box2]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box2]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box2]) {
                         return <ErrorMessage errorType="no_data" />;
@@ -157,9 +157,9 @@ const LastSection = () => {
               {/*Box 3 - Most youngest  wins*/}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
-                  <Link href="/youngest-most-wins" className="pabs"/>
+                  <Link href="/youngest-most-wins" className="pabs" />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box3]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                     {getBoxData(fixedApis.box3).error ? (
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box3).errorType}
@@ -206,7 +206,7 @@ const LastSection = () => {
               {/*Box 4 - Most olderst Riders*/}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
-                  <Link href="/oldest-active-riders" className="pabs"/>
+                  <Link href="/oldest-active-riders" className="pabs" />
                   <h4>{data?.[fixedApis.box4]?.message}</h4>
                   {getBoxData(fixedApis.box4).error ? (
                     <ErrorMessage
@@ -246,7 +246,7 @@ const LastSection = () => {
               {/*Box 5 - Mountain  */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <Link href="/most-mountain-wins" className="pabs"/>
+                  <Link href="/most-mountain-wins" className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box5]?.message}</h4>
                     {(() => {
@@ -298,7 +298,7 @@ const LastSection = () => {
               {/*Box 6 - Shortest race */}
               <div className="col-lg-3 col-md-6 ss">
                 <div className="list-white-cart team-cart">
-                  <Link href="/shortest-races" className="pabs"/>
+                  <Link href="/shortest-races" className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {getBoxData(fixedApis.box6).error ? (
@@ -315,7 +315,7 @@ const LastSection = () => {
                           .map((race, index) => (
                             <>
                               <div className="name-wraper name-wraper-white" onClick={() => router.push(`/races/${race?.race}`)}>
-                              {renderFlag(race?.country_code)}
+                                {renderFlag(race?.country_code)}
                                 <h6>
                                   {race?.race || "..."} ({race?.year})
                                 </h6>
@@ -348,7 +348,7 @@ const LastSection = () => {
               {/*Box 7 -lightestRider */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active 22">
-                  <Link href="/lightest-rider" className="pabs"/>
+                  <Link href="/lightest-rider" className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (

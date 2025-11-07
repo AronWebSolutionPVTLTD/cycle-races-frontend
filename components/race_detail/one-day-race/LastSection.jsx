@@ -383,7 +383,7 @@ export const LastSection = ({
                         className="pabs"
                       />
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box6]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box6]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box6]) {
                             return <ErrorMessage errorType="no_data" />;
@@ -441,7 +441,7 @@ export const LastSection = ({
                         className="pabs"
                       />
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box7]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box7]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box7]) {
                             return <ErrorMessage errorType="no_data" />;
@@ -636,7 +636,7 @@ export const LastSection = ({
                     href={buildUrlWithParams("winners-from-country")}
                     className="pabs"
                   />
-                  <h4>{data?.[fixedApis.box10]?.message}</h4>
+                  <h4 className="font-size-change">{data?.[fixedApis.box10]?.message}</h4>
                   {getBoxData(fixedApis.box10).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box10).errorType}
@@ -679,7 +679,7 @@ export const LastSection = ({
                     className="pabs"
                   />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box11]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box11]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box11]) {
                         return <ErrorMessage errorType="no_data" />;
@@ -723,7 +723,7 @@ export const LastSection = ({
                     className="pabs"
                   />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box12]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box12]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box12]) {
                         return <ErrorMessage errorType="no_data" />;

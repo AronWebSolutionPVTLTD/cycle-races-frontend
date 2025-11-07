@@ -102,7 +102,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
     return { error: true, errorType: "no_data_found" };
   };
-  
+
   return (
     <section className="home-sec5 dddd">
       <div className="container">
@@ -122,7 +122,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link href={buildUrlWithParams("most-wins-nationality")} className="pabs" />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box1]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box1]?.message}</h4>
                     {getBoxData(fixedApis.box1).error ? (
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box1).errorType}
@@ -170,7 +170,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-4 col-md-6">
                 <div className="races">
                   <div className="text-wraper">
-                    <h3 className="fs-chenge">
+                    <h3 className="text-uppercase fw-900 font-archivo fs-chenge">
                       {data?.[fixedApis.box2]?.message}
                     </h3>
                     {(() => {
@@ -186,7 +186,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                       }
                       return (
                         <div className="name-wraper name-wraper-white">
-                          <h5>
+                          <h5 className="fst-italic">
                             <strong>{riderData.totalWins}</strong>
                           </h5>
                         </div>
@@ -200,7 +200,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart">
                   <Link href={buildUrlWithParams("most-participations-by-rider")} className="pabs" />
-                  <h4>{data?.[fixedApis.box3]?.message}</h4>
+                  <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                   {getBoxData(fixedApis.box3).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box3).errorType}
@@ -296,7 +296,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("last-race-winner-by-nationality")} className="pabs" />
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box6]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box6]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box6]) {
                             return <ErrorMessage errorType="no_data" />;
@@ -440,7 +440,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link href={buildUrlWithParams("youngest-spanish-participant")} className="pabs" />
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box9]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box9]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box9]) {
                             return <ErrorMessage errorType="no_data" />;
@@ -489,7 +489,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("oldest-spanish-participant")} className="pabs" />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box10]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box10]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box10]) {
                         return <ErrorMessage errorType="no_data" />;
@@ -532,7 +532,8 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-5 col-md-6">
                 <div className="races">
                   <div className="text-wraper">
-                    <h3 className="fs-chenge" style={{ textAlign: "center" }}>
+                    {/* <h3 className="fs-chenge" style={{ textAlign: "center" }}> */}
+                    <h3 className="text-uppercase fw-900 font-archivo fs-chenge" style={{ textAlign: "center" }}>
                       {data?.[fixedApis.box11]?.message}
                     </h3>
                     {(() => {
@@ -548,7 +549,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                       }
                       return (
                         <div className="name-wraper name-wraper-white">
-                          <h5>
+                          <h5 className="fst-italic">
                             <strong>{riderData.count}</strong>
                           </h5>
                         </div>
@@ -563,7 +564,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("most-dnfs-by-nationality-one-day-race")} className="pabs" />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box4]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box4]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box4]) {
                         return <ErrorMessage errorType="no_data" />;

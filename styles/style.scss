@@ -439,6 +439,8 @@ footer {
   }
 }
 
+
+
 // home-page
 .list-white-cart {
   border-radius: 1.875rem;
@@ -493,6 +495,11 @@ footer {
     letter-spacing: -0.022rem;
     text-transform: uppercase;
     margin-bottom: 1rem;
+
+    &.font-size-change {
+      font-size: 1.5rem;
+      line-height: 1.5rem;
+    }
   }
 
   ul {
@@ -1041,7 +1048,7 @@ section.home-sec2 {
       font-size: 1.125rem;
       font-style: normal;
       font-weight: 500;
-      line-height: 2rem;
+      line-height: 1.125rem;
       /* 100% */
       letter-spacing: -0.022rem;
       text-transform: uppercase;
@@ -1107,6 +1114,10 @@ section.home-sec2 {
     align-items: center;
     justify-content: center;
     background-color: #f7f6f0;
+
+    h3.fs-chenge {
+      font-size: 2rem;
+    }
 
     h5 {
       color: #2b534d;
@@ -1525,6 +1536,11 @@ section.stats-sec1 {
         color: #5b604e;
       }
     }
+  }
+
+  h4.fs-medium {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
   }
 
   h1 {
@@ -2748,7 +2764,7 @@ section.rider-details-sec {
       font-size: 1.125rem;
       font-style: normal;
       font-weight: 500;
-      line-height: 2rem;
+      line-height: 1.125rem;
       /* 100% */
       letter-spacing: -0.022rem;
       text-transform: uppercase;
@@ -3288,7 +3304,7 @@ p.disclaimer-text {
 }
 
 .ctm-card .card-content-wraper {
-  padding: 2.125rem 1rem 1rem 1rem;
+  padding: 2rem 1rem 1rem 1rem;
 }
 
 .image_link-wraper .absolute-img {
@@ -4301,6 +4317,10 @@ section.rider-details-sec .row {
 
 .noData-error {
   color: #2B534D !important;
+}
+
+.winning-box .noData-error {
+  color: #fff !important;
 }
 
 .race-name-el a {

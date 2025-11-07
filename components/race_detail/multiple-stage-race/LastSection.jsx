@@ -257,7 +257,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box3]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                         {getBoxData(fixedApis.box3).error ? (
                           <ErrorMessage
                             errorType={getBoxData(fixedApis.box3).errorType}
@@ -307,7 +307,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box4]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box4]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box4]) {
                             return <ErrorMessage errorType="no_data" />;
@@ -680,7 +680,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box11]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box11]?.message}</h4>
                         {getBoxData(fixedApis.box11).error ? (
                           <ErrorMessage
                             errorType={getBoxData(fixedApis.box11).errorType}
@@ -728,7 +728,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box12]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box12]?.message}</h4>
                         {getBoxData(fixedApis.box12).error ? (
                           <ErrorMessage
                             errorType={getBoxData(fixedApis.box12).errorType}

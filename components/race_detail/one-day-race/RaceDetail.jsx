@@ -162,7 +162,8 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-3 col-md-6">
                 <div className="races">
                   <div className="text-wraper">
-                    <h3>{data?.[fixedApis.box2]?.message}</h3>
+                    <h3 className="text-uppercase fw-900 font-archivo fs-chenge">
+                      {data?.[fixedApis.box2]?.message}</h3>
                     {(() => {
                       if (!data?.[fixedApis.box2]) {
                         return <ErrorMessage errorType="no_data" />;
@@ -176,7 +177,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                       }
                       return (
                         <div className="name-wraper name-wraper-white">
-                          <h5>
+                          <h5 className="fst-italic">
                             <strong>{riderData.total_editions}</strong>
                           </h5>
                         </div>
@@ -339,7 +340,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link href={buildUrlWithParams("most-top10-by-rider")} className="pabs" />
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box6]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box6]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box6]) {
                             return <ErrorMessage errorType="no_data" />;
@@ -389,7 +390,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
                       <Link href={buildUrlWithParams("last-winner")} className="pabs" />
-                      <h4>{data?.[fixedApis.box7]?.message}</h4>
+                      <h4 className="font-size-change">{data?.[fixedApis.box7]?.message}</h4>
                       {getBoxData(fixedApis.box7).error ? (
                         <ErrorMessage
                           errorType={getBoxData(fixedApis.box7).errorType}
@@ -548,6 +549,6 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
           )}
         </div>
       </div>
-    </section>
+    </section >
   );
 };

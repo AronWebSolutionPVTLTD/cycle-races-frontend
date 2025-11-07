@@ -139,7 +139,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
             {/*Box 1 - Grand tour ridden*/}
             <div className="col-lg-4 col-md-6 11">
               <div className="list-white-cart">
-                <h4>{data?.[fixedApis.box1]?.message}</h4>
+                <h4 className="font-size-change">{data?.[fixedApis.box1]?.message}</h4>
                 {getBoxData(fixedApis.box1).error ? (
                   <ErrorMessage
                     errorType={getBoxData(fixedApis.box1).errorType}
@@ -181,7 +181,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               <div className="team-cart lime-green-team-cart img-active">
                 <a href="#?" className="pabs"></a>
                 <div className="text-wraper">
-                  <h4>{data?.[fixedApis.box2]?.message}</h4>
+                  <h4 className="font-size-change">{data?.[fixedApis.box2]?.message}</h4>
                   {(() => {
                     if (!data?.[fixedApis.box2]) {
                       return <ErrorMessage errorType="no_data" />;
@@ -315,7 +315,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               <div className="team-cart">
                 <Link href={buildUrlWithParams("get-grand-tour-dnfs")} className="pabs" />
                 <div className="text-wraper">
-                  <h4 className="font-size-change">
+                  <h4>
                     {data?.[fixedApis.box5]?.message}
                   </h4>
                   {(() => {
@@ -402,7 +402,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               <div className="team-cart lime-green-team-cart img-active">
                 <Link href={buildUrlWithParams("get-first-ever-grand-tour-win")} className="pabs" />
                 <div className="text-wraper">
-                  <h4 className="font-size-change">
+                  <h4>
                     {data?.[fixedApis.box7]?.message}
                   </h4>
                   {(() => {
@@ -447,7 +447,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               <div className="team-cart lime-green-team-cart img-active">
                 <Link href={buildUrlWithParams("get-total-racing-days-in-grand-tours")} className="pabs" />
                 <div className="text-wraper">
-                  <h4 className="font-size-change">
+                  <h4>
                     {data?.[fixedApis.box8]?.message}
                   </h4>
                   {(() => {
@@ -489,7 +489,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               <div className="team-cart">
                 <Link href={buildUrlWithParams("get-total-distance-raced-in-grand-tours")} className="pabs" />
                 <div className="text-wraper">
-                  <h4 className="font-size-change">
+                  <h4>
                     {data?.[fixedApis.box9]?.message}
                   </h4>
                   {(() => {
@@ -574,7 +574,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               <div className="team-cart">
                 <Link href={buildUrlWithParams("get-best-paris-roubaix-result")} className="pabs" />
                 <div className="text-wraper">
-                  <h4 className="font-size-change">
+                  <h4>
                     {data?.[fixedApis.box11]?.message}
                   </h4>
                   {(() => {
@@ -706,7 +706,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               <div className="team-cart">
                 <Link href={buildUrlWithParams("team-mates")} className="pabs" />
                 <div className="text-wraper">
-                  <h4 className="font-size-change">
+                  <h4>
                     {data?.[fixedApis.box14]?.message}
                   </h4>
                   {(() => {

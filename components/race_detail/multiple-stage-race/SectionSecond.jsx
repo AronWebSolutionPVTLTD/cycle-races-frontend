@@ -132,7 +132,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box1]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box1]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box1]) {
                             return <ErrorMessage errorType="no_data" />;
@@ -239,7 +239,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 3 - Most Participations By Rider*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
-                      <h4>{data?.[fixedApis.box3]?.message}</h4>
+                      <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                       {getBoxData(fixedApis.box3).error ? (
                         <ErrorMessage
                           errorType={getBoxData(fixedApis.box3).errorType}
@@ -526,7 +526,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-3 col-md-6">
                 <div className="races">
                   <div className="text-wraper">
-                    <h3 className="fs-chenge" style={{ textAlign: "center" }}>
+                    <h3 className=" fw-900 font-archivo text-uppercase fs-chenge">
                       {data?.[fixedApis.box8]?.message}
                     </h3>
                     {(() => {
@@ -542,7 +542,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                       }
                       return (
                         <div className="name-wraper">
-                          <h5>
+                          <h5 className="fst-italic">
                             <strong>{riderData.totalWins}</strong>
                           </h5>
                         </div>
@@ -602,6 +602,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
           )}
         </div>
       </div>
-    </section>
+    </section >
   );
 };

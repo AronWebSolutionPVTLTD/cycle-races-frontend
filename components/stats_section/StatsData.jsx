@@ -143,7 +143,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link href={buildUrlWithParams("/stats/team-most-nationalities")} className="pabs" />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box2]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box2]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box2]) {
                         return <ErrorMessage errorType="no_data" />;
@@ -191,7 +191,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/youngest-most-wins")} className="pabs" />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box3]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                     {getBoxData(fixedApis.box3).error ? (
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box3).errorType}

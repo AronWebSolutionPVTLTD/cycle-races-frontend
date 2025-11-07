@@ -118,7 +118,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 ) : (
                   <>
                     <div className="card-content-wraper">
-                      <h4 className="">
+                      <h4>
                         {" "}
                         {data?.[fixedApis.box1]?.message}
                       </h4>
@@ -260,7 +260,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             <div className="col-lg-3 col-md-6">
               <div className="races">
                 <div className="text-wraper text-center">
-                  <h3 className="text-uppercase fw-900 font-archivo">
+                  <h3 className="text-uppercase fw-900 font-archivo fs-chenge ">
                     {data?.[fixedApis.box4]?.message}
                   </h3>
                   {(() => {
@@ -293,7 +293,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("wins-in-one-day")} className="pabs" />
                     <div className="text-wraper">
-                      <h4 className="font-size-change">
+                      <h4 >
                         {data?.[fixedApis.box5]?.message}
                       </h4>
 
@@ -373,7 +373,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 {/*Box 7 - Rider Wins BySeason*/}
                 <div className="col-lg-7 col-md-6 qw">
                   <div className="list-white-cart">
-                    <h4>{data?.[fixedApis.box7]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box7).errorType}
@@ -410,7 +410,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("time-since-last-victory")} className="pabs" />
                     <div className="text-wraper">
-                      <h4 className="font-size-change">
+                      <h4>
                         {data?.[fixedApis.box8]?.message}
                       </h4>
                       {(() => {

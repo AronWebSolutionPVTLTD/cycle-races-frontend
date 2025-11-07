@@ -157,7 +157,7 @@ const StatsSecondSection = ({
                         "/stats/best-classics-riders"
                       )} className="pabs" />
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box4]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box4]?.message}</h4>
                         {getBoxData(fixedApis.box4).error ? (
                           <ErrorMessage
                             errorType={getBoxData(fixedApis.box4).errorType}
@@ -201,7 +201,7 @@ const StatsSecondSection = ({
                   </div>
 
                   {/*Box 2 - GC podium*/}
-                  <div className="col-lg-6 col-md-6">
+                  <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams(
                         "/stats/most-podium-in-gc"
@@ -253,11 +253,11 @@ const StatsSecondSection = ({
 
 
                   {/*Box 5 - oldest Rider */}
-                  <div className="col-lg-6 col-md-6">
+                  <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("/stats/oldest-riders")} className="pabs" />
                       <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box5]?.message}</h4>
+                        <h4 className="font-size-change">{data?.[fixedApis.box5]?.message}</h4>
                         {getBoxData(fixedApis.box5).error ? (
                           <ErrorMessage
                             errorType={getBoxData(fixedApis.box5).errorType}
@@ -487,7 +487,7 @@ const StatsSecondSection = ({
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart lime-green-cart">
                   <Link href={buildUrlWithParams("/stats/top-gc-riders")} className="pabs" />
-                  <h4>{data?.[fixedApis.box10]?.message}</h4>
+                  <h4 className="fs-medium">{data?.[fixedApis.box10]?.message}</h4>
                   {getBoxData(fixedApis.box10).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box10).errorType}
@@ -531,7 +531,7 @@ const StatsSecondSection = ({
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/dnf-teams")} className="pabs" />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box12]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box12]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box12]) {
                         return <ErrorMessage errorType="no_data" />;
@@ -612,7 +612,7 @@ const StatsSecondSection = ({
                     "/stats/team-with-most-consecutive-wins"
                   )} className="pabs" />
                   <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box13]?.message}</h4>
+                    <h4 className="font-size-change">{data?.[fixedApis.box13]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box13]) {
                         return <ErrorMessage errorType="no_data" />;
