@@ -656,7 +656,7 @@ export default function Results() {
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
-                        <h4 className="font-size-change">{race.title}</h4>
+                        <h4 className="">{race.title}</h4>
                         <div className="name-wraper">
                           {race.flag && (
                             <Flag

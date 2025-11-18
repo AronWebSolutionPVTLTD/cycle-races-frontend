@@ -486,7 +486,7 @@ const StatsFirstSection = ({
                                 key={index}
                               >
                                 {renderFlag(rider?.country_code)}
-                                <h6>{rider?.race || "..."}</h6>
+                                <h6>{rider?.race_name || "..."}</h6>
                               </div>
 
                               {rider?.count && (
