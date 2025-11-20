@@ -768,13 +768,11 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                             <div className="name-wraper name-wraper-white">
                               <Link href={`/races/${rider?.race}`} className="pabs" />
                               {renderFlag(rider?.country)}
-                              {/* <h6>{rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}
-
-                              </h6> */}
                               <h6>
                                 {rider?.race || "..."}{" "}
                                 {rider?.year ? `(${rider.year})` : ""}{" "}
-                                {rider?.tab_name !== null ? `Stage ${rider.stage_number}` : ""}
+
+                                {rider?.stage_number ? `Stage ${rider.stage_number}` : ""}
                               </h6>
 
                             </div>
