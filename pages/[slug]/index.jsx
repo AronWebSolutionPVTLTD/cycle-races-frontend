@@ -341,6 +341,8 @@ export default function DynamicSlugPage() {
 
   // Render list content with configuration
   const renderListContent = (data, config) => {
+    console.log("check diffrent", data);
+
     // Check if team data exists
     const teamDataExists = hasTeamData(data, config);
     // Check if name data exists
@@ -374,14 +376,32 @@ export default function DynamicSlugPage() {
                 flexShrink: 0,
               }}
             />
-            <Link href={`/riders/${riderId}`} className="link fw-900">
+            <Link href={`/riders/${riderId}`} className="link fw-900 d-flex flex-column ">
+            
+              <div className="race-title fw-900 text-uppercase">
+                {getItemValue(item, config.itemConfig.name)}
+                {item?.type === "stage" && item?.stage_number
+                  ? `: Stage ${item.stage_number}`
+                  : ""}
+              </div>
 
+              {/* ---- Start / Finish / Distance (ONLY for stage) ---- */}
+              {item?.type === "stage" && item?.stage_number && (
+                <div className="most-dnfs-start-end">
+                  {item?.start_location}
 
-              {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
-                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                : ""
-                }`}
+                  {/* Show dash ONLY when both exist */}
+                  {item?.start_location && item?.finish_location ? " - " : ""}
+
+                  {item?.finish_location}
+
+                  {/* Distance */}
+                  {item?.distance ? ` (${item?.distance} km)` : ""}
+                </div>
+              )}
             </Link>
+
+
           </h5>
         );
       }

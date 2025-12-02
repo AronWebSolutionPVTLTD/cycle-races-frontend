@@ -17,6 +17,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
     box7: "getRiderWinsBySeason",
     box8: "getTimeSinceLastVictory",
     box9: "getRiderBestMonumentResults",
+    box10: "getRiderWinsPodiumsTop10sCurrentYear"
   };
 
   const buildQueryParams = () => {
@@ -51,6 +52,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
     fixedApis.box7,
     fixedApis.box8,
     fixedApis.box9,
+    fixedApis.box10,
   ];
 
   const endpointsMappings = {
@@ -107,58 +109,91 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
           <>
-            {/* First Card */}
+
+            {/* Result of year */}
             <div className="col-lg-3 col-md-6">
               <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
-                <Link href={buildUrlWithParams("rider-last-victories")} className="pabs" />
-                {getBoxData(fixedApis.box1).error ? (
-                  <ErrorMessage
-                    errorType={getBoxData(fixedApis.box1).errorType}
-                  />
-                ) : (
-                  <>
-                    <div className="card-content-wraper">
-                      <h4>
-                        {" "}
-                        {data?.[fixedApis.box1]?.message}
-                      </h4>
-                      <ul>
-                        {(Array.isArray(getBoxData(fixedApis.box1)?.data)
-                          ? getBoxData(fixedApis.box1)?.data
-                          : []
-                        )
-                          .slice(0, 3)
-                          .map((rider, index) => (
-                            <li key={index}>
-                              <div className="name-wraper name-wraper-white">
-                                <Link href={`/race-result/${rider?.race}?year=${rider.year}`} className="pabs" />
-                                {renderFlag(rider?.country)}
-                                <h6>
-                                  {rider?.race || "..."}{" "}
-                                  {rider?.tab_name === "stage" && rider?.stage_number
-                                    ? `Stage ${rider.stage_number}`
-                                    : ""}
-                                </h6>
-                              </div>
+                <Link href={buildUrlWithParams("rider-results-this-year")} className="pabs" />
 
-                              {/* {rider?.rank && <span>{rider.rank}</span>} */}
-                              {rider?.year && <span>{rider.year}</span>}
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
+                <div className="card-content-wraper">
+                  <h4>{data?.[fixedApis.box10]?.message}</h4>
 
-                    <div className="image_link-wraper">
-                      <div className="link_box">
-                        <Link href={buildUrlWithParams("rider-last-victories")} className="green-circle-btn">
-                          <img src="/images/arow.svg" alt="" />
-                        </Link>
+                  <ul>
+                    <li>
+                      <div className="name-wraper name-wraper-white Result-value">
+                        <span className="label">Wins</span>
+                       
                       </div>
-                    </div>
-                  </>
-                )}
+                       <span className="value">
+                          {data?.[fixedApis.box10]?.data.wins_count ?? 0}
+                        </span>
+                    </li>
+
+                    <li>
+                      <div className="name-wraper name-wraper-white Result-value">
+                        <span className="label">Podium</span>
+                       
+                      </div>
+                       <span className="value">
+                          {data?.[fixedApis.box10]?.data.podium_count ?? 0}
+                        </span>
+                    </li>
+
+                    <li>
+                      <div className="name-wraper name-wraper-white ">
+                        <span className="label">Top 10</span>
+                      
+                      </div>
+                        <span className="value">
+                          {data?.[fixedApis.box10]?.data.top10_count ?? 0}
+                        </span>
+                    </li>
+                  </ul>
+
+                </div>
+
+                <div className="image_link-wraper">
+                  <div className="link_box">
+                    <Link href={buildUrlWithParams("rider-results-this-year")} className="green-circle-btn">
+                      <img src="/images/arow.svg" alt="" />
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
+
+
+ {/* Box4: Rider Total Wins  */}
+            <div className="col-lg-3 col-md-6">
+              <div className="races">
+                <div className="text-wraper text-center">
+                  <h3 className="text-uppercase fw-900 font-archivo fs-chenge ">
+                    {data?.[fixedApis.box4]?.message}
+                  </h3>
+                  {(() => {
+                    if (!data?.[fixedApis.box4]) {
+                      return <ErrorMessage errorType="no_data" />;
+                    }
+
+                    const response = data[fixedApis.box4];
+                    const riderData = response?.data.data;
+
+                    if (!riderData) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+                    return (
+                      <div className="name-wraper">
+                        <h5 className="fst-italic">
+                          <strong>{riderData.total_wins}</strong>
+                        </h5>
+                      </div>);
+                  })()}
+                </div>
+              </div>
+            </div>
+
+
+         
 
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
@@ -256,36 +291,62 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/* Box4: Rider Total Wins  */}
-            <div className="col-lg-3 col-md-6">
-              <div className="races">
-                <div className="text-wraper text-center">
-                  <h3 className="text-uppercase fw-900 font-archivo fs-chenge ">
-                    {data?.[fixedApis.box4]?.message}
-                  </h3>
-                  {(() => {
-                    if (!data?.[fixedApis.box4]) {
-                      return <ErrorMessage errorType="no_data" />;
-                    }
+               {/* First Card */}
+            <div className="col-lg-3 col-md-12">
+              <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
+                <Link href={buildUrlWithParams("rider-last-victories")} className="pabs" />
+                {getBoxData(fixedApis.box1).error ? (
+                  <ErrorMessage
+                    errorType={getBoxData(fixedApis.box1).errorType}
+                  />
+                ) : (
+                  <>
+                    <div className="card-content-wraper">
+                      <h4>
+                        {" "}
+                        {data?.[fixedApis.box1]?.message}
+                      </h4>
+                      <ul>
+                        {(Array.isArray(getBoxData(fixedApis.box1)?.data)
+                          ? getBoxData(fixedApis.box1)?.data
+                          : []
+                        )
+                          .slice(0, 3)
+                          .map((rider, index) => (
+                            <li key={index}>
+                              <div className="name-wraper name-wraper-white">
+                                <Link href={`/race-result/${rider?.race}?year=${rider.year}`} className="pabs" />
+                                {renderFlag(rider?.country)}
+                                <h6>
+                                  {rider?.race || "..."}{" "}
+                                  {rider?.tab_name === "stage" && rider?.stage_number
+                                    ? `Stage ${rider.stage_number}`
+                                    : ""}
+                                </h6>
+                              </div>
 
-                    const response = data[fixedApis.box4];
-                    const riderData = response?.data.data;
+                              {/* {rider?.rank && <span>{rider.rank}</span>} */}
+                              {rider?.year && <span>{rider.year}</span>}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
 
-                    if (!riderData) {
-                      return <ErrorMessage errorType="no_data_found" />;
-                    }
-                    return (
-                      <div className="name-wraper">
-                        <h5 className="fst-italic">
-                          <strong>{riderData.total_wins}</strong>
-                        </h5>
-                      </div>);
-                  })()}
-                </div>
+                    <div className="image_link-wraper">
+                      <div className="link_box">
+                        <Link href={buildUrlWithParams("rider-last-victories")} className="green-circle-btn">
+                          <img src="/images/arow.svg" alt="" />
+                        </Link>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
-            <div className="col-lg-7 box5 sss">
+         
+
+            <div className="col-lg-5 box5 sss">
               <div className="row">
                 {/* Box5: Wins in one day */}
 
@@ -454,8 +515,8 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/*Box 9 - Best Monuments results  */}
-            <div className="col-lg-5 box6">
+                {/*Box 9 - Best Monuments results  */}
+            <div className="col-lg-4 box6">
               <div className="list-white-cart lime-green-cart ctm-card">
                 <Link href={buildUrlWithParams("rider-best-monument-results")} className="pabs" />
                 {getBoxData(fixedApis.box9).error ? (
@@ -509,6 +570,8 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 )}
               </div>
             </div>
+
+          
           </>
         )}
       </div>

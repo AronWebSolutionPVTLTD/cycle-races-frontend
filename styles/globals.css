@@ -723,8 +723,8 @@ section.home-banner ul.transparent-cart li h5 {
   text-transform: uppercase;
   margin: 0;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: baseline !important;
+  gap: 1rem !important;
 }
 section.home-banner ul.transparent-cart li h5 a {
   color: #082b1a;

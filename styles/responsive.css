@@ -1171,7 +1171,21 @@ section.home-banner ul.transparent-cart li h5 {
     }
 }
 
-@media screen and (max-width: 639px) {}
+@media screen and (max-width: 639px) {
+    .results-summary {
+        padding: 10px 25px;
+    display: flex;
+    justify-content: space-between;
+
+  width: 100%;
+}
+    .results-summary .stat-item {
+  display: flex;
+  align-items: center;
+  flex-direction: column-reverse;
+  gap: 6px;
+}
+}
 nav.slim-nav:not(.active) ul {
     padding: 0;
 }

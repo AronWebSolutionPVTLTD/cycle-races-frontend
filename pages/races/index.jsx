@@ -88,6 +88,10 @@ export default function Results() {
     "November",
     "December",
   ];
+
+
+  console.log(raceResults, "raceResults");
+
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions = ["All-time", ...withoutAllTime];
   const yearDropdownRef = useRef(null);
@@ -589,17 +593,42 @@ export default function Results() {
                               }}
                             />
                             <Link
-                              href={`/races/${encodeURIComponent(
-                                item.race_name
-                              )}?year=${selectedYear}`}
+                              className=""
+                              href={`/races/${encodeURIComponent(item.race_name)}?year=${selectedYear}`}
                             >
-                              {item.race_name}
-                              {item.is_stage_race && (
-                                <span style={{ color: "inherit" }}>
-                                  - Stage {item?.stage_number}
-                                </span>
+                              {/* ---- Race Name + Stage ---- */}
+                              <div>
+                                {item.race_name}
+                                {item.is_stage_race && item.stage_number
+                                  ? `: STAGE ${item.stage_number}`
+                                  : ""}
+                              </div>
+
+                              {/* ---- Start / Finish (ONLY if stage) ---- */}
+                              {item.is_stage_race && item.stage_number && (
+                                <>
+                                  {(item.start_location || item.finish_location) && (
+                                    <span style={{ color: "inherit" }}>
+                                      {item.start_location}
+
+                                      {/* dash only if both exist */}
+                                      {item.start_location && item.finish_location ? " - " : ""}
+
+                                      {item.finish_location}
+                                    </span>
+                                  )}
+
+                                  {/* ---- Distance ---- */}
+                                  {item.distance && (
+                                    <span style={{ color: "inherit" }}>
+                                      {" ("}{item.distance} km{")"}
+                                    </span>
+                                  )}
+                                </>
                               )}
                             </Link>
+
+
                           </h5>
                           <h6 className="rider--name">
                             <Link

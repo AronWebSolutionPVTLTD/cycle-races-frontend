@@ -10,15 +10,20 @@ import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
 
+
 // Helper function to get value from item using multiple possible keys
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
+  if (!Array.isArray(possibleKeys)) return defaultValue;
+
   for (const key of possibleKeys) {
     if (item[key] !== undefined && item[key] !== null) {
       return item[key];
     }
   }
+
   return defaultValue;
 };
+
 
 // Helper function to get country code for flag
 const getCountryCode = (item, config) => {
@@ -45,8 +50,18 @@ const getRiderOrRaceId = (item) => {
 
 
 export default function DynamicSlugPage() {
+
+
+
+
+
   const router = useRouter();
   const { slug } = router.query;
+  const isRiderResults = slug === "rider-results-this-year";
+
+  const [resultStats, setResultStats] = useState(null);
+
+
 
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -342,6 +357,10 @@ export default function DynamicSlugPage() {
 
     // Get the actual data array
     let dataArray = pageData;
+
+
+
+
     if (config.dataPath && pageData[config.dataPath]) {
       dataArray = pageData[config.dataPath];
     }
@@ -362,50 +381,50 @@ export default function DynamicSlugPage() {
 
   // Helper function to check if team data exists in the dataset
   const hasTeamData = (data, config) => {
-    return data.some((item) => {
-      for (const key of config.itemConfig.team) {
-        if (
-          item[key] !== undefined &&
-          item[key] !== null &&
-          item[key] !== "N/A"
-        ) {
-          return true;
-        }
-      }
-      return false;
-    });
+    const teamField = config?.itemConfig?.team;
+    if (!teamField) return false;
+
+    const teamKeys = Array.isArray(teamField) ? teamField : [teamField];
+
+    return data.some((item) =>
+      teamKeys.some((key) => {
+        const value = item[key];
+        return value !== undefined && value !== null && value !== "N/A";
+      })
+    );
   };
+
 
   // Helper function to check if name data exists in the dataset
   const hasNameData = (data, config) => {
-    return data.some((item) => {
-      for (const key of config.itemConfig.name) {
-        if (
-          item[key] !== undefined &&
-          item[key] !== null &&
-          item[key] !== "N/A"
-        ) {
-          return true;
-        }
-      }
-      return false;
-    });
+    const nameField = config?.itemConfig?.name;
+    if (!nameField) return false;
+
+    const nameKeys = Array.isArray(nameField) ? nameField : [nameField];
+
+    return data.some((item) =>
+      nameKeys.some((key) => {
+        const value = item[key];
+        return value !== undefined && value !== null && value !== "N/A";
+      })
+    );
   };
 
+
   const hasCountData = (data, config) => {
-    return data.some((item) => {
-      for (const key of config.itemConfig.count) {
-        if (
-          item[key] !== undefined &&
-          item[key] !== null &&
-          item[key] !== "N/A"
-        ) {
-          return true;
-        }
-      }
-      return false;
-    });
+    const countField = config?.itemConfig?.count;
+    if (!countField) return false;
+
+    const countKeys = Array.isArray(countField) ? countField : [countField];
+
+    return data.some((item) =>
+      countKeys.some((key) => {
+        const value = item[key];
+        return value !== undefined && value !== null && value !== "N/A";
+      })
+    );
   };
+
 
   // Helper function to get dynamic headers based on available data
   const getDynamicHeadersBasedOnData = (data, config) => {
@@ -419,91 +438,215 @@ export default function DynamicSlugPage() {
     return headers;
   };
 
+  // get date 
+
+  function convertDateRange(dateStr) {
+    const monthNames = [
+      "jan", "feb", "mar", "apr", "may", "jun",
+      "jul", "aug", "sep", "oct", "nov", "dec"
+    ];
+
+    const format = (d) => {
+      const [day, month] = d.split(".");
+      return {
+        day: parseInt(day),
+        month: parseInt(month)
+      };
+    };
+
+    if (dateStr.includes(" - ")) {
+      const [start, end] = dateStr.split(" - ");
+      const startDate = format(start);
+      const endDate = format(end);
+
+      // Check if same month
+      if (startDate.month === endDate.month) {
+        return {
+          start: `${startDate.day} - ${endDate.day} ${monthNames[startDate.month - 1]}`,
+          end: null,
+        };
+      } else {
+        // Different months - keep current format
+        const formatOld = (d) => {
+          const [day, month] = d.split(".");
+          return `${day.padStart(2, "0")}/${month.padStart(2, "0")}`;
+        };
+        return {
+          start: formatOld(start),
+          end: formatOld(end),
+        };
+      }
+    } else {
+      // Single date
+      const date = format(dateStr);
+      return {
+        start: `${date.day} ${monthNames[date.month - 1]}`,
+        end: null,
+      };
+    }
+  }
+
+
   // Render list content with configuration
   const renderListContent = (data, config) => {
-    // Check if team data exists
+    console.log("rider-results-this-year", data);
+
+    // TEAM / NAME / COUNT detection
     const teamDataExists = hasTeamData(data, config);
-    // Check if name data exists
-    console.log(teamDataExists, "teamDataExists");
-    const nameDataExists = hasNameData(data, config);
-    console.log(nameDataExists, "nameDataExists");
+    const nameDataExists =
+      hasNameData(data, config) || data.some((item) => item.race_name);
     const countDataExists = hasCountData(data, config);
 
     return data.map((item, index) => {
-      const columns = [];
-      // columns.push(
-      //   <span key="srno" className="sr-no">
-      //     {index + 1}
-      //   </span>
-      // );
+      const { start, end } = item?.date ? convertDateRange(item.date) : {};
 
-      // NAME column with flag - only add if name data exists
+      const columns = [];
+
+      // ----------------------------
+      // NAME COLUMN (race_name fallback)
+      // ----------------------------
       if (nameDataExists) {
-        const entity = getRiderOrRaceId(item);
+        // Entity always a race for this slug
+        const entity = {
+          id: item.race_id,
+          type: "race",
+        };
 
         const hasEntity = entity?.id && entity?.type;
 
-        // Extract year and month safely
         const raceDate = item?.race_date?.split(".") || [];
         const year = raceDate[2] || item?.year || "";
         const month = raceDate[1] || "";
         const stageNumber = item?.stage_number || "";
         const tabName = item?.tab_name || "";
 
-        // Determine URL only if entity exists
-        const url =
-          hasEntity && entity.type === "race"
-            ? `/race-result/${entity.id}?year=${year}&month=${month}&stageNumber=${stageNumber}&tab=${tabName}`
-            : hasEntity
-              ? `/riders/${entity.id}`
-              : null;
+        const url = hasEntity
+          ? `/race-result/${entity.id}?year=${year}&month=${month}&stageNumber=${stageNumber}&tab=${tabName}`
+          : null;
+
+        const displayName =
+          getItemValue(item, config.itemConfig?.name) || item.race_name;
 
         columns.push(
           <h5
             key="name"
-            className={`rider--name ${hasEntity ? "clickable" : ""}`}
-            {...(hasEntity
-              ? {
-                onClick: () => router.push(url),
-              }
-              : {})}
+            className={`rider--name ${hasEntity ? "clickable" : ""} ${isRiderResults ? "d-flex flex-column flex-md-row  " : ""} `}
+            {...(hasEntity ? { onClick: () => router.push(url) } : {})}
           >
-            <span key="srno" className="sr-no">
-              {index + 1}.
+            <span className="text-capitalize">
+              {item?.date ? (
+                // If date exists → print date
+                <>
+                  {start}
+                  {end ? ` - ${end}` : ""}
+                </>
+              ) : (
+                // If date does NOT exist → print SR NO
+                <span className="sr-no">{index + 1}.</span>
+              )}
             </span>
 
-            {hasEntity ? (
-              <Link href={url} className="link">
-                <Flag
-                  code={getCountryCode(item, config)}
-                  style={{ width: "30px", height: "20px", flexShrink: 0 }}
-                />
-                {`${getItemValue(item, config.itemConfig.name)} ${item?.type?.toLowerCase() === "stage" ? `- ${item.type.toUpperCase()} ${item.stage_number}` : ""
-                  }`}
-              </Link>
-            ) : (
-              // Render as plain text if no entity
-              <>
-                <Flag
-                  code={getCountryCode(item, config)}
-                  style={{ width: "30px", height: "20px", flexShrink: 0 }}
-                />
-                {`${getItemValue(item, config.itemConfig.name)} ${item?.type?.toLowerCase() === "stage" ? `- ${item.type.toUpperCase()} ${item.stage_number}` : ""
-                  }`}
-              </>
-            )}
+            {
+              hasEntity ? (
+                <>
+                  {/* ---------------- MOBILE DESIGN A (ONLY when isRiderResults = true) ---------------- */}
+                  {isRiderResults && (
+                    <div className="d-block d-md-none">
+                      <Link href={url} className="link">
+                        <div>
+                          <div className="d-flex gap-3">
+                            <Flag
+                              code={getCountryCode(item, config)}
+                              style={{ width: "30px", height: "20px", flexShrink: 0 }}
+                            />
+                            <div className="clamp-text">{displayName}</div>
+                          </div>
+
+                          <div className="most-dnfs-start-end mt-2">
+                            {item?.stage_number && (
+                              <>
+                                {/* {item?.type?.toLowerCase() === "stage" &&
+                                  `${item.type.toUpperCase()} ${item.stage_number} : `} */}
+                                {item?.start_location}
+                                {item?.start_location && item?.finish_location ? " - " : ""}
+                                {item?.finish_location}
+                                {item?.distance ? ` (${item.distance} km)` : ""}
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  )}
+
+                  {/* ---------------- DESIGN B (default for ALL other cases) ---------------- */}
+                  <div
+                    className={
+                      isRiderResults
+                        ? "d-none d-md-flex ms-3 " // hide on mobile when true
+                        : "d-flex" // show everywhere when false
+                    }
+                  >
+                    <Link href={url} className="link">
+                      <Flag
+                        code={getCountryCode(item, config)}
+                        style={{ width: "30px", height: "20px", flexShrink: 0 }}
+                      />
+
+                      <div>
+                        {/* <div className="clamp-text">{displayName}</div> */}
+                     
+
+                  <div className="race-title fw-900 text-uppercase">
+                {displayName.length > 40 ? displayName.slice(0, 40) + "..." : displayName}
+                {item?.type === "stage" && item?.stage_number
+                  ? `: Stage ${item.stage_number}`
+                  : ""}
+              </div>
+
+
+                        <div className="most-dnfs-start-end">
+                          {item?.stage_number && (
+                            <>
+                              {/* {item?.type?.toLowerCase() === "stage" &&
+                                `${item.type.toUpperCase()} ${item.stage_number} : `} */}
+                              {item?.start_location}
+                              {item?.start_location && item?.finish_location ? " - " : ""}
+                              {item?.finish_location}
+                              {item?.distance ? ` (${item.distance} km)` : ""}
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </>
+              ) : (
+                // ----------- NO ENTITY CASE -----------
+                <>
+                  <Flag
+                    code={getCountryCode(item, config)}
+                    style={{ width: "30px", height: "20px", flexShrink: 0 }}
+                  />
+                  {displayName}
+                </>
+              )
+            }
+
+
+
+
           </h5>
         );
-
       }
 
-
-      // TEAM column - only add if team data exists
+      // ----------------------------
+      // TEAM COLUMN
+      // ----------------------------
       if (teamDataExists) {
-        // If no name data exists, show flag with team
         if (!nameDataExists) {
           columns.push(
-            <h5 key="name" className="rider--name">
+            <h5 key="team" className="rider--name">
               <span key="srno" className="sr-no">
                 {index + 1}.
               </span>
@@ -520,7 +663,6 @@ export default function DynamicSlugPage() {
             </h5>
           );
         } else {
-          // If name data exists, show team without flag (flag is already shown with name)
           columns.push(
             <div key="team" className="team-name date">
               {getItemValue(item, config.itemConfig.team)}
@@ -529,7 +671,9 @@ export default function DynamicSlugPage() {
         }
       }
 
-      // AGE column (if specified in config)
+      // ----------------------------
+      // AGE COLUMN
+      // ----------------------------
       if (config.headers.includes("AGE") && config.itemConfig.age) {
         columns.push(
           <div key="age" className="age">
@@ -538,14 +682,25 @@ export default function DynamicSlugPage() {
         );
       }
 
-      // COUNT column
-      if (countDataExists) {
-        columns.push(
-          <div key="count" className="count rank text-end">
-            {getItemValue(item, config.itemConfig.count)}
-          </div>
-        );
-      }
+      // ----------------------------
+      // COUNT COLUMN
+      // ----------------------------
+     if (countDataExists) {
+  const countValue = String(getItemValue(item, config.itemConfig.count));
+
+  columns.push(
+    <div
+      key="count"
+      className={`count rank text-end ${isRiderResults ? "rider-count" : ""}`}
+    >
+      {isRiderResults
+        ? countValue.split("").map((digit, i) => <div key={i}>{digit}</div>)
+        : countValue}
+    </div>
+  );
+}
+
+
 
       return (
         <li
@@ -558,14 +713,46 @@ export default function DynamicSlugPage() {
     });
   };
 
+  useEffect(() => {
+    const config = getSlugConfig(slug);
+
+    if (config.apiEndpoint === "getRiderWinsPodiumsTop10sCurrentYear") {
+
+
+
+      if (pageData) {
+        setResultStats({
+          top10_count: pageData.top10_count ?? 0,
+          wins_count: pageData.wins_count ?? 0,
+          podium_count: pageData.podium_count ?? 0
+        });
+      }
+    }
+  }, [slug, pageData]);
+
+
   // Render object content (for complex data structures)
   const renderObjectContent = (data, config) => {
+
+
+    // -------------------------------------------------------------
+    // SPECIAL HANDLING FOR rider-results-this-year
+    // -------------------------------------------------------------
+    if (config.apiEndpoint === "getRiderWinsPodiumsTop10sCurrentYear") {
+      console.log(data);
+
+
+      const list = data?.results_list || [];
+      return renderListContent(list, config);
+    }
+
+
     // Handle the specific data structure from your API
     if (data.data && Array.isArray(data.data)) {
       return renderListContent(data.data, config);
     }
 
-    // Handle object data structure (like the one in your image)
+    // Handle object data structure
     if (typeof data === "object" && !Array.isArray(data)) {
       const columns = [];
 
@@ -580,8 +767,7 @@ export default function DynamicSlugPage() {
       if (data.class_filter) {
         columns.push(
           <div key="class" className="class">
-            Class:{" "}
-            {Array.isArray(data.class_filter)
+            Class: {Array.isArray(data.class_filter)
               ? data.class_filter.join(", ")
               : data.class_filter}
           </div>
@@ -591,8 +777,7 @@ export default function DynamicSlugPage() {
       if (data.data) {
         columns.push(
           <div key="data" className="data">
-            Data:{" "}
-            {Array.isArray(data.data)
+            Data: {Array.isArray(data.data)
               ? `${data.data.length} items`
               : "Available"}
           </div>
@@ -618,7 +803,7 @@ export default function DynamicSlugPage() {
       return <li className="content-object">{columns}</li>;
     }
 
-    // Fallback for other object structures
+    // Fallback
     return (
       <li className="content-object">
         {Object.entries(data).map(([key, value]) => (
@@ -634,6 +819,8 @@ export default function DynamicSlugPage() {
       </li>
     );
   };
+
+
 
   // Custom heading overrides for specific slugs
   const getCustomHeading = (slug, apiTitle) => {
@@ -656,6 +843,8 @@ export default function DynamicSlugPage() {
   const pageHeading = getCustomHeading(slug, apiTitle);
   console.log("pageHeading", apiTitle);
   // const srNoHeaderLabel = "";
+
+  console.log("resultStats", resultStats);
 
   return (
     <>
@@ -718,9 +907,39 @@ export default function DynamicSlugPage() {
                 </div>
               </div>
 
+
+
               <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
+
+                {isRiderResults && (
+                  <div className="results-summary d-flex gap-3 align-items-center mb-5 mb-md-0">
+
+                    <div className="stat-item wins">
+                      <strong>WINS</strong>
+                      <span>{resultStats?.wins_count}</span>
+                    </div>
+
+                    <span className="divider">|</span>
+
+                    <div className="stat-item podium">
+                      <strong>PODIUM</strong>
+                      <span>{resultStats?.podium_count}</span>
+                    </div>
+
+                    <span className="divider">|</span>
+
+                    <div className="stat-item top10">
+                      <strong>TOP10</strong>
+                      <span>{resultStats?.top10_count}</span>
+                    </div>
+
+                  </div>
+                )}
+
+
+
                 <ul
-                  className={`slug-table-head sdsd col--${getDynamicHeaders().length
+                  className={` ${isRiderResults ? " slug-table-head slug-table-head-isRiderResults ":"slug-table-head"}   sdsd col--${getDynamicHeaders().length
                     }`}
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}

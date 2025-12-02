@@ -58,7 +58,7 @@ function convertDateRange(dateStr) {
 const FirstSection = () => {
   // Fixed APIs for each section - no random selection
   const fixedApis = {
-    // section1: "tourDownUnderStage2",
+
     section2: "recentCompleteRace",
   };
 
@@ -131,6 +131,22 @@ const FirstSection = () => {
                   <h4 className="fw-900">
                     {getSectionData(fixedApis.section2).data?.[0]?.raceName}
                   </h4>
+
+                  <span className="start-end-location">
+                    {getSectionData(fixedApis.section2).data?.[0]?.stage_number && (
+                      <>Stage {getSectionData(fixedApis.section2).data[0].stage_number}: </>
+                    )}
+                    {getSectionData(fixedApis.section2).data?.[0]?.start_Location}
+                    {getSectionData(fixedApis.section2).data?.[0]?.start_Location &&
+                      getSectionData(fixedApis.section2).data?.[0]?.finish_Location &&
+                      " - "}
+                    {getSectionData(fixedApis.section2).data?.[0]?.finish_Location}
+                    {getSectionData(fixedApis.section2).data?.[0]?.distance && (
+                      <> ({getSectionData(fixedApis.section2).data[0].distance} km)</>
+                    )}
+                  </span>
+
+
                   {getSectionData(fixedApis.section2).error ? (
                     <ErrorMessage
                       errorType={getSectionData(fixedApis.section2).errorType}
@@ -188,6 +204,7 @@ const FirstSection = () => {
                       )
                         .slice(1)
                         .map((result, index) => {
+                          console.log(result)
                           const { start, end } = convertDateRange(result?.date);
                           return (
                             <li className="hoverState-li custom-list-el" key={index}>
@@ -202,7 +219,17 @@ const FirstSection = () => {
                               </span>
                               {result?.raceName && <h5 className="race-name-el fw-900">
                                 {renderFlag(result?.raceCountry)}
-                                <a>{result.raceName}</a>
+                                <a className="d-flex flex-column">
+                                  <strong>{result.raceName}</strong>
+
+                                  {result.start_Location && result.finish_Location && result.distance && (
+                                    <span className="start-end-location">
+                                      Stage {result.stage_number}: {result.start_Location} - {result.finish_Location} ({result.distance} km)
+                                    </span>
+
+                                  )}
+                                </a>
+
                               </h5>}
                               {result?.result[0]?.rider &&
                                 <h6>

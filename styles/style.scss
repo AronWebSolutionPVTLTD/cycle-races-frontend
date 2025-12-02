@@ -3934,8 +3934,8 @@ main:has(.wrap-bottom) .dropdown-overlay {
 
 .rider--name .link {
   display: inline-flex;
-  align-items: center;
-  gap: .5rem;
+  align-items: baseline;
+  gap: .9rem;
 }
 
 main:has(.active-parent) .dropdown-overlay {
@@ -4528,9 +4528,9 @@ section.rider-details-sec .row {
 }
 
 .race-name-el a {
-  display: -webkit-box !important;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  // display: -webkit-box !important;
+  // -webkit-line-clamp: 1;
+  // -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
@@ -4856,3 +4856,13 @@ ul.filter li a:hover {
 .font-archivo {
   font-family: "Archivo", sans-serif !important;
 }
+
+.start-end-location {
+  text-transform: capitalize;
+}
+
+.Result-value {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+

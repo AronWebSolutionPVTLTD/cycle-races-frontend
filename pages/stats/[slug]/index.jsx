@@ -334,6 +334,8 @@ export default function DynamicSlugPage() {
 
   // Render list content with configuration
   const renderListContent = (data, config) => {
+    console.log(data);
+
     // Check if team data exists
     const teamDataExists = hasTeamData(data, config);
     // Check if name data exists
@@ -360,12 +362,34 @@ export default function DynamicSlugPage() {
               {index + 1}.
             </span>
             <Link href={`/riders/${riderId}`} className="link">
+
               {renderFlag(getCountryCode(item, config))}
-              {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage" && item?.stage_number !== undefined
-                  ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                  : ""
-                }`}
+
+              <div className="d-flex flex-column">
+
+                {/* ---- Name + Stage ---- */}
+                <span>
+                  {getItemValue(item, config.itemConfig.name)}{" "}
+                  {item?.type === "stage" && item?.stage_number
+                    ? `- ${item.type.toUpperCase()} ${item.stage_number}`
+                    : ""}
+                </span>
+
+                {/* ---- Start → End + Distance ---- */}
+                <span className="most-dnfs-start-end">
+                  {item?.start_location}
+
+                  {item?.start_location && item?.finish_location ? " - " : ""}
+
+                  {item?.finish_location}
+
+                  {item?.distance ? ` (${item.distance} km)` : ""}
+                </span>
+
+              </div>
+
             </Link>
+
           </h5>
         );
       }

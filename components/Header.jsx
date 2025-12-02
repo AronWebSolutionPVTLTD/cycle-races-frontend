@@ -147,6 +147,9 @@ export default function Header() {
                   <li className={isActive("/riders") ? "active" : ""}>
                     <Link href="/riders">Riders</Link>
                   </li>
+                  <li className={isActive("/head-to-head") ? "active" : ""}>
+                    <Link href="/head-to-head">Head to Head</Link>
+                  </li>
                 </ul>
               </nav>
             </div>
