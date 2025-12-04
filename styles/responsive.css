@@ -71,6 +71,7 @@ section.home-banner ul.transparent-cart li h5 {
         display: none;
     }
 
+
     section.home-banner.riders-sec2 ul.transparent-cart li h5 {
         width: 100%;
     }
@@ -1184,6 +1185,17 @@ section.home-banner ul.transparent-cart li h5 {
   align-items: center;
   flex-direction: column-reverse;
   gap: 6px;
+}
+    main.inner-riders-main section.riders-sec1.head-head-search-val{
+    padding-bottom: 0 !important;    
+}
+.rider-result-box{
+    flex-direction: column;
+    align-items: start !important;
+    gap: 10px;
+}
+.result-country{
+    margin-left: 0px !important;
 }
 }
 nav.slim-nav:not(.active) ul {

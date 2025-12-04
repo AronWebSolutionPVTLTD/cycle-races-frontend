@@ -1761,6 +1761,21 @@ section.result-sec1 ul.head-heading {
   display: grid;
   grid-template-columns: 5.375rem 26.0625rem 13.5rem auto;
 }
+.head-to-head-heading{
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 5.375rem 26.0625rem 13.5rem auto;
+}
+.head-to-head-heading li {
+  color: var(--Text, #cbcbc7);
+  font-family: "Univers";
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 5;
+  line-height: 1.5rem; /* 100% */
+  letter-spacing: -0.022rem;
+  text-transform: uppercase;
+}
 section.result-sec1 ul.head-heading li {
   color: var(--Text, #cbcbc7);
   font-family: "Univers";

@@ -23,7 +23,6 @@ export default function Riders() {
   const [selectedRider, setSelectedRider] = useState(null);
   const searchRef = useRef(null);
   const debounceTimerRef = useRef(null);
-
   const {
     data: sidebarsData,
     loading: sidebarsLoading,
@@ -64,6 +63,8 @@ export default function Riders() {
         .then((response) => {
           if (response.status === "success") {
             // Process data for display
+            console.log(response);
+            
             setTeamRiders(response.data);
             setFirstTenRiders(response.data.slice(0, 10));
             setError(null);
