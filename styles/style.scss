@@ -4867,9 +4867,32 @@ ul.filter li a:hover {
 }
 
 
-.glob-btn.green-bg-btn.comapre-btn span{
+.glob-btn.green-bg-btn.comapre-btn span {
   background-color: #d0f068 !important;
 }
-.glob-btn-compare{
+
+.glob-btn-compare {
   background-color: #638c87 !important;
+}
+
+
+// head to head
+ul.slug-table-head.head-to-head {
+  display: flex;
+}
+
+ul.slug-table-head.head-to-head .date-col {
+  flex: 0 0 80px;
+}
+
+ul.slug-table-head.head-to-head .race-col {
+  flex: 1;
+}
+
+ul.slug-table-head.head-to-head .rider-col {
+  flex: 0 0 10%;
+}
+
+.head-to-head-main .date-col {
+  flex: 0 0 80px !important;
 }

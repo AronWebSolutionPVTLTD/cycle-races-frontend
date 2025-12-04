@@ -725,8 +725,7 @@ section.riders-sec1 .shape::after {
 }
 
 .slug-table-head.head-to-head {
-  display: grid;
-  grid-template-columns: 4rem 25.5rem 11.375rem 12.75rem;
+  display: flex;
   gap: 1.5rem;
   padding: 1rem 0;
   margin: 32px 0 1rem;

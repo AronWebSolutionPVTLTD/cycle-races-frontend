@@ -226,12 +226,8 @@ export default function HeadToHead() {
 
       // Date and Race Name Column
       columns.push(
-        <h5
-          key="date-race"
-          className={`rider--name race-name-el ${hasRaceId ? "clickable" : ""}`}
-          {...(hasRaceId ? { onClick: () => router.push(url) } : {})}
-        >
-          <span className="text-capitalize">
+        <>
+          <span className="text-capitalize date-col">
             {race?.date ? (
               <>
                 {start}
@@ -241,54 +237,59 @@ export default function HeadToHead() {
               race?.year || "N/A"
             )}
           </span>
-
-          {hasRaceId ? (
-            <Link href={url} className="link fw-900 d-flex ">
-              <Flag
-                code={race.country?.toUpperCase() || "XX"}
-                style={{ width: "30px", height: "20px", flexShrink: 0, marginRight: "10px" }}
-              />
-              <div>
-                <div className="race-title fw-900 text-uppercase ">
-                  <span className="d-md-none">
-                    {race.race_name.length > 30
-                      ? `${race.race_name.slice(0, 30)}...`
-                      : race.race_name}
-                  </span>
-                  <span className="d-none d-md-inline">{race.race_name}</span>
-                  {race?.stage_number && (
-                    <span className="d-none d-md-inline">
-                      {`: Stage ${race.stage_number}`}
+          <h5
+            key="date-race"
+            className={`rider--name race-name-el ${hasRaceId ? "clickable" : ""}`}
+            {...(hasRaceId ? { onClick: () => router.push(url) } : {})}
+          >
+            {hasRaceId ? (
+              <Link href={url} className="link fw-900 d-flex ">
+                <Flag
+                  code={race.country?.toUpperCase() || "XX"}
+                  style={{ width: "30px", height: "20px", flexShrink: 0, marginRight: "10px" }}
+                />
+                <div>
+                  <div className="race-title fw-900 text-uppercase ">
+                    <span className="d-md-none">
+                      {race.race_name.length > 30
+                        ? `${race.race_name.slice(0, 30)}...`
+                        : race.race_name}
                     </span>
+                    <span className="d-none d-md-inline">{race.race_name}</span>
+                    {race?.stage_number && (
+                      <span className="d-none d-md-inline">
+                        {`: Stage ${race.stage_number}`}
+                      </span>
+                    )}
+                  </div>
+                  {race?.stage_number && (
+                    <>
+                      <div className="most-dnfs-start-end race-title fw-900 text-uppercase d-block d-md-none ">
+                        Stage {race.stage_number}
+                      </div>
+                      <div className="most-dnfs-start-end d-none d-md-block">
+                        {race?.start_location}
+                        {race?.start_location && race?.finish_location ? " - " : ""}
+                        {race?.finish_location}
+                        {race?.distance ? ` (${race.distance} km)` : ""}
+                      </div>
+                    </>
                   )}
                 </div>
-                {race?.stage_number && (
-                  <>
-                    <div className="most-dnfs-start-end race-title fw-900 text-uppercase d-block d-md-none ">
-                      Stage {race.stage_number}
-                    </div>
-                    <div className="most-dnfs-start-end d-none d-md-block">
-                      {race?.start_location}
-                      {race?.start_location && race?.finish_location ? " - " : ""}
-                      {race?.finish_location}
-                      {race?.distance ? ` (${race.distance} km)` : ""}
-                    </div>
-                  </>
-                )}
-              </div>
-            </Link>
-          ) : (
-            <>
-              <Flag
-                code={race.country?.toUpperCase() || "XX"}
-                style={{ width: "30px", height: "20px", flexShrink: 0, marginRight: "10px" }}
-              />
-              <div>
-                <div className="race-title fw-900 text-uppercase">{race.race_name}</div>
-              </div>
-            </>
-          )}
-        </h5>
+              </Link>
+            ) : (
+              <>
+                <Flag
+                  code={race.country?.toUpperCase() || "XX"}
+                  style={{ width: "30px", height: "20px", flexShrink: 0, marginRight: "10px" }}
+                />
+                <div>
+                  <div className="race-title fw-900 text-uppercase">{race.race_name}</div>
+                </div>
+              </>
+            )}
+          </h5>
+        </>
       );
 
       // Rider 1 Rank Column
@@ -837,15 +838,12 @@ export default function HeadToHead() {
 
 
 
-                  <div className="slug-table-main mt-4 mb-5">
+                  <div className="slug-table-main mt-4 mb-5 head-to-head-main">
                     <ul className="slug-table-head head-to-head">
-                      <li style={{
-                      flex: '0 0 70px',
-                    }}>Date</li><li>Race</li><li className="text-lg-end" style={{
-                      flex: '0 0 10%',
-                    }}><span className="d-none d-md-inline">Rider </span>1</li><li className="text-lg-end" style={{
-                      flex: '0 0 10%',
-                    }}><span className="d-none d-md-inline">Rider </span>2</li></ul>
+                      <li className="date-col">Date</li>
+                      <li className="race-col">Race</li>
+                      <li className="text-lg-end rider-col"><span className="d-none d-md-inline">Rider </span>1</li>
+                      <li className="text-lg-end rider-col"><span className="d-none d-md-inline">Rider </span>2</li></ul>
 
                     <ul className="slug-table-body">
                       {renderRidersList()}
