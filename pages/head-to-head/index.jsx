@@ -15,6 +15,7 @@ export default function HeadToHead() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const searchRef = useRef(null);
+  const searchRef2 = useRef(null);
   const debounceTimerRef = useRef(null);
   const [H2HData, setH2HData] = useState([]);
   const [showCompareResults, setShowCompareResults] = useState(false);
@@ -329,12 +330,13 @@ export default function HeadToHead() {
   };
 
   const handleBlur1 = () => {
-    setTimeout(() => {
-      if (searchRef.current) {
-        searchRef.current.classList.remove("active-parent");
-      }
-      setShowSuggestions1(false);
-    }, 150);
+    if (searchRef.current) {
+      searchRef.current.classList.remove("active-parent");
+    }
+    // setTimeout(() => {
+      
+    //   setShowSuggestions1(false);
+    // }, 150);
   };
 
   // Rider 2 focus handling
@@ -342,15 +344,15 @@ export default function HeadToHead() {
     if (searchSuggestions2.length > 0) {
       setShowSuggestions2(true);
     }
-    if (searchRef.current) {
-      searchRef.current.classList.add("active-parent");
+    if (searchRef2.current) {
+      searchRef2.current.classList.add("active-parent");
     }
   };
 
   const handleBlur2 = () => {
     setTimeout(() => {
-      if (searchRef.current) {
-        searchRef.current.classList.remove("active-parent");
+      if (searchRef2.current) {
+        searchRef2.current.classList.remove("active-parent");
       }
       setShowSuggestions2(false);
     }, 150);
@@ -448,6 +450,23 @@ export default function HeadToHead() {
     setShowCompareResults(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Rider 1
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSuggestions1(false);
+      }
+  
+      // Rider 2
+      if (searchRef2.current && !searchRef2.current.contains(event.target)) {
+        setShowSuggestions2(false);
+      }
+    };
+  
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <>
       <Head>
@@ -470,28 +489,17 @@ export default function HeadToHead() {
                 </ul>
                 <h1>head to head</h1>
 
-                <section className="riders-sec2">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-lg-12 col-md-7 ctm-table-wrap">
-                        <ul className="row head-heading ctm-table-ul">
-                          <li>Rider 1</li>
-                          <li>Rider 2</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                <div className={`searchInput head-to-head-section`} ref={searchRef}>
+                <div className={`head-to-head-section`}>
                   <form>
-                    <div className="row wraper align-items-center">
+                    <div className="h2h-search-row">
 
                       {/* Rider 1 */}
-                      <div className="col-12 col-md rider">
-                        <h6 className="d-lg-none">Rider 1</h6>
-
-                        <div className={`wrap-top searchInput ${showSuggestions1 ? "open" : ""}`}>
+                      <div className="h2h-search-column rider">
+                      <h6 className="mb-0 mb-10px">Rider 1</h6>
+                        <div className="searchInput" ref={searchRef}>
+                        
+                        <div className="wraper">
+                        <div className={`wrap-top `}>
                           <input
                             type="text"
                             placeholder="Search"
@@ -526,6 +534,7 @@ export default function HeadToHead() {
                             )}
                           </div>
                         </div>
+                        </div>
 
                         {/* Suggestions */}
                         {showSuggestions1 && searchSuggestions1.length > 0 && (
@@ -545,18 +554,19 @@ export default function HeadToHead() {
                           </div>
                         )}
                       </div>
+                    </div>
 
-
-                      {/* VS */}
-                      <div className="col-12 col-md-auto text-center mt-5 my-lg-0 flex align-item-center justify-content-center">
-                        <h6>VS</h6>
+                    {/* VS */}
+                    <div className="h2h-search-spacer">
+                        <h6 className="mb-0 mt-30px">VS</h6>
                       </div>
 
                       {/* Rider 2 */}
-                      <div className="col-12 col-md rider">
-                        <h6 className="d-lg-none">Rider 2</h6>
-
-                        <div className={`wrap-top searchInput ${showSuggestions2 ? "open" : ""}`}>
+                      <div className="h2h-search-column rider">
+                        <h6 className="mb-0 mb-10px">Rider 2</h6>
+                        <div className="searchInput" ref={searchRef2}>
+                        <div className="wraper">
+                        <div className={`wrap-top`}>
                           <input
                             type="text"
                             placeholder="Search"
@@ -591,6 +601,8 @@ export default function HeadToHead() {
                             )}
                           </div>
                         </div>
+                        </div>
+                        
 
                         {/* Rider 2 Suggestions */}
                         {showSuggestions2 && searchSuggestions2.length > 0 && (
@@ -610,8 +622,7 @@ export default function HeadToHead() {
                           </div>
                         )}
                       </div>
-
-
+                      </div>
                     </div>
                   </form>
                 </div>
@@ -624,17 +635,16 @@ export default function HeadToHead() {
         {/* Compare and result section */}
         {(selectedRider1 || selectedRider2) && (
           <section className="riders-sec1 rider-comapre-result head-head-search-val">
-            <div className="shape"></div>
             {!showCompareResults && (
               <div className="container">
                 <div className="row">
                   <div className="col-lg-12">
 
-                    <div className={`searchInput head-to-head-section`}>
-                      <div className="row wraper align-items-center">
+                    <div className={`rider-result-section `}>
+                      <div className="rider-result-section-row">
 
                         {/* Rider 1 */}
-                        <div className="col-12 col-md-5 col-lg-4 rider">
+                        <div className="rider-result-section-column">
                           {selectedRider1 && (
                             <div className="rider-result-box">
                               <h4 className="result-name text-uppercase d-flex align-items-center">
@@ -656,11 +666,8 @@ export default function HeadToHead() {
                           )}
                         </div>
 
-
-                        <div className="col-12 col-md-2 col-lg-4 text-center my-3 my-md-0" />
-
                         {/* Rider 2 */}
-                        <div className="col-12  col-md-5 col-lg-4 rider">
+                        <div className="rider-result-section-column">
                           {selectedRider2 && (
                             <div className="rider-result-box">
                               <h4 className="result-name text-uppercase d-flex align-items-center">
@@ -693,7 +700,7 @@ export default function HeadToHead() {
 
             {/* Compare button or desktop summary row */}
             {!showCompareResults ? (
-              <div className="d-flex justify-content-center mb-5">
+              <div className="h2h_btn__wrapper">
                 <button
                   type="button"
                   className={`glob-btn green-bg-btn comapre-btn ${!selectedRider1 || !selectedRider2 ? "glob-btn-compare" : ""
