@@ -199,12 +199,12 @@ export default function HeadToHead() {
 
     if (!filteredData || filteredData.length === 0) {
       return (
-        <li
-          className="empty-state"
+        <div
+          className="empty-state empty-msg"
           style={{ textAlign: "center", padding: "20px" }}
         >
           There are no matches found
-        </li>
+        </div>
       );
     }
 
@@ -334,7 +334,7 @@ export default function HeadToHead() {
       searchRef.current.classList.remove("active-parent");
     }
     // setTimeout(() => {
-      
+
     //   setShowSuggestions1(false);
     // }, 150);
   };
@@ -456,13 +456,13 @@ export default function HeadToHead() {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowSuggestions1(false);
       }
-  
+
       // Rider 2
       if (searchRef2.current && !searchRef2.current.contains(event.target)) {
         setShowSuggestions2(false);
       }
     };
-  
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -495,69 +495,69 @@ export default function HeadToHead() {
 
                       {/* Rider 1 */}
                       <div className="h2h-search-column rider">
-                      <h6 className="mb-0 mb-10px">Rider 1</h6>
+                        <h6 className="mb-0 mb-10px">Rider 1</h6>
                         <div className="searchInput" ref={searchRef}>
-                        
-                        <div className="wraper">
-                        <div className={`wrap-top `}>
-                          <input
-                            type="text"
-                            placeholder="Search"
-                            value={searchQuery1}
-                            onChange={handleSearchChange1}
-                            onFocus={handleFocus1}
-                            onBlur={handleBlur1}
-                          />
 
-                          <div className="icon">
-                            {searchQuery1 ? (
-                              <span className="clear-icon" onClick={handleClear1}>
-                                ✖
-                              </span>
-                            ) : (
-                              <span className="search-icon">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width={48}
-                                  height={48}
-                                  viewBox="0 0 48 48"
-                                  fill="none"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    clipRule="evenodd"
-                                    d="M39.1632 34.3632L48 43.2L43.2 48L34.3632 39.1656C30.6672 42.1224 26.6928 43.2 21.6 43.2C9.6912 43.2 0 33.5112 0 21.6C0 9.6888 9.6912 0 21.6 0C33.5088 0 43.2 9.6888 43.2 21.6C43.2 26.6904 42.1224 30.6648 39.1632 34.3632ZM21.6008 36.0008C13.6602 36.0008 7.2008 29.5414 7.2008 21.6008C7.2008 13.6623 13.6602 7.2008 21.6008 7.2008C29.5414 7.2008 36.0008 13.6623 36.0008 21.6008C36.0008 29.5414 29.5414 36.0008 21.6008 36.0008Z"
-                                    fill="#D0F068"
-                                  />
-                                </svg>
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                        </div>
+                          <div className="wraper">
+                            <div className={`wrap-top `}>
+                              <input
+                                type="text"
+                                placeholder="Search"
+                                value={searchQuery1}
+                                onChange={handleSearchChange1}
+                                onFocus={handleFocus1}
+                                onBlur={handleBlur1}
+                              />
 
-                        {/* Suggestions */}
-                        {showSuggestions1 && searchSuggestions1.length > 0 && (
-                          <div className="wrap-bottom">
-                            <ul>
-                              {searchSuggestions1.map((rider, idx) => (
-                                <li
-                                  key={`suggestion1-${idx}-${rider.teamName}-${rider.rider_id || rider._id || rider.riderName}`}
-                                  onClick={() => handleSelectSuggestion1(rider)}
-                                >
-                                  <div>
-                                    <span>{`${rider.riderName} (${rider.teamName})`}</span>
-                                  </div>
-                                </li>
-                              ))}
-                            </ul>
+                              <div className="icon">
+                                {searchQuery1 ? (
+                                  <span className="clear-icon" onClick={handleClear1}>
+                                    <img src="/icons/close-icon.png" alt="close-icon" />
+                                  </span>
+                                ) : (
+                                  <span className="search-icon">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width={48}
+                                      height={48}
+                                      viewBox="0 0 48 48"
+                                      fill="none"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M39.1632 34.3632L48 43.2L43.2 48L34.3632 39.1656C30.6672 42.1224 26.6928 43.2 21.6 43.2C9.6912 43.2 0 33.5112 0 21.6C0 9.6888 9.6912 0 21.6 0C33.5088 0 43.2 9.6888 43.2 21.6C43.2 26.6904 42.1224 30.6648 39.1632 34.3632ZM21.6008 36.0008C13.6602 36.0008 7.2008 29.5414 7.2008 21.6008C7.2008 13.6623 13.6602 7.2008 21.6008 7.2008C29.5414 7.2008 36.0008 13.6623 36.0008 21.6008C36.0008 29.5414 29.5414 36.0008 21.6008 36.0008Z"
+                                        fill="#D0F068"
+                                      />
+                                    </svg>
+                                  </span>
+                                )}
+                              </div>
+                            </div>
                           </div>
-                        )}
+
+                          {/* Suggestions */}
+                          {showSuggestions1 && searchSuggestions1.length > 0 && (
+                            <div className="wrap-bottom">
+                              <ul>
+                                {searchSuggestions1.map((rider, idx) => (
+                                  <li
+                                    key={`suggestion1-${idx}-${rider.teamName}-${rider.rider_id || rider._id || rider.riderName}`}
+                                    onClick={() => handleSelectSuggestion1(rider)}
+                                  >
+                                    <div>
+                                      <span>{`${rider.riderName} (${rider.teamName})`}</span>
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* VS */}
-                    <div className="h2h-search-spacer">
+                      {/* VS */}
+                      <div className="h2h-search-spacer">
                         <h6 className="mb-0 mt-30px">VS</h6>
                       </div>
 
@@ -565,63 +565,63 @@ export default function HeadToHead() {
                       <div className="h2h-search-column rider">
                         <h6 className="mb-0 mb-10px">Rider 2</h6>
                         <div className="searchInput" ref={searchRef2}>
-                        <div className="wraper">
-                        <div className={`wrap-top`}>
-                          <input
-                            type="text"
-                            placeholder="Search"
-                            value={searchQuery2}
-                            onChange={handleSearchChange2}
-                            onFocus={handleFocus2}
-                            onBlur={handleBlur2}
-                          />
+                          <div className="wraper">
+                            <div className={`wrap-top`}>
+                              <input
+                                type="text"
+                                placeholder="Search"
+                                value={searchQuery2}
+                                onChange={handleSearchChange2}
+                                onFocus={handleFocus2}
+                                onBlur={handleBlur2}
+                              />
 
-                          <div className="icon">
-                            {searchQuery2 ? (
-                              <span className="clear-icon" onClick={handleClear2}>
-                                ✖
-                              </span>
-                            ) : (
-                              <span className="search-icon">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width={48}
-                                  height={48}
-                                  viewBox="0 0 48 48"
-                                  fill="none"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    clipRule="evenodd"
-                                    d="M39.1632 34.3632L48 43.2L43.2 48L34.3632 39.1656C30.6672 42.1224 26.6928 43.2 21.6 43.2C9.6912 43.2 0 33.5112 0 21.6C0 9.6888 9.6912 0 21.6 0C33.5088 0 43.2 9.6888 43.2 21.6C43.2 26.6904 42.1224 30.6648 39.1632 34.3632ZM21.6008 36.0008C13.6602 36.0008 7.2008 29.5414 7.2008 21.6008C7.2008 13.6623 13.6602 7.2008 21.6008 7.2008C29.5414 7.2008 36.0008 13.6623 36.0008 21.6008C36.0008 29.5414 29.5414 36.0008 21.6008 36.0008Z"
-                                    fill="#D0F068"
-                                  />
-                                </svg>
-                              </span>
-                            )}
+                              <div className="icon">
+                                {searchQuery2 ? (
+                                  <span className="clear-icon" onClick={handleClear2}>
+                                    <img src="/icons/close-icon.png" alt="close-icon" />
+                                  </span>
+                                ) : (
+                                  <span className="search-icon">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width={48}
+                                      height={48}
+                                      viewBox="0 0 48 48"
+                                      fill="none"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M39.1632 34.3632L48 43.2L43.2 48L34.3632 39.1656C30.6672 42.1224 26.6928 43.2 21.6 43.2C9.6912 43.2 0 33.5112 0 21.6C0 9.6888 9.6912 0 21.6 0C33.5088 0 43.2 9.6888 43.2 21.6C43.2 26.6904 42.1224 30.6648 39.1632 34.3632ZM21.6008 36.0008C13.6602 36.0008 7.2008 29.5414 7.2008 21.6008C7.2008 13.6623 13.6602 7.2008 21.6008 7.2008C29.5414 7.2008 36.0008 13.6623 36.0008 21.6008C36.0008 29.5414 29.5414 36.0008 21.6008 36.0008Z"
+                                        fill="#D0F068"
+                                      />
+                                    </svg>
+                                  </span>
+                                )}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        </div>
-                        
 
-                        {/* Rider 2 Suggestions */}
-                        {showSuggestions2 && searchSuggestions2.length > 0 && (
-                          <div className="wrap-bottom">
-                            <ul>
-                              {searchSuggestions2.map((rider, idx) => (
-                                <li
-                                  key={`suggestion2-${idx}-${rider.teamName}-${rider.rider_id || rider._id || rider.riderName}`}
-                                  onClick={() => handleSelectSuggestion2(rider)}
-                                >
-                                  <div>
-                                    <span>{`${rider.riderName} (${rider.teamName})`}</span>
-                                  </div>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </div>
+
+                          {/* Rider 2 Suggestions */}
+                          {showSuggestions2 && searchSuggestions2.length > 0 && (
+                            <div className="wrap-bottom">
+                              <ul>
+                                {searchSuggestions2.map((rider, idx) => (
+                                  <li
+                                    key={`suggestion2-${idx}-${rider.teamName}-${rider.rider_id || rider._id || rider.riderName}`}
+                                    onClick={() => handleSelectSuggestion2(rider)}
+                                  >
+                                    <div>
+                                      <span>{`${rider.riderName} (${rider.teamName})`}</span>
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </form>
@@ -634,232 +634,225 @@ export default function HeadToHead() {
 
         {/* Compare and result section */}
         {(selectedRider1 || selectedRider2) && (
-          <section className="riders-sec1 rider-comapre-result head-head-search-val">
+          <>
             {!showCompareResults && (
-              <div className="container">
-                <div className="row">
-                  <div className="col-lg-12">
+              <section className="riders-sec1 rider-comapre-result head-head-search-val">
+                <div className="container">
+                  <div className="row">
+                    <div className="col-lg-12">
 
-                    <div className={`rider-result-section `}>
-                      <div className="rider-result-section-row">
+                      <div className={`rider-result-section `}>
+                        <div className="rider-result-section-row">
 
-                        {/* Rider 1 */}
-                        <div className="rider-result-section-column">
-                          {selectedRider1 && (
-                            <div className="rider-result-box">
-                              <h4 className="result-name text-uppercase d-flex align-items-center">
-                                <Flag
-                                  code={selectedRider1.riderCountry?.toUpperCase()}
-                                  style={{
-                                    width: "30px",
-                                    height: "20px",
-                                    marginRight: "10px",
-                                    flexShrink: 0,
-                                  }}
-                                />
-                                {selectedRider1.riderName}
-                              </h4>
-                              <span className="result-country">
-                                {selectedRider1.country_name ?? "Rider country"}
-                              </span>
-                            </div>
-                          )}
+                          {/* Rider 1 */}
+                          <div className="rider-result-section-column">
+                            {selectedRider1 && (
+                              <div className="rider-result-box">
+                                <h4 className="result-name text-uppercase d-flex align-items-center">
+                                  <Flag
+                                    code={selectedRider1.riderCountry?.toUpperCase()}
+                                    style={{
+                                      width: "30px",
+                                      height: "20px",
+                                      marginRight: "10px",
+                                      flexShrink: 0,
+                                    }}
+                                  />
+                                  {selectedRider1.riderName}
+                                </h4>
+                                <span className="result-country">
+                                  {selectedRider1.country_name ?? "Rider country"}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Rider 2 */}
+                          <div className="rider-result-section-column">
+                            {selectedRider2 && (
+                              <div className="rider-result-box">
+                                <h4 className="result-name text-uppercase d-flex align-items-center">
+                                  <Flag
+                                    code={selectedRider2.riderCountry?.toUpperCase()}
+                                    style={{
+                                      width: "30px",
+                                      height: "20px",
+                                      marginRight: "10px",
+                                      flexShrink: 0,
+                                    }}
+                                  />
+                                  {selectedRider2.riderName}
+                                </h4>
+                                <span className="result-country">
+                                  {selectedRider2.country_name ?? "Rider country"}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+
                         </div>
-
-                        {/* Rider 2 */}
-                        <div className="rider-result-section-column">
-                          {selectedRider2 && (
-                            <div className="rider-result-box">
-                              <h4 className="result-name text-uppercase d-flex align-items-center">
-                                <Flag
-                                  code={selectedRider2.riderCountry?.toUpperCase()}
-                                  style={{
-                                    width: "30px",
-                                    height: "20px",
-                                    marginRight: "10px",
-                                    flexShrink: 0,
-                                  }}
-                                />
-                                {selectedRider2.riderName}
-                              </h4>
-                              <span className="result-country">
-                                {selectedRider2.country_name ?? "Rider country"}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-
                       </div>
-                    </div>
 
+                    </div>
                   </div>
                 </div>
-              </div>
+              </section>
+
             )}
+          </>
+        )}
 
 
-            {/* Compare button or desktop summary row */}
-            {!showCompareResults ? (
-              <div className="h2h_btn__wrapper">
-                <button
-                  type="button"
-                  className={`glob-btn green-bg-btn comapre-btn ${!selectedRider1 || !selectedRider2 ? "glob-btn-compare" : ""
-                    }`}
-                  disabled={!selectedRider1 || !selectedRider2}
-                  onClick={() => {
-                    fetchH2H(selectedRider1.rider_id, selectedRider2.rider_id);
-                    setShowCompareResults(true);
-                  }}
-                >
-                  <strong>Compare</strong>
-                  <span>
-                    <img src="/images/arow.svg" alt="" />
-                  </span>
-                </button>
-              </div>
-            ) : (
-              (selectedRider1 || selectedRider2) && getMatchRidersData && (
-                <div className="container">
-                  <div className="row mb-3 pt-3 pt-md-5 rider-compare-show-result">
-                    {/* Rider 1 */}
-                    <div className="col-12 col-md-5 mb-3 mb-md-0">
-                      <h6 className="mb-2">Rider 1</h6>
-                      <div className="d-flex align-items-center justify-content-between">
-                        <h4 className="text-uppercase d-flex align-items-center fw-900 mb-0">
-                          {selectedRider1 && (
-                            <>
-                              <Flag
-                                code={selectedRider1?.riderCountry?.toUpperCase()}
-                                style={{
-                                  width: "30px",
-                                  height: "20px",
-                                  marginRight: "10px",
-                                  flexShrink: 0,
-                                }}
-                              />
-                              {selectedRider1?.riderName}
-                            </>
-                          )}
-                        </h4>
-                        {/* Button for Rider 1 - shown on mobile, hidden on desktop */}
-                        <button
-                          className={`d-md-none ${getMatchRidersData.rider1_ahead > getMatchRidersData.rider2_ahead ? "activeBtn" : ""}`}
-                        >
-                          {getMatchRidersData?.rider1_ahead}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="col-12 col-md-2 text-center btns d-none d-md-flex align-items-center justify-content-center gap-2  mb-3 mb-md-0">
+        {/* Compare button or desktop summary row */}
+        {!showCompareResults ? (
+          <div className="h2h_btn__wrapper">
+            <button
+              type="button"
+              className={`glob-btn green-bg-btn comapre-btn ${!selectedRider1 || !selectedRider2 ? "glob-btn-compare" : ""
+                }`}
+              disabled={!selectedRider1 || !selectedRider2}
+              onClick={() => {
+                fetchH2H(selectedRider1.rider_id, selectedRider2.rider_id);
+                setShowCompareResults(true);
+              }}
+            >
+              <strong>Compare</strong>
+              <span>
+                <img src="/images/arow.svg" alt="" />
+              </span>
+            </button>
+          </div>
+        ) : loading ? <ListSkeleton /> : (
+          (selectedRider1 || selectedRider2) && getMatchRidersData && (
+            <>
+              <div className="container">
+                <div className="rider-compare-show-result">
+                  {/* Rider 1 */}
+                  <div className="compare-result-col">
+                    <h6 className="mb-10px">Rider 1</h6>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <h4 className="text-uppercase d-flex align-items-center fw-900 mb-0">
+                        {selectedRider1 && (
+                          <>
+                            <Flag
+                              code={selectedRider1?.riderCountry?.toUpperCase()}
+                              style={{
+                                width: "30px",
+                                height: "20px",
+                                marginRight: "10px",
+                                flexShrink: 0,
+                              }}
+                            />
+                            {selectedRider1?.riderName}
+                          </>
+                        )}
+                      </h4>
+                      {/* Button for Rider 1 - shown on mobile, hidden on desktop */}
                       <button
-                        className={getMatchRidersData.rider1_ahead > getMatchRidersData.rider2_ahead ? "activeBtn" : ""}
+                        className={`d-md-none ${getMatchRidersData.rider1_ahead > getMatchRidersData.rider2_ahead ? "activeBtn" : ""}`}
                       >
                         {getMatchRidersData?.rider1_ahead}
                       </button>
+                    </div>
+                  </div>
 
-                      {/* Button for Rider 2 */}
+                  <div className="compare-result-digits-col">
+                    <button
+                      className={getMatchRidersData.rider1_ahead > getMatchRidersData.rider2_ahead ? "activeBtn" : ""}
+                    >
+                      {getMatchRidersData?.rider1_ahead}
+                    </button>
+
+                    {/* Button for Rider 2 */}
+                    <button
+                      className={getMatchRidersData.rider2_ahead > getMatchRidersData.rider1_ahead ? "activeBtn" : ""}
+                    >
+                      {getMatchRidersData?.rider2_ahead}
+                    </button>
+                  </div>
+
+                  {/* Rider 2 */}
+                  <div className="compare-result-col compare-result-col--last">
+                    <h6 className="mb-10px text-start text-md-end w-100">Rider 2</h6>
+                    <div className="w-100 d-flex align-items-center justify-content-between justify-content-md-end">
+                      <h4 className="text-uppercase d-flex align-items-center fw-900 mb-0 justify-content-start justify-content-md-end">
+                        {selectedRider2 && (
+                          <>
+                            <Flag
+                              code={selectedRider2?.riderCountry?.toUpperCase()}
+                              style={{
+                                width: "30px",
+                                height: "20px",
+                                marginRight: "10px",
+                                flexShrink: 0,
+                              }}
+                            />
+                            {selectedRider2?.riderName}
+                          </>
+                        )}
+                      </h4>
+                      {/* Button for Rider 2 - shown on mobile, hidden on desktop */}
                       <button
-                        className={getMatchRidersData.rider2_ahead > getMatchRidersData.rider1_ahead ? "activeBtn" : ""}
+                        className={`d-md-none ${getMatchRidersData.rider2_ahead > getMatchRidersData.rider1_ahead ? "activeBtn" : ""}`}
                       >
                         {getMatchRidersData?.rider2_ahead}
                       </button>
                     </div>
-
-                    {/* Rider 2 */}
-                    <div className="col-12 col-md-5 d-flex flex-column align-items-start align-items-md-end">
-                      <h6 className="mb-2 text-start text-md-end w-100">Rider 2</h6>
-                      <div className="w-100 d-flex align-items-center justify-content-between justify-content-md-end">
-                        <h4 className="text-uppercase d-flex align-items-center fw-900 mb-0 justify-content-start justify-content-md-end">
-                          {selectedRider2 && (
-                            <>
-                              <Flag
-                                code={selectedRider2?.riderCountry?.toUpperCase()}
-                                style={{
-                                  width: "30px",
-                                  height: "20px",
-                                  marginRight: "10px",
-                                  flexShrink: 0,
-                                }}
-                              />
-                              {selectedRider2?.riderName}
-                            </>
-                          )}
-                        </h4>
-                        {/* Button for Rider 2 - shown on mobile, hidden on desktop */}
-                        <button
-                          className={`d-md-none ${getMatchRidersData.rider2_ahead > getMatchRidersData.rider1_ahead ? "activeBtn" : ""}`}
-                        >
-                          {getMatchRidersData?.rider2_ahead}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )
-            )}
-
-
-          </section>
-        )}
-
-
-
-        {/* Show list of compare results */}
-        {showCompareResults && (
-          <section className="home-banner riders-sec2 result-sec1">
-            <div className="container">
-              <div className="row">
-                <div className="col-12">
-                  {/* Filter Dropdown */}
-                  <div className="row align-items-center sdsd bts__wrap mb-3">
-                    <div className="col">
-                      <ul className="filter">
-                        <FilterDropdown
-                          ref={yearDropdownRef}
-                          isOpen={showYearDropdown}
-                          toggle={() => setShowYearDropdown(!showYearDropdown)}
-                          options={getFilteredYears(yearInput)}
-                          selectedValue={selectedYear}
-                          placeholder="Year"
-                          onSelect={handleYearSelection}
-                          onInputChange={handleYearInputChange}
-                          loading={false}
-                          includeAllOption={true}
-                          allOptionText="All-time"
-                          classname="year-dropdown"
-                        />
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-lg-12">
-                  <h5 className="fw-900">Result in same race</h5>
-
-                </div>
-
-                <div className="col-lg-9 col-md-9">
-
-
-
-
-
-
-                  <div className="slug-table-main mt-4 mb-5 head-to-head-main">
-                    <ul className="slug-table-head head-to-head">
-                      <li className="date-col">Date</li>
-                      <li className="race-col">Race</li>
-                      <li className="text-lg-end rider-col"><span className="d-none d-md-inline">Rider </span>1</li>
-                      <li className="text-lg-end rider-col"><span className="d-none d-md-inline">Rider </span>2</li></ul>
-
-                    <ul className="slug-table-body">
-                      {renderRidersList()}
-                    </ul>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
+
+              {/* Show list of compare results */}
+              {showCompareResults && (
+                <section className="home-banner riders-sec2 result-sec1 h2h-results-sec">
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-12">
+                        {/* Filter Dropdown */}
+                        <div className="align-items-center sdsd bts__wrap">
+                          <div className="col">
+                            <ul className="filter mb-0">
+                              <FilterDropdown
+                                ref={yearDropdownRef}
+                                isOpen={showYearDropdown}
+                                toggle={() => setShowYearDropdown(!showYearDropdown)}
+                                options={getFilteredYears(yearInput)}
+                                selectedValue={selectedYear}
+                                placeholder="Year"
+                                onSelect={handleYearSelection}
+                                onInputChange={handleYearInputChange}
+                                loading={false}
+                                includeAllOption={true}
+                                allOptionText="All-time"
+                                classname="year-dropdown"
+                              />
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                      <div className="col-lg-9 col-md-9 h2h_result_section">
+                        <h5 className="fw-900">Result in same race</h5>
+                        <div className="slug-table-main head-to-head-main">
+                          <ul className="slug-table-head head-to-head">
+                            <li className="date-col">Date</li>
+                            <li className="race-col">Race</li>
+                            <li className="text-lg-end rider-col"><span className="d-none d-md-inline">Rider </span>1</li>
+                            <li className="text-lg-end rider-col"><span className="d-none d-md-inline">Rider </span>2</li></ul>
+
+                          <ul className="slug-table-body">
+                            {renderRidersList()}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              )}
+            </>
+          )
         )}
       </main>
     </>
