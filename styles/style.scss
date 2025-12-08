@@ -904,9 +904,9 @@ section.home-banner {
       }
 
       span {
-        color: #8e998f;
+        color: #828E83;
         font-family: Roboto;
-        font-size: 1rem;
+        font-size: 1.02rem  ;
         font-style: normal;
         font-weight: 500;
         line-height: 1.125rem;
@@ -915,7 +915,7 @@ section.home-banner {
       }
 
       h5 {
-        color: #2b534d;
+        color: #828E83;
         font-family: "Archivo", sans-serif;
         font-size: 1.125rem;
         font-style: normal;
@@ -923,7 +923,7 @@ section.home-banner {
         line-height: 1.2rem;
         /* 100% */
         letter-spacing: -0.022rem;
-        text-transform: uppercase;
+        text-transform: capitalize;
         margin: 0;
         display: flex;
         align-items: center;

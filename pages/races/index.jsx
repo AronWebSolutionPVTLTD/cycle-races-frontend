@@ -608,7 +608,7 @@ export default function Results() {
                               {item.is_stage_race && item.stage_number && (
                                 <>
                                   {(item.start_location || item.finish_location) && (
-                                    <span style={{ color: "inherit" }}>
+                                    <span >
                                       {item.start_location}
 
                                       {/* dash only if both exist */}
@@ -620,7 +620,7 @@ export default function Results() {
 
                                   {/* ---- Distance ---- */}
                                   {item.distance && (
-                                    <span style={{ color: "inherit" }}>
+                                    <span >
                                       {" ("}{item.distance} km{")"}
                                     </span>
                                   )}

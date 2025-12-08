@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { getH2HData, getTeamsRiders } from "@/lib/api";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { ListSkeleton } from "@/components/loading&error";
 import Flag from "react-world-flags";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
@@ -19,11 +19,14 @@ export default function HeadToHead() {
   const debounceTimerRef = useRef(null);
   const [H2HData, setH2HData] = useState([]);
   const [showCompareResults, setShowCompareResults] = useState(false);
-  const [selectedYear, setSelectedYear] = useState("All-time");
+  // Default to current year instead of "All-time"
+  const [selectedYear, setSelectedYear] = useState(
+    new Date().getFullYear().toString()
+  );
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
-  const { withoutAllTime } = generateYearOptions();
+  const { withAllTime, withoutAllTime } = generateYearOptions();
 
   // Head-to-head search states
   const [searchQuery1, setSearchQuery1] = useState("");
@@ -36,6 +39,10 @@ export default function HeadToHead() {
   const [selectedRider2, setSelectedRider2] = useState(null);
   const [showSuggestions2, setShowSuggestions2] = useState(false);
   const [getMatchRidersData, setGetMatchRidersData] = useState(null);
+
+  // Track previous rider IDs to detect changes
+  const prevRider1IdRef = useRef(null);
+  const prevRider2IdRef = useRef(null);
 
   // Fetch initial riders data for fallback suggestions
   const fetchRiders = async () => {
@@ -50,10 +57,12 @@ export default function HeadToHead() {
   };
 
   // Fetch head-to-head comparison data
-  const fetchH2H = async (id1, id2) => {
+  const fetchH2H = async (id1, id2, year = null) => {
     setLoading(true);
     try {
-      const response = await getH2HData(id1, id2);
+      // Use provided year or fall back to selectedYear from state
+      const yearToUse = year !== null ? year : selectedYear;
+      const response = await getH2HData(id1, id2, yearToUse);
       if (response.status) {
         setGetMatchRidersData(response.data);
         setH2HData(response.data.data);
@@ -73,21 +82,30 @@ export default function HeadToHead() {
 
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
-      return withoutAllTime;
+      return withoutAllTime; // FilterDropdown will add "All-time" automatically
     }
     const hasNumbers = /\d/.test(searchValue);
     if (hasNumbers) {
+      // Filter years - FilterDropdown will add "All-time" automatically
       return withoutAllTime.filter((year) =>
         year.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
-    return withoutAllTime;
+    return withoutAllTime; // FilterDropdown will add "All-time" automatically
   };
 
   const handleYearSelection = (value) => {
-    setSelectedYear(value);
+    const previousYear = selectedYear;
+    // FilterDropdown uses '' for "All-time", convert it to "All-time"
+    const yearValue = value === '' ? 'All-time' : value;
+    setSelectedYear(yearValue);
     setYearInput("");
     setShowYearDropdown(false);
+    
+    // If year changed and comparison is already showing, refetch data with new year
+    if (previousYear !== yearValue && showCompareResults && selectedRider1 && selectedRider2) {
+      fetchH2H(selectedRider1.rider_id, selectedRider2.rider_id, yearValue);
+    }
   };
 
   const handleYearInputChange = (value) => {
@@ -173,6 +191,119 @@ export default function HeadToHead() {
       return raceYear === selectedYear;
     });
   };
+
+  // Calculate summary statistics from filtered data
+  const getCalculatedStats = () => {
+    const filteredData = getFilteredH2HData();
+    
+    if (!filteredData || filteredData.length === 0) {
+      return {
+        rider1_ahead: 0,
+        rider2_ahead: 0,
+      };
+    }
+
+    let rider1_ahead = 0;
+    let rider2_ahead = 0;
+
+    filteredData.forEach((race) => {
+      const rider1_rank = race.rider1_rank;
+      const rider2_rank = race.rider2_rank;
+
+      // Skip if either rider DNF or has invalid rank
+      if (rider1_rank === "DNF" || rider1_rank === null || rider1_rank === undefined) {
+        return;
+      }
+      if (rider2_rank === "DNF" || rider2_rank === null || rider2_rank === undefined) {
+        return;
+      }
+
+      // Convert ranks to numbers for comparison
+      const rank1 = parseInt(rider1_rank, 10);
+      const rank2 = parseInt(rider2_rank, 10);
+
+      // Check if ranks are valid numbers
+      if (isNaN(rank1) || isNaN(rank2)) {
+        return;
+      }
+
+      // Lower rank number means better position
+      if (rank1 < rank2) {
+        rider1_ahead++;
+      } else if (rank2 < rank1) {
+        rider2_ahead++;
+      }
+    });
+
+    return {
+      rider1_ahead,
+      rider2_ahead,
+    };
+  };
+
+  // Memoize calculated stats based on filtered data
+  const calculatedStats = useMemo(() => {
+    if (!showCompareResults || !getMatchRidersData) {
+      return { rider1_ahead: 0, rider2_ahead: 0 };
+    }
+    
+    // Filter data by selected year
+    let filteredData = [];
+    if (!H2HData || !Array.isArray(H2HData)) {
+      filteredData = [];
+    } else if (selectedYear === "All-time" || !selectedYear) {
+      filteredData = H2HData;
+    } else {
+      filteredData = H2HData.filter((race) => {
+        const raceYear = race?.year?.toString();
+        return raceYear === selectedYear;
+      });
+    }
+    
+    if (!filteredData || filteredData.length === 0) {
+      return {
+        rider1_ahead: 0,
+        rider2_ahead: 0,
+      };
+    }
+
+    let rider1_ahead = 0;
+    let rider2_ahead = 0;
+
+    filteredData.forEach((race) => {
+      const rider1_rank = race.rider1_rank;
+      const rider2_rank = race.rider2_rank;
+
+      // Skip if either rider DNF or has invalid rank
+      if (rider1_rank === "DNF" || rider1_rank === null || rider1_rank === undefined) {
+        return;
+      }
+      if (rider2_rank === "DNF" || rider2_rank === null || rider2_rank === undefined) {
+        return;
+      }
+
+      // Convert ranks to numbers for comparison
+      const rank1 = parseInt(rider1_rank, 10);
+      const rank2 = parseInt(rider2_rank, 10);
+
+      // Check if ranks are valid numbers
+      if (isNaN(rank1) || isNaN(rank2)) {
+        return;
+      }
+
+      // Lower rank number means better position
+      if (rank1 < rank2) {
+        rider1_ahead++;
+      } else if (rank2 < rank1) {
+        rider2_ahead++;
+      }
+    });
+
+    return {
+      rider1_ahead,
+      rider2_ahead,
+    };
+  }, [H2HData, selectedYear, showCompareResults, getMatchRidersData]);
 
   // Display H2H results list
   const renderRidersList = () => {
@@ -425,12 +556,30 @@ export default function HeadToHead() {
   };
 
   const handleSelectSuggestion1 = (rider) => {
+    // If rider is different and comparison is showing, reset
+    if (selectedRider1?.rider_id !== rider.rider_id && showCompareResults) {
+      setShowCompareResults(false);
+      setH2HData([]);
+      setGetMatchRidersData(null);
+      setError(null);
+      prevRider1IdRef.current = null;
+      prevRider2IdRef.current = null;
+    }
     setSelectedRider1(rider);
     setSearchQuery1(rider.riderName);
     setShowSuggestions1(false);
   };
 
   const handleSelectSuggestion2 = (rider) => {
+    // If rider is different and comparison is showing, reset
+    if (selectedRider2?.rider_id !== rider.rider_id && showCompareResults) {
+      setShowCompareResults(false);
+      setH2HData([]);
+      setGetMatchRidersData(null);
+      setError(null);
+      prevRider1IdRef.current = null;
+      prevRider2IdRef.current = null;
+    }
     setSelectedRider2(rider);
     setSearchQuery2(rider.riderName);
     setShowSuggestions2(false);
@@ -441,6 +590,10 @@ export default function HeadToHead() {
     setSelectedRider1(null);
     setShowSuggestions1(false);
     setShowCompareResults(false);
+    setH2HData([]);
+    setGetMatchRidersData(null);
+    setError(null);
+    prevRider1IdRef.current = null;
   };
 
   const handleClear2 = () => {
@@ -448,7 +601,46 @@ export default function HeadToHead() {
     setSelectedRider2(null);
     setShowSuggestions2(false);
     setShowCompareResults(false);
+    setH2HData([]);
+    setGetMatchRidersData(null);
+    setError(null);
+    prevRider2IdRef.current = null;
   };
+
+  // Reset comparison when riders change
+  useEffect(() => {
+    const currentRider1Id = selectedRider1?.rider_id;
+    const currentRider2Id = selectedRider2?.rider_id;
+
+    // Check if either rider has changed
+    const rider1Changed = prevRider1IdRef.current !== null && 
+                          currentRider1Id !== null && 
+                          currentRider1Id !== prevRider1IdRef.current;
+    
+    const rider2Changed = prevRider2IdRef.current !== null && 
+                         currentRider2Id !== null && 
+                         currentRider2Id !== prevRider2IdRef.current;
+
+    // If a rider changed and comparison is showing, reset everything
+    if ((rider1Changed || rider2Changed) && showCompareResults) {
+      setShowCompareResults(false);
+      setH2HData([]);
+      setGetMatchRidersData(null);
+      setError(null);
+    }
+
+    // Update refs when both riders are selected and comparison is done
+    if (currentRider1Id && currentRider2Id && showCompareResults) {
+      prevRider1IdRef.current = currentRider1Id;
+      prevRider2IdRef.current = currentRider2Id;
+    } else if (!currentRider1Id) {
+      // Reset ref when rider 1 is cleared
+      prevRider1IdRef.current = null;
+    } else if (!currentRider2Id) {
+      // Reset ref when rider 2 is cleared
+      prevRider2IdRef.current = null;
+    }
+  }, [selectedRider1?.rider_id, selectedRider2?.rider_id, showCompareResults]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -661,7 +853,7 @@ export default function HeadToHead() {
                                   {selectedRider1.riderName}
                                 </h4>
                                 <span className="result-country">
-                                  {selectedRider1.country_name ?? "Rider country"}
+                                  {selectedRider1.teamName ?? "Rider teamName"}
                                 </span>
                               </div>
                             )}
@@ -684,7 +876,7 @@ export default function HeadToHead() {
                                   {selectedRider2.riderName}
                                 </h4>
                                 <span className="result-country">
-                                  {selectedRider2.country_name ?? "Rider country"}
+                                  {selectedRider2.teamName ?? "Rider teamName"}
                                 </span>
                               </div>
                             )}
@@ -714,6 +906,9 @@ export default function HeadToHead() {
               onClick={() => {
                 fetchH2H(selectedRider1.rider_id, selectedRider2.rider_id);
                 setShowCompareResults(true);
+                // Track the riders being compared
+                prevRider1IdRef.current = selectedRider1.rider_id;
+                prevRider2IdRef.current = selectedRider2.rider_id;
               }}
             >
               <strong>Compare</strong>
@@ -749,25 +944,25 @@ export default function HeadToHead() {
                       </h4>
                       {/* Button for Rider 1 - shown on mobile, hidden on desktop */}
                       <button
-                        className={`d-md-none ${getMatchRidersData.rider1_ahead > getMatchRidersData.rider2_ahead ? "activeBtn" : ""}`}
+                        className={`d-md-none ${calculatedStats.rider1_ahead > calculatedStats.rider2_ahead ? "activeBtn" : ""}`}
                       >
-                        {getMatchRidersData?.rider1_ahead}
+                        {calculatedStats?.rider1_ahead}
                       </button>
                     </div>
                   </div>
 
                   <div className="compare-result-digits-col">
                     <button
-                      className={getMatchRidersData.rider1_ahead > getMatchRidersData.rider2_ahead ? "activeBtn" : ""}
+                      className={calculatedStats.rider1_ahead > calculatedStats.rider2_ahead ? "activeBtn" : ""}
                     >
-                      {getMatchRidersData?.rider1_ahead}
+                      {calculatedStats?.rider1_ahead}
                     </button>
 
                     {/* Button for Rider 2 */}
                     <button
-                      className={getMatchRidersData.rider2_ahead > getMatchRidersData.rider1_ahead ? "activeBtn" : ""}
+                      className={calculatedStats.rider2_ahead > calculatedStats.rider1_ahead ? "activeBtn" : ""}
                     >
-                      {getMatchRidersData?.rider2_ahead}
+                      {calculatedStats?.rider2_ahead}
                     </button>
                   </div>
 
@@ -793,9 +988,9 @@ export default function HeadToHead() {
                       </h4>
                       {/* Button for Rider 2 - shown on mobile, hidden on desktop */}
                       <button
-                        className={`d-md-none ${getMatchRidersData.rider2_ahead > getMatchRidersData.rider1_ahead ? "activeBtn" : ""}`}
+                        className={`d-md-none ${calculatedStats.rider2_ahead > calculatedStats.rider1_ahead ? "activeBtn" : ""}`}
                       >
-                        {getMatchRidersData?.rider2_ahead}
+                        {calculatedStats?.rider2_ahead}
                       </button>
                     </div>
                   </div>
@@ -817,7 +1012,7 @@ export default function HeadToHead() {
                                 isOpen={showYearDropdown}
                                 toggle={() => setShowYearDropdown(!showYearDropdown)}
                                 options={getFilteredYears(yearInput)}
-                                selectedValue={selectedYear}
+                                selectedValue={selectedYear === 'All-time' ? '' : selectedYear}
                                 placeholder="Year"
                                 onSelect={handleYearSelection}
                                 onInputChange={handleYearInputChange}
@@ -834,7 +1029,7 @@ export default function HeadToHead() {
 
 
                       <div className="col-lg-9 col-md-9 h2h_result_section">
-                        <h5 className="fw-900">Result in same race</h5>
+                        <h5 className="fw-900">Results in same race</h5>
                         <div className="slug-table-main head-to-head-main">
                           <ul className="slug-table-head head-to-head">
                             <li className="date-col">Date</li>

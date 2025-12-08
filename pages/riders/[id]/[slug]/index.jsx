@@ -508,7 +508,7 @@ export default function DynamicSlugPage() {
       if (nameDataExists) {
         // Entity always a race for this slug
         const entity = {
-          id: item.race_id,
+          id: item.race_name,
           type: "race",
         };
 
@@ -520,124 +520,119 @@ export default function DynamicSlugPage() {
         const stageNumber = item?.stage_number || "";
         const tabName = item?.tab_name || "";
 
-        const url = hasEntity
-          ? `/race-result/${entity.id}?year=${year}&month=${month}&stageNumber=${stageNumber}&tab=${tabName}`
-          : null;
+        // const url = hasEntity
+        //   ? `/race-result/${entity.id}?year=${year}&month=${month}&stageNumber=${stageNumber}&tab=${tabName}`
+        //   : null;
 
+        const url = hasEntity
+        ? `/races/${getItemValue(item, config.itemConfig.name)}`
+        : null;
+       
         const displayName =
           getItemValue(item, config.itemConfig?.name) || item.race_name;
 
-        columns.push(
-          <h5
-            key="name"
-            className={`rider--name ${hasEntity ? "clickable" : ""} ${isRiderResults ? "d-flex flex-column flex-md-row  " : ""} `}
-            {...(hasEntity ? { onClick: () => router.push(url) } : {})}
-          >
-            <span className="text-capitalize">
-              {item?.date ? (
-                // If date exists → print date
-                <>
-                  {start}
-                  {end ? ` - ${end}` : ""}
-                </>
-              ) : (
-                // If date does NOT exist → print SR NO
-                <span className="sr-no">{index + 1}.</span>
-              )}
-            </span>
-
-            {
-              hasEntity ? (
-                <>
-                  {/* ---------------- MOBILE DESIGN A (ONLY when isRiderResults = true) ---------------- */}
-                  {isRiderResults && (
-                    <div className="d-block d-md-none">
-                      <Link href={url} className="link">
-                        <div>
-                          <div className="d-flex gap-3">
-                            <Flag
-                              code={getCountryCode(item, config)}
-                              style={{ width: "30px", height: "20px", flexShrink: 0 }}
-                            />
-                            <div className="clamp-text">{displayName}</div>
-                          </div>
-
-                          <div className="most-dnfs-start-end mt-2">
-                            {item?.stage_number && (
-                              <>
-                                {/* {item?.type?.toLowerCase() === "stage" &&
-                                  `${item.type.toUpperCase()} ${item.stage_number} : `} */}
-                                {item?.start_location}
-                                {item?.start_location && item?.finish_location ? " - " : ""}
-                                {item?.finish_location}
-                                {item?.distance ? ` (${item.distance} km)` : ""}
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      </Link>
-                    </div>
+     // Date + Race Column
+     columns.push(
+      <>
+        {/* ------ DATE / SR NO ------ */}
+        <span className="text-capitalize date-col">
+          {item?.date ? (
+            <>
+              {start}
+              {end ? ` - ${end}` : ""}
+            </>
+          ) : (
+            item?.year || <span className="sr-no">{index + 1}.</span>
+          )}
+        </span>
+    
+        {/* ------ RACE NAME ------ */}
+        <h5
+          key="date-race"
+          className={`rider--name race-name-el ${hasEntity ? "clickable" : ""}`}
+          {...(hasEntity ? { onClick: () => router.push(url) } : {})}
+        >
+          {hasEntity ? (
+            <>
+            <Flag
+            code={getCountryCode(item, config)}
+            style={{
+              width: "30px",
+              height: "20px",
+              flexShrink: 0,
+              marginRight: "10px",
+            }}
+          />
+            <Link href={url} className="link fw-900 d-flex ">
+              
+    
+              <div>
+                <div className="race-title fw-900 text-uppercase ">
+                  {/* MOBILE TRUNCATE */}
+                  <span className="d-md-none mobile-name">
+                    {displayName.length > 30
+                      ? `${displayName.slice(0, 30)}...`
+                      : displayName}
+                  </span>
+    
+                  {/* DESKTOP FULL */}
+                  <span className="d-none d-md-inline">{displayName}</span>
+    
+                  {item?.stage_number && (
+                    <span className="d-none d-md-inline">
+                      {`: Stage ${item.stage_number}`}
+                    </span>
                   )}
-
-                  {/* ---------------- DESIGN B (default for ALL other cases) ---------------- */}
-                  <div
-                    className={
-                      isRiderResults
-                        ? "d-none d-md-flex ms-3 " // hide on mobile when true
-                        : "d-flex" // show everywhere when false
-                    }
-                  >
-                    <Link href={url} className="link">
-                      <Flag
-                        code={getCountryCode(item, config)}
-                        style={{ width: "30px", height: "20px", flexShrink: 0 }}
-                      />
-
-                      <div>
-                        {/* <div className="clamp-text">{displayName}</div> */}
-                     
-
-                  <div className="race-title fw-900 text-uppercase">
-                {displayName.length > 40 ? displayName.slice(0, 40) + "..." : displayName}
-                {item?.type === "stage" && item?.stage_number
-                  ? `: Stage ${item.stage_number}`
-                  : ""}
+                </div>
+    
+                {item?.stage_number && (
+                  <>
+    
+                    <div className="most-dnfs-start-end loction d-none d-md-block">
+                      {item?.start_location}
+                      {item?.start_location && item?.finish_location ? " - " : ""}
+                      {item?.finish_location}
+                      {item?.distance ? ` (${item.distance} km)` : ""}
+                    </div>
+                  </>
+                )}
               </div>
-
-
-                        <div className="most-dnfs-start-end">
-                          {item?.stage_number && (
-                            <>
-                              {/* {item?.type?.toLowerCase() === "stage" &&
-                                `${item.type.toUpperCase()} ${item.stage_number} : `} */}
-                              {item?.start_location}
-                              {item?.start_location && item?.finish_location ? " - " : ""}
-                              {item?.finish_location}
-                              {item?.distance ? ` (${item.distance} km)` : ""}
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </Link>
+            </Link>
+            {item?.stage_number && (
+                <>
+                  <div className="most-dnfs-start-end loction d-block d-md-none">
+                    {item?.start_location}
+                    {item?.start_location && item?.finish_location ? " - " : ""}
+                    {item?.finish_location}
+                    {item?.distance ? ` (${item.distance} km)` : ""}
                   </div>
                 </>
-              ) : (
-                // ----------- NO ENTITY CASE -----------
-                <>
-                  <Flag
-                    code={getCountryCode(item, config)}
-                    style={{ width: "30px", height: "20px", flexShrink: 0 }}
-                  />
+              )}
+            </>
+          ) : (
+            <>
+              <Flag
+                code={getCountryCode(item, config)}
+                style={{
+                  width: "30px",
+                  height: "20px",
+                  flexShrink: 0,
+                  marginRight: "10px",
+                }}
+              />
+    
+              <div>
+                <div className="race-title fw-900 text-uppercase">
                   {displayName}
-                </>
-              )
-            }
+                </div>
+              </div>
+            </>
+          )}
+        </h5>
+      </>
+    );
+    
 
-
-
-
-          </h5>
-        );
       }
 
       // ----------------------------
@@ -705,7 +700,7 @@ export default function DynamicSlugPage() {
       return (
         <li
           key={item._id || item.id || index}
-          className={`content-item ctm-head-heading hoverState-li table_cols_list col--${columns.length}`}
+          className={`content-item ctm-head-heading riders-inner hoverState-li table_cols_list col--${columns.length} mb-0`}
         >
           {columns}
         </li>
@@ -909,7 +904,7 @@ export default function DynamicSlugPage() {
 
 
 
-              <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
+              <div className="col-lg-9 col-md-7 mt-4 slug-table-main rider-results-this-year">
 
                 {isRiderResults && (
                   <div className="results-summary d-flex gap-3 align-items-center mb-5 mb-md-0">
@@ -948,7 +943,7 @@ export default function DynamicSlugPage() {
                   ))}
                 </ul>
 
-                <ul className="slug-table-body">{renderContent()}</ul>
+                <ul className="slug-table-body rider-res-table-body">{renderContent()}</ul>
               </div>
             </div>
           </div>

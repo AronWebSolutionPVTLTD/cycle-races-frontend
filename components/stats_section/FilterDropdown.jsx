@@ -36,6 +36,7 @@ export const FilterDropdown = forwardRef(({
   }, [isOpen, selectedValue]);
 
   const isAllOption = () => {
+    if (selectedValue === '' && includeAllOption) return true;
     if (!selectedValue) return false;
     const allOptions = ["All-time","All-Nationalities", ""];
     return allOptions.includes(selectedValue);
@@ -77,6 +78,10 @@ export const FilterDropdown = forwardRef(({
   };
 
   const getSelectedDisplayText = () => {
+    // If selectedValue is empty string and includeAllOption is true, show allOptionText
+    if (selectedValue === '' && includeAllOption && allOptionText) {
+      return allOptionText;
+    }
     if (!selectedValue) return placeholder;
     if (valueKey && options && options.length > 0 && typeof options[0] === 'object') {
       const selectedOption = options.find(option => option[valueKey] === selectedValue);

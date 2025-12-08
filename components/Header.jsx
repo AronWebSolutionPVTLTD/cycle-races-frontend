@@ -124,8 +124,11 @@ export default function Header() {
                       <Link href="/races" onClick={() => setIsOpen(false)}>Races</Link>
                     </li>
 
-                    <li className={`slim-last ${isActive("/riders") ? "active" : ""}`}>
+                    <li className={isActive("/riders") ? "active" : ""}>
                       <Link href="/riders" onClick={() => setIsOpen(false)}>Riders</Link>
+                    </li>
+                    <li className={`slim-last ${isActive("/head-to-head") ? "active" : ""}`}>
+                      <Link href="/head-to-head" onClick={() => setIsOpen(false)}>Head to Head</Link>
                     </li>
                   </ul>
                 </nav>
