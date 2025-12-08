@@ -101,7 +101,7 @@ export default function HeadToHead() {
     setSelectedYear(yearValue);
     setYearInput("");
     setShowYearDropdown(false);
-    
+
     // If year changed and comparison is already showing, refetch data with new year
     if (previousYear !== yearValue && showCompareResults && selectedRider1 && selectedRider2) {
       fetchH2H(selectedRider1.rider_id, selectedRider2.rider_id, yearValue);
@@ -195,7 +195,7 @@ export default function HeadToHead() {
   // Calculate summary statistics from filtered data
   const getCalculatedStats = () => {
     const filteredData = getFilteredH2HData();
-    
+
     if (!filteredData || filteredData.length === 0) {
       return {
         rider1_ahead: 0,
@@ -246,7 +246,7 @@ export default function HeadToHead() {
     if (!showCompareResults || !getMatchRidersData) {
       return { rider1_ahead: 0, rider2_ahead: 0 };
     }
-    
+
     // Filter data by selected year
     let filteredData = [];
     if (!H2HData || !Array.isArray(H2HData)) {
@@ -259,7 +259,7 @@ export default function HeadToHead() {
         return raceYear === selectedYear;
       });
     }
-    
+
     if (!filteredData || filteredData.length === 0) {
       return {
         rider1_ahead: 0,
@@ -350,7 +350,7 @@ export default function HeadToHead() {
       const stageNumber = race?.stage_number || "";
       const hasRaceId = race?.race_id;
       const url = hasRaceId
-        ? `/race-result/${race.race_id}?year=${year}&month=${month}&stageNumber=${stageNumber}`
+        ? `/race-result/${race.race_name}?year=${year}&month=${month}&stageNumber=${stageNumber}`
         : null;
 
       // Build columns array for responsive design (like most-dnfs page)
@@ -613,13 +613,13 @@ export default function HeadToHead() {
     const currentRider2Id = selectedRider2?.rider_id;
 
     // Check if either rider has changed
-    const rider1Changed = prevRider1IdRef.current !== null && 
-                          currentRider1Id !== null && 
-                          currentRider1Id !== prevRider1IdRef.current;
-    
-    const rider2Changed = prevRider2IdRef.current !== null && 
-                         currentRider2Id !== null && 
-                         currentRider2Id !== prevRider2IdRef.current;
+    const rider1Changed = prevRider1IdRef.current !== null &&
+      currentRider1Id !== null &&
+      currentRider1Id !== prevRider1IdRef.current;
+
+    const rider2Changed = prevRider2IdRef.current !== null &&
+      currentRider2Id !== null &&
+      currentRider2Id !== prevRider2IdRef.current;
 
     // If a rider changed and comparison is showing, reset everything
     if ((rider1Changed || rider2Changed) && showCompareResults) {

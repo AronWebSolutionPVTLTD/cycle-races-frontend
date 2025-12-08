@@ -377,7 +377,7 @@ export default function DynamicSlugPage() {
               }}
             />
             <Link href={`/races/${getItemValue(item, config.itemConfig.name)}`} className="link fw-900 d-flex flex-column ">
-            
+
               <div className="race-title fw-900 text-uppercase">
                 {getItemValue(item, config.itemConfig.name)}
                 {item?.type === "stage" && item?.stage_number
