@@ -1181,6 +1181,9 @@ section.riders-sec1 .shape::after {
     grid-template-columns: 60px 1fr 35px 35px !important;
     gap: 0 !important;
 }
+.slug-table-main.head-to-head-main ul.slug-table-body li h5.race-name-el {
+  white-space: pre-wrap;
+}
 }
 
 ul.rider-res-table-body li .date-col,.rider-count{
