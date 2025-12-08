@@ -396,7 +396,7 @@ export default function HeadToHead() {
                   </div>
                   {race?.stage_number && (
                     <>
-                      <div className="most-dnfs-start-end race-title fw-900 text-uppercase d-block d-md-none ">
+                      <div className="most-dnfs-start-end head-stage-number race-title fw-900 text-uppercase d-block d-md-none ">
                         Stage {race.stage_number}
                       </div>
                       <div className="most-dnfs-start-end d-none d-md-block">
