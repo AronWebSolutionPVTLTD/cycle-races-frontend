@@ -376,7 +376,7 @@ export default function DynamicSlugPage() {
                 flexShrink: 0,
               }}
             />
-            <Link href={`/races/${getItemValue(item, config.itemConfig.name)}`} className="link fw-900 d-flex flex-column ">
+            <Link href={`/riders/${item?.rider_id}`} className="link fw-900 d-flex flex-column ">
 
               <div className="race-title fw-900 text-uppercase">
                 {getItemValue(item, config.itemConfig.name)}

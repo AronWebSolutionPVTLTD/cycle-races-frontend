@@ -8,7 +8,7 @@ import {
 } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
-
+import { useRouter } from "next/router";
 function convertDateRange(dateStr) {
   const monthNames = [
     "jan", "feb", "mar", "apr", "may", "jun",
@@ -61,9 +61,9 @@ const FirstSection = () => {
 
     section2: "recentCompleteRace",
   };
-
+  
+  const router = useRouter();
   const endpointsToFetch = Object.values(fixedApis);
-
   // Fetch data using the fixed endpoints
   const { data, loading, error } = useMultipleData(endpointsToFetch);
 
@@ -162,7 +162,7 @@ const FirstSection = () => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-white ">
+                              <div className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.riderCountry)}
                                 <h6>{rider?.rider}</h6>
                               </div>
