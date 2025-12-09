@@ -58,7 +58,10 @@ export default function DynamicSlugPage() {
   const router = useRouter();
   const { slug } = router.query;
   const isRiderResults = slug === "rider-results-this-year";
-
+  const isRiderLastVictories = slug === "rider-last-victories";
+  const isRiderWinsBySeason = slug === "rider-wins-by-season";
+  const isGetTop10StagesInGrandTours = slug === "get-top10-stages-in-grand-tours";
+  const isGetRiderFirstWin = slug === "get-rider-first-win";
   const [resultStats, setResultStats] = useState(null);
 
 
@@ -520,118 +523,174 @@ export default function DynamicSlugPage() {
         const stageNumber = item?.stage_number || "";
         const tabName = item?.tab_name || "";
 
-        // const url = hasEntity
-        //   ? `/race-result/${entity.id}?year=${year}&month=${month}&stageNumber=${stageNumber}&tab=${tabName}`
-        //   : null;
+        const raceName = getItemValue(item, config.itemConfig.name) || entity?.id;
 
-        const url = hasEntity
-        ? `/races/${getItemValue(item, config.itemConfig.name)}`
-        : null;
-       
+        // Build query string with only non-empty parameters
+        const queryParams = [];
+        if (year) queryParams.push(`year=${year}`);
+        if (month) queryParams.push(`month=${month}`);
+        if (stageNumber) queryParams.push(`stageNumber=${stageNumber}`);
+        if (tabName) queryParams.push(`tab=${tabName}`);
+        const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+
+        const url = raceName
+          ? `/race-result/${raceName}${queryString}`
+          : null;
+        const hasUrl = !!url;
+
         const displayName =
           getItemValue(item, config.itemConfig?.name) || item.race_name;
 
-     // Date + Race Column
-     columns.push(
-      <>
-        {/* ------ DATE / SR NO ------ */}
-        <span className="text-capitalize date-col">
-          {item?.date ? (
-            <>
-              {start}
-              {end ? ` - ${end}` : ""}
-            </>
-          ) : (
-            item?.year || <span className="sr-no">{index + 1}.</span>
-          )}
-        </span>
-    
-        {/* ------ RACE NAME ------ */}
-        <h5
-          key="date-race"
-          className={`rider--name race-name-el ${hasEntity ? "clickable" : ""}`}
-          {...(hasEntity ? { onClick: () => router.push(url) } : {})}
-        >
-          {hasEntity ? (
-            <>
-            <Flag
-            code={getCountryCode(item, config)}
-            style={{
-              width: "30px",
-              height: "20px",
-              flexShrink: 0,
-              marginRight: "10px",
-            }}
-          />
-            <Link href={url} className="link fw-900 d-flex ">
-              
-    
-              <div>
-                <div className="race-title fw-900 text-uppercase ">
-                  {/* MOBILE TRUNCATE */}
-                  <span className="d-md-none mobile-name">
-                    {displayName.length > 30
-                      ? `${displayName.slice(0, 30)}...`
-                      : displayName}
-                  </span>
-    
-                  {/* DESKTOP FULL */}
-                  <span className="d-none d-md-inline">{displayName}</span>
-    
-                  {item?.stage_number && (
-                    <span className="d-none d-md-inline">
-                      {`: Stage ${item.stage_number}`}
-                    </span>
-                  )}
-                </div>
-    
-                {item?.stage_number && (
-                  <>
-    
-                    <div className="most-dnfs-start-end loction d-none d-md-block">
+        // Date + Race Column
+        columns.push(
+          <>
+            {/* ------ DATE / SR NO ------ */}
+            {!isGetTop10StagesInGrandTours && <span className="text-capitalize date-col">
+              {item?.date ? (
+                <>
+                  {start}
+                  {end ? ` - ${end}` : ""}
+                </>
+              ) : (
+                item?.year || <span className="sr-no">{index + 1}.</span>
+              )}
+            </span>}
+            
+
+            {/* ------ RACE NAME ------ */}
+            <h5
+              key="date-race"
+              className={`rider--name race-name-el ${hasUrl ? "clickable" : ""}`}
+              {...(hasUrl ? { onClick: () => router.push(url) } : {})}
+            >
+              {hasUrl ? (
+                <>
+                  <Flag
+                    code={getCountryCode(item, config)}
+                    style={{
+                      width: "30px",
+                      height: "20px",
+                      flexShrink: 0,
+                      marginRight: "10px",
+                    }}
+                  />
+                  <Link href={url} className="link fw-900 d-flex ">
+
+
+                    <div>
+                      <div className="race-title fw-900 text-uppercase ">
+                        {/* MOBILE TRUNCATE */}
+                        {!isRiderWinsBySeason && (
+                          <span className="d-md-none mobile-name">
+                            {displayName.length > 30
+                              ? `${displayName.slice(0, 30)}...`
+                              : displayName}
+                          </span>
+                        )}
+
+
+                        {/* DESKTOP FULL */}
+                        <span className={` ${isRiderWinsBySeason ? "d-none" : "d-none d-md-inline"}`}>{displayName}</span>
+
+                        {(item?.stage_number) && !isGetRiderFirstWin && (
+                          <span className="d-none d-md-inline">
+                            {`: Stage ${item.stage_number}`}
+                          </span>
+                        )}
+                      </div>
+
+                      {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && !isGetRiderFirstWin && (
+                        <div className="most-dnfs-start-end loction d-none d-md-block">
+                          {item?.start_location}
+                          {item?.start_location && item?.finish_location ? " - " : ""}
+                          {item?.finish_location}
+                          {item?.distance ? ` (${item.distance} km)` : ""}
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                  {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location))  && !isGetRiderFirstWin && (
+                    <div className="most-dnfs-start-end loction d-block d-md-none">
                       {item?.start_location}
                       {item?.start_location && item?.finish_location ? " - " : ""}
                       {item?.finish_location}
                       {item?.distance ? ` (${item.distance} km)` : ""}
                     </div>
-                  </>
-                )}
-              </div>
-            </Link>
-            {item?.stage_number && (
+                  )}
+                </>
+              ) : (
                 <>
-                  <div className="most-dnfs-start-end loction d-block d-md-none">
-                    {item?.start_location}
-                    {item?.start_location && item?.finish_location ? " - " : ""}
-                    {item?.finish_location}
-                    {item?.distance ? ` (${item.distance} km)` : ""}
-                  </div>
+                  <Flag
+                    code={getCountryCode(item, config)}
+                    style={{
+                      width: "30px",
+                      height: "20px",
+                      flexShrink: 0,
+                      marginRight: "10px",
+                    }}
+                  />
+
+                  {url ? (
+                    <>
+                      <Link href={url} className="link fw-900 d-flex ">
+                        <div>
+                          <div className="race-title fw-900 text-uppercase">
+                            {displayName}
+                          </div>
+
+                          {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && !isGetRiderFirstWin && (
+                            <div className="most-dnfs-start-end loction d-none d-md-block">
+                              {item?.start_location}
+                              {item?.start_location && item?.finish_location ? " - " : ""}
+                              {item?.finish_location}
+                              {item?.distance ? ` (${item.distance} km)` : ""}
+                            </div>
+                          )}
+                        </div>
+                      </Link>
+
+                      {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && (
+                        <div className="most-dnfs-start-end loction d-block d-md-none">
+                          {item?.start_location}
+                          {item?.start_location && item?.finish_location ? " - " : ""}
+                          {item?.finish_location}
+                          {item?.distance ? ` (${item.distance} km)` : ""}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <div>
+                        <div className="race-title fw-900 text-uppercase">
+                          {displayName}
+                        </div>
+
+                        {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && !isGetRiderFirstWin && (
+                          <div className="most-dnfs-start-end loction d-none d-md-block">
+                            {item?.start_location}
+                            {item?.start_location && item?.finish_location ? " - " : ""}
+                            {item?.finish_location}
+                            {item?.distance ? ` (${item.distance} km)` : ""}
+                          </div>
+                        )}
+                      </div>
+
+                      {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && (
+                        <div className="most-dnfs-start-end loction d-block d-md-none">
+                          {item?.start_location}
+                          {item?.start_location && item?.finish_location ? " - " : ""}
+                          {item?.finish_location}
+                          {item?.distance ? ` (${item.distance} km)` : ""}
+                        </div>
+                      )}
+                    </>
+                  )}
                 </>
               )}
-            </>
-          ) : (
-            <>
-              <Flag
-                code={getCountryCode(item, config)}
-                style={{
-                  width: "30px",
-                  height: "20px",
-                  flexShrink: 0,
-                  marginRight: "10px",
-                }}
-              />
-    
-              <div>
-                <div className="race-title fw-900 text-uppercase">
-                  {displayName}
-                </div>
-              </div>
-            </>
-          )}
-        </h5>
-      </>
-    );
-    
+            </h5>
+          </>
+        );
+        console.log("columns", columns);
 
       }
 
@@ -660,7 +719,25 @@ export default function DynamicSlugPage() {
         } else {
           columns.push(
             <div key="team" className="team-name date">
-              {getItemValue(item, config.itemConfig.team)}
+              <div className={`${isGetRiderFirstWin && "get-rider-first-win-race-name"}`}>
+              {getItemValue(item, config.itemConfig.team)} <span className="d-none d-lg-inline">{isGetRiderFirstWin && item?.stage_number && `: Stage ${item.stage_number}`}</span>
+              </div>
+            
+              {isGetRiderFirstWin && item?.stage_number && (
+                <>
+                  {[
+                    { className: "d-none d-lg-block" },
+                    { className: "d-block d-lg-none" }
+                  ].map(({ className }, idx) => (
+                    <div key={idx} className={`most-dnfs-start-end loction d-none d-lg-block ${className}`}>
+                      {item?.start_location}
+                      {item?.start_location && item?.finish_location ? " - " : ""}
+                      {item?.finish_location}
+                      {item?.distance ? ` (${item.distance} km)` : ""}
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           );
         }
@@ -680,27 +757,27 @@ export default function DynamicSlugPage() {
       // ----------------------------
       // COUNT COLUMN
       // ----------------------------
-     if (countDataExists) {
-  const countValue = String(getItemValue(item, config.itemConfig.count));
+      if (countDataExists) {
+        const countValue = String(getItemValue(item, config.itemConfig.count));
 
-  columns.push(
-    <div
-      key="count"
-      className={`count rank text-end ${isRiderResults ? "rider-count" : ""}`}
-    >
-      {isRiderResults
-        ? countValue.split("").map((digit, i) => <div key={i}>{digit}</div>)
-        : countValue}
-    </div>
-  );
-}
+        columns.push(
+          <div
+            key="count"
+            className={`count rank text-end ${isRiderResults ? "rider-count" : ""}`}
+          >
+            {isRiderResults
+              ? countValue.split("").map((digit, i) => <div key={i}>{digit}</div>)
+              : countValue}
+          </div>
+        );
+      }
 
 
 
       return (
         <li
           key={item._id || item.id || index}
-          className={`content-item ctm-head-heading riders-inner hoverState-li table_cols_list col--${columns.length} mb-0`}
+          className={`content-item ctm-head-heading riders-inner hoverState-li table_cols_list col--${columns.length} mb-0  ${isGetTop10StagesInGrandTours && "slug-table-body-getTop10StagesInGrandTours"} ${isGetRiderFirstWin && "slug-table-body-getRiderFirstWin"}`}
         >
           {columns}
         </li>
@@ -934,8 +1011,7 @@ export default function DynamicSlugPage() {
 
 
                 <ul
-                  className={` ${isRiderResults ? " slug-table-head slug-table-head-isRiderResults ":"slug-table-head"}   sdsd col--${getDynamicHeaders().length
-                    }`}
+                  className={`slug-table-head ${isRiderResults && "slug-table-head-isRiderResults"} ${isRiderLastVictories && "rider-victoryhead"} ${isGetTop10StagesInGrandTours && "slug-table-head-getTop10StagesInGrandTours"} ${isGetRiderFirstWin && "slug-table-head-getRiderFirstWin"}  sdsd col--${getDynamicHeaders().length}`}
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (
@@ -943,7 +1019,7 @@ export default function DynamicSlugPage() {
                   ))}
                 </ul>
 
-                <ul className="slug-table-body rider-res-table-body">{renderContent()}</ul>
+                <ul className={`slug-table-body rider-res-table-body`}>{renderContent()}</ul>
               </div>
             </div>
           </div>

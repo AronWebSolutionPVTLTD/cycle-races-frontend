@@ -284,6 +284,11 @@ section.home-banner ul.transparent-cart li h5 {
     section.riders-sec2 ul.head-heading {
         display: none;
     }
+    section.riders-sec2 ul.head-heading.teams {
+        display: block;
+        margin-bottom: 0 !important;
+        padding-bottom: 32px !important;
+    }
     section.riders-sec1 h1 {
         font-size: 6rem;
         margin-bottom: 3rem;
@@ -938,6 +943,10 @@ section.home-banner ul.transparent-cart li h5 {
     }
     section.riders-sec2 ul.head-heading {
         display: none;
+    }
+    section.riders-sec2 ul.head-heading.teams {
+        display: block;
+        padding-bottom: 32px;
     }
     section.home-banner {
         padding: 2rem 0 4rem;

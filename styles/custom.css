@@ -1152,6 +1152,11 @@ section.riders-sec1 .shape::after {
 }
 
 @media (max-width: 767px) {
+ 
+  
+  .slug-table-body-getTop10StagesInGrandTours .team-name{
+    flex: 0 0 0 !important;
+  }
   .rider-res-table-body li h5.rider--name {
     font-size: 14px;
     column-gap: 8px;
@@ -1192,4 +1197,61 @@ ul.rider-res-table-body li .date-col,.rider-count{
 }
 .head-stage-number{
   color: #2b534d !important;
+}
+.rider-victoryhead li:first-child{
+  flex: 0 0 80px !important;
+}
+.rider-victoryhead li:nth-child(2){
+  flex: 1 !important;
+}
+.rider-victoryhead li:nth-child(3){
+  flex: 0 0 22% !important;
+}
+.rider-victoryhead li:nth-child(4){
+  flex: 0 0 10% !important;
+}
+
+.last-win{
+  position: relative;
+  z-index: 10;
+}
+
+.slug-table-head-getTop10StagesInGrandTours li:first-child{
+  flex: 0 0 80px !important;
+}
+.slug-table-head-getTop10StagesInGrandTours li:nth-child(2){
+  flex: 1 1 10% !important;
+  text-align: right;
+}
+.slug-table-head-getTop10StagesInGrandTours li:nth-child(3){
+  flex: 0 0 26% !important;
+}
+
+.slug-table-head-getRiderFirstWin li:first-child{
+  flex: 0 0 80px !important;
+}
+.slug-table-head-getRiderFirstWin li:nth-child(2){
+  flex: 1 1 28% !important;}
+.slug-table-head-getRiderFirstWin li:nth-child(3){
+  flex: 1 1 40% !important;
+}
+.slug-table-head-getRiderFirstWin li:nth-child(4){
+  flex: 0 0 10% !important;
+}
+.get-rider-first-win-race-name{
+  color: #2b534d !important;
+  
+}
+
+.slug-table-main.rider-results-this-year .slug-table-body-getRiderFirstWin .team-name {
+  flex: 1 1 40% !important;
+}
+.slug-table-main.rider-results-this-year .slug-table-body-getRiderFirstWin h5.rider--name.race-name-el.clickable {
+  flex: 1 1 28% !important;
+}
+
+@media (max-width: 767px) {
+  .slug-table-main.rider-results-this-year .slug-table-body-getRiderFirstWin h5.rider--name.race-name-el.clickable {
+    flex: 1 1 100% !important;
+}
 }

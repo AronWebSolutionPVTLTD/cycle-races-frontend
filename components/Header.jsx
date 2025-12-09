@@ -127,8 +127,11 @@ export default function Header() {
                     <li className={isActive("/riders") ? "active" : ""}>
                       <Link href="/riders" onClick={() => setIsOpen(false)}>Riders</Link>
                     </li>
-                    <li className={`slim-last ${isActive("/head-to-head") ? "active" : ""}`}>
+                    <li  className={isActive("/head-to-head") ? "active" : ""}>
                       <Link href="/head-to-head" onClick={() => setIsOpen(false)}>Head to Head</Link>
+                    </li>
+                    <li className={`slim-last ${isActive("/teams") ? "active" : ""}`}>
+                      <Link href="/teams" onClick={() => setIsOpen(false)}>Teams</Link>
                     </li>
                   </ul>
                 </nav>
@@ -152,6 +155,9 @@ export default function Header() {
                   </li>
                   <li className={isActive("/head-to-head") ? "active" : ""}>
                     <Link href="/head-to-head">Head to Head</Link>
+                  </li>
+                  <li className={isActive("/teams") ? "active" : ""}>
+                    <Link href="/teams">Teams</Link>
                   </li>
                 </ul>
               </nav>

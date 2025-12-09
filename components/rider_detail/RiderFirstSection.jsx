@@ -311,11 +311,11 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           ? getBoxData(fixedApis.box1)?.data
                           : []
                         )
-                          .slice(0, 3)
+                          .slice(0, 5)
                           .map((rider, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-white">
-                                <Link href={`/race-result/${rider?.race}?year=${rider.year}`} className="pabs" />
+                                <Link href={`/races/${rider?.race}?year=${rider.year}`} className="pabs" />
                                 {renderFlag(rider?.country)}
                                 <h6>
                                   {rider?.race || "..."}{" "}
@@ -491,7 +491,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                         return (
                           <>
                             <div className="name-wraper name-wraper-green name-left">
-                              <Link href={`/races/${firstRider?.race}`} className="pabs" />
+                              <Link href={`/races/${firstRider?.race}`} className="pabs last-win" />
                               {renderFlag(firstRider?.country)}
                               <h6>{firstRider?.race || "..."}</h6>
                             </div>

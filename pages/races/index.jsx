@@ -73,7 +73,6 @@ export default function Results() {
   const [yearInput, setYearInput] = useState("");
   const [monthInput, setMonthInput] = useState("");
   const parentRef = useRef(null);
-
   const months = [
     "Januari",
     "Februari",
@@ -90,7 +89,6 @@ export default function Results() {
   ];
 
 
-  console.log(raceResults, "raceResults");
 
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions = ["All-time", ...withoutAllTime];
@@ -679,6 +677,7 @@ export default function Results() {
                   </div>
                 ) : featuredRaces.length > 0 ? (
                   featuredRaces.map((race, index) => (
+                    
                     <div className="team-cart" key={index}>
                       <Link
                         href={buildUrlWithParams(race.link)}
