@@ -595,7 +595,7 @@ export default function Results() {
                               href={`/races/${encodeURIComponent(item.race_name)}?year=${selectedYear}`}
                             >
                               {/* ---- Race Name + Stage ---- */}
-                              <div>
+                              <div className="text-uppercase">
                                 {item.race_name}
                                 {item.is_stage_race && item.stage_number
                                   ? `: STAGE ${item.stage_number}`
@@ -639,7 +639,7 @@ export default function Results() {
                                   width: "30px",
                                   height: "20px",
                                   marginRight: "10px",
-                                }}
+                                  }}
                               />
                               {item.rider_name}
                             </Link>

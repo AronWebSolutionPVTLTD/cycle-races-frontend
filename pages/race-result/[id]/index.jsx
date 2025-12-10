@@ -516,6 +516,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                             width: "20px",
                             height: "20px",
                             marginLeft: "10px",
+                            borderRadius: "3px"
                           }}
                         />
                         <h6>{stat.rider}</h6>

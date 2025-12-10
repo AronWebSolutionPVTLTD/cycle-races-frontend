@@ -1,22 +1,27 @@
 // components/TeamCard.jsx
 import Link from "next/link";
 import Flag from "react-world-flags";
+import { createTeamSlug } from "@/lib/team-utils";
 
 export default function TeamCard({ teamName, year, flag, teamId }) {
-  const isValidTeamId = typeof teamId === "string" || typeof teamId === "number";
+  const teamSlug = createTeamSlug(teamName);
+
+  const isValidTeam = teamName && teamName.trim().length > 0;
+  // Use team name directly in URL, Next.js Link will handle encoding
+  const teamUrl = isValidTeam ? `/teams/${teamSlug}` : null;
 
   return (
-    <li className="hoverState-li custom-list-el ss">
-      {isValidTeamId && (
-        <Link href={`/teams/${teamId}`} className="pabs" />
+    <li className="hoverState-li custom-list-el ss">  
+      {isValidTeam && teamUrl && (
+        <Link href={teamUrl} className="pabs" />
       )}
       <h5 className="rider--name fw-900">
-        {isValidTeamId ? (
-          <Link href={`/teams/${teamId}`} className="link">
+        {isValidTeam && teamUrl ? (
+          <Link href={teamUrl} className="link">
             {flag && (
               <Flag 
                 code={flag.toUpperCase()} 
-                style={{ width: '30px', height: '20px', marginRight: '10px' }} 
+                style={{ width: '30px', height: '20px', marginRight: '10px'}} 
               />
             )}
             {teamName}
@@ -34,10 +39,10 @@ export default function TeamCard({ teamName, year, flag, teamId }) {
         )}
       </h5>
       {year && <h6 className="team-name">{year}</h6>}
-      {isValidTeamId && (
-        <a href={`/teams/${teamId}`} className="r-details d-none">
+      {isValidTeam && teamUrl && (
+        <Link href={teamUrl} className="r-details d-none">
           <img src="images/hover-arow.svg" alt="" />
-        </a>
+        </Link>
       )}
     </li>
   );

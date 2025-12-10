@@ -310,7 +310,7 @@ ul.slug-table-body li .sr-no {
 ul.slug-table-body li h5 {
   color: #8E998F;
   font-family: "Archivo", sans-serif;
-  font-size: 1.02rem;
+  font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.2rem;
   letter-spacing: -0.05rem;
@@ -529,12 +529,17 @@ section.stat-main-sec ul.slug-table-head-isRiderResults {
   display: inline-flex;
   color: var(--Dark-Green, #2b534d);
   font-weight: 900 !important;
+  margin-bottom: 6px !important;
 }
 
 .results-summary .stat-item {
   display: flex;
   align-items: center;
   gap: 6px;
+  font-weight: 900;
+  font-family: "Archivo", sans-serif;
+  font-size: 18px;
+  line-height: 18px;
 }
 
 .results-summary .stat-item span {
@@ -543,8 +548,17 @@ section.stat-main-sec ul.slug-table-head-isRiderResults {
   padding: 2px 10px;
   border-radius: 20px;
   font-weight: 700;
+  font-weight: 900;
+  font-family: "Archivo", sans-serif;
+  font-size: 18px;
+  line-height: 18px;
 }
-
+.results-summary .stat-item strong {
+  font-weight: 900;
+  font-family: "Archivo", sans-serif;
+  font-size: 18px;
+  line-height: 18px;
+}
 .results-summary .stat-item.podium span {
   background: #1f4b4b;
   /* dark green */
@@ -580,7 +594,7 @@ section.stat-main-sec ul.slug-table-head-isRiderResults {
 
   .results-summary {
     background: #fff;
-    padding: 8px 16px;
+    padding: 12px 24px;
     border-radius: 40px;
     display: inline-flex;
     width: fit-content;
@@ -1254,4 +1268,56 @@ ul.rider-res-table-body li .date-col,.rider-count{
   .slug-table-main.rider-results-this-year .slug-table-body-getRiderFirstWin h5.rider--name.race-name-el.clickable {
     flex: 1 1 100% !important;
 }
+}
+
+
+section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hover{
+  background-color: #f7f6f0 !important;
+}
+ .isRiderResults-wraper{
+  display: flex !important;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  position: relative;
+  padding-bottom: 32px;
+}
+.isRiderResults-wraper img{
+  max-width: 9.875rem;
+  max-height: 12.1875rem;
+  width: 100%;
+  height: 100%;
+}
+
+.isRiderResults-wraper .hdr-img_wrap {
+  flex: 0 0 150px;
+}
+
+.isRiderResults-wraper h1 {
+  flex: 0 0 calc(100% - 150px);
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.isRiderResults-wraper h1::after{ display: none; }
+.isRiderResults-wraper::after {
+  content: '';
+  width: 100%;
+  height: 2px;
+  background-image: url(/_next/static/media/dash.7fe252f7.svg);
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: cover;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+@media ( max-width: 767px ){
+  .isRiderResults-wraper {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+  .isRiderResults-wraper .hdr-img_wrap {
+    flex: 1;
+    max-width: 70px;
+  }
 }

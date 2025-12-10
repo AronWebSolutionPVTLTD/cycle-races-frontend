@@ -374,6 +374,7 @@ export default function DynamicSlugPage() {
                 width: "30px",
                 height: "20px",
                 flexShrink: 0,
+                borderRadius: "3px"
               }}
             />
             <Link href={`/riders/${item?.rider_id}`} className="link fw-900 d-flex flex-column ">
@@ -422,6 +423,7 @@ export default function DynamicSlugPage() {
                   height: "20px",
                   marginRight: "10px",
                   flexShrink: 0,
+                  borderRadius: "3px"
                 }}
               />
               <a>{getItemValue(item, config.itemConfig.team)}</a>

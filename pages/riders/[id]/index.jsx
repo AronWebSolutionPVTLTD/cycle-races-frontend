@@ -261,7 +261,7 @@ export default function RiderDetail({ initialRider }) {
                 </li>
                 <li>{rider.name || "N/A"}</li>
               </ul>
-              <div className="wraper">
+              <div className="wraper ">
                 {rider.image_url ? (
                   <img src={rider.image_url} alt={rider.name || "Rider"} />
                 ) : (

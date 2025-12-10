@@ -457,6 +457,7 @@ export default function DynamicSlugPage({ year }) {
                   width: "30px",
                   height: "20px",
                   flexShrink: 0,
+
                 }}
               />
 
@@ -485,6 +486,7 @@ export default function DynamicSlugPage({ year }) {
                   height: "20px",
                   marginRight: "10px",
                   flexShrink: 0,
+
                 }}
               />
               <span>{getItemValue(item, config.itemConfig.team)}</span>

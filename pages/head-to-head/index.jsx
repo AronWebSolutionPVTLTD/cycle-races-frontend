@@ -20,9 +20,7 @@ export default function HeadToHead() {
   const [H2HData, setH2HData] = useState([]);
   const [showCompareResults, setShowCompareResults] = useState(false);
   // Default to current year instead of "All-time"
-  const [selectedYear, setSelectedYear] = useState(
-    new Date().getFullYear().toString()
-  );
+  const [selectedYear, setSelectedYear] = useState("All-time");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
@@ -378,7 +376,7 @@ export default function HeadToHead() {
               <Link href={url} className="link fw-900 d-flex ">
                 <Flag
                   code={race.country?.toUpperCase() || "XX"}
-                  style={{ width: "30px", height: "20px", flexShrink: 0, marginRight: "10px" }}
+                  style={{ width: "30px", height: "20px", flexShrink: 0, marginRight: "10px"}}
                 />
                 <div>
                   <div className="race-title fw-900 text-uppercase ">
@@ -594,6 +592,7 @@ export default function HeadToHead() {
     setGetMatchRidersData(null);
     setError(null);
     prevRider1IdRef.current = null;
+    setSelectedYear("All-time");
   };
 
   const handleClear2 = () => {
@@ -605,6 +604,7 @@ export default function HeadToHead() {
     setGetMatchRidersData(null);
     setError(null);
     prevRider2IdRef.current = null;
+    setSelectedYear("All-time");
   };
 
   // Reset comparison when riders change
@@ -848,6 +848,7 @@ export default function HeadToHead() {
                                       height: "20px",
                                       marginRight: "10px",
                                       flexShrink: 0,
+                                     borderRadius: "5px"
                                     }}
                                   />
                                   {selectedRider1.riderName}
@@ -870,7 +871,9 @@ export default function HeadToHead() {
                                       width: "30px",
                                       height: "20px",
                                       marginRight: "10px",
-                                      flexShrink: 0,
+                                      flexShrink: 0,  
+                                     borderRadius: "5px"
+                                     
                                     }}
                                   />
                                   {selectedRider2.riderName}
@@ -936,6 +939,7 @@ export default function HeadToHead() {
                                 height: "20px",
                                 marginRight: "10px",
                                 flexShrink: 0,
+                               borderRadius: "5px"
                               }}
                             />
                             {selectedRider1?.riderName}
@@ -980,6 +984,7 @@ export default function HeadToHead() {
                                 height: "20px",
                                 marginRight: "10px",
                                 flexShrink: 0,
+                               borderRadius: "5px"
                               }}
                             />
                             {selectedRider2?.riderName}

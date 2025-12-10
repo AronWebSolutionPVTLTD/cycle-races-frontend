@@ -112,7 +112,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
             {/* Result of year */}
             <div className="col-lg-3 col-md-6">
-              <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
+              <div className="list-white-cart lime-green-cart ctm-card ctm_card_2 ">
                 <Link href={buildUrlWithParams("rider-results-this-year")} className="pabs" />
 
                 <div className="card-content-wraper">
@@ -120,30 +120,30 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                   <ul>
                     <li>
-                      <div className="name-wraper name-wraper-white Result-value">
+                      <Link href={buildUrlWithParams("rider-results-this-year")} className="name-wraper name-wraper-white Result-value result-of-year-card">
                         <span className="label">Wins</span>
                        
-                      </div>
+                      </Link>
                        <span className="value">
                           {data?.[fixedApis.box10]?.data.wins_count ?? 0}
                         </span>
                     </li>
 
                     <li>
-                      <div className="name-wraper name-wraper-white Result-value">
+                      <Link href={buildUrlWithParams("rider-results-this-year")} className="name-wraper name-wraper-white Result-value result-of-year-card">
                         <span className="label">Podium</span>
                        
-                      </div>
+                      </Link>
                        <span className="value">
                           {data?.[fixedApis.box10]?.data.podium_count ?? 0}
                         </span>
                     </li>
 
                     <li>
-                      <div className="name-wraper name-wraper-white ">
+                      <Link href={buildUrlWithParams("rider-results-this-year")} className="name-wraper name-wraper-white result-of-year-card ">
                         <span className="label">Top 10</span>
                       
-                      </div>
+                      </Link>
                         <span className="value">
                           {data?.[fixedApis.box10]?.data.top10_count ?? 0}
                         </span>

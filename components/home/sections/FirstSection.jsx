@@ -220,7 +220,7 @@ const FirstSection = () => {
                               {result?.raceName && <h5 className="race-name-el fw-900">
                                 {renderFlag(result?.raceCountry)}
                                 <a className="d-flex flex-column">
-                                  <strong>{result.raceName}</strong>
+                                  <strong className="text-uppercase">{result.raceName}</strong>
 
                                   {result.start_Location && result.finish_Location && result.distance && (
                                     <span className="start-end-location">

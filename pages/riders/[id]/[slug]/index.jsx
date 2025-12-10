@@ -555,7 +555,7 @@ export default function DynamicSlugPage() {
                 item?.year || <span className="sr-no">{index + 1}.</span>
               )}
             </span>}
-            
+
 
             {/* ------ RACE NAME ------ */}
             <h5
@@ -572,6 +572,7 @@ export default function DynamicSlugPage() {
                       height: "20px",
                       flexShrink: 0,
                       marginRight: "10px",
+                      borderRadius: "2px"
                     }}
                   />
                   <Link href={url} className="link fw-900 d-flex ">
@@ -609,7 +610,7 @@ export default function DynamicSlugPage() {
                       )}
                     </div>
                   </Link>
-                  {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location))  && !isGetRiderFirstWin && (
+                  {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && !isGetRiderFirstWin && (
                     <div className="most-dnfs-start-end loction d-block d-md-none">
                       {item?.start_location}
                       {item?.start_location && item?.finish_location ? " - " : ""}
@@ -627,6 +628,7 @@ export default function DynamicSlugPage() {
                       height: "20px",
                       flexShrink: 0,
                       marginRight: "10px",
+                      borderRadius: "3px"
                     }}
                   />
 
@@ -711,6 +713,7 @@ export default function DynamicSlugPage() {
                   height: "20px",
                   marginRight: "10px",
                   flexShrink: 0,
+                  borderRadius: "3px"
                 }}
               />
               <span>{getItemValue(item, config.itemConfig.team)}</span>
@@ -720,9 +723,9 @@ export default function DynamicSlugPage() {
           columns.push(
             <div key="team" className="team-name date">
               <div className={`${isGetRiderFirstWin && "get-rider-first-win-race-name"}`}>
-              {getItemValue(item, config.itemConfig.team)} <span className="d-none d-lg-inline">{isGetRiderFirstWin && item?.stage_number && `: Stage ${item.stage_number}`}</span>
+                {getItemValue(item, config.itemConfig.team)} <span className="d-none d-lg-inline">{isGetRiderFirstWin && item?.stage_number && `: Stage ${item.stage_number}`}</span>
               </div>
-            
+
               {isGetRiderFirstWin && item?.stage_number && (
                 <>
                   {[
@@ -794,6 +797,7 @@ export default function DynamicSlugPage() {
 
       if (pageData) {
         setResultStats({
+          image_url: pageData.image_url ?? "",
           top10_count: pageData.top10_count ?? 0,
           wins_count: pageData.wins_count ?? 0,
           podium_count: pageData.podium_count ?? 0
@@ -940,7 +944,29 @@ export default function DynamicSlugPage() {
                   </li>
                   <li>{pageHeading}</li>
                 </ul>
-                <h1 className="mb-0">{pageHeading}</h1>
+
+                {isRiderResults ? (
+                  <div className="isRiderResults-wraper">
+                    {resultStats?.image_url ? (
+                     <div>
+                      <img src={resultStats?.image_url} alt={resultStats?.name || "Rider"} />
+                      <h1 className="">{pageHeading || "..."}</h1>
+                     </div>
+                    ) : (
+                      <div className="hdr-img_wrap">
+                        <img
+                          src="/images/player6.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                      </div>
+                    )}
+                    <h1 className="">{pageHeading || "..."}</h1>
+                  </div>
+                ) : (
+                  <h1 className="mb-0">{pageHeading}</h1>
+                )}
+
               </div>
             </div>
           </div>
