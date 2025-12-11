@@ -1,14 +1,11 @@
 // components/TeamCard.jsx
 import Link from "next/link";
 import Flag from "react-world-flags";
-import { createTeamSlug } from "@/lib/team-utils";
 
 export default function TeamCard({ teamName, year, flag, teamId }) {
-  const teamSlug = createTeamSlug(teamName);
-
   const isValidTeam = teamName && teamName.trim().length > 0;
-  // Use team name directly in URL, Next.js Link will handle encoding
-  const teamUrl = isValidTeam ? `/teams/${teamSlug}` : null;
+  // Use encodeURIComponent like races page
+  const teamUrl = isValidTeam ? `/teams/${encodeURIComponent(teamName)}` : null;
 
   return (
     <li className="hoverState-li custom-list-el ss">  

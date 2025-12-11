@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { fetchData } from "@/lib/api";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
 import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
@@ -62,9 +62,24 @@ export default function DynamicSlugPage() {
   const isRiderWinsBySeason = slug === "rider-wins-by-season";
   const isGetTop10StagesInGrandTours = slug === "get-top10-stages-in-grand-tours";
   const isGetRiderFirstWin = slug === "get-rider-first-win";
+  const isBestGCResults = slug === "best-gc-results";
+  const isRiderLongestNOWinStreak=slug==="get-rider-longest-no-win-streak"
+  const isGetRiderAllVicories=slug==="get-rider-all-victories"
+  const isFirstRankInGrandTours=slug==="get-first-rank-in-grand-tours"
+  const isFirstEverGrandTourWin=slug=="get-first-ever-grand-tour-win"
+  const isGetTotalDistanceRacedInGrandTours=slug=="get-total-distance-raced-in-grand-tours"
+  const getTotalRacingDaysInGrandTours=slug=="get-total-racing-days-in-grand-tours"
+  const getBestMonumentResults=slug=="get-best-monument-results"
+  const getBestParisRoubaixResult=slug=="get-best-paris-roubaix-result"
+  const getFirstRankInMonuments=slug=="get-first-rank-in-monuments"
+  const getBestGCResult=slug=="get-best-gc-result"
+  const teamMates=slug=="team-mates"
+  const riderFromSameHomeTown=slug=="rider-from-same-home-town"
+  const getRiderLastPlaceFinishes=slug=="get-rider-last-place-finishes"
+  const getGrandTourDNFS=slug=="get-grand-tour-dnfs"
   const [resultStats, setResultStats] = useState(null);
 
-
+console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
 
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -492,7 +507,6 @@ export default function DynamicSlugPage() {
 
   // Render list content with configuration
   const renderListContent = (data, config) => {
-    console.log("rider-results-this-year", data);
 
     // TEAM / NAME / COUNT detection
     const teamDataExists = hasTeamData(data, config);
@@ -543,9 +557,10 @@ export default function DynamicSlugPage() {
 
         // Date + Race Column
         columns.push(
-          <>
+          <Fragment key={`date-race-${item._id || item.id || index}`}>
             {/* ------ DATE / SR NO ------ */}
-            {!isGetTop10StagesInGrandTours && <span className="text-capitalize date-col">
+            {!isGetTop10StagesInGrandTours && !getGrandTourDNFS && !getRiderLastPlaceFinishes && !getBestGCResult && !getFirstRankInMonuments && !getBestParisRoubaixResult && !getBestMonumentResults && !isGetTotalDistanceRacedInGrandTours && !getTotalRacingDaysInGrandTours && !isFirstRankInGrandTours  && !isBestGCResults && !isRiderLongestNOWinStreak && !isFirstEverGrandTourWin &&
+             <span className="text-capitalize date-col">
               {item?.date ? (
                 <>
                   {start}
@@ -559,7 +574,6 @@ export default function DynamicSlugPage() {
 
             {/* ------ RACE NAME ------ */}
             <h5
-              key="date-race"
               className={`rider--name race-name-el ${hasUrl ? "clickable" : ""}`}
               {...(hasUrl ? { onClick: () => router.push(url) } : {})}
             >
@@ -638,7 +652,7 @@ export default function DynamicSlugPage() {
                         <div>
                           <div className="race-title fw-900 text-uppercase">
                             {displayName}
-                          </div>
+                          </div>  
 
                           {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && !isGetRiderFirstWin && (
                             <div className="most-dnfs-start-end loction d-none d-md-block">
@@ -690,9 +704,8 @@ export default function DynamicSlugPage() {
                 </>
               )}
             </h5>
-          </>
+          </Fragment>
         );
-        console.log("columns", columns);
 
       }
 
@@ -815,7 +828,6 @@ export default function DynamicSlugPage() {
     // SPECIAL HANDLING FOR rider-results-this-year
     // -------------------------------------------------------------
     if (config.apiEndpoint === "getRiderWinsPodiumsTop10sCurrentYear") {
-      console.log(data);
 
 
       const list = data?.results_list || [];
@@ -1037,7 +1049,8 @@ export default function DynamicSlugPage() {
 
 
                 <ul
-                  className={`slug-table-head ${isRiderResults && "slug-table-head-isRiderResults"} ${isRiderLastVictories && "rider-victoryhead"} ${isGetTop10StagesInGrandTours && "slug-table-head-getTop10StagesInGrandTours"} ${isGetRiderFirstWin && "slug-table-head-getRiderFirstWin"}  sdsd col--${getDynamicHeaders().length}`}
+                  className={`slug-table-head  ${riderFromSameHomeTown && "slug-table-head-riderhome"} ${teamMates && "slug-table-head-teamMates"} ${getBestGCResult && "slug-table-head-gbst"} ${getBestParisRoubaixResult && "slug-table-head-gbst"} ${getBestMonumentResults && "slug-table-head-getBESTMONUMENTRESULTS"} ${isGetTotalDistanceRacedInGrandTours && "slug-table-head-getTOTALdistance"} ${getTotalRacingDaysInGrandTours && "slug-table-head-getTRCDAYS"} ${isGetRiderAllVicories && "slug-tablehead-isGetRiderAllVicories"}  ${isRiderResults && "slug-table-head-isRiderResults"} ${isRiderLastVictories && "rider-victoryhead"} ${isGetTop10StagesInGrandTours && "slug-table-head-getTop10StagesInGrandTours"} ${isGetRiderFirstWin && "slug-table-head-getRiderFirstWin"} 
+                   sdsd col--${getDynamicHeaders().length}`}
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (

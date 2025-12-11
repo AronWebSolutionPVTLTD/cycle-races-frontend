@@ -200,7 +200,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-green name-left">
-                          <Link href={`/races/${firstRider?.race}`} className="pabs" />
+                          <Link href={`/races/${firstRider?.race}`} className="pabs rider-last-victory-link" />
                           {renderFlag(firstRider?.country)}
                           <h6>{firstRider?.race || "..."}</h6>
                         </div>
@@ -422,7 +422,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-green name-left">
-                          <Link href={`/races/${firstRider?.race}`} className="pabs" />
+                          <Link href={`/races/${firstRider?.race || firstRider?.race_name}`} className="pabs rider-last-victory-link" />
                           {renderFlag(firstRider?.country_code)}
                           <h6>{firstRider?.race_name || "..."}</h6>
                         </div>
@@ -592,7 +592,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-white name-left">
-                          <Link href={`/races/${riderData?.race}`} className="pabs" />
+                          <Link href={`/races/${riderData?.race|| riderData?.race_name}`} className="pabs rider-last-victory-link" />
                           {renderFlag(riderData?.country_code)}
                           <h6>
                             {riderData?.race_name || "..."} ({riderData.year})

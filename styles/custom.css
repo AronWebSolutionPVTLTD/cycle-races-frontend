@@ -320,7 +320,7 @@ ul.slug-table-body li h5 {
   align-items: baseline;
   gap: 0.9rem;
   text-wrap: nowrap;
-  
+
 }
 
 ul.slug-table-body li h5 a {
@@ -509,7 +509,7 @@ section.stat-main-sec ul.slug-table-head-isRiderResults {
   display: flex;
   gap: 2.5rem;
   text-transform: uppercase;
-  
+
 
 }
 
@@ -553,12 +553,14 @@ section.stat-main-sec ul.slug-table-head-isRiderResults {
   font-size: 18px;
   line-height: 18px;
 }
+
 .results-summary .stat-item strong {
   font-weight: 900;
   font-family: "Archivo", sans-serif;
   font-size: 18px;
   line-height: 18px;
 }
+
 .results-summary .stat-item.podium span {
   background: #1f4b4b;
   /* dark green */
@@ -941,6 +943,7 @@ section.riders-sec1 .shape::after {
     flex: 1;
     max-width: calc(50% - 50px);
   }
+
   .compare-result-col:not(.compare-result-col--last) {
     padding-right: 32px;
   }
@@ -988,9 +991,9 @@ section.riders-sec1 .shape::after {
 }
 
 @media (min-width: 768px) {
-  
 
-  
+
+
 
   .slug-table-main.head-to-head-main .table_cols_list {
     margin: 0 !important;
@@ -1021,15 +1024,17 @@ section.riders-sec1 .shape::after {
     padding-top: 32px !important;
   }
 }
-.slug-table-main.rider-results-this-year{
+
+.slug-table-main.rider-results-this-year {
   margin-top: 64px !important;
 }
 
 @media (max-width: 767px) {
-  
-  .slug-table-main.rider-results-this-year{
+
+  .slug-table-main.rider-results-this-year {
     margin-top: 48px !important;
   }
+
   .rider-result-section-row {
     display: flex;
     flex-direction: column;
@@ -1038,11 +1043,13 @@ section.riders-sec1 .shape::after {
     position: relative;
     gap: 32px;
   }
+
   .rider-result-section-column {
     flex: 1;
     width: 100% !important;
     /* max-width: calc(50% - 50px); */
   }
+
   .rider-compare-show-result {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -1125,7 +1132,7 @@ section.riders-sec1 .shape::after {
     height: 11px !important;
     object-fit: contain;
     margin-right: 8px !important;
-}
+  }
 }
 
 .clear-icon img {
@@ -1134,7 +1141,7 @@ section.riders-sec1 .shape::after {
   object-fit: contain !important;
 }
 
-.most-dnfs-start-end.loction{
+.most-dnfs-start-end.loction {
   font-size: 13px;
   font-weight: 500;
   color: #828E83;
@@ -1154,9 +1161,11 @@ section.riders-sec1 .shape::after {
 .rider-res-table-body li .rider-count {
   flex: 0 0 20px !important;
 }
+
 .slug-table-head-isRiderResults .slug-list-head {
   flex: 0 0 !important;
 }
+
 .slug-table-head-isRiderResults .slug-list-head.Date {
   flex: 0 0 80px !important;
 }
@@ -1166,100 +1175,122 @@ section.riders-sec1 .shape::after {
 }
 
 @media (max-width: 767px) {
- 
-  
-  .slug-table-body-getTop10StagesInGrandTours .team-name{
+
+
+  .slug-table-body-getTop10StagesInGrandTours .team-name {
     flex: 0 0 0 !important;
   }
+
   .rider-res-table-body li h5.rider--name {
     font-size: 14px;
     column-gap: 8px;
     row-gap: 0;
     flex-wrap: wrap;
   }
-  ul.rider-res-table-body li .date-col{
+
+  ul.rider-res-table-body li .date-col {
     flex: 0 0 100% !important;
     font-size: 14px !important;
     line-height: 1 !important;
   }
-  .most-dnfs-start-end.loction{
+
+  .most-dnfs-start-end.loction {
     flex: 100%;
   }
-  ul.rider-res-table-body li{
+
+  ul.rider-res-table-body li {
     row-gap: 4px !important;
   }
+
   .rider-res-table-body li h5.rider--name a {
-    flex: 0 0 calc( 100% - 30px );
+    flex: 0 0 calc(100% - 30px);
   }
-  ul.slug-table-body li:last-child{
+
+  ul.slug-table-body li:last-child {
     margin-bottom: 0 !important;
   }
+
   .slug-table-main.head-to-head-main ul.slug-table-body li,
   .h2h_result_section .slug-table-head.head-to-head {
     display: grid !important;
     grid-template-columns: 60px 1fr 35px 35px !important;
     gap: 0 !important;
-}
-.slug-table-main.head-to-head-main ul.slug-table-body li h5.race-name-el {
-  white-space: pre-wrap;
-}
+  }
+
+  .slug-table-main.head-to-head-main ul.slug-table-body li h5.race-name-el {
+    white-space: pre-wrap;
+  }
 }
 
-ul.rider-res-table-body li .date-col,.rider-count{
- 
+ul.rider-res-table-body li .date-col,
+.rider-count {
+
   color: #8E998F !important;
 }
-.head-stage-number{
+
+.head-stage-number {
   color: #2b534d !important;
 }
-.rider-victoryhead li:first-child{
+
+.rider-victoryhead li:first-child {
   flex: 0 0 80px !important;
 }
-.rider-victoryhead li:nth-child(2){
+
+.rider-victoryhead li:nth-child(2) {
   flex: 1 !important;
 }
-.rider-victoryhead li:nth-child(3){
+
+.rider-victoryhead li:nth-child(3) {
   flex: 0 0 22% !important;
 }
-.rider-victoryhead li:nth-child(4){
+
+.rider-victoryhead li:nth-child(4) {
   flex: 0 0 10% !important;
 }
 
-.last-win{
+.last-win {
   position: relative;
   z-index: 10;
 }
 
-.slug-table-head-getTop10StagesInGrandTours li:first-child{
+.slug-table-head-getTop10StagesInGrandTours li:first-child {
   flex: 0 0 80px !important;
 }
-.slug-table-head-getTop10StagesInGrandTours li:nth-child(2){
+
+.slug-table-head-getTop10StagesInGrandTours li:nth-child(2) {
   flex: 1 1 10% !important;
   text-align: right;
 }
-.slug-table-head-getTop10StagesInGrandTours li:nth-child(3){
+
+.slug-table-head-getTop10StagesInGrandTours li:nth-child(3) {
   flex: 0 0 26% !important;
 }
 
-.slug-table-head-getRiderFirstWin li:first-child{
+.slug-table-head-getRiderFirstWin li:first-child {
   flex: 0 0 80px !important;
 }
-.slug-table-head-getRiderFirstWin li:nth-child(2){
-  flex: 1 1 28% !important;}
-.slug-table-head-getRiderFirstWin li:nth-child(3){
+
+.slug-table-head-getRiderFirstWin li:nth-child(2) {
+  flex: 1 1 28% !important;
+}
+
+.slug-table-head-getRiderFirstWin li:nth-child(3) {
   flex: 1 1 40% !important;
 }
-.slug-table-head-getRiderFirstWin li:nth-child(4){
+
+.slug-table-head-getRiderFirstWin li:nth-child(4) {
   flex: 0 0 10% !important;
 }
-.get-rider-first-win-race-name{
+
+.get-rider-first-win-race-name {
   color: #2b534d !important;
-  
+
 }
 
 .slug-table-main.rider-results-this-year .slug-table-body-getRiderFirstWin .team-name {
   flex: 1 1 40% !important;
 }
+
 .slug-table-main.rider-results-this-year .slug-table-body-getRiderFirstWin h5.rider--name.race-name-el.clickable {
   flex: 1 1 28% !important;
 }
@@ -1267,21 +1298,23 @@ ul.rider-res-table-body li .date-col,.rider-count{
 @media (max-width: 767px) {
   .slug-table-main.rider-results-this-year .slug-table-body-getRiderFirstWin h5.rider--name.race-name-el.clickable {
     flex: 1 1 100% !important;
-}
+  }
 }
 
 
-section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hover{
+section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hover {
   background-color: #f7f6f0 !important;
 }
- .isRiderResults-wraper{
+
+.isRiderResults-wraper {
   display: flex !important;
   align-items: flex-end;
   flex-wrap: wrap;
   position: relative;
   padding-bottom: 32px;
 }
-.isRiderResults-wraper img{
+
+.isRiderResults-wraper img {
   max-width: 9.875rem;
   max-height: 12.1875rem;
   width: 100%;
@@ -1297,7 +1330,11 @@ section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hove
   padding: 0 !important;
   margin: 0 !important;
 }
-.isRiderResults-wraper h1::after{ display: none; }
+
+.isRiderResults-wraper h1::after {
+  display: none;
+}
+
 .isRiderResults-wraper::after {
   content: '';
   width: 100%;
@@ -1311,13 +1348,97 @@ section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hove
   left: 0;
 }
 
-@media ( max-width: 767px ){
+@media (max-width: 767px) {
   .isRiderResults-wraper {
     flex-direction: column-reverse;
     align-items: flex-start;
   }
+
   .isRiderResults-wraper .hdr-img_wrap {
     flex: 1;
     max-width: 70px;
   }
+}
+
+
+.team-card-img {
+  position: absolute;
+ bottom: 0%;
+ z-index: 2;
+ left: -0.4rem;
+}
+
+@media screen and (min-width: 991px) {
+  .teamcard-number{
+    position: absolute;
+    right: 18px;
+    bottom: 26%;
+  }
+  .team-cart-extra{
+    min-height: 242px;
+  }
+}
+
+.slug-tablehead-isGetRiderAllVicories li:nth-child(2) {
+  flex: 0 0 22% !important;
+  /* background-color: red; */
+}
+  
+.rider-last-victory-link{
+  z-index: 1;
+}
+
+.slug-table-head-getTRCDAYS li:first-child {
+  flex:1 1  !important;
+}
+
+.slug-table-head-getTRCDAYS li:nth-child(2) {
+  flex: 0 0 0 20% !important;
+  text-align: right;
+}
+.slug-table-head-getTRCDAYS li:nth-child(3) {
+  flex: 0 0 26% !important;
+}
+
+.slug-table-head-getTOTALdistance li:first-child {
+  flex:1 1  !important;
+}
+
+.slug-table-head-getTOTALdistance li:nth-child(2) {
+  flex: 0 0 22%  !important;
+}
+.slug-table-head-getTOTALdistance li:nth-child(3) {
+  flex: 0 0 10% !important;
+}
+
+.slug-table-head-getBESTMONUMENTRESULTS li:nth-child(2) {
+  flex: 0 0 22% !important;
+}
+.slug-table-head-gbst li:nth-child(2) {
+  flex: 0 0 22% !important;
+}
+.slug-table-head-gbst li:nth-child(3) {
+  flex: 0 0 10% !important;
+}
+
+.slug-table-head-teamMates li:first-child {
+  /* flex: 0 0 10%!important; */
+  margin-left: 12%;
+}
+
+.slug-table-head-riderhome li:first-child {
+  /* flex:1 1  !important; */
+  /* background-color: red; */
+
+}
+
+.slug-table-head-riderhome li:nth-child(2) {
+  flex: 1 1 42% !important;
+}
+
+.slug-table-head-riderhome li:nth-child(3) {
+  flex: 1 0 10% !important;
+}
+.slug-table-head-riderhome li:nth-child(4) {
+  flex: 0 0 10% !important;
 }

@@ -8,6 +8,7 @@ import { renderFlag } from "@/components/RenderFlag";
 import TeamSecondSection from "@/components/team_detail/TeamSecondSection";
 import TeamThirdSection from "@/components/team_detail/TeamThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
+import Flag from "react-world-flags";
 
 export default function TeamDetail({ initialTeam }) {
   const router = useRouter();
@@ -71,7 +72,7 @@ export default function TeamDetail({ initialTeam }) {
     try {
       setYearsLoading(true);
       const response = await callAPI("GET", `/team-stats/${teamId}/getTeamActiveYears`);
-      
+
       if (response && response.data && response.data.years) {
         const years = response.data.years;
         setDynamicYears(years);
@@ -90,24 +91,24 @@ export default function TeamDetail({ initialTeam }) {
       const encodedTeamSlug = encodeURIComponent(teamSlug);
       const response = await callAPI("GET", `/teamDetails/${encodedTeamSlug}/teamDetailsForTeamPage`);
       console.log("Header API Response:", response);
-      
+
       if (response && response.status === true && response.data) {
         const headerInfo = response.data;
         console.log("Header Info extracted:", headerInfo);
         setHeaderData(headerInfo);
-        
+
         // Fetch team active years if team_id is available
         if (headerInfo.team_id) {
           fetchTeamActiveYears(headerInfo.team_id);
         }
-        
+
         setError(null);
       } else {
         throw new Error("Team not found");
       }
     } catch (err) {
       console.error("Error fetching team header info:", err);
-      
+
       if (err.message && err.message.includes("API call failed")) {
         setError("Failed to connect to server. Please try again later.");
       } else {
@@ -176,7 +177,7 @@ export default function TeamDetail({ initialTeam }) {
       </div>
     );
   }
-  
+
   const teamName = headerData?.team_name || "N/A";
   const teamImage = headerData?.image_url || headerData?.image;
   const teamFlag = headerData?.country_code || headerData?.flag || headerData?.country;
@@ -211,7 +212,10 @@ export default function TeamDetail({ initialTeam }) {
                       className="absolute-img"
                     />
                     <ul className="plyr-dtls d-flex d-md-none mobile_plyr-dtls">
-                      <li className="country">{renderFlag(teamFlag)} {teamCountry}</li>
+                      <li className="country"> <Flag
+                        code={teamFlag.toUpperCase()}
+                        style={{ width: "20px", height: "20px", marginRight: "0",borderRadius: "2px" }}
+                      /> {teamCountry}</li>
                       <li className="age">SINCE {teamFounded || "..."}</li>
                     </ul>
 
@@ -220,7 +224,9 @@ export default function TeamDetail({ initialTeam }) {
                 <h1>{teamName || "..."}</h1>
               </div>
               <ul className="plyr-dtls d-md-flex d-none">
-                <li className="country">{renderFlag(teamFlag)} {teamCountry}</li>
+                <li className="country"><Flag
+                        code={teamFlag.toUpperCase()}
+                        style={{ width: "20px", height: "20px", marginRight: "0",borderRadius: "3px" }} /> {teamCountry}</li>
                 <li className="age">SINCE {teamFounded || "..."}</li>
               </ul>
             </div>
@@ -230,7 +236,7 @@ export default function TeamDetail({ initialTeam }) {
       <section className="rider-details-sec">
         <div className="container">
           <div className="col-lg-12">
-              <ul className="filter">
+            <ul className="filter">
               <FilterDropdown
                 ref={yearDropdownRef}
                 isOpen={showYearDropdown}
@@ -244,16 +250,16 @@ export default function TeamDetail({ initialTeam }) {
                 includeAllOption={false}
                 classname="year-dropdown"
               />
-              </ul>
-            </div>
+            </ul>
+          </div>
           <div className="row">
-            <TeamFirstSection 
+            <TeamFirstSection
               teamId={headerData?.team_id}
               teamName={headerData?.team_name}
               teamSlug={router.query.id}
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
-              }/>
+              } />
 
             {/* <TeamSecondSection teamId={headerData?.team_id || team?._id} filterYear={
               filterYear !== "All-time" ? filterYear : null

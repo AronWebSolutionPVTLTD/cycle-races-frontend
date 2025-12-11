@@ -7,7 +7,6 @@ import { getTeamSearchList } from "@/lib/api";
 import { useEffect, useState, useRef } from "react";
 import { useMultipleData } from "@/components/home_api_data";
 import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
-import { createTeamSlug } from "@/lib/team-utils";
 
 export default function Teams() {
   const router = useRouter();
@@ -173,12 +172,9 @@ export default function Teams() {
     setFirstTenTeams(filteredList);
     setShowSuggestions(false);
 
-    // Navigate to team detail page using team name slug
+    // Navigate to team detail page using team name (encoded like races)
     if (team?.teamName) {
-      const teamSlug = createTeamSlug(team.teamName);
-      if (teamSlug) {
-        router.push(`/teams/${teamSlug}`);
-      }
+      router.push(`/teams/${encodeURIComponent(team.teamName)}`);
     }
   };
 
