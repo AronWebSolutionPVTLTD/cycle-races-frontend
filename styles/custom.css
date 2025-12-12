@@ -1375,7 +1375,7 @@ section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hove
     bottom: 26%;
   }
   .team-cart-extra{
-    min-height: 242px;
+    min-height: 304px;
   }
 }
 
@@ -1442,3 +1442,30 @@ section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hove
 .slug-table-head-riderhome li:nth-child(4) {
   flex: 0 0 10% !important;
 }
+
+
+.wins-team-list li a{
+  flex: 1  ;
+}
+.list-white-cart .wins-team-list li{
+  gap: 8px !important;
+}
+
+.team-cart.number_btm {
+  display: flex;
+  flex-direction: row;
+}
+
+.team-cart.number_btm .text-wraper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.lime-green-cart .font-size-change {
+  font-size: 1.5rem !important;
+  line-height: 1 !important;
+}
+
+
+
+

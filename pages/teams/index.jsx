@@ -52,6 +52,9 @@ export default function Teams() {
     };
   }, []);
 
+
+  
+
   // Function to fetch teams data (for initial load - no search)
   const fetchTeams = async (query = "") => {
     setLoading(true);

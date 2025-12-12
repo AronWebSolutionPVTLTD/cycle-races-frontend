@@ -374,7 +374,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                   <div className="team-cart lime-green-team-cart img-active">
                     <Link href={buildUrlWithParams("total-classic-wins")} className="pabs" />
                     <div className="text-wraper">
-                      <h4>{data?.[fixedApis.box6]?.message}</h4>
+                      <h4 className="font-size-change">{data?.[fixedApis.box6]?.message}</h4>
                       {(() => {
                         if (!data?.[fixedApis.box6]) {
                           return <ErrorMessage errorType="no_data" />;
@@ -410,7 +410,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("total-grand-tour-wins")} className="pabs" />
                     <div className="text-wraper">
-                      <h4 >
+                      <h4 className="font-size-change">
                         {data?.[fixedApis.box7]?.message}
                       </h4>
 
@@ -510,7 +510,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                         {" "}
                         {data?.[fixedApis.box9]?.message}
                       </h4>
-                      <ul>
+                      <ul className="wins-team-list">
                         {(Array.isArray(getBoxData(fixedApis.box9).data)
                           ? getBoxData(fixedApis.box9).data
                           : []

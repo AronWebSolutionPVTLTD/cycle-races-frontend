@@ -67,11 +67,11 @@ export default function TeamDetail({ initialTeam }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const fetchTeamActiveYears = async (teamId) => {
+//////// team active years
+  const fetchTeamActiveYears = async (teamName) => {
     try {
       setYearsLoading(true);
-      const response = await callAPI("GET", `/team-stats/${teamId}/getTeamActiveYears`);
+      const response = await callAPI("GET", `/teamDetails/${teamName}/getTeamActiveYears`);
 
       if (response && response.data && response.data.years) {
         const years = response.data.years;
@@ -84,6 +84,7 @@ export default function TeamDetail({ initialTeam }) {
       setYearsLoading(false);
     }
   };
+
 
   const fetchTeamHeaderInfo = async (teamSlug) => {
     try {
@@ -101,6 +102,8 @@ export default function TeamDetail({ initialTeam }) {
         if (headerInfo.team_id) {
           fetchTeamActiveYears(headerInfo.team_id);
         }
+      
+        
 
         setError(null);
       } else {
@@ -261,13 +264,23 @@ export default function TeamDetail({ initialTeam }) {
                 filterYear !== "All-time" ? filterYear : null
               } />
 
-            {/* <TeamSecondSection teamId={headerData?.team_id || team?._id} filterYear={
-              filterYear !== "All-time" ? filterYear : null
-            }/>
+            <TeamSecondSection
+              teamId={headerData?.team_id}
+              teamName={headerData?.team_name}
+              teamSlug={router.query.id}
+              filterYear={
+                filterYear !== "All-time" ? filterYear : null
+              }
+            />
 
-            <TeamThirdSection teamId={headerData?.team_id || team?._id} filterYear={
-              filterYear !== "All-time" ? filterYear : null
-            } /> */}
+            <TeamThirdSection
+              teamId={headerData?.team_id}
+              teamName={headerData?.team_name}
+              teamSlug={router.query.id}
+              filterYear={
+                filterYear !== "All-time" ? filterYear : null
+              }
+            />
           </div>
         </div>
       </section>

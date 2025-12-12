@@ -17,7 +17,7 @@ export default function SidebarList({ title, riders, link }) {
               <Link href={`/teams/${createTeamSlug(rider.name)}`} className="pabs" />
 
                 <Flag code={rider.flag} style={{width:"20px",height:"20px",marginLeft:"10px"}} />
-                <h6>{rider.name}</h6>
+                <h6 className="clamp-text">{rider.name}</h6>
               
               </div>
               <span>{rider.age}</span>
