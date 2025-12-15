@@ -1019,7 +1019,7 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
 
 
 
-              <div className="col-lg-9 col-md-7 mt-4 slug-table-main rider-results-this-year">
+              <div className="col-lg-9 col-md-12 mt-4 slug-table-main rider-results-this-year">
 
                 {isRiderResults && (
                   <div className="results-summary d-flex gap-3 align-items-center mb-5 mb-md-0">

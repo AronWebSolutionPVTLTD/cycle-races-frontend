@@ -34,6 +34,7 @@ export default function Riders() {
       victoryRanking: "/riders/victoryRanking",
     },
   });
+  console.log("sidebarsData",sidebarsData);
 
   useEffect(() => {
     fetchRiders();
@@ -275,6 +276,8 @@ export default function Riders() {
             ? `${rider.age} jaar`
             : "",
       flag: rider.country || rider.riderCountry || "/images/flag-default.svg",
+      rider_id: rider.rider_id || rider._id || rider.riderId,
+
     }));
   };
 

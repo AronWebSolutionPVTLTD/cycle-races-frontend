@@ -62,9 +62,6 @@ export default function Teams() {
       getTeamSearchList(query)
         .then((response) => {
           if (response.status === "success") {
-            // Process data for display
-            console.log(response);
-
             setTeams(response.data);
             setFirstTenTeams(response.data.slice(0, 15));
             setError(null);
@@ -300,7 +297,7 @@ export default function Teams() {
           <SidebarList
             title={teamWithMostWins.title}
             riders={formatTeamsForSidebar(teamWithMostWins.data, true)}
-            link="team-with-most-wins"
+            link="team-with-most-wins-this-year"
           />
         )}
 

@@ -319,7 +319,7 @@ ul.slug-table-body li h5 {
   display: flex;
   align-items: baseline;
   gap: 0.9rem;
-  text-wrap: nowrap;
+  /* text-wrap: nowrap; */
 
 }
 

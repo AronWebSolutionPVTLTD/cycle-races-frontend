@@ -584,7 +584,7 @@ export default function DynamicSlugPage({ year }) {
       return (
         <li
           key={item._id || item.id || index}
-          className={`content-item ctm-head-heading hoverState-li table_cols_list col--${columns.length}`}
+          className={`content-item ctm-head-heading hoverState-li dd table_cols_list col--${columns.length}`}
         >
           {columns}
         </li>
@@ -738,7 +738,7 @@ export default function DynamicSlugPage({ year }) {
                 </div>
               </div>
 
-              <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
+              <div className="col-lg-9 col-md-12 mt-4 slug-table-main">
                 <ul
                   className={`slug-table-head col--${getDynamicHeaders().length
                     }`}

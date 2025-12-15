@@ -21,7 +21,7 @@ export default function RiderDetail({ initialRider }) {
   const yearDropdownRef = useRef(null);
   const [dynamicYears, setDynamicYears] = useState([]);
   const [yearsLoading, setYearsLoading] = useState(false);
-
+console.log("initialRider",initialRider);
   // Available filter options
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions = dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];

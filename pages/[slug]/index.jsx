@@ -27,19 +27,51 @@ const getCountryCode = (item, config) => {
 };
 
 const getRiderId = (item) => {
-  const keys = ["rider_id", "riderId", "_id", "id", "rider_key"];
-  for (const key of keys) {
+   // check for race keys
+   const raceKeys = ["Race_Name", "RaceName", "raceName","Race","race_name","race"];
+   for (const key of raceKeys) {
+     if (
+       item &&
+       item[key] !== undefined &&
+       item[key] !== null &&
+       item[key] !== ""
+     ) {
+       return { type: "race", id: item[key] };
+     }
+   }
+  // check for rider keys
+  const riderKeys = ["rider_id", "riderId", "_id", "id", "rider_key"];
+  for (const key of riderKeys) {
     if (
       item &&
       item[key] !== undefined &&
       item[key] !== null &&
       item[key] !== ""
     ) {
-      return item[key];
+      return { type: "rider", id: item[key] };
     }
   }
+
+ 
+  
+  
   return null;
 };
+
+// const getRiderId = (item) => {
+//   const keys = ["rider_id", "riderId", "_id", "id", "rider_key"];
+//   for (const key of keys) {
+//     if (
+//       item &&
+//       item[key] !== undefined &&
+//       item[key] !== null &&
+//       item[key] !== ""
+//     ) {
+//       return item[key];
+//     }
+//   }
+//   return null;
+// };
 
 export default function DynamicSlugPage() {
   const router = useRouter();
@@ -57,7 +89,6 @@ export default function DynamicSlugPage() {
   const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
-  console.log(slug, "asfhjd");
 
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
@@ -184,6 +215,13 @@ export default function DynamicSlugPage() {
         if (slug === "best-riders-of-recent-year") {
           response.data = response?.data?.top_riders;
         }
+
+        // _______TEAMS_______
+ if (slug === "team-ranking") {
+          response.data = response?.data?.teams;
+        }
+
+
         setPageData(response.data);
         // Extract title from API response
         if (response.message) {
@@ -359,10 +397,21 @@ export default function DynamicSlugPage() {
 
       // NAME column with flag - only add if name data exists
       if (nameDataExists) {
-        const riderId = getRiderId(item);
-        const clickableProps = riderId
-          ? { onClick: () => router.push(`/riders/${riderId}`) }
-          : {};
+        const riderOrRaceData = getRiderId(item);
+        // const clickableProps = riderId
+        //   ? { onClick: () => router.push(`/riders/${riderId}`) }
+        //   : {};
+        const clickableProps = riderOrRaceData
+        ? {
+            onClick: () => {
+              if (riderOrRaceData.type === "race") {
+                router.push(`/race-result/${encodeURIComponent(riderOrRaceData.id)}`);
+              } else {
+                router.push(`/riders/${riderOrRaceData.id}`);
+              }
+            }
+          }
+        : {};
         columns.push(
           <h5 key="name" className="rider--name race-name-el " {...clickableProps}>
             <span key="srno" className="sr-no fw-900">
@@ -377,7 +426,7 @@ export default function DynamicSlugPage() {
                 borderRadius: "3px"
               }}
             />
-            <Link href={`/riders/${item?.rider_id}`} className="link fw-900 d-flex flex-column ">
+            {/* <Link href={`/riders/${item?.rider_id}`} className="link fw-900 d-flex flex-column "> */}
 
               <div className="race-title fw-900 text-uppercase">
                 {getItemValue(item, config.itemConfig.name)}
@@ -400,7 +449,7 @@ export default function DynamicSlugPage() {
                   {item?.distance ? ` (${item?.distance} km)` : ""}
                 </div>
               )}
-            </Link>
+            {/* </Link> */}
 
 
           </h5>
@@ -570,10 +619,7 @@ export default function DynamicSlugPage() {
                   <li>
                     <Link href="/">Home</Link>
                   </li>
-                  <li>
-                    <Link href="/stats">Stats</Link>
-                  </li>
-                  <li>{pageHeading}</li>
+                 <li>{pageHeading}</li>
                 </ul>
                 <h1 className="mb-0">{pageHeading}</h1>
               </div>
@@ -614,7 +660,7 @@ export default function DynamicSlugPage() {
                 </div>
               </div>
 
-              <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
+              <div className="col-lg-9 col-md-12 mt-4 slug-table-main">
                 <ul
                   className={`slug-table-head col--${getDynamicHeaders().length
                     }`}

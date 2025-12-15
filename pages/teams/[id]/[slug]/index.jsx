@@ -3,18 +3,46 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { fetchData } from "@/lib/api";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
 import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
 
-// Helper function to get value from item using multiple possible keys
+export async function getServerSideProps(context) {
+  const { year, month } = context.query;
+
+  return {
+    props: {
+      year: year || "",
+    },
+  };
+}
+
+// Helper function to get value from item using multiple possible keys (supports dot notation)
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   for (const key of possibleKeys) {
-    if (item[key] !== undefined && item[key] !== null) {
-      return item[key];
+    // Handle dot notation for nested objects (e.g., "rider.name")
+    if (key.includes(".")) {
+      const keys = key.split(".");
+      let value = item;
+      for (const k of keys) {
+        if (value && value[k] !== undefined && value[k] !== null) {
+          value = value[k];
+        } else {
+          value = null;
+          break;
+        }
+      }
+      if (value !== null && value !== undefined) {
+        return value;
+      }
+    } else {
+      // Handle direct property access
+      if (item[key] !== undefined && item[key] !== null) {
+        return item[key];
+      }
     }
   }
   return defaultValue;
@@ -41,18 +69,6 @@ const getRiderId = (item) => {
   return null;
 };
 
-export async function getServerSideProps(context) {
-  const { year, month } = context.query;
-
-  console.log(year, "contextparams");
-
-  return {
-    props: {
-      year: year || new Date().getFullYear().toString(),
-    },
-  };
-}
-
 export default function DynamicSlugPage({ year }) {
   const router = useRouter();
   const { slug } = router.query;
@@ -62,13 +78,13 @@ export default function DynamicSlugPage({ year }) {
   const [error, setError] = useState(null);
   const [apiTitle, setApiTitle] = useState(null);
   const [selectedYear, setSelectedYear] = useState(
-    year || new Date().getFullYear().toString()
+    year
   );
 
   const [showYearDropdown, setShowYearDropdown] = useState(false);
+  const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
-  const { withoutAllTime } = generateYearOptions();
 
   // Generate year options (current year back to 1990)
   const currentYear = new Date().getFullYear();
@@ -125,8 +141,8 @@ export default function DynamicSlugPage({ year }) {
 
   // Get the appropriate back link based on current URL
   const getBackLink = () => {
-    const { id } = router.query;
-    return `/race-result/${id}`;
+    const { name } = router.query;
+    return `/races/${name}`;
   };
 
   // Get configuration for current slug
@@ -139,7 +155,7 @@ export default function DynamicSlugPage({ year }) {
         itemConfig: {
           name: ["rider_name", "riderName", "name"],
           team: ["team_name", "teamName", "team"],
-          country: ["rider_country", "riderCountry", "country"],
+          country: ["rider_country", "riderCountry", "country","flag"],
           count: ["count", "total"],
         },
       }
@@ -159,116 +175,27 @@ export default function DynamicSlugPage({ year }) {
     try {
       const config = getSlugConfig(slug);
 
+      console.log("config",config);
+
       // Get query parameters from URL
-      const { rider_country, team_name, id } = router.query;
+      const { rider_country, team_name, name, nationality } = router.query;
 
       // Build query parameters object
       const queryParams = {};
       if (selectedYear) queryParams.year = selectedYear;
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
-      if (id) queryParams.id = id;
+      if (nationality) queryParams.nationality = nationality;
       // Hit the API with the slug parameter and query parameters
       const response = await fetchData(config.apiEndpoint, queryParams, {
-        name: id,
+        name: name,
         idType: config.idType,
       });
       if (response && response.data) {
         if (response?.data?.riders) {
           response.data = response?.data?.riders;
         }
-        if (slug === "upcoming-races-last-year-riders") {
-          response.data = response?.data?.races[0]?.last_year_top_riders;
-        }
-        if (slug === "most-win-upcoming-rider-last-year") {
-          response.data = response?.data?.races[0]?.all_time_top_winners;
-        }
-        if (slug === "shortest-races") {
-          response.data = [
-            ...response?.data?.data?.shortest_stage_races,
-            ...response?.data?.data?.shortest_one_day_races,
-          ];
-        }
-        if (slug === "longest-races") {
-          response.data = [
-            ...response?.data?.data?.longest_stage_races,
-            ...response?.data?.data?.longest_one_day_races,
-          ];
-        }
-        if (slug === "team-with-most-consecutive-wins") {
-          response.data = response?.data?.teams;
-        }
-        if (slug === "last-victory") {
-          response.data = response?.data?.data?.raceData;
-        }
-        if (slug === "wins-in-one-day") {
-          response.data = response?.data?.data?.wins;
-        }
-        if (slug === "rider-years-active") {
-          response.data = response?.data?.data?.years_and_teams;
-        }
-        if (slug === "rider-wins-by-season") {
-          response.data = response?.data?.data?.wins_per_season;
-        }
-        if (slug === "rider-best-monument-results") {
-          response.data = response?.data?.data?.best_monument_results;
-        }
-        if (slug === "get-top10-stages-in-grand-tours") {
-          response.data = response?.data?.data?.top_10_stages;
-        }
-        if (slug === "get-rider-longest-no-win-streak") {
-          response.data =
-            response?.data?.data?.longest_streak_without_win?.races_in_streak;
-        }
-        if (slug === "contact-history") {
-          response.data = response?.data?.data?.contracts;
-        }
-        if (slug === "home-country-wins") {
-          response.data = response?.data?.data?.[0]?.races;
-        }
-        if (slug === "get-grand-tours-ridden") {
-          response.data = response?.data?.data?.grand_tours_ridden;
-        }
-        if (slug === "get-rider-most-raced-country") {
-          response.data = response?.data?.data?.raceData;
-        }
-        if (slug === "get-best-stage-result") {
-          response.data = response?.data?.data?.results;
-        }
-        if (slug === "get-first-rank-in-grand-tours") {
-          response.data = response?.data?.data?.first_rank_races;
-        }
-        if (slug === "get-total-racing-days-in-grand-tours") {
-          response.data = response?.data?.data?.grand_tour_racing_days;
-        }
-        if (slug === "get-total-distance-raced-in-grand-tours") {
-          response.data = response?.data?.data?.grand_tour_distance;
-        }
-        if (slug === "get-best-monument-results") {
-          response.data = response?.data?.data?.best_monument_results;
-        }
-        if (slug === "get-best-paris-roubaix-result") {
-          response.data = response?.data?.data?.results;
-        }
-        if (slug === "get-first-rank-in-monuments") {
-          response.data = response?.data?.data?.first_rank_races;
-        }
-        if (slug === "get-best-gc-result") {
-          response.data = response?.data?.best_gc_results;
-        }
-        if (slug === "team-mates") {
-          response.data = response?.data?.data?.teammates;
-        }
-        if (slug === "get-rider-last-place-finishes") {
-          response.data = response?.data?.data?.last_place_finishes;
-        }
-        if (slug === "rider-from-same-home-town") {
-          response.data = response?.data?.data?.others_from_same_birthplace;
-        }
-        if (slug === "race-winners-by-nationality") {
-          response.data = response?.data?.data?.[0]?.riders;
-        }
-        setPageData(response.data);
+       setPageData(response.data);
         // Extract title from API response
         if (response.message) {
           setApiTitle(response.message);
@@ -368,12 +295,30 @@ export default function DynamicSlugPage({ year }) {
   const hasTeamData = (data, config) => {
     return data.some((item) => {
       for (const key of config.itemConfig.team) {
-        if (
-          item[key] !== undefined &&
-          item[key] !== null &&
-          item[key] !== "N/A"
-        ) {
-          return true;
+        // Handle dot notation for nested objects
+        if (key.includes(".")) {
+          const keys = key.split(".");
+          let value = item;
+          for (const k of keys) {
+            if (value && value[k] !== undefined && value[k] !== null) {
+              value = value[k];
+            } else {
+              value = null;
+              break;
+            }
+          }
+          if (value !== null && value !== undefined && value !== "N/A") {
+            return true;
+          }
+        } else {
+          // Handle direct property access
+          if (
+            item[key] !== undefined &&
+            item[key] !== null &&
+            item[key] !== "N/A"
+          ) {
+            return true;
+          }
         }
       }
       return false;
@@ -384,12 +329,30 @@ export default function DynamicSlugPage({ year }) {
   const hasNameData = (data, config) => {
     return data.some((item) => {
       for (const key of config.itemConfig.name) {
-        if (
-          item[key] !== undefined &&
-          item[key] !== null &&
-          item[key] !== "N/A"
-        ) {
-          return true;
+        // Handle dot notation for nested objects (e.g., "rider.name")
+        if (key.includes(".")) {
+          const keys = key.split(".");
+          let value = item;
+          for (const k of keys) {
+            if (value && value[k] !== undefined && value[k] !== null) {
+              value = value[k];
+            } else {
+              value = null;
+              break;
+            }
+          }
+          if (value !== null && value !== undefined && value !== "N/A") {
+            return true;
+          }
+        } else {
+          // Handle direct property access
+          if (
+            item[key] !== undefined &&
+            item[key] !== null &&
+            item[key] !== "N/A"
+          ) {
+            return true;
+          }
         }
       }
       return false;
@@ -399,12 +362,30 @@ export default function DynamicSlugPage({ year }) {
   const hasCountData = (data, config) => {
     return data.some((item) => {
       for (const key of config.itemConfig.count) {
-        if (
-          item[key] !== undefined &&
-          item[key] !== null &&
-          item[key] !== "N/A"
-        ) {
-          return true;
+        // Handle dot notation for nested objects
+        if (key.includes(".")) {
+          const keys = key.split(".");
+          let value = item;
+          for (const k of keys) {
+            if (value && value[k] !== undefined && value[k] !== null) {
+              value = value[k];
+            } else {
+              value = null;
+              break;
+            }
+          }
+          if (value !== null && value !== undefined && value !== "N/A") {
+            return true;
+          }
+        } else {
+          // Handle direct property access
+          if (
+            item[key] !== undefined &&
+            item[key] !== null &&
+            item[key] !== "N/A"
+          ) {
+            return true;
+          }
         }
       }
       return false;
@@ -457,7 +438,6 @@ export default function DynamicSlugPage({ year }) {
                   width: "30px",
                   height: "20px",
                   flexShrink: 0,
-
                 }}
               />
 
@@ -486,7 +466,6 @@ export default function DynamicSlugPage({ year }) {
                   height: "20px",
                   marginRight: "10px",
                   flexShrink: 0,
-
                 }}
               />
               <span>{getItemValue(item, config.itemConfig.team)}</span>
@@ -523,7 +502,7 @@ export default function DynamicSlugPage({ year }) {
       return (
         <li
           key={item._id || item.id || index}
-          className={`content-item ctm-head-heading hoverState-li table_cols_list d col--${columns.length}`}
+          className={`content-item ctm-head-heading hoverState-li dd table_cols_list col--${columns.length}`}
         >
           {columns}
         </li>
@@ -622,7 +601,7 @@ export default function DynamicSlugPage({ year }) {
         <title>{pageTitle}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <section className="slug-main-section ppp">
+      <section className="slug-main-section">
         <div className="dropdown-overlay"></div>
 
         <section className="riders-sec1 pt-161px">

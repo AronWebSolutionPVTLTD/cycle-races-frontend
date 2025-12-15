@@ -95,16 +95,11 @@ export default function TeamDetail({ initialTeam }) {
 
       if (response && response.status === true && response.data) {
         const headerInfo = response.data;
-        console.log("Header Info extracted:", headerInfo);
-        setHeaderData(headerInfo);
-
+         setHeaderData(headerInfo);
         // Fetch team active years if team_id is available
-        if (headerInfo.team_id) {
-          fetchTeamActiveYears(headerInfo.team_id);
+        if (headerInfo.team_name) {
+          fetchTeamActiveYears(headerInfo.team_name);
         }
-      
-        
-
         setError(null);
       } else {
         throw new Error("Team not found");
@@ -216,7 +211,7 @@ export default function TeamDetail({ initialTeam }) {
                     />
                     <ul className="plyr-dtls d-flex d-md-none mobile_plyr-dtls">
                       <li className="country"> <Flag
-                        code={teamFlag.toUpperCase()}
+                        code={teamFlag?.toUpperCase()}
                         style={{ width: "20px", height: "20px", marginRight: "0",borderRadius: "2px" }}
                       /> {teamCountry}</li>
                       <li className="age">SINCE {teamFounded || "..."}</li>
@@ -228,7 +223,7 @@ export default function TeamDetail({ initialTeam }) {
               </div>
               <ul className="plyr-dtls d-md-flex d-none">
                 <li className="country"><Flag
-                        code={teamFlag.toUpperCase()}
+                        code={teamFlag?.toUpperCase()}
                         style={{ width: "20px", height: "20px", marginRight: "0",borderRadius: "3px" }} /> {teamCountry}</li>
                 <li className="age">SINCE {teamFounded || "..."}</li>
               </ul>
