@@ -120,10 +120,10 @@ export default function TeamDetail({ initialTeam }) {
   useEffect(() => {
     if (router.isReady) {
       setIsRouterReady(true);
-      const { id } = router.query;
+      const { name } = router.query;
 
-      if (id) {
-        const teamSlug = id;
+      if (name) {
+        const teamSlug = name;
         fetchTeamHeaderInfo(teamSlug);
       } else {
         setError("No team name found in URL");
@@ -254,15 +254,15 @@ export default function TeamDetail({ initialTeam }) {
             <TeamFirstSection
               teamId={headerData?.team_id}
               teamName={headerData?.team_name}
-              teamSlug={router.query.id}
+              teamSlug={router.query?.name}
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
-              } />
+              } />  
 
             <TeamSecondSection
               teamId={headerData?.team_id}
               teamName={headerData?.team_name}
-              teamSlug={router.query.id}
+              teamSlug={router.query?.name}
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
               }
@@ -275,7 +275,7 @@ export default function TeamDetail({ initialTeam }) {
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
               }
-            />
+            /> 
           </div>
         </div>
       </section>
@@ -284,7 +284,7 @@ export default function TeamDetail({ initialTeam }) {
 }
 
 export async function getServerSideProps(context) {
-  const { id } = context.params;
+  const { name } = context.params;
   return {
     props: {
       initialTeam: null,

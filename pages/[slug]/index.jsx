@@ -9,6 +9,7 @@ import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { generateYearOptions } from "@/components/GetYear";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
+import { getTeamId } from "../getId";
 
 // Helper function to get value from item using multiple possible keys
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
@@ -458,13 +459,19 @@ export default function DynamicSlugPage() {
 
       // TEAM column - only add if team data exists
       if (teamDataExists) {
+        const teamId = getTeamId(item);
+        console.log("teamId", teamId);
+        const teamClickableProps = teamId 
+          ? { href: `/teams/${encodeURIComponent(teamId)}` } 
+          : {};
+      
         // If no name data exists, show flag with team
         if (!nameDataExists) {
           columns.push(
-            <h5 key="name" className="rider--name race-name-el">
-              <span key="srno" className="sr-no">
-                {index + 1}.
-              </span>
+            <h5 key="name" className="rider--name">
+               <span key="srno" className="sr-no fw-900">
+              {index + 1}.
+            </span>
               <Flag
                 code={getCountryCode(item, config)}
                 style={{
@@ -472,17 +479,28 @@ export default function DynamicSlugPage() {
                   height: "20px",
                   marginRight: "10px",
                   flexShrink: 0,
-                  borderRadius: "3px"
                 }}
               />
-              <a>{getItemValue(item, config.itemConfig.team)}</a>
+              {teamId ? (
+                <Link {...teamClickableProps} className="link">
+                  {getItemValue(item, config.itemConfig.team)}
+                </Link>
+              ) : (
+                <span>{getItemValue(item, config.itemConfig.team)}</span>
+              )}
             </h5>
           );
         } else {
           // If name data exists, show team without flag (flag is already shown with name)
           columns.push(
             <div key="team" className="team-name">
-              {getItemValue(item, config.itemConfig.team)}
+              {teamId ? (
+                <Link {...teamClickableProps} className="link">
+                  {getItemValue(item, config.itemConfig.team)}
+                </Link>
+              ) : (
+                getItemValue(item, config.itemConfig.team)
+              )}
             </div>
           );
         }

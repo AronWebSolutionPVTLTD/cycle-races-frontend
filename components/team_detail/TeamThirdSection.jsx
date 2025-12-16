@@ -184,7 +184,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             {/* Box2:Total Wins per year */}
             <div className="col-lg-4 col-md-6">
               <div className="team-cart">
-                <Link href={buildUrlWithParams("rider-years-active")} className="pabs" />
+                <Link href={buildUrlWithParams("total-wins-per-year")} className="pabs" />
 
                 <div className="text-wraper">
 
@@ -213,7 +213,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
 
                         <Link
-                          href={buildUrlWithParams("rider-years-active")}
+                          href={buildUrlWithParams("total-wins-per-year")}
                           className="green-circle-btn"
                         >
                           <img src="/images/arow.svg" alt="" />
@@ -228,7 +228,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             {/* Box3:Rider with most uci points  */}
             <div className="col-lg-4 col-md-6">
               <div className="team-cart lime-green-team-cart img-active team-cart-extra">
-                <Link href={buildUrlWithParams("rider-with-most-wins")} className="pabs" />
+                <Link href={buildUrlWithParams("rider-with-most-uci-points")} className="pabs" />
 
                 <div className="text-wraper">
 
@@ -255,7 +255,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                     return (
                       <>
                         
-                        <div className="name-wraper name-wraper-white name-left">
+                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                           {renderFlag(rider?.rider_country)}
                           <h6>{rider?.rider_name}</h6>
                         </div>
@@ -267,7 +267,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                        
                         <Link
-                          href={buildUrlWithParams("rider-with-most-wins")}
+                          href={buildUrlWithParams("rider-with-most-uci-points")}
                           className="white-circle-btn"
                         >
                           <img src="/images/arow.svg" alt="" />

@@ -9,6 +9,8 @@ import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
+import { FaCommentsDollar } from "react-icons/fa";
+import { getItemId, getTeamId } from "@/pages/getId";
 
 export async function getServerSideProps(context) {
   const { year, month } = context.query;
@@ -54,20 +56,20 @@ const getCountryCode = (item, config) => {
   return country.toUpperCase();
 };
 
-const getRiderId = (item) => {
-  const keys = ["rider_id", "riderId", "_id", "id", "rider_key"];
-  for (const key of keys) {
-    if (
-      item &&
-      item[key] !== undefined &&
-      item[key] !== null &&
-      item[key] !== ""
-    ) {
-      return item[key];
-    }
-  }
-  return null;
-};
+// const getRiderId = (item) => {
+//   const keys = ["rider_id", "riderId", "_id", "id", "rider_key"];
+//   for (const key of keys) {
+//     if (
+//       item &&
+//       item[key] !== undefined &&
+//       item[key] !== null &&
+//       item[key] !== ""
+//     ) {
+//       return item[key];
+//     }
+//   }
+//   return null;
+// };
 
 export default function DynamicSlugPage({ year }) {
   const router = useRouter();
@@ -155,7 +157,7 @@ export default function DynamicSlugPage({ year }) {
         itemConfig: {
           name: ["rider_name", "riderName", "name"],
           team: ["team_name", "teamName", "team"],
-          country: ["rider_country", "riderCountry", "country","flag"],
+          country: ["rider_country", "riderCountry", "country"],
           count: ["count", "total"],
         },
       }
@@ -175,8 +177,6 @@ export default function DynamicSlugPage({ year }) {
     try {
       const config = getSlugConfig(slug);
 
-      console.log("config",config);
-
       // Get query parameters from URL
       const { rider_country, team_name, name, nationality } = router.query;
 
@@ -186,22 +186,64 @@ export default function DynamicSlugPage({ year }) {
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
       if (nationality) queryParams.nationality = nationality;
+
+      console.log("config", config);
       // Hit the API with the slug parameter and query parameters
       const response = await fetchData(config.apiEndpoint, queryParams, {
         name: name,
         idType: config.idType,
       });
+      console.log("response", response);
       if (response && response.data) {
         if (response?.data?.riders) {
           response.data = response?.data?.riders;
         }
-       setPageData(response.data);
+        if (slug === "rider-with-most-wins-in-team-history") {
+          response.data = response?.data?.list;
+        }
+        if (slug === "last-victories") {
+          response.data = response?.data?.last_victories;
+        }
+        if (slug === "amount-of-classic-wins") {
+          response.data = response?.data?.classics;
+        }
+        if (slug === "grand-tour-wins") {
+          response.data = response?.data?.wins;
+        }
+        if (slug === "current-uci-team-ranking") {
+          response.data = response?.data?.wins;
+        }
+        if (slug === "last-10-wins") {
+          response.data = response?.data?.wins;
+        }
+        if (slug === "best-monuments-results") {
+          response.data = response?.data?.best_monument_results;
+        }
+        if (slug === "most-successful-race") {
+          response.data = response?.data?.all_race_victories;
+        }
+        if (slug === "different-nationalities") {
+          response.data = response?.data?.different_nationality_riders;
+        }
+        if (slug === "total-wins-per-year") {
+          response.data = response?.data?.wins[0]?.stages
+        }
+
+        setPageData(response.data);
         // Extract title from API response
         if (response.message) {
           setApiTitle(response.message);
         }
         setError(null);
-      } else {
+      }
+      else if (response && response.podiums) {
+        setPageData(response.podiums);
+        if (response.message) {
+          setApiTitle(response.message);
+        }
+        setError(null);
+      }
+      else {
         setError("No data found for this category");
       }
     } catch (err) {
@@ -421,17 +463,25 @@ export default function DynamicSlugPage({ year }) {
       // );
 
       // NAME column with flag - only add if name data exists
+      const queryParams = [];
+      if (selectedYear) queryParams.push(`year=${selectedYear}`);
+      const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+
       if (nameDataExists) {
-        const riderId = getRiderId(item);
-        const clickableProps = riderId
-          ? { onClick: () => router.push(`/riders/${riderId}`) }
-          : {};
+
+        const riderOrRaceData = getItemId(item);
+        console.log("riderOrRaceData", riderOrRaceData);
+        // const clickableProps = riderId
+        //   ? { onClick: () => router.push(`/riders/${riderId}`) }
+        //   : {};
+        const clickableProps = riderOrRaceData.type === "race" ? { href: `/race-result/${encodeURIComponent(riderOrRaceData.id)}${queryString}` } : { href: `/riders/${encodeURIComponent(riderOrRaceData.id)}${queryString}` }
+
         columns.push(
-          <h5 key="name" className="rider--name" {...clickableProps}>
+          <h5 key="name" className="rider--name">
             <span key="srno" className="sr-no">
               {index + 1}.
             </span>
-            <Link href={`/riders/${riderId}`} className="link">
+            <Link {...clickableProps} className="link">
               <Flag
                 code={getCountryCode(item, config)}
                 style={{
@@ -480,7 +530,7 @@ export default function DynamicSlugPage({ year }) {
           );
         }
       }
-
+     
       // AGE column (if specified in config)
       if (config.headers.includes("AGE") && config.itemConfig.age) {
         columns.push(
@@ -613,7 +663,7 @@ export default function DynamicSlugPage({ year }) {
                     <Link href="/">Home</Link>
                   </li>
                   <li>
-                    <Link href="/stats">Stats</Link>
+                    <Link href="/teams">Teams</Link>
                   </li>
                   <li>{pageHeading}</li>
                 </ul>

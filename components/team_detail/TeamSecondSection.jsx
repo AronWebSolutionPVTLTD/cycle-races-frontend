@@ -171,7 +171,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-white name-left">
+                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                           {renderFlag(rider?.nationality || rider?.country || rider?.flag)}
                           <h6>{rider?.rider || rider?.rider_name || rider?.riderName || rider?.name || "..."}</h6>
                         </div>
@@ -201,7 +201,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             {/* best monument results of team */}
             <div className="col-lg-3 col-md-6 ">
               <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
-                <Link href={buildUrlWithParams("best-monument-results-of-team")} className="pabs" />
+                <Link href={buildUrlWithParams("best-monuments-results")} className="pabs" />
                 {getBoxData(fixedApis.box2).error ? (
                   <ErrorMessage
                     errorType={getBoxData(fixedApis.box2).errorType}
@@ -222,7 +222,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                           .map((victory, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-white">
-                                <Link href={`/races/${victory?.race_id}?year=${victory?.year}`} className="pabs" />
+                                <Link href={`/races/${victory?.race}`} className="pabs" />
                                 {renderFlag(victory?.country)}
                                 <h6 className="clamp-text">
                                   {victory?.race || "..."}
@@ -235,7 +235,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     <div className="image_link-wraper">
                       <div className="link_box">
-                        <Link href={buildUrlWithParams("best-monument-results-of-team")} className="green-circle-btn">
+                        <Link href={buildUrlWithParams("best-monument-results")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
                         </Link>
                       </div>
@@ -249,7 +249,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             {/* RiderWithLongestTeam */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart team-cart-extra">
-                <Link href={buildUrlWithParams("rider-with-longest-team")} className="pabs" />
+                <Link href={buildUrlWithParams("rider-longest-with-the-team")} className="pabs" />
                 <div className="text-wraper">
                   <h4>
                     {data?.[fixedApis.box3]?.message}
@@ -275,7 +275,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-white name-left">
+                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                           {renderFlag(rider?.riderCountry || rider?.country_code || rider?.country || rider?.flag)}
                           <h6>{rider?.riderName || rider?.rider_name || rider?.name || "..."}</h6>
                         </div>
@@ -284,7 +284,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                             <strong>{rider.yearsWithTeam}</strong> YEARS
                           </h5>
                         )}
-                        <Link href={buildUrlWithParams("rider-with-longest-team")} className="green-circle-btn">
+                        <Link href={buildUrlWithParams("rider-longest-with-the-team")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
                         </Link>
                         <div className="image_link-wraper team-card-img">
@@ -356,7 +356,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                           .map((podium, index) => (
                             <li key={index}>
                               <span>{index + 1}</span>
-                              <Link href={`/races/${podium?.race_id}?year=${podium?.race_year}`}>
+                              <Link href={`/races/${podium?.race_name}`}>
                                 <div className="name-wraper name-wraper-white">
                                   {renderFlag(podium?.race_country || podium?.country)}
                                   <h6>
@@ -401,7 +401,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                 {/* rider with most races  */}
                 <div className="col-lg-7 col-md-6 ">
                   <div className="team-cart lime-green-team-cart img-active team-cart-extra">
-                    <Link href={buildUrlWithParams("riders-with-most-races")} className="pabs" />
+                    <Link href={buildUrlWithParams("rider-with-most-races")} className="pabs" />
                     <div className="text-wraper">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box6]?.message}
@@ -425,7 +425,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         return (
                           <>
-                            <div className="name-wraper name-wraper-white name-left">
+                            <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                               {renderFlag(rider?.nationality || rider?.country_code || rider?.country || rider?.flag)}
                               <h6>{rider?.name || rider?.rider_name || rider?.riderName || "..."}</h6>
                             </div>
@@ -434,7 +434,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                                 <strong>{rider.total_races}</strong> RACES
                               </h5>
                             )}
-                            <Link href={buildUrlWithParams("riders-with-most-races")} className="white-circle-btn">
+                            <Link href={buildUrlWithParams("rider-with-most-races")} className="white-circle-btn">
                               <img src="/images/arow.svg" alt="" />
                             </Link>
                             <div className="image_link-wraper team-card-img">
@@ -477,7 +477,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         return (
                           <>
-                            <div className="name-wraper name-wraper-white name-left">
+                            <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                               {renderFlag(rider?.nationality || rider?.country_code || rider?.country || rider?.flag)}
                               <h6>{rider?.name || rider?.rider_name || rider?.riderName || "..."}</h6>
                             </div>
@@ -507,7 +507,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                 {/* Most successfull race */}
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart">
-                    <Link href={buildUrlWithParams("most-successful-races")} className="pabs" />
+                    <Link href={buildUrlWithParams("most-successful-race")} className="pabs" />
                     <div className="text-wraper">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box8]?.message}
@@ -532,7 +532,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         return (
                           <>
-                            <div className="name-wraper name-wraper-white name-left">
+                            <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${mostSuccessfulRace?.race_name}`)}>
                               {renderFlag(countryCode)}
                               <h6>{mostSuccessfulRace?.race_name || "..."}</h6>
                             </div>
@@ -541,7 +541,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                                 <strong>{mostSuccessfulRace.total_wins}</strong> WINS
                               </h5>
                             )}
-                            <Link href={buildUrlWithParams("most-successful-races")} className="green-circle-btn">
+                            <Link href={buildUrlWithParams("most-successful-race")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="arrow" />
                             </Link>
                           </>

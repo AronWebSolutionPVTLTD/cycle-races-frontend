@@ -9,19 +9,19 @@ import RiderSecondSection from "@/components/rider_detail/RiderSecondSection";
 import RiderThirdSection from "@/components/rider_detail/RiderThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
-export default function RiderDetail({ initialRider }) {
+export default function RiderDetail({ year, initialRider }) {
   const router = useRouter();
   const [isRouterReady, setIsRouterReady] = useState(false);
   const [rider, setRider] = useState(initialRider || null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filterYear, setFilterYear] = useState("All-time");
+  const [filterYear, setFilterYear] = useState(year || "All-time");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
   const [dynamicYears, setDynamicYears] = useState([]);
   const [yearsLoading, setYearsLoading] = useState(false);
-console.log("initialRider",initialRider);
+  console.log("initialRider", initialRider);
   // Available filter options
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions = dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
@@ -75,7 +75,7 @@ console.log("initialRider",initialRider);
     try {
       setYearsLoading(true);
       const response = await callAPI("GET", `/rider-stats/${riderId}/getRiderActiveYears`);
-      
+
       if (response && response.data.data.years) {
         const years = response.data.data.years;
         setDynamicYears(years);
@@ -131,7 +131,7 @@ console.log("initialRider",initialRider);
         const riderData = response.data.data;
         setRider(riderData);
       } else {
-      throw new Error("Invalid response format from API");
+        throw new Error("Invalid response format from API");
       }
     } catch (err) {
       console.error("Error fetching rider details:", err);
@@ -296,7 +296,7 @@ console.log("initialRider",initialRider);
       <section className="rider-details-sec">
         <div className="container">
           <div className="col-lg-12">
-              <ul className="filter">
+            <ul className="filter">
               <FilterDropdown
                 ref={yearDropdownRef}
                 isOpen={showYearDropdown}
@@ -310,7 +310,7 @@ console.log("initialRider",initialRider);
                 includeAllOption={false}
                 classname="year-dropdown"
               />
-                {/* <li className="active">
+              {/* <li className="active">
                   <select
                     value={filterYear}
                     onChange={(e) => setFilterYear(e.target.value)}
@@ -323,20 +323,20 @@ console.log("initialRider",initialRider);
                     ))}
                   </select>
                 </li> */}
-              </ul>
-            </div>
+            </ul>
+          </div>
           <div className="row">
             {/* Random Stats Section */}
-            <RiderFirstSection riderId={rider._id} 
-             filterYear={
-              filterYear !== "All-time" ? filterYear : null
-            }/>
+            <RiderFirstSection riderId={rider._id}
+              filterYear={
+                filterYear !== "All-time" ? filterYear : null
+              } />
 
             <RiderSecondSection riderId={rider._id} filterYear={
               filterYear !== "All-time" ? filterYear : null
-            }/>
+            } />
 
-            <RiderThirdSection riderId={rider._id}filterYear={
+            <RiderThirdSection riderId={rider._id} filterYear={
               filterYear !== "All-time" ? filterYear : null
             } />
           </div>
@@ -348,11 +348,12 @@ console.log("initialRider",initialRider);
 
 // Server-side props function - keep returning null to ensure client-side fetching
 export async function getServerSideProps(context) {
-  const { id } = context.params;
+  const { year } = context.query;
   // We're intentionally returning null to trigger client-side fetching
   return {
     props: {
       initialRider: null,
+      year: year || "All-time",
     },
   };
 }

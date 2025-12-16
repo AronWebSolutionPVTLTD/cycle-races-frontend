@@ -46,8 +46,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
   };
 
   const buildUrlWithParams = (statsPath) => {
-
-    const params = buildQueryParams();
+  const params = buildQueryParams();
     const queryString = Object.keys(params)
       .map(
         (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
@@ -206,7 +205,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             {/* Box3: Rider with Most Wins in Team History  */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active team-cart-extra">
-                <Link href={buildUrlWithParams("rider-with-most-wins")} className="pabs" />
+                <Link href={buildUrlWithParams("rider-with-most-wins-in-team-history")} className="pabs" />
                 <div className="text-wraper">
                   <h4>
                     {data?.[fixedApis.box3]?.message}
@@ -231,7 +230,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-white name-left">
+                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                           {renderFlag(rider?.country_code || rider?.country || rider?.flag)}
                           <h6>{rider?.rider || rider?.rider_name || rider?.riderName || rider?.name || "..."}</h6>
                         </div>
@@ -240,7 +239,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                             <strong>{rider.total || rider.wins}</strong>
                           </h5>
                         )}
-                        <Link href={buildUrlWithParams("rider-with-most-wins")} className="white-circle-btn ">
+                        <Link href={buildUrlWithParams("rider-with-most-wins-in-team-history")} className="white-circle-btn ">
                           <img src="/images/arow.svg" alt="" />
                         </Link>
                         <div className="image_link-wraper team-card-img">
@@ -262,7 +261,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
             <div className="col-lg-3 col-md-6">
               <div className="team-cart team-cart-extra">
-                <Link href={buildUrlWithParams("rider-with-most-classic-wins")} className="pabs" />
+                <Link href={buildUrlWithParams("rider-with-most-classic-wins-in-team-history")} className="pabs" />
                 <div className="text-wraper">
                   <h4>
                     {data?.[fixedApis.box4]?.message}
@@ -287,7 +286,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-white name-left">
+                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderId}`)}>
                           {renderFlag(rider?.riderCountry || rider?.country_code || rider?.country || rider?.flag)}
                           <h6>{rider?.riderName || rider?.rider_name || rider?.name || "..."}</h6>
                         </div>
@@ -296,7 +295,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                             <strong>{rider.totalClassicWins}</strong> wins
                           </h5>
                         )}
-                        <Link href={buildUrlWithParams("rider-with-most-classic-wins")} className="green-circle-btn">
+                        <Link href={buildUrlWithParams("rider-with-most-classic-wins-in-team-history")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
                         </Link>
                         <div className="image_link-wraper team-card-img">
@@ -319,7 +318,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                 {/* last victory */}
                 <div className="col-lg-5 col-md-6 ">
                   <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
-                    <Link href={buildUrlWithParams("rider-last-victories")} className="pabs" />
+                    <Link href={buildUrlWithParams("last-victories")} className="pabs" />
                     {getBoxData(fixedApis.box5).error ? (
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box5).errorType}
@@ -340,7 +339,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                               .map((victory, index) => (
                                 <li key={index}>
                                   <div className="name-wraper name-wraper-white">
-                                    <Link href={`/races/${victory?.race_id}?year=${victory?.year}`} className="pabs" />
+                                    <Link href={`/races/${victory?.race_name}`} className="pabs" />
                                     {renderFlag(victory?.race_country || victory?.country)}
                                     <h6 className="clamp-text">
                                       {victory?.race_name || victory?.race || "..."}{" "}
@@ -358,7 +357,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         <div className="image_link-wraper">
                           <div className="link_box">
-                            <Link href={buildUrlWithParams("rider-last-victories")} className="green-circle-btn">
+                            <Link href={buildUrlWithParams("last-victories")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="" />
                             </Link>
                           </div>
@@ -372,7 +371,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                 {/* ammount of classics wins */}
                 <div className="col-lg-7 col-md-6 ">
                   <div className="team-cart lime-green-team-cart img-active">
-                    <Link href={buildUrlWithParams("total-classic-wins")} className="pabs" />
+                    <Link href={buildUrlWithParams("amount-of-classic-wins")} className="pabs" />
                     <div className="text-wraper">
                       <h4 className="font-size-change">{data?.[fixedApis.box6]?.message}</h4>
                       {(() => {
@@ -395,7 +394,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                             <h5 className="teamcard-number">
                               <strong>{totalClassicWins || 0}</strong>
                             </h5>
-                            <Link href={buildUrlWithParams("total-classic-wins")} className="white-circle-btn">
+                            <Link href={buildUrlWithParams("amount-of-classic-wins")} className="white-circle-btn">
                               <img src="/images/arow.svg" alt="arrow" />
                             </Link>
                           </>
@@ -408,7 +407,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                 {/* grand tour wins  */}
                 <div className="col-lg-7 col-md-6 ">
                   <div className="team-cart">
-                    <Link href={buildUrlWithParams("total-grand-tour-wins")} className="pabs" />
+                    <Link href={buildUrlWithParams("grand-tour-wins")} className="pabs" />
                     <div className="text-wraper">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box7]?.message}
@@ -435,7 +434,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                               <strong>{totalGrandTourWins}</strong>
                             </h5>
 
-                            <Link href={buildUrlWithParams("total-grand-tour-wins")} className="green-circle-btn">
+                            <Link href={buildUrlWithParams("grand-tour-wins")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="" />
                             </Link>
                           </>
@@ -519,7 +518,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                           .map((win, index) => (
                             <li key={index}>
                               <span>{index + 1}</span>
-                              <Link href={`/races/${win?.race_id}?year=${win?.year}`}>
+                              <Link href={`/races/${win?.race_name}`}>
                                 <div className="name-wraper name-wraper-white">
                                   {renderFlag(win?.race_country || win?.country)}
                                   <h6>

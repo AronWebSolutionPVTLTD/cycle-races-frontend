@@ -2,11 +2,7 @@ import Link from "next/link";
 import Flag from "react-world-flags";
 // components/SidebarList.js
 export default function SidebarList({ title, riders, link }) {
-console.log("riders",riders);
-console.log("link",link);
-console.log("title",title);
-
-    return (
+return (
       <div className="list-white-cart">
         <Link href={`/${link}`} className="pabs" />
         <h4>{title}</h4>
