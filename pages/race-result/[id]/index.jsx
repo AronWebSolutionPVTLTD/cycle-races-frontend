@@ -15,8 +15,6 @@ export async function getServerSideProps(context) {
   const { id } = context.params;
   const { year, month, stageNumber, tab } = context.query;
 
-  console.log(id, year, "contextparams");
-
   return {
     props: {
       id,
@@ -33,8 +31,6 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
   const router = useRouter();
   const { id } = router.query;
   const [isRouterReady, setIsRouterReady] = useState(false);
-  console.log(id, year, "routerquery", router.query);
-
   const [race, setRace] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -46,6 +42,10 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
+
+  const [showStageDropdown, setShowStageDropdown] = useState(false);
+  const [stageInput, setStageInput] = useState("");
+  const stageDropdownRef = useRef(null);
 
   const [featuredStats, setFeaturedStats] = useState([]);
   const [loadingFeatured, setLoadingFeatured] = useState(true);
@@ -67,12 +67,18 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     "December",
   ];
   const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedStage, setSelectedStage] = useState(stageNumber || "");
 
   useEffect(() => {
     // Convert "01" to 0 index, "02" to 1, etc.
     const index = parseInt(month, 10) - 1;
     setSelectedMonth(months[index]);
   }, [month]);
+
+  useEffect(() => {
+    // Update selected stage when URL parameter changes
+    setSelectedStage(stageNumber || "");
+  }, [stageNumber]);
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
       return withoutAllTime;
@@ -86,18 +92,73 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     return withoutAllTime;
   };
 
+  const getStageOptions = () => {
+    if (!race?.is_stage_race || !race?.stages || race.stages.length === 0) {
+      return [];
+    }
+    return race.stages.map((stage) => `Stage ${stage.stage_number}`);
+  };
+
+  const getFilteredStages = (searchValue) => {
+    const stages = getStageOptions();
+    if (!searchValue || searchValue.trim() === '') {
+      return stages;
+    }
+    return stages.filter((stage) =>
+      stage.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  };
+
   const handleSelection = (type, value) => {
     switch (type) {
       case "year":
         setSelectedYear(value);
         setYearInput("");
         setShowYearDropdown(false);
+        // Update URL with new year
+        const params = new URLSearchParams();
+        params.set("year", value);
+        if (selectedMonth) {
+          params.set("month", getMonthNumber(selectedMonth).toString());
+        }
+        if (selectedStage) {
+          params.set("stageNumber", selectedStage);
+        }
+        if (tab) {
+          params.set("tab", tab);
+        }
+        router.push(`/race-result/${id}?${params.toString()}`, undefined, { shallow: false });
+        break;
+      case "stage":
+        // Extract stage number from "Stage X" format
+        const stageNum = value.replace("Stage ", "");
+        setSelectedStage(stageNum);
+        setStageInput("");
+        setShowStageDropdown(false);
+        // Update URL with new stage
+        const stageParams = new URLSearchParams();
+        stageParams.set("year", selectedYear);
+        if (selectedMonth) {
+          stageParams.set("month", getMonthNumber(selectedMonth).toString());
+        }
+        if (stageNum) {
+          stageParams.set("stageNumber", stageNum);
+        }
+        if (tab) {
+          stageParams.set("tab", tab);
+        }
+        router.push(`/race-result/${id}?${stageParams.toString()}`, undefined, { shallow: false });
         break;
     }
   };
   const handleYearInputChange = (value) => {
     setYearInput(value);
   };
+
+  const handleStageInputChange = (value) => {
+    setStageInput(value);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -105,6 +166,12 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         !yearDropdownRef.current.contains(event.target)
       ) {
         setShowYearDropdown(false);
+      }
+      if (
+        stageDropdownRef.current &&
+        !stageDropdownRef.current.contains(event.target)
+      ) {
+        setShowStageDropdown(false);
       }
     };
 
@@ -126,12 +193,12 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
       const monthParam = selectedMonth
         ? `&month=${getMonthNumber(selectedMonth)}`
         : "";
+      const stageParam = selectedStage ? `&stageNumber=${selectedStage}` : "";
       const response = await callAPI(
         "GET",
-        `/raceDetailsStats/${raceId}/getRaceDetails?year=${selectedYear}${monthParam}&stageNumber=${stageNumber || ""}&tabName=${tab || ""}`
+        `/raceDetailsStats/${raceId}/getRaceDetails?year=${selectedYear}${monthParam}${stageParam}&tabName=${tab || ""}`
       );
       if (response?.data) {
-        console.log(response.data, "race details response");
         setRace(response.data);
         await fetchFeaturedStats(raceId);
       } else {
@@ -158,16 +225,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
           callAPI("GET", `/stages/${raceId}/getYoungestRiderInRace?year=${selectedYear}`),
           callAPI("GET", `/stages/${raceId}/getBestTeamInRace?year=${selectedYear}`),
         ]);
-
-      console.log(
-        winnersByNationality,
-        oldestRider,
-        youngestRider,
-        bestTeam,
-        "dsf"
-      );
-
-      const stats = [];
+     const stats = [];
 
       // Add winners by nationality if available
       if (winnersByNationality?.data?.data?.length > 0) {
@@ -256,7 +314,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         fetchRaceDetails(id);
       }
     }
-  }, [router.isReady, id, selectedYear]);
+  }, [router.isReady, id, selectedYear, selectedStage]);
 
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
@@ -303,6 +361,22 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
 
     const basePath = `/race-result/${id}/${statsPath}`;
     return queryString ? `${basePath}?${queryString}` : basePath;
+  };
+
+  const handleStageClick = (stageNum) => {
+    setSelectedStage(stageNum.toString());
+    const params = new URLSearchParams();
+    params.set("year", selectedYear);
+    if (selectedMonth) {
+      params.set("month", getMonthNumber(selectedMonth).toString());
+    }
+    if (stageNum) {
+      params.set("stageNumber", stageNum.toString());
+    }
+    if (tab) {
+      params.set("tab", tab);
+    }
+    router.push(`/race-result/${id}?${params.toString()}`, undefined, { shallow: false });
   };
   const getTimeGapDisplay = (baseTime, compareTime) => {
     if (!baseTime || !compareTime) return "";
@@ -353,51 +427,80 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
       <section className="home-banner result-sec1 race-result-page sdsdssd">
         <div className="container">
           <div className="row">
-            <div className="col-lg-12 filter---wrap filter---wrap-race-result">
-              <ul className="filter">
-                <FilterDropdown
-                  ref={yearDropdownRef}
-                  isOpen={showYearDropdown}
-                  toggle={() => setShowYearDropdown(!showYearDropdown)}
-                  options={getFilteredYears(yearInput)}
-                  selectedValue={selectedYear}
-                  placeholder="Year"
-                  onSelect={(value) => handleSelection("year", value)}
-                  onInputChange={handleYearInputChange}
-                  loading={false}
-                  includeAllOption={false}
-                  classname="year-dropdown"
-                />
-                {/* <li className="active">
-                  <select
-                    value={selectedYear}
-                    onChange={handleYearChange}
-                    id="yearSelect"
-                  >
-                    {withoutAllTime.map((year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                </li> */}
-                {/* {months.map((month) => (
-                  <li
-                    key={month}
-                    className={selectedMonth === month ? "active" : ""}
-                  >
-                    <Link
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setSelectedMonth(month);
-                      }}
-                    >
-                      {month}
-                    </Link>
-                  </li>
-                ))} */}
-              </ul>
+            <div className="col-lg-12 filter---wrap filter---wrap-race-result filter---wrapper align-items-end  ">
+              <div className="d-flex flex-wrap gap-2 align-items-start ctm_fliter_wrap">
+             {/* Year Dropdown */}
+                <ul className="filter"> 
+                  <FilterDropdown
+                    ref={yearDropdownRef}
+                    isOpen={showYearDropdown}
+                    toggle={() => setShowYearDropdown(!showYearDropdown)}
+                    options={getFilteredYears(yearInput)}
+                    selectedValue={selectedYear}
+                    placeholder="Year"
+                    onSelect={(value) => handleSelection("year", value)}
+                    onInputChange={handleYearInputChange}
+                    loading={false}
+                    includeAllOption={false}
+                    classname="year-dropdown"
+                  />
+
+                  {/* Desktop Stages Navigation */}
+                {race?.is_stage_race && race?.stages && race.stages.length > 0 && (
+                  <>
+                   <FilterDropdown
+                      ref={stageDropdownRef}
+                      isOpen={showStageDropdown}
+                      toggle={() => setShowStageDropdown(!showStageDropdown)}
+                      options={getFilteredStages(stageInput)}
+                      selectedValue={selectedStage ? `Stage ${selectedStage}` : ""}
+                      placeholder="Stage"
+                      onSelect={(value) => handleSelection("stage", value)}
+                      onInputChange={handleStageInputChange}
+                      loading={false}
+                      includeAllOption={false}
+                      classname="year-dropdown d-xl-none"
+                    />
+                    
+                    {race.stages.map((stage) => {
+                      const isActive = selectedStage && parseInt(selectedStage) === stage.stage_number;
+                      
+                      return (
+                        <button
+                          key={stage.stage_number}
+                          onClick={() => handleStageClick(stage.stage_number)}
+                          className={`stage-button d-xl-inline-flex d-none ${isActive ? "active" : ""}`}
+                          style={{
+                            padding: "0.72rem 0.75rem 0.6875rem",
+                            borderRadius: "3.75rem",
+                            border: "none",
+                            backgroundColor: isActive ? "#2b534d" : "#fff",
+                            color: isActive ? "#f7f6f0" : "#2b534d",
+                            fontFamily: "Roboto",
+                            fontSize: "1rem",
+                            fontWeight: 500,
+                            lineHeight: "1.125rem",
+                            letterSpacing: "-0.022rem",
+                            cursor: "pointer",
+                            transition: "all 0.3s ease",
+                            whiteSpace: "nowrap",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flex: "0 0 auto"
+                          }}
+                        >
+                          Stage {stage.stage_number}
+                        </button>
+                      );
+                    })}
+                    </>
+                )}
+                </ul>
+                
+                
+                </div>
+             
               <div className="col text-end">
                 <Link className="glob-btn green-bg-btn"
                   href={`/races/${encodeURIComponent(id)}`}

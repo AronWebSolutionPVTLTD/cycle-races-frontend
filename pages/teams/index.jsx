@@ -63,7 +63,7 @@ export default function Teams() {
         .then((response) => {
           if (response.status === "success") {
             setTeams(response.data);
-            setFirstTenTeams(response.data.slice(0, 15));
+            setFirstTenTeams(response.data.slice(0, 18));
             setError(null);
           } else {
             setError(response.error || "Failed to load teams");

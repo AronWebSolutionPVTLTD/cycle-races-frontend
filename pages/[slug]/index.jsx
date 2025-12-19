@@ -417,6 +417,7 @@ export default function DynamicSlugPage() {
           <h5 key="name" className="rider--name race-name-el " {...clickableProps}>
             <span key="srno" className="sr-no fw-900">
               {index + 1}.
+
             </span>
             <Flag
               code={getCountryCode(item, config)}
@@ -459,10 +460,11 @@ export default function DynamicSlugPage() {
 
       // TEAM column - only add if team data exists
       if (teamDataExists) {
+   
         const teamId = getTeamId(item);
         console.log("teamId", teamId);
         const teamClickableProps = teamId 
-          ? { href: `/teams/${encodeURIComponent(teamId)}` } 
+          ? { href: `/teams/${encodeURIComponent(teamId)}`} 
           : {};
       
         // If no name data exists, show flag with team
@@ -487,6 +489,7 @@ export default function DynamicSlugPage() {
                 </Link>
               ) : (
                 <span>{getItemValue(item, config.itemConfig.team)}</span>
+
               )}
             </h5>
           );
@@ -514,7 +517,14 @@ export default function DynamicSlugPage() {
           </div>
         );
       }
-
+      // CLASS column (if specified in config)
+    if (config.headers.includes("CLASS") && config.itemConfig.age) {
+        columns.push(
+          <div key="age" className="age">
+            {getItemValue(item, config.itemConfig.age)}
+          </div>
+        );
+      }
       // COUNT column
       if (countDataExists) {
         columns.push(

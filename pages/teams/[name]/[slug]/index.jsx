@@ -10,7 +10,7 @@ import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
 import { FaCommentsDollar } from "react-icons/fa";
-import { getItemId, getTeamId } from "@/pages/getId";
+import { getItemId } from "@/pages/getId";
 
 export async function getServerSideProps(context) {
   const { year, month } = context.query;
@@ -213,7 +213,7 @@ export default function DynamicSlugPage({ year }) {
         if (slug === "current-uci-team-ranking") {
           response.data = response?.data?.wins;
         }
-        if (slug === "last-10-wins") {
+        if (slug === "last-5-wins") {
           response.data = response?.data?.wins;
         }
         if (slug === "best-monuments-results") {
@@ -291,12 +291,12 @@ export default function DynamicSlugPage({ year }) {
 
     if (error) {
       return (
-        <li
+       <div
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red" }}
         >
           Error: {error}
-        </li>
+       </div>
       );
     }
 
@@ -469,33 +469,48 @@ export default function DynamicSlugPage({ year }) {
 
       if (nameDataExists) {
 
-        const riderOrRaceData = getItemId(item);
+        const riderOrRaceData = getItemId(item,config.itemConfig.name);
         console.log("riderOrRaceData", riderOrRaceData);
+
         // const clickableProps = riderId
         //   ? { onClick: () => router.push(`/riders/${riderId}`) }
         //   : {};
-        const clickableProps = riderOrRaceData.type === "race" ? { href: `/race-result/${encodeURIComponent(riderOrRaceData.id)}${queryString}` } : { href: `/riders/${encodeURIComponent(riderOrRaceData.id)}${queryString}` }
+        const clickableProps = riderOrRaceData?.type === "race" ?
+        { href: `/race-result/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` } : 
+        riderOrRaceData?.type === "rider" ? { href: `/riders/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` }
+        : null;
+
+        const nameContent = (
+          <>
+            <Flag
+              code={getCountryCode(item, config)}
+              style={{
+                width: "30px",
+                height: "20px",
+                flexShrink: 0,
+              }}
+            />
+            {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
+              ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+              : ""
+              }`}
+          </>
+        );
 
         columns.push(
           <h5 key="name" className="rider--name">
             <span key="srno" className="sr-no">
               {index + 1}.
             </span>
-            <Link {...clickableProps} className="link">
-              <Flag
-                code={getCountryCode(item, config)}
-                style={{
-                  width: "30px",
-                  height: "20px",
-                  flexShrink: 0,
-                }}
-              />
-
-              {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
-                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                : ""
-                }`}
-            </Link>
+            {clickableProps?.href ? (
+              <Link {...clickableProps} className="link">
+                {nameContent}
+              </Link>
+            ) : (
+              <span>
+                {nameContent}
+              </span>
+            )}
           </h5>
         );
       }
@@ -503,12 +518,19 @@ export default function DynamicSlugPage({ year }) {
       // TEAM column - only add if team data exists
       if (teamDataExists) {
         // If no name data exists, show flag with team
+        const Data = getItemId(item,config.itemConfig.team);
+        const clickableProps = Data?.type === "race" ?
+         { href: `/race-result/${encodeURIComponent(Data?.id)}${queryString}` } : 
+         Data?.type === "rider" ? { href: `/riders/${encodeURIComponent(Data?.id)}${queryString}` } 
+         : 
+         Data?.type === "team" ?
+          { href: `/teams/${encodeURIComponent(Data?.id)}${queryString}` } :
+          null ;
+
+        console.log("clickableProps", clickableProps);
         if (!nameDataExists) {
-          columns.push(
-            <h5 key="name" className="rider--name">
-              <span key="srno" className="sr-no">
-                {index + 1}.
-              </span>
+          const teamContent = (
+            <>
               <Flag
                 code={getCountryCode(item, config)}
                 style={{
@@ -519,13 +541,39 @@ export default function DynamicSlugPage({ year }) {
                 }}
               />
               <span>{getItemValue(item, config.itemConfig.team)}</span>
+            </>
+          );
+
+          columns.push(
+            <h5 key="name" className="rider--name">
+              <span key="srno" className="sr-no">
+                {index + 1}.
+              </span>
+              {clickableProps?.href ? (
+                <Link {...clickableProps} className="link">
+                  {teamContent}
+                </Link>
+              ) : (
+                <span>
+                  {teamContent}
+                </span>
+              )}
             </h5>
           );
         } else {
           // If name data exists, show team without flag (flag is already shown with name)
+          const teamValue = getItemValue(item, config.itemConfig.team);
           columns.push(
-            <div key="team" className="team-name">
-              {getItemValue(item, config.itemConfig.team)}
+           <div key="team" className="team-name rider--name">
+              {clickableProps?.href ? (
+                <Link {...clickableProps} className="link">
+                  {teamValue}
+                </Link>
+              ) : (
+                <span>
+                  {teamValue}
+                </span>
+              )}
             </div>
           );
         }

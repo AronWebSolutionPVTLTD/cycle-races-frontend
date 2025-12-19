@@ -222,7 +222,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                           .map((victory, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-white">
-                                <Link href={`/races/${victory?.race}`} className="pabs" />
+                                <Link href={`/race-result/${victory?.race}`} className="pabs" />
                                 {renderFlag(victory?.country)}
                                 <h6 className="clamp-text">
                                   {victory?.race || "..."}
@@ -335,7 +335,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             {/* last10PoduimsSpots */}
             <div className="col-lg-5 col-md-12">
               <div className="list-white-cart lime-green-cart ctm-card">
-                <Link href={buildUrlWithParams("last-10-podium-spots")} className="pabs" />
+                <Link href={buildUrlWithParams("last-5-podium-spots")} className="pabs" />
                 {getBoxData(fixedApis.box5).error ? (
                   <ErrorMessage
                     errorType={getBoxData(fixedApis.box5).errorType}
@@ -381,7 +381,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                         className="absolute-img"
                       />
                       <div className="link_box">
-                        <Link href={buildUrlWithParams("last-10-podium-spots")} className="glob-btn">
+                        <Link href={buildUrlWithParams("last-5-podium-spots")} className="glob-btn">
                           <strong>volledige stats</strong>{" "}
                           <span>
                             <img src="/images/arow.svg" alt="" />
@@ -532,7 +532,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         return (
                           <>
-                            <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${mostSuccessfulRace?.race_name}`)}>
+                            <div className="name-wraper name-wraper-white name-left widthset" onClick={() => router.push(`/races/${mostSuccessfulRace?.race_name}`)}>
                               {renderFlag(countryCode)}
                               <h6>{mostSuccessfulRace?.race_name || "..."}</h6>
                             </div>

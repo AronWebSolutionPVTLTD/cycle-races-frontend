@@ -143,9 +143,16 @@ export default function HeadToHead() {
       "jul", "aug", "sep", "oct", "nov", "dec"
     ];
 
+    const capitalizeMonth = (monthName) => {
+      return monthName.charAt(0).toUpperCase() + monthName.slice(1);
+    };
+
     const parse = (d) => {
-      const [day, month] = d.split(".");
-      return { day: parseInt(day, 10), month: parseInt(month, 10) };
+      const parts = d.split(".");
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10);
+      const year = parts[2] ? parts[2] : null;
+      return { day, month, year };
     };
 
     if (dateStr.includes(" - ")) {
@@ -153,18 +160,23 @@ export default function HeadToHead() {
       const s = parse(start);
       const e = parse(end);
 
-      if (s.month === e.month) {
-        return { start: `${s.day} ${monthNames[s.month - 1]}`, end: null };
+      const startYear = s.year ? ` '${s.year}` : "";
+      const endYear = e.year ? ` ${e.year}` : "";
+
+      if (s.month === e.month && s.year === e.year) {
+        return { start: `${s.day} ${capitalizeMonth(monthNames[s.month - 1])}${startYear}`, end: null };
       } else {
         return {
-          start: `${s.day} ${monthNames[s.month - 1]}`,
-          end: null,
+          start: `${s.day} ${capitalizeMonth(monthNames[s.month - 1])}${startYear}`,
+          end: `${e.day} ${capitalizeMonth(monthNames[e.month - 1])}${endYear}`,
         };
       }
     } else {
-      const d = parseInt(dateStr.split(".")[0], 10);
-      const m = parseInt(dateStr.split(".")[1], 10);
-      return { start: `${d} ${monthNames[m - 1]}`, end: null };
+      const parts = dateStr.split(".");
+      const d = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      const year = parts[2] ? ` '${parts[2]}` : "";
+      return { start: `${d} ${capitalizeMonth(monthNames[m - 1])}${year}`, end: null };
     }
   }
 
@@ -340,7 +352,8 @@ export default function HeadToHead() {
     return filteredData.map((race, index) => {
       // Format date with month names (like "17 sep" or "31 May")
       const { start, end } = race?.date ? convertDateRange(race.date) : { start: null, end: null };
-
+console.log("race", race.date);
+console.log(start, end,"dshdf");
       // Build race URL if race_id exists
       const raceDate = race?.date?.split(".") || [];
       const year = raceDate[2] || race?.year || "";

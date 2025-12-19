@@ -320,7 +320,7 @@ footer {
 
   .footer-content-wraper {
     display: block;
-    padding: 0 15px;
+    // padding: 0 15px;
 
     p {
       color: #fff;
@@ -4005,9 +4005,9 @@ section.riders-sec2 ul.ctm-head-heading {
   color: #2B534D !important;
 }
 
-// .container {
-//   max-width: 1336px;
-// }
+.container {
+  max-width: 1336px;
+}
 
 .rider--name .link {
   position: relative;
@@ -4620,9 +4620,9 @@ input.glob-btn.contact-global-btn:hover {
   background: #638c87;
 }
 
-.footer-bottom-content-wraper {
-  padding: 0 15px;
-}
+// .footer-bottom-content-wraper {
+//   padding: 0 15px;
+// }
 
 .filter---wrap-race-result {
   margin-bottom: 3rem;
@@ -4896,4 +4896,9 @@ ul.slug-table-head.head-to-head .rider-col {
 .head-to-head-main .date-col {
   flex: 0 0 80px !important;
   color: #8E998F;
+}
+@media ( max-width: 1336px ){
+  .container, .row {
+   --bs-gutter-x: 3rem;
+  }
 }

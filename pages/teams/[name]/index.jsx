@@ -205,7 +205,7 @@ export default function TeamDetail({ initialTeam }) {
                 ) : (
                   <div className="hdr-img_wrap">
                     <img
-                      src="/images/player6.png"
+                      src="/images/jersey1.png"
                       alt=""
                       className="absolute-img"
                     />

@@ -34,7 +34,6 @@ export default function Riders() {
       victoryRanking: "/riders/victoryRanking",
     },
   });
-  console.log("sidebarsData",sidebarsData);
 
   useEffect(() => {
     fetchRiders();
