@@ -988,7 +988,7 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                <div className="row align-items-center sdsd bts__wrap">
+                <div className="row align-items-center sdsd bts__wrap bts__wrap_ctm">
                   <div className="col">
                     <ul className="filter">
                       <FilterDropdown
@@ -1006,23 +1006,8 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
                       />
                     </ul>
                   </div>
-                  {/* <div className="col text-end">
-                    <Link className="glob-btn green-bg-btn" href="/stats">
-                      <strong>ALLE STATS</strong>
-                      <span className="green-circle-btn green-circle-btn-2">
-                        <img alt="" src="/images/arow.svg" />
-                      </span>
-                    </Link>
-                  </div> */}
-                </div>
-              </div>
-
-
-
-              <div className="col-lg-9 col-md-12 mt-4 slug-table-main rider-results-this-year">
-
-                {isRiderResults && (
-                  <div className="results-summary d-flex gap-3 align-items-center mb-5 mb-md-0">
+                  {isRiderResults && (
+                  <div className="results-summary d-flex gap-3 align-items-center">
 
                     <div className="stat-item wins">
                       <strong>WINS</strong>
@@ -1045,9 +1030,20 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
 
                   </div>
                 )}
+                  {/* <div className="col text-end">
+                    <Link className="glob-btn green-bg-btn" href="/stats">
+                      <strong>ALLE STATS</strong>
+                      <span className="green-circle-btn green-circle-btn-2">
+                        <img alt="" src="/images/arow.svg" />
+                      </span>
+                    </Link>
+                  </div> */}
+                </div>
+              </div>
 
 
 
+              <div className="col-lg-9 col-md-12 mt-4 slug-table-main rider-results-this-year">
                 <ul
                   className={`slug-table-head  ${riderFromSameHomeTown && "slug-table-head-riderhome"} ${teamMates && "slug-table-head-teamMates"} ${getBestGCResult && "slug-table-head-gbst"} ${getBestParisRoubaixResult && "slug-table-head-gbst"} ${getBestMonumentResults && "slug-table-head-getBESTMONUMENTRESULTS"} ${isGetTotalDistanceRacedInGrandTours && "slug-table-head-getTOTALdistance"} ${getTotalRacingDaysInGrandTours && "slug-table-head-getTRCDAYS"} ${isGetRiderAllVicories && "slug-tablehead-isGetRiderAllVicories"}  ${isRiderResults && "slug-table-head-isRiderResults"} ${isRiderLastVictories && "rider-victoryhead"} ${isGetTop10StagesInGrandTours && "slug-table-head-getTop10StagesInGrandTours"} ${isGetRiderFirstWin && "slug-table-head-getRiderFirstWin"} 
                    sdsd col--${getDynamicHeaders().length}`}

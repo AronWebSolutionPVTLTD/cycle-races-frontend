@@ -380,9 +380,7 @@ export default function DynamicSlugPage() {
 
   // Render list content with configuration
   const renderListContent = (data, config) => {
-    console.log("check diffrent", data);
-
-    // Check if team data exists
+  // Check if team data exists
     const teamDataExists = hasTeamData(data, config);
     // Check if name data exists
     const nameDataExists = hasNameData(data, config);
@@ -462,7 +460,6 @@ export default function DynamicSlugPage() {
       if (teamDataExists) {
    
         const teamId = getTeamId(item);
-        console.log("teamId", teamId);
         const teamClickableProps = teamId 
           ? { href: `/teams/${encodeURIComponent(teamId)}`} 
           : {};

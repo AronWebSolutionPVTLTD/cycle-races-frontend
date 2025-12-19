@@ -1310,18 +1310,18 @@ section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hove
 }
 
 .isRiderResults-wraper img {
-  max-width: 9.875rem;
-  max-height: 12.1875rem;
+  max-width: 100%;
+  max-height: unset;
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 
 .isRiderResults-wraper .hdr-img_wrap {
-  flex: 0 0 150px;
+  flex: 0 0 185px;
 }
 
 .isRiderResults-wraper h1 {
-  flex: 0 0 calc(100% - 150px);
+  flex: 0 0 calc(100% - 185px);
   padding: 0 !important;
   margin: 0 !important;
 }
@@ -1764,3 +1764,21 @@ section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hove
   }
 }
 
+.bts__wrap_ctm {
+  justify-content: flex-start;
+}
+
+.bts__wrap_ctm .filter-dropdown-list.year-dropdown {
+  min-height: 46px;
+  display: flex;
+}
+
+.bts__wrap_ctm .results-summary {
+  margin-bottom: 0 !important;
+}
+@media ( max-width: 767px ) {
+  .bts__wrap_ctm .col {
+    padding: 0;
+    margin-bottom: 15px;
+  }
+}

@@ -204,8 +204,7 @@ const FirstSection = () => {
                       )
                         .slice(1)
                         .map((result, index) => {
-                          console.log(result)
-                          const { start, end } = convertDateRange(result?.date);
+                         const { start, end } = convertDateRange(result?.date);
                           return (
                             <li className="hoverState-li custom-list-el" key={index}>
                               <Link href={`/races/${result?.raceName}`} className="pabs" />
@@ -234,12 +233,13 @@ const FirstSection = () => {
                               {result?.result[0]?.rider &&
                                 <h6>
                                   {renderFlag(result?.result[0]?.riderCountry)}
-                                  <a href="#?">{result?.result[0]?.rider}</a>
+                                  <a href={`/riders/${result?.result[0]?.rider_id}`}>{result?.result[0]?.rider}</a>
                                 </h6>}
-                              {result?.result[0]?.team && <h6>{result?.result[0]?.team}</h6>}
+                              {result?.result[0]?.team && <h6>
+                                <a href={`/teams/${result?.result[0]?.team}`}>{result?.result[0]?.team} </a></h6>}
                               <Link
                                 href={`/races/${result?.raceName}`}
-                                className="r-details"
+                                className="r-details "
                               >
                                 <img src="/images/hover-arow.svg" alt="" />
                               </Link>
