@@ -88,7 +88,7 @@ const StatsFirstSection = ({
               {/* Box 1 - Youngest Rider */}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart lime-green-cart 11 ctm-card">
-                  <Link href={buildUrlWithParams("/stats/most-wins")} className="pabs" />
+                  <Link href={buildUrlWithParams("/stats/most-races-won")} className="pabs" />
 
                   {getBoxData(fixedApis.box1).error ? (
                     <ErrorMessage
@@ -129,7 +129,7 @@ const StatsFirstSection = ({
                         />
                         <div className="link_box">
                           <Link
-                            href={buildUrlWithParams("/stats/most-wins")}
+                            href={buildUrlWithParams("/stats/most-races-won")}
                             className="glob-btn green-bg-btn"
                           >
                             <strong>volledige stats</strong>{" "}
@@ -150,7 +150,7 @@ const StatsFirstSection = ({
 
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <Link href={buildUrlWithParams("/stats/top-rider-stage")} className="pabs" />
+                      <Link href={buildUrlWithParams("/stats/top-10-in-stages")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box2]?.message}</h4>
                         {getBoxData(fixedApis.box2).error ? (
@@ -184,7 +184,7 @@ const StatsFirstSection = ({
                               className="absolute-img"
                             />
                             <Link
-                              href={buildUrlWithParams("/stats/top-rider-stage")}
+                              href={buildUrlWithParams("/stats/top-10-in-stages")}
                               className="green-circle-btn"
                             >
                               <img src="/images/arow.svg" alt="" />
@@ -198,7 +198,7 @@ const StatsFirstSection = ({
                   {/*Box 3 - Most Racing  Days */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <Link href={buildUrlWithParams("/stats/most-racing-days")} className="pabs" />
+                      <Link href={buildUrlWithParams("/stats/rider-with-most-racing-days")} className="pabs" />
                       <div className="text-wraper">
                         <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
 
@@ -236,7 +236,7 @@ const StatsFirstSection = ({
                               className="absolute-img"
                             />
                             <Link
-                              href={buildUrlWithParams("/stats/most-racing-days")}
+                              href={buildUrlWithParams("/stats/rider-with-most-racing-days")}
                               className="white-circle-btn"
                             >
                               <img src="/images/arow.svg" alt="" />
@@ -250,7 +250,7 @@ const StatsFirstSection = ({
                   {/*Box 4 - Top stage rider by team*/}
                   <div className="col-lg-7 col-md-6 11">
                     <div className="list-white-cart">
-                      <Link href={buildUrlWithParams("/stats/team-most-stage-wins")} className="pabs" />
+                      <Link href={buildUrlWithParams("/stats/teams-with-most-wins")} className="pabs" />
                       <h4 className="fs-medium">{data?.[fixedApis.box4]?.message}</h4>
                       {getBoxData(fixedApis.box4).error ? (
                         <ErrorMessage
@@ -267,7 +267,7 @@ const StatsFirstSection = ({
                               .map((rider, index) => (
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
-                                  <div className="name-wraper name-wraper-white ">
+                                  <div className="name-wraper name-wraper-white " onClick={() => router.push(`/teams/${rider?.team_name}`)}>
                                     {renderFlag(rider?.flag)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
@@ -277,7 +277,7 @@ const StatsFirstSection = ({
                               ))}
                           </ul>
                           <Link
-                            href={buildUrlWithParams("/stats/team-most-stage-wins")}
+                            href={buildUrlWithParams("/stats/teams-with-most-wins")}
                             className="green-circle-btn"
                           >
                             <img src="/images/arow.svg" alt="" />
@@ -287,10 +287,10 @@ const StatsFirstSection = ({
                     </div>
                   </div>
 
-                  {/*Box 5 - Birthdays */}
+                  {/*Box 5 - most podim in stage */}
                   <div className="col-lg-5 col-md-6">
                     <div className="list-white-cart">
-                      <Link href={buildUrlWithParams("/stats/most-podium-in-stages")} className="pabs" />
+                      <Link href={buildUrlWithParams("/stats/most-podium-in-stage")} className="pabs" />
                       <h4>{data?.[fixedApis.box5]?.message}</h4>
                       {getBoxData(fixedApis.box5).error ? (
                         <ErrorMessage
@@ -317,7 +317,7 @@ const StatsFirstSection = ({
                               ))}
                           </ul>
                           <Link
-                            href={buildUrlWithParams("/stats/most-podium-in-stages")}
+                            href={buildUrlWithParams("/stats/most-podium-in-stage")}
                             className="green-circle-btn"
                           >
                             <img src="/images/arow.svg" alt="" />
@@ -331,7 +331,7 @@ const StatsFirstSection = ({
               {/*Box 6 - Team with most rider*/}
               <div className="col-lg-3 col-md-6 11">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("/stats/team-with-most-rider")} className="pabs" />
+                  <Link href={buildUrlWithParams("/stats/team-with-most-rider-to-win-race")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {(() => {
@@ -354,7 +354,7 @@ const StatsFirstSection = ({
                               index // limit 3
                             ) => (
                               <div key={index} className="team-card">
-                                <div className="name-wraper name-wraper-white">
+                                <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${team?.teamName ||team?.officialTeamName ||"..."}`)}>
                                   {renderFlag(team?.country)}
                                   <h6>
                                     {team?.teamName ||
@@ -378,7 +378,7 @@ const StatsFirstSection = ({
                                   className="absolute-img"
                                 />
                                 <Link
-                                  href={buildUrlWithParams("/stats/team-with-most-rider")}
+                                  href={buildUrlWithParams("/stats/team-with-most-rider-to-win-race")}
                                   className="green-circle-btn"
                                 >
                                   <img src="/images/arow.svg" alt="" />
@@ -424,7 +424,7 @@ const StatsFirstSection = ({
               {/*Box 8 - Most GC wins*/}
               <div className="col-lg-3 col-md-6 33">
                 <div className="list-white-cart lime-green-cart 22">
-                  <Link href={buildUrlWithParams("/stats/most-gc-wins")} className="pabs" />
+                  <Link href={buildUrlWithParams("/stats/most-wins-overall-gc")} className="pabs" />
                   <h4>{data?.[fixedApis.box8]?.message}</h4>
                   {getBoxData(fixedApis.box8).error ? (
                     <ErrorMessage
@@ -451,7 +451,7 @@ const StatsFirstSection = ({
                           ))}
                       </ul>
                       <Link
-                        href={buildUrlWithParams("/stats/most-gc-wins")}
+                        href={buildUrlWithParams("/stats/mmost-wins-overall-gc")}
                         className="white-circle-btn"
                       >
                         <img src="/images/arow.svg" alt="" />
@@ -464,7 +464,7 @@ const StatsFirstSection = ({
               {/*Box 9 - Most DNF */}
               <div className="col-lg-3 col-md-6 44">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("/stats/most-dnfs")} className="pabs" />
+                  <Link href={buildUrlWithParams("/stats/race-with-most-dnfs")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box9]?.message}</h4>
 
@@ -498,7 +498,7 @@ const StatsFirstSection = ({
                           ))}
 
                         <Link
-                          href={buildUrlWithParams("/stats/most-dnfs")}
+                          href={buildUrlWithParams("/stats/race-with-most-dnfs")}
                           className="green-circle-btn"
                         >
                           <img src="/images/arow.svg" alt="" />

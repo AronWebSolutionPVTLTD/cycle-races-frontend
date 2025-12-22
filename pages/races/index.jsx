@@ -221,9 +221,10 @@ export default function Results() {
         featured.push({
           title: victoryRes.message,
           rider: topRider.rider_name,
+          id:topRider.rider_id,
           flag: topRider.rider_country.toLowerCase(),
           speed: `${topRider.wins}`,
-          link: "current-victory-ranking",
+          link: "recent-victory-ranking",
         });
       }
 
@@ -231,9 +232,9 @@ export default function Results() {
         const topTeam = teamRes.data.recent_team_rankings[0];
         featured.push({
           title: teamRes.message,
-          rider: topTeam.team_name,
+          team: topTeam.team_name,
           speed: `${topTeam.total_wins}`,
-          link: "current-team-ranking",
+          link: "recent-team-ranking",
         });
       }
 
@@ -242,9 +243,10 @@ export default function Results() {
         featured.push({
           title: bestRes.message,
           rider: best.rider_name,
+          id:best.rider_id,
           flag: best.rider_country.toLowerCase(),
           speed: best.wins,
-          link: "best-riders-of-recent-year",
+          link: "best-riders-recent-year",
         });
       }
 
@@ -403,6 +405,7 @@ export default function Results() {
     }
   };
 
+  console.log("featuredRaces", featuredRaces);
   return (
     <>
       <Head>
@@ -644,7 +647,14 @@ export default function Results() {
                               {item.rider_name}
                             </Link>
                           </h6>
-                          <h6>{item.team_name}</h6>
+                          <h6>
+                          <Link
+                              className="link"
+                              href={`/teams/${item.team_name}`}
+                            >{item.team_name}
+                               </Link>
+                               </h6>
+                         
                           <Link
                             href={`/race-result/${encodeURIComponent(
                               item.race_name
@@ -696,7 +706,26 @@ export default function Results() {
                               }}
                             />
                           )}
-                          <h6>{race.rider}</h6>
+                         {race.rider &&
+                         <Link
+                         className="link"
+                         href={`/riders/${race.id}`}
+                       >
+                         <h6>
+                          {race.rider ? <span>{race.rider}</span> : null}
+                         </h6>
+                         </Link> 
+                         } 
+                         {race.team &&
+                          <Link
+                          className="link"
+                          href={`/teams/${race.team}`}
+                        >
+                         <h6>
+                          {race.team ? <span>{race.team}</span> : null}
+                         </h6>
+                         </Link>
+                         }
                         </div>
                       </div>
                       {race?.speed && (

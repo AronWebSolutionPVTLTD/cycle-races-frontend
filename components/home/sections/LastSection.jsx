@@ -109,7 +109,7 @@ const LastSection = () => {
               {/* Box 2 -  Most nationality  */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active 11">
-                  <Link href="/team-most-nationalities" className="pabs" />
+                  <Link href="/team-with-most-nationalities" className="pabs" />
                   <div className="text-wraper">
                     <h4 className="font-size-change">{data?.[fixedApis.box2]?.message}</h4>
                     {(() => {
@@ -128,7 +128,7 @@ const LastSection = () => {
                         <>
                           {teams.slice(0, 1).map((team, index) => (
                             <div key={index} className="team-card">
-                              <div className="name-wraper name-wraper-green name-left">
+                              <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/teams/${team?.team}`)}>
                                 {renderFlag(team?.country)}
                                 <h6>{team?.team || "..."}</h6>
                               </div>
@@ -140,7 +140,7 @@ const LastSection = () => {
                               )}
 
                               <Link
-                                href="/team-most-nationalities"
+                                href="/team-with-most-nationalities"
                                 className="white-circle-btn"
                               >
                                 <img src="/images/arow.svg" alt="" />
@@ -157,7 +157,7 @@ const LastSection = () => {
               {/*Box 3 - Most youngest  wins*/}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
-                  <Link href="/youngest-most-wins" className="pabs" />
+                  <Link href="/youngest-riders-with-most-wins" className="pabs" />
                   <div className="text-wraper">
                     <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                     {getBoxData(fixedApis.box3).error ? (
@@ -192,7 +192,7 @@ const LastSection = () => {
                           className="absolute-img"
                         />
                         <Link
-                          href="/youngest-most-wins"
+                          href="/youngest-riders-with-most-wins"
                           className="green-circle-btn"
                         >
                           <img src="/images/arow.svg" alt="" />
@@ -348,7 +348,7 @@ const LastSection = () => {
               {/*Box 7 -lightestRider */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active 22">
-                  <Link href="/lightest-rider" className="pabs" />
+                  <Link href="/lightest-riders" className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
@@ -376,7 +376,7 @@ const LastSection = () => {
                               )}
 
                               <Link
-                                href="/lightest-rider"
+                                href="/lightest-riders"
                                 className="white-circle-btn"
                               >
                                 <img src="/images/arow.svg" alt="" />

@@ -9,7 +9,7 @@ import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { generateYearOptions } from "@/components/GetYear";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
-import { getTeamId } from "../getId";
+import { getItemId, getTeamId } from "../getId";
 
 // Helper function to get value from item using multiple possible keys
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
@@ -27,37 +27,37 @@ const getCountryCode = (item, config) => {
   return country.toUpperCase();
 };
 
-const getRiderId = (item) => {
-   // check for race keys
-   const raceKeys = ["Race_Name", "RaceName", "raceName","Race","race_name","race"];
-   for (const key of raceKeys) {
-     if (
-       item &&
-       item[key] !== undefined &&
-       item[key] !== null &&
-       item[key] !== ""
-     ) {
-       return { type: "race", id: item[key] };
-     }
-   }
-  // check for rider keys
-  const riderKeys = ["rider_id", "riderId", "_id", "id", "rider_key"];
-  for (const key of riderKeys) {
-    if (
-      item &&
-      item[key] !== undefined &&
-      item[key] !== null &&
-      item[key] !== ""
-    ) {
-      return { type: "rider", id: item[key] };
-    }
-  }
+// const getRiderId = (item) => {
+//    // check for race keys
+//    const raceKeys = ["Race_Name", "RaceName", "raceName","Race","race_name","race"];
+//    for (const key of raceKeys) {
+//      if (
+//        item &&
+//        item[key] !== undefined &&
+//        item[key] !== null &&
+//        item[key] !== ""
+//      ) {
+//        return { type: "race", id: item[key] };
+//      }
+//    }
+//   // check for rider keys
+//   const riderKeys = ["rider_id", "riderId", "_id", "id", "rider_key"];
+//   for (const key of riderKeys) {
+//     if (
+//       item &&
+//       item[key] !== undefined &&
+//       item[key] !== null &&
+//       item[key] !== ""
+//     ) {
+//       return { type: "rider", id: item[key] };
+//     }
+//   }
 
  
   
   
-  return null;
-};
+//   return null;
+// };
 
 // const getRiderId = (item) => {
 //   const keys = ["rider_id", "riderId", "_id", "id", "rider_key"];
@@ -207,13 +207,13 @@ export default function DynamicSlugPage() {
             ...response?.data?.data?.shortest_one_day_races,
           ];
         }
-        if (slug === "current-victory-ranking") {
+        if (slug === "recent-victory-ranking") {
           response.data = response?.data?.top_riders;
         }
-        if (slug === "current-team-ranking") {
+        if (slug === "recent-team-ranking") {
           response.data = response?.data?.recent_team_rankings;
         }
-        if (slug === "best-riders-of-recent-year") {
+        if (slug === "best-riders-recent-year") {
           response.data = response?.data?.top_riders;
         }
 
@@ -353,7 +353,7 @@ export default function DynamicSlugPage() {
 
   const hasCountData = (data, config) => {
     return data.some((item) => {
-      for (const key of config.itemConfig.count) {
+      for (const key of config.itemConfig?.count) {
         if (
           item[key] !== undefined &&
           item[key] !== null &&
@@ -396,81 +396,65 @@ export default function DynamicSlugPage() {
 
       // NAME column with flag - only add if name data exists
       if (nameDataExists) {
-        const riderOrRaceData = getRiderId(item);
-        // const clickableProps = riderId
-        //   ? { onClick: () => router.push(`/riders/${riderId}`) }
-        //   : {};
-        const clickableProps = riderOrRaceData
-        ? {
-            onClick: () => {
-              if (riderOrRaceData.type === "race") {
-                router.push(`/race-result/${encodeURIComponent(riderOrRaceData.id)}`);
-              } else {
-                router.push(`/riders/${riderOrRaceData.id}`);
-              }
-            }
-          }
-        : {};
-        columns.push(
-          <h5 key="name" className="rider--name race-name-el " {...clickableProps}>
-            <span key="srno" className="sr-no fw-900">
-              {index + 1}.
 
-            </span>
+        const riderOrRaceData = getItemId(item,config.itemConfig.name);
+       const clickableProps = riderOrRaceData?.type === "race" ?
+        { href: `/race-result/${encodeURIComponent(riderOrRaceData?.id)}` } : 
+        riderOrRaceData?.type === "rider" ? { href: `/riders/${encodeURIComponent(riderOrRaceData?.id)}` }
+        : null;
+
+        const nameContent = (
+          <>
             <Flag
               code={getCountryCode(item, config)}
               style={{
                 width: "30px",
                 height: "20px",
                 flexShrink: 0,
-                borderRadius: "3px"
               }}
             />
-            {/* <Link href={`/riders/${item?.rider_id}`} className="link fw-900 d-flex flex-column "> */}
+            
+            {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
+              ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+              : ""
+              }`}
+              
+          </>
+        );
 
-              <div className="race-title fw-900 text-uppercase">
-                {getItemValue(item, config.itemConfig.name)}
-                {item?.type === "stage" && item?.stage_number
-                  ? `: Stage ${item.stage_number}`
-                  : ""}
-              </div>
-
-              {/* ---- Start / Finish / Distance (ONLY for stage) ---- */}
-              {item?.type === "stage" && item?.stage_number && (
-                <div className="most-dnfs-start-end">
-                  {item?.start_location}
-
-                  {/* Show dash ONLY when both exist */}
-                  {item?.start_location && item?.finish_location ? " - " : ""}
-
-                  {item?.finish_location}
-
-                  {/* Distance */}
-                  {item?.distance ? ` (${item?.distance} km)` : ""}
-                </div>
-              )}
-            {/* </Link> */}
-
-
+        columns.push(
+          <h5 key="name" className="rider--name">
+            <span key="srno" className="sr-no fw-900">
+              {index + 1}.
+            </span>
+            {clickableProps?.href ? (
+              <Link {...clickableProps} className="link">
+                {nameContent}
+              </Link>
+            ) : (
+              <span>
+                {nameContent}
+              </span>
+            )}
           </h5>
         );
       }
 
+
       // TEAM column - only add if team data exists
       if (teamDataExists) {
-   
-        const teamId = getTeamId(item);
-        const teamClickableProps = teamId 
-          ? { href: `/teams/${encodeURIComponent(teamId)}`} 
-          : {};
-      
         // If no name data exists, show flag with team
-        if (!nameDataExists) {
-          columns.push(
-            <h5 key="name" className="rider--name">
-               <span key="srno" className="sr-no fw-900">
-              {index + 1}.
-            </span>
+        const Data = getItemId(item,config.itemConfig.team);
+        const clickableProps = Data?.type === "race" ?
+         { href: `/race-result/${encodeURIComponent(Data?.id)}` } : 
+         Data?.type === "rider" ? { href: `/riders/${encodeURIComponent(Data?.id)}` } 
+         : 
+         Data?.type === "team" ?
+          { href: `/teams/${encodeURIComponent(Data?.id)}` } :
+          null ;
+  if (!nameDataExists) {
+          const teamContent = (
+            <>
               <Flag
                 code={getCountryCode(item, config)}
                 style={{
@@ -480,34 +464,47 @@ export default function DynamicSlugPage() {
                   flexShrink: 0,
                 }}
               />
-              {teamId ? (
-                <Link {...teamClickableProps} className="link">
-                  {getItemValue(item, config.itemConfig.team)}
+              <span>{getItemValue(item, config.itemConfig.team)}</span>
+            </>
+          );
+
+          columns.push(
+            <h5 key="name" className="rider--name">
+              <span key="srno" className="sr-no fw-900">
+                {index + 1}.
+              </span>
+              {clickableProps?.href ? (
+                <Link {...clickableProps} className="link">
+                  {teamContent}
                 </Link>
               ) : (
-                <span>{getItemValue(item, config.itemConfig.team)}</span>
-
+                <span>
+                  {teamContent}
+                </span>
               )}
             </h5>
           );
         } else {
           // If name data exists, show team without flag (flag is already shown with name)
+          const teamValue = getItemValue(item, config.itemConfig.team);
           columns.push(
-            <div key="team" className="team-name">
-              {teamId ? (
-                <Link {...teamClickableProps} className="link">
-                  {getItemValue(item, config.itemConfig.team)}
+           <div key="team" className="team-name rider--name">
+              {clickableProps?.href ? (
+                <Link {...clickableProps} className="link">
+                  {teamValue}
                 </Link>
               ) : (
-                getItemValue(item, config.itemConfig.team)
+                <span>
+                  {teamValue}
+                </span>
               )}
             </div>
           );
         }
       }
-
+     
       // AGE column (if specified in config)
-      if (config.headers.includes("AGE") && config.itemConfig.age) {
+      if (config.headers.includes("AGE") && config.itemConfig?.age) {
         columns.push(
           <div key="age" className="age">
             {getItemValue(item, config.itemConfig.age)}
@@ -515,7 +512,7 @@ export default function DynamicSlugPage() {
         );
       }
       // CLASS column (if specified in config)
-    if (config.headers.includes("CLASS") && config.itemConfig.age) {
+    if (config.headers.includes("CLASS") && config.itemConfig?.age) {
         columns.push(
           <div key="age" className="age">
             {getItemValue(item, config.itemConfig.age)}

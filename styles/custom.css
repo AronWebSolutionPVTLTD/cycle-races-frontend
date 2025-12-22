@@ -1782,3 +1782,36 @@ section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hove
     margin-bottom: 15px;
   }
 }
+
+.hdr-img_wrap img.absolute-img {
+  max-width: 100% !important;
+}
+
+.hdr-img_wrap {
+  flex: 0 0 155px;
+}
+
+.top-wraper .wraper {
+  gap: 0 !important;
+}
+
+.top-wrapper-main .wraper h1 {
+  flex: 1 0 calc( 100% - 155px );
+  padding-left: 24px;
+}
+.top-wrapper-main .top-wraper .wraper {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 767px) {
+  .top-wrapper-main .wraper h1 {
+    flex: 1 0 100% !important;
+    padding-left: 0;
+  }
+  .hdr-img_wrap img.absolute-img {
+    max-height: unset !important;
+    height: 76px !important;
+    object-fit: contain;
+    max-width: 63px !important;
+  }
+}

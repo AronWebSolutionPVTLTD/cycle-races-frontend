@@ -107,7 +107,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
               {/* Box 1 -Top GC_Riders LastYear*/}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart ctm-card">
-                  <Link href={buildUrlWithParams("top-gc-riders-last-year")} className="pabs" />
+                  <Link href={buildUrlWithParams("top-last-year-gc")} className="pabs" />
                   {getBoxData(fixedApis.box1).error ? (
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box1).errorType}
@@ -146,7 +146,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                         />
                         <div className="link_box">
                           <Link
-                            href={buildUrlWithParams("top-gc-riders-last-year")}
+                            href={buildUrlWithParams("top-last-year-gc")}
                             className="glob-btn green-bg-btn"
                           >
                             <strong>volledige stats</strong>{" "}
@@ -161,7 +161,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
                 <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
                   <Link
-                    href={buildUrlWithParams("top-gc-riders-last-year")}
+                    href={buildUrlWithParams("top-last-year-gc")}
                     className="alle-link m-0"
                   >
                     Alle statistieken <img src="/images/arow2.svg" alt="" />
@@ -223,9 +223,9 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link
-                        href={buildUrlWithParams("most-gc-wins-in-race")}
+                        href={buildUrlWithParams("most-wins-gc")}
                         className="pabs"
-                      ></Link>
+                      ></Link>  
                       <div className="text-wraper">
                         <h4> {data?.[fixedApis.box3]?.message}</h4>
                         {(() => {
@@ -258,7 +258,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
 
                               <Link
                                 href={buildUrlWithParams(
-                                  "most-gc-wins-in-race"
+                                  "most-wins-gc"
                                 )}
                                 className="green-circle-btn"
                               >

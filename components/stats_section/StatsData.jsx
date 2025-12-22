@@ -141,7 +141,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               {/* Box 2 -  Most nationality  */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <Link href={buildUrlWithParams("/stats/team-most-nationalities")} className="pabs" />
+                  <Link href={buildUrlWithParams("/stats/team-with-most-nationalities")} className="pabs" />
                   <div className="text-wraper">
                     <h4 className="font-size-change">{data?.[fixedApis.box2]?.message}</h4>
                     {(() => {
@@ -160,7 +160,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                         <>
                           {teams.slice(0, 1).map((team, index) => (
                             <div key={index} className="team-card">
-                              <div className="name-wraper name-wraper-green name-left" >
+                              <div className="name-wraper name-wraper-green name-left" onClick={()=>router.push(`/teams/${team?.team}`)} >
                                 {renderFlag(team?.country)}
                                 <h6>{team?.team || "..."}</h6>
                               </div>
@@ -172,7 +172,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                               )}
 
                               <Link
-                                href={buildUrlWithParams("/stats/team-most-nationalities")}
+                                href={buildUrlWithParams("/stats/team-with-most-nationalities")}
                                 className="white-circle-btn"
                               >
                                 <img src="/images/arow.svg" alt="" />
@@ -189,7 +189,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               {/*Box 3 - Most youngest  wins*/}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("/stats/youngest-most-wins")} className="pabs" />
+                  <Link href={buildUrlWithParams("/stats/youngest-riders-with-most-wins")} className="pabs" />
                   <div className="text-wraper">
                     <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                     {getBoxData(fixedApis.box3).error ? (
@@ -227,7 +227,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           className="absolute-img"
                         />
                         <Link
-                          href={buildUrlWithParams("/stats/youngest-most-wins")}
+                          href={buildUrlWithParams("/stats/youngest-riders-with-most-wins")}
                           className="green-circle-btn"
                         >
                           <img src="/images/arow.svg" alt="" />
@@ -241,7 +241,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               {/*Box 4 - Most olderst Riders*/}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
-                  <Link href={buildUrlWithParams("/stats/oldest-riders")} className="pabs" />
+                  <Link href={buildUrlWithParams("/stats/oldest-active-riders")} className="pabs" />
                   <h4>{data?.[fixedApis.box4]?.message}</h4>
                   {getBoxData(fixedApis.box4).error ? (
                     <ErrorMessage
@@ -268,7 +268,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           ))}
                       </ul>
                       <Link
-                        href={buildUrlWithParams("/stats/oldest-riders")}
+                        href={buildUrlWithParams("/stats/oldest-active-riders")}
                         className="green-circle-btn"
                       >
                         <img src="/images/arow.svg" alt="" />
@@ -386,7 +386,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               {/*Box 7 -Lightest rider */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <Link href={buildUrlWithParams("/stats/lightest-rider")} className="pabs" />
+                  <Link href={buildUrlWithParams("/stats/lightest-riders")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
@@ -414,7 +414,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                               )}
 
                               <Link
-                                href={buildUrlWithParams("/stats/lightest-rider")}
+                                href={buildUrlWithParams("/stats/lightest-riders")}
                                 className="white-circle-btn"
                               >
                                 <img src="/images/arow.svg" alt="" />
