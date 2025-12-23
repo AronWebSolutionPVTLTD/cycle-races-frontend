@@ -236,7 +236,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
           flag: topNationality?.country_code?.toLowerCase(),
           value: topNationality?.wins,
           unit: "wins",
-          link: "race-winners-by-nationality",
+          link: "winning-nationality-for-this-race",
         });
       }
 
@@ -250,12 +250,13 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         stats.push({
           title: oldestRider?.message || "Oldest Rider",
           rider: oldestData?.rider_name || oldestData?.name,
+          riderId: oldestData?.rider_id,
           flag:
             oldestData?.rider_country?.toLowerCase() ||
             oldestData?.country?.toLowerCase(),
           value: oldestData?.age,
           unit: "jaar",
-          link: "oldest-rider-in-race",
+          link: "oldest-riders-in-race",
         });
       }
 
@@ -269,12 +270,13 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         stats.push({
           title: youngestRider?.message || "Youngest Rider",
           rider: youngestData?.rider_name || youngestData?.name,
+          riderId: youngestData?.rider_id,
           flag:
             youngestData?.rider_country?.toLowerCase() ||
             youngestData?.country?.toLowerCase(),
           value: youngestData?.age,
           unit: "jaar",
-          link: "youngest-rider-in-race",
+          link: "youngest-riders-in-race",
         });
       }
 
@@ -284,16 +286,17 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         stats.push({
           title: bestTeam?.message || "Best Team",
           rider: bestTeamData?.team_name || bestTeamData?.name,
+          teamId: bestTeamData?.team_name || bestTeamData?.name,
           flag:
             bestTeamData?.country_code?.toLowerCase() ||
-            bestTeamData?.country?.toLowerCase() ||
+            bestTeamData?.team_country?.toLowerCase() ||
             "/images/team-icon.svg",
           value:
             bestTeamData?.rider_count ||
             bestTeamData?.performance_score ||
             bestTeamData?.score,
           unit: bestTeamData?.rider_count ? "riders" : "points",
-          link: "best-team-in-race",
+          link: "best-teams-in-the-race",
         });
       }
 
@@ -306,6 +309,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
       setLoadingFeatured(false);
     }
   };
+  console.log(featuredStats);
 
   useEffect(() => {
     if (router.isReady) {
@@ -573,7 +577,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                             {rider.rider_name.toUpperCase()}
                           </Link>
                         </h5>
-                        <h6 className="team_name">{rider.team_name}</h6>
+                        <h6 className="team_name">   <Link href={`/teams/${rider.team_name}`} className="link">{rider.team_name}</Link></h6>
                         <h6 className="time-result">
                           {/* {index === 0
                             ? formatTimeToDisplay(rider.time)
@@ -622,7 +626,29 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                             borderRadius: "3px"
                           }}
                         />
-                        <h6>{stat.rider}</h6>
+                        {/* <h6 onClick={() => router.push(`/riders/${stat.id}`)} className="link">{stat.rider}</h6> */}
+                        {stat.riderId ?
+                          <Link
+                          className="link"
+                          href={`/riders/${stat.riderId}`}
+                        >
+                         <h6>
+                          {stat.rider ? <span>{stat.rider}</span> : null}
+                         </h6>
+                         </Link>
+                         :
+                         stat.teamId ?
+                         <Link
+                         className="link"
+                         href={`/teams/${stat.rider}`}
+                       >
+                        <h6>
+                         {stat.rider ? <span>{stat.rider}</span> : null}
+                        </h6>
+                        </Link>
+                        :
+                       <h6>{stat.rider}</h6>
+                         }
                       </div>
                     </div>
                     <h5>

@@ -117,7 +117,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-5 box6">
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams(
-                    "most-mountain-classification-wins"
+                    "most-wins-in-mountain-classification"
                   )} className="pabs" />
 
                   {getBoxData(fixedApis.box1).error ? (
@@ -161,7 +161,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         <div className="link_box">
                           <Link
                             href={buildUrlWithParams(
-                              "most-mountain-classification-wins"
+                              "most-wins-in-mountain-classification"
                             )}
                             className="glob-btn green-bg-btn"
                           >
@@ -178,7 +178,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                 <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
                   <Link
                     href={buildUrlWithParams(
-                      "most-mountain-classification-wins"
+                      "most-wins-in-mountain-classification"
                     )}
                     className="alle-link m-0"
                   >
@@ -194,7 +194,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link
                         href={buildUrlWithParams(
-                          "most-sprint-classification-wins"
+                          "most-wins-in-sprint-classification"
                         )}
                         className="pabs"
                       ></Link>
@@ -235,7 +235,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                             />
                             <Link
                               href={buildUrlWithParams(
-                                "most-sprint-classification-wins"
+                                "most-wins-in-sprint-classification"
                               )}
                               className="white-circle-btn"
                             >
@@ -252,7 +252,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                     <div className="team-cart img-active">
                       <Link
                         href={buildUrlWithParams(
-                          "most-youngster-classification-wins"
+                          "most-wins-in-youngster-classification"
                         )}
                         className="pabs"
                       ></Link>
@@ -287,7 +287,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               ))}
                             <Link
                               href={buildUrlWithParams(
-                                "most-youngster-classification-wins"
+                                "most-wins-in-youngster-classification"
                               )}
                               className="green-circle-btn"
                             >
@@ -355,7 +355,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link
-                        href={buildUrlWithParams("oldest-stage-winner")}
+                        href={buildUrlWithParams("oldest-stage-winners")}
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
@@ -391,7 +391,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                   )}
                                   <Link
                                     href={buildUrlWithParams(
-                                      "oldest-stage-winner"
+                                      "oldest-stage-winners"
                                     )}
                                     className="white-circle-btn"
                                   >
@@ -411,7 +411,10 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                <Link
+                                href={buildUrlWithParams("youngest-stage-winners")}
+                                className="pabs"
+                              ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {(() => {
@@ -444,7 +447,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               )}
 
                               <Link
-                                href={buildUrlWithParams("youngest-winner")}
+                                href={buildUrlWithParams("youngest-stage-winners")}
                                 className="white-circle-btn"
                               >
                                 <img src="/images/arow.svg" alt="" />
@@ -462,7 +465,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link
-                    href={buildUrlWithParams("fastest-edition-of-race")}
+                    href={buildUrlWithParams("fastest-editions")}
                     className="pabs"
                   ></Link>
                   <div className="text-wraper">
@@ -515,7 +518,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                               <Link
                                 href={buildUrlWithParams(
-                                  "fastest-edition-of-race"
+                                  "fastest-editions"
                                 )}
                                 className="green-circle-btn"
                               >
@@ -579,7 +582,10 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
               {/*Box 9 - Most Stage Departures */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart img-active">
-                  <a href="#?" className="pabs"></a>
+                  <Link
+                    href={buildUrlWithParams("cities-with-most-departures")}
+                    className="pabs"
+                  ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box9]?.message}</h4>
                     {getBoxData(fixedApis.box9).error ? (
@@ -610,7 +616,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                             </>
                           ))}
                         <Link
-                          href={buildUrlWithParams("most-stage-departures")}
+                          href={buildUrlWithParams("cities-with-most-departures")}
                           className="green-circle-btn"
                         >
                           <img src="/images/arow.svg" alt="" />
@@ -648,6 +654,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                   <div
                                     className="name-wraper name-wraper-green"
                                     key={index}
+                                    onClick={() => router.push(`/teams/${rider?.team_name}`)}
                                   >
                                     {renderFlag(rider?.team_country)}
                                     <h6>{rider?.team_name || "..."}</h6>
@@ -676,7 +683,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart img-active">
                       <Link
-                        href={buildUrlWithParams("most-stage-finishes")}
+                        href={buildUrlWithParams("cities-with-most-often-used-as-finish")}
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
@@ -709,8 +716,8 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                 </>
                               ))}
                             <Link
-                              href={buildUrlWithParams("most-stage-finishes")}
-                              className="green-circle-btn"
+                              href={buildUrlWithParams("cities-with-most-often-used-as-finish")}
+                                className="green-circle-btn"
                             >
                               <img src="/images/arow.svg" alt="" />
                             </Link>

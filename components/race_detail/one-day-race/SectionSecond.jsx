@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
 export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
+  const router = useRouter();
   // Define single API endpoint for each section box
   const fixedApis = {
     box1: "getMostWinsNationality",
@@ -136,7 +138,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <>
-                              <div className="name-wraper">
+                              <div className="name-wraper" onClick={() => router.push(`/riders/${rider?._id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -215,7 +217,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           .slice(0, 3)
                           .map((rider, index) => (
                             <li key={index}>
-                              <div className="name-wraper">
+                              <div className="name-wraper" onClick={() => router.push(`/riders/${rider?.id}`)}>
                                 {renderFlag(rider?.nationality)}
                                 <h6>{rider?.name || "..."}</h6>
                               </div>
@@ -242,7 +244,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               {/*Box 5 - Top5 Spanish Results*/}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart">
-                  <Link href={buildUrlWithParams("top5-spanish-results")} className="pabs" />
+                  <Link href={buildUrlWithParams("top-best-results")} className="pabs" />
                   <h4 className="fs-chenge">
                     {data?.[fixedApis.box5]?.message}
                   </h4>
@@ -260,7 +262,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           .slice(0, 5)
                           .map((rider, index) => (
                             <li key={index}>
-                              <div className="name-wraper">
+                              <div className="name-wraper" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.nationality)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -276,7 +278,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                         className="absolute-img"
                       />
                       <Link
-                        href={buildUrlWithParams("top5-spanish-results")}
+                        href={buildUrlWithParams("top-best-results")}
                         className="glob-btn"
                       >
                         <strong>volledige stats</strong>{" "}
@@ -294,7 +296,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 6 - LastRace Winner By Nationality,*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
-                      <Link href={buildUrlWithParams("last-race-winner-by-nationality")} className="pabs" />
+                      <Link href={buildUrlWithParams("last-time-rider-won-by-nationality")} className="pabs" />
                       <div className="text-wraper">
                         <h4 className="font-size-change">{data?.[fixedApis.box6]?.message}</h4>
                         {(() => {
@@ -314,7 +316,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper">
+                              <div className="name-wraper" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -326,7 +328,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                               <Link
                                 href={buildUrlWithParams(
-                                  "last-race-winner-by-nationality"
+                                  "last-time-rider-won-by-nationality"
                                 )}
                                 className="green-circle-btn"
                               >
@@ -342,7 +344,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 7 -Top10 Finishes*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <Link href={buildUrlWithParams("top10-spanish-finishes")} className="pabs" />
+                      <Link href={buildUrlWithParams("riders-with-most-top10")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box7]?.message}</h4>
                         {(() => {
@@ -362,7 +364,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper">
+                              <div className="name-wraper" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -374,7 +376,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                               <Link
                                 href={buildUrlWithParams(
-                                  "top10-spanish-finishes"
+                                  "riders-with-most-top10"
                                 )}
                                 className="green-circle-btn"
                               >
@@ -390,7 +392,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 8 - Top Podium Reach*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <Link href={buildUrlWithParams("top-spanish-podium-reach")} className="pabs" />
+                      <Link href={buildUrlWithParams("rider-with-most-podium-finishes")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box8]?.message}</h4>
                         {(() => {
@@ -409,7 +411,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           }
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper">
+                              <div className="name-wraper" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -422,7 +424,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                               <Link
                                 href={buildUrlWithParams(
-                                  "top-spanish-podium-reach"
+                                  "rider-with-most-podium-finishes"
                                 )}
                                 className="green-circle-btn"
                               >
@@ -438,7 +440,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 9 -Youngest Participant */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <Link href={buildUrlWithParams("youngest-spanish-participant")} className="pabs" />
+                      <Link href={buildUrlWithParams("youngest-rider-to-participate")} className="pabs" />
                       <div className="text-wraper">
                         <h4 className="font-size-change">{data?.[fixedApis.box9]?.message}</h4>
                         {(() => {
@@ -457,7 +459,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           }
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper">
+                              <div className="name-wraper" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.nationality)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -469,7 +471,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                               <Link
                                 href={buildUrlWithParams(
-                                  "youngest-spanish-participant"
+                                  "youngest-rider-to-participate"
                                 )}
                                 className="white-circle-btn"
                               >
@@ -487,7 +489,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               {/*Box 10 - Oldest Participant*/}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("oldest-spanish-participant")} className="pabs" />
+                  <Link href={buildUrlWithParams("oldest-rider-to-participate")} className="pabs" />
                   <div className="text-wraper">
                     <h4 className="font-size-change">{data?.[fixedApis.box10]?.message}</h4>
                     {(() => {
@@ -504,7 +506,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                       return riderData.slice(0, 1).map((rider, index) => (
                         <>
-                          <div className="name-wraper name-wraper-white">
+                          <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                             {renderFlag(rider?.nationality)}
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
@@ -515,7 +517,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           )}
                           <Link
                             href={buildUrlWithParams(
-                              "oldest-spanish-participant"
+                              "oldest-rider-to-participate"
                             )}
                             className="green-circle-btn"
                           >
@@ -579,9 +581,9 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                       return riderData.slice(0, 1).map((rider, index) => (
                         <>
-                          <div className="name-wraper">
-                            {renderFlag(rider?.rider?.nationality)}
-                            <h6>{rider?.rider?.name || "..."}</h6>
+                          <div className="name-wraper" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                            {renderFlag(rider?.nationality)}
+                            <h6>{rider?.rider_name || "..."}</h6>
                           </div>
                           {rider?.totalDNFs && (
                             <h5>

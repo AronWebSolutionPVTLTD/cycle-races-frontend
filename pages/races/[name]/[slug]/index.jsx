@@ -224,7 +224,7 @@ export default function DynamicSlugPage({ year }) {
         if (slug === "most-wins-gc") {
           response.data = response?.data?.data?.most_gc_wins;
         }
-        if (slug === "rider-most-gc-podiums") {
+        if (slug === "rider-with-most-gc-podiums") {
           response.data = response?.data?.top_riders;
         }
         if (slug === "rider-with-most-finishes") {
@@ -233,31 +233,31 @@ export default function DynamicSlugPage({ year }) {
         if (slug === "rider-with-most-finish") {
           response.data = response?.data?.top_rider;
         }
-        if (slug === "most-stage-departures") {
+        if (slug === "cities-with-most-departures") {
           response.data = response?.data?.data?.most_used_departure_cities;
         }
         if (slug === "team-with-most-wins") {
           response.data = response?.data?.top_teams;
         }
-        if (slug === "most-stage-finishes") {
+        if (slug === "cities-with-most-often-used-as-finish") {
           response.data = response?.data?.data?.most_used_finish_cities;
         }
         if (slug === "most-wins") {
           response.data = response?.data?.most_wins;
         }
-        if (slug === "most-podiums-by-rider") {
+        if (slug === "most-podiums-spots") {
           response.data = response?.data?.data?.top_rider;
         }
         if (slug === "race-participants") {
           response.data = response?.data?.rider_participation;
         }
-        if (slug === "team-with-most-wins-in-race") {
+        if (slug === "team-with-most-win") {
           response.data = response?.data?.data?.most_wins_team;
         }
-        if (slug === "most-wins-in-race") {
+        if (slug === "most-win") {
           response.data = response?.data?.most_wins;
         }
-        if (slug === "most-top10-by-rider") {
+        if (slug === "most-times-top10") {
           response.data = response?.data?.data?.top_rider;
         }
         if (slug === "last-winner") {
@@ -278,6 +278,7 @@ export default function DynamicSlugPage({ year }) {
         if (slug === "last-winner-from-country") {
           response.data = response?.data?.lastWinner;
         }
+        
         setPageData(response.data);
         // Extract title from API response
         if (response.message) {
@@ -323,7 +324,7 @@ export default function DynamicSlugPage({ year }) {
     // Fallback to config headers if no data available yet
     return config.headers;
   };
-
+console.log("pageData", pageData);
   // Render content based on data type and configuration
   const renderContent = () => {
     if (loading) {
@@ -510,8 +511,6 @@ export default function DynamicSlugPage({ year }) {
        if (nameDataExists) {
 
         const riderOrRaceData = getItemId(item,config.itemConfig.name);
-        console.log("riderOrRaceData", riderOrRaceData);
-
         // const clickableProps = riderId
         //   ? { onClick: () => router.push(`/riders/${riderId}`) }
         //   : {};
@@ -567,9 +566,7 @@ export default function DynamicSlugPage({ year }) {
          Data?.type === "team" ?
           { href: `/teams/${encodeURIComponent(Data?.id)}${queryString}` } :
           null ;
-
-        console.log("clickableProps", clickableProps);
-        if (!nameDataExists) {
+      if (!nameDataExists) {
           const teamContent = (
             <>
               <Flag

@@ -1,7 +1,6 @@
 export const getItemId = (item, keysarray) => {
-  console.log("keysarray", keysarray, item, "item");
-
-  // check for race keys
+ 
+// check for race keys
   const raceKeys = ["Race_Name", "RaceName", "raceName", "Race", "race_name", "race"];
   for (const key of raceKeys) {
     if (
@@ -16,7 +15,7 @@ export const getItemId = (item, keysarray) => {
   }
 
   // check for rider keys
-  const riderKeys = ["rider_id", "riderId", "_id", "id", "rider_key"];
+  const riderKeys = ["rider_id", "riderId", "_id", "id", "rider_key","winner_id"];
   for (const key of riderKeys) {
     if (
       item &&

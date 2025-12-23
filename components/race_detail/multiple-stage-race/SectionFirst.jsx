@@ -274,6 +274,10 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 4 - Last Winner*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
+                    <Link
+                        href={buildUrlWithParams("last-winners")}
+                        className="pabs"
+                      ></Link>
                       <h4 className="font-size-change">{data?.[fixedApis.box4]?.message}</h4>
 
                       {(() => {
@@ -307,7 +311,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                             </ul>
 
                             <Link
-                              href={buildUrlWithParams("last-winner-stage")}
+                              href={buildUrlWithParams("last-winners")}
                               className="green-circle-btn"
                             >
                               <img src="/images/arow.svg" alt="arrow" />
@@ -322,7 +326,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link
-                        href={buildUrlWithParams("rider-most-gc-top10s")}
+                        href={buildUrlWithParams("rider-with-most-top10-gc")}
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
@@ -358,7 +362,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
 
                                   <Link
                                     href={buildUrlWithParams(
-                                      "rider-most-gc-top10s"
+                                      "rider-with-most-top10-gc"
                                     )}
                                     className="green-circle-btn"
                                   >
@@ -378,7 +382,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link
-                    href={buildUrlWithParams("rider-most-dnfs")}
+                    href={buildUrlWithParams("rider-with-most-dnfs")}
                     className="pabs"
                   ></Link>
                   <div className="text-wraper">
@@ -418,7 +422,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                                 className="absolute-img"
                               />
                               <Link
-                                href={buildUrlWithParams("rider-most-dnfs")}
+                                href={buildUrlWithParams("rider-with-most-dnfs")}
                                 className="green-circle-btn"
                               >
                                 <img src="/images/arow.svg" alt="" />
@@ -464,7 +468,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link
-                    href={buildUrlWithParams("rider-most-gc-podiums")}
+                    href={buildUrlWithParams("rider-with-most-gc-podiums")}
                     className="pabs"
                   ></Link>
                   <div className="text-wraper">
@@ -500,7 +504,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
 
                               <Link
                                 href={buildUrlWithParams(
-                                  "rider-most-gc-podiums"
+                                  "rider-with-most-gc-podiums"
                                 )}
                                 className="green-circle-btn"
                               >
@@ -519,7 +523,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link
-                    href={buildUrlWithParams("rider-most-starts")}
+                    href={buildUrlWithParams("rider-with-most-starts")}
                     className="pabs"
                   ></Link>
                   <div className="text-wraper">
@@ -549,7 +553,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                           )}
 
                           <Link
-                            href={buildUrlWithParams("rider-most-starts")}
+                            href={buildUrlWithParams("rider-with-most-starts")}
                             className="white-circle-btn"
                           >
                             <img src="/images/arow.svg" alt="" />

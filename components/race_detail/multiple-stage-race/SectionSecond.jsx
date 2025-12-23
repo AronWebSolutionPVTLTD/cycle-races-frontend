@@ -127,7 +127,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     <div className="team-cart">
                       <Link
                         href={buildUrlWithParams(
-                          "last-race-winner-nationality"
+                          "last-time-rider-won"
                         )}
                         className="pabs"
                       ></Link>
@@ -167,7 +167,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               />
                               <Link
                                 href={buildUrlWithParams(
-                                  "last-race-winner-nationality"
+                                  "last-time-rider-won"
                                 )}
                                 className="green-circle-btn"
                               >
@@ -239,6 +239,12 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 3 - Most Participations By Rider*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
+                    <Link
+                            href={buildUrlWithParams(
+                              "most-participations-by-riders"
+                            )}
+                            className="pabs"
+                          ></Link>
                       <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                       {getBoxData(fixedApis.box3).error ? (
                         <ErrorMessage
@@ -268,7 +274,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           </ul>
                           <Link
                             href={buildUrlWithParams(
-                              "most-participations-by-rider"
+                              "most-participations-by-riders"
                             )}
                             className="green-circle-btn"
                           >
@@ -283,7 +289,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link
-                        href={buildUrlWithParams("most-dnfs-by-nationality")}
+                        href={buildUrlWithParams("rider-with-most-dnf-by-nationality")}
                         className="pabs"
                       ></Link>
                       <div className="text-wraper">
@@ -307,9 +313,9 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.id}`)}>
-                                {renderFlag(rider?.rider?.nationality)}
-                                <h6>{rider?.rider?.name || "..."}</h6>
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                {renderFlag(rider?.nationality)}
+                                <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.totalDNFs && (
                                 <h5>
@@ -325,7 +331,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               />
                               <Link
                                 href={buildUrlWithParams(
-                                  "most-dnfs-by-nationality"
+                                  "rider-with-most-dnf-by-nationality"
                                 )}
                                 className="green-circle-btn"
                               >
@@ -344,7 +350,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-5 box6">
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams(
-                    "most-top10-race-by-nationality"
+                    "most-top10-final-gc-by-nationality"
                   )} className="pabs" />
                   {getBoxData(fixedApis.box5).error ? (
                     <ErrorMessage
@@ -387,7 +393,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                         <div className="link_box">
                           <Link
                             href={buildUrlWithParams(
-                              "most-top10-race-by-nationality"
+                              "most-top10-final-gc-by-nationality"
                             )}
                             className="glob-btn green-bg-btn"
                           >
@@ -404,7 +410,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 </div>
                 <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
                   <Link
-                    href={buildUrlWithParams("most-top10-race-by-nationality")}
+                    href={buildUrlWithParams("most-top10-final-gc-by-nationality")}
                     className="alle-link m-0"
                   >
                     Alle statistieken <img src="/images/arow2.svg" alt="" />
@@ -416,7 +422,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 <div className="team-cart">
                   <Link
                     href={buildUrlWithParams(
-                      "rider-podium-reach-by-nationality"
+                      "riders-to-reach-the-podium"
                     )}
                     className="pabs"
                   ></Link>
@@ -450,7 +456,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           />
                           <Link
                             href={buildUrlWithParams(
-                              "rider-podium-reach-by-nationality"
+                              "riders-to-reach-the-podium"
                             )}
                             className="green-circle-btn"
                           >
@@ -555,6 +561,12 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               {/*Box 9 - Oldest Participant Nationality*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
+                <Link
+                          href={buildUrlWithParams(
+                            "oldest-participant-by-nationality"
+                          )}
+                          className="pabs"
+                        ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box9]?.message}</h4>
                     {getBoxData(fixedApis.box9).error ? (
@@ -572,7 +584,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                             <>
                               <div
                                 className="name-wraper name-wraper-green"
-                                key={index} onClick={() => router.push(`/riders/${rider?._id}`)}
+                                key={index} onClick={() => router.push(`/riders/${rider?.rider_id}`)}
                               >
                                 {renderFlag(rider?.nationality)}
                                 <h6>{rider?.rider_name || "..."}</h6>

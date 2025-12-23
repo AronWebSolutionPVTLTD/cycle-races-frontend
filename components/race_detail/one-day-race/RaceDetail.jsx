@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
+import { useRouter } from "next/router";
 
 export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
+  const router = useRouter();
   const fixedApis = {
     box1: "mostWins",
     box2: "getTotalEdition",
@@ -121,7 +123,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
               {/* box1 - Most wins */}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
-                  <Link href={buildUrlWithParams("most-wins-in-race")} className="pabs" />
+                  <Link href={buildUrlWithParams("most-win")} className="pabs" />
                   <h4>{data?.[fixedApis.box1]?.message}</h4>
                   {getBoxData(fixedApis.box1).error ? (
                     <ErrorMessage
@@ -138,7 +140,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.nationality)}
                                 <h6>{rider?.rider_name || "..."} </h6>
                               </div>
@@ -148,7 +150,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                           ))}
                       </ul>
                       <Link
-                        href={buildUrlWithParams("most-wins-in-race")}
+                        href={buildUrlWithParams("most-win")}
                         className="green-circle-btn"
                       >
                         <img src="/images/arow.svg" alt="" />
@@ -190,7 +192,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
               {/* box3 - Rider With MostGCPodiums*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                  <Link href={buildUrlWithParams("most-podiums-by-rider")} className="pabs" />
+                  <Link href={buildUrlWithParams("most-podiums-spots")} className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box3]?.message}</h4>
                     {(() => {
@@ -211,7 +213,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                       return (
                         <>
                           {ridersArray.slice(0, 1).map((rider, index) => (
-                            <div key={index} className="rider-item">
+                            <div key={index} className="rider-item" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                               <div className="name-wraper name-wraper-white">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -223,7 +225,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                               )}
                               <Link
                                 href={buildUrlWithParams(
-                                  "most-podiums-by-rider"
+                                  "most-podiums-spots"
                                 )}
                                 className="green-circle-btn"
                               >
@@ -258,7 +260,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                       }
                       return riderData.slice(0, 1).map((rider, index) => (
                         <>
-                          <div className="name-wraper name-wraper-white">
+                          <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                             {renderFlag(rider?.rider_country)}
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
@@ -286,7 +288,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                   {/* Box5: Team with most wins  */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
-                      <Link href={buildUrlWithParams("team-with-most-wins-in-race")} className="pabs" />
+                      <Link href={buildUrlWithParams("team-with-most-win")} className="pabs" />
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box5]?.message}</h4>
                         {(() => {
@@ -305,7 +307,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                           }
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${rider?.team_name}`)}>
                                 {renderFlag(rider?.nationality)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
@@ -322,7 +324,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                               />
                               <Link
                                 href={buildUrlWithParams(
-                                  "team-with-most-wins-in-race"
+                                  "team-with-most-win"
                                 )}
                                 className="green-circle-btn"
                               >
@@ -338,7 +340,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                   {/*Box 6 - Most Top 10 rider in Race */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
-                      <Link href={buildUrlWithParams("most-top10-by-rider")} className="pabs" />
+                      <Link href={buildUrlWithParams("most-times-top10")} className="pabs" />
                       <div className="text-wraper">
                         <h4 className="font-size-change">{data?.[fixedApis.box6]?.message}</h4>
                         {(() => {
@@ -358,7 +360,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-green">
+                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -374,7 +376,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                                 className="absolute-img"
                               />
                               <Link
-                                href={buildUrlWithParams("most-top10-by-rider")}
+                                href={buildUrlWithParams("most-times-top10")}
                                 className="white-circle-btn"
                               >
                                 <img src="/images/arow.svg" alt="" />
@@ -406,7 +408,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                               .map((rider, index) => (
                                 <li key={index}>
                                   <strong>{rider?.year}</strong>
-                                  <div className="name-wraper name-wraper-white">
+                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                     {renderFlag(rider?.country)}
                                     <h6>{rider?.rider_name || "..."} </h6>
                                   </div>
@@ -517,7 +519,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{rider?.year}</strong>
-                              <div className="name-wraper name-wraper-green">
+                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.winner_id}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.winner || "..."}</h6>
                               </div>

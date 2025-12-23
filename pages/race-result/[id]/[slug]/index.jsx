@@ -9,6 +9,7 @@ import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
+import { getItemId } from "@/pages/getId";
 
 // Helper function to get value from item using multiple possible keys
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
@@ -177,95 +178,7 @@ export default function DynamicSlugPage({ year }) {
         if (response?.data?.riders) {
           response.data = response?.data?.riders;
         }
-        if (slug === "upcoming-races-last-year-riders") {
-          response.data = response?.data?.races[0]?.last_year_top_riders;
-        }
-        if (slug === "most-win-upcoming-rider-last-year") {
-          response.data = response?.data?.races[0]?.all_time_top_winners;
-        }
-        if (slug === "shortest-races") {
-          response.data = [
-            ...response?.data?.data?.shortest_stage_races,
-            ...response?.data?.data?.shortest_one_day_races,
-          ];
-        }
-        if (slug === "longest-races") {
-          response.data = [
-            ...response?.data?.data?.longest_stage_races,
-            ...response?.data?.data?.longest_one_day_races,
-          ];
-        }
-        if (slug === "team-with-most-consecutive-wins") {
-          response.data = response?.data?.teams;
-        }
-        if (slug === "last-victory") {
-          response.data = response?.data?.data?.raceData;
-        }
-        if (slug === "wins-in-one-day") {
-          response.data = response?.data?.data?.wins;
-        }
-        if (slug === "rider-years-active") {
-          response.data = response?.data?.data?.years_and_teams;
-        }
-        if (slug === "rider-wins-by-season") {
-          response.data = response?.data?.data?.wins_per_season;
-        }
-        if (slug === "rider-best-monument-results") {
-          response.data = response?.data?.data?.best_monument_results;
-        }
-        if (slug === "get-top10-stages-in-grand-tours") {
-          response.data = response?.data?.data?.top_10_stages;
-        }
-        if (slug === "get-rider-longest-no-win-streak") {
-          response.data =
-            response?.data?.data?.longest_streak_without_win?.races_in_streak;
-        }
-        if (slug === "contact-history") {
-          response.data = response?.data?.data?.contracts;
-        }
-        if (slug === "home-country-wins") {
-          response.data = response?.data?.data?.[0]?.races;
-        }
-        if (slug === "get-grand-tours-ridden") {
-          response.data = response?.data?.data?.grand_tours_ridden;
-        }
-        if (slug === "get-rider-most-raced-country") {
-          response.data = response?.data?.data?.raceData;
-        }
-        if (slug === "get-best-stage-result") {
-          response.data = response?.data?.data?.results;
-        }
-        if (slug === "get-first-rank-in-grand-tours") {
-          response.data = response?.data?.data?.first_rank_races;
-        }
-        if (slug === "get-total-racing-days-in-grand-tours") {
-          response.data = response?.data?.data?.grand_tour_racing_days;
-        }
-        if (slug === "get-total-distance-raced-in-grand-tours") {
-          response.data = response?.data?.data?.grand_tour_distance;
-        }
-        if (slug === "get-best-monument-results") {
-          response.data = response?.data?.data?.best_monument_results;
-        }
-        if (slug === "get-best-paris-roubaix-result") {
-          response.data = response?.data?.data?.results;
-        }
-        if (slug === "get-first-rank-in-monuments") {
-          response.data = response?.data?.data?.first_rank_races;
-        }
-        if (slug === "get-best-gc-result") {
-          response.data = response?.data?.best_gc_results;
-        }
-        if (slug === "team-mates") {
-          response.data = response?.data?.data?.teammates;
-        }
-        if (slug === "get-rider-last-place-finishes") {
-          response.data = response?.data?.data?.last_place_finishes;
-        }
-        if (slug === "rider-from-same-home-town") {
-          response.data = response?.data?.data?.others_from_same_birthplace;
-        }
-        if (slug === "race-winners-by-nationality") {
+        if (slug === "winning-nationality-for-this-race") {
           response.data = response?.data?.data?.[0]?.riders;
         }
         setPageData(response.data);
@@ -438,47 +351,75 @@ export default function DynamicSlugPage({ year }) {
       //     {index + 1}
       //   </span>
       // );
-
+      const queryParams = [];
+      if (selectedYear) queryParams.push(`year=${selectedYear}`);
+      const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
       // NAME column with flag - only add if name data exists
       if (nameDataExists) {
-        const riderId = getRiderId(item);
-        const clickableProps = riderId
-          ? { onClick: () => router.push(`/riders/${riderId}`) }
-          : {};
+
+        const riderOrRaceData = getItemId(item,config.itemConfig.name);
+        console.log("riderOrRaceData", riderOrRaceData);
+
+        // const clickableProps = riderId
+        //   ? { onClick: () => router.push(`/riders/${riderId}`) }
+        //   : {};
+        const clickableProps = riderOrRaceData?.type === "race" ?
+        { href: `/race-result/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` } : 
+        riderOrRaceData?.type === "rider" ? { href: `/riders/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` }
+        : null;
+
+        const nameContent = (
+          <>
+            <Flag
+              code={getCountryCode(item, config)}
+              style={{
+                width: "30px",
+                height: "20px",
+                flexShrink: 0,
+              }}
+            />
+            {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
+              ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+              : ""
+              }`}
+          </>
+        );
+
         columns.push(
-          <h5 key="name" className="rider--name" {...clickableProps}>
-            <span key="srno" className="sr-no">
+          <h5 key="name" className="rider--name">
+            <span key="srno" className="sr-no fw-900">
               {index + 1}.
             </span>
-            <Link href={`/riders/${riderId}`} className="link">
-              <Flag
-                code={getCountryCode(item, config)}
-                style={{
-                  width: "30px",
-                  height: "20px",
-                  flexShrink: 0,
-
-                }}
-              />
-
-              {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
-                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                : ""
-                }`}
-            </Link>
+            {clickableProps?.href ? (
+              <Link {...clickableProps} className="link">
+                {nameContent}
+              </Link>
+            ) : (
+              <span>
+                {nameContent}
+              </span>
+            )}
           </h5>
         );
       }
 
+
       // TEAM column - only add if team data exists
       if (teamDataExists) {
         // If no name data exists, show flag with team
+        const Data = getItemId(item,config.itemConfig.team);
+        const clickableProps = Data?.type === "race" ?
+         { href: `/race-result/${encodeURIComponent(Data?.id)}${queryString}` } : 
+         Data?.type === "rider" ? { href: `/riders/${encodeURIComponent(Data?.id)}${queryString}` } 
+         : 
+         Data?.type === "team" ?
+          { href: `/teams/${encodeURIComponent(Data?.id)}${queryString}` } :
+          null ;
+
+        console.log("clickableProps", clickableProps);
         if (!nameDataExists) {
-          columns.push(
-            <h5 key="name" className="rider--name">
-              <span key="srno" className="sr-no">
-                {index + 1}.
-              </span>
+          const teamContent = (
+            <>
               <Flag
                 code={getCountryCode(item, config)}
                 style={{
@@ -486,17 +427,42 @@ export default function DynamicSlugPage({ year }) {
                   height: "20px",
                   marginRight: "10px",
                   flexShrink: 0,
-
                 }}
               />
               <span>{getItemValue(item, config.itemConfig.team)}</span>
+            </>
+          );
+
+          columns.push(
+            <h5 key="name" className="rider--name">
+              <span key="srno" className="sr-no fw-900">
+                {index + 1}.
+              </span>
+              {clickableProps?.href ? (
+                <Link {...clickableProps} className="link">
+                  {teamContent}
+                </Link>
+              ) : (
+                <span>
+                  {teamContent}
+                </span>
+              )}
             </h5>
           );
         } else {
           // If name data exists, show team without flag (flag is already shown with name)
+          const teamValue = getItemValue(item, config.itemConfig.team);
           columns.push(
-            <div key="team" className="team-name">
-              {getItemValue(item, config.itemConfig.team)}
+           <div key="team" className="team-name rider--name">
+              {clickableProps?.href ? (
+                <Link {...clickableProps} className="link">
+                  {teamValue}
+                </Link>
+              ) : (
+                <span>
+                  {teamValue}
+                </span>
+              )}
             </div>
           );
         }
