@@ -587,9 +587,12 @@ export default function DynamicSlugPage() {
               </>
 
             ) : (
-              <span>
-                {nameContent}
-              </span>
+              <>
+              {renderFlag(getCountryCode(item, config))}
+                <span>
+                  {nameContent}
+                </span>
+              </>
             )}
           </h5>
         );

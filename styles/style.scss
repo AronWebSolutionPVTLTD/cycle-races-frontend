@@ -3658,7 +3658,8 @@ header.sticky-header.sticky-top .menu-wraper ul li:not(.active):hover a {
 .ctm-card:has(.noData-error) {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  flex-direction: column;
   padding: 2rem 1rem 1rem !important;
 }
 
@@ -4567,11 +4568,11 @@ li.empty-state.ctm-empty-state {
   .slug-table-head.col--3 .slug-list-head.RANK,
   .slug-table-head.col--3 .slug-list-head.TIME,
   .slug-table-head.col--3 .slug-list-head.POSITION {
-    flex: 0 0 10%;
+    flex: 0 0 20%;
   }
   .slug-table-head.col--3 .slug-list-head.YEAR:last-child {
     text-align: right;
-    flex: 0 0 10% !important;
+    flex: 0 0 20% !important;
   }
   .slug-table-head.col--3 .slug-list-head.POSITION {
     flex: 0 0 20%;

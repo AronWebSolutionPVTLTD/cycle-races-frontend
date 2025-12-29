@@ -2,7 +2,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { getH2HData, getTeamsRiders } from "@/lib/api";
+import { getH2HData, getTeamsRiders, callAPI } from "@/lib/api";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { ListSkeleton } from "@/components/loading&error";
 import Flag from "react-world-flags";
@@ -25,6 +25,8 @@ export default function HeadToHead() {
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
   const { withAllTime, withoutAllTime } = generateYearOptions();
+  const [dynamicYears, setDynamicYears] = useState([]);
+  const [yearsLoading, setYearsLoading] = useState(false);
 
   // Head-to-head search states
   const [searchQuery1, setSearchQuery1] = useState("");
@@ -54,6 +56,28 @@ export default function HeadToHead() {
     }
   };
 
+  // Fetch common active years for both riders
+  const fetchRidersCommonActiveYears = async (id1, id2) => {
+    try {
+      setYearsLoading(true);
+      const response = await callAPI("GET", `/h2h/${id1}/${id2}/getRidersCommonActiveYears`);
+      
+      if (response && response.data && response.data.years) {
+        const years = response.data.years;
+        setDynamicYears(years);
+      } else {
+        // Fallback to empty array if API fails
+        setDynamicYears([]);
+      }
+    } catch (err) {
+      console.error("Error fetching riders common active years:", err);
+      // Fallback to empty array if API fails
+      setDynamicYears([]);
+    } finally {
+      setYearsLoading(false);
+    }
+  };
+
   // Fetch head-to-head comparison data
   const fetchH2H = async (id1, id2, year = null) => {
     setLoading(true);
@@ -78,18 +102,21 @@ export default function HeadToHead() {
 
 
 
+  // Use dynamic years if available, otherwise fallback to static years
+  const allYearOptions = dynamicYears.length > 0 ? dynamicYears : withoutAllTime;
+
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
-      return withoutAllTime; // FilterDropdown will add "All-time" automatically
+      return allYearOptions; // FilterDropdown will add "All-time" automatically
     }
     const hasNumbers = /\d/.test(searchValue);
     if (hasNumbers) {
       // Filter years - FilterDropdown will add "All-time" automatically
-      return withoutAllTime.filter((year) =>
-        year.toLowerCase().includes(searchValue.toLowerCase())
+      return allYearOptions.filter((year) =>
+        year.toString().toLowerCase().includes(searchValue.toLowerCase())
       );
     }
-    return withoutAllTime; // FilterDropdown will add "All-time" automatically
+    return allYearOptions; // FilterDropdown will add "All-time" automatically
   };
 
   const handleYearSelection = (value) => {
@@ -606,6 +633,7 @@ console.log(start, end,"dshdf");
     setError(null);
     prevRider1IdRef.current = null;
     setSelectedYear("All-time");
+    setDynamicYears([]);
   };
 
   const handleClear2 = () => {
@@ -618,6 +646,7 @@ console.log(start, end,"dshdf");
     setError(null);
     prevRider2IdRef.current = null;
     setSelectedYear("All-time");
+    setDynamicYears([]);
   };
 
   // Reset comparison when riders change
@@ -640,6 +669,7 @@ console.log(start, end,"dshdf");
       setH2HData([]);
       setGetMatchRidersData(null);
       setError(null);
+      setDynamicYears([]);
     }
 
     // Update refs when both riders are selected and comparison is done
@@ -920,6 +950,9 @@ console.log(start, end,"dshdf");
                 }`}
               disabled={!selectedRider1 || !selectedRider2}
               onClick={() => {
+                // Fetch common active years first
+                fetchRidersCommonActiveYears(selectedRider1.rider_id, selectedRider2.rider_id);
+                // Then fetch H2H data
                 fetchH2H(selectedRider1.rider_id, selectedRider2.rider_id);
                 setShowCompareResults(true);
                 // Track the riders being compared
@@ -1034,7 +1067,7 @@ console.log(start, end,"dshdf");
                                 placeholder="Year"
                                 onSelect={handleYearSelection}
                                 onInputChange={handleYearInputChange}
-                                loading={false}
+                                loading={yearsLoading}
                                 includeAllOption={true}
                                 allOptionText="All-time"
                                 classname="year-dropdown"

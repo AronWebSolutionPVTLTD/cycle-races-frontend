@@ -130,9 +130,17 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                 <Link href={buildUrlWithParams("top-finishes-in-grand-tour-satges")} className="pabs" />
 
                 {getBoxData(fixedApis.box1).error ? (
-                  <ErrorMessage
-                    errorType={getBoxData(fixedApis.box1).errorType}
-                  />
+                  <>
+                  <h4>
+                        {" "}
+                        {data?.[fixedApis.box1]?.message}
+                      </h4>
+                    <div className="no-data-wrap">
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box1).errorType}
+                      />
+                    </div>
+                  </>
                 ) : (
                   <>
                     <div className="card-content-wraper">

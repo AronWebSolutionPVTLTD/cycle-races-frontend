@@ -285,15 +285,24 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             {/* First Card */}
             <div className="col-lg-3 col-md-12">
               <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
+            
                 <Link href={buildUrlWithParams("rider-last-victories")} className="pabs" />
                 {getBoxData(fixedApis.box1).error ? (
-                  <ErrorMessage
-                    errorType={getBoxData(fixedApis.box1).errorType}
-                  />
+                  <>
+                  <h4>
+                        {" "}
+                        {data?.[fixedApis.box1]?.message}
+                      </h4>
+                    <div className="no-data-wrap">
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box1).errorType}
+                      />
+                    </div>
+                  </>
                 ) : (
                   <>
                     <div className="card-content-wraper">
-                      <h4>
+                    <h4>
                         {" "}
                         {data?.[fixedApis.box1]?.message}
                       </h4>
@@ -511,10 +520,18 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
             <div className="col-lg-5 box6">
               <div className="list-white-cart lime-green-cart ctm-card">
                 <Link href={buildUrlWithParams("best-monuments-result")} className="pabs" />
-                {getBoxData(fixedApis.box9).error ? (
-                  <ErrorMessage
-                    errorType={getBoxData(fixedApis.box9).errorType}
-                  />
+                {getBoxData(fixedApis.box9).error ? ( 
+                  <>
+                  <h4>
+                        {" "}
+                        {data?.[fixedApis.box9]?.message}
+                      </h4>
+                    <div className="no-data-wrap">
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box9).errorType}
+                      />
+                    </div>
+                  </>
                 ) : (
                   <>
                     <div className="card-content-wraper">

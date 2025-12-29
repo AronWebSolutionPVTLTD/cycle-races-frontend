@@ -201,18 +201,27 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             {/* best monument results of team */}
             <div className="col-lg-3 col-md-6 ">
               <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
+             
                 <Link href={buildUrlWithParams("best-monuments-results")} className="pabs" />
                 {getBoxData(fixedApis.box2).error ? (
-                  <ErrorMessage
-                    errorType={getBoxData(fixedApis.box2).errorType}
-                  />
-                ) : (
                   <>
-                    <div className="card-content-wraper">
-                      <h4>
+                  <h4>
                         {" "}
                         {data?.[fixedApis.box2]?.message}
                       </h4>
+                    <div className="no-data-wrap">
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box2).errorType}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="card-content-wraper">
+                    <h4>
+                  {" "}
+                  {data?.[fixedApis.box2]?.message}
+                </h4>
                       <ul>
                         {(Array.isArray(getBoxData(fixedApis.box2)?.data)
                           ? getBoxData(fixedApis.box2)?.data

@@ -689,7 +689,7 @@ export default function DynamicSlugPage() {
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (
-                    <li key={index}>{header}</li>
+                    <li key={index} className={header}>{header}</li>
                   ))}
                 </ul>
 

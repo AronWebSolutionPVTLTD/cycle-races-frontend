@@ -233,7 +233,7 @@ export default function RaceDetailsPage({ year }) {
       </Head>
       <main className="inner-pages-main rider-detail-main race-detail-main">
         <div className="dropdown-overlay"></div>
-        <section className="rider-details-sec pb-0 rider-details-sec-top">
+        <section className="rider-details-sec pb-0 rider-details-sec-top bg-pattern">
           <div className="top-wrapper-main">
             <div className="container">
               {isMainLoading ? (

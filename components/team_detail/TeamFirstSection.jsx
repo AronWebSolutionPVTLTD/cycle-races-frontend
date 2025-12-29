@@ -500,15 +500,24 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             {/* Last ten wins */}
             <div className="col-lg-5 col-md-12">
               <div className="list-white-cart lime-green-cart ctm-card">
+             
                 <Link href={buildUrlWithParams("last-5-wins")} className="pabs" />
                 {getBoxData(fixedApis.box9).error ? (
-                  <ErrorMessage
-                    errorType={getBoxData(fixedApis.box9).errorType}
-                  />
+                  <>
+                  <h4 className="fs-chenge">
+                  {" "}
+                  {data?.[fixedApis.box9]?.message}
+                </h4>
+                   <div className="no-data-wrap">
+                   <ErrorMessage
+                     errorType={getBoxData(fixedApis.box2).errorType}
+                   />
+                 </div>
+                 </>
                 ) : (
                   <>
                     <div className="card-content-wraper">
-                      <h4 className="fs-chenge">
+                    <h4 className="fs-chenge">
                         {" "}
                         {data?.[fixedApis.box9]?.message}
                       </h4>

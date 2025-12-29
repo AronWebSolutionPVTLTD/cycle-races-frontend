@@ -1902,4 +1902,77 @@ ul.slug-table-head.col--3 li.slug-list-head.Race {
   .slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.raceName {
     flex: 1 !important;
   }
+  .table_cols_list.riders-table-cols.col--3 .count.rank.text-end:last-child {
+    flex: 0 0 20% !important;
+  }
+  ul.slug-table-head.col--3 li.slug-list-head.DISTANCE {
+    flex: 0 0 20%;
+    text-align: center;
 }
+.slug-table-head.col--3 .slug-list-head.POSITION:last-child {
+  text-align: right;
+}
+ul.slug-table-head.col--3 li.slug-list-head.DAYS {
+  flex: 0 0 20%;
+  text-align: center;
+}
+.slug-table-body li.table_cols_list.riders-table-cols.col--3 .team-name.year {
+  flex: 0 0 20% !important;
+}
+li.table_cols_list.col--3 .count.text-end {
+  flex: 0 0 20% !important;
+}
+
+li.table_cols_list.col--3 .age {
+  flex: 0 0 20% !important;
+  text-align: center;
+}
+ul.slug-table-head.col--3 li.POINTS,ul.slug-table-head.col--3 li.CLASS {
+  flex: 0 0 20% !important;
+}
+
+ul.slug-table-head.col--3 li.CLASS {
+  text-align: center;
+}
+ul.slug-table-head.col--3 li.YEAR,ul.slug-table-head.col--3 li.WINNER {
+  flex: 0 0 20% !important;
+}
+ul.slug-table-head.col--3 li.RIDER, .team-slug-table-body li.table_cols_list.col--3 .team-name.rider--name {
+  flex: 0 0 20% !important;
+}
+.team-slug-table-body li.table_cols_list.col--3 .team-name.rider--name.year {
+  flex: 0 0 20% !important;
+}
+li.table_cols_list.col--3 .team-name.rider--name.class {
+  text-align: center;
+}
+.team-name.rider--name.race_class {
+  text-align: center;
+}
+}
+
+.bg-pattern {
+  position: relative;
+  z-index: 1;
+}
+
+.bg-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url(/images/desktop-pattern.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -1;
+}
+.no-data-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

@@ -291,12 +291,12 @@ export default function DynamicSlugPage({ year }) {
 
     if (error) {
       return (
-       <div
+        <div
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red" }}
         >
           Error: {error}
-       </div>
+        </div>
       );
     }
 
@@ -469,47 +469,74 @@ export default function DynamicSlugPage({ year }) {
 
       if (nameDataExists) {
 
-        const riderOrRaceData = getItemId(item,config.itemConfig.name);
+        const riderOrRaceData = getItemId(item, config.itemConfig.name);
         console.log("riderOrRaceData", riderOrRaceData);
 
         // const clickableProps = riderId
         //   ? { onClick: () => router.push(`/riders/${riderId}`) }
         //   : {};
         const clickableProps = riderOrRaceData?.type === "race" ?
-        { href: `/race-result/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` } : 
-        riderOrRaceData?.type === "rider" ? { href: `/riders/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` }
-        : null;
+          { href: `/race-result/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` } :
+          riderOrRaceData?.type === "rider" ? { href: `/riders/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` }
+            : null;
 
         const nameContent = (
           <>
-            <Flag
-              code={getCountryCode(item, config)}
-              style={{
-                width: "30px",
-                height: "20px",
-                flexShrink: 0,
-              }}
-            />
-            {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
-              ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-              : ""
-              }`}
+            <div className="d-flex flex-column">
+              {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
+                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                : ""
+                }`}
+
+              {riderOrRaceData?.type === "race" && item?.type === "stage" && (
+                <span className="most-dnfs-start-end">
+                  {item?.start_location}
+
+                  {item?.start_location && item?.finish_location ? " - " : ""}
+
+                  {item?.finish_location}
+
+                  {item?.distance ? ` (${item.distance} km)` : ""}
+                </span>
+              )}
+            </div>
           </>
         );
 
         columns.push(
           <h5 key="name" className="rider--name">
-            <span key="srno" className="sr-no">
+            <span key="srno" className="sr-no fw-900">
               {index + 1}.
             </span>
             {clickableProps?.href ? (
-              <Link {...clickableProps} className="link">
-                {nameContent}
-              </Link>
+              <>
+                <Flag
+                  code={getCountryCode(item, config)}
+                  style={{
+                    width: "30px",
+                    height: "20px",
+                    flexShrink: 0,
+                  }}
+                />
+                <Link {...clickableProps} className="link">
+                  {nameContent}
+                </Link>
+              </>
+
             ) : (
-              <span>
-                {nameContent}
-              </span>
+
+              <>
+                <Flag
+                  code={getCountryCode(item, config)}
+                  style={{
+                    width: "30px",
+                    height: "20px",
+                    flexShrink: 0,
+                  }}
+                /> <span>
+                  {nameContent}
+                </span>
+              </>
             )}
           </h5>
         );
@@ -518,14 +545,14 @@ export default function DynamicSlugPage({ year }) {
       // TEAM column - only add if team data exists
       if (teamDataExists) {
         // If no name data exists, show flag with team
-        const Data = getItemId(item,config.itemConfig.team);
+        const Data = getItemId(item, config.itemConfig.team);
         const clickableProps = Data?.type === "race" ?
-         { href: `/race-result/${encodeURIComponent(Data?.id)}${queryString}` } : 
-         Data?.type === "rider" ? { href: `/riders/${encodeURIComponent(Data?.id)}${queryString}` } 
-         : 
-         Data?.type === "team" ?
-          { href: `/teams/${encodeURIComponent(Data?.id)}${queryString}` } :
-          null ;
+          { href: `/race-result/${encodeURIComponent(Data?.id)}${queryString}` } :
+          Data?.type === "rider" ? { href: `/riders/${encodeURIComponent(Data?.id)}${queryString}` }
+            :
+            Data?.type === "team" ?
+              { href: `/teams/${encodeURIComponent(Data?.id)}${queryString}` } :
+              null;
 
         console.log("clickableProps", clickableProps);
         if (!nameDataExists) {
@@ -540,13 +567,29 @@ export default function DynamicSlugPage({ year }) {
                   flexShrink: 0,
                 }}
               />
-              <span>{getItemValue(item, config.itemConfig.team)}</span>
+              <span>{`${getItemValue(item, config.itemConfig.team)} ${Data?.type === "race" && item?.type === "stage"
+                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                : ""
+                }`}</span>
+
+
+              {Data?.type === "race" && item?.type === "stage" && (
+                <span className="most-dnfs-start-end">
+                  {item?.start_location}
+
+                  {item?.start_location && item?.finish_location ? " - " : ""}
+
+                  {item?.finish_location}
+
+                  {item?.distance ? ` (${item.distance} km)` : ""}
+                </span>
+              )}
             </>
           );
 
           columns.push(
             <h5 key="name" className="rider--name">
-              <span key="srno" className="sr-no">
+              <span key="srno" className="sr-no fw-900">
                 {index + 1}.
               </span>
               {clickableProps?.href ? (
@@ -564,10 +607,25 @@ export default function DynamicSlugPage({ year }) {
           // If name data exists, show team without flag (flag is already shown with name)
           const teamValue = getItemValue(item, config.itemConfig.team);
           columns.push(
-           <div key="team" className="team-name rider--name">
+            <div key="team" className={`team-name rider--name ${config.itemConfig.team.join(" ")}`}>
               {clickableProps?.href ? (
                 <Link {...clickableProps} className="link">
-                  {teamValue}
+                  {`${teamValue}${Data?.type === "race" && item?.type === "stage"
+                      ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                      : ""
+                    }`}
+
+                  {Data?.type === "race" && item?.type === "stage" && (
+                    <span className="most-dnfs-start-end">
+                      {item?.start_location}
+
+                      {item?.start_location && item?.finish_location ? " - " : ""}
+
+                      {item?.finish_location}
+
+                      {item?.distance ? ` (${item.distance} km)` : ""}
+                    </span>
+                  )}
                 </Link>
               ) : (
                 <span>
@@ -578,7 +636,7 @@ export default function DynamicSlugPage({ year }) {
           );
         }
       }
-     
+
       // AGE column (if specified in config)
       if (config.headers.includes("AGE") && config.itemConfig.age) {
         columns.push(
@@ -761,11 +819,11 @@ export default function DynamicSlugPage({ year }) {
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (
-                    <li key={index}>{header}</li>
+                    <li key={index} className={header}>{header}</li>
                   ))}
                 </ul>
 
-                <ul className="slug-table-body">{renderContent()}</ul>
+                <ul className="slug-table-body team-slug-table-body">{renderContent()}</ul>
               </div>
             </div>
           </div>
