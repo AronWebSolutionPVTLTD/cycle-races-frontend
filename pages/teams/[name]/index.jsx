@@ -186,7 +186,7 @@ export default function TeamDetail({ initialTeam }) {
   return (
     <main className="inner-pages-main rider-detail-main">
       <div className="dropdown-overlay"></div>
-      <section className="rider-details-sec pb-0 rider-details-sec-top">
+      <section className="rider-details-sec pb-0 rider-details-sec-top bg-pattern ">
         <div className="top-wrapper-main">
           <div className="container">
             <div className="top-wraper">
