@@ -8,24 +8,24 @@ import { LastSection } from "./LastSection";
 const OneDayRace = ({ selectedYear, selectedNationality, name }) => {
   return (
     <>
-      {/* <RaceDetail
+      <RaceDetail
         selectedYear={selectedYear !== "All time" ? selectedYear : null}
         selectedNationality={selectedNationality}
         name={name}
-      /> */}
-      {/* <RaceMostWin selectedNationality={selectedNationality} name={name} /> */}
+      /> 
+      <RaceMostWin selectedNationality={selectedNationality} name={name} />
 
-      {/* <SectionSecond
+     <SectionSecond
         selectedYear={selectedYear !== "All time" ? selectedYear : null}
         selectedNationality={selectedNationality}
         name={name}
-      /> */}
+      /> 
 
-     {/* <Mostparticipants
+     <Mostparticipants
         selectedYear={selectedYear !== "All time" ? selectedYear : null}
         selectedNationality={selectedNationality}
         name={name}
-      /> */}
+      />
 
         <LastSection
         selectedYear={selectedYear !== "All time" ? selectedYear : null}

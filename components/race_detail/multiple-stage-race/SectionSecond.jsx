@@ -352,10 +352,17 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   <Link href={buildUrlWithParams(
                     "most-top10-final-gc-by-nationality"
                   )} className="pabs" />
-                  {getBoxData(fixedApis.box5).error ? (
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box5).errorType}
-                    />
+                  {getBoxData(fixedApis.box5).error ? ( 
+                    <>
+                    <h4 className="fs-chenge">
+                          {data?.[fixedApis.box5]?.message}
+                        </h4>
+                    <div className="no-data-wrap">
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box5).errorType}
+                      />
+                    </div>
+                  </>
                   ) : (
                     <>
                       <div className="card-content-wraper">

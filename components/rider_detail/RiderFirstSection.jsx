@@ -522,7 +522,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 <Link href={buildUrlWithParams("best-monuments-result")} className="pabs" />
                 {getBoxData(fixedApis.box9).error ? ( 
                   <>
-                  <h4>
+                  <h4 className="fs-chenge">
                         {" "}
                         {data?.[fixedApis.box9]?.message}
                       </h4>

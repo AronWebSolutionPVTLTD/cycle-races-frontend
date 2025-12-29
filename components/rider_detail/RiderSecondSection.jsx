@@ -131,7 +131,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
 
                 {getBoxData(fixedApis.box1).error ? (
                   <>
-                  <h4>
+                  <h4 className="fs-chenge">
                         {" "}
                         {data?.[fixedApis.box1]?.message}
                       </h4>
