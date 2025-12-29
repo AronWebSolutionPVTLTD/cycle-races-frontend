@@ -405,6 +405,9 @@ ul.slug-table-head li:last-child {
   .slug-table-main:has(.table_cols_list.col--4 .team-name) .slug-table-head li:nth-child(2) {
     flex: 1 0 25%;
   }
+  .slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name {
+    flex: 0 0 20% !important;
+}
 }
 
 @media (max-width: 767px) {
@@ -569,8 +572,11 @@ section.stat-main-sec ul.slug-table-head-isRiderResults {
 }
 
 .results-summary .divider {
-  color: #999;
-  margin: 0 6px;
+  background: #999;
+  margin: 0 16px;
+  font-size: 0;
+  width: 2px;
+  opacity: 0.2;
 }
 
 /* mobile: vertical */
@@ -1277,7 +1283,7 @@ ul.rider-res-table-body li .date-col,
   flex: 0 0 10% !important;
 }
 
-.get-rider-first-win-race-name {
+.rider-first-win-race-name {
   color: #2b534d !important;
 
 }
@@ -1813,5 +1819,87 @@ section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hove
     height: 76px !important;
     object-fit: contain;
     max-width: 63px !important;
+  }
+}
+
+
+.custom-year-dropdown-wrap {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.custom-year-dropdown-wrap .results-summary {
+  margin: 0 !important;
+}
+
+.custom-year-dropdown-wrap .filter {
+  min-height: 46px;
+  display: flex;
+  flex-direction: row;
+}
+
+.custom-year-dropdown-wrap .form-select {
+  height: 100%;
+}
+ul.slug-table-head.col--3 .slug-list-head.Date {
+  flex: 0 0 100px;
+}
+
+ul.slug-table-head.col--3 li.slug-list-head.Race {
+  flex: 100%;
+}
+
+.slug-table-main .table_cols_list.riders-table-cols.col--3 .date {
+  flex: 0 0 100px !important;
+  color: #8E998F;
+}
+
+.rider--name span.most-dnfs-start-end {
+  color: #828e83;
+  font-weight: 500;
+  font-family: 'Roboto';
+  letter-spacing: 0;
+  font-size: 13px;
+}
+@media (max-width: 767px) {
+  .col.custom-year-dropdown-wrap {
+    padding: 0;
+  }
+  .slug-table-main .table_cols_list.riders-table-cols.col--3 .date {
+    flex: 100% !important;
+    font-size: 14px !important;
+  }
+  .rider--name span.most-dnfs-start-end {
+      margin-left: -30px;
+      
+  }
+  .slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.race_full_title a.link span.most-dnfs-start-end,
+  .slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.race_name a.link span.most-dnfs-start-end,
+  .slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.race a.link span.most-dnfs-start-end,
+  .slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.raceName a.link span.most-dnfs-start-end {
+    margin-left: 0;
+  }
+}
+.slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.race_full_title a.link,
+.slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.race_name a.link,
+.slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.race a.link,
+.slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.raceName a.link {
+    display: grid;
+    text-align: left;
+    gap: 0;
+  }
+@media ( min-width: 768px ) {
+  .slug-table-head.col--3 .slug-list-head.DATE:first-of-type {
+    text-align: left;
+    flex: 0 0 100px;
+}
+
+  .slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.race_full_title,
+  .slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.race_name,
+  .slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.race,
+  .slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name.raceName {
+    flex: 1 !important;
   }
 }

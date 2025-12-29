@@ -279,7 +279,7 @@ export default function DynamicSlugPage() {
       return (
         <li
           className="error-state"
-          style={{ textAlign: "center", padding: "20px", color: "red" }}
+          style={{ textAlign: "center", padding: "20px", color: "red",fontSize: "16px",fontWeight: "600"}}
         >
           Error: {error}
         </li>

@@ -62,9 +62,6 @@ export default function Riders() {
       getTeamsRiders(query)
         .then((response) => {
           if (response.status === "success") {
-            // Process data for display
-            console.log(response);
-            
             setTeamRiders(response.data);
             setFirstTenRiders(response.data.slice(0, 10));
             setError(null);

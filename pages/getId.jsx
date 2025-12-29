@@ -1,7 +1,11 @@
 export const getItemId = (item, keysarray) => {
+  // Return null if keysarray is not an array
+  if (!keysarray || !Array.isArray(keysarray)) {
+    return null;
+  }
  
 // check for race keys
-  const raceKeys = ["Race_Name", "RaceName", "raceName", "Race", "race_name", "race"];
+  const raceKeys = ["Race_Name", "RaceName", "raceName", "Race", "race_name", "race","race_full_title"];
   for (const key of raceKeys) {
     if (
       item &&
@@ -44,17 +48,3 @@ export const getItemId = (item, keysarray) => {
   return null;
 };
 
-export const getTeamId = (item) => {
-  const keys = ["team_name", "teamName", "team", "team_Name", "TeamName"];
-  for (const key of keys) {
-    if (
-      item &&
-      item[key] !== undefined &&
-      item[key] !== null &&
-      item[key] !== ""
-    ) {
-      return item[key];
-    }
-  }
-  return null;
-};

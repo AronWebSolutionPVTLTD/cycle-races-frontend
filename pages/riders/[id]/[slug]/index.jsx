@@ -3,27 +3,27 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { fetchData } from "@/lib/api";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
 import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
-
+import { getItemId } from "@/pages/getId";
+import { renderFlag } from "@/components/RenderFlag";
 
 // Helper function to get value from item using multiple possible keys
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
-  if (!Array.isArray(possibleKeys)) return defaultValue;
-
+  if (!possibleKeys || !Array.isArray(possibleKeys)) {
+    return defaultValue;
+  }
   for (const key of possibleKeys) {
     if (item[key] !== undefined && item[key] !== null) {
       return item[key];
     }
   }
-
   return defaultValue;
 };
-
 
 // Helper function to get country code for flag
 const getCountryCode = (item, config) => {
@@ -50,36 +50,8 @@ const getRiderOrRaceId = (item) => {
 
 
 export default function DynamicSlugPage() {
-
-
-
-
-
   const router = useRouter();
-  const { slug } = router.query;
-  const isRiderResults = slug === "rider-results-this-year";
-  const isRiderLastVictories = slug === "rider-last-victories";
-  const isRiderWinsBySeason = slug === "rider-wins-by-season";
-  const isGetTop10StagesInGrandTours = slug === "get-top10-stages-in-grand-tours";
-  const isGetRiderFirstWin = slug === "get-rider-first-win";
-  const isBestGCResults = slug === "best-gc-results";
-  const isRiderLongestNOWinStreak=slug==="get-rider-longest-no-win-streak"
-  const isGetRiderAllVicories=slug==="get-rider-all-victories"
-  const isFirstRankInGrandTours=slug==="get-first-rank-in-grand-tours"
-  const isFirstEverGrandTourWin=slug=="get-first-ever-grand-tour-win"
-  const isGetTotalDistanceRacedInGrandTours=slug=="get-total-distance-raced-in-grand-tours"
-  const getTotalRacingDaysInGrandTours=slug=="get-total-racing-days-in-grand-tours"
-  const getBestMonumentResults=slug=="get-best-monument-results"
-  const getBestParisRoubaixResult=slug=="get-best-paris-roubaix-result"
-  const getFirstRankInMonuments=slug=="get-first-rank-in-monuments"
-  const getBestGCResult=slug=="get-best-gc-result"
-  const teamMates=slug=="team-mates"
-  const riderFromSameHomeTown=slug=="rider-from-same-home-town"
-  const getRiderLastPlaceFinishes=slug=="get-rider-last-place-finishes"
-  const getGrandTourDNFS=slug=="get-grand-tour-dnfs"
-  const [resultStats, setResultStats] = useState(null);
-
-console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
+  const { slug, year } = router.query;
 
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -93,6 +65,28 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
   const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
+
+  // Update selectedYear from URL query parameter
+  useEffect(() => {
+    if (router.isReady) {
+      if (year) {
+        setSelectedYear(year);
+      } else if (slug === "rider-results-this-year" && !year) {
+        // For rider-results-this-year, set current year as default if no year in URL
+        const currentYear = new Date().getFullYear().toString();
+        setSelectedYear(currentYear);
+        // Update URL with current year
+        router.push(
+          {
+            pathname: router.pathname,
+            query: { ...router.query, year: currentYear },
+          },
+          undefined,
+          { shallow: true }
+        );
+      }
+    }
+  }, [router.isReady, year, slug]);
 
   // Generate year options (current year back to 1990)
   const currentYear = new Date().getFullYear();
@@ -124,6 +118,17 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
         setSelectedYear(value);
         setYearInput("");
         setShowYearDropdown(false);
+        // Update URL with the selected year
+        const { id } = router.query;
+        const newQuery = { ...router.query, year: value };
+        router.push(
+          {
+            pathname: router.pathname,
+            query: newQuery,
+          },
+          undefined,
+          { shallow: true }
+        );
         break;
     }
   };
@@ -171,10 +176,10 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
 
   // Fetch data based on slug
   useEffect(() => {
-    if (slug) {
+    if (router.isReady && slug) {
       fetchSlugData();
     }
-  }, [slug, selectedYear]);
+  }, [router.isReady, slug, selectedYear]);
 
   // Function to fetch data based on slug
   const fetchSlugData = async () => {
@@ -230,74 +235,81 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
         }
 
 
-        if (slug === "wins-in-one-day") {
+        if (slug === "wins-in-one-day-races") {
           response.data = response?.data?.data?.wins;
         }
-        if (slug === "rider-years-active") {
+        if (slug === "professional since") {
           response.data = response?.data?.data?.years_and_teams;
         }
-        if (slug === "rider-wins-by-season") {
+        if (slug === "number-of-wins-per-season") {
           response.data = response?.data?.data?.wins_per_season;
         }
-        if (slug === "rider-best-monument-results") {
+        if (slug === "best-monuments-result") {
           response.data = response?.data?.data?.best_monument_results;
         }
-        if (slug === "get-top10-stages-in-grand-tours") {
+        if (slug === "top-finishes-in-grand-tour-satges") {
           response.data = response?.data?.data?.top_10_stages;
         }
-        if (slug === "get-rider-longest-no-win-streak") {
+        if (slug === "rider-longest-streak-without-win") {
           response.data =
             response?.data?.data?.longest_streak_without_win?.races_in_streak;
         }
-        if (slug === "contact-history") {
+        if (slug === "team-contract-history") {
           response.data = response?.data?.data?.contracts;
         }
         if (slug === "home-country-wins") {
           response.data = response?.data?.data?.[0]?.races;
         }
-        if (slug === "get-grand-tours-ridden") {
+        if (slug === "grand-tours-ridden") {
           response.data = response?.data?.data?.grand_tours_ridden;
         }
-        if (slug === "get-rider-most-raced-country") {
+        if (slug === "rider-most-raced-countries") {
           response.data = response?.data?.data?.raceData;
         }
-        if (slug === "get-best-stage-result") {
+        if (slug === "best-stage-results") {
           response.data = response?.data?.data?.results;
         }
-        if (slug === "get-first-rank-in-grand-tours") {
+        if (slug === "victory-in-grand-tours") {
           response.data = response?.data?.data?.first_rank_races;
         }
-        if (slug === "get-total-racing-days-in-grand-tours") {
+        if (slug === "total-grand-tour-racing-days") {
           response.data = response?.data?.data?.grand_tour_racing_days;
         }
-        if (slug === "get-total-distance-raced-in-grand-tours") {
+        if (slug === "total-distance-grand-tour") {
           response.data = response?.data?.data?.grand_tour_distance;
         }
-        if (slug === "get-best-monument-results") {
+        if (slug === "riders-best-monuments-results") {
           response.data = response?.data?.data?.best_monument_results;
         }
-        if (slug === "get-best-paris-roubaix-result") {
+        if (slug === "riders-paris-roubaix-results") {
           response.data = response?.data?.data?.results;
         }
-        if (slug === "get-first-rank-in-monuments") {
+        if (slug === "victory-in-monuments") {
           response.data = response?.data?.data?.first_rank_races;
         }
-        if (slug === "get-best-gc-result") {
+        if (slug === "best-gc-result-in-grand-tour") {
           response.data = response?.data?.best_gc_results;
         }
-        if (slug === "team-mates") {
+        if (slug === "most-frequent-teammate") {
           response.data = response?.data?.data?.teammates;
         }
-        if (slug === "get-rider-last-place-finishes") {
+        if (slug === "rider-last-place-finishes") {
           response.data = response?.data?.data?.last_place_finishes;
         }
-        if (slug === "rider-from-same-home-town") {
+        if (slug === "riders-with-same-birthplace") {
           response.data = response?.data?.data?.others_from_same_birthplace;
         }
-        if (slug === "get-grand-tour-dnfs") {
+        if (slug === "grand-tour-dnfs") {
           response.data = response?.data?.data?.dnfs;
         }
-        setPageData(response.data);
+        // For rider-results-this-year, keep the full data structure to access stats
+        if (slug === "rider-results-this-year") {
+          // Keep the full response.data structure which contains wins_count, podium_count, top10_count
+          // and results_list for the table
+          setPageData(response.data);
+        } else {
+          setPageData(response.data);
+        }
         // Extract title from API response
         if (response.message) {
           setApiTitle(response.message);
@@ -330,7 +342,10 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
     // If we have page data, use dynamic headers based on actual data
     if (pageData) {
       let dataArray = pageData;
-      if (config.dataPath && pageData[config.dataPath]) {
+      // Special handling for rider-results-this-year
+      if (slug === "rider-results-this-year" && pageData?.results_list) {
+        dataArray = pageData.results_list;
+      } else if (config.dataPath && pageData[config.dataPath]) {
         dataArray = pageData[config.dataPath];
       }
 
@@ -351,16 +366,32 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
 
     if (error) {
       return (
-        <li
+        <div
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red" }}
         >
           Error: {error}
-        </li>
+        </div>
       );
     }
 
-    if (!pageData || pageData.length === 0) {
+    const config = getSlugConfig(slug);
+
+    // Get the actual data array
+    let dataArray = pageData;
+    // Special handling for rider-results-this-year
+    if (slug === "rider-results-this-year") {
+      if (pageData?.results_list) {
+        dataArray = pageData.results_list;
+      } else {
+        dataArray = [];
+      }
+    } else if (config.dataPath && pageData[config.dataPath]) {
+      dataArray = pageData[config.dataPath];
+    }
+
+    // Check if data array is empty
+    if (!dataArray || (Array.isArray(dataArray) && dataArray.length === 0)) {
       return (
         <li
           className="empty-state ctm-empty-state"
@@ -369,18 +400,6 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
           No data found for this category.
         </li>
       );
-    }
-
-    const config = getSlugConfig(slug);
-
-    // Get the actual data array
-    let dataArray = pageData;
-
-
-
-
-    if (config.dataPath && pageData[config.dataPath]) {
-      dataArray = pageData[config.dataPath];
     }
 
     // Render different content based on data structure
@@ -399,50 +418,59 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
 
   // Helper function to check if team data exists in the dataset
   const hasTeamData = (data, config) => {
-    const teamField = config?.itemConfig?.team;
-    if (!teamField) return false;
-
-    const teamKeys = Array.isArray(teamField) ? teamField : [teamField];
-
-    return data.some((item) =>
-      teamKeys.some((key) => {
-        const value = item[key];
-        return value !== undefined && value !== null && value !== "N/A";
-      })
-    );
+    if (!config.itemConfig.team || !Array.isArray(config.itemConfig.team)) {
+      return false;
+    }
+    return data.some((item) => {
+      for (const key of config.itemConfig.team) {
+        if (
+          item[key] !== undefined &&
+          item[key] !== null &&
+          item[key] !== "N/A"
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
   };
-
 
   // Helper function to check if name data exists in the dataset
   const hasNameData = (data, config) => {
-    const nameField = config?.itemConfig?.name;
-    if (!nameField) return false;
-
-    const nameKeys = Array.isArray(nameField) ? nameField : [nameField];
-
-    return data.some((item) =>
-      nameKeys.some((key) => {
-        const value = item[key];
-        return value !== undefined && value !== null && value !== "N/A";
-      })
-    );
+    if (!config.itemConfig.name || !Array.isArray(config.itemConfig.name)) {
+      return false;
+    }
+    return data.some((item) => {
+      for (const key of config.itemConfig.name) {
+        if (
+          item[key] !== undefined &&
+          item[key] !== null &&
+          item[key] !== "N/A"
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
   };
-
 
   const hasCountData = (data, config) => {
-    const countField = config?.itemConfig?.count;
-    if (!countField) return false;
-
-    const countKeys = Array.isArray(countField) ? countField : [countField];
-
-    return data.some((item) =>
-      countKeys.some((key) => {
-        const value = item[key];
-        return value !== undefined && value !== null && value !== "N/A";
-      })
-    );
+    if (!config.itemConfig.count || !Array.isArray(config.itemConfig.count)) {
+      return false;
+    }
+    return data.some((item) => {
+      for (const key of config.itemConfig.count) {
+        if (
+          item[key] !== undefined &&
+          item[key] !== null &&
+          item[key] !== "N/A"
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
   };
-
 
   // Helper function to get dynamic headers based on available data
   const getDynamicHeadersBasedOnData = (data, config) => {
@@ -456,312 +484,208 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
     return headers;
   };
 
-  // get date 
-
-  function convertDateRange(dateStr) {
-    const monthNames = [
-      "jan", "feb", "mar", "apr", "may", "jun",
-      "jul", "aug", "sep", "oct", "nov", "dec"
-    ];
-
-    const format = (d) => {
-      const [day, month] = d.split(".");
-      return {
-        day: parseInt(day),
-        month: parseInt(month)
-      };
-    };
-
-    if (dateStr.includes(" - ")) {
-      const [start, end] = dateStr.split(" - ");
-      const startDate = format(start);
-      const endDate = format(end);
-
-      // Check if same month
-      if (startDate.month === endDate.month) {
-        return {
-          start: `${startDate.day} - ${endDate.day} ${monthNames[startDate.month - 1]}`,
-          end: null,
-        };
-      } else {
-        // Different months - keep current format
-        const formatOld = (d) => {
-          const [day, month] = d.split(".");
-          return `${day.padStart(2, "0")}/${month.padStart(2, "0")}`;
-        };
-        return {
-          start: formatOld(start),
-          end: formatOld(end),
-        };
-      }
-    } else {
-      // Single date
-      const date = format(dateStr);
-      return {
-        start: `${date.day} ${monthNames[date.month - 1]}`,
-        end: null,
-      };
-    }
-  }
-
-
   // Render list content with configuration
   const renderListContent = (data, config) => {
-
-    // TEAM / NAME / COUNT detection
+    // Check if team data exists
     const teamDataExists = hasTeamData(data, config);
-    const nameDataExists =
-      hasNameData(data, config) || data.some((item) => item.race_name);
+    // Check if name data exists
+    const nameDataExists = hasNameData(data, config);
     const countDataExists = hasCountData(data, config);
 
     return data.map((item, index) => {
-      const { start, end } = item?.date ? convertDateRange(item.date) : {};
-
       const columns = [];
+      // columns.push(
+      //   <span key="srno" className="sr-no">
+      //     {index + 1}
+      //   </span>
+      // );
 
-      // ----------------------------
-      // NAME COLUMN (race_name fallback)
-      // ----------------------------
-      if (nameDataExists) {
-        // Entity always a race for this slug
-        const entity = {
-          id: item.race_name,
-          type: "race",
+      const queryParams = [];
+      if (selectedYear) queryParams.push(`year=${selectedYear}`);
+      const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+
+      // DATE column - only for rider-results-this-year
+      if (slug === "rider-results-this-year" && config.headers.includes("DATE")) {
+        const formatDate = (dateStr) => {
+          if (!dateStr) return "N/A";
+
+          // Handle format like "11.10" (DD.MM - first value is day, second is month)
+          if (dateStr.includes(".")) {
+            const [day, month] = dateStr.split(".");
+            const dayNum = parseInt(day, 10);
+            const monthNum = parseInt(month, 10);
+
+            if (isNaN(dayNum) || isNaN(monthNum)) return dateStr;
+
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            return `${dayNum} ${monthNames[monthNum - 1]}`;
+          }
+
+          return dateStr;
         };
 
-        const hasEntity = entity?.id && entity?.type;
+        const dateValue = item?.date || item?.race_date || "N/A";
+        const formattedDate = formatDate(dateValue);
 
-        const raceDate = item?.race_date?.split(".") || [];
-        const year = raceDate[2] || item?.year || "";
-        const month = raceDate[1] || "";
-        const stageNumber = item?.stage_number || "";
-        const tabName = item?.tab_name || "";
-
-        const raceName = getItemValue(item, config.itemConfig.name) || entity?.id;
-
-        // Build query string with only non-empty parameters
-        const queryParams = [];
-        if (year) queryParams.push(`year=${year}`);
-        if (month) queryParams.push(`month=${month}`);
-        if (stageNumber) queryParams.push(`stageNumber=${stageNumber}`);
-        if (tabName) queryParams.push(`tab=${tabName}`);
-        const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
-
-        const url = raceName
-          ? `/race-result/${raceName}${queryString}`
-          : null;
-        const hasUrl = !!url;
-
-        const displayName =
-          getItemValue(item, config.itemConfig?.name) || item.race_name;
-
-        // Date + Race Column
         columns.push(
-          <Fragment key={`date-race-${item._id || item.id || index}`}>
-            {/* ------ DATE / SR NO ------ */}
-            {!isGetTop10StagesInGrandTours && !getGrandTourDNFS && !getRiderLastPlaceFinishes && !getBestGCResult && !getFirstRankInMonuments && !getBestParisRoubaixResult && !getBestMonumentResults && !isGetTotalDistanceRacedInGrandTours && !getTotalRacingDaysInGrandTours && !isFirstRankInGrandTours  && !isBestGCResults && !isRiderLongestNOWinStreak && !isFirstEverGrandTourWin &&
-             <span className="text-capitalize date-col">
-              {item?.date ? (
-                <>
-                  {start}
-                  {end ? ` - ${end}` : ""}
-                </>
-              ) : (
-                item?.year || <span className="sr-no">{index + 1}.</span>
-              )}
-            </span>}
-
-
-            {/* ------ RACE NAME ------ */}
-            <h5
-              className={`rider--name race-name-el ${hasUrl ? "clickable" : ""}`}
-              {...(hasUrl ? { onClick: () => router.push(url) } : {})}
-            >
-              {hasUrl ? (
-                <>
-                  <Flag
-                    code={getCountryCode(item, config)}
-                    style={{
-                      width: "30px",
-                      height: "20px",
-                      flexShrink: 0,
-                      marginRight: "10px",
-                      borderRadius: "2px"
-                    }}
-                  />
-                  <Link href={url} className="link fw-900 d-flex ">
-
-
-                    <div>
-                      <div className="race-title fw-900 text-uppercase ">
-                        {/* MOBILE TRUNCATE */}
-                        {!isRiderWinsBySeason && (
-                          <span className="d-md-none mobile-name">
-                            {displayName.length > 30
-                              ? `${displayName.slice(0, 30)}...`
-                              : displayName}
-                          </span>
-                        )}
-
-
-                        {/* DESKTOP FULL */}
-                        <span className={` ${isRiderWinsBySeason ? "d-none" : "d-none d-md-inline"}`}>{displayName}</span>
-
-                        {(item?.stage_number) && !isGetRiderFirstWin && (
-                          <span className="d-none d-md-inline">
-                            {`: Stage ${item.stage_number}`}
-                          </span>
-                        )}
-                      </div>
-
-                      {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && !isGetRiderFirstWin && (
-                        <div className="most-dnfs-start-end loction d-none d-md-block">
-                          {item?.start_location}
-                          {item?.start_location && item?.finish_location ? " - " : ""}
-                          {item?.finish_location}
-                          {item?.distance ? ` (${item.distance} km)` : ""}
-                        </div>
-                      )}
-                    </div>
-                  </Link>
-                  {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && !isGetRiderFirstWin && (
-                    <div className="most-dnfs-start-end loction d-block d-md-none">
-                      {item?.start_location}
-                      {item?.start_location && item?.finish_location ? " - " : ""}
-                      {item?.finish_location}
-                      {item?.distance ? ` (${item.distance} km)` : ""}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <>
-                  <Flag
-                    code={getCountryCode(item, config)}
-                    style={{
-                      width: "30px",
-                      height: "20px",
-                      flexShrink: 0,
-                      marginRight: "10px",
-                      borderRadius: "3px"
-                    }}
-                  />
-
-                  {url ? (
-                    <>
-                      <Link href={url} className="link fw-900 d-flex ">
-                        <div>
-                          <div className="race-title fw-900 text-uppercase">
-                            {displayName}
-                          </div>  
-
-                          {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && !isGetRiderFirstWin && (
-                            <div className="most-dnfs-start-end loction d-none d-md-block">
-                              {item?.start_location}
-                              {item?.start_location && item?.finish_location ? " - " : ""}
-                              {item?.finish_location}
-                              {item?.distance ? ` (${item.distance} km)` : ""}
-                            </div>
-                          )}
-                        </div>
-                      </Link>
-
-                      {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && (
-                        <div className="most-dnfs-start-end loction d-block d-md-none">
-                          {item?.start_location}
-                          {item?.start_location && item?.finish_location ? " - " : ""}
-                          {item?.finish_location}
-                          {item?.distance ? ` (${item.distance} km)` : ""}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <div>
-                        <div className="race-title fw-900 text-uppercase">
-                          {displayName}
-                        </div>
-
-                        {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && !isGetRiderFirstWin && (
-                          <div className="most-dnfs-start-end loction d-none d-md-block">
-                            {item?.start_location}
-                            {item?.start_location && item?.finish_location ? " - " : ""}
-                            {item?.finish_location}
-                            {item?.distance ? ` (${item.distance} km)` : ""}
-                          </div>
-                        )}
-                      </div>
-
-                      {(isRiderResults ? item?.stage_number : (item?.start_location || item?.finish_location)) && (
-                        <div className="most-dnfs-start-end loction d-block d-md-none">
-                          {item?.start_location}
-                          {item?.start_location && item?.finish_location ? " - " : ""}
-                          {item?.finish_location}
-                          {item?.distance ? ` (${item.distance} km)` : ""}
-                        </div>
-                      )}
-                    </>
-                  )}
-                </>
-              )}
-            </h5>
-          </Fragment>
+          <div key="date" className="date">
+            {formattedDate}
+          </div>
         );
-
       }
 
-      // ----------------------------
-      // TEAM COLUMN
-      // ----------------------------
-      if (teamDataExists) {
-        if (!nameDataExists) {
-          columns.push(
-            <h5 key="team" className="rider--name">
-              <span key="srno" className="sr-no">
+      // NAME column with flag - only add if name data exists
+      if (nameDataExists) {
+
+        const riderOrRaceData = getItemId(item, config.itemConfig.name);
+        const clickableProps = riderOrRaceData?.type === "race" ?
+          { href: `/race-result/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` } :
+          riderOrRaceData?.type === "rider" ? { href: `/riders/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` }
+            : null;
+
+        const nameContent = (
+          <>
+
+            <div className="d-flex flex-column">
+
+
+              {/* ---- Start → End + Distance ---- */}
+              {`${getItemValue(item, config.itemConfig.name)} ${riderOrRaceData?.type === "race" && item?.type === "stage"
+                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                : ""
+                }`}
+              {riderOrRaceData?.type === "race" && item?.type === "stage" && (
+                <span className="most-dnfs-start-end">
+                  {item?.start_location}
+
+                  {item?.start_location && item?.finish_location ? " - " : ""}
+
+                  {item?.finish_location}
+
+                  {item?.distance ? ` (${item.distance} km)` : ""}
+                </span>
+              )}
+            </div>
+          </>
+        );
+
+        columns.push(
+          <h5 key="name" className="rider--name">
+            {slug !== "rider-results-this-year" && (
+              <span key="srno" className="sr-no fw-900">
                 {index + 1}.
               </span>
-              <Flag
-                code={getCountryCode(item, config)}
-                style={{
-                  width: "30px",
-                  height: "20px",
-                  marginRight: "10px",
-                  flexShrink: 0,
-                  borderRadius: "3px"
-                }}
-              />
-              <span>{getItemValue(item, config.itemConfig.team)}</span>
+            )}
+            {clickableProps?.href ? (
+              <>
+                {renderFlag(getCountryCode(item, config))}
+                <Link {...clickableProps} className="link">
+                  {nameContent}
+                </Link>
+              </>
+
+            ) : (
+              <span>
+                {nameContent}
+              </span>
+            )}
+          </h5>
+        );
+      }
+
+
+      // TEAM column - only add if team data exists
+      if (teamDataExists) {
+      // If no name data exists, show flag with team
+        const Data = getItemId(item, config.itemConfig.team);
+        const clickableProps = Data?.type === "race" ?
+          { href: `/race-result/${encodeURIComponent(Data?.id)}${queryString}` } :
+          Data?.type === "rider" ? { href: `/riders/${encodeURIComponent(Data?.id)}${queryString}` }
+            :
+            Data?.type === "team" ?
+              { href: `/teams/${encodeURIComponent(Data?.id)}` } :
+              null;
+        if (!nameDataExists) {
+          const teamContent = (
+            <>
+              {renderFlag(getCountryCode(item, config))}
+              <span>{`${getItemValue(item, config.itemConfig.team)} ${Data?.type === "race" && item?.type === "stage"
+                ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                : ""
+                }`}</span>
+              
+              {Data?.type === "race" && item?.type === "stage" && (
+                    <span className="most-dnfs-start-end">
+                      {item?.start_location}
+
+                      {item?.start_location && item?.finish_location ? " - " : ""}
+
+                      {item?.finish_location}
+
+                      {item?.distance ? ` (${item.distance} km)` : ""}
+                    </span>
+                  )}
+            </>
+          );
+          console.log("teamContent", teamContent);
+
+          columns.push(
+            <h5 key="name" className="rider--name">
+              {slug !== "rider-results-this-year" && (
+                <span key="srno" className="sr-no fw-900">
+                  {index + 1}.
+                </span>
+              )}
+              {clickableProps?.href ? (
+                <Link {...clickableProps} className="link">
+                  {teamContent}
+                </Link>
+              ) : (
+                <span>
+                  {teamContent}
+                </span>
+              )}
             </h5>
           );
         } else {
-          columns.push(
-            <div key="team" className="team-name date">
-              <div className={`${isGetRiderFirstWin && "get-rider-first-win-race-name"}`}>
-                {getItemValue(item, config.itemConfig.team)} <span className="d-none d-lg-inline">{isGetRiderFirstWin && item?.stage_number && `: Stage ${item.stage_number}`}</span>
-              </div>
+          // If name data exists, show team without flag (flag is already shown with name)
+          const teamValue = getItemValue(item, config.itemConfig.team);
+         columns.push(
+            <div key="team" className={`team-name rider--name text-md-center ${config.itemConfig.team.join(" ")}`}>
+              {clickableProps?.href ? (
+                <Link {...clickableProps} className="link">
+                  {`${teamValue}${
+                    Data?.type === "race" && item?.type === "stage"
+                      ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                      : ""
+                  }`}
 
-              {isGetRiderFirstWin && item?.stage_number && (
-                <>
-                  {[
-                    { className: "d-none d-lg-block" },
-                    { className: "d-block d-lg-none" }
-                  ].map(({ className }, idx) => (
-                    <div key={idx} className={`most-dnfs-start-end loction d-none d-lg-block ${className}`}>
+                  {Data?.type === "race" && item?.type === "stage" && (
+                    <span className="most-dnfs-start-end">
                       {item?.start_location}
+
                       {item?.start_location && item?.finish_location ? " - " : ""}
+
                       {item?.finish_location}
+
                       {item?.distance ? ` (${item.distance} km)` : ""}
-                    </div>
-                  ))}
-                </>
+                    </span>
+                  )}
+                </Link>
+              ) : (
+                <span>
+                  {teamValue}
+                </span>
               )}
             </div>
           );
         }
       }
 
-      // ----------------------------
-      // AGE COLUMN
-      // ----------------------------
+
+      // AGE column (if specified in config)
       if (config.headers.includes("AGE") && config.itemConfig.age) {
         columns.push(
           <div key="age" className="age">
@@ -770,30 +694,19 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
         );
       }
 
-      // ----------------------------
-      // COUNT COLUMN
-      // ----------------------------
+      // COUNT column
       if (countDataExists) {
-        const countValue = String(getItemValue(item, config.itemConfig.count));
-
         columns.push(
-          <div
-            key="count"
-            className={`count rank text-end ${isRiderResults ? "rider-count" : ""}`}
-          >
-            {isRiderResults
-              ? countValue.split("").map((digit, i) => <div key={i}>{digit}</div>)
-              : countValue}
+          <div key="count" className="count rank text-end">
+            {getItemValue(item, config.itemConfig.count)}
           </div>
         );
       }
 
-
-
       return (
         <li
           key={item._id || item.id || index}
-          className={`content-item ctm-head-heading riders-inner hoverState-li table_cols_list col--${columns.length} mb-0  ${isGetTop10StagesInGrandTours && "slug-table-body-getTop10StagesInGrandTours"} ${isGetRiderFirstWin && "slug-table-body-getRiderFirstWin"}`}
+          className={`content-item ctm-head-heading hoverState-li table_cols_list riders-table-cols col--${columns.length}`}
         >
           {columns}
         </li>
@@ -801,46 +714,14 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
     });
   };
 
-  useEffect(() => {
-    const config = getSlugConfig(slug);
-
-    if (config.apiEndpoint === "getRiderWinsPodiumsTop10sCurrentYear") {
-
-
-
-      if (pageData) {
-        setResultStats({
-          image_url: pageData.image_url ?? "",
-          top10_count: pageData.top10_count ?? 0,
-          wins_count: pageData.wins_count ?? 0,
-          podium_count: pageData.podium_count ?? 0
-        });
-      }
-    }
-  }, [slug, pageData]);
-
-
   // Render object content (for complex data structures)
   const renderObjectContent = (data, config) => {
-
-
-    // -------------------------------------------------------------
-    // SPECIAL HANDLING FOR rider-results-this-year
-    // -------------------------------------------------------------
-    if (config.apiEndpoint === "getRiderWinsPodiumsTop10sCurrentYear") {
-
-
-      const list = data?.results_list || [];
-      return renderListContent(list, config);
-    }
-
-
     // Handle the specific data structure from your API
     if (data.data && Array.isArray(data.data)) {
       return renderListContent(data.data, config);
     }
 
-    // Handle object data structure
+    // Handle object data structure (like the one in your image)
     if (typeof data === "object" && !Array.isArray(data)) {
       const columns = [];
 
@@ -855,7 +736,8 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
       if (data.class_filter) {
         columns.push(
           <div key="class" className="class">
-            Class: {Array.isArray(data.class_filter)
+            Class:{" "}
+            {Array.isArray(data.class_filter)
               ? data.class_filter.join(", ")
               : data.class_filter}
           </div>
@@ -865,7 +747,8 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
       if (data.data) {
         columns.push(
           <div key="data" className="data">
-            Data: {Array.isArray(data.data)
+            Data:{" "}
+            {Array.isArray(data.data)
               ? `${data.data.length} items`
               : "Available"}
           </div>
@@ -891,7 +774,7 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
       return <li className="content-object">{columns}</li>;
     }
 
-    // Fallback
+    // Fallback for other object structures
     return (
       <li className="content-object">
         {Object.entries(data).map(([key, value]) => (
@@ -907,8 +790,6 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
       </li>
     );
   };
-
-
 
   // Custom heading overrides for specific slugs
   const getCustomHeading = (slug, apiTitle) => {
@@ -932,13 +813,10 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
   console.log("pageHeading", apiTitle);
   // const srNoHeaderLabel = "";
 
-  console.log("resultStats", resultStats);
-
   return (
     <>
       <Head>
         <title>{pageTitle}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <section className="slug-main-section">
         <div className="dropdown-overlay"></div>
@@ -956,23 +834,11 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
                   </li>
                   <li>{pageHeading}</li>
                 </ul>
-
-                {isRiderResults ? (
+                {slug === "rider-results-this-year" ? (
                   <div className="isRiderResults-wraper">
-                    {resultStats?.image_url ? (
-                     <div>
-                      <img src={resultStats?.image_url} alt={resultStats?.name || "Rider"} />
-                      <h1 className="">{pageHeading || "..."}</h1>
-                     </div>
-                    ) : (
-                      <div className="hdr-img_wrap">
-                        <img
-                          src="/images/player6.png"
-                          alt=""
-                          className="absolute-img"
-                        />
-                      </div>
-                    )}
+                    <div className="hdr-img_wrap">
+                      <img alt="" className="absolute-img" src="/images/player6.png"></img>
+                    </div>
                     <h1 className="">{pageHeading || "..."}</h1>
                   </div>
                 ) : (
@@ -988,8 +854,8 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                <div className="row align-items-center sdsd bts__wrap bts__wrap_ctm">
-                  <div className="col">
+                <div className="row align-items-center sdsd bts__wrap">
+                  <div className="col custom-year-dropdown-wrap">
                     <ul className="filter">
                       <FilterDropdown
                         ref={yearDropdownRef}
@@ -1005,31 +871,27 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
                         classname="year-dropdown"
                       />
                     </ul>
-                  </div>
-                  {isRiderResults && (
-                  <div className="results-summary d-flex gap-3 align-items-center">
-
-                    <div className="stat-item wins">
-                      <strong>WINS</strong>
-                      <span>{resultStats?.wins_count}</span>
-                    </div>
-
-                    <span className="divider">|</span>
-
-                    <div className="stat-item podium">
-                      <strong>PODIUM</strong>
-                      <span>{resultStats?.podium_count}</span>
-                    </div>
-
-                    <span className="divider">|</span>
-
-                    <div className="stat-item top10">
-                      <strong>TOP10</strong>
-                      <span>{resultStats?.top10_count}</span>
-                    </div>
+                    {/* Show stats bar only for rider-results-this-year */}
+                    {slug === "rider-results-this-year" && pageData && (
+                      <div className="results-summary">
+                        <div className="stat-item">
+                          <strong>WINS</strong>
+                          <span>{pageData.wins_count ?? 0}</span>
+                        </div>
+                        <span className="divider">|</span>
+                        <div className="stat-item podium">
+                          <strong>PODIUM</strong>
+                          <span>{pageData.podium_count ?? 0}</span>
+                        </div>
+                        <span className="divider">|</span>
+                        <div className="stat-item top10">
+                          <strong>TOP 10</strong>
+                          <span>{pageData.top10_count ?? 0}</span>
+                        </div>
+                      </div>
+                    )}
 
                   </div>
-                )}
                   {/* <div className="col text-end">
                     <Link className="glob-btn green-bg-btn" href="/stats">
                       <strong>ALLE STATS</strong>
@@ -1041,12 +903,10 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
                 </div>
               </div>
 
-
-
-              <div className="col-lg-9 col-md-12 mt-4 slug-table-main rider-results-this-year">
+              <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
                 <ul
-                  className={`slug-table-head  ${riderFromSameHomeTown && "slug-table-head-riderhome"} ${teamMates && "slug-table-head-teamMates"} ${getBestGCResult && "slug-table-head-gbst"} ${getBestParisRoubaixResult && "slug-table-head-gbst"} ${getBestMonumentResults && "slug-table-head-getBESTMONUMENTRESULTS"} ${isGetTotalDistanceRacedInGrandTours && "slug-table-head-getTOTALdistance"} ${getTotalRacingDaysInGrandTours && "slug-table-head-getTRCDAYS"} ${isGetRiderAllVicories && "slug-tablehead-isGetRiderAllVicories"}  ${isRiderResults && "slug-table-head-isRiderResults"} ${isRiderLastVictories && "rider-victoryhead"} ${isGetTop10StagesInGrandTours && "slug-table-head-getTop10StagesInGrandTours"} ${isGetRiderFirstWin && "slug-table-head-getRiderFirstWin"} 
-                   sdsd col--${getDynamicHeaders().length}`}
+                  className={`slug-table-head sdsd col--${getDynamicHeaders().length
+                    }`}
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (
@@ -1054,7 +914,7 @@ console.log("isGetRiderAllVicories check",isGetRiderAllVicories)
                   ))}
                 </ul>
 
-                <ul className={`slug-table-body rider-res-table-body`}>{renderContent()}</ul>
+                <ul className="slug-table-body">{renderContent()}</ul>
               </div>
             </div>
           </div>

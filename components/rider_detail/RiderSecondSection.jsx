@@ -127,7 +127,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
             {/*Box 1 - Top10 Stages InGrandTours */}
             <div className="col-lg-5 box6">
               <div className="list-white-cart lime-green-cart ctm-card">
-                <Link href={buildUrlWithParams("get-top10-stages-in-grand-tours")} className="pabs" />
+                <Link href={buildUrlWithParams("top-finishes-in-grand-tour-satges")} className="pabs" />
 
                 {getBoxData(fixedApis.box1).error ? (
                   <ErrorMessage
@@ -165,7 +165,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                         className="absolute-img"
                       />
                       <div className="link_box">
-                        <Link href={buildUrlWithParams("get-top10-stages-in-grand-tours")} className="glob-btn">
+                        <Link href={buildUrlWithParams("top-finishes-in-grand-tour-satges")} className="glob-btn">
                           <strong>volledige stats</strong>{" "}
                           <span>
                             <img src="/images/arow.svg" alt="" />
@@ -183,7 +183,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                 {/*Box 2 - Rider FirstWin*/}
                 <div className="col-lg-5 col-md-6">
                   <div className="team-cart">
-                    <Link href={buildUrlWithParams("get-rider-first-win")} className="pabs" />
+                    <Link href={buildUrlWithParams("rider-first-win")} className="pabs" />
                     <div className="text-wraper">
                       <h4>{data?.[fixedApis.box2]?.message}</h4>
                       {(() => {
@@ -204,7 +204,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                         return (
                           <>
                             <div className="name-wraper name-wraper-white name-left">
-                              <Link href={`/races/${firstRider?.race}`} className="pabs" />
+                              <Link href={`/races/${firstRider?.race_full_title}`} className="pabs" />
                               {renderFlag(firstRider?.country_code)}
                               <h6>{firstRider?.race_full_title || "..."}</h6>
                             </div>
@@ -214,7 +214,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                               </h5>
                             )}
 
-                            <Link href={buildUrlWithParams("get-rider-first-win")} className="green-circle-btn">
+                            <Link href={buildUrlWithParams("rider-first-win")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="" />
                             </Link>
                           </>
@@ -227,7 +227,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                 {/*Box 3 -GC Results */}
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart lime-green-team-cart img-active">
-                    <Link href={buildUrlWithParams("best-gc-results")} className="pabs" />
+                    <Link href={buildUrlWithParams("grand-tour-gc-wins")} className="pabs" />
                     <div className="text-wraper">
                       <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                       {(() => {
@@ -262,7 +262,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                               </h5>
                             )}
 
-                            <Link href={buildUrlWithParams("best-gc-results")} className="white-circle-btn">
+                            <Link href={buildUrlWithParams("grand-tour-gc-wins")} className="white-circle-btn">
                               <img src="/images/arow.svg" alt="" />
                             </Link>
                           </>
@@ -275,7 +275,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                 {/*Box 4 - Rider LongestNoWinStreak*/}
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart">
-                    <Link href={buildUrlWithParams("get-rider-longest-no-win-streak")} className="pabs" />
+                    <Link href={buildUrlWithParams("rider-longest-streak-without-win")} className="pabs" />
                     <div className="text-wraper">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box4]?.message}
@@ -310,7 +310,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                               </h5>
                             )}
 
-                            <Link href={buildUrlWithParams("get-rider-longest-no-win-streak")} className="green-circle-btn">
+                            <Link href={buildUrlWithParams("rider-longest-streak-without-win")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="" />
                             </Link>
                           </>
@@ -323,7 +323,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                 {/*Box 5 - contract History */}
                 <div className="col-lg-5 col-md-6">
                   <div className="list-white-cart">
-                    <Link href={buildUrlWithParams("contact-history")} className="pabs" />
+                    <Link href={buildUrlWithParams("team-contract-history")} className="pabs" />
                     <h4>{data?.[fixedApis.box5]?.message}</h4>
                     {getBoxData(fixedApis.box5).error ? (
                       <ErrorMessage
@@ -340,7 +340,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{index + 1}</strong>
-                                <div className="name-wraper name-wraper-white">
+                                <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${rider?.team}`)}>
                                   {renderFlag(rider?.teamCountry)}
                                   <h6>{rider?.team || "..."}</h6>
                                 </div>
@@ -349,7 +349,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                               </li>
                             ))}
                         </ul>
-                        <Link href={buildUrlWithParams("contact-history")} className="green-circle-btn">
+                        <Link href={buildUrlWithParams("team-contract-history")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
                         </Link>
                       </>
@@ -362,7 +362,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
             {/* box6 - best Country */}
             <div className="col-lg-3 col-md-6 sss">
               <div className="team-cart">
-                <Link href={buildUrlWithParams("best-country")} className="pabs" />
+                <Link href={buildUrlWithParams("best-performance-in-country")} className="pabs" />
                 <div className="text-wraper">
                   <h4>{data?.[fixedApis.box6]?.message}</h4>
                   {(() => {
@@ -393,7 +393,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                           </h5>
                         )}
 
-                        <Link href={buildUrlWithParams("best-country")} className="green-circle-btn">
+                        <Link href={buildUrlWithParams("best-performance-in-country")} className="green-circle-btn">
                           <img src="/images/arow.svg" alt="" />
                         </Link>
                       </>
@@ -451,7 +451,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
             {/* box8 -  Rider from same home town InOneDay */}
             <div className="col-lg-3 col-md-6">
               <div className="list-white-cart">
-                <Link href={buildUrlWithParams("rider-from-same-home-town")} className="pabs" />
+                <Link href={buildUrlWithParams("riders-with-same-birthplace")} className="pabs" />
                 <h4>{data?.[fixedApis.box8]?.message}</h4>
                 {getBoxData(fixedApis.box8).error ? (
                   <ErrorMessage
@@ -475,7 +475,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                           </li>
                         ))}
                     </ul>
-                    <Link href={buildUrlWithParams("rider-from-same-home-town")} className="green-circle-btn">
+                    <Link href={buildUrlWithParams("riders-with-same-birthplace")} className="green-circle-btn">
                       <img src="/images/arow.svg" alt="" />
                     </Link>
                   </>
@@ -486,7 +486,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
             {/* Box9: Rider AllVictories  */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart list-white-cart lime-green-team-cart ctm-lime-green-team-cart">
-                <Link href={buildUrlWithParams("get-rider-all-victories")} className="pabs" />
+                <Link href={buildUrlWithParams("riders-victories")} className="pabs" />
                 <h4>{data?.[fixedApis.box9]?.message}</h4>
 
                 {getBoxData(fixedApis.box9).error ? (
@@ -525,7 +525,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                     /> */}
 
                     <Link
-                      href={buildUrlWithParams("get-rider-all-victories")}
+                      href={buildUrlWithParams("riders-victories")}
                       className="white-circle-btn"
                     >
                       <img src="/images/arow.svg" alt="arrow" />

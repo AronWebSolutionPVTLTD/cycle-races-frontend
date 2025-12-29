@@ -25,7 +25,10 @@ export default function RiderCard({ name, team, flag, riderId }) {
           {name}
         </Link>
       </h5>
-      <h6 className="team-name">{team}</h6>
+      <h6 className="team-name"> <Link
+          href={`/teams/${team}`}
+          className="link"
+        >{team}</Link></h6>
       <a href={`/riders/${riderId}`} className="r-details d-none">
         <img src="images/hover-arow.svg" alt="" />
       </a>

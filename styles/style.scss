@@ -522,7 +522,7 @@ footer {
         font-family: "Archivo", sans-serif;
         font-size: 1.125rem;
         font-style: normal;
-        font-weight: 500;
+        font-weight: 900;
         line-height: 2.5rem;
         /* 222.222% */
         letter-spacing: -0.022rem;
@@ -2777,6 +2777,7 @@ section.rider-details-sec {
         max-height: 12.1875rem;
         width: 100%;
         height: 100%;
+        object-fit: contain;
       }
     }
 
@@ -3114,6 +3115,7 @@ section.race-details-sec {
         max-height: 12.1875rem;
         width: 100%;
         height: 100%;
+        object-fit: contain;
       }
     }
 
@@ -4558,11 +4560,22 @@ li.empty-state.ctm-empty-state {
   .slug-table-head.col--3 .slug-list-head.YEAR {
     flex: 0 0 20%;
   }
-
+  .slug-table-head.col--3 .slug-list-head.YEAR,
+  .slug-table-head.col--3 .slug-list-head.DATE{
+    text-align: center;
+  }
   .slug-table-head.col--3 .slug-list-head.RANK,
   .slug-table-head.col--3 .slug-list-head.TIME,
   .slug-table-head.col--3 .slug-list-head.POSITION {
     flex: 0 0 10%;
+  }
+  .slug-table-head.col--3 .slug-list-head.YEAR:last-child {
+    text-align: right;
+    flex: 0 0 10% !important;
+  }
+  .slug-table-head.col--3 .slug-list-head.POSITION {
+    flex: 0 0 20%;
+    text-align: center;
   }
 }
 

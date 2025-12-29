@@ -335,7 +335,7 @@ export default function RiderDetail({ year, initialRider }) {
             <RiderSecondSection riderId={rider._id} filterYear={
               filterYear !== "All-time" ? filterYear : null
             } />
-
+ 
             <RiderThirdSection riderId={rider._id} filterYear={
               filterYear !== "All-time" ? filterYear : null
             } />
