@@ -4467,6 +4467,7 @@ section.rider-details-sec .row {
     display: flex;
     align-items: center;
     gap: 18px;
+    flex:auto !important;
   }
 
   .race-detail-main ul.plyr-dtls {

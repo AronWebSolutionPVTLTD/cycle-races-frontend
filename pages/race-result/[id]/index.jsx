@@ -96,7 +96,11 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     if (!race?.is_stage_race || !race?.stages || race.stages.length === 0) {
       return [];
     }
-    return race.stages.map((stage) => `Stage ${stage.stage_number}`);
+    return race.stages.map((stage) => 
+      (stage.stage_type === "Final GC" || stage.is_gc)
+        ? "Final GC"
+        : `Stage ${stage.stage_number}`
+    );
   };
 
   const getFilteredStages = (searchValue) => {
@@ -130,12 +134,26 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         router.push(`/race-result/${id}?${params.toString()}`, undefined, { shallow: false });
         break;
       case "stage":
-        // Extract stage number from "Stage X" format
-        const stageNum = value.replace("Stage ", "");
+        // Find the stage object to determine stage number and tab
+        const selectedStageObj = race?.stages?.find(
+          (s) => value === "Final GC" 
+            ? (s.stage_type === "Final GC" || s.is_gc)
+            : `Stage ${s.stage_number}` === value
+        );
+        
+        // Get stage number from the found stage object
+        const stageNum = selectedStageObj?.stage_number?.toString() || 
+          (value.startsWith("Stage ") ? value.replace("Stage ", "") : value);
+        
+        // Determine tab name based on stage type
+        const tabName = (selectedStageObj?.stage_type === "Final GC" || selectedStageObj?.is_gc)
+          ? "gc"
+          : "stage";
+        
         setSelectedStage(stageNum);
         setStageInput("");
         setShowStageDropdown(false);
-        // Update URL with new stage
+        // Update URL with new stage and tab
         const stageParams = new URLSearchParams();
         stageParams.set("year", selectedYear);
         if (selectedMonth) {
@@ -144,9 +162,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         if (stageNum) {
           stageParams.set("stageNumber", stageNum);
         }
-        if (tab) {
-          stageParams.set("tab", tab);
-        }
+        stageParams.set("tab", tabName);
         router.push(`/race-result/${id}?${stageParams.toString()}`, undefined, { shallow: false });
         break;
     }
@@ -194,9 +210,30 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         ? `&month=${getMonthNumber(selectedMonth)}`
         : "";
       const stageParam = selectedStage ? `&stageNumber=${selectedStage}` : "";
+      
+      // Determine tab name based on selected stage type and router query
+      const currentTab = router.query.tab || tab;
+      const selectedStageObj = race?.stages?.find(
+        (s) => {
+          const matchesStageNumber = s.stage_number.toString() === selectedStage;
+          const isFinalGC = s.stage_type === "Final GC" || s.is_gc;
+          // If we have a tab in query, use it to find the correct stage
+          if (currentTab === "gc") {
+            return matchesStageNumber && isFinalGC;
+          } else if (currentTab === "stage") {
+            return matchesStageNumber && !isFinalGC;
+          }
+          // Fallback: find by stage number and use the stage's own type
+          return matchesStageNumber;
+        }
+      );
+      const tabName = (selectedStageObj?.stage_type === "Final GC" || selectedStageObj?.is_gc)
+        ? "gc"
+        : (currentTab || "stage");
+      
       const response = await callAPI(
         "GET",
-        `/raceDetailsStats/${raceId}/getRaceDetails?year=${selectedYear}${monthParam}${stageParam}&tabName=${tab || ""}`
+        `/raceDetailsStats/${raceId}/getRaceDetails?year=${selectedYear}${monthParam}${stageParam}&tabName=${tabName}`
       );
       if (response?.data) {
         setRace(response.data);
@@ -318,7 +355,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         fetchRaceDetails(id);
       }
     }
-  }, [router.isReady, id, selectedYear, selectedStage]);
+  }, [router.isReady, id, selectedYear, selectedStage, router.query.tab]);
 
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
@@ -367,7 +404,13 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
-  const handleStageClick = (stageNum) => {
+  const handleStageClick = (stage) => {
+    // Determine tab name based on stage type
+    const tabName = (stage?.stage_type === "Final GC" || stage?.is_gc)
+      ? "gc"
+      : "stage";
+    
+    const stageNum = stage.stage_number;
     setSelectedStage(stageNum.toString());
     const params = new URLSearchParams();
     params.set("year", selectedYear);
@@ -377,9 +420,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     if (stageNum) {
       params.set("stageNumber", stageNum.toString());
     }
-    if (tab) {
-      params.set("tab", tab);
-    }
+    params.set("tab", tabName);
     router.push(`/race-result/${id}?${params.toString()}`, undefined, { shallow: false });
   };
   const getTimeGapDisplay = (baseTime, compareTime) => {
@@ -400,6 +441,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
 
     return minutes > 0 ? `+${minutes}'${seconds}"` : `+${seconds}"`;
   };
+  console.log(selectedStage, "selectedStage");
 
   return (
     <main className="inner-pages-main race-result-main">
@@ -457,7 +499,30 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                       isOpen={showStageDropdown}
                       toggle={() => setShowStageDropdown(!showStageDropdown)}
                       options={getFilteredStages(stageInput)}
-                      selectedValue={selectedStage ? `Stage ${selectedStage}` : ""}
+                      selectedValue={
+                        selectedStage 
+                          ? (() => {
+                              const currentTab = router.query.tab || tab || "";
+                              const currentStage = race?.stages?.find(
+                                (s) => {
+                                  const matchesStageNumber = s.stage_number.toString() === selectedStage;
+                                  const isFinalGC = s.stage_type === "Final GC" || s.is_gc;
+                                  // If we have a tab in query, use it to find the correct stage
+                                  if (currentTab === "gc") {
+                                    return matchesStageNumber && isFinalGC;
+                                  } else if (currentTab === "stage") {
+                                    return matchesStageNumber && !isFinalGC;
+                                  }
+                                  // Fallback: find by stage number and use the stage's own type
+                                  return matchesStageNumber;
+                                }
+                              );
+                              return (currentStage?.stage_type === "Final GC" || currentStage?.is_gc)
+                                ? "Final GC"
+                                : `Stage ${selectedStage}`;
+                            })()
+                          : ""
+                      }
                       placeholder="Stage"
                       onSelect={(value) => handleSelection("stage", value)}
                       onInputChange={handleStageInputChange}
@@ -467,12 +532,16 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                     />
                     
                     {race.stages.map((stage) => {
-                      const isActive = selectedStage && parseInt(selectedStage) === stage.stage_number;
+                      // Check if this stage is active based on stage_number, stage_type/is_gc, and tab
+                      const isFinalGC = stage.stage_type === "Final GC" || stage.is_gc;
+                      const currentTab = router.query.tab || tab || "";
+                      const isActive = selectedStage && parseInt(selectedStage) === stage.stage_number && 
+                        ((isFinalGC && currentTab === "gc") || (!isFinalGC && (currentTab === "stage" || currentTab === "")));
                       
                       return (
                         <button
-                          key={stage.stage_number}
-                          onClick={() => handleStageClick(stage.stage_number)}
+                          key={`${stage.stage_number}-${stage.is_gc ? 'gc' : 'stage'}`}
+                          onClick={() => handleStageClick(stage)}
                           className={`stage-button d-xl-inline-flex d-none ${isActive ? "active" : ""}`}
                           style={{
                             padding: "0.72rem 0.75rem 0.6875rem",
@@ -494,7 +563,9 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                             flex: "0 0 auto"
                           }}
                         >
-                          Stage {stage.stage_number}
+                          {(stage.stage_type === "Final GC" || stage.is_gc)
+                          ? <span>Final GC</span>
+                          : <span>Stage {stage.stage_number}</span>}
                         </button>
                       );
                     })}

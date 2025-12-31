@@ -47,7 +47,8 @@ export default function Header() {
 
   useEffect(() => {
     const riderDetailRegex = /^\/riders\/[\w\d-%\s]+$/;
-    const teamDetailRegex = /^\/teams\/[\w\d-%\s]+$/;
+    // const teamDetailRegex = /^\/teams\/[\w\d-%\s]+$/;
+    const teamDetailRegex = /^(https?:\/\/[^\s/]+)?\/teams\/[\w\d.%\s-]+$/;
     const raceDetailRegex = /^\/races\/[^/]+$/;
     const pathname = router.asPath.split('?')[0]; // Get pathname without query params
     setIsDetailPage(riderDetailRegex.test(pathname) || raceDetailRegex.test(pathname) || teamDetailRegex.test(pathname));

@@ -906,7 +906,7 @@ export default function DynamicSlugPage() {
                 </div>
               </div>
 
-              <div className="col-lg-9 col-md-7 mt-4 slug-table-main">
+              <div className="col-lg-9 col-md-12 mt-4 slug-table-main">
                 <ul
                   className={`slug-table-head sdsd col--${getDynamicHeaders().length
                     }`}

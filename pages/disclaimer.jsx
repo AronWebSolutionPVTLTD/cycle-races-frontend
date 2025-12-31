@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export const metadata = {
     title: 'Disclaimer | Wielerstats',
     description: 'Disclaimer en aansprakelijkheid van Wielerstats.',
@@ -50,7 +52,7 @@ export default function DisclaimerPage() {
                                     </p>
 
                                     <h2>CONTACT</h2>
-                                    <p>Voor vragen of opmerkingen kunt u contact opnemen.</p>
+                                    <p>Voor vragen of opmerkingen kunt u <Link href="/contact" className="disclaimer-contact-link">contact</Link> opnemen.</p>
                                 </div>
                             </div>
                         </div>

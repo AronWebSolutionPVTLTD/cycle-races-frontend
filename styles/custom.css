@@ -362,6 +362,29 @@ section.stat-main-sec ul.slug-table-body li h6 a:hover::after {
   width: 100%;
 }
 
+/* Disclaimer contact link hover effect */
+.disclaimer-contact-link {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease-in-out;
+}
+
+.disclaimer-contact-link::after {
+  content: "";
+  width: 0%;
+  height: 1px;
+  background-color: currentColor;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.disclaimer-contact-link:hover::after {
+  width: 100%;
+}
+
 section.stat-main-sec ul.slug-table-head {
   display: flex;
   gap: 1.5rem;
@@ -624,9 +647,9 @@ section.stat-main-sec ul.slug-table-head-isRiderResults {
   text-transform: uppercase;
 }
 
-.head-to-head-section .icon {
+/* .head-to-head-section .icon {
   right: 15px !important;
-}
+} */
 
 .head-to-head-section .wrap-top.open input {
   border-bottom-left-radius: 0 !important;
@@ -811,7 +834,7 @@ section.riders-sec1 .shape::after {
   transition: all 0.3s ease-in-out;
   font-weight: 900;
   border: none;
-  font-size: 32px;
+  font-size: 22px;
   background-color: #678F89;
   color: #d0f068;
   font-family: "Archivo", sans-serif;
@@ -1976,3 +1999,15 @@ li.table_cols_list.col--3 .team-name.rider--name.class {
   justify-content: center;
 }
 
+.searchInput{
+  border: 2px solid transparent;
+  transition: all .3s ease;
+}
+.searchInput:hover{
+  border: 2px solid #CBCBC7;
+}
+@media (max-width: 767px) {
+  .top-wraper .wraper {
+    gap: 24px !important;
+}
+}

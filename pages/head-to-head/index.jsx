@@ -44,6 +44,150 @@ export default function HeadToHead() {
   const prevRider1IdRef = useRef(null);
   const prevRider2IdRef = useRef(null);
 
+  // Flag to prevent saving during restore
+  const isRestoringRef = useRef(false);
+
+  // LocalStorage key for persisting state
+  const STORAGE_KEY = 'headToHeadState';
+  
+  // Data clears from localStorage in these scenarios:
+  // 1. When both riders are cleared (handleClear1/handleClear2 when other rider is also null)
+  // 2. When handleResetAll() is called (manual reset)
+  // 3. Data persists when navigating away and coming back
+  // 4. Data persists when only one rider is changed
+
+  // Save state to localStorage
+  const saveStateToStorage = () => {
+    // Don't save during restore
+    if (isRestoringRef.current) {
+      return;
+    }
+    try {
+      const stateToSave = {
+        selectedRider1,
+        selectedRider2,
+        searchQuery1,
+        searchQuery2,
+        showCompareResults,
+        selectedYear,
+        dynamicYears,
+        H2HData,
+        getMatchRidersData,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
+    } catch (err) {
+      console.error('Error saving state to localStorage:', err);
+    }
+  };
+
+  // Restore state from localStorage
+  const restoreStateFromStorage = async () => {
+    isRestoringRef.current = true;
+    try {
+      const savedState = localStorage.getItem(STORAGE_KEY);
+      if (savedState) {
+        const parsedState = JSON.parse(savedState);
+        
+        // Restore riders and search queries
+        if (parsedState.selectedRider1) {
+          setSelectedRider1(parsedState.selectedRider1);
+          setSearchQuery1(parsedState.searchQuery1 || parsedState.selectedRider1.riderName || "");
+        }
+        if (parsedState.selectedRider2) {
+          setSelectedRider2(parsedState.selectedRider2);
+          setSearchQuery2(parsedState.searchQuery2 || parsedState.selectedRider2.riderName || "");
+        }
+        
+        // Restore comparison state
+        if (parsedState.showCompareResults && parsedState.selectedRider1 && parsedState.selectedRider2) {
+          setShowCompareResults(true);
+          setSelectedYear(parsedState.selectedYear || "All-time");
+          
+          // Update refs
+          if (parsedState.selectedRider1?.rider_id) {
+            prevRider1IdRef.current = parsedState.selectedRider1.rider_id;
+          }
+          if (parsedState.selectedRider2?.rider_id) {
+            prevRider2IdRef.current = parsedState.selectedRider2.rider_id;
+          }
+          
+          // Restore dynamic years if available, otherwise fetch them
+          if (parsedState.dynamicYears && parsedState.dynamicYears.length > 0) {
+            setDynamicYears(parsedState.dynamicYears);
+          } else {
+            // Fetch fresh years
+            await fetchRidersCommonActiveYears(
+              parsedState.selectedRider1.rider_id,
+              parsedState.selectedRider2.rider_id
+            );
+          }
+          
+          // Restore H2H data if available, otherwise fetch fresh data
+          if (parsedState.H2HData && parsedState.H2HData.length > 0 && parsedState.getMatchRidersData) {
+            setH2HData(parsedState.H2HData);
+            setGetMatchRidersData(parsedState.getMatchRidersData);
+            setLoading(false); // Make sure loading is false when restoring from storage
+            setError(null);
+            // Ensure the year is properly set in dropdown
+            if (parsedState.selectedYear) {
+              setSelectedYear(parsedState.selectedYear);
+            }
+          } else {
+            // Fetch fresh H2H data
+            const yearToFetch = parsedState.selectedYear || "All-time";
+            await fetchH2H(
+              parsedState.selectedRider1.rider_id,
+              parsedState.selectedRider2.rider_id,
+              yearToFetch
+            );
+            // Ensure year is set after fetch
+            if (yearToFetch) {
+              setSelectedYear(yearToFetch);
+            }
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Error restoring state from localStorage:', err);
+    } finally {
+      // Allow saving after restore is complete
+      setTimeout(() => {
+        isRestoringRef.current = false;
+      }, 500);
+    }
+  };
+
+  // Clear state from localStorage
+  const clearStateFromStorage = () => {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (err) {
+      console.error('Error clearing state from localStorage:', err);
+    }
+  };
+
+  // Reset all state and clear localStorage
+  const handleResetAll = () => {
+    // Clear all state
+    setSearchQuery1("");
+    setSearchQuery2("");
+    setSelectedRider1(null);
+    setSelectedRider2(null);
+    setShowSuggestions1(false);
+    setShowSuggestions2(false);
+    setShowCompareResults(false);
+    setH2HData([]);
+    setGetMatchRidersData(null);
+    setError(null);
+    setSelectedYear("All-time");
+    setDynamicYears([]);
+    prevRider1IdRef.current = null;
+    prevRider2IdRef.current = null;
+    
+    // Clear localStorage
+    clearStateFromStorage();
+  };
+
   // Fetch initial riders data for fallback suggestions
   const fetchRiders = async () => {
     try {
@@ -64,7 +208,11 @@ export default function HeadToHead() {
       
       if (response && response.data && response.data.years) {
         const years = response.data.years;
-        setDynamicYears(years);
+        // Convert to strings and sort in descending order (newest first)
+        const formattedYears = years
+          .map(year => String(year))
+          .sort((a, b) => parseInt(b, 10) - parseInt(a, 10));
+        setDynamicYears(formattedYears);
       } else {
         // Fallback to empty array if API fails
         setDynamicYears([]);
@@ -89,6 +237,10 @@ export default function HeadToHead() {
         setGetMatchRidersData(response.data);
         setH2HData(response.data.data);
         setError(null);
+        // Ensure the year is set in dropdown based on what was requested
+        if (yearToUse && yearToUse !== selectedYear) {
+          setSelectedYear(yearToUse);
+        }
       } else {
         setError(response.error || "Failed to load H2H data");
       }
@@ -138,7 +290,13 @@ export default function HeadToHead() {
   };
 
   useEffect(() => {
-    fetchRiders();
+    const initializeComponent = async () => {
+      await fetchRiders();
+      // Restore state from localStorage on mount
+      await restoreStateFromStorage();
+    };
+    
+    initializeComponent();
 
     // Handle click outside for year dropdown
     const handleClickOutside = (event) => {
@@ -160,6 +318,47 @@ export default function HeadToHead() {
       }
     };
   }, []);
+
+  // Clear localStorage when navigating away from head-to-head page (except race-result)
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      // If navigating to a page that's not head-to-head or race-result, clear storage
+      const isHeadToHead = url.startsWith('/head-to-head');
+      const isRaceResult = url.startsWith('/race-result');
+      
+      if (!isHeadToHead && !isRaceResult) {
+        // User is navigating to another page from header menu, clear localStorage
+        clearStateFromStorage();
+      }
+    };
+
+    // Listen for route changes
+    router.events?.on('routeChangeStart', handleRouteChange);
+    
+    return () => {
+      router.events?.off('routeChangeStart', handleRouteChange);
+    };
+  }, [router]);
+
+
+  // Save state to localStorage when riders are selected or comparison is done
+  useEffect(() => {
+    // Only save if we have at least one rider selected
+    if (selectedRider1 || selectedRider2) {
+      // Use setTimeout to debounce saves and avoid saving during restore
+      const timeoutId = setTimeout(() => {
+        saveStateToStorage();
+      }, 100);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [selectedRider1, selectedRider2, showCompareResults, selectedYear]);
+
+  // Save state when H2H data is loaded
+  useEffect(() => {
+    if (showCompareResults && H2HData && H2HData.length > 0 && getMatchRidersData) {
+      saveStateToStorage();
+    }
+  }, [H2HData, getMatchRidersData, showCompareResults]);
 
 
 
@@ -379,11 +578,26 @@ export default function HeadToHead() {
     return filteredData.map((race, index) => {
       // Format date with month names (like "17 sep" or "31 May")
       const { start, end } = race?.date ? convertDateRange(race.date) : { start: null, end: null };
-console.log("race", race.date);
-console.log(start, end,"dshdf");
       // Build race URL if race_id exists
       const raceDate = race?.date?.split(".") || [];
-      const year = raceDate[2] || race?.year || "";
+      
+      // Get year - prioritize race.year (full year from API), then convert date year if needed
+      let year = "";
+      if (race?.year) {
+        // Convert to string if it's a number
+        year = String(race.year);
+      } else if (raceDate[2]) {
+        // Fallback to date year if race.year is not available
+        const dateYear = raceDate[2];
+        // If year is 2-digit, convert to 4-digit (assuming years < 50 are 20XX, >= 50 are 19XX)
+        if (dateYear.length === 2) {
+          const yearNum = parseInt(dateYear, 10);
+          year = yearNum < 50 ? `20${dateYear}` : `19${dateYear}`;
+        } else {
+          year = dateYear;
+        }
+      }
+      
       const month = raceDate[1] || "";
       const stageNumber = race?.stage_number || "";
       const hasRaceId = race?.race_id;
@@ -602,6 +816,10 @@ console.log(start, end,"dshdf");
       setError(null);
       prevRider1IdRef.current = null;
       prevRider2IdRef.current = null;
+      // Clear localStorage if both riders are being changed
+      if (!selectedRider2) {
+        clearStateFromStorage();
+      }
     }
     setSelectedRider1(rider);
     setSearchQuery1(rider.riderName);
@@ -617,6 +835,10 @@ console.log(start, end,"dshdf");
       setError(null);
       prevRider1IdRef.current = null;
       prevRider2IdRef.current = null;
+      // Clear localStorage if both riders are being changed
+      if (!selectedRider1) {
+        clearStateFromStorage();
+      }
     }
     setSelectedRider2(rider);
     setSearchQuery2(rider.riderName);
@@ -634,6 +856,12 @@ console.log(start, end,"dshdf");
     prevRider1IdRef.current = null;
     setSelectedYear("All-time");
     setDynamicYears([]);
+    // Clear localStorage if both riders are cleared
+    if (!selectedRider2) {
+      clearStateFromStorage();
+    } else {
+      saveStateToStorage();
+    }
   };
 
   const handleClear2 = () => {
@@ -647,6 +875,12 @@ console.log(start, end,"dshdf");
     prevRider2IdRef.current = null;
     setSelectedYear("All-time");
     setDynamicYears([]);
+    // Clear localStorage if both riders are cleared
+    if (!selectedRider1) {
+      clearStateFromStorage();
+    } else {
+      saveStateToStorage();
+    }
   };
 
   // Reset comparison when riders change
@@ -952,9 +1186,12 @@ console.log(start, end,"dshdf");
               onClick={() => {
                 // Fetch common active years first
                 fetchRidersCommonActiveYears(selectedRider1.rider_id, selectedRider2.rider_id);
-                // Then fetch H2H data
-                fetchH2H(selectedRider1.rider_id, selectedRider2.rider_id);
+                // Then fetch H2H data with current selected year
+                const yearToUse = selectedYear || "All-time";
+                fetchH2H(selectedRider1.rider_id, selectedRider2.rider_id, yearToUse);
                 setShowCompareResults(true);
+                // Ensure year is set in dropdown
+                setSelectedYear(yearToUse);
                 // Track the riders being compared
                 prevRider1IdRef.current = selectedRider1.rider_id;
                 prevRider2IdRef.current = selectedRider2.rider_id;
@@ -967,7 +1204,7 @@ console.log(start, end,"dshdf");
             </button>
           </div>
         ) : loading ? <ListSkeleton /> : (
-          (selectedRider1 || selectedRider2) && getMatchRidersData && (
+          (selectedRider1 && selectedRider2) && (getMatchRidersData || (H2HData && H2HData.length > 0)) && (
             <>
               <div className="container">
                 <div className="rider-compare-show-result">
@@ -1076,10 +1313,7 @@ console.log(start, end,"dshdf");
                           </div>
                         </div>
                       </div>
-
-
-
-                      <div className="col-lg-9 col-md-9 h2h_result_section">
+                      <div className="col-lg-9 col-md-12 h2h_result_section">
                         <h5 className="fw-900">Results in same race</h5>
                         <div className="slug-table-main head-to-head-main">
                           <ul className="slug-table-head head-to-head">
