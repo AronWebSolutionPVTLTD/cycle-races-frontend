@@ -11,10 +11,7 @@ export default function RiderCard({ name, team, flag, riderId }) {
     <li className="hoverState-li custom-list-el ss">
       <Link href={`/riders/${riderId}`} className="pabs" />
       <h5 className="rider--name fw-900">
-        <Link
-          href={`/riders/${riderId}`}
-          className="link"
-        >
+    
           <Flag code={flag.toUpperCase()} style={{ width: '30px', height: '20px', marginRight: '10px' }} />
 
           {/* {isValidRiderId ? (
@@ -22,7 +19,12 @@ export default function RiderCard({ name, team, flag, riderId }) {
         ) : (
           { name }
         )} */}
-          {name}
+            <Link
+          href={`/riders/${riderId}`}
+          className="link"
+        >
+          <div className="text-uppercase">{name}</div>
+        
         </Link>
       </h5>
       <h6 className="team-name"> <Link

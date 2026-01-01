@@ -14,10 +14,11 @@ import { getItemId } from "@/pages/getId";
 
 export async function getServerSideProps(context) {
   const { year, month } = context.query;
+  const currentYear = new Date().getFullYear().toString();
 
   return {
     props: {
-      year: year || "",
+      year: year || currentYear,
     },
   };
 }
@@ -79,9 +80,6 @@ export default function DynamicSlugPage({ year }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [apiTitle, setApiTitle] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(
-    year
-  );
 
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const { withoutAllTime } = generateYearOptions();
@@ -90,6 +88,9 @@ export default function DynamicSlugPage({ year }) {
 
   // Generate year options (current year back to 1990)
   const currentYear = new Date().getFullYear();
+  const [selectedYear, setSelectedYear] = useState(
+    year || currentYear.toString()
+  );
   const years = [];
   for (let year = currentYear; year >= 1990; year--) {
     years.push(year.toString());

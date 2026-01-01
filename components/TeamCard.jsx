@@ -21,7 +21,9 @@ export default function TeamCard({ teamName, year, flag, teamId }) {
                 style={{ width: '30px', height: '20px', marginRight: '10px'}} 
               />
             )}
-            {teamName}
+              <div className="text-uppercase">
+                {teamName}
+              </div>
           </Link>
         ) : (
           <>

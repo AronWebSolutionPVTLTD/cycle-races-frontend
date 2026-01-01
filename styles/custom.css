@@ -1972,6 +1972,9 @@ li.table_cols_list.col--3 .team-name.rider--name.class {
 .team-name.rider--name.race_class {
   text-align: center;
 }
+ul.slug-table-head.col--3 li.CLASS:last-child {
+  text-align: right;
+}
 }
 
 .bg-pattern {
