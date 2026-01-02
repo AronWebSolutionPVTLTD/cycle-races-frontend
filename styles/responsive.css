@@ -686,7 +686,7 @@ section.home-banner ul.transparent-cart li h5 {
         bottom: -1.5rem;
         left: -1.2rem;
     }
-    .team-cart .text-wraper .name-wraper {
+    .team-cart:not(.list-white-cart) .text-wraper .name-wraper {
         left: 5.25rem;
         padding: 0.81rem 0.75rem;
         position: absolute;
@@ -901,7 +901,7 @@ section.home-banner ul.transparent-cart li h5 {
         min-height: 11rem;
         height: 100%;
     }
-    .team-cart.lime-green-team-cart .text-wraper .name-wraper {
+    .team-cart.lime-green-team-cart:not(.list-white-cart) .text-wraper .name-wraper {
         left: 1rem;
     }
     .team-cart.lime-green-team-cart.img-active .text-wraper .name-wraper {

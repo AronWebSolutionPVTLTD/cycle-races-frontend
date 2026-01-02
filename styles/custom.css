@@ -865,7 +865,7 @@ section.riders-sec1 .shape::after {
   .rider-compare-show-result button {
     width: 2.5rem;
     height: 2.5rem;
-    font-size: 24px;
+    font-size: 16px;
   }
 
   .rider-compare-show-result .col-12 {
@@ -1028,7 +1028,7 @@ section.riders-sec1 .shape::after {
   .rider-compare-show-result button {
     width: 48px;
     height: 48px;
-
+    flex: 0 0 48px;
 
   }
 
@@ -1527,9 +1527,9 @@ section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hove
 }
 
 .ctm_fliter_wrap li.filter-dropdown-list.year-dropdown.d-xl-none {
-    width: 110px !important;
-    max-width: 110px !important;
-    min-width: 110px !important;
+    width: 95px !important;
+    max-width: 95px !important;
+    min-width: 95px !important;
 }
 }
 .list-white-cart .name-wraper.name-wraper-white {
@@ -2013,4 +2013,16 @@ ul.slug-table-head.col--3 li.CLASS:last-child {
   .top-wraper .wraper {
     gap: 24px !important;
 }
+  ul.filter li.filter-dropdown-list .form-select {
+    font-size: 13px !important;
+    width: 100%;
+  }
+
+  ul.filter li.filter-dropdown-list {
+    min-width: fit-content !important;
+    width: 95px !important;
+  }
+  section.result-sec1 ul.filter{
+    gap: 5px;
+  }
 }

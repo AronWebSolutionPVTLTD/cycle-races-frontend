@@ -539,34 +539,46 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                         ((isFinalGC && currentTab === "gc") || (!isFinalGC && (currentTab === "stage" || currentTab === "")));
                       
                       return (
-                        <button
-                          key={`${stage.stage_number}-${stage.is_gc ? 'gc' : 'stage'}`}
-                          onClick={() => handleStageClick(stage)}
-                          className={`stage-button d-xl-inline-flex d-none ${isActive ? "active" : ""}`}
-                          style={{
-                            padding: "0.72rem 0.75rem 0.6875rem",
-                            borderRadius: "3.75rem",
-                            border: "none",
-                            backgroundColor: isActive ? "#2b534d" : "#fff",
-                            color: isActive ? "#f7f6f0" : "#2b534d",
-                            fontFamily: "Roboto",
-                            fontSize: "1rem",
-                            fontWeight: 500,
-                            lineHeight: "1.125rem",
-                            letterSpacing: "-0.022rem",
-                            cursor: "pointer",
-                            transition: "all 0.3s ease",
-                            whiteSpace: "nowrap",
-                            display: "inline-flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flex: "0 0 auto"
-                          }}
-                        >
-                          {(stage.stage_type === "Final GC" || stage.is_gc)
+                        <li key={`${stage.stage_number}-${stage.is_gc ? 'gc' : 'stage'}`} className={`d-none d-lg-block ${isActive ? "active" : ""}`}>
+                          <Link 
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleStageClick(stage);
+                          }}>
+                            {(stage.stage_type === "Final GC" || stage.is_gc)
                           ? <span>Final GC</span>
                           : <span>Stage {stage.stage_number}</span>}
-                        </button>
+                          </Link>
+                        </li>
+                        // <button
+                        //   key={`${stage.stage_number}-${stage.is_gc ? 'gc' : 'stage'}`}
+                        //   onClick={() => handleStageClick(stage)}
+                        //   className={`stage-button d-xl-inline-flex d-none ${isActive ? "active" : ""}`}
+                        //   style={{
+                        //     padding: "0.72rem 0.75rem 0.6875rem",
+                        //     borderRadius: "3.75rem",
+                        //     border: "none",
+                        //     backgroundColor: isActive ? "#2b534d" : "#fff",
+                        //     color: isActive ? "#f7f6f0" : "#2b534d",
+                        //     fontFamily: "Roboto",
+                        //     fontSize: "1rem",
+                        //     fontWeight: 500,
+                        //     lineHeight: "1.125rem",
+                        //     letterSpacing: "-0.022rem",
+                        //     cursor: "pointer",
+                        //     transition: "all 0.3s ease",
+                        //     whiteSpace: "nowrap",
+                        //     display: "inline-flex",
+                        //     alignItems: "center",
+                        //     justifyContent: "center",
+                        //     flex: "0 0 auto"
+                        //   }}
+                        // >
+                        //   {(stage.stage_type === "Final GC" || stage.is_gc)
+                        //   ? <span>Final GC</span>
+                        //   : <span>Stage {stage.stage_number}</span>}
+                        // </button>
                       );
                     })}
                     </>
