@@ -370,15 +370,7 @@ export default function DynamicSlugPage({ year }) {
 
         const nameContent = (
           <>
-            <Flag
-              code={getCountryCode(item, config)}
-              style={{
-                width: "30px",
-                height: "20px",
-                flexShrink: 0,
-              }}
-            />
-            {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
+           {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
               ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
               : ""
               }`}
@@ -391,13 +383,17 @@ export default function DynamicSlugPage({ year }) {
               {index + 1}.
             </span>
             {clickableProps?.href ? (
+              <> {renderFlag(getCountryCode(item, config))}
               <Link {...clickableProps} className="link">
                 {nameContent}
               </Link>
+              </>
             ) : (
+              <> {renderFlag(getCountryCode(item, config))}
               <span>
-                {nameContent}
-              </span>
+                  {nameContent}
+                </span>
+              </>
             )}
           </h5>
         );
@@ -419,18 +415,8 @@ export default function DynamicSlugPage({ year }) {
         console.log("clickableProps", clickableProps);
         if (!nameDataExists) {
           const teamContent = (
-            <>
-              <Flag
-                code={getCountryCode(item, config)}
-                style={{
-                  width: "30px",
-                  height: "20px",
-                  marginRight: "10px",
-                  flexShrink: 0,
-                }}
-              />
-              <span>{getItemValue(item, config.itemConfig.team)}</span>
-            </>
+            <span>{getItemValue(item, config.itemConfig.team)}</span>
+           
           );
 
           columns.push(
@@ -439,13 +425,17 @@ export default function DynamicSlugPage({ year }) {
                 {index + 1}.
               </span>
               {clickableProps?.href ? (
+                <> {renderFlag(getCountryCode(item, config))}
                 <Link {...clickableProps} className="link">
                   {teamContent}
                 </Link>
+                </>
               ) : (
+                <> {renderFlag(getCountryCode(item, config))}
                 <span>
                   {teamContent}
                 </span>
+                </>
               )}
             </h5>
           );

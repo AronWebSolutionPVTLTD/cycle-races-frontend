@@ -91,9 +91,17 @@ const StatsFirstSection = ({
                   <Link href={buildUrlWithParams("/stats/most-races-won")} className="pabs" />
 
                   {getBoxData(fixedApis.box1).error ? (
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box1).errorType}
-                    />
+                    <>
+                      <h4 className="fs-chenge">
+                        {" "}
+                        {data?.[fixedApis.box1]?.message}
+                      </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box1).errorType}
+                        />
+                      </div>
+                    </>
                   ) : (
                     <>
                       <div className="card-content-wraper">

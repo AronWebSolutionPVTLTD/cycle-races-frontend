@@ -10,6 +10,7 @@ import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
 import { getItemId } from "@/pages/getId";
+import { renderFlag } from "@/components/RenderFlag";
 
 export async function getServerSideProps(context) {
   const { year, month } = context.query;
@@ -521,15 +522,8 @@ console.log("pageData", pageData);
 
         const nameContent = (
           <>
-            <Flag
-              code={getCountryCode(item, config)}
-              style={{
-                width: "30px",
-                height: "20px",
-                flexShrink: 0,
-              }}
-            />
-            {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
+         
+           {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
               ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
               : ""
               }`}
@@ -542,13 +536,18 @@ console.log("pageData", pageData);
               {index + 1}.
             </span>
             {clickableProps?.href ? (
+
+              <> {renderFlag(getCountryCode(item, config))}
               <Link {...clickableProps} className="link">
                 {nameContent}
               </Link>
+              </>
             ) : (
+              <> {renderFlag(getCountryCode(item, config))}
               <span>
                 {nameContent}
               </span>
+              </>
             )}
           </h5>
         );
@@ -569,16 +568,8 @@ console.log("pageData", pageData);
       if (!nameDataExists) {
           const teamContent = (
             <>
-              <Flag
-                code={getCountryCode(item, config)}
-                style={{
-                  width: "30px",
-                  height: "20px",
-                  marginRight: "10px",
-                  flexShrink: 0,
-                }}
-              />
-              <span>{getItemValue(item, config.itemConfig.team)}</span>
+           
+           <span>{getItemValue(item, config.itemConfig.team)}</span>
             </>
           );
 
@@ -588,13 +579,17 @@ console.log("pageData", pageData);
                 {index + 1}.
               </span>
               {clickableProps?.href ? (
+                <> {renderFlag(getCountryCode(item, config))}
                 <Link {...clickableProps} className="link">
                   {teamContent}
                 </Link>
+                </>
               ) : (
+                <> {renderFlag(getCountryCode(item, config))}
                 <span>
                   {teamContent}
                 </span>
+                </>
               )}
             </h5>
           );

@@ -588,7 +588,7 @@ export default function DynamicSlugPage() {
 
             ) : (
               <>
-              {renderFlag(getCountryCode(item, config))}
+                {renderFlag(getCountryCode(item, config))}
                 <span>
                   {nameContent}
                 </span>
@@ -601,7 +601,7 @@ export default function DynamicSlugPage() {
 
       // TEAM column - only add if team data exists
       if (teamDataExists) {
-      // If no name data exists, show flag with team
+        // If no name data exists, show flag with team
         const Data = getItemId(item, config.itemConfig.team);
         const clickableProps = Data?.type === "race" ?
           { href: `/race-result/${encodeURIComponent(Data?.id)}${queryString}` } :
@@ -613,23 +613,23 @@ export default function DynamicSlugPage() {
         if (!nameDataExists) {
           const teamContent = (
             <>
-              {renderFlag(getCountryCode(item, config))}
+
               <span>{`${getItemValue(item, config.itemConfig.team)} ${Data?.type === "race" && item?.type === "stage"
                 ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
                 : ""
                 }`}</span>
-              
+
               {Data?.type === "race" && item?.type === "stage" && (
-                    <span className="most-dnfs-start-end">
-                      {item?.start_location}
+                <span className="most-dnfs-start-end">
+                  {item?.start_location}
 
-                      {item?.start_location && item?.finish_location ? " - " : ""}
+                  {item?.start_location && item?.finish_location ? " - " : ""}
 
-                      {item?.finish_location}
+                  {item?.finish_location}
 
-                      {item?.distance ? ` (${item.distance} km)` : ""}
-                    </span>
-                  )}
+                  {item?.distance ? ` (${item.distance} km)` : ""}
+                </span>
+              )}
             </>
           );
           console.log("teamContent", teamContent);
@@ -642,28 +642,31 @@ export default function DynamicSlugPage() {
                 </span>
               )}
               {clickableProps?.href ? (
-                <Link {...clickableProps} className="link">
-                  {teamContent}
-                </Link>
+                <>{renderFlag(getCountryCode(item, config))}
+                  <Link {...clickableProps} className="link">
+                    {teamContent}
+                  </Link>
+                </>
               ) : (
-                <span>
-                  {teamContent}
-                </span>
+                <>{renderFlag(getCountryCode(item, config))}
+                  <span>
+                    {teamContent}
+                  </span>
+                </>
               )}
             </h5>
           );
         } else {
           // If name data exists, show team without flag (flag is already shown with name)
           const teamValue = getItemValue(item, config.itemConfig.team);
-         columns.push(
+          columns.push(
             <div key="team" className={`team-name rider--name text-md-center ${config.itemConfig.team.join(" ")}`}>
               {clickableProps?.href ? (
                 <Link {...clickableProps} className="link">
-                  {`${teamValue}${
-                    Data?.type === "race" && item?.type === "stage"
+                  {`${teamValue}${Data?.type === "race" && item?.type === "stage"
                       ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
                       : ""
-                  }`}
+                    }`}
 
                   {Data?.type === "race" && item?.type === "stage" && (
                     <span className="most-dnfs-start-end">

@@ -12,6 +12,7 @@ import {
   ListSkeleton,
 } from "@/components/loading&error";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
+import { renderFlag } from "@/components/RenderFlag";
 
 function convertDateRange(dateStr) {
   const monthNames = [
@@ -585,16 +586,9 @@ export default function Results() {
                           />
                           <span className="text-capitalize">{start}</span>
                           <h5 className="race-name-el">
-                            <Flag
-                              code={item.country_code.toUpperCase()}
-                              style={{
-                                width: "30px",
-                                height: "20px",
-                                marginRight: "10px",
-                              }}
-                            />
+                            {renderFlag(item.country_code)}
                             <Link
-                              className=""
+                              className="link"
                               href={`/races/${encodeURIComponent(item.race_name)}?year=${selectedYear}`}
                             >
                               {/* ---- Race Name + Stage ---- */}
@@ -632,18 +626,11 @@ export default function Results() {
 
                           </h5>
                           <h6 className="rider--name">
+                            {renderFlag(item.rider_country)}
                             <Link
                               className="link"
                               href={`/riders/${item?.rider_id}`}
                             >
-                              <Flag
-                                code={item.rider_country.toUpperCase()}
-                                style={{
-                                  width: "30px",
-                                  height: "20px",
-                                  marginRight: "10px",
-                                  }}
-                              />
                               {item.rider_name}
                             </Link>
                           </h6>
@@ -697,15 +684,8 @@ export default function Results() {
                         <h4 className="">{race.title}</h4>
                         <div className="name-wraper">
                           {race.flag && (
-                            <Flag
-                              code={race.flag}
-                              style={{
-                                width: "20px",
-                                height: "20px",
-                                marginLeft: "10px",
-                              }}
-                            />
-                          )}
+                            renderFlag(race.flag)
+                        )}
                          {race.rider &&
                          <Link
                          className="link"

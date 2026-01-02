@@ -1,6 +1,7 @@
 // components/TeamCard.jsx
 import Link from "next/link";
 import Flag from "react-world-flags";
+import { renderFlag } from "./RenderFlag";
 
 export default function TeamCard({ teamName, year, flag, teamId }) {
   const isValidTeam = teamName && teamName.trim().length > 0;
@@ -14,24 +15,20 @@ export default function TeamCard({ teamName, year, flag, teamId }) {
       )}
       <h5 className="rider--name fw-900">
         {isValidTeam && teamUrl ? (
+          <>   {flag && (
+            <> {renderFlag(flag)}</>
+       )}
           <Link href={teamUrl} className="link">
-            {flag && (
-              <Flag 
-                code={flag.toUpperCase()} 
-                style={{ width: '30px', height: '20px', marginRight: '10px'}} 
-              />
-            )}
+         
               <div className="text-uppercase">
                 {teamName}
               </div>
           </Link>
+          </>
         ) : (
           <>
             {flag && (
-              <Flag 
-                code={flag.toUpperCase()} 
-                style={{ width: '30px', height: '20px', marginRight: '10px' }} 
-              />
+              <> {renderFlag(flag)}</>
             )}
             {teamName}
           </>

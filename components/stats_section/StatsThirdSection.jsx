@@ -440,9 +440,15 @@ const StatsThirdSection = ({
                   <Link href={buildUrlWithParams("/stats/teams-with-most-top-10-gc-finishes")} className="pabs" />
 
                   {getBoxData(fixedApis.box9).error ? (
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box9).errorType}
-                    />
+                    <>  <h4 className="fs-chenge">
+                        {data?.[fixedApis.box9]?.message}
+                      </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box9).errorType}
+                        />
+                      </div>
+                    </>
                   ) : (
                     <>
                       <div className="card-content-wraper">

@@ -8,6 +8,7 @@ import { ListSkeleton } from "@/components/loading&error";
 import Flag from "react-world-flags";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
+import { renderFlag } from "@/components/RenderFlag";
 
 export default function HeadToHead() {
   const router = useRouter();
@@ -626,13 +627,10 @@ export default function HeadToHead() {
             className={`rider--name race-name-el ${hasRaceId ? "clickable" : ""}`}
             {...(hasRaceId ? { onClick: () => router.push(url) } : {})}
           >
-            {hasRaceId ? (
+            {hasRaceId ? (<>
+             {renderFlag(race.country)}
               <Link href={url} className="link fw-900 d-flex ">
-                <Flag
-                  code={race.country?.toUpperCase() || "XX"}
-                  style={{ width: "30px", height: "20px", flexShrink: 0, marginRight: "10px"}}
-                />
-                <div>
+              <div>
                   <div className="race-title fw-900 text-uppercase ">
                     <span className="d-md-none">
                       {race.race_name.length > 30
@@ -661,13 +659,11 @@ export default function HeadToHead() {
                   )}
                 </div>
               </Link>
+              </>
             ) : (
               <>
-                <Flag
-                  code={race.country?.toUpperCase() || "XX"}
-                  style={{ width: "30px", height: "20px", flexShrink: 0, marginRight: "10px" }}
-                />
-                <div>
+              {renderFlag(race.country)}
+               <div>
                   <div className="race-title fw-900 text-uppercase">{race.race_name}</div>
                 </div>
               </>
@@ -1118,16 +1114,7 @@ export default function HeadToHead() {
                             {selectedRider1 && (
                               <div className="rider-result-box">
                                 <h4 className="result-name text-uppercase d-flex align-items-center">
-                                  <Flag
-                                    code={selectedRider1.riderCountry?.toUpperCase()}
-                                    style={{
-                                      width: "30px",
-                                      height: "20px",
-                                      marginRight: "10px",
-                                      flexShrink: 0,
-                                     borderRadius: "5px"
-                                    }}
-                                  />
+                                  {renderFlag(selectedRider1.riderCountry)}
                                   {selectedRider1.riderName}
                                 </h4>
                                 <span className="result-country">
@@ -1142,17 +1129,7 @@ export default function HeadToHead() {
                             {selectedRider2 && (
                               <div className="rider-result-box">
                                 <h4 className="result-name text-uppercase d-flex align-items-center">
-                                  <Flag
-                                    code={selectedRider2.riderCountry?.toUpperCase()}
-                                    style={{
-                                      width: "30px",
-                                      height: "20px",
-                                      marginRight: "10px",
-                                      flexShrink: 0,  
-                                     borderRadius: "5px"
-                                     
-                                    }}
-                                  />
+                                  {renderFlag(selectedRider2.riderCountry)}
                                   {selectedRider2.riderName}
                                 </h4>
                                 <span className="result-country">

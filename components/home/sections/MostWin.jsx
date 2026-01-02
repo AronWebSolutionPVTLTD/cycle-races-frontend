@@ -88,12 +88,14 @@ const endpointsToFetch = Object.values(apiOptions);
             .map((rider, index) => (
               <div key={index}>
                 <div className="most-win">
+                  
                   <Flag
                     code={rider.rider_country?.toUpperCase()}
                     style={{
                       width: "30px",
                       height: "30px",
                       marginRight: "10px",
+                      borderRadius: "2px",
                     }}
                   />
                   <h4>{rider.rider_name}</h4>

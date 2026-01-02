@@ -2026,3 +2026,7 @@ ul.slug-table-head.col--3 li.CLASS:last-child {
     gap: 5px;
   }
 }
+
+.name-wraper img {
+  border-radius: 2px;
+}

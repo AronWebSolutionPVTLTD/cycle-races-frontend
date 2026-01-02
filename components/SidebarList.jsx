@@ -1,6 +1,6 @@
-import Link from "next/link";
-import Flag from "react-world-flags";
-// components/SidebarList.js
+import Link from "next/link"; 
+import { renderFlag } from "./RenderFlag";
+          // components/SidebarList.js
 export default function SidebarList({ title, riders, link}) {
 
 return (
@@ -20,8 +20,7 @@ return (
                 <strong>{index + 1}.</strong>
                 <div className="name-wraper">
                   <Link href={itemLink} className="pabs" /> 
-
-                  <Flag code={rider?.flag} style={{width:"20px",height:"20px",marginLeft:"10px"}} />
+                  <> {renderFlag(rider?.flag)}</>
                   <h6 className="clamp-text">{rider.name}</h6>
                 
                 </div>

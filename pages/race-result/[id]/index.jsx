@@ -10,6 +10,7 @@ import {
   ListSkeleton,
 } from "@/components/loading&error";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
+import { renderFlag } from "@/components/RenderFlag";
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -32,7 +33,9 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
   const { id } = router.query;
   const [isRouterReady, setIsRouterReady] = useState(false);
   const [race, setRace] = useState(null);
+  const [raceName, setRaceName] = useState(null); // Store race name separately
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingStageData, setIsLoadingStageData] = useState(false); // Separate loading state for stage data
   const [error, setError] = useState(null);
   const [selectedYear, setSelectedYear] = useState(year);
   // const [searchTerm, setSearchTerm] = useState('');
@@ -202,8 +205,14 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     return months.findIndex((month) => month === monthName) + 1;
   };
 
-  const fetchRaceDetails = async (raceId) => {
-    setIsLoading(true);
+  const fetchRaceDetails = async (raceId, isInitialLoad = false) => {
+    // Only set main loading state on initial load
+    if (isInitialLoad) {
+      setIsLoading(true);
+    } else {
+      // For stage changes, use separate loading state
+      setIsLoadingStageData(true);
+    }
     setError(null);
     try {
       const monthParam = selectedMonth
@@ -237,6 +246,10 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
       );
       if (response?.data) {
         setRace(response.data);
+        // Store race name separately on initial load or if it's not already set
+        if (isInitialLoad || !raceName) {
+          setRaceName(response.data.race_name);
+        }
         await fetchFeaturedStats(raceId);
       } else {
         throw new Error("Invalid API response format");
@@ -244,9 +257,12 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     } catch (err) {
       setError(err || "Failed to load race data");
       setError("Failed to load race data. Please try again later.");
-      setRaceResults([]);
     } finally {
-      setIsLoading(false);
+      if (isInitialLoad) {
+        setIsLoading(false);
+      } else {
+        setIsLoadingStageData(false);
+      }
     }
   };
 
@@ -348,11 +364,14 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
   };
   console.log(featuredStats);
 
+  // Fetch race details when router is ready, id changes, year changes, stage changes, or tab changes
   useEffect(() => {
     if (router.isReady) {
       setIsRouterReady(true);
       if (typeof id === "string") {
-        fetchRaceDetails(id);
+        // Determine if this is initial load (no race data yet)
+        const isInitialLoad = !raceName;
+        fetchRaceDetails(id, isInitialLoad);
       }
     }
   }, [router.isReady, id, selectedYear, selectedStage, router.query.tab]);
@@ -441,8 +460,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
 
     return minutes > 0 ? `+${minutes}'${seconds}"` : `+${seconds}"`;
   };
-  console.log(selectedStage, "selectedStage");
-
+  
   return (
     <main className="inner-pages-main race-result-main">
       <div className="dropdown-overlay"></div>
@@ -457,13 +475,12 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                 <li>
                   <Link href="/races">race</Link>
                 </li>
-                <li>{race?.race_name}</li>
+                <li>{raceName || race?.race_name || "Race"}</li>
               </ul>
-              {isLoading ? (
+              {isLoading && !raceName ? (
                 <h3 className="text-center my-4">Loading...</h3>
-
               ) : (
-                <h1>{race?.race_name.toUpperCase()}</h1>
+                <h1>{(raceName || race?.race_name || "").toUpperCase()}</h1>
               )}
             </div>
           </div>
@@ -630,7 +647,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                 <li className="time">Time</li>
               </ul>
 
-              {isLoading || !isRouterReady ? (
+              {(isLoading || isLoadingStageData) || !isRouterReady ? (
                 <div className="loading-spinner">
                   <ListSkeleton />
                 </div>
@@ -648,16 +665,9 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                         <Link href={`/riders/${rider.rider_id}`} className="pabs" />
                         <h5 className="rider--name fw-900">
                           <span className="race-result-index fw-900">{index + 1}.</span>
+                          {renderFlag(rider.rider_country)}
                           <Link href={`/riders/${rider.rider_id}`} className="link">
-                            <Flag
-                              code={rider.rider_country?.toUpperCase()}
-                              style={{
-                                width: "30px",
-                                height: "20px",
-                                marginRight: "10px",
-                              }}
-                            />
-                            {rider.rider_name.toUpperCase()}
+                           {rider.rider_name.toUpperCase()}
                           </Link>
                         </h5>
                         <h6 className="team_name">   <Link href={`/teams/${rider.team_name}`} className="link">{rider.team_name}</Link></h6>
@@ -700,15 +710,8 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                     <div className="text-wraper">
                       <h4 className="font-size-change">{stat.title}</h4>
                       <div className="name-wraper">
-                        <Flag
-                          code={stat.flag}
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            marginLeft: "10px",
-                            borderRadius: "3px"
-                          }}
-                        />
+                        {renderFlag(stat.flag)}
+                      
                         {/* <h6 onClick={() => router.push(`/riders/${stat.id}`)} className="link">{stat.rider}</h6> */}
                         {stat.riderId ?
                           <Link
@@ -758,3 +761,4 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     </main>
   );
 }
+

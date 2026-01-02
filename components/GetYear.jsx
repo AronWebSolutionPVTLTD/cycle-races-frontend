@@ -11,7 +11,7 @@
   //   return yearOptions;
   // };
 export const generateYearOptions = () => {
-  const currentYear = 2025;
+  const currentYear = new Date().getFullYear();
   const startYear = 1990;
 
   const withAllTime = ['All-time'];
