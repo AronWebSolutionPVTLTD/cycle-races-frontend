@@ -242,7 +242,7 @@ export const LastSection = ({
 
                       return riderData.slice(0, 1).map((rider, index) => (
                         <>
-                          <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                          <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                             {renderFlag(rider?.rider_country)}
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
@@ -290,7 +290,7 @@ export const LastSection = ({
 
                       return riderData.slice(0, 1).map((rider, index) => (
                         <>
-                          <div className="name-wraper name-wraper-white" >
+                          <div className="name-wraper name-wraper-white name-left" >
                             <h6>{rider?.subtitle || "..."}</h6>
                           </div>
                           {rider?.distance_km && (
@@ -311,7 +311,7 @@ export const LastSection = ({
                 </div>
               </div>
 
-              <div className="col-lg-7 box5">
+              <div className="col-lg-7 box5 d-flex flex-row">
                 <div className="row">
                   {/* Box5: Edition With Most DNFs */}
                   <div className="col-lg-5 col-md-6">
@@ -348,7 +348,7 @@ export const LastSection = ({
 
                             return (
                               <>
-                                <div className="name-wraper name-wraper-white" onClick={() => router.push(`/races/${rider?.race_name}`)}>
+                                <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${rider?.race_name}`)}>
                                   {renderFlag(rider?.country)}
                                   <h6>
                                     {formattedRaceName} ({rider?.year})
@@ -460,7 +460,7 @@ export const LastSection = ({
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${rider?.team_name}`)}>
+                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/teams/${rider?.team_name}`)}>
                                 {renderFlag(rider?.flag)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
@@ -510,7 +510,7 @@ export const LastSection = ({
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -536,11 +536,12 @@ export const LastSection = ({
               </div>
               {/*Box 9 - Most debut riders*/}
               <div className="col-lg-5 col-md-6">
-                <div className="list-white-cart lime-green-cart">
+                <div className="list-white-cart lime-green-cart ctm-card">
                   <Link
                     href={buildUrlWithParams("debut-riders-in-race")}
                     className="pabs"
                   />
+                  <div className="card-content-wraper">
                   <h4 className="fs-chenge">
                     {data?.[fixedApis.box9]?.message}
                   </h4>
@@ -566,23 +567,27 @@ export const LastSection = ({
                             </li>
                           ))}
                       </ul>
-
-                      <img
+                    </>
+                  )}
+                  </div>
+                  <div className="image_link-wraper">
+                    <img
                         src="/images/player3.png"
                         alt=""
                         className="absolute-img"
                       />
-                      <Link
-                        href={buildUrlWithParams("debut-riders-in-race")}
-                        className="glob-btn green-bg-btn"
-                      >
-                        <strong>volledige stats</strong>{" "}
-                        <span>
-                          <img src="/images/arow.svg" alt="" />
-                        </span>
-                      </Link>
-                    </>
-                  )}
+                      <div className="link_box">
+                        <Link
+                          href={buildUrlWithParams("debut-riders-in-race")}
+                          className="glob-btn green-bg-btn"
+                        >
+                          <strong>volledige stats</strong>{" "}
+                          <span>
+                            <img src="/images/arow.svg" alt="" />
+                          </span>
+                        </Link>
+                      </div>
+                  </div>
                 </div>
               </div>
 
@@ -694,7 +699,7 @@ export const LastSection = ({
 
                       return riderData.slice(0, 1).map((rider, index) => (
                         <>
-                          <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                          <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                             {renderFlag(rider?.rider_country)}
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>

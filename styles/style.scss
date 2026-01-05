@@ -275,7 +275,7 @@ header {
               padding: 0.75rem 1.5rem;
               border-radius: 2.8125rem;
               background: #2b534d;
-              color: #fff !important;
+              // color: #fff !important;
             }
           }
 
@@ -766,10 +766,10 @@ footer {
       display: block;
       color: #cbcbc7;
       font-family: "Archivo", sans-serif;
-      font-size: 5rem;
+      font-size: 4rem;
       font-style: normal;
       font-weight: 500;
-      line-height: 4rem;
+      line-height: 1;
       /* 80% */
       letter-spacing: -0.25rem;
       text-transform: uppercase;
@@ -3217,7 +3217,7 @@ header.absolute-header {
 
   &:not(.sticky-header) .header-content-wraper .menu-wraper ul li.active a {
     background-color: #678f89;
-    color: #fff;
+    color: #d0f068 !important;
   }
 
   .header-content-wraper .menu-wraper ul li a {
@@ -3605,6 +3605,9 @@ section.riders-sec1 .searchInput:has(.wrap-bottom) {
 
 header.sticky-header.sticky-top .menu-wraper ul li a {
   color: #2b534d;
+}
+header.sticky-header.sticky-top .menu-wraper ul li.active a {
+  color: #d0f068 !important;
 }
 
 header.sticky-header.sticky-top .menu-wraper ul li:not(.active):hover a {

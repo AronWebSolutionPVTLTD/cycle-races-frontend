@@ -304,9 +304,17 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                   <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
                     <Link href={buildUrlWithParams("last-victories")} className="pabs" />
                     {getBoxData(fixedApis.box5).error ? (
-                      <ErrorMessage
-                        errorType={getBoxData(fixedApis.box5).errorType}
-                      />
+                      <>
+                      <h4>
+                        {" "}
+                        {data?.[fixedApis.box5]?.message}
+                      </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box5).errorType}
+                        />
+                      </div>
+                      </>
                     ) : (
                       <>
                         <div className="card-content-wraper">

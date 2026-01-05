@@ -1,7 +1,42 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { callAPI } from '@/lib/api';
 
 const Footer = () => {
+    const [footerData, setFooterData] = useState({
+        monuments: [],
+        grandTours: [],
+        classics: [],
+        popularRiders: []
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchFooterData = async () => {
+            try {
+                setLoading(true);
+                const response = await callAPI('GET', '/footer/footermenu');
+                
+                if (response && response.success && response.data) {
+                    setFooterData({
+                        monuments: response.data.monuments || [],
+                        grandTours: response.data.grandTours || [],
+                        classics: response.data.classics || [],
+                        popularRiders: response.data.popularRiders || []
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching footer data:', error);
+                // Keep empty arrays on error
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchFooterData();
+    }, []);
+
     return (
         <>
             <footer>
@@ -14,7 +49,7 @@ const Footer = () => {
                             </div>
                             <div className='d-none d-sm-grid align-content-start align-content-md-end'>
                                 <p className='disclaimer-text'>
-                                    Wielerstats is een onafhankelijk platform en niet gelieerd aan officiële wielerorganisaties, teams of wedstrijden. Afbeeldingen, merknamen en logo’s behoren toe aan hun respectieve eigenaars en worden uitsluitend gebruikt ter identificatie.
+                                    Wielerstats is een onafhankelijk platform en niet gelieerd aan officiële wielerorganisaties, teams of wedstrijden. Afbeeldingen, merknamen en logo's behoren toe aan hun respectieve eigenaars en worden uitsluitend gebruikt ter identificatie.
                                 </p>
                                 <Link href="/" className="logo">
                                     <img src="/images/footer-logo.png" alt="Footer Logo" />
@@ -29,9 +64,17 @@ const Footer = () => {
                                             <div className="content-wrap">
                                                 <h5>Grand Tours</h5>
                                                 <ul>
-                                                    <li><Link href="#">Tour de France</Link></li>
-                                                    <li><Link href="#">Giro d’Italia</Link></li>
-                                                    <li><Link href="#">Vuelta a España</Link></li>
+                                                    {loading ? (
+                                                        <li>Loading...</li>
+                                                    ) : footerData.grandTours.length > 0 ? (
+                                                        footerData.grandTours.map((item, index) => (
+                                                            <li key={index}>
+                                                                <Link href={`/races/${encodeURIComponent(item.race_name)}`}>
+                                                                    {item.race_name}
+                                                                </Link>
+                                                            </li>
+                                                        ))
+                                                    ) : null}
                                                 </ul>
                                             </div>
                                         </div>
@@ -39,11 +82,17 @@ const Footer = () => {
                                             <div className="content-wrap mb-md-0">
                                                 <h5>Monuments</h5>
                                                 <ul>
-                                                    <li><Link href="#">Milano-SanRemo</Link></li>
-                                                    <li><Link href="#">Ronde van Vlaanderen</Link></li>
-                                                    <li><Link href="#">Paris-Roubaix</Link></li>
-                                                    <li><Link href="#">Liege-Bastogne-Liege</Link></li>
-                                                    <li><Link href="#">Il Lombardia</Link></li>
+                                                    {loading ? (
+                                                        <li>Loading...</li>
+                                                    ) : footerData.monuments.length > 0 ? (
+                                                        footerData.monuments.map((item, index) => (
+                                                            <li key={index}>
+                                                                <Link href={`/races/${encodeURIComponent(item.race_name)}`}>
+                                                                    {item.race_name}
+                                                                </Link>
+                                                            </li>
+                                                        ))
+                                                    ) : null}
                                                 </ul>
                                             </div>
                                         </div>
@@ -55,18 +104,17 @@ const Footer = () => {
                                             <div className="content-wrap mb-md-0">
                                                 <h5>Classics</h5>
                                                 <ul>
-                                                    <li><Link href="#">Omloop Het Nieuwsblad</Link></li>
-                                                    <li><Link href="#">Strade Bianche</Link></li>
-                                                    <li><Link href="#">E3 Classic</Link></li>
-                                                    <li><Link href="#">Gent-Wevelgem</Link></li>
-                                                    <li><Link href="#">Dwars door Vlaanderen</Link></li>
-                                                    <li><Link href="#">Eschborn-Frankfurt</Link></li>
-                                                    <li><Link href="#">Amstel Gold Race</Link></li>
-                                                    <li><Link href="#">La Fleche Wallonne</Link></li>
-                                                    <li><Link href="#">San Sebastian</Link></li>
-                                                    <li><Link href="#">Bretagne Classic</Link></li>
-                                                    <li><Link href="#">GP Quebec</Link></li>
-                                                    <li><Link href="#">GP Montreal</Link></li>
+                                                    {loading ? (
+                                                        <li>Loading...</li>
+                                                    ) : footerData.classics.length > 0 ? (
+                                                        footerData.classics.map((item, index) => (
+                                                            <li key={index}>
+                                                                <Link href={`/races/${encodeURIComponent(item.race_name)}`}>
+                                                                    {item.race_name}
+                                                                </Link>
+                                                            </li>
+                                                        ))
+                                                    ) : null}
                                                 </ul>
                                             </div>
                                         </div>
@@ -74,18 +122,21 @@ const Footer = () => {
                                             <div className="content-wrap mb-md-0">
                                                 <h5>Popular riders</h5>
                                                 <ul>
-                                                    <li><Link href="#">Tadej Pogacar</Link></li>
-                                                    <li><Link href="#">Mathieu van der Poel</Link></li>
-                                                    <li><Link href="#">Remco Evenepoel</Link></li>
-                                                    <li><Link href="#">Wout van Aert</Link></li>
-                                                    <li><Link href="#">Mads Pedersen</Link></li>
-                                                    <li><Link href="#">Primoz Roglic</Link></li>
-                                                    <li><Link href="#">Marc Hirschi</Link></li>
-                                                    <li><Link href="#">Julian Alaphilippe</Link></li>
-                                                    <li><Link href="#">Jonathan Milan</Link></li>
-                                                    <li><Link href="#">Lance Armstrong</Link></li>
-                                                    <li><Link href="#">Tim Merlier</Link></li>
-                                                    <li><Link href="#">Jasper Philipsen</Link></li>
+                                                    {loading ? (
+                                                        <li>Loading...</li>
+                                                    ) : footerData.popularRiders.length > 0 ? (
+                                                        footerData.popularRiders.map((item, index) => (
+                                                            <li key={index}>
+                                                                {item.rider_id ? (
+                                                                    <Link href={`/riders/${item.rider_id}`}>
+                                                                        {item.rider_name}
+                                                                    </Link>
+                                                                ) : (
+                                                                    <span>{item.rider_name}</span>
+                                                                )}
+                                                            </li>
+                                                        ))
+                                                    ) : null}
                                                 </ul>
                                             </div>
                                         </div>

@@ -296,8 +296,9 @@ const LastSection = () => {
               </div>
 
               {/*Box 6 - Shortest race */}
+            
               <div className="col-lg-3 col-md-6 ss">
-                <div className="list-white-cart team-cart">
+                <div className="team-cart">
                   <Link href="/shortest-races" className="pabs" />
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
@@ -306,7 +307,7 @@ const LastSection = () => {
                         errorType={getBoxData(fixedApis.box6).errorType}
                       />
                     ) : (
-                      <>
+                      <div className="rider-card">
                         {(Array.isArray(getBoxData(fixedApis.box6).data)
                           ? getBoxData(fixedApis.box6).data
                           : []
@@ -339,7 +340,7 @@ const LastSection = () => {
                         >
                           <img src="/images/arow.svg" alt="" />
                         </Link>
-                      </>
+                      </div>
                     )}
                   </div>
                 </div>

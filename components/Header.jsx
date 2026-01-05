@@ -304,6 +304,7 @@ export default function Header() {
 
 
   return (
+    <>
     <header className={headerClass}>
       <div className="container">
         <div className="header-content-wraper">
@@ -512,5 +513,7 @@ export default function Header() {
         document.body
       )}
     </header>
+    <div className="menu-overlay"></div>
+    </>
   );
 }

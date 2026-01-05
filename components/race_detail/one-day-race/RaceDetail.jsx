@@ -214,7 +214,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                         <>
                           {ridersArray.slice(0, 1).map((rider, index) => (
                             <div key={index} className="rider-item" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white name-left">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -260,7 +260,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                       }
                       return riderData.slice(0, 1).map((rider, index) => (
                         <>
-                          <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                          <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                             {renderFlag(rider?.rider_country)}
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
@@ -449,16 +449,16 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-green">
+                              <div className="name-wraper name-wraper-green name-left">
                                 <h6>{rider?.year || "..."}</h6>
                               </div>
-                              {/* {riderData?.time && (
+                              {rider?.time && (
                                 <h5>
-                                  <strong>{riderData.time}</strong>
+                                  <strong>{rider.time}</strong>
 
                                 </h5>
-                              )} */}
-                              {rider?.time && (
+                              )}
+                              {/* {rider?.time && (
                                 <div
                                   style={{
                                     position: "relative",
@@ -479,7 +479,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                                     {rider.time}
                                   </h5>
                                 </div>
-                              )}
+                              )} */}
 
                               <Link
                                 href={buildUrlWithParams(
@@ -498,9 +498,10 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
               {/*Box 9 - Most stage wins*/}
-              <div className="col-lg-5 col-md-6">
-                <div className="list-white-cart lime-green-cart">
+              <div className="col-lg-5 col-md-6 ss">
+                <div className="list-white-cart lime-green-cart ctm-card">
                   <Link href={buildUrlWithParams("previous-editions")} className="pabs" />
+                  <div className="card-content-wraper">
                   <h4 className="fs-chenge">
                     {data?.[fixedApis.box9]?.message}
                   </h4>
@@ -528,23 +529,27 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                             </li>
                           ))}
                       </ul>
-
-                      <img
+                    </>
+                  )}
+                  </div>
+                  <div className="image_link-wraper">
+                    <img
                         src="/images/player3.png"
                         alt=""
                         className="absolute-img"
                       />
-                      <Link
-                        href={buildUrlWithParams("previous-editions")}
-                        className="glob-btn green-bg-btn"
-                      >
-                        <strong>volledige stats</strong>{" "}
-                        <span>
-                          <img src="/images/arow.svg" alt="" />
-                        </span>
-                      </Link>
-                    </>
-                  )}
+                      <div className="link_box">
+                        <Link
+                          href={buildUrlWithParams("previous-editions")}
+                          className="glob-btn green-bg-btn"
+                        >
+                          <strong>volledige stats</strong>{" "}
+                          <span>
+                            <img src="/images/arow.svg" alt="" />
+                          </span>
+                        </Link>
+                      </div>
+                  </div>
                 </div>
               </div>
             </>

@@ -328,9 +328,17 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
               <div className="list-white-cart lime-green-cart ctm-card">
                 <Link href={buildUrlWithParams("last-5-podium-spots")} className="pabs" />
                 {getBoxData(fixedApis.box5).error ? (
+                  <>
+                   <h4 className="fs-chenge">
+                   {" "}
+                   {data?.[fixedApis.box5]?.message}
+                 </h4>
+                 <div className="no-data-wrap">
                   <ErrorMessage
                     errorType={getBoxData(fixedApis.box5).errorType}
                   />
+                  </div>
+                  </>
                 ) : (
                   <>
                     <div className="card-content-wraper">
@@ -582,7 +590,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             </div>
           </>
         )}
-      </div>
+      </div>   
     </div>
   );
 };

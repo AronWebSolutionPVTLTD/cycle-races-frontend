@@ -16,7 +16,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
-      <main className="home-main">
+      <main className="home-main inner-pages-main">
         <FirstSection />
         <YearSection />
         <MostWin
