@@ -1981,7 +1981,7 @@ ul.slug-table-head.col--3 li.CLASS:last-child {
 .no-data-wrap {
   flex: 1;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   width: 100%;
 }
@@ -2050,4 +2050,28 @@ body:has(.absolute-header) main.inner-pages-main {
 
 ul.transparent-cart li h5 img{
   border-radius: 2px;
+}
+
+.hoverState-li h5 img, .hoverState-li h6 img, 
+.list-white-cart ul li .name-wraper img, 
+.team-cart .text-wraper .name-wraper img,
+li.country img {
+  margin: 0 !important;
+  object-fit: cover!important;
+  max-width: unset !important;
+  max-height: unset !important;
+  width: 20px !important;
+  height: 15px !important;
+  border-radius: 4px !important;
+}
+ul.slug-table-body li h5{
+  align-items: center;
+}
+.most-win img {
+  width: 30px !important;
+  height: auto !important;
+  border-radius: 4px !important;
+  max-height: unset !important;
+  max-width: unset !important;
+  display: block;
 }

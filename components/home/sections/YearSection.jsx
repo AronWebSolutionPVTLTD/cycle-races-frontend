@@ -156,9 +156,15 @@ const YearSection = () => {
                   <Link href="/most-races-won" className="pabs"></Link>
 
                   {getBoxData(fixedApis.box1).error ? (
+                    <>  <h4 className="fs-chenge">
+                    {data?.[fixedApis.box1]?.message}
+                  </h4>
+                  <div className="no-data-wrap">
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box1).errorType}
                     />
+                    </div>
+                    </>
                   ) : (
                     <>
                       <div className="card-content-wraper aaaa">

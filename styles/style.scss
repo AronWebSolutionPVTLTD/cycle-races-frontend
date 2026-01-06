@@ -3660,7 +3660,7 @@ header.sticky-header.sticky-top .menu-wraper ul li:not(.active):hover a {
 
 .ctm-card:has(.noData-error) {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
   padding: 2rem 1rem 1rem !important;
@@ -3920,13 +3920,7 @@ ul.filter>li:not(.filter-dropdown-list).active {
   z-index: 9999;
 }
 
-.hoverState-li h5 img,
-.hoverState-li h6 img {
-  margin: 0 !important;
-  object-fit: cover;
-  max-width: 1.125rem;
-  max-height: 0.74469rem;
-}
+
 
 main:has(.wrap-bottom) .dropdown-overlay {
   opacity: 1;
@@ -4919,4 +4913,13 @@ ul.slug-table-head.head-to-head .rider-col {
   .container, .row {
    --bs-gutter-x: 3rem;
   }
+}
+.no-results {
+  color: #2b534d;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  letter-spacing: -0.025rem;
+  text-align: center;
+  margin-top: 4rem;
 }

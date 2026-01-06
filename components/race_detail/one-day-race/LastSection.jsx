@@ -516,7 +516,7 @@ export const LastSection = ({
                               </div>
                               {rider?.rank && (
                                 <h5>
-                                  <strong>{rider.rank}</strong>times
+                                  <strong>{rider.rank}</strong>rank
                                 </h5>
                               )}
 
@@ -705,7 +705,7 @@ export const LastSection = ({
                           </div>
                           {rider?.rank && (
                             <h5>
-                              <strong>{rider.rank}</strong>times
+                              <strong>{rider.rank}</strong>rank
                             </h5>
                           )}
                           <Link

@@ -405,13 +405,18 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                         if (!riderData) {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
+                        if (!riderData?.professional_since && !riderData?.career_duration_years) {
+                          return <ErrorMessage errorType="no_data_found" />;
+                        }
 
                         return (
                           <>
                             <div className="name-wraper name-wraper-green name-left">
-                              <h6>
-                                Since {riderData?.professional_since || "..."}
-                              </h6>
+                              {riderData?.professional_since && (
+                                <h6>
+                                  Since {riderData?.professional_since || "..."}
+                                </h6>
+                              )}
                             </div>
                             {riderData?.career_duration_years && (
                               <h5>

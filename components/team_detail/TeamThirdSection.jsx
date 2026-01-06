@@ -112,16 +112,32 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             <div className="col-lg-4 col-md-6">
               <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
                 <Link href={buildUrlWithParams("most-top-10-in-races")} className="pabs" />
+  
                 {(() => {
+                  
                   if (!data?.[fixedApis.box1]) {
-                    return <ErrorMessage errorType="no_data" />;
+                    return <> <h4 className="font-size-change">
+                          {" "}
+                          {data?.[fixedApis.box1]?.message || response?.message || "Most top 10 in races"}
+                        </h4>
+                    <div className="no-data-wrap">
+                      <ErrorMessage errorType="no_data" />
+                    </div>
+                    </>;
                   }
 
                   const response = data[fixedApis.box1];
                   const ridersList = response?.data?.riders || response?.data?.data?.riders || response?.riders;
 
                   if (!ridersList || !Array.isArray(ridersList) || ridersList.length === 0) {
-                    return <ErrorMessage errorType="no_data_found" />;
+                    return <> <h4 className="font-size-change">
+                          {" "}
+                          {data?.[fixedApis.box1]?.message || response?.message || "Most top 10 in races"}
+                        </h4>
+                    <div className="no-data-wrap">
+                      <ErrorMessage errorType="no_data_found" />
+                    </div>
+                    </>
                   }
 
                   return (
