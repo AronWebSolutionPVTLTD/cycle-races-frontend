@@ -421,8 +421,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         return (
                           <>
-
-                            <h5 className="teamcard-number">
+ <h5 className="teamcard-number">
                               <strong>{totalGrandTourWins}</strong>
                               stages
                             </h5>

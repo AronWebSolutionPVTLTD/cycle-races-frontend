@@ -344,11 +344,8 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
             bestTeamData?.country_code?.toLowerCase() ||
             bestTeamData?.team_country?.toLowerCase() ||
             "/images/team-icon.svg",
-          value:
-            bestTeamData?.rider_count ||
-            bestTeamData?.performance_score ||
-            bestTeamData?.score,
-          unit: bestTeamData?.rider_count ? "riders" : "points",
+          value:"",
+          unit: "",
           link: "best-teams-in-the-race",
         });
       }

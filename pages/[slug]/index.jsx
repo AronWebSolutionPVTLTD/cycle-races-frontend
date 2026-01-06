@@ -10,6 +10,7 @@ import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { generateYearOptions } from "@/components/GetYear";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { getItemId, getTeamId } from "../getId";
+import { renderFlag } from "@/components/RenderFlag";
 
 // Helper function to get value from item using multiple possible keys
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
@@ -405,16 +406,7 @@ export default function DynamicSlugPage() {
 
         const nameContent = (
           <>
-            <Flag
-              code={getCountryCode(item, config)}
-              style={{
-                width: "30px",
-                height: "20px",
-                flexShrink: 0,
-              }}
-            />
-            
-            {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
+         {`${getItemValue(item, config.itemConfig.name)} ${item?.type === "stage"
               ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
               : ""
               }`}
@@ -428,13 +420,19 @@ export default function DynamicSlugPage() {
               {index + 1}.
             </span>
             {clickableProps?.href ? (
+           <>
+              {renderFlag(getCountryCode(item, config))}
               <Link {...clickableProps} className="link">
                 {nameContent}
               </Link>
+              </>
             ) : (
-              <span>
-                {nameContent}
-              </span>
+              <>
+                 {renderFlag(getCountryCode(item, config))}
+                 <span>
+                  {nameContent}
+                 </span>
+              </>
             )}
           </h5>
         );
@@ -455,7 +453,7 @@ export default function DynamicSlugPage() {
   if (!nameDataExists) {
           const teamContent = (
             <>
-              <Flag
+              {/* <Flag
                 code={getCountryCode(item, config)}
                 style={{
                   width: "30px",
@@ -463,7 +461,7 @@ export default function DynamicSlugPage() {
                   marginRight: "10px",
                   flexShrink: 0,
                 }}
-              />
+              /> */}
               <span>{getItemValue(item, config.itemConfig.team)}</span>
             </>
           );
@@ -474,13 +472,19 @@ export default function DynamicSlugPage() {
                 {index + 1}.
               </span>
               {clickableProps?.href ? (
+                <>
+                {renderFlag(getCountryCode(item, config))}
                 <Link {...clickableProps} className="link">
                   {teamContent}
                 </Link>
+                </>
               ) : (
+                <>
+                {renderFlag(getCountryCode(item, config))}
                 <span>
                   {teamContent}
                 </span>
+                </>
               )}
             </h5>
           );
