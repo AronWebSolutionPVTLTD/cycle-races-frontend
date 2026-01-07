@@ -48,7 +48,7 @@ const MostMoutainWin = ({
   };
   return (
     <section className="home-sec3">
-      <div className="container p-0">
+      <div className="container">
         <div className="row">
           {loading && (
             <div className="col-12">

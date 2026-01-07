@@ -501,17 +501,25 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-5 col-md-6 ss">
                 <div className="list-white-cart lime-green-cart ctm-card">
                   <Link href={buildUrlWithParams("previous-editions")} className="pabs" />
-                  <div className="card-content-wraper">
-                  <h4 className="fs-chenge">
+                
+                
+                  {getBoxData(fixedApis.box9).error ? (
+                    <>  <h4 className="fs-chenge">
                     {data?.[fixedApis.box9]?.message}
                   </h4>
-                  {getBoxData(fixedApis.box9).error ? (
+                     <div className="no-data-wrap">
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box9).errorType}
                     />
+                    </div>
+                    </>
                   ) : (
                     <>
-                      <ul>
+                    <div className="card-content-wraper">
+                    <h4 className="fs-chenge">
+                    {data?.[fixedApis.box9]?.message}
+                  </h4>
+                    <ul>
                         {(Array.isArray(getBoxData(fixedApis.box9).data)
                           ? getBoxData(fixedApis.box9).data
                           : []
@@ -529,9 +537,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                             </li>
                           ))}
                       </ul>
-                    </>
-                  )}
-                  </div>
+                   </div>
                   <div className="image_link-wraper">
                     <img
                         src="/images/player3.png"
@@ -550,6 +556,8 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                         </Link>
                       </div>
                   </div>
+                  </>
+                   )}
                 </div>
               </div>
             </>

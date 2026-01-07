@@ -120,6 +120,13 @@ export default function Teams() {
       return;
     }
 
+    // Only show dropdown if query has at least 2 characters
+    if (query.trim().length < 2) {
+      setSearchSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
     // Debounce API calls (300ms)
     debounceTimerRef.current = setTimeout(() => {
       // Make API call for search results using getTeamSearchList with search parameter
@@ -134,7 +141,9 @@ export default function Teams() {
               return team.teamName && team.teamName.toLowerCase().includes(query.toLowerCase());
             });
             setSearchSuggestions(suggestions.slice(0, 10));
-            setShowSuggestions(suggestions.length > 0);
+            // Always show dropdown for a valid search, even if no matches,
+            // so user sees a "no results" message.
+            setShowSuggestions(true);
           }
         })
         .catch((err) => {
@@ -142,7 +151,8 @@ export default function Teams() {
           // On error, use local filtering as fallback
           const localSuggestions = generateSuggestions(query);
           setSearchSuggestions(localSuggestions);
-          setShowSuggestions(localSuggestions.length > 0);
+          // Show dropdown with no results message even on error
+          setShowSuggestions(true);
         });
     }, 300);
   };
@@ -379,19 +389,27 @@ export default function Teams() {
                         </div>
                       </div>
                     </div>
-                    {showSuggestions && searchSuggestions.length > 0 && (
+                    {showSuggestions && (
                       <div className="wrap-bottom">
                         <ul>
-                          {searchSuggestions.map((team, idx) => (
-                            <li
-                              key={`suggestion-${idx}-${team._id || team.teamName}`}
-                              onClick={() => handleSelectSuggestion(team)}
-                            >
+                          {searchSuggestions.length > 0 ? (
+                            searchSuggestions.map((team, idx) => (
+                              <li
+                                key={`suggestion-${idx}-${team._id || team.teamName}`}
+                                onClick={() => handleSelectSuggestion(team)}
+                              >
+                                <div>
+                                  <span>{team.teamName}</span>
+                                </div>
+                              </li>
+                            ))
+                          ) : (
+                            <li className="no-results">
                               <div>
-                                <span>{team.teamName}</span>
+                                <span>NO ITEMS MATCHES TO YOUR SEARCH</span>
                               </div>
                             </li>
-                          ))}
+                          )}
                         </ul>
                       </div>
                     )}

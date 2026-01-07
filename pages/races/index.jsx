@@ -340,11 +340,14 @@ export default function Results() {
               race.race_name.toLowerCase() !== trimmedSearch.toLowerCase()
           );
       setSearchResults(uniqueRaces);
-      setShowSearchDropdown(uniqueRaces.length > 0);
+      // Always show dropdown for a valid search, even if no matches,
+      // so user sees a "no results" message.
+      setShowSearchDropdown(true);
     } catch (error) {
       console.error("Error fetching search suggestions:", error);
       setSearchResults([]);
-      setShowSearchDropdown(false);
+      // Show dropdown with no results message even on error
+      setShowSearchDropdown(true);
     }
   };
 
@@ -474,22 +477,30 @@ export default function Results() {
                         </div>
                       </div>
                     </div>
-                    {showSearchDropdown && searchResults.length > 0 && (
+                    {showSearchDropdown && (
                       <div className="wrap-bottom">
                         <ul>
-                          {searchResults.map((result, index) => (
-                            <li
-                              key={index}
-                              onMouseDown={(e) => {
-                                e.preventDefault();
-                                handleSuggestionSelect(result.race_name);
-                              }}
-                            >
+                          {searchResults.length > 0 ? (
+                            searchResults.map((result, index) => (
+                              <li
+                                key={index}
+                                onMouseDown={(e) => {
+                                  e.preventDefault();
+                                  handleSuggestionSelect(result.race_name);
+                                }}
+                              >
+                                <div>
+                                  <span>{result.race_name}</span>
+                                </div>
+                              </li>
+                            ))
+                          ) : (
+                            <li className="no-results">
                               <div>
-                                <span>{result.race_name}</span>
+                                <span>NO ITEMS MATCHES TO YOUR SEARCH</span>
                               </div>
                             </li>
-                          ))}
+                          )}
                         </ul>
                       </div>
                     )}

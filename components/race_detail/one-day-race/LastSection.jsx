@@ -541,16 +541,24 @@ export const LastSection = ({
                     href={buildUrlWithParams("debut-riders-in-race")}
                     className="pabs"
                   />
-                  <div className="card-content-wraper">
-                  <h4 className="fs-chenge">
-                    {data?.[fixedApis.box9]?.message}
-                  </h4>
+              
                   {getBoxData(fixedApis.box9).error ? (
+                    <>  
+                    <h4 className="fs-chenge">
+                      {data?.[fixedApis.box9]?.message}
+                    </h4>
+                    <div className="no-data-wrap">
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box9).errorType}
                     />
+                    </div>
+                    </>
                   ) : (
                     <>
+                      <div className="card-content-wraper">
+                      <h4 className="fs-chenge">
+                      {data?.[fixedApis.box9]?.message}
+                    </h4>
                       <ul>
                         {(Array.isArray(getBoxData(fixedApis.box9).data)
                           ? getBoxData(fixedApis.box9).data
@@ -567,9 +575,7 @@ export const LastSection = ({
                             </li>
                           ))}
                       </ul>
-                    </>
-                  )}
-                  </div>
+                   </div>
                   <div className="image_link-wraper">
                     <img
                         src="/images/player3.png"
@@ -588,6 +594,8 @@ export const LastSection = ({
                         </Link>
                       </div>
                   </div>
+                  </>
+                  )}
                 </div>
               </div>
 

@@ -75,11 +75,11 @@ export default function RaceDetailsPage({ year }) {
     const hasNumbers = /\d/.test(searchValue);
     if (hasNumbers) {
       return dynamicYears.filter((year) =>
-        year.toLowerCase().includes(searchValue.toLowerCase())
+        String(year).toLowerCase().includes(searchValue.toLowerCase())
       );
     }
     return allYearOptions.filter((year) =>
-      year.toLowerCase().includes(searchValue.toLowerCase())
+      String(year).toLowerCase().includes(searchValue.toLowerCase())
     );
 
     // return withoutAllTime;

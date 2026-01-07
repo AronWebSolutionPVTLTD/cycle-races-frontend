@@ -121,9 +121,15 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   )} className="pabs" />
 
                   {getBoxData(fixedApis.box1).error ? (
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box1).errorType}
-                    />
+                    <><h4 className="fs-chenge">
+                    {data?.[fixedApis.box1]?.message}
+                  </h4>
+                    <div className="no-data-wrap">
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box1).errorType}
+                      />
+                    </div>
+                    </>
                   ) : (
                     <>
                       <div className="card-content-wraper">
@@ -272,7 +278,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               .map((rider, index) => (
                                 <>
                                   <div
-                                    className="name-wraper name-wraper-green"
+                                    className="name-wraper name-wraper-green name-left"
                                     key={index} onClick={() => router.push(`/riders/${rider?._id}`)} >
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
@@ -325,7 +331,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -379,7 +385,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                             <>
                               {riderArray.slice(0, 1).map((rider, index) => (
                                 <div key={index} className="rider-item">
-                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                  <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                     {renderFlag(rider?.country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -436,7 +442,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         <>
                           {riderArray.slice(0, 1).map((rider, index) => (
                             <div key={index} className="rider-item">
-                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -489,7 +495,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         <>
                           {riderArray.slice(0, 1).map((item, index) => (
                             <div key={index} className="rider-item">
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white name-left">
                                 <h6>{item?.year || "..."}</h6>
                               </div>
 
@@ -556,7 +562,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                       return riderData.slice(0, 1).map((rider, index) => (
                         <>
-                          <div className="name-wraper name-wraper-white">
+                          <div className="name-wraper name-wraper-white name-left">
                             <h6>{rider?.subtitle || "..."}</h6>
                           </div>
                           {rider?.distance_km && (
@@ -602,7 +608,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                           .map((rider, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-green"
+                                className="name-wraper name-wraper-green name-left"
                                 key={index}
                               >
                                 <h6>{rider?.city || "..."}</h6>
@@ -652,7 +658,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               .map((rider, index) => (
                                 <>
                                   <div
-                                    className="name-wraper name-wraper-green"
+                                    className="name-wraper name-wraper-green name-left"
                                     key={index}
                                     onClick={() => router.push(`/teams/${rider?.team_name}`)}
                                   >
@@ -702,7 +708,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               .map((rider, index) => (
                                 <>
                                   <div
-                                    className="name-wraper name-wraper-green"
+                                    className="name-wraper name-wraper-green name-left"
                                     key={index}
                                   >
                                     <h6>{rider?.city || "..."}</h6>
@@ -750,7 +756,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               .map((rider, index) => (
                                 <>
                                   <div
-                                    className="name-wraper name-wraper-green"
+                                    className="name-wraper name-wraper-green name-left"
                                     key={index} onClick={() => router.push(`/riders/${rider?.rider_id}`)} >
                                     {renderFlag(rider?.country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
@@ -801,7 +807,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white">
+                              <div className="name-wraper name-wraper-white name-left">
                                 <h6>{rider?.subtitle || "..."}</h6>
                               </div>
                               <h5>
@@ -831,9 +837,13 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams("oldest-top10-finisher")} className="pabs" />
                   {getBoxData(fixedApis.box14).error ? (
+                    <><h4 className="fs-chenge"> {data?.[fixedApis.box14]?.message}</h4>
+                    <div className="no-data-wrap">
                     <ErrorMessage
                       errorType={getBoxData(fixedApis.box14).errorType}
                     />
+                    </div>
+                    </> 
                   ) : (
                     <>
                       <div className="card-content-wraper">

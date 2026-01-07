@@ -95,9 +95,9 @@ const Mostparticipants = ({ selectedYear = null, selectedNationality = null, nam
 
                   const response = data[apiOptions.box1];
                   const riderData = response?.data?.rider_participation;
-                  if (!Array.isArray(riderData) || riderData.length === 0) {
-                    return <ErrorMessage errorType="no_data_found" />;
-                  }
+                  // if (!Array.isArray(riderData) || riderData.length === 0) {
+                  //   return <ErrorMessage errorType="no_data_found" />;
+                  // }
                   return riderData
                     .slice(0, 1)
                     .map((rider, index) => (

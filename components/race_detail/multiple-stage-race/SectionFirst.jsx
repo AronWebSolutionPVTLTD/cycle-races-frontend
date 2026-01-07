@@ -109,9 +109,17 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams("top-last-year-gc")} className="pabs" />
                   {getBoxData(fixedApis.box1).error ? (
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box1).errorType}
-                    />
+                    <>
+                      <h4 className="fs-chenge">
+                            {data?.[fixedApis.box1]?.message}
+                          </h4>
+                          <div className="no-data-wrap">
+                            <ErrorMessage
+                              errorType={getBoxData(fixedApis.box1).errorType}
+                            />
+                          </div>
+                    </>
+                  
                   ) : (
                     <>
                       <div className="card-content-wraper">
@@ -193,7 +201,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
 
                           return (
                             <>
-                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -245,7 +253,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                           const rider = riderData[0];
                           return (
                             <>
-                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.nationality)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -350,7 +358,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                             <>
                               {ridersArray.slice(0, 1).map((rider, index) => (
                                 <div key={index} className="rider-item">
-                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                  <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                     {renderFlag(rider?.country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -492,7 +500,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                         <>
                           {ridersArray.slice(0, 1).map((rider, index) => (
                             <div key={index} className="rider-item">
-                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -542,7 +550,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                       const rider = riderData[0];
                       return (
                         <>
-                          <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                          <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                             {renderFlag(rider?.country)}
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>

@@ -126,6 +126,13 @@ export default function Riders() {
       return;
     }
 
+    // Only show dropdown if query has at least 2 characters
+    if (query.trim().length < 2) {
+      setSearchSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
     // Debounce API calls (300ms)
     debounceTimerRef.current = setTimeout(() => {
       // Make API call for search results
@@ -148,7 +155,9 @@ export default function Riders() {
               }
             });
             setSearchSuggestions(suggestions.slice(0, 10));
-            setShowSuggestions(suggestions.length > 0);
+            // Always show dropdown for a valid search, even if no matches,
+            // so user sees a "no results" message.
+            setShowSuggestions(true);
           }
         })
         .catch((err) => {
@@ -156,7 +165,8 @@ export default function Riders() {
           // On error, use local filtering as fallback
           const localSuggestions = generateSuggestions(query);
           setSearchSuggestions(localSuggestions);
-          setShowSuggestions(localSuggestions.length > 0);
+          // Show dropdown with no results message even on error
+          setShowSuggestions(true);
         });
     }, 300);
   };
@@ -425,19 +435,27 @@ export default function Riders() {
                       </div>
 
                     </div>
-                    {showSuggestions && searchSuggestions.length > 0 && (
+                    {showSuggestions && (
                       <div className="wrap-bottom">
                         <ul>
-                          {searchSuggestions.map((rider, idx) => (
-                            <li
-                              key={`suggestion-${idx}-${rider.teamName}-${rider.rider_id || rider._id || rider.riderName}`}
-                              onClick={() => handleSelectSuggestion(rider)}
-                            >
+                          {searchSuggestions.length > 0 ? (
+                            searchSuggestions.map((rider, idx) => (
+                              <li
+                                key={`suggestion-${idx}-${rider.teamName}-${rider.rider_id || rider._id || rider.riderName}`}
+                                onClick={() => handleSelectSuggestion(rider)}
+                              >
+                                <div>
+                                  <span>{`${rider.riderName} (${rider.teamName})`}</span>
+                                </div>
+                              </li>
+                            ))
+                          ) : (
+                            <li className="no-results">
                               <div>
-                                <span>{`${rider.riderName} (${rider.teamName})`}</span>
+                                <span>NO ITEMS MATCHES TO YOUR SEARCH</span>
                               </div>
                             </li>
-                          ))}
+                          )}
                         </ul>
                       </div>
                     )}
