@@ -2075,3 +2075,17 @@ ul.slug-table-body li h5{
   max-width: unset !important;
   display: block;
 }
+
+
+
+@media ( min-width: 768px ){
+  section.home-banner ul.transparent-cart li h6:not(.rider--name) {
+    padding-right: 14px;
+}
+section.home-banner ul.transparent-cart li.home-result-list {
+  gap: 20px;
+}
+}
+section.home-banner ul.transparent-cart li.home-result-list h6:first-of-type {
+  padding-right: 0;
+}

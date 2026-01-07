@@ -364,10 +364,17 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
 
+                        const oneDayWins = riderData?.one_day_race_wins ?? 0;
+
+                        // If wins is 0, show no data found message
+                        if (oneDayWins === 0) {
+                          return <ErrorMessage errorType="no_data_found" />;
+                        }
+
                         return (
                           <>
                             <h5>
-                              <strong>{riderData?.one_day_race_wins ?? 0}</strong>wins
+                              <strong>{oneDayWins}</strong>wins
                             </h5>
 
                             <Link href={buildUrlWithParams("wins-in-one-day-races")} className="green-circle-btn">

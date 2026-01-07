@@ -192,10 +192,18 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                     if (!teamData) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
+
+                    const totalWins = teamData.total_wins || teamData.totalTeamWins || teamData.wins || 0;
+
+                    // If wins is 0, show no data found message
+                    if (totalWins === 0) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
                     return (
                       <div className="name-wraper">
                         <h5 className="fst-italic">
-                          <strong>{teamData.total_wins || teamData.totalTeamWins || teamData.wins || 0}</strong>
+                          <strong>{totalWins}</strong>
                         </h5>
                       </div>);
                   })()}
@@ -225,10 +233,17 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
 
+                    const totalRiders = teamData?.total_riders || teamData?.total_rider || 0;
+
+                    // If riders count is 0, show no data found message
+                    if (totalRiders === 0) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
                     return (
                       <>
                         <h5 className="teamcard-number">
-                          <strong>{teamData?.total_riders || teamData?.total_rider || 0}</strong>Riders
+                          <strong>{totalRiders}</strong>Riders
                         </h5>
 
                         <Link href={buildUrlWithParams("amount-of-riders")} className="green-circle-btn">
@@ -378,13 +393,18 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
 
-                        const totalClassicWins = teamData?.totalClassicWins || teamData?.total_classic_wins || teamData?.total;
+                        const totalClassicWins = teamData?.totalClassicWins || teamData?.total_classic_wins || teamData?.total || 0;
+
+                        // If classic wins is 0, show no data found message
+                        if (totalClassicWins === 0) {
+                          return <ErrorMessage errorType="no_data_found" />;
+                        }
 
                         return (
                           <>
 
                             <h5 className="teamcard-number">
-                              <strong>{totalClassicWins || 0}</strong>
+                              <strong>{totalClassicWins}</strong>
                             </h5>
                             <Link href={buildUrlWithParams("amount-of-classic-wins")} className="white-circle-btn">
                               <img src="/images/arow.svg" alt="arrow" />
@@ -418,6 +438,11 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                         }
 
                         const totalGrandTourWins = teamData?.totalGrandTourWins || teamData?.total_GrandTourWins || 0;
+
+                        // If grand tour wins is 0, show no data found message
+                        if (totalGrandTourWins === 0) {
+                          return <ErrorMessage errorType="no_data_found" />;
+                        }
 
                         return (
                           <>
@@ -457,8 +482,13 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
 
-                        const totalPoints = teamData?.uci_ranking?.total_points
-                        const currentRanking = teamData?.uci_ranking?.ranking
+                        const totalPoints = teamData?.uci_ranking?.total_points || 0;
+                        const currentRanking = teamData?.uci_ranking?.ranking;
+
+                        // If points is 0 and no ranking, show no data found message
+                        if (totalPoints === 0 && !currentRanking) {
+                          return <ErrorMessage errorType="no_data_found" />;
+                        }
 
                         return (
                           <>

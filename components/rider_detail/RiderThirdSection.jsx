@@ -333,15 +333,17 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
 
+                    const dnfCount = riderData?.dnf_count ?? 0;
+
+                    // If dnf_count is 0, show no data found message
+                    if (dnfCount === 0) {
+                      return <ErrorMessage errorType="no_data_found" />;
+                    }
+
                     return (
                       <>
-                        {/* {riderData?.dnf_count && (
-                          <h5>
-                            <strong>{riderData.dnf_count} </strong>
-                          </h5>
-                        )} */}
-                        <h5>
-                          <strong>{riderData?.dnf_count ?? 0}</strong>dnfs
+                      <h5>
+                          <strong>{dnfCount}</strong>dnfs
                         </h5>
 
                         <img

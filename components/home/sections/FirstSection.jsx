@@ -101,7 +101,7 @@ const FirstSection = () => {
             </a>
           </div>
         </div>
-        <div className="row">
+        <div className="row gy-4">
 
 
           {/* Show loading state */}
@@ -206,7 +206,7 @@ const FirstSection = () => {
                         .map((result, index) => {
                          const { start, end } = convertDateRange(result?.date);
                           return (
-                            <li className="hoverState-li custom-list-el" key={index}>
+                            <li className="hoverState-li custom-list-el home-result-list" key={index}>
                               <Link href={`/races/${result?.raceName}`} className="pabs" />
                               <span className="text-capitalize">
                                 {/* {new Date(result.date).toLocaleDateString(
