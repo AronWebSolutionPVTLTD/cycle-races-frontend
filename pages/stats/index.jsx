@@ -145,7 +145,7 @@ export default function Stats() {
                   </li>
                   <li>stats</li>
                 </ul>
-                <h1 className="fw-900 fst-italic">statistieken</h1>
+                <h1 className="fw-900 fst-italic">stats</h1>
                 <div className="filter-section-wrapper">
                   <ul className="filter sss">
                     <FilterDropdown
