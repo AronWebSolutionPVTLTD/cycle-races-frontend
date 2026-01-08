@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMultipleData } from "../../home_api_data";
@@ -59,23 +59,16 @@ export const LastSection = ({
     fixedApis.box11,
     fixedApis.box12,
   ];
-
-  // Define endpoint mappings for specific cases if needed
   const endpointsMappings = {};
-
   const { data, loading, error } = useMultipleData(onedayRace, {
     name: name,
     queryParams: buildQueryParams(),
     endpointsMappings: endpointsMappings,
     idType: "oneDayRaceStats",
   });
-
-  // Function to get box data similar to LastSection
   const getBoxData = (endpoint) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.most_wins,
       response?.data?.previouseditions,
@@ -99,16 +92,11 @@ export const LastSection = ({
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
-
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load rider statistics. Please try again later." />
           )}
-
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* box1 - Most DNF*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link
@@ -159,7 +147,6 @@ export const LastSection = ({
                 </div>
               </div>
 
-              {/* box2 - Rider With Most Finishes*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link
@@ -217,7 +204,6 @@ export const LastSection = ({
                 </div>
               </div>
 
-              {/* box3 - Rider With Consecutive WIns*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link
@@ -266,8 +252,6 @@ export const LastSection = ({
                 </div>
               </div>
 
-              {/* Box4: Longest Edition  */}
-
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link
@@ -313,7 +297,6 @@ export const LastSection = ({
 
               <div className="col-lg-7 box5 d-flex flex-row">
                 <div className="row">
-                  {/* Box5: Edition With Most DNFs */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link
@@ -335,7 +318,6 @@ export const LastSection = ({
                           }
 
                           return riderData.slice(0, 1).map((rider, index) => {
-                            // ✅ Capitalize each word of race_name
                             const formattedRaceName = rider?.race_name
                               ? rider.race_name
                                 .split(" ")
@@ -375,8 +357,6 @@ export const LastSection = ({
                     </div>
                   </div>
 
-
-                  {/*Box 6 -Country With MostWins */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link
@@ -432,7 +412,6 @@ export const LastSection = ({
                     </div>
                   </div>
 
-                  {/*Box 7 - Most Successful TeamInRace*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
                       <Link
@@ -484,7 +463,6 @@ export const LastSection = ({
                     </div>
                   </div>
 
-                  {/*Box 8 - Oldest Top 10Rider */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link
@@ -534,116 +512,71 @@ export const LastSection = ({
                   </div>
                 </div>
               </div>
-              {/*Box 9 - Most debut riders*/}
+
               <div className="col-lg-5 col-md-6">
                 <div className="list-white-cart lime-green-cart ctm-card">
                   <Link
                     href={buildUrlWithParams("debut-riders-in-race")}
                     className="pabs"
                   />
-              
+
                   {getBoxData(fixedApis.box9).error ? (
-                    <>  
-                    <h4 className="fs-chenge">
-                      {data?.[fixedApis.box9]?.message}
-                    </h4>
-                    <div className="no-data-wrap">
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box9).errorType}
-                    />
-                    </div>
+                    <>
+                      <h4 className="fs-chenge">
+                        {data?.[fixedApis.box9]?.message}
+                      </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box9).errorType}
+                        />
+                      </div>
                     </>
                   ) : (
                     <>
                       <div className="card-content-wraper">
-                      <h4 className="fs-chenge">
-                      {data?.[fixedApis.box9]?.message}
-                    </h4>
-                      <ul>
-                        {(Array.isArray(getBoxData(fixedApis.box9).data)
-                          ? getBoxData(fixedApis.box9).data
-                          : []
-                        )
-                          .slice(0, 5)
-                          .map((rider, index) => (
-                            <li key={index}>
-                              <strong>{rider?.year}</strong>
-                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
-                                {renderFlag(rider?.nationality)}
-                                <h6>{rider?.rider_name || "..."}</h6>
-                              </div>
-                            </li>
-                          ))}
-                      </ul>
-                   </div>
-                  <div className="image_link-wraper">
-                    <img
-                        src="/images/player3.png"
-                        alt=""
-                        className="absolute-img"
-                      />
-                      <div className="link_box">
-                        <Link
-                          href={buildUrlWithParams("debut-riders-in-race")}
-                          className="glob-btn green-bg-btn"
-                        >
-                          <strong>volledige stats</strong>{" "}
-                          <span>
-                            <img src="/images/arow.svg" alt="" />
-                          </span>
-                        </Link>
+                        <h4 className="fs-chenge">
+                          {data?.[fixedApis.box9]?.message}
+                        </h4>
+                        <ul>
+                          {(Array.isArray(getBoxData(fixedApis.box9).data)
+                            ? getBoxData(fixedApis.box9).data
+                            : []
+                          )
+                            .slice(0, 5)
+                            .map((rider, index) => (
+                              <li key={index}>
+                                <strong>{rider?.year}</strong>
+                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                  {renderFlag(rider?.nationality)}
+                                  <h6>{rider?.rider_name || "..."}</h6>
+                                </div>
+                              </li>
+                            ))}
+                        </ul>
                       </div>
-                  </div>
-                  </>
+                      <div className="image_link-wraper">
+                        <img
+                          src="/images/player3.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                        <div className="link_box">
+                          <Link
+                            href={buildUrlWithParams("debut-riders-in-race")}
+                            className="glob-btn green-bg-btn"
+                          >
+                            <strong>volledige stats</strong>{" "}
+                            <span>
+                              <img src="/images/arow.svg" alt="" />
+                            </span>
+                          </Link>
+                        </div>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
 
-              {/*Box 10 - Winners From Country*/}
-              {/* <div className="col-lg-5 col-md-6">
-                <div className="list-white-cart lime-green-cart">
-                  <h4 className="fs-chenge">
-                    {data?.[fixedApis.box10]?.message}
-                  </h4>
-                  {getBoxData(fixedApis.box10).error ? (
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box10).errorType}
-                    />
-                  ) : (
-                    <>
-                      <ul>
-                        {(Array.isArray(getBoxData(fixedApis.box10).data)
-                          ? getBoxData(fixedApis.box10).data
-                          : []
-                        )
-                          .slice(0, 5)
-                          .map((rider, index) => (
-                            <li key={index}>
-                              <strong>{rider?.year}</strong>
-                              <div className="name-wraper name-wraper-green">
-                                {renderFlag(rider?.country)}
-                                <h6>{rider?.winner_name || "..."}</h6>
-                              </div>
-                                {rider?.time && <span>{rider.time}</span>}
-                            </li>
-                          ))}
-                      </ul>
-
-                      <img
-                        src="/images/player3.png"
-                        alt=""
-                        className="absolute-img"
-                      />
-                      <a href="#?" className="glob-btn green-bg-btn">
-                        <strong>volledige stats</strong>{" "}
-                        <span>
-                          <img src="/images/arow.svg" alt="" />
-                        </span>
-                      </a>
-                    </>
-                  )}
-                </div>
-              </div> */}
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart">
                   <Link
@@ -685,7 +618,6 @@ export const LastSection = ({
                 </div>
               </div>
 
-              {/* Box11: Youngest  top 10 */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <Link
@@ -729,7 +661,6 @@ export const LastSection = ({
                 </div>
               </div>
 
-              {/*Box 12 -Last Winner FromCountry */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link

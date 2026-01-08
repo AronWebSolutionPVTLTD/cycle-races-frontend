@@ -184,7 +184,7 @@ export default function TeamDetail({ initialTeam }) {
   const teamCountryName = headerData?.country_name || headerData?.country || headerData?.countryName;
 
   return (
-    <main className="inner-pages-main rider-detail-main">
+    <main className="inner-pages-main rider-detail-main  header-layout-2">
       <div className="dropdown-overlay"></div>
       <section className="rider-details-sec pb-0 rider-details-sec-top bg-pattern ">
         <div className="top-wrapper-main">

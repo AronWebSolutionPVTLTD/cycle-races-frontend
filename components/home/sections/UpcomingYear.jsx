@@ -3,7 +3,6 @@ import { useMultipleData } from "../../home_api_data";
 import {
   ErrorMessage,
   ErrorStats,
-  LoadingStats,
   TwoSectionSkeleton2,
 } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
@@ -29,15 +28,12 @@ function convertDateRange(dateStr) {
     const [start, end] = dateStr.split(" - ");
     const startDate = format(start);
     const endDate = format(end);
-
-    // Check if same month
     if (startDate.month === endDate.month) {
       return {
         start: `${startDate.day} - ${endDate.day} ${monthNames[startDate.month - 1]}`,
         end: null,
       };
     } else {
-      // Different months - keep current format
       const formatOld = (d) => {
         const [day, month] = d.split(".");
         return `${day.padStart(2, "0")}/${month.padStart(2, "0")}`;
@@ -48,7 +44,6 @@ function convertDateRange(dateStr) {
       };
     }
   } else {
-    // Single date
     const date = format(dateStr);
     return {
       start: `${date.day} ${monthNames[date.month - 1]}`,
@@ -59,27 +54,17 @@ function convertDateRange(dateStr) {
 
 const UpcomingYear = () => {
   const router = useRouter();
-  // Fixed APIs for each box - no random selection
   const fixedApis = {
     box1: "getUpcomingRacesByDate",
-    // box2: "tourDownUnder24",
     box2: "getUpcomingRacesByDate",
-    // box3: "mostWinTourDownUnder",
     box3: "getUpcomingRacesByDate",
   };
 
   const endpointsToFetch = Object.values(fixedApis);
-
-  // Fetch data using the fixed endpoints
   const { data, loading, error } = useMultipleData(endpointsToFetch);
-
-  // Enhanced error checking function (same as YearSection)
   const getBoxData = (key) => {
     if (!data?.[key]) return { error: true, errorType: "no_data" };
-
     const response = data[key];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.data?.result,
       response?.data?.data,
@@ -109,23 +94,16 @@ const UpcomingYear = () => {
           </div>
         </div>
         <div className="row">
-
-
-          {/* Show loading state */}
           {loading && (
             <div className="col-12">
               <TwoSectionSkeleton2 />
             </div>
           )}
-
-          {/* Show global error if all data failed */}
           {!loading && error && Object.keys(data || {}).length === 0 && (
             <div className="col-12">
               <ErrorStats message="Unable to load statistics. Please try again later." />
             </div>
           )}
-
-          {/* Main content - show when not loading and we have some data */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
               {/* Upcoming Races - Left Side (by date) */}
@@ -136,7 +114,6 @@ const UpcomingYear = () => {
                   />
                 ) : (
                   <>
-                    {/* <h4>{data?.[fixedApis.box1]?.message}</h4> */}
                     <ul className="transparent-cart sss">
                       {(Array.isArray(getBoxData(fixedApis.box1).data)
                         ? getBoxData(fixedApis.box1).data

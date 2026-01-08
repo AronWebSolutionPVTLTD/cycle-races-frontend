@@ -1,7 +1,6 @@
 import React from "react";
 import { useMultipleData } from "../home_api_data";
 import {
-  BoxSkeleton,
   BoxSkeleton2,
   ErrorMessage,
   ErrorStats,
@@ -29,8 +28,6 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
     return params;
   };
   const router = useRouter()
-
-  // Helper function to build URLs with query parameters
   const buildUrlWithParams = (basePath) => {
     const params = buildQueryParams();
     const queryString = Object.keys(params)
@@ -47,10 +44,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
 
   const getBoxData = (key) => {
     if (!data?.[key]) return { error: true, errorType: "no_data" };
-
     const response = data[key];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.data?.result,
       response?.data?.data?.shortest_stage_races,
@@ -74,16 +68,11 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton2 />}
-
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load statistics. Please try again later." />
           )}
-
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* Box 1 - Most Second  Places */}
               <div className="col-lg-4 col-md-6 ">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/most-second-places")} className="pabs" />
@@ -138,7 +127,6 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                 </div>
               </div>
 
-              {/* Box 2 -  Most nationality  */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link href={buildUrlWithParams("/stats/team-with-most-nationalities")} className="pabs" />
@@ -160,7 +148,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                         <>
                           {teams.slice(0, 1).map((team, index) => (
                             <div key={index} className="team-card">
-                              <div className="name-wraper name-wraper-green name-left" onClick={()=>router.push(`/teams/${team?.team}`)} >
+                              <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/teams/${team?.team}`)} >
                                 {renderFlag(team?.country)}
                                 <h6>{team?.team || "..."}</h6>
                               </div>
@@ -186,7 +174,6 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                 </div>
               </div>
 
-              {/*Box 3 - Most youngest  wins*/}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/youngest-riders-with-most-wins")} className="pabs" />
@@ -238,7 +225,6 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                 </div>
               </div>
 
-              {/*Box 4 - Most olderst Riders*/}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
                   <Link href={buildUrlWithParams("/stats/oldest-active-riders")} className="pabs" />
@@ -278,7 +264,6 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                 </div>
               </div>
 
-              {/*Box 5 - Mountain  */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/most-mountain-wins")} className="pabs" />
@@ -331,7 +316,6 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                 </div>
               </div>
 
-              {/*Box 6 - Shortest race */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/shortest-races")} className="pabs" />
@@ -383,7 +367,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                   </div>
                 </div>
               </div>
-              {/*Box 7 -Lightest rider */}
+
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link href={buildUrlWithParams("/stats/lightest-riders")} className="pabs" />

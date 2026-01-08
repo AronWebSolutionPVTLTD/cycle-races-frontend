@@ -3,9 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { callAPI } from "../../lib/api";
-import Flag from "react-world-flags";
 import { generateYearOptions } from "@/components/GetYear";
-import { RiSearchLine } from "react-icons/ri";
 import {
   CardSkeleton,
   ErrorStats,
@@ -63,7 +61,6 @@ export default function Results() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
-  // const [selectedYear, setSelectedYear] = useState("All-time");
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
   const [selectedMonth, setSelectedMonth] = useState("");
   const [featuredRaces, setFeaturedRaces] = useState([]);
@@ -222,7 +219,7 @@ export default function Results() {
         featured.push({
           title: victoryRes.message,
           rider: topRider.rider_name,
-          id:topRider.rider_id,
+          id: topRider.rider_id,
           flag: topRider.rider_country.toLowerCase(),
           speed: `${topRider.wins}`,
           link: "recent-victory-ranking",
@@ -244,7 +241,7 @@ export default function Results() {
         featured.push({
           title: bestRes.message,
           rider: best.rider_name,
-          id:best.rider_id,
+          id: best.rider_id,
           flag: best.rider_country.toLowerCase(),
           speed: best.wins,
           link: "best-riders-recent-year",
@@ -340,13 +337,10 @@ export default function Results() {
               race.race_name.toLowerCase() !== trimmedSearch.toLowerCase()
           );
       setSearchResults(uniqueRaces);
-      // Always show dropdown for a valid search, even if no matches,
-      // so user sees a "no results" message.
       setShowSearchDropdown(true);
     } catch (error) {
       console.error("Error fetching search suggestions:", error);
       setSearchResults([]);
-      // Show dropdown with no results message even on error
       setShowSearchDropdown(true);
     }
   };
@@ -390,9 +384,6 @@ export default function Results() {
     fetchRaceResults("");
   };
 
-  useEffect(() => {
-    // console.log('Current race results:', raceResults.length, raceResults);
-  }, [raceResults]);
 
   const handleFocus = () => {
     if (searchResults.length > 0) {
@@ -409,7 +400,6 @@ export default function Results() {
     }
   };
 
-  console.log("featuredRaces", featuredRaces);
   return (
     <>
       <Head>
@@ -530,7 +520,6 @@ export default function Results() {
                     classname="year-dropdown"
                   />
 
-                  {/* Mobile Month Dropdown */}
                   <FilterDropdown
                     ref={monthDropdownRef}
                     isOpen={showMonthDropdown}
@@ -545,7 +534,6 @@ export default function Results() {
                     classname="year-dropdown d-lg-none"
                   />
 
-                  {/* Desktop Month Links */}
                   {months.map((month) => (
                     <li
                       key={month}
@@ -602,7 +590,6 @@ export default function Results() {
                               className="link"
                               href={`/races/${encodeURIComponent(item.race_name)}?year=${selectedYear}`}
                             >
-                              {/* ---- Race Name + Stage ---- */}
                               <div className="text-uppercase">
                                 {item.race_name}
                                 {item.is_stage_race && item.stage_number
@@ -610,21 +597,18 @@ export default function Results() {
                                   : ""}
                               </div>
 
-                              {/* ---- Start / Finish (ONLY if stage) ---- */}
                               {item.is_stage_race && item.stage_number && (
                                 <>
                                   {(item.start_location || item.finish_location) && (
                                     <span >
                                       {item.start_location}
 
-                                      {/* dash only if both exist */}
                                       {item.start_location && item.finish_location ? " - " : ""}
 
                                       {item.finish_location}
                                     </span>
                                   )}
 
-                                  {/* ---- Distance ---- */}
                                   {item.distance && (
                                     <span>
                                       {" ("}{item.distance} km{")"}
@@ -646,13 +630,13 @@ export default function Results() {
                             </Link>
                           </h6>
                           <h6>
-                          <Link
+                            <Link
                               className="link"
                               href={`/teams/${item.team_name}`}
                             >{item.team_name}
-                               </Link>
-                               </h6>
-                         
+                            </Link>
+                          </h6>
+
                           <Link
                             href={`/race-result/${encodeURIComponent(
                               item.race_name
@@ -685,7 +669,7 @@ export default function Results() {
                   </div>
                 ) : featuredRaces.length > 0 ? (
                   featuredRaces.map((race, index) => (
-                    
+
                     <div className="team-cart" key={index}>
                       <Link
                         href={buildUrlWithParams(race.link)}
@@ -696,27 +680,27 @@ export default function Results() {
                         <div className="name-wraper">
                           {race.flag && (
                             renderFlag(race.flag)
-                        )}
-                         {race.rider &&
-                         <Link
-                         className="link"
-                         href={`/riders/${race.id}`}
-                       >
-                         <h6>
-                          {race.rider ? <span>{race.rider}</span> : null}
-                         </h6>
-                         </Link> 
-                         } 
-                         {race.team &&
-                          <Link
-                          className="link"
-                          href={`/teams/${race.team}`}
-                        >
-                         <h6>
-                          {race.team ? <span>{race.team}</span> : null}
-                         </h6>
-                         </Link>
-                         }
+                          )}
+                          {race.rider &&
+                            <Link
+                              className="link"
+                              href={`/riders/${race.id}`}
+                            >
+                              <h6>
+                                {race.rider ? <span>{race.rider}</span> : null}
+                              </h6>
+                            </Link>
+                          }
+                          {race.team &&
+                            <Link
+                              className="link"
+                              href={`/teams/${race.team}`}
+                            >
+                              <h6>
+                                {race.team ? <span>{race.team}</span> : null}
+                              </h6>
+                            </Link>
+                          }
                         </div>
                       </div>
                       {race?.speed && (

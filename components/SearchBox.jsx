@@ -1,9 +1,7 @@
-// components/SearchBox.js
 import { useEffect } from 'react';
 
 const SearchBox = () => {
   useEffect(() => {
-    // jQuery script
     const suggestions = [
       "pogacar tadej",
       "ottestad mie bjørndal",
@@ -13,14 +11,11 @@ const SearchBox = () => {
       "YouTube Channel",
     ];
 
-    // Getting all required elements
     const searchInput = document.querySelector(".searchInput");
     const input = searchInput.querySelector("input");
     const resultBox = searchInput.querySelector(".resultBox");
-
-    // When the user presses a key and releases
     input.onkeyup = (e) => {
-      let userData = e.target.value; // User entered data
+      let userData = e.target.value;
       let emptyArray = [];
 
       if (userData) {
@@ -32,24 +27,22 @@ const SearchBox = () => {
           return data = '<li>' + data + '</li>';
         });
 
-        searchInput.classList.add("active"); // Show autocomplete box
+        searchInput.classList.add("active");
         showSuggestions(emptyArray);
 
         let allList = resultBox.querySelectorAll("li");
         for (let i = 0; i < allList.length; i++) {
-          // Adding an onclick attribute to each <li> tag
           allList[i].setAttribute("onclick", "select(this)");
         }
       } else {
-        searchInput.classList.remove("active"); // Hide autocomplete box
+        searchInput.classList.remove("active");
       }
 
-      $(".close").click(function(){
+      $(".close").click(function () {
         $(".searchInput").removeClass("active");
       });
     };
 
-    // Show the suggestions in the result box
     function showSuggestions(list) {
       let listData;
 
@@ -63,13 +56,11 @@ const SearchBox = () => {
       resultBox.innerHTML = listData;
     }
 
-    // Select a suggestion
     window.select = function (element) {
       input.value = element.textContent;
       searchInput.classList.remove("active");
     };
 
-    // SlimNav (if you need it)
     if (typeof $ !== "undefined") {
       $('#navigation nav').slimNav_sk78();
     }

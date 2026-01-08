@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { callAPI } from '@/lib/api';
 
@@ -17,7 +16,7 @@ const Footer = () => {
             try {
                 setLoading(true);
                 const response = await callAPI('GET', '/footer/footermenu');
-                
+
                 if (response && response.success && response.data) {
                     setFooterData({
                         monuments: response.data.monuments || [],
@@ -28,7 +27,6 @@ const Footer = () => {
                 }
             } catch (error) {
                 console.error('Error fetching footer data:', error);
-                // Keep empty arrays on error
             } finally {
                 setLoading(false);
             }
@@ -167,7 +165,6 @@ const Footer = () => {
                                 <ul className='footer-bottom-links d-flex align-items-center justify-content-center gap-3 text-primary'>
                                     <li><Link href="/contact">Contact us</Link></li>
                                     <li><Link href="/disclaimer">Disclaimer</Link></li>
-                                    {/* <li><Link href="/cookie-policy">Cookie policy</Link></li> */}
                                 </ul>
                             </div>
                             <div className='col-md-4 text-center text-md-end my-2 my-md-4'>
@@ -182,7 +179,6 @@ const Footer = () => {
                     </div>
                 </div>
             </footer>
-
         </>
     );
 };

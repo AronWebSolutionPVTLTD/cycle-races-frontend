@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 
 import { useMultipleData } from "../../home_api_data";
@@ -38,10 +38,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
     const basePath = `/races/${name}/${statsPath}`;
     return queryString ? `${basePath}?${queryString}` : basePath;
   };
-
-  // Separate race and stage endpoints
   const raceEndpoints = [fixedApis.box1, fixedApis.box2, fixedApis.box4];
-
   const onedayRace = [
     fixedApis.box3,
     fixedApis.box5,
@@ -50,11 +47,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
     fixedApis.box8,
     fixedApis.box9,
   ];
-
-  // Define endpoint mappings for specific cases if needed
   const endpointsMappings = {};
-
-  // For race endpoints
   const {
     data: raceData,
     loading: raceLoading,
@@ -66,7 +59,6 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
     idType: "raceDetailsStats",
   });
 
-  // For onedayRace endpoints
   const {
     data: OneDayData,
     loading: OneDayLoading,
@@ -77,17 +69,12 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
     endpointsMappings: endpointsMappings,
     idType: "oneDayRaceStats",
   });
-  // Combine results
   const data = { ...raceData, ...OneDayData };
   const loading = raceLoading || OneDayLoading;
   const error = raceError || OneDayError;
-
-  // Function to get box data similar to LastSection
   const getBoxData = (endpoint) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.most_wins,
       response?.data?.previouseditions,
@@ -111,16 +98,12 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
-
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load rider statistics. Please try again later." />
           )}
 
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* box1 - Most wins */}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
                   <Link href={buildUrlWithParams("most-win")} className="pabs" />
@@ -160,7 +143,6 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/* box2 - Fastest Edition*/}
               <div className="col-lg-3 col-md-6">
                 <div className="races">
                   <div className="text-wraper">
@@ -189,7 +171,6 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/* box3 - Rider With MostGCPodiums*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("most-podiums-spots")} className="pabs" />
@@ -240,8 +221,6 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/* Box4: Race Participants  */}
-
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link href={buildUrlWithParams("race-participants")} className="pabs" />
@@ -285,7 +264,6 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
 
               <div className="col-lg-7 box5">
                 <div className="row">
-                  {/* Box5: Team with most wins  */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("team-with-most-win")} className="pabs" />
@@ -337,7 +315,6 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 6 - Most Top 10 rider in Race */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link href={buildUrlWithParams("most-times-top10")} className="pabs" />
@@ -388,7 +365,6 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 7 - Last Winner*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
                       <Link href={buildUrlWithParams("last-winner")} className="pabs" />
@@ -426,7 +402,6 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 8 - Fastest Race */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("fastest-race-edition")} className="pabs" />
@@ -458,29 +433,6 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
 
                                 </h5>
                               )}
-                              {/* {rider?.time && (
-                                <div
-                                  style={{
-                                    position: "relative",
-                                    height: "80px",
-                                  }}
-                                >
-                                  <h5
-                                    style={{
-                                      position: "absolute",
-                                      top: "60px",
-                                      left: 40,
-                                      right: 0,
-                                      textAlign: "center",
-                                      fontSize: "50px",
-                                      color: "#cbcbc7",
-                                    }}
-                                  >
-                                    {rider.time}
-                                  </h5>
-                                </div>
-                              )} */}
-
                               <Link
                                 href={buildUrlWithParams(
                                   "fastest-race-edition"
@@ -497,67 +449,67 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                   </div>
                 </div>
               </div>
-              {/*Box 9 - Most stage wins*/}
+
               <div className="col-lg-5 col-md-6 ss">
                 <div className="list-white-cart lime-green-cart ctm-card">
                   <Link href={buildUrlWithParams("previous-editions")} className="pabs" />
-                
-                
+
+
                   {getBoxData(fixedApis.box9).error ? (
                     <>  <h4 className="fs-chenge">
-                    {data?.[fixedApis.box9]?.message}
-                  </h4>
-                     <div className="no-data-wrap">
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box9).errorType}
-                    />
-                    </div>
+                      {data?.[fixedApis.box9]?.message}
+                    </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box9).errorType}
+                        />
+                      </div>
                     </>
                   ) : (
                     <>
-                    <div className="card-content-wraper">
-                    <h4 className="fs-chenge">
-                    {data?.[fixedApis.box9]?.message}
-                  </h4>
-                    <ul>
-                        {(Array.isArray(getBoxData(fixedApis.box9).data)
-                          ? getBoxData(fixedApis.box9).data
-                          : []
-                        )
-                          .slice(0, 5)
-                          .map((rider, index) => (
-                            <li key={index}>
-                              <strong>{rider?.year}</strong>
-                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.winner_id}`)}>
-                                {renderFlag(rider?.country)}
-                                <h6>{rider?.winner || "..."}</h6>
-                              </div>
+                      <div className="card-content-wraper">
+                        <h4 className="fs-chenge">
+                          {data?.[fixedApis.box9]?.message}
+                        </h4>
+                        <ul>
+                          {(Array.isArray(getBoxData(fixedApis.box9).data)
+                            ? getBoxData(fixedApis.box9).data
+                            : []
+                          )
+                            .slice(0, 5)
+                            .map((rider, index) => (
+                              <li key={index}>
+                                <strong>{rider?.year}</strong>
+                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.winner_id}`)}>
+                                  {renderFlag(rider?.country)}
+                                  <h6>{rider?.winner || "..."}</h6>
+                                </div>
 
-                              {rider?.time && <span>{rider.time}</span>}
-                            </li>
-                          ))}
-                      </ul>
-                   </div>
-                  <div className="image_link-wraper">
-                    <img
-                        src="/images/player3.png"
-                        alt=""
-                        className="absolute-img"
-                      />
-                      <div className="link_box">
-                        <Link
-                          href={buildUrlWithParams("previous-editions")}
-                          className="glob-btn green-bg-btn"
-                        >
-                          <strong>volledige stats</strong>{" "}
-                          <span>
-                            <img src="/images/arow.svg" alt="" />
-                          </span>
-                        </Link>
+                                {rider?.time && <span>{rider.time}</span>}
+                              </li>
+                            ))}
+                        </ul>
                       </div>
-                  </div>
-                  </>
-                   )}
+                      <div className="image_link-wraper">
+                        <img
+                          src="/images/player3.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                        <div className="link_box">
+                          <Link
+                            href={buildUrlWithParams("previous-editions")}
+                            className="glob-btn green-bg-btn"
+                          >
+                            <strong>volledige stats</strong>{" "}
+                            <span>
+                              <img src="/images/arow.svg" alt="" />
+                            </span>
+                          </Link>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </>

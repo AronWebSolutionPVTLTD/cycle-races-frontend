@@ -23,13 +23,11 @@ const LastSection = () => {
   const getBoxData = (key) => {
     if (!data?.[key]) return { error: true, errorType: "no_data" };
     const response = data[key];
-    // Try most common paths in order
     const paths = [
       response?.data?.data?.shortest_stage_races,
       response?.data?.data?.result,
       response?.data?.data,
       response?.data,
-      // response?.data.riders,
       response,
     ];
 
@@ -38,7 +36,6 @@ const LastSection = () => {
         return { data: path, error: false };
       }
     }
-
     return { error: true, errorType: "no_data_found" };
   };
 
@@ -47,13 +44,9 @@ const LastSection = () => {
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton2 />}
-
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load statistics. Please try again later." />
           )}
-
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
               {/* Box 1 - Most Second  Places */}
@@ -296,7 +289,7 @@ const LastSection = () => {
               </div>
 
               {/*Box 6 - Shortest race */}
-            
+
               <div className="col-lg-3 col-md-6 ss">
                 <div className="team-cart">
                   <Link href="/shortest-races" className="pabs" />

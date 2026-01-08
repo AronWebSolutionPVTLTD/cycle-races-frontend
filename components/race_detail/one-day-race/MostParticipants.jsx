@@ -19,10 +19,7 @@ const Mostparticipants = ({ selectedYear = null, selectedNationality = null, nam
     return params;
   };
 
-  // Create array of endpoints to fetch
   const endpointsToFetch = [apiOptions.box1];
-
-  // Fetch data using the selected API endpoint with optional filters
   const { data, loading, error } = useMultipleData(endpointsToFetch, {
     name: name,
     queryParams: buildQueryParams(),
@@ -33,8 +30,6 @@ const Mostparticipants = ({ selectedYear = null, selectedNationality = null, nam
     if (!data?.[key]) return { error: true, errorType: "no_data" };
 
     const response = data[key];
-
-    // Try most common paths in order
     const paths = [response?.data?.rider_participation, response];
 
     for (const path of paths) {
@@ -59,7 +54,6 @@ const Mostparticipants = ({ selectedYear = null, selectedNationality = null, nam
             <ErrorStats message="Unable to load data. Please try again later." />
           )}
 
-          {/* Only show content when data is loaded */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <div className="col-lg-12">
               <div className="winning-box">
@@ -95,9 +89,6 @@ const Mostparticipants = ({ selectedYear = null, selectedNationality = null, nam
 
                   const response = data[apiOptions.box1];
                   const riderData = response?.data?.rider_participation;
-                  // if (!Array.isArray(riderData) || riderData.length === 0) {
-                  //   return <ErrorMessage errorType="no_data_found" />;
-                  // }
                   return riderData
                     .slice(0, 1)
                     .map((rider, index) => (

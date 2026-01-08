@@ -1,5 +1,4 @@
 import { useState, forwardRef, useEffect, useRef } from 'react';
-
 export const FilterDropdown = forwardRef(({
   isOpen,
   toggle,
@@ -11,21 +10,19 @@ export const FilterDropdown = forwardRef(({
   loading,
   includeAllOption = true,
   allOptionText,
-  classname='',
+  classname = '',
   optionKey = null,
   displayKey = null,
   valueKey = null
 }, ref) => {
   const [inputValue, setInputValue] = useState('');
-  const optionRefs = useRef({}); // store refs for each option
+  const optionRefs = useRef({});
 
   useEffect(() => {
     if (!isOpen) {
       setInputValue(selectedValue || '');
     } else {
       setInputValue('');
-
-      // Scroll to selected option when dropdown opens
       if (selectedValue && optionRefs.current[selectedValue]) {
         optionRefs.current[selectedValue].scrollIntoView({
           block: "nearest",
@@ -38,7 +35,7 @@ export const FilterDropdown = forwardRef(({
   const isAllOption = () => {
     if (selectedValue === '' && includeAllOption) return true;
     if (!selectedValue) return false;
-    const allOptions = ["All-time","All-Nationalities", ""];
+    const allOptions = ["All-time", "All-Nationalities", ""];
     return allOptions.includes(selectedValue);
   };
 
@@ -78,7 +75,6 @@ export const FilterDropdown = forwardRef(({
   };
 
   const getSelectedDisplayText = () => {
-    // If selectedValue is empty string and includeAllOption is true, show allOptionText
     if (selectedValue === '' && includeAllOption && allOptionText) {
       return allOptionText;
     }
@@ -95,9 +91,9 @@ export const FilterDropdown = forwardRef(({
   const filteredOptions = onInputChange
     ? options
     : options?.filter(option => {
-        const displayText = getOptionDisplayText(option);
-        return displayText.toLowerCase().includes((inputValue || '').toLowerCase());
-      });
+      const displayText = getOptionDisplayText(option);
+      return displayText.toLowerCase().includes((inputValue || '').toLowerCase());
+    });
 
   const displayOptions = inputValue === '' ? options : filteredOptions;
 
@@ -108,7 +104,7 @@ export const FilterDropdown = forwardRef(({
 
   return (
     <li className={`filter-dropdown-list ${classname} ${isOpen ? 'active' : ''}`} ref={ref}>
-      <div  className={`form-select ${selectedValue && !isAllOption() ? "selected" : ""}`} onClick={toggle}>
+      <div className={`form-select ${selectedValue && !isAllOption() ? "selected" : ""}`} onClick={toggle}>
         {getSelectedDisplayText()}
       </div>
 

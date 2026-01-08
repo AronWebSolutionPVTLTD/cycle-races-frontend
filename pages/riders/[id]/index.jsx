@@ -21,8 +21,6 @@ export default function RiderDetail({ year, initialRider }) {
   const yearDropdownRef = useRef(null);
   const [dynamicYears, setDynamicYears] = useState([]);
   const [yearsLoading, setYearsLoading] = useState(false);
-  console.log("initialRider", initialRider);
-  // Available filter options
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions = dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
   const getFilteredYears = (searchValue) => {
@@ -35,7 +33,6 @@ export default function RiderDetail({ year, initialRider }) {
         year.toString().toLowerCase().includes(searchValue.toLowerCase())
       );
     }
-    // return withoutAllTime;
     return allYearOptions.filter((year) =>
       year.toString().toLowerCase().includes(searchValue.toLowerCase())
     );
@@ -69,9 +66,7 @@ export default function RiderDetail({ year, initialRider }) {
     };
   }, []);
 
-  // Fetch active years for the rider
   const fetchRiderActiveYears = async (riderId) => {
-
     try {
       setYearsLoading(true);
       const response = await callAPI("GET", `/rider-stats/${riderId}/getRiderActiveYears`);
@@ -82,51 +77,16 @@ export default function RiderDetail({ year, initialRider }) {
       }
     } catch (err) {
       console.error("Error fetching rider active years:", err);
-      // Fallback to static years if API fails
       setDynamicYears([]);
     } finally {
       setYearsLoading(false);
     }
   };
 
-  // Fetch rider details using rider ID
-  // const fetchRiderDetails = async (riderId) => {
-  //   try {
-  //     setIsLoading(true);
-  //     const response = await callAPI(
-  //       "GET",
-  //       `/rider-stats/${riderId}/detail`
-  //     ).catch((error) => {
-  //       console.error("API call failed:", error);
-  //       // If API fails, fallback to mock data
-  //       throw new Error(
-  //         "API call failed: " + (error.message || "Unknown error")
-  //       );
-  //     });
-
-  //     if (response && response.data.data) {
-  //       const riderData = response.data.data;
-  //       setRider(riderData);
-  //     } else {
-  //       console.error("Invalid API response format:", response);
-  //       throw new Error("Invalid response format from API");
-  //     }
-  //   } catch (err) {
-  //     console.error("Error fetching rider details:", err);
-  //     setError(err.message || "Failed to load rider details");
-  //     setRider(null);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
   const fetchRiderDetails = async (riderId) => {
     try {
       setIsLoading(true);
-
-      // Remove the .catch() chain and handle errors in the main try-catch
       const response = await callAPI("GET", `/rider-stats/${riderId}/detail`);
-
       if (response && response.data && response.data.data) {
         const riderData = response.data.data;
         setRider(riderData);
@@ -135,27 +95,19 @@ export default function RiderDetail({ year, initialRider }) {
       }
     } catch (err) {
       console.error("Error fetching rider details:", err);
-
-      // Handle API call failures here
       if (err.message && err.message.includes("API call failed")) {
         setError("Failed to connect to server. Please try again later.");
       } else {
         setError(err.message || "Failed to load rider details");
       }
-
       setRider(null);
-
-      // Optional: Add fallback to mock data here if needed
-      // setRider(mockRiderData);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Helper function to calculate age from birth date
   const calculateAge = (birthDate) => {
     if (!birthDate) return "Unknown";
-
     const today = new Date();
     const birthDateObj = new Date(birthDate);
     let age = today.getFullYear() - birthDateObj.getFullYear();
@@ -186,21 +138,6 @@ export default function RiderDetail({ year, initialRider }) {
       }
     }
   }, [router.isReady, router.query]);
-
-  // If loading state persists for more than 5 seconds, fall back to mock data
-  // useEffect(() => {
-  //   let timeout;
-
-  //   if (isLoading) {
-  //     timeout = setTimeout(() => {
-  //       console.log('Loading timeout reached, falling back to mock data');
-  //       setRider(mockRiderData);
-  //       setIsLoading(false);
-  //     }, 5000); // 5 second timeout
-  //   }
-
-  //   return () => clearTimeout(timeout);
-  // }, [isLoading]);
 
   if (!isRouterReady || isLoading) {
     return (
@@ -246,7 +183,7 @@ export default function RiderDetail({ year, initialRider }) {
     );
   }
   return (
-    <main className="inner-pages-main rider-detail-main">
+    <main className="inner-pages-main rider-detail-main  header-layout-2">
       <div className="dropdown-overlay"></div>
       <section className="rider-details-sec pb-0 rider-details-sec-top bg-pattern">
         <div className="top-wrapper-main">
@@ -278,9 +215,6 @@ export default function RiderDetail({ year, initialRider }) {
                     </ul>
 
                   </div>
-                  // <div className="placeholder-image" style={{ width: 200, height: 200, background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  //   <span>No Image</span>
-                  // </div>
                 )}
                 <h1>{rider.name || "..."}</h1>
               </div>
@@ -310,23 +244,9 @@ export default function RiderDetail({ year, initialRider }) {
                 includeAllOption={false}
                 classname="year-dropdown"
               />
-              {/* <li className="active">
-                  <select
-                    value={filterYear}
-                    onChange={(e) => setFilterYear(e.target.value)}
-                    className="year-filter"
-                  >
-                    {withoutAllTime.map((year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                </li> */}
             </ul>
           </div>
           <div className="row">
-            {/* Random Stats Section */}
             <RiderFirstSection riderId={rider._id}
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
@@ -335,7 +255,7 @@ export default function RiderDetail({ year, initialRider }) {
             <RiderSecondSection riderId={rider._id} filterYear={
               filterYear !== "All-time" ? filterYear : null
             } />
- 
+
             <RiderThirdSection riderId={rider._id} filterYear={
               filterYear !== "All-time" ? filterYear : null
             } />
@@ -346,10 +266,8 @@ export default function RiderDetail({ year, initialRider }) {
   );
 }
 
-// Server-side props function - keep returning null to ensure client-side fetching
 export async function getServerSideProps(context) {
   const { year } = context.query;
-  // We're intentionally returning null to trigger client-side fetching
   return {
     props: {
       initialRider: null,

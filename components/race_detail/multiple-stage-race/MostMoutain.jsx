@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useMultipleData } from "../../home_api_data";
 import { ErrorMessage, ErrorStats, LoadingStats } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
 
 const MostMoutainWin = ({
-  // Optional filter props - component will work with or without them
   selectedYear = null,
   selectedNationality = null,
   name = null,
@@ -19,11 +18,7 @@ const MostMoutainWin = ({
     if (selectedYear && selectedYear !== "All-time") params.year = selectedYear;
     return params;
   };
-
-  // Create array of endpoints to fetch
   const endpointsToFetch = [apiOptions.box1];
-
-  // Fetch data using the selected API endpoint with optional filters
   const { data, loading, error } = useMultipleData(endpointsToFetch, {
     name: name,
     queryParams: buildQueryParams(),
@@ -32,10 +27,7 @@ const MostMoutainWin = ({
 
   const getBoxData = (key) => {
     if (!data?.[key]) return { error: true, errorType: "no_data" };
-
     const response = data[key];
-
-    // Try most common paths in order
     const paths = [response?.data?.data, response?.data, response];
 
     for (const path of paths) {
@@ -60,7 +52,6 @@ const MostMoutainWin = ({
             <ErrorStats message="Unable to load data. Please try again later." />
           )}
 
-          {/* Only show content when data is loaded */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <div className="col-lg-12">
               <div className="winning-box">
@@ -86,7 +77,6 @@ const MostMoutainWin = ({
                       ))
                   )}
                 </div>
-                {/* Move the count/wins outside text-wraper for large number display */}
                 {!getBoxData(apiOptions.box1).error &&
                   (Array.isArray(getBoxData(apiOptions.box1).data)
                     ? getBoxData(apiOptions.box1).data

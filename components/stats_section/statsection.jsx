@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 
 /**
- * A flexible StatsSection component that can display various types of statistics
  * 
  * @param {Object} props - Component properties
  * @param {string} props.title - Section title
@@ -13,16 +12,15 @@ import Link from 'next/link';
  * @param {Array} props.columns - Column configuration
  * @param {string} props.emptyMessage - Message to show when no data is available
  */
-const StatsSection = ({ 
-  title, 
-  data = [], 
-  year, 
-  nationality, 
-  team, 
-  columns = [], 
-  emptyMessage = "No data available for the selected filters." 
+const StatsSection = ({
+  title,
+  data = [],
+  year,
+  nationality,
+  team,
+  columns = [],
+  emptyMessage = "No data available for the selected filters."
 }) => {
-  // If data is undefined or empty
   if (!data || data.length === 0) {
     return (
       <div className="stats-section">
@@ -32,29 +30,26 @@ const StatsSection = ({
     );
   }
 
-  // Format filters for display
   const filterInfo = [];
   if (year) filterInfo.push(`Year: ${year}`);
   if (nationality) filterInfo.push(`Nationality: ${nationality}`);
   if (team) filterInfo.push(`Team: ${team}`);
 
-  // Default columns if none provided
   const defaultColumns = [
     { key: 'rank', label: 'Rank', render: (_, index) => index + 1 },
-    { 
-      key: 'rider_name', 
-      label: 'Rider', 
+    {
+      key: 'rider_name',
+      label: 'Rider',
       render: (item) => (
         <Link href={`/rider/${item.rider_id || item.id}`}>
           {item.rider_name || item.name}
         </Link>
-      ) 
+      )
     },
     { key: 'team_name', label: 'Team', render: (item) => item.team_name || item.team },
     { key: 'nationality', label: 'Nationality', render: (item) => item.nationality || item.country }
   ];
 
-  // Use provided columns or defaults
   const tableColumns = columns.length > 0 ? columns : defaultColumns;
 
   return (
@@ -67,7 +62,7 @@ const StatsSection = ({
           </div>
         )}
       </div>
-      
+
       <div className="stats-table-container">
         <table className="stats-table">
           <thead>

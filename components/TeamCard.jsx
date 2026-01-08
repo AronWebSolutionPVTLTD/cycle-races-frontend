@@ -1,15 +1,13 @@
-// components/TeamCard.jsx
 import Link from "next/link";
 import Flag from "react-world-flags";
 import { renderFlag } from "./RenderFlag";
 
 export default function TeamCard({ teamName, year, flag, teamId }) {
   const isValidTeam = teamName && teamName.trim().length > 0;
-  // Use encodeURIComponent like races page
   const teamUrl = isValidTeam ? `/teams/${encodeURIComponent(teamName)}` : null;
 
   return (
-    <li className="hoverState-li custom-list-el ss">  
+    <li className="hoverState-li custom-list-el ss">
       {isValidTeam && teamUrl && (
         <Link href={teamUrl} className="pabs" />
       )}
@@ -17,13 +15,13 @@ export default function TeamCard({ teamName, year, flag, teamId }) {
         {isValidTeam && teamUrl ? (
           <>   {flag && (
             <> {renderFlag(flag)}</>
-       )}
-          <Link href={teamUrl} className="link">
-         
+          )}
+            <Link href={teamUrl} className="link">
+
               <div className="text-uppercase">
                 {teamName}
               </div>
-          </Link>
+            </Link>
           </>
         ) : (
           <>

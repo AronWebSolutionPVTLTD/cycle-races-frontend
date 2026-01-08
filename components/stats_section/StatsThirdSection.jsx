@@ -30,8 +30,6 @@ const StatsThirdSection = ({
     return params;
   };
   const router = useRouter()
-
-  // Helper function to build URLs with query parameters
   const buildUrlWithParams = (basePath) => {
     const params = buildQueryParams();
     const queryString = Object.keys(params)
@@ -50,8 +48,6 @@ const StatsThirdSection = ({
     if (!data?.[key]) return { error: true, errorType: "no_data" };
 
     const response = data[key];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.riders,
       response?.data?.data?.longest_stage_races,
@@ -74,16 +70,12 @@ const StatsThirdSection = ({
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
-
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load statistics. Please try again later." />
           )}
 
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* First Card */}
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart lime-green-cart aa">
                   <Link href={buildUrlWithParams("/stats/grand-tour-stage-winners")} className="pabs" />
@@ -123,7 +115,6 @@ const StatsThirdSection = ({
                 </div>
               </div>
 
-              {/* SEcond Card */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/most-distance-raced")} className="pabs" />
@@ -170,7 +161,6 @@ const StatsThirdSection = ({
                 </div>
               </div>
 
-              {/* third Section */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/team-with-most-stage-podium-finishes")} className="pabs" />
@@ -219,8 +209,6 @@ const StatsThirdSection = ({
 
               <div className="col-lg-7 box5 d-flex flex-column">
                 <div className="row flex-grow-1">
-                  {/* Box5: GC Rider by team */}
-
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("/stats/team-with-most-gc-wins")} className="pabs" />
@@ -267,52 +255,6 @@ const StatsThirdSection = ({
                     </div>
                   </div>
 
-
-
-                  {/*Box 7 - Most Consistent GCTeams*/}
-                  {/* <div className="col-lg-7 col-md-6">
-                    <div className="team-cart">
-                      <div className="text-wraper">
-                        <h4>{data?.[fixedApis.box7]?.message}</h4>
-                        {getBoxData(fixedApis.box7).error ? (
-                          <ErrorMessage
-                            errorType={getBoxData(fixedApis.box7).errorType}
-                          />
-                        ) : (
-                          <>
-                            {(Array.isArray(getBoxData(fixedApis.box7).data)
-                              ? getBoxData(fixedApis.box7).data
-                              : []
-                            )
-                              .slice(0, 1)
-                              .map((rider, index) => (
-                                <>
-                                  <div
-                                    className="name-wraper name-wraper-white"
-                                    key={index}
-                                  >
-                                    {renderFlag(rider?.flag)}
-                                    <h6>{rider?.team_name || "..."}</h6>
-                                  </div>
-                                  {rider?.gcWinCount && (
-                                    <h5>
-                                      <strong>{rider.gcWinCount} </strong>
-                                      count
-                                    </h5>
-                                  )}
-                                </>
-                              ))}
-
-                            <a href="#?" className="green-circle-btn">
-                              <img src="/images/arow.svg" alt="" />
-                            </a>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div> */}
-
-                  {/*Box 8 - longest Races */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("/stats/longest-races")} className="pabs" />
@@ -360,7 +302,6 @@ const StatsThirdSection = ({
                     </div>
                   </div>
 
-                  {/*Box 6 -top 3GC Team */}
                   <div className="col-lg-12 col-md-6">
                     <div className="list-white-cart">
                       <Link href={buildUrlWithParams("/stats/teams-with-most-gc-podium-finishes")} className="pabs" />
@@ -399,50 +340,17 @@ const StatsThirdSection = ({
                       )}
                     </div>
                   </div>
-
-                  {/* Box4: race Count */}
-                  {/* <div className="col-lg-7 col-md-6">
-                    <div className="races">
-                      <div className="text-wraper">
-                        <h3 className="font-size-change">
-                          {data?.[fixedApis.box4]?.message}
-                        </h3>
-                        {(() => {
-                          if (!data?.[fixedApis.box4]) {
-                            return <ErrorMessage errorType="no_data" />;
-                          }
-
-                          const response = data[fixedApis.box4];
-                          const riderData = response?.data;
-
-                          if (!riderData) {
-                            return <ErrorMessage errorType="no_data_found" />;
-                          }
-                          return (
-                            <div className="name-wraper name-wraper-white 17">
-                              {riderData.count && (
-                                <h5>
-                                  <strong>{riderData.count}</strong>
-                                </h5>
-                              )}
-                            </div>
-                          );
-                        })()}
-                      </div>
-                    </div>
-                  </div> */}
                 </div>
               </div>
 
-              {/*Box 9 - top 1o GC Teams  */}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart lime-green-cart ctm-card">
                   <Link href={buildUrlWithParams("/stats/teams-with-most-top-10-gc-finishes")} className="pabs" />
 
                   {getBoxData(fixedApis.box9).error ? (
                     <>  <h4 className="fs-chenge">
-                        {data?.[fixedApis.box9]?.message}
-                      </h4>
+                      {data?.[fixedApis.box9]?.message}
+                    </h4>
                       <div className="no-data-wrap">
                         <ErrorMessage
                           errorType={getBoxData(fixedApis.box9).errorType}

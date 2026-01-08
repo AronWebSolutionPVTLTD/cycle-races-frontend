@@ -1,8 +1,6 @@
 "use client";
 
 import ContactForm from '../components/ContactForm'
-
-
 export const metadata = {
   title: 'Contact | Wielerstats',
   description: 'Neem contact met ons op bij Wielerstats.',

@@ -30,8 +30,6 @@ const StatsFirstSection = ({
     return params;
   };
   const router = useRouter();
-
-  // Helper function to build URLs with query parameters
   const buildUrlWithParams = (basePath) => {
     const params = buildQueryParams();
     const queryString = Object.keys(params)
@@ -50,13 +48,10 @@ const StatsFirstSection = ({
     if (!data?.[key]) return { error: true, errorType: "no_data" };
 
     const response = data[key];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.data?.result,
       response?.data?.data?.shortest_stage_races,
       response?.data?.data,
-      // response?.data,
       response?.data?.data?.sorted,
       response?.data.riders,
       response,
@@ -76,16 +71,12 @@ const StatsFirstSection = ({
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
-
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load statistics. Please try again later." />
           )}
 
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* Box 1 - Youngest Rider */}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart lime-green-cart 11 ctm-card">
                   <Link href={buildUrlWithParams("/stats/most-races-won")} className="pabs" />
@@ -120,7 +111,6 @@ const StatsFirstSection = ({
                                 <strong>{index + 1}</strong>
                                 <div className="name-wraper name-wraper-green sdsd" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                                   {renderFlag(rider?.rider_country)}
-                                  {console.log('---rider---', rider)}
                                   <h6>{rider?.rider_name || "..."}</h6>
                                 </div>
 
@@ -154,8 +144,6 @@ const StatsFirstSection = ({
 
               <div className="col-lg-7 box5 d-flex flex-column">
                 <div className="row flex-grow-1">
-                  {/*Box 2 - Most top 10 stage*/}
-
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("/stats/top-10-in-stages")} className="pabs" />
@@ -203,7 +191,6 @@ const StatsFirstSection = ({
                     </div>
                   </div>
 
-                  {/*Box 3 - Most Racing  Days */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link href={buildUrlWithParams("/stats/rider-with-most-racing-days")} className="pabs" />
@@ -255,8 +242,7 @@ const StatsFirstSection = ({
                     </div>
                   </div>
 
-                  {/*Box 4 - Top stage rider by team*/}
-                  <div className="col-lg-7 col-md-6 11">
+                  <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
                       <Link href={buildUrlWithParams("/stats/teams-with-most-wins")} className="pabs" />
                       <h4 className="fs-medium">{data?.[fixedApis.box4]?.message}</h4>
@@ -295,7 +281,6 @@ const StatsFirstSection = ({
                     </div>
                   </div>
 
-                  {/*Box 5 - most podim in stage */}
                   <div className="col-lg-5 col-md-6">
                     <div className="list-white-cart">
                       <Link href={buildUrlWithParams("/stats/most-podium-in-stage")} className="pabs" />
@@ -336,8 +321,8 @@ const StatsFirstSection = ({
                   </div>
                 </div>
               </div>
-              {/*Box 6 - Team with most rider*/}
-              <div className="col-lg-3 col-md-6 11">
+
+              <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/team-with-most-rider-to-win-race")} className="pabs" />
                   <div className="text-wraper">
@@ -348,7 +333,7 @@ const StatsFirstSection = ({
                       }
 
                       const response = data[fixedApis.box6];
-                      const teams = response?.data?.data; // Array
+                      const teams = response?.data?.data;
 
                       if (!Array.isArray(teams) || teams.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
@@ -359,10 +344,10 @@ const StatsFirstSection = ({
                           {teams.slice(0, 1).map(
                             (
                               team,
-                              index // limit 3
+                              index
                             ) => (
                               <div key={index} className="team-card">
-                                <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${team?.teamName ||team?.officialTeamName ||"..."}`)}>
+                                <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${team?.teamName || team?.officialTeamName || "..."}`)}>
                                   {renderFlag(team?.country)}
                                   <h6>
                                     {team?.teamName ||
@@ -401,8 +386,7 @@ const StatsFirstSection = ({
                 </div>
               </div>
 
-              {/*Box 7 - Finished  Races*/}
-              <div className="col-lg-3 col-md-6 22">
+              <div className="col-lg-3 col-md-6">
                 <div className="races">
                   <div className="text-wraper text-center">
                     <h3 className="font-archivo text-uppercase fw-900 fs-chenge">{data?.[fixedApis.box7]?.message}</h3>
@@ -429,8 +413,7 @@ const StatsFirstSection = ({
                 </div>
               </div>
 
-              {/*Box 8 - Most GC wins*/}
-              <div className="col-lg-3 col-md-6 33">
+              <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart lime-green-cart 22">
                   <Link href={buildUrlWithParams("/stats/most-wins-overall-gc")} className="pabs" />
                   <h4>{data?.[fixedApis.box8]?.message}</h4>
@@ -469,8 +452,7 @@ const StatsFirstSection = ({
                 </div>
               </div>
 
-              {/*Box 9 - Most DNF */}
-              <div className="col-lg-3 col-md-6 44">
+              <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/race-with-most-dnfs")} className="pabs" />
                   <div className="text-wraper">

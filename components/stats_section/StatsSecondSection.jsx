@@ -34,8 +34,6 @@ const StatsSecondSection = ({
     return params;
   };
   const router = useRouter()
-
-  // Helper function to build URLs with query parameters
   const buildUrlWithParams = (basePath) => {
     const params = buildQueryParams();
     const queryString = Object.keys(params)
@@ -56,8 +54,6 @@ const StatsSecondSection = ({
     if (!data?.[key]) return { error: true, errorType: "no_data" };
 
     const response = data[key];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.data?.result,
       response?.data?.data,
@@ -81,16 +77,11 @@ const StatsSecondSection = ({
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
-
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load statistics. Please try again later." />
           )}
-
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/*Box 1 - Most stage wins*/}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams("/stats/most-stage-wins")} className="pabs" />
@@ -156,8 +147,6 @@ const StatsSecondSection = ({
 
               <div className="col-lg-7 box5 d-flex flex-column">
                 <div className="row flex-grow-1">
-
-                  {/*Box 4 - Best Classic*/}
                   <div className="col-lg-12 col-md-12">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams(
@@ -207,7 +196,6 @@ const StatsSecondSection = ({
                     </div>
                   </div>
 
-                  {/*Box 2 - GC podium*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams(
@@ -254,12 +242,6 @@ const StatsSecondSection = ({
                     </div>
                   </div>
 
-                  {/*Box 3 -most Consistent GC*/}
-
-
-
-
-                  {/*Box 5 - oldest Rider In Races */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("/stats/oldest-rider-in-races")} className="pabs" />
@@ -304,7 +286,6 @@ const StatsSecondSection = ({
                 </div>
               </div>
 
-              {/* box6 - youngest Rider */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/youngest-riders-in-races")} className="pabs" />
@@ -347,7 +328,6 @@ const StatsSecondSection = ({
                 </div>
               </div>
 
-              {/* box7 - oldest Most Wins*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link href={buildUrlWithParams("/stats/oldest-riders-with-most-wins")} className="pabs" />
@@ -390,7 +370,6 @@ const StatsSecondSection = ({
                 </div>
               </div>
 
-              {/* box8 - youngest Most Wins */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link href={buildUrlWithParams(
@@ -438,7 +417,6 @@ const StatsSecondSection = ({
                 </div>
               </div>
 
-              {/* Box9: most weight Rider  */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link href={buildUrlWithParams(
@@ -490,7 +468,6 @@ const StatsSecondSection = ({
                 </div>
               </div>
 
-              {/* Box10: GC TOp 10  */}
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart lime-green-cart">
                   <Link href={buildUrlWithParams("/stats/top-10-in-gc")} className="pabs" />
@@ -530,10 +507,6 @@ const StatsSecondSection = ({
                 </div>
               </div>
 
-              {/* Box11: Sprint Wins */}
-
-
-              {/* Box12: DNF team in GC*/}
               <div className="col-lg-4   col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("/stats/teams-with-most-dnf")} className="pabs" />
@@ -575,44 +548,6 @@ const StatsSecondSection = ({
                 </div>
               </div>
 
-              {/* Box13: Rank one Teams*/}
-              {/* <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
-                  <div className="text-wraper">
-                    <h4>{data?.[fixedApis.box13]?.message}</h4>
-                    {getBoxData(fixedApis.box13).error ? (
-                      <ErrorMessage
-                        errorType={getBoxData(fixedApis.box13).errorType}
-                      />
-                    ) : (
-                      <>
-                        {(Array.isArray(getBoxData(fixedApis.box13).data)
-                          ? getBoxData(fixedApis.box13).data
-                          : []
-                        )
-                          .slice(0, 1)
-                          .map((rider, index) => (
-                            <>
-                              <div className="name-wraper name-wraper-white">
-                                {renderFlag(rider?.flag)}
-                                <h6>{rider?.teamName || "..."}</h6>
-                              </div>
-                              {rider?.year && (
-                                <h5>
-                                  <strong>{rider.year} </strong>
-                                </h5>
-                              )}
-                            </>
-                          ))}
-
-                        <a href="#?" className="green-circle-btn">
-                          <img src="/images/arow.svg" alt="" />
-                        </a>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div> */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams(

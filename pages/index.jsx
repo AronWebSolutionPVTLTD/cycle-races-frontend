@@ -1,4 +1,3 @@
-// import { HomeData, useMultipleData } from "@/components/home/home_api_data";
 import FirstSection from "@/components/home/sections/FirstSection";
 import LastSection from "@/components/home/sections/LastSection";
 import MostWin from "@/components/home/sections/MostWin";

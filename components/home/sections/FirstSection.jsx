@@ -3,7 +3,6 @@ import { useMultipleData } from "../../home_api_data";
 import {
   ErrorMessage,
   ErrorStats,
-  LoadingStats,
   TwoSectionSkeleton,
 } from "../../loading&error";
 import { renderFlag } from "@/components/RenderFlag";
@@ -27,15 +26,12 @@ function convertDateRange(dateStr) {
     const [start, end] = dateStr.split(" - ");
     const startDate = format(start);
     const endDate = format(end);
-
-    // Check if same month
     if (startDate.month === endDate.month) {
       return {
         start: `${startDate.day} - ${endDate.day} ${monthNames[startDate.month - 1]}`,
         end: null,
       };
     } else {
-      // Different months - keep current format
       const formatOld = (d) => {
         const [day, month] = d.split(".");
         return `${day.padStart(2, "0")}/${month.padStart(2, "0")}`;
@@ -46,7 +42,6 @@ function convertDateRange(dateStr) {
       };
     }
   } else {
-    // Single date
     const date = format(dateStr);
     return {
       start: `${date.day} ${monthNames[date.month - 1]}`,
@@ -56,37 +51,27 @@ function convertDateRange(dateStr) {
 }
 
 const FirstSection = () => {
-  // Fixed APIs for each section - no random selection
   const fixedApis = {
-
     section2: "recentCompleteRace",
   };
-  
+
   const router = useRouter();
   const endpointsToFetch = Object.values(fixedApis);
-  // Fetch data using the fixed endpoints
   const { data, loading, error } = useMultipleData(endpointsToFetch);
-
-  // Enhanced error checking function (same as UpcomingYear)
   const getSectionData = (key) => {
     if (!data?.[key]) return { error: true, errorType: "no_data" };
-
     const response = data[key];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.data?.result,
       response?.data?.data,
       response?.data,
       response,
     ];
-
     for (const path of paths) {
       if (Array.isArray(path) && path.length > 0) {
         return { data: path, error: false };
       }
     }
-
     return { error: true, errorType: "no_data_found" };
   };
 
@@ -102,26 +87,18 @@ const FirstSection = () => {
           </div>
         </div>
         <div className="row gy-4">
-
-
-          {/* Show loading state */}
           {loading && (
             <div className="col-12">
               <TwoSectionSkeleton />
             </div>
           )}
-
-          {/* Show global error if all data failed */}
           {!loading && error && Object.keys(data || {}).length === 0 && (
             <div className="col-12">
               <ErrorStats message="Unable to load statistics. Please try again later." />
             </div>
           )}
-
-          {/* Main content - show when not loading and we have some data */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* First Section - Top Stage Winners */}
               <div className="col-lg-3 col-md-5">
                 <div className="list-white-cart">
                   <Link
@@ -145,8 +122,6 @@ const FirstSection = () => {
                       <> ({getSectionData(fixedApis.section2).data[0].distance} km)</>
                     )}
                   </span>
-
-
                   {getSectionData(fixedApis.section2).error ? (
                     <ErrorMessage
                       errorType={getSectionData(fixedApis.section2).errorType}
@@ -185,8 +160,6 @@ const FirstSection = () => {
                   )}
                 </div>
               </div>
-
-              {/* Second Section - Top Stage Riders */}
               <div className="col-lg-9 col-md-7">
                 {getSectionData(fixedApis.section2).error ? (
                   <ErrorMessage
@@ -194,9 +167,6 @@ const FirstSection = () => {
                   />
                 ) : (
                   <>
-                    {/* <div className="section-title mb-3">
-                      <h4>{data?.[fixedApis.section2]?.message}</h4>
-                    </div> */}
                     <ul className="transparent-cart">
                       {(Array.isArray(getSectionData(fixedApis.section2).data)
                         ? getSectionData(fixedApis.section2).data
@@ -204,15 +174,11 @@ const FirstSection = () => {
                       )
                         .slice(1)
                         .map((result, index) => {
-                         const { start, end } = convertDateRange(result?.date);
+                          const { start, end } = convertDateRange(result?.date);
                           return (
                             <li className="hoverState-li custom-list-el home-result-list" key={index}>
                               <Link href={`/races/${result?.raceName}`} className="pabs" />
                               <span className="text-capitalize">
-                                {/* {new Date(result.date).toLocaleDateString(
-                                "en-GB",
-                                { day: "2-digit", month: "2-digit" }
-                              )} */}
                                 {start}
                                 {end ? ` - ${end}` : ""}
                               </span>
@@ -225,7 +191,6 @@ const FirstSection = () => {
                                     <span className="start-end-location">
                                       Stage {result.stage_number}: {result.start_Location} - {result.finish_Location} ({result.distance} km)
                                     </span>
-
                                   )}
                                 </a>
 

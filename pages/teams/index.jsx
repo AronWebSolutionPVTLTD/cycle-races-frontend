@@ -337,7 +337,7 @@ export default function Teams() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
-      <main className="inner-pages-main inner-riders-main ">
+      <main className="inner-pages-main inner-riders-main">
         <div className="dropdown-overlay"></div>
 
         <section className="riders-sec1">

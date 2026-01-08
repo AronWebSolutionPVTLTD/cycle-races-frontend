@@ -23,8 +23,6 @@ export async function getServerSideProps(context) {
 export default function RaceDetailsPage({ year }) {
   const router = useRouter();
   const { name } = router.query;
-
-  // State management
   const [selectedYear, setSelectedYear] = useState(year);
   const [yearInput, setYearInput] = useState("");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
@@ -32,34 +30,19 @@ export default function RaceDetailsPage({ year }) {
     useState("All-Nationalities");
 
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
-
-  // Data states
   const [nationalities, setNationalities] = useState([]);
   const [raceData, setRaceData] = useState(null);
-
-  // Loading states - separated for better UX
   const [isLoadingRace, setIsLoadingRace] = useState(false);
   const [isLoadingFilters, setIsLoadingFilters] = useState(false);
-
-  // Error state
   const [error, setError] = useState(null);
   const yearDropdownRef = useRef(null);
   const nationalityDropdownRef = useRef(null);
   const [dynamicYears, setDynamicYears] = useState([]);
   const [yearsLoading, setYearsLoading] = useState(false);
-
-  // Memoized values
   const decodedRaceName = useMemo(
     () => (name ? decodeURIComponent(name) : ""),
     [name]
   );
-
-  // const filteredYears = useMemo(() => {
-  //   return withAllTime.filter((year) =>
-  //     year.toLowerCase().includes((yearInput || "").toLowerCase())
-  //   );
-  // }, [withAllTime, yearInput]);
-
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions =
     dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
@@ -81,19 +64,14 @@ export default function RaceDetailsPage({ year }) {
     return allYearOptions.filter((year) =>
       String(year).toLowerCase().includes(searchValue.toLowerCase())
     );
-
-    // return withoutAllTime;
   };
 
-  // Fetch nationalities and teams based on filters
   const fetchFiltersData = useCallback(async () => {
     if (!decodedRaceName) return;
 
     try {
       setIsLoadingFilters(true);
       const queryParams = {};
-      // if (selectedNationality) queryParams.q_country = selectedNationality;
-      // Only add nationality to query if it's not "All-Nationalities"
       if (selectedNationality && selectedNationality !== "All-Nationalities") {
         queryParams.nationality = selectedNationality;
       }
@@ -116,7 +94,6 @@ export default function RaceDetailsPage({ year }) {
     }
   }, [selectedNationality, decodedRaceName]);
 
-  // Fetch active years for the rider
   const fetchRaceActiveYears = async (raceName) => {
     try {
       setYearsLoading(true);
@@ -131,14 +108,12 @@ export default function RaceDetailsPage({ year }) {
       }
     } catch (err) {
       console.error("Error fetching rider active years:", err);
-      // Fallback to static years if API fails
       setDynamicYears([]);
     } finally {
       setYearsLoading(false);
     }
   };
 
-  // Fetch race details
   const fetchRaceDetails = useCallback(async (raceName) => {
     if (!raceName) return;
 
@@ -165,7 +140,6 @@ export default function RaceDetailsPage({ year }) {
     }
   }, []);
 
-  // Handle selection changes
   const handleSelection = useCallback((type, value) => {
     switch (type) {
       case "year":
@@ -186,7 +160,6 @@ export default function RaceDetailsPage({ year }) {
     setYearInput(value);
   }, []);
 
-  // Effects
   useEffect(() => {
     if (router.isReady && decodedRaceName) {
       fetchRaceDetails(decodedRaceName);
@@ -231,7 +204,7 @@ export default function RaceDetailsPage({ year }) {
         <title>{raceData?.race_name || "Race"} | Cycling Stats</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <main className="inner-pages-main rider-detail-main race-detail-main">
+      <main className="inner-pages-main rider-detail-main race-detail-main  header-layout-2">
         <div className="dropdown-overlay"></div>
         <section className="rider-details-sec pb-0 rider-details-sec-top bg-pattern">
           <div className="top-wrapper-main">
@@ -275,11 +248,6 @@ export default function RaceDetailsPage({ year }) {
                     {raceData.year && (
                       <li className="text-sm">{raceData.year}</li>
                     )}
-                    {/* {raceData.total_riders && (
-                      <li className="text-sm">
-                        total riders ({raceData.total_riders})
-                      </li>
-                    )} */}
                   </ul>
                 </div>
               ) : null}
@@ -304,7 +272,6 @@ export default function RaceDetailsPage({ year }) {
                     loading={isLoadingFilters}
                     includeAllOption={false}
                   />
-                  {/* <li>All-time</li> */}
                   <FilterDropdown
                     ref={nationalityDropdownRef}
                     isOpen={showNationalityDropdown}

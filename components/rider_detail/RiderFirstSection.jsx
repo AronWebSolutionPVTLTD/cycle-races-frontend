@@ -69,11 +69,8 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
   });
 
   const getBoxData = (endpoint) => {
-
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
-    console.log("response", response)
-    // Try most common paths in order
     const paths = [
       response?.data?.most_wins,
       response?.data?.data?.best_monument_results,
@@ -91,26 +88,18 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
         return { data: path, error: false };
       }
     }
-
     return { error: true, errorType: "no_data_found" };
   };
 
   return (
     <div className="col-12">
-      <div className="row"
-      // style={{ marginBottom: "30px" }}
-      >
+      <div className="row">
         {loading && <BoxSkeleton />}
-
-        {/* Show global error if all data failed */}
         {error && Object.keys(data || {}).length === 0 && (
           <ErrorStats message="Unable to load rider statistics. Please try again later." />
         )}
-
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
           <>
-
-            {/* Result of year */}
             <div className="col-lg-3 col-md-6">
               <div className="list-white-cart lime-green-cart ctm-card ctm_card_2 ">
                 <Link href={buildUrlWithParams("rider-results-this-year")} className="pabs" />
@@ -132,8 +121,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                   const winsCount = riderData?.wins_count ?? 0;
                   const podiumCount = riderData?.podium_count ?? 0;
                   const top10Count = riderData?.top10_count ?? 0;
-
-                  // Check if all values are 0 or data doesn't exist
                   if (!riderData || (winsCount === 0 && podiumCount === 0 && top10Count === 0)) {
                     return (
                       <>
@@ -196,9 +183,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                 })()}
               </div>
             </div>
-
-
-            {/* Box4: Rider Total Wins  */}
             <div className="col-lg-3 col-md-6">
               <div className="races">
                 <div className="text-wraper text-center">
@@ -247,7 +231,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
 
-                    // ✅ Find correct rider by ID
                     const riderData = riderDataArray.find(
                       (r) => r.rider_id === riderId
                     );
@@ -276,7 +259,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/* First Card */}
             <div className="col-lg-3 col-md-12">
               <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
 
@@ -318,8 +300,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                                     : ""}
                                 </h6>
                               </div>
-
-                              {/* {rider?.rank && <span>{rider.rank}</span>} */}
                               {rider?.year && <span>{rider.year}</span>}
                             </li>
                           ))}
@@ -342,8 +322,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
             <div className="col-lg-7 box5 sss">
               <div className="row">
-                {/* Box5: Wins in one day */}
-
                 <div className="col-lg-4 col-md-6 12121">
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("wins-in-one-day-races")} className="pabs" />
@@ -366,7 +344,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                         const oneDayWins = riderData?.one_day_race_wins ?? 0;
 
-                        // If wins is 0, show no data found message
                         if (oneDayWins === 0) {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
@@ -385,10 +362,10 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                       })()}
                     </div>
                   </div>
-                </div>                                                    
+                </div>
 
 
-                <div className="col-lg-4 col-md-6 qq">                                              
+                <div className="col-lg-4 col-md-6 qq">
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("professional since")} className="pabs" />
                     <div className="text-wraper">
@@ -425,6 +402,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                                   {riderData.career_duration_years}{" "}
                                 </strong>
                                 jaar
+
                               </h5>
                             )}
                             <Link href={buildUrlWithParams("professional since")} className="green-circle-btn">
@@ -436,7 +414,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                     </div>
                   </div>
                 </div>
-                {/* third Section */}
                 <div className="col-lg-4 col-md-6 www">
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("current-team")} className="pabs" />
@@ -477,7 +454,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                   </div>
                 </div>
 
-                {/*Box 7 - Rider Wins BySeason*/}
                 <div className="col-lg-7 col-md-6 qw">
                   <div className="list-white-cart">
                     <Link href={buildUrlWithParams("number-of-wins-per-season")} className="pabs" />
@@ -513,7 +489,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
                   </div>
                 </div>
 
-                {/*Box 8 - Time Since LastVictory */}
                 <div className="col-lg-5 col-md-6">
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("time-since-last-win")} className="pabs" />
@@ -562,7 +537,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/*Box 9 - Best Monuments results  */}
             <div className="col-lg-5 box6">
               <div className="list-white-cart lime-green-cart ctm-card">
                 <Link href={buildUrlWithParams("best-monuments-result")} className="pabs" />
@@ -633,5 +607,4 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
     </div>
   );
 };
-
 export default RiderFirstSection;

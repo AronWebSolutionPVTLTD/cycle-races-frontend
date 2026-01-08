@@ -30,131 +30,6 @@ export const HomeData = (endpointKey, queryParams = {}) => {
   return { data, loading, error };
 };
 
-// Hook for multiple endpoints with query parameters
-// export const useMultipleData = (endpointKeys, queryParams = {}) => {
-//   const [data, setData] = useState({});
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [partialSuccess, setPartialSuccess] = useState(false);
-
-//   useEffect(() => {
-//     if (!Array.isArray(endpointKeys) || endpointKeys.length === 0) {
-//       setError('Invalid endpoint keys: Must be a non-empty array');
-//       setLoading(false);
-//       return;
-//     }
-
-//     const getData = async () => {
-//       try {
-//         setLoading(true);
-//         setError(null);
-//         setPartialSuccess(false);
-        
-//         const result = await fetchMultiple(endpointKeys, queryParams);
-        
-//         // Check if we have any errors
-//         if (result.errors) {
-//           const failedEndpoints = Object.keys(result.errors);
-//           const successEndpoints = endpointKeys.filter(key => !failedEndpoints.includes(key));
-          
-//           if (successEndpoints.length > 0) {
-//             setData(result.data);
-//             setPartialSuccess(true);
-            
-//             // Set error info for failed endpoints
-//             setError({
-//               message: `Failed to fetch some endpoints: ${failedEndpoints.join(', ')}`,
-//               details: result.errors,
-//               failedEndpoints
-//             });
-//           } else {
-//             setError({
-//               message: 'Failed to fetch all requested endpoints',
-//               details: result.errors
-//             });
-//           }
-//         } else {
-//           setData(result.data);
-//         }
-//       } catch (err) {
-//         console.error('Error in useMultipleData hook:', err);
-//         setError({
-//           message: err.message || 'An unknown error occurred',
-//           status: err.status || 'UNKNOWN'
-//         });
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     getData();
-//   }, [endpointKeys.join(','), JSON.stringify(queryParams)]);
-
-//   return { data, loading, error, partialSuccess };
-// };
-
-// export const useMultipleData = (endpointKeys, riderId = null, queryParams = {}, endpointsMappings = {}) => {
-//   const [data, setData] = useState({});
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [partialSuccess, setPartialSuccess] = useState(false);
-
-//   useEffect(() => {
-//     if (!Array.isArray(endpointKeys) || endpointKeys.length === 0) {
-//       setError('Invalid endpoint keys: Must be a non-empty array');
-//       setLoading(false);
-//       return;
-//     }
-
-//     const getData = async () => {
-//       try {
-//         setLoading(true);
-//         setError(null);
-//         setPartialSuccess(false);
-        
-//         const result = await fetchMultiple(endpointKeys, riderId, queryParams, endpointsMappings);
-        
-//         // Check if we have any errors
-//         if (result.errors) {
-//           const failedEndpoints = Object.keys(result.errors);
-//           const successEndpoints = endpointKeys.filter(key => !failedEndpoints.includes(key));
-          
-//           if (successEndpoints.length > 0) {
-//             setData(result.data);
-//             setPartialSuccess(true);
-            
-//             // Set error info for failed endpoints
-//             setError({
-//               message: `Failed to fetch some endpoints: ${failedEndpoints.join(', ')}`,
-//               details: result.errors,
-//               failedEndpoints
-//             });
-//           } else {
-//             setError({
-//               message: 'Failed to fetch all requested endpoints',
-//               details: result.errors
-//             });
-//           }
-//         } else {
-//           setData(result.data);
-//         }
-//       } catch (err) {
-//         console.error('Error in useMultipleData hook:', err);
-//         setError({
-//           message: err.message || 'An unknown error occurred',
-//           status: err.status || 'UNKNOWN'
-//         });
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     getData();
-//   }, [JSON.stringify(endpointKeys), riderId, JSON.stringify(queryParams)]);
-
-//   return { data, loading, error, partialSuccess };
-// };
-
 /**
  * Hook for fetching data from multiple endpoints with flexible configuration
  * @param {string[]} endpointKeys - Array of endpoint keys to fetch
@@ -171,16 +46,15 @@ export const useMultipleData = (endpointKeys, options = {}) => {
   const [error, setError] = useState(null);
   const [partialSuccess, setPartialSuccess] = useState(false);
 
-  // Extract options, providing defaults
   const {
     id = null,
     queryParams = {},
     endpointsMappings = {},
     idType = "rider",
-     name = null
+    name = null
   } = options;
 
-   
+
 
   useEffect(() => {
     if (!Array.isArray(endpointKeys) || endpointKeys.length === 0) {
@@ -194,8 +68,7 @@ export const useMultipleData = (endpointKeys, options = {}) => {
         setLoading(true);
         setError(null);
         setPartialSuccess(false);
-        
-        // Pass options object to fetchMultiple
+
         const result = await fetchMultiple(endpointKeys, {
           id,
           queryParams,
@@ -203,17 +76,14 @@ export const useMultipleData = (endpointKeys, options = {}) => {
           idType,
           name
         });
-        
-        // Check if we have any errors
+
         if (result.errors) {
           const failedEndpoints = Object.keys(result.errors);
           const successEndpoints = endpointKeys.filter(key => !failedEndpoints.includes(key));
-          
+
           if (successEndpoints.length > 0) {
             setData(result.data);
             setPartialSuccess(true);
-            
-            // Set error info for failed endpoints
             setError({
               message: `Failed to fetch some endpoints: ${failedEndpoints.join(', ')}`,
               details: result.errors,
@@ -238,9 +108,8 @@ export const useMultipleData = (endpointKeys, options = {}) => {
         setLoading(false);
       }
     };
-
     getData();
-  }, [JSON.stringify(endpointKeys), id, JSON.stringify(queryParams), idType,name]);
+  }, [JSON.stringify(endpointKeys), id, JSON.stringify(queryParams), idType, name]);
 
   return { data, loading, error, partialSuccess };
 };

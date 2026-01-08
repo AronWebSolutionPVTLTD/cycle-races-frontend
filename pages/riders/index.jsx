@@ -1,4 +1,3 @@
-// pages/riders/index.js
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -6,10 +5,8 @@ import RiderCard from "@/components/RiderCard";
 import SidebarList from "@/components/SidebarList";
 import { getTeamsRiders } from "@/lib/api";
 import { useEffect, useState, useRef } from "react";
-import { FaSpinner } from "react-icons/fa";
 import { useMultipleData } from "@/components/home_api_data";
 import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
-import { RiSearchLine } from "react-icons/ri";
 
 export default function Riders() {
   const router = useRouter();
@@ -37,8 +34,6 @@ export default function Riders() {
 
   useEffect(() => {
     fetchRiders();
-
-    // Add click outside listener to close suggestions
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowSuggestions(false);
@@ -48,14 +43,12 @@ export default function Riders() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      // Clear any pending debounce timer
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
       }
     };
   }, []);
 
-  // Function to fetch riders data
   const fetchRiders = async (query = "") => {
     setLoading(true);
     try {
@@ -82,7 +75,6 @@ export default function Riders() {
     }
   };
 
-  // Generate suggestions from teamRiders based on search query
   const generateSuggestions = (query) => {
     if (!query.trim()) {
       return [];
@@ -104,20 +96,15 @@ export default function Riders() {
       }
     });
 
-    return suggestions.slice(0, 10); // Limit to 10 suggestions
+    return suggestions.slice(0, 10);
   };
 
-  // Handle search input change with API call
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-
-    // Clear previous timer
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
-
-    // If query is empty, reset to default view
     if (!query.trim()) {
       setSelectedRider(null);
       setSearchSuggestions([]);
@@ -126,23 +113,16 @@ export default function Riders() {
       return;
     }
 
-    // Only show dropdown if query has at least 2 characters
     if (query.trim().length < 2) {
       setSearchSuggestions([]);
       setShowSuggestions(false);
       return;
     }
-
-    // Debounce API calls (300ms)
     debounceTimerRef.current = setTimeout(() => {
-      // Make API call for search results
       getTeamsRiders(query)
         .then((response) => {
           if (response.status === "success") {
-            // Update teamRiders with the filtered results
             setTeamRiders(response.data);
-
-            // Create suggestions from these results
             const suggestions = [];
             response.data.forEach((team) => {
               if (team.riders && team.riders.length > 0) {
@@ -155,30 +135,24 @@ export default function Riders() {
               }
             });
             setSearchSuggestions(suggestions.slice(0, 10));
-            // Always show dropdown for a valid search, even if no matches,
-            // so user sees a "no results" message.
             setShowSuggestions(true);
           }
         })
         .catch((err) => {
           console.error("Search error:", err);
-          // On error, use local filtering as fallback
           const localSuggestions = generateSuggestions(query);
           setSearchSuggestions(localSuggestions);
-          // Show dropdown with no results message even on error
           setShowSuggestions(true);
         });
     }, 300);
   };
 
-  // Handle search form submission
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setShowSuggestions(false);
     fetchRiders(searchQuery);
   };
 
-  // Handle search reset
   const handleSearchReset = () => {
     setSearchQuery("");
     setSelectedRider(null);
@@ -186,19 +160,15 @@ export default function Riders() {
     fetchRiders("");
   };
 
-  // Handle suggestion selection
   const handleSelectSuggestion = (rider) => {
     setSearchQuery(rider.riderName);
-    // setShowSuggestions(false);
     setSelectedRider(rider);
 
-    // Create a filtered list with just the selected rider's team
     const filteredTeam = teamRiders.find(
       (team) => team.teamName === rider.teamName
     );
 
     if (filteredTeam) {
-      // Create a filtered version of the team with only the selected rider
       const filteredList = [
         {
           ...filteredTeam,
@@ -208,23 +178,14 @@ export default function Riders() {
 
       setFirstTenRiders(filteredList);
     }
-
-    // Navigate directly to rider detail page per UX requirement
     if (rider?.rider_id) {
       router.push(`/riders/${rider.rider_id}`);
     }
   };
 
-  // Display content based on state
   const renderRidersList = () => {
     if (loading) {
       return (
-        // <li
-        //   className="loading-state"
-        //   style={{ textAlign: "center", padding: "20px" }}
-        // >
-        //   Loading riders data...
-        // </li>
         <ListSkeleton />
       );
     }
@@ -287,17 +248,10 @@ export default function Riders() {
     }));
   };
 
-  // Render sidebars with dynamic data
   const renderSidebars = () => {
     if (sidebarsLoading) {
       return (
-        // <div className="sidebar-loading">
-        //   <FaSpinner
-        //     className="animate-spin text-blue-600"
-        //     style={{ fontSize: "2rem" }}
-        //   />
-        //   <p>Loading statistics...</p>
-        // </div>
+
         <CardSkeleton />
       );
     }
@@ -409,8 +363,6 @@ export default function Riders() {
                         />
                         <div className="icon">
                           <span className="search-icon" onClick={handleSearchSubmit}>
-                            {/* <RiSearchLine /> */}
-
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width={48}
@@ -477,7 +429,6 @@ export default function Riders() {
                   <li>Name</li>
                   <li>Team</li>
                 </ul>
-
                 <ul className="transparent-cart ctm-table-ul">{renderRidersList()}</ul>
               </div>
               <div className="col-lg-3 col-md-5 33">{renderSidebars()}</div>

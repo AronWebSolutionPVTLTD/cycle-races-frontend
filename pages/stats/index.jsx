@@ -23,23 +23,16 @@ export default function Stats() {
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
   const [showTeamDropdown, setShowTeamDropdown] = useState(false);
-
-  // Refs for handling clicks outside dropdowns
   const yearDropdownRef = useRef(null);
   const nationalityDropdownRef = useRef(null);
   const teamDropdownRef = useRef(null);
   const { withoutAllTime } = generateYearOptions();
-
-  // Fetch nationalities and teams based on filters
   const fetchFiltersData = useCallback(async () => {
     try {
       setIsLoading(true);
 
       const queryParams = {};
-      // if (selectedTeam) queryParams.q_team = selectedTeam;
-      // if (selectedNationality) queryParams.q_country = selectedNationality;
       if (selectedYear) queryParams.year = selectedYear;
-
       const response = await callAPI(
         "GET",
         "/teams/getAllTeamsForFilters",
@@ -49,7 +42,6 @@ export default function Stats() {
 
       if (response.status && response.data) {
         setTeams(response.data.team_names || []);
-        console.log('response', response.data.rider_countries);
         setNationalities((response.data.rider_countries || []).slice(2));
       }
     } catch (error) {
@@ -156,7 +148,6 @@ export default function Stats() {
                 <h1 className="fw-900 fst-italic">statistieken</h1>
                 <div className="filter-section-wrapper">
                   <ul className="filter sss">
-                    {/* Year Dropdown with input change handling */}
                     <FilterDropdown
                       ref={yearDropdownRef}
                       isOpen={showYearDropdown}
@@ -171,7 +162,6 @@ export default function Stats() {
                       classname="year-dropdown"
                     />
 
-                    {/* Nationality Dropdown */}
                     <FilterDropdown
                       ref={nationalityDropdownRef}
                       isOpen={showNationalityDropdown}
@@ -189,7 +179,6 @@ export default function Stats() {
                       valueKey="country_code"
                     />
 
-                    {/* Teams Dropdown */}
                     <FilterDropdown
                       ref={teamDropdownRef}
                       isOpen={showTeamDropdown}
@@ -203,21 +192,16 @@ export default function Stats() {
                       classname="team-dropdown"
                     />
                   </ul>
-                  {/* Show selected filters summary and reset button */}
                   {(selectedYear && selectedYear !== "2025" || selectedNationality || selectedTeam) && (
                     <div className="filter-summary">
                       <span className="filter-summary-text">
                         Filter:
-                        {/* Show year if selected and not "All time" */}
                         {selectedYear && selectedYear !== "All time" && (
                           <> {selectedYear}</>
                         )}
-                        {/* Show nationality if selected */}
                         {selectedNationality && (
                           <>
                             {selectedYear && selectedYear !== "All time" ? "," : ""}
-                            {" "}
-                            {/* Find the display name for the selected nationality */}
                             {(() => {
                               const natObj = nationalities?.find(
                                 n =>
@@ -230,12 +214,9 @@ export default function Stats() {
                           </>
                         )}
 
-                        {/* Show team if selected */}
                         {selectedTeam && (
                           <>
                             {(selectedYear && selectedYear !== "All time") || selectedNationality ? "," : ""}
-                            {" "}
-                            {/* Find the display name for the selected team */}
                             {(() => {
                               const teamObj = teams?.find(
                                 t => (t.value || t) === selectedTeam

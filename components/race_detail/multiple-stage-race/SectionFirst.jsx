@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -8,7 +8,7 @@ import { renderFlag } from "../../RenderFlag";
 
 export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
   const router = useRouter();
-  const raceName = router.query.name || name; // Get name from router or fallback to prop
+  const raceName = router.query.name || name;
 
   const fixedApis = {
     box1: "getTopGC_RidersLastYear",
@@ -31,7 +31,6 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
     return params;
   };
 
-  // Helper function to build URLs with query parameters for race-specific stats
   const buildUrlWithParams = (statsPath) => {
     const params = buildQueryParams();
     const queryString = Object.keys(params)
@@ -55,23 +54,16 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
     fixedApis.box7,
     fixedApis.box9,
   ];
-
-  // Define endpoint mappings for specific cases if needed
   const endpointsMappings = {};
-
   const { data, loading, error } = useMultipleData(stageEndpoints, {
     name: name,
     queryParams: buildQueryParams(),
     endpointsMappings: endpointsMappings,
     idType: "stageStats",
   });
-
-  // Function to get box data similar to LastSection
   const getBoxData = (endpoint) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.most_wins,
       response?.data?.editions,
@@ -95,31 +87,26 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
-
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load rider statistics. Please try again later." />
           )}
-
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* Box 1 -Top GC_Riders LastYear*/}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams("top-last-year-gc")} className="pabs" />
                   {getBoxData(fixedApis.box1).error ? (
                     <>
                       <h4 className="fs-chenge">
-                            {data?.[fixedApis.box1]?.message}
-                          </h4>
-                          <div className="no-data-wrap">
-                            <ErrorMessage
-                              errorType={getBoxData(fixedApis.box1).errorType}
-                            />
-                          </div>
+                        {data?.[fixedApis.box1]?.message}
+                      </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box1).errorType}
+                        />
+                      </div>
                     </>
-                  
+
                   ) : (
                     <>
                       <div className="card-content-wraper">
@@ -179,7 +166,6 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
 
               <div className="col-lg-7 box5 d-flex flex-row">
                 <div className="row">
-                  {/*Box 2 - Rider With MostStageWins*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link
@@ -197,7 +183,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                             return <ErrorMessage errorType="no_data_found" />;
                           }
 
-                          const rider = riders[0]; // 👈 only first rider
+                          const rider = riders[0];
 
                           return (
                             <>
@@ -227,13 +213,12 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 3 - Most Racing  Days */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link
                         href={buildUrlWithParams("most-wins-gc")}
                         className="pabs"
-                      ></Link>  
+                      ></Link>
                       <div className="text-wraper">
                         <h4> {data?.[fixedApis.box3]?.message}</h4>
                         {(() => {
@@ -243,7 +228,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
 
                           const response = data[fixedApis.box3];
                           const riderData = response?.data?.data?.most_gc_wins;
-                          // handle as array and length 0
+
                           if (
                             !Array.isArray(riderData) ||
                             riderData.length === 0
@@ -279,10 +264,9 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 4 - Last Winner*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
-                    <Link
+                      <Link
                         href={buildUrlWithParams("last-winners")}
                         className="pabs"
                       ></Link>
@@ -330,7 +314,6 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 5 -Rider With Most GCTop10s */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link
@@ -386,7 +369,6 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                   </div>
                 </div>
               </div>
-              {/*Box 6 - Rider with most DNFS*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link
@@ -444,7 +426,6 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 7 - Edition*/}
               <div className="col-lg-3 col-md-6">
                 <div className="races">
                   <div className="text-wraper text-center">
@@ -472,7 +453,6 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 8 - Rider With MostGCPodiums*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link
@@ -527,7 +507,6 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 9 - Rider With MostStarts */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link
@@ -543,7 +522,6 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
 
                       const response = data[fixedApis.box9];
                       const riderData = response?.data.data;
-                      // handle as array and length 0
                       if (!Array.isArray(riderData) || riderData.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
                       }

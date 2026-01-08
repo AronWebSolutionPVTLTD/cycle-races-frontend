@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -8,8 +8,8 @@ import { renderFlag } from "../../RenderFlag";
 
 export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
   const router = useRouter();
-  const raceName = router.query.name || name; // Get name from router or fallback to prop
-  // Define single API endpoint for each section box
+  const raceName = router.query.name || name;
+
   const fixedApis = {
     box1: "getLastRaceWinnerByNationality",
     box2: "getMostStageWinsByNationality",
@@ -22,7 +22,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
     box9: "getOldestParticipantByNationality",
   };
 
-  // Build query parameters based on selected filters
   const buildQueryParams = () => {
     let params = {};
     if (selectedYear && selectedYear !== "All-time") {
@@ -32,7 +31,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
     return params;
   };
 
-  // Helper function to build URLs with query parameters for race-specific stats
   const buildUrlWithParams = (statsPath) => {
     const params = buildQueryParams();
     const queryString = Object.keys(params)
@@ -58,24 +56,16 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
     ,
   ];
-
-  // Define endpoint mappings for specific cases if needed
   const endpointsMappings = {};
-
-  // For stage endpoints
   const { data, loading, error } = useMultipleData(stageEndpoints, {
     name: name,
     queryParams: buildQueryParams(),
     endpointsMappings: endpointsMappings,
     idType: "stageStats",
   });
-
-  // Function to get box data similar to LastSection
   const getBoxData = (endpoint) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
-
-    // Check if editions[0].top_5 exists
     const editions = response?.data?.editions;
     if (Array.isArray(editions) && editions.length > 0) {
       const top5 = editions[0]?.top_5;
@@ -83,7 +73,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
         return { data: top5, error: false };
       }
     }
-    // Try most common paths in order
     const paths = [
       response?.data?.most_wins,
       response?.data?.data?.most_wins,
@@ -111,18 +100,13 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
-
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load rider statistics. Please try again later." />
           )}
-
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
               <div className="col-lg-7 box5 d-flex flex-row">
                 <div className="row">
-                  {/*Box 1 - Last Race Winner*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
                       <Link
@@ -180,7 +164,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 2 - Most StageWins ByNationality */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link
@@ -236,15 +219,14 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 3 - Most Participations By Rider*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
-                    <Link
-                            href={buildUrlWithParams(
-                              "most-participations-by-riders"
-                            )}
-                            className="pabs"
-                          ></Link>
+                      <Link
+                        href={buildUrlWithParams(
+                          "most-participations-by-riders"
+                        )}
+                        className="pabs"
+                      ></Link>
                       <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                       {getBoxData(fixedApis.box3).error ? (
                         <ErrorMessage
@@ -285,7 +267,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 4 - MostDNFs By Nationality */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link
@@ -295,12 +276,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                       <div className="text-wraper">
                         <h4>{data?.[fixedApis.box4]?.message}</h4>
                         {(() => {
-                          // if (
-                          //   !Array.isArray(data?.[fixedApis.box4]) ||
-                          //   data?.[fixedApis.box4].length === 0
-                          // ) {
-                          //   return <ErrorMessage errorType="no_data" />;
-                          // }
                           const response = data[fixedApis.box4];
                           const riderData = response?.data;
 
@@ -345,24 +320,22 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   </div>
                 </div>
               </div>
-
-              {/* Box 5 - MostTop10 RaceByNationality */}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams(
                     "most-top10-final-gc-by-nationality"
                   )} className="pabs" />
-                  {getBoxData(fixedApis.box5).error ? ( 
+                  {getBoxData(fixedApis.box5).error ? (
                     <>
-                    <h4 className="fs-chenge">
-                          {data?.[fixedApis.box5]?.message}
-                        </h4>
-                    <div className="no-data-wrap">
-                      <ErrorMessage
-                        errorType={getBoxData(fixedApis.box5).errorType}
-                      />
-                    </div>
-                  </>
+                      <h4 className="fs-chenge">
+                        {data?.[fixedApis.box5]?.message}
+                      </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box5).errorType}
+                        />
+                      </div>
+                    </>
                   ) : (
                     <>
                       <div className="card-content-wraper">
@@ -424,7 +397,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   </Link>
                 </div>
               </div>
-              {/*Box 6 - Team with most rider*/}
+
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link
@@ -475,7 +448,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   </div>
                 </div>
               </div>
-              {/*Box 7 - Youngest Participant By Nationality*/}
 
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
@@ -534,7 +506,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 8 -Total GCWins Nationality*/}
+
 
               <div className="col-lg-3 col-md-6">
                 <div className="races">
@@ -565,15 +537,15 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 9 - Oldest Participant Nationality*/}
+
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
-                <Link
-                          href={buildUrlWithParams(
-                            "oldest-participant-by-nationality"
-                          )}
-                          className="pabs"
-                        ></Link>
+                  <Link
+                    href={buildUrlWithParams(
+                      "oldest-participant-by-nationality"
+                    )}
+                    className="pabs"
+                  ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box9]?.message}</h4>
                     {getBoxData(fixedApis.box9).error ? (
@@ -590,7 +562,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           .map((rider, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-green name-left" 
+                                className="name-wraper name-wraper-green name-left"
                                 key={index} onClick={() => router.push(`/riders/${rider?.rider_id}`)}
                               >
                                 {renderFlag(rider?.nationality)}

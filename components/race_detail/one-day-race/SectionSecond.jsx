@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -8,7 +8,6 @@ import { renderFlag } from "../../RenderFlag";
 
 export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
   const router = useRouter();
-  // Define single API endpoint for each section box
   const fixedApis = {
     box1: "getMostWinsNationality",
     box2: "getTotalNationalityWin",
@@ -23,7 +22,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
     box11: "getRiderParticipationCount",
   };
 
-  // Build query parameters based on selected filters
   const buildQueryParams = () => {
     let params = {};
     if (selectedYear && selectedYear !== "All-time") {
@@ -59,7 +57,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
     fixedApis.box11,
   ];
 
-  // Define endpoint mappings for specific cases if needed
   const endpointsMappings = {};
 
   const { data, loading, error } = useMultipleData(OnedayEndpoints, {
@@ -69,12 +66,9 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
     idType: "oneDayRaceStats",
   });
 
-  // Function to get box data similar to LastSection
   const getBoxData = (endpoint) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
-
-    // Check if editions[0].top_5 exists
     const editions = response?.data?.editions;
     if (Array.isArray(editions) && editions.length > 0) {
       const top5 = editions[0]?.top_5;
@@ -82,7 +76,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
         return { data: top5, error: false };
       }
     }
-    // Try most common paths in order
     const paths = [
       response?.data?.most_wins,
       response?.data?.data?.most_wins,
@@ -110,16 +103,11 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
-
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load rider statistics. Please try again later." />
           )}
-
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* box1 - Most wins */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
                   <Link href={buildUrlWithParams("most-wins-nationality")} className="pabs" />
@@ -168,7 +156,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/* box2 - Total  Wins by nationality*/}
               <div className="col-lg-4 col-md-6">
                 <div className="races">
                   <div className="text-wraper">
@@ -198,7 +185,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/* box3- Most Participations ByRider */}
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart">
                   <Link href={buildUrlWithParams("most-participations-by-rider")} className="pabs" />
@@ -241,7 +227,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 5 - Top5 Spanish Results*/}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart">
                   <Link href={buildUrlWithParams("top-best-results")} className="pabs" />
@@ -254,50 +239,49 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     />
                   ) : (
                     <>
-                     <div className="card-content-wraper">
-                      <ul>
-                        {(Array.isArray(getBoxData(fixedApis.box5).data)
-                          ? getBoxData(fixedApis.box5).data
-                          : []
-                        )
-                          .slice(0, 5)
-                          .map((rider, index) => (
-                            <li key={index}>
-                              <div className="name-wraper" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
-                                {renderFlag(rider?.nationality)}
-                                <h6>{rider?.rider_name || "..."}</h6>
-                              </div>
+                      <div className="card-content-wraper">
+                        <ul>
+                          {(Array.isArray(getBoxData(fixedApis.box5).data)
+                            ? getBoxData(fixedApis.box5).data
+                            : []
+                          )
+                            .slice(0, 5)
+                            .map((rider, index) => (
+                              <li key={index}>
+                                <div className="name-wraper" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                  {renderFlag(rider?.nationality)}
+                                  <h6>{rider?.rider_name || "..."}</h6>
+                                </div>
 
-                              {rider?.rank && <span>{rider.rank}</span>}
-                            </li>
-                          ))}
-                      </ul>
+                                {rider?.rank && <span>{rider.rank}</span>}
+                              </li>
+                            ))}
+                        </ul>
                       </div>
                       <div className="image_link-wraper">
-                      <img
-                        src="/images/player3.png"
-                        alt=""
-                        className="absolute-img"
-                      />
-                      <Link
-                        href={buildUrlWithParams("top-best-results")}
-                        className="glob-btn"
-                      >
-                        <strong>volledige stats</strong>{" "}
-                        <span>
-                          <img src="/images/arow.svg" alt="" />
-                        </span>
-                      </Link>
+                        <img
+                          src="/images/player3.png"
+                          alt=""
+                          className="absolute-img"
+                        />
+                        <Link
+                          href={buildUrlWithParams("top-best-results")}
+                          className="glob-btn"
+                        >
+                          <strong>volledige stats</strong>{" "}
+                          <span>
+                            <img src="/images/arow.svg" alt="" />
+                          </span>
+                        </Link>
                       </div>
                     </>
-                    
+
                   )}
                 </div>
               </div>
 
-              <div className="col-lg-7 box5">
+              <div className="col-lg-7 box5 d-flex flex-row">
                 <div className="row">
-                  {/*Box 6 - LastRace Winner By Nationality,*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("last-time-rider-won-by-nationality")} className="pabs" />
@@ -345,7 +329,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 7 -Top10 Finishes*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("riders-with-most-top10")} className="pabs" />
@@ -393,7 +376,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 8 - Top Podium Reach*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("rider-with-most-podium-finishes")} className="pabs" />
@@ -441,7 +423,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 9 -Youngest Participant */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link href={buildUrlWithParams("youngest-rider-to-participate")} className="pabs" />
@@ -490,7 +471,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 10 - Oldest Participant*/}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("oldest-rider-to-participate")} className="pabs" />
@@ -534,11 +514,9 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 11 - Rider Participation Count*/}
               <div className="col-lg-5 col-md-6">
                 <div className="races">
                   <div className="text-wraper">
-                    {/* <h3 className="fs-chenge" style={{ textAlign: "center" }}> */}
                     <h3 className="text-uppercase fw-900 font-archivo fs-chenge" style={{ textAlign: "center" }}>
                       {data?.[fixedApis.box11]?.message}
                     </h3>
@@ -565,7 +543,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/* Box4: Rider with most DNFs  */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link href={buildUrlWithParams("most-dnfs-by-nationality-one-day-race")} className="pabs" />

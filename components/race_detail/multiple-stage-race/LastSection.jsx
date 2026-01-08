@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
 import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
 export const LastSection = ({ selectedYear, selectedNationality, name }) => {
   const router = useRouter();
-  const raceName = router.query.name || name; // Get name from router or fallback to prop
+  const raceName = router.query.name || name;
   const fixedApis = {
     box1: "getMostMountainClassificationWins",
     box2: "getMostSprintClassificationWins",
@@ -34,8 +33,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
     if (selectedNationality) params.nationality = selectedNationality;
     return params;
   };
-
-  // Helper function to build URLs with query parameters for race-specific stats
   const buildUrlWithParams = (statsPath) => {
     const params = buildQueryParams();
     const queryString = Object.keys(params)
@@ -65,9 +62,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
     fixedApis.box14,
   ];
 
-  // Define endpoint mappings for specific cases if needed
   const endpointsMappings = {};
-
   const { data, loading, error } = useMultipleData(stageEndpoints, {
     name: name,
     queryParams: buildQueryParams(),
@@ -75,12 +70,9 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
     idType: "stageStats",
   });
 
-  // Function to get box data similar to LastSection
   const getBoxData = (endpoint) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.top_teams,
       response?.data?.data?.most_used_finish_cities,
@@ -104,16 +96,11 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}
-
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load rider statistics. Please try again later." />
           )}
-
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* Box 1 - MostMountain Classification Wins*/}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams(
@@ -122,13 +109,13 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                   {getBoxData(fixedApis.box1).error ? (
                     <><h4 className="fs-chenge">
-                    {data?.[fixedApis.box1]?.message}
-                  </h4>
-                    <div className="no-data-wrap">
-                      <ErrorMessage
-                        errorType={getBoxData(fixedApis.box1).errorType}
-                      />
-                    </div>
+                      {data?.[fixedApis.box1]?.message}
+                    </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box1).errorType}
+                        />
+                      </div>
                     </>
                   ) : (
                     <>
@@ -195,7 +182,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
               <div className="col-lg-7 box5 d-flex flex-row">
                 <div className="row">
-                  {/*Box 2 - Most Sprint Classification Wins*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link
@@ -253,7 +239,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 3 - Youngest wins */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart img-active">
                       <Link
@@ -305,7 +290,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 4 - Rider With MostFinishes*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart img-active">
                       <Link
@@ -357,7 +341,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 5 - Oldest Stage Winner */}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link
@@ -413,14 +396,13 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                   </div>
                 </div>
               </div>
-              {/*Box 6 - Youngest Winner*/}
 
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active">
-                <Link
-                                href={buildUrlWithParams("youngest-stage-winners")}
-                                className="pabs"
-                              ></Link>
+                  <Link
+                    href={buildUrlWithParams("youngest-stage-winners")}
+                    className="pabs"
+                  ></Link>
                   <div className="text-wraper">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {(() => {
@@ -467,7 +449,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 7 - Edition*/}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link
@@ -539,7 +520,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 8 - Longest Stage InRace*/}
+
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link
@@ -585,7 +566,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 9 - Most Stage Departures */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart img-active">
                   <Link
@@ -635,7 +615,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
               <div className="col-lg-7 box5 d-flex flex-row">
                 <div className="row">
-                  {/*Box 10 - Team With MostWins*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link
@@ -685,7 +664,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 11 - Most Stage Finishes */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart img-active">
                       <Link
@@ -723,7 +701,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               ))}
                             <Link
                               href={buildUrlWithParams("cities-with-most-often-used-as-finish")}
-                                className="green-circle-btn"
+                              className="green-circle-btn"
                             >
                               <img src="/images/arow.svg" alt="" />
                             </Link>
@@ -733,7 +711,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 12 -Youngest Top10 Riders*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart img-active">
                       <Link
@@ -781,7 +758,6 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                     </div>
                   </div>
 
-                  {/*Box 13 - Shortest Stage InRace*/}
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active">
                       <Link
@@ -832,18 +808,17 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              {/*Box 14 - OldestTop 10 Finisher */}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams("oldest-top10-finisher")} className="pabs" />
                   {getBoxData(fixedApis.box14).error ? (
                     <><h4 className="fs-chenge"> {data?.[fixedApis.box14]?.message}</h4>
-                    <div className="no-data-wrap">
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box14).errorType}
-                    />
-                    </div>
-                    </> 
+                      <div className="no-data-wrap">
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box14).errorType}
+                        />
+                      </div>
+                    </>
                   ) : (
                     <>
                       <div className="card-content-wraper">

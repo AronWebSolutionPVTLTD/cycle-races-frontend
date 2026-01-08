@@ -14,10 +14,8 @@ import Footer from '../components/Footer';
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      
       <main>
-      
-        <Header />
+       <Header />
         <Component {...pageProps} />
       </main>
       <Footer />

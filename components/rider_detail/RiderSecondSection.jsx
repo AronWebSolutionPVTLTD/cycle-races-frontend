@@ -50,9 +50,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
   ];
 
   const endpointsMappings = {
-    // Add specific endpoint mappings here if needed
-    // For example:
-    // 'bestGCResults': '/race-stats/:id/bestGCResults'
   };
 
   const {
@@ -77,7 +74,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
     idType: "race",
   });
 
-  // Combine results
   const data = { ...raceData, ...riderData };
   const loading = raceLoading || riderLoading;
   const error = raceError || riderError;
@@ -85,8 +81,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
   const getBoxData = (endpoint) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.data?.top_10_stages,
       response?.data?.data?.best_monument_results,
@@ -112,29 +106,25 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
 
   return (
     <div className="col-12">
-      <div className="row"
-      // style={{ marginBottom: "30px" }}
-      >
+      <div className="row">
         {loading && <BoxSkeleton />}
 
-        {/* Show global error if all data failed */}
         {error && Object.keys(data || {}).length === 0 && (
           <ErrorStats message="Unable to load rider statistics. Please try again later." />
         )}
 
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
           <>
-            {/*Box 1 - Top10 Stages InGrandTours */}
             <div className="col-lg-5 box6">
               <div className="list-white-cart lime-green-cart ctm-card">
                 <Link href={buildUrlWithParams("top-finishes-in-grand-tour-satges")} className="pabs" />
 
                 {getBoxData(fixedApis.box1).error ? (
                   <>
-                  <h4 className="fs-chenge">
-                        {" "}
-                        {data?.[fixedApis.box1]?.message}
-                      </h4>
+                    <h4 className="fs-chenge">
+                      {" "}
+                      {data?.[fixedApis.box1]?.message}
+                    </h4>
                     <div className="no-data-wrap">
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box1).errorType}
@@ -160,7 +150,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                               </div>
 
                               {rider?.rank && <span>{rider.rank}</span>}
-                              {/* {rider?.year && <span>{rider.year}</span>} */}
                             </li>
                           ))}
                       </ul>
@@ -188,7 +177,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
 
             <div className="col-lg-7 box5 sdsd">
               <div className="row">
-                {/*Box 2 - Rider FirstWin*/}
                 <div className="col-lg-5 col-md-6">
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("rider-first-win")} className="pabs" />
@@ -232,7 +220,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                   </div>
                 </div>
 
-                {/*Box 3 -GC Results */}
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart lime-green-team-cart img-active">
                     <Link href={buildUrlWithParams("grand-tour-gc-wins")} className="pabs" />
@@ -249,21 +236,8 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                         if (!Array.isArray(riderData) || riderData.length === 0) {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
-
-                        // const firstRider = riderData[0];
-
                         return (
                           <>
-                            {/* <div className="name-wraper name-wraper-green name-left">
-                              {renderFlag(firstRider?.country_code)}
-                              <h6>{firstRider?.race || "..."}</h6>
-                            </div> */}
-                            {/* {firstRider?.best_gc_rank && (
-                              <h5>
-                                <strong>{firstRider.best_gc_rank} </strong>rank
-                              </h5>
-                            )} */}
-
                             {response?.data?.total_gc_wins && (
                               <h5>
                                 <strong>{response?.data?.total_gc_wins} </strong>wins
@@ -280,7 +254,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                   </div>
                 </div>
 
-                {/*Box 4 - Rider LongestNoWinStreak*/}
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("rider-longest-streak-without-win")} className="pabs" />
@@ -303,14 +276,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
 
                         return (
                           <>
-                            {/* <div className="name-wraper">
-                              <h6>
-                                {" "}
-                                <strong>
-                                  {riderData?.bestSeasonYear || "..."}{" "}
-                                </strong>
-                              </h6>
-                            </div> */}
                             {riderData?.total_days && (
                               <h5>
                                 <strong>{riderData.total_days}</strong>
@@ -328,7 +293,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                   </div>
                 </div>
 
-                {/*Box 5 - contract History */}
                 <div className="col-lg-5 col-md-6">
                   <div className="list-white-cart">
                     <Link href={buildUrlWithParams("team-contract-history")} className="pabs" />
@@ -367,7 +331,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/* box6 - best Country */}
             <div className="col-lg-3 col-md-6 sss">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("best-performance-in-country")} className="pabs" />
@@ -411,7 +374,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/* box7 - home country wins*/}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active">
                 <Link href={buildUrlWithParams("home-country-wins")} className="pabs" />
@@ -435,13 +397,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        {/* {riderData.total_home_country_wins && (
-                          <h5>
-                            <strong>
-                              {riderData.total_home_country_wins}{" "}
-                            </strong>
-                          </h5>
-                        )} */}
                         <h5>
                           <strong>{firstRider?.total_home_country_wins ?? 0}</strong>wins
                         </h5>
@@ -456,7 +411,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/* box8 -  Rider from same home town InOneDay */}
             <div className="col-lg-3 col-md-6">
               <div className="list-white-cart">
                 <Link href={buildUrlWithParams("riders-with-same-birthplace")} className="pabs" />
@@ -475,7 +429,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                         .slice(0, 3)
                         .map((rider, index) => (
                           <li key={index}>
-                            {/* <strong>{index + 1}</strong> */}
                             <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?._id}`)}>
                               {renderFlag(rider?.nationality)}
                               <h6>{rider?.name || "..."}</h6>
@@ -491,7 +444,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/* Box9: Rider AllVictories  */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart list-white-cart lime-green-team-cart ctm-lime-green-team-cart">
                 <Link href={buildUrlWithParams("riders-victories")} className="pabs" />
@@ -525,13 +477,6 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
                           </li>
                         ))}
                     </ul>
-
-                    {/* <img
-                      src="/images/player6.png"
-                      alt=""
-                      className="absolute-img"
-                    /> */}
-
                     <Link
                       href={buildUrlWithParams("riders-victories")}
                       className="white-circle-btn"

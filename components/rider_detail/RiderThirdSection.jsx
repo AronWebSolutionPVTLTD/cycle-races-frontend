@@ -65,9 +65,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
   ];
 
   const endpointsMappings = {
-    // Add specific endpoint mappings here if needed
-    // For example:
-    // 'bestGCResults': '/race-stats/:id/bestGCResults'
+
   };
 
   const {
@@ -92,7 +90,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
     idType: "race",
   });
 
-  // Combine results
   const data = { ...raceData, ...riderData };
   const loading = raceLoading || riderLoading;
   const error = raceError || riderError;
@@ -100,8 +97,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
   const getBoxData = (endpoint) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.data?.grand_tours_ridden,
       response?.data?.data?.best_monument_results,
@@ -124,19 +119,14 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
   return (
     <div className="col-12">
-      <div className="row"
-      // style={{ marginBottom: "30px" }}
-      >
+      <div className="row">
         {loading && <BoxSkeleton />}
-
-        {/* Show global error if all data failed */}
         {error && Object.keys(data || {}).length === 0 && (
           <ErrorStats message="Unable to load rider statistics. Please try again later." />
         )}
 
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
           <>
-            {/*Box 1 - Grand tour ridden*/}
             <div className="col-lg-4 col-md-6 11">
               <div className="list-white-cart">
                 <Link href={buildUrlWithParams("grand-tours-ridden")} className="pabs" />
@@ -177,7 +167,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/* Box 2 -  Last Victory  */}
             <div className="col-lg-4 col-md-6 22">
               <div className="team-cart lime-green-team-cart img-active">
                 <Link href={buildUrlWithParams("rider-last-victory")} className="pabs" />
@@ -190,7 +179,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     }
 
                     const response = data[fixedApis.box2];
-                    console.log("getRiderLastVictorOneData API Response:", response);
                     const riderData = response?.data?.data?.raceData;
 
                     if (!Array.isArray(riderData) || riderData.length === 0) {
@@ -220,8 +208,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                 </div>
               </div>
             </div>
-
-            {/* Box 3 - Most Raced country*/}
 
             <div className="col-lg-4 col-md-6 33">
               <div className="team-cart">
@@ -268,7 +254,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/*Box 4 - Best StageResult*/}
             <div className="col-lg-3 col-md-6 a">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("best-stage-results")} className="pabs" />
@@ -313,7 +298,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/*Box 5 - Grand TourDNFs  */}
             <div className="col-lg-3 col-md-6 b">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("grand-tour-dnfs")} className="pabs" />
@@ -334,15 +318,13 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     }
 
                     const dnfCount = riderData?.dnf_count ?? 0;
-
-                    // If dnf_count is 0, show no data found message
                     if (dnfCount === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
 
                     return (
                       <>
-                      <h5>
+                        <h5>
                           <strong>{dnfCount}</strong>dnfs
                         </h5>
 
@@ -361,7 +343,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/*Box 6 - First RankInGrand Tours */}
             <div className="col-lg-3 col-md-6 c">
               <div className="list-white-cart">
                 <Link href={buildUrlWithParams("victory-in-grand-tours")} className="pabs" />
@@ -386,7 +367,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                               {renderFlag(rider?.country_code)}
                               <h6>
                                 {rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}
-                                {/* ({rider.year}) */}
                               </h6>
                             </div>
 
@@ -402,7 +382,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/*Box 7 -First RankInMonuments */}
             <div className="col-lg-3 col-md-6 d">
               <div className="team-cart lime-green-team-cart img-active">
                 <Link href={buildUrlWithParams("first-grand-tour-win")} className="pabs" />
@@ -447,7 +426,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/*Box 8 -Total RacingDays InGrandTours */}
             <div className="col-lg-3 col-md-6 e">
               <div className="team-cart lime-green-team-cart img-active">
                 <Link href={buildUrlWithParams("total-grand-tour-racing-days")} className="pabs" />
@@ -469,11 +447,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        {/* {riderData?.total_racing_days && (
-                          <h5>
-                            <strong>{riderData.total_racing_days} </strong>
-                          </h5>
-                        )} */}
                         <h5>
                           <strong>{riderData?.total_racing_days ?? 0}</strong>
                           days
@@ -489,7 +462,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/*Box 9 - TotalDistance Raced In GrandTours*/}
             <div className="col-lg-3 col-md-6 total-distance-raced-cart">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("total-distance-grand-tour")} className="pabs" />
@@ -511,11 +483,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
 
                     return (
                       <>
-                        {/* {riderData?.total_distance_raced && (
-                          <h5>
-                            <strong>{riderData.total_distance_raced} </strong>
-                          </h5>
-                        )} */}
                         <h5>
                           <strong>
                             {riderData?.total_distance_raced ?? 0}
@@ -533,7 +500,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/*Box 10 - BestMonument Results*/}
             <div className="col-lg-3 col-md-6 f">
               <div className="list-white-cart">
                 <Link href={buildUrlWithParams("riders-best-monuments-results")} className="pabs" />
@@ -574,7 +540,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/*Box 11 - Best ParisRoubaix Result*/}
             <div className="col-lg-3 col-md-6 g">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("riders-paris-roubaix-results")} className="pabs" />
@@ -597,7 +562,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                     return (
                       <>
                         <div className="name-wraper name-wraper-white name-left">
-                          <Link href={`/races/${riderData?.race|| riderData?.race_name}`} className="pabs rider-last-victory-link" />
+                          <Link href={`/races/${riderData?.race || riderData?.race_name}`} className="pabs rider-last-victory-link" />
                           {renderFlag(riderData?.country_code)}
                           <h6>
                             {riderData?.race_name || "..."} ({riderData.year})
@@ -619,7 +584,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/*Box 12 - First Rank InMonuments*/}
             <div className="col-lg-3 col-md-6 h">
               <div className="list-white-cart">
                 <Link href={buildUrlWithParams("victory-in-monuments")} className="pabs" />
@@ -657,7 +621,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/* Box 13 -  Last Victory  */}
             <div className="col-lg-3 col-md-6 i">
               <div className="team-cart lime-green-team-cart img-active">
                 <Link href={buildUrlWithParams("best-gc-result-in-grand-tour")} className="pabs" />
@@ -682,7 +645,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         <div className="name-wraper name-wraper-white name-left">
                           <Link href={`/races/${firstRider?.race}`} className="pabs" />
                           {renderFlag(firstRider?.country_code)}
-                          {/* <h6>{firstRider?.race || "..."}</h6> */}
                           <h6>
                             {firstRider?.race || "..."}{" "}
                             {firstRider?.year ? `(${firstRider.year})` : ""}
@@ -704,8 +666,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                 </div>
               </div>
             </div>
-
-            {/* Box 14 - Teammates*/}
 
             <div className="col-lg-3 col-md-6 j">
               <div className="team-cart">
@@ -750,7 +710,6 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
               </div>
             </div>
 
-            {/* Box 15 - Rider LastPlace Finishes*/}
             <div className="col-lg-3 col-md-6 k">
               <div className="list-white-cart">
                 <Link href={buildUrlWithParams("rider-last-place-finishes")} className="pabs" />

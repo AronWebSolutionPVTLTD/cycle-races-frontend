@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ErrorMessage, ErrorStats, LoadingStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import { useMultipleData } from "../home_api_data";
@@ -6,8 +6,7 @@ import { useMultipleData } from "../home_api_data";
 
 
 const RaceMostWin = ({
-  // Optional filter props - component will work with or without them
-  selectedYear = null,  
+  selectedYear = null,
   selectedNationality = null,
   name = null,
 
@@ -18,16 +17,14 @@ const RaceMostWin = ({
 
   const buildQueryParams = () => {
     let params = {};
-     if (selectedYear && selectedYear !== "All-time") params.year = selectedYear;
+    if (selectedYear && selectedYear !== "All-time") params.year = selectedYear;
     if (selectedNationality) params.nationality = selectedNationality;
     return params;
   };
 
-  // Create array of endpoints to fetch
   const endpointsToFetch = [
     apiOptions.box1,]
 
-  // Fetch data using the selected API endpoint with optional filters
   const { data, loading, error } = useMultipleData(endpointsToFetch, {
     name: name,
     queryParams: buildQueryParams(),
@@ -38,8 +35,6 @@ const RaceMostWin = ({
     if (!data?.[key]) return { error: true, errorType: "no_data" };
 
     const response = data[key];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.most_wins,
       response?.data?.data,
@@ -70,7 +65,6 @@ const RaceMostWin = ({
             <ErrorStats message="Unable to load data. Please try again later." />
           )}
 
-          {/* Only show content when data is loaded */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <div className="col-lg-12">
               <div className="winning-box">
@@ -95,7 +89,6 @@ const RaceMostWin = ({
                       ))
                   )}
                 </div>
-                {/* Move the count/wins outside text-wraper for large number display */}
                 {!getBoxData(apiOptions.box1).error && (
                   (Array.isArray(getBoxData(apiOptions.box1).data)
                     ? getBoxData(apiOptions.box1).data

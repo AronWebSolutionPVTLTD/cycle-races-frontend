@@ -2089,3 +2089,16 @@ section.home-banner ul.transparent-cart li.home-result-list {
 section.home-banner ul.transparent-cart li.home-result-list h6:first-of-type {
   padding-right: 0;
 }
+.head-head-search-val .result-name {
+  gap: 0.5rem;
+}
+
+.head-head-search-val .result-name img {
+  margin: 0 !important;
+  object-fit: cover !important;
+  max-width: unset !important;
+  max-height: unset !important;
+  width: 20px !important;
+  height: 15px !important;
+  border-radius: 4px !important;
+}
