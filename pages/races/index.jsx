@@ -626,7 +626,7 @@ export default function Results() {
 
                                   {/* ---- Distance ---- */}
                                   {item.distance && (
-                                    <span >
+                                    <span>
                                       {" ("}{item.distance} km{")"}
                                     </span>
                                   )}

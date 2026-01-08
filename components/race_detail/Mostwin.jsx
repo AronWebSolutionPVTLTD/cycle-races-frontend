@@ -7,6 +7,7 @@ import { useMultipleData } from "../home_api_data";
 
 const RaceMostWin = ({
   // Optional filter props - component will work with or without them
+  selectedYear = null,  
   selectedNationality = null,
   name = null,
 
@@ -17,6 +18,7 @@ const RaceMostWin = ({
 
   const buildQueryParams = () => {
     let params = {};
+     if (selectedYear && selectedYear !== "All-time") params.year = selectedYear;
     if (selectedNationality) params.nationality = selectedNationality;
     return params;
   };

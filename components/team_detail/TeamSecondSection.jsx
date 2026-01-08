@@ -572,6 +572,10 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         const totalNationalities = teamData?.total_different_nationality_riders || 0;
 
+                        if (totalNationalities === 0) {
+                          return <ErrorMessage errorType="no_data_found" />;
+                        }
+
                         return (
                           <>
                             <h5 className="fst-italic">

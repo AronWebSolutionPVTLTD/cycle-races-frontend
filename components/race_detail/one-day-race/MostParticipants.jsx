@@ -15,7 +15,7 @@ const Mostparticipants = ({ selectedYear = null, selectedNationality = null, nam
   const buildQueryParams = () => {
     let params = {};
     if (selectedNationality) params.nationality = selectedNationality;
-    if (selectedYear) params.year = selectedYear;
+    if (selectedYear && selectedYear !== "All-time") params.year = selectedYear;
     return params;
   };
 
