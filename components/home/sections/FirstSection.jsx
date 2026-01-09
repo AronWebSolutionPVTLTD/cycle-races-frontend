@@ -1,0 +1,231 @@
+import React from "react";
+import { useMultipleData } from "../../home_api_data";
+import {
+  ErrorMessage,
+  ErrorStats,
+  TwoSectionSkeleton,
+} from "../../loading&error";
+import { renderFlag } from "@/components/RenderFlag";
+import Link from "next/link";
+import { useRouter } from "next/router";
+function convertDateRange(dateStr) {
+  const monthNames = [
+    "jan", "feb", "mar", "apr", "may", "jun",
+    "jul", "aug", "sep", "oct", "nov", "dec"
+  ];
+
+  const format = (d) => {
+    const [day, month] = d.split(".");
+    return {
+      day: parseInt(day),
+      month: parseInt(month)
+    };
+  };
+
+  if (dateStr.includes(" - ")) {
+    const [start, end] = dateStr.split(" - ");
+    const startDate = format(start);
+    const endDate = format(end);
+    if (startDate.month === endDate.month) {
+      return {
+        start: `${startDate.day} - ${endDate.day} ${monthNames[startDate.month - 1]}`,
+        end: null,
+      };
+    } else {
+      const formatOld = (d) => {
+        const [day, month] = d.split(".");
+        return `${day.padStart(2, "0")}/${month.padStart(2, "0")}`;
+      };
+      return {
+        start: formatOld(start),
+        end: formatOld(end),
+      };
+    }
+  } else {
+    const date = format(dateStr);
+    return {
+      start: `${date.day} ${monthNames[date.month - 1]}`,
+      end: null,
+    };
+  }
+}
+
+const FirstSection = () => {
+  const fixedApis = {
+    section2: "recentCompleteRace",
+  };
+
+  const router = useRouter();
+  const endpointsToFetch = Object.values(fixedApis);
+  const { data, loading, error } = useMultipleData(endpointsToFetch);
+  const getSectionData = (key) => {
+    if (!data?.[key]) return { error: true, errorType: "no_data" };
+    const response = data[key];
+    const paths = [
+      response?.data?.data?.result,
+      response?.data?.data,
+      response?.data,
+      response,
+    ];
+    for (const path of paths) {
+      if (Array.isArray(path) && path.length > 0) {
+        return { data: path, error: false };
+      }
+    }
+    return { error: true, errorType: "no_data_found" };
+  };
+
+  return (
+    <section className="home-banner ctm-home-banner pb-96px">
+      <div className="container">
+        <div className="col-lg-12">
+          <div className="d-flex justify-content-between align-items-center section-header">
+            <h2 className="fw-900 fst-italic">uitslagen</h2>
+            <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
+              Alle uitslagen <img src="/images/arow2.svg" alt="" />
+            </a>
+          </div>
+        </div>
+        <div className="row gy-4">
+          {loading && (
+            <div className="col-12">
+              <TwoSectionSkeleton />
+            </div>
+          )}
+          {!loading && error && Object.keys(data || {}).length === 0 && (
+            <div className="col-12">
+              <ErrorStats message="Unable to load statistics. Please try again later." />
+            </div>
+          )}
+          {!loading && !(error && Object.keys(data || {}).length === 0) && (
+            <>
+              <div className="col-lg-3 col-md-5">
+                <div className="list-white-cart">
+                  <Link
+                    href={`/races/${encodeURIComponent(
+                      getSectionData(fixedApis.section2).data?.[0]?.raceName
+                    )}`} className="pabs" />
+                  <h4 className="fw-900">
+                    {getSectionData(fixedApis.section2).data?.[0]?.raceName}
+                  </h4>
+
+                  <span className="start-end-location">
+                    {getSectionData(fixedApis.section2).data?.[0]?.stage_number && (
+                      <>Stage {getSectionData(fixedApis.section2).data[0].stage_number}: </>
+                    )}
+                    {getSectionData(fixedApis.section2).data?.[0]?.start_Location}
+                    {getSectionData(fixedApis.section2).data?.[0]?.start_Location &&
+                      getSectionData(fixedApis.section2).data?.[0]?.finish_Location &&
+                      " - "}
+                    {getSectionData(fixedApis.section2).data?.[0]?.finish_Location}
+                    {getSectionData(fixedApis.section2).data?.[0]?.distance && (
+                      <> ({getSectionData(fixedApis.section2).data[0].distance} km)</>
+                    )}
+                  </span>
+                  {getSectionData(fixedApis.section2).error ? (
+                    <ErrorMessage
+                      errorType={getSectionData(fixedApis.section2).errorType}
+                    />
+                  ) : (
+                    <>
+                      <ul>
+                        {(Array.isArray(getSectionData(fixedApis.section2).data)
+                          ? getSectionData(fixedApis.section2).data?.[0]?.result
+                          : []
+                        )
+                          .slice(0, 3)
+                          .map((rider, index) => (
+                            <li key={index}>
+                              <strong>{index + 1}</strong>
+                              <div className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                {renderFlag(rider?.riderCountry)}
+                                <h6>{rider?.rider}</h6>
+                              </div>
+                              {rider.time && (
+                                <span>{rider?.time || "..."}</span>
+                              )}
+                            </li>
+                          ))}
+                      </ul>
+
+                      <Link
+                        href={`/races/${encodeURIComponent(
+                          getSectionData(fixedApis.section2).data?.[0]?.raceName
+                        )}`}
+                        className="green-circle-btn"
+                      >
+                        <img src="/images/arow.svg" alt="" />
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="col-lg-9 col-md-7">
+                {getSectionData(fixedApis.section2).error ? (
+                  <ErrorMessage
+                    errorType={getSectionData(fixedApis.section2).errorType}
+                  />
+                ) : (
+                  <>
+                    <ul className="transparent-cart">
+                      {(Array.isArray(getSectionData(fixedApis.section2).data)
+                        ? getSectionData(fixedApis.section2).data
+                        : []
+                      )
+                        .slice(1)
+                        .map((result, index) => {
+                          const { start, end } = convertDateRange(result?.date);
+                          return (
+                            <li className="hoverState-li custom-list-el home-result-list" key={index}>
+                              <Link href={`/races/${result?.raceName}`} className="pabs" />
+                              <span className="text-capitalize">
+                                {start}
+                                {end ? ` - ${end}` : ""}
+                              </span>
+                              {result?.raceName && <h5 className="race-name-el fw-900">
+                                {renderFlag(result?.raceCountry)}
+                                <a className="d-flex flex-column">
+                                  <strong className="text-uppercase">{result.raceName}</strong>
+
+                                  {result.start_Location && result.finish_Location && result.distance && (
+                                    <span className="start-end-location">
+                                      Stage {result.stage_number}: {result.start_Location} - {result.finish_Location} ({result.distance} km)
+                                    </span>
+                                  )}
+                                </a>
+
+                              </h5>}
+                              {result?.result[0]?.rider &&
+                                <h6>
+                                  {renderFlag(result?.result[0]?.riderCountry)}
+                                  <a href={`/riders/${result?.result[0]?.rider_id}`}>{result?.result[0]?.rider}</a>
+                                </h6>}
+                              {result?.result[0]?.team && <h6>
+                                <a href={`/teams/${result?.result[0]?.team}`}>{result?.result[0]?.team} </a></h6>}
+                              <Link
+                                href={`/races/${result?.raceName}`}
+                                className="r-details "
+                              >
+                                <img src="/images/hover-arow.svg" alt="" />
+                              </Link>
+                            </li>
+                          );
+                        })}
+                    </ul>
+                  </>
+                )}
+              </div>
+              <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
+                <a href="/races" className="alle-link m-0">
+                  Alle uitslagen <img src="/images/arow2.svg" alt="" />
+                </a>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default FirstSection;
