@@ -22,88 +22,6 @@ const YearSection = () => {
   const endpointsToFetch = Object.values(fixedApis);
   const { data, loading, error } = useMultipleData(endpointsToFetch);
   const router = useRouter();
-
-  // Enhanced error checking function
-  // const getBoxData = (key) => {
-  //   try {
-  //     // Check for network/API errors
-  //     if (error && error[key]) {
-  //       console.warn(`API error for ${key}:`, error[key]);
-  //       return { error: true, errorType: "api_error" };
-  //     }
-
-  //     // Check if data exists at all
-  //     if (!data || !data[key]) {
-  //       return { error: true, errorType: "no_data" };
-  //     }
-
-  //     const endpointData = data[key];
-
-  //     // Check for various data structure scenarios
-  //     if (!endpointData) {
-  //       return { error: true, errorType: "no_endpoint_data" };
-  //     }
-
-  //     // Handle different response structures
-  //     let actualData = null;
-
-  //     // Check different possible data structures
-  //     if (endpointData.data?.data !== undefined) {
-  //       actualData = endpointData.data.data;
-  //     } else if (endpointData.data !== undefined) {
-  //       actualData = endpointData.data;
-  //     } else if (endpointData.data.result !== undefined) {
-  //       actualData = endpointData.data.result;
-  //     } else {
-  //       actualData = endpointData;
-  //     }
-
-  //     // Check if actualData is null, undefined, or empty
-  //     if (actualData === null || actualData === undefined) {
-  //       return { error: true, errorType: "null_data" };
-  //     }
-
-  //     // Check for empty arrays
-  //     if (Array.isArray(actualData) && actualData.length === 0) {
-  //       return { error: true, errorType: "empty_array" };
-  //     }
-
-  //     // Check for empty objects
-  //     if (
-  //       typeof actualData === "object" &&
-  //       !Array.isArray(actualData) &&
-  //       Object.keys(actualData).length === 0
-  //     ) {
-  //       return { error: true, errorType: "empty_object" };
-  //     }
-
-  //     return { data: actualData, error: false };
-  //   } catch (err) {
-  //     console.error(`Error processing data for ${key}:`, err);
-  //     return { error: true, errorType: "processing_error" };
-  //   }
-  // };
-
-  // Error message component
-  // const ErrorMessage = ({ errorType = "general" }) => {
-  //   const errorMessages = {
-  //     api_error: "API Error",
-  //     no_data: "No Data Available",
-  //     no_endpoint_data: "No Endpoint Data",
-  //     null_data: "Data Not Found",
-  //     empty_array: "No Records Found",
-  //     empty_object: "No Information Available",
-  //     processing_error: "Data Processing Error",
-  //     general: "No Data Available",
-  //   };
-
-  //   return (
-  //     <div className="text-danger text-center py-3">
-  //       {errorMessages[errorType] || errorMessages.general}
-  //     </div>
-  //   );
-  // };
-
   const getBoxData = (key) => {
     if (!data?.[key]) return { error: true, errorType: "no_data" };
 
@@ -208,11 +126,11 @@ const YearSection = () => {
                     </>
                   )}
                 </div>
-                <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
+                {/* <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
                   <a href="/stats" className="alle-link m-0">
                     Alle statistieken <img src="/images/arow2.svg" alt="" />
                   </a>
-                </div>
+                </div> */}
               </div>
 
               <div className="col-lg-7 box5 d-flex flex-column">
@@ -570,6 +488,11 @@ const YearSection = () => {
                       </>
                     )}
                   </div>
+                </div>
+                <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
+                  <a href="/stats" className="alle-link m-0">
+                    Alle statistieken <img src="/images/arow2.svg" alt="" />
+                  </a>
                 </div>
               </div>
             </>

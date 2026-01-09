@@ -6,7 +6,7 @@ import SidebarList from "@/components/SidebarList";
 import { getTeamsRiders } from "@/lib/api";
 import { useEffect, useState, useRef } from "react";
 import { useMultipleData } from "@/components/home_api_data";
-import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
+import { CardSkeleton, ListSkeleton, ErrorStats } from "@/components/loading&error";
 
 export default function Riders() {
   const router = useRouter();
@@ -190,30 +190,8 @@ export default function Riders() {
       );
     }
 
-    if (error) {
-      return (
-        <li
-          className="error-state"
-          style={{
-            textAlign: "center",
-            padding: "20px",
-            color: "red",
-          }}
-        >
-          Error: {error}
-        </li>
-      );
-    }
-
     if (firstTenRiders.length === 0) {
-      return (
-        <li
-          className="empty-state"
-          style={{ textAlign: "center", padding: "20px" }}
-        >
-          No riders found matching your search.
-        </li>
-      );
+      return null; // Let parent handle empty state
     }
 
     return firstTenRiders.map((team, teamIndex) =>
@@ -251,19 +229,7 @@ export default function Riders() {
   const renderSidebars = () => {
     if (sidebarsLoading) {
       return (
-
         <CardSkeleton />
-      );
-    }
-
-    if (sidebarsError) {
-      return (
-        <div
-          className="sidebar-error"
-          style={{ color: "red", padding: "15px" }}
-        >
-          Error loading rider statistics
-        </div>
       );
     }
 
@@ -429,9 +395,38 @@ export default function Riders() {
                   <li>Name</li>
                   <li>Team</li>
                 </ul>
-                <ul className="transparent-cart ctm-table-ul">{renderRidersList()}</ul>
+                {loading ? (
+                  <ListSkeleton />
+                ) : error ? (
+                  <div className="col-12">
+                    <ErrorStats message={error || "Failed to load riders. Please try again later."} />
+                  </div>
+                ) : firstTenRiders.length > 0 ? (
+                  <ul className="transparent-cart ctm-table-ul">{renderRidersList()}</ul>
+                ) : (
+                  <ul className="transparent-cart ctm-table-ul">
+                    <li>
+                      <div
+                        className="empty-state"
+                        style={{ textAlign: "center", padding: "20px" }}
+                      >
+                        No riders found matching your search.
+                      </div>
+                    </li>
+                  </ul>
+                )}
               </div>
-              <div className="col-lg-3 col-md-5 33">{renderSidebars()}</div>
+              <div className="col-lg-3 col-md-5 33">
+                {sidebarsLoading ? (
+                  <CardSkeleton />
+                ) : sidebarsError ? (
+                  <div className="col-12">
+                    <ErrorStats message="Failed to load rider statistics. Please try again later." />
+                  </div>
+                ) : (
+                  renderSidebars()
+                )}
+              </div>
             </div>
           </div>
         </section>

@@ -2102,3 +2102,25 @@ section.home-banner ul.transparent-cart li.home-result-list h6:first-of-type {
   height: 15px !important;
   border-radius: 4px !important;
 }
+.team-cart h5 strong{
+  line-height: 0.7;
+}
+@media (max-width: 767px) {
+  .filter-section-wrapper {
+    margin: 0 0;
+}
+ul.filter:has(.filter-dropdown-list.active) {
+  white-space: pre-wrap;
+  flex-wrap: wrap;
+}
+}
+
+@media ( max-width: 767px ){
+  section.stats-sec1 ul.filter .filter-dropdown-list, .filter .filter-dropdown-list {
+    max-width: 100%;
+    flex: 1 1 50%;
+  }
+  section.stats-sec1 ul.filter .filter-dropdown-list .form-select, .filter .filter-dropdown-list .form-select{
+    min-height: 46px;
+  }
+}

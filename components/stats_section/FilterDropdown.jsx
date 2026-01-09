@@ -109,7 +109,8 @@ export const FilterDropdown = forwardRef(({
       </div>
 
       {isOpen && (
-        <div className="dropdown-menu show">
+        <div className='dropdown-wrapper dropdown-menu show'>
+        <div className="">
           <div className="search-container">
             <div className="input-group">
               <input
@@ -165,6 +166,7 @@ export const FilterDropdown = forwardRef(({
               )}
             </ul>
           )}
+        </div>
         </div>
       )}
     </li>

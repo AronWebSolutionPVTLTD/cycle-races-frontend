@@ -571,13 +571,13 @@ section.home-banner ul.transparent-cart li h5 {
         box-sizing: border-box;
     }
 
-    section.home-sec2 .box1{order: 1;}
+    /* section.home-sec2 .box1{order: 1;}
     section.home-sec2 .box2{order: 4;}
     section.home-sec2 .box3{order: 3;}
     section.home-sec2 .box4{order: 2;}
     section.home-sec2 .box5{order: 5;}
     section.home-sec2 .box6{order: 6;}
-    section.home-sec2 .box7{order: 7;}
+    section.home-sec2 .box7{order: 7;} */
     .ctm-home-banner{
         padding-top: 76px!important;
     }
@@ -842,11 +842,12 @@ section.home-banner ul.transparent-cart li h5 {
 
 
     section.stats-sec1 ul.filter {
-        white-space: nowrap;
+        white-space: pre-wrap;
         /* overflow: hidden; */
         overflow-x: auto; 
         margin: 1rem 0 2rem;
-        width: calc(100dvw - 24px);
+        width: 100%;
+        flex-wrap: wrap;
     }
     ul.filter:has(.filter-dropdown-list.active){
         overflow: unset;

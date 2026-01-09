@@ -47,6 +47,11 @@ export default function DisclaimerPage() {
                                         <li>Handmatig verzamelde data van vrij toegankelijke websites.</li>
                                         <li>Historische archieven en openbare informatie.</li>
                                     </ul>
+                                    <p>Onze huidige database gaat niet
+                                        verder terug dan 1960. Wij proberen
+                                        de uitslagen zo goed mogelijk bij en
+                                        aan te vullen om deze zo accuraat
+                                        mogelijk weer te geven.</p>
                                     <p>
                                         Wij streven ernaar alleen data te gebruiken die vrij beschikbaar is of waarvoor hergebruik is toegestaan. Indien u van mening bent dat bepaalde gegevens inbreuk maken op rechten, neem dan contact met ons op, zodat we dit kunnen onderzoeken en waar nodig aanpassen of verwijderen.
                                     </p>
