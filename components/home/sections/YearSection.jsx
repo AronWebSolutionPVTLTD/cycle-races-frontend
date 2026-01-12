@@ -27,12 +27,9 @@ const YearSection = () => {
 
     const response = data[key];
 
-    // Try most common paths in order
     const paths = [
       response?.data?.data?.result,
-      // response?.data?.result,
       response?.data?.data,
-      // response?.data,
       response?.data?.data?.sorted,
       response?.data?.riders,
       response,
@@ -60,28 +57,25 @@ const YearSection = () => {
 
           {loading && <BoxSkeleton />}
 
-          {/* Show global error if all data failed */}
           {error && Object.keys(data || {}).length === 0 && (
             <ErrorStats message="Unable to load statistics. Please try again later." />
           )}
 
-          {/* Show content only when not loading and no global error */}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* Box 1 - Most  won */}
               <div className="col-lg-5 box6">
                 <div className="list-white-cart lime-green-cart ctm-card">
                   <Link href="/most-races-won" className="pabs"></Link>
 
                   {getBoxData(fixedApis.box1).error ? (
                     <>  <h4 className="fs-chenge">
-                    {data?.[fixedApis.box1]?.message}
-                  </h4>
-                  <div className="no-data-wrap">
-                    <ErrorMessage
-                      errorType={getBoxData(fixedApis.box1).errorType}
-                    />
-                    </div>
+                      {data?.[fixedApis.box1]?.message}
+                    </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box1).errorType}
+                        />
+                      </div>
                     </>
                   ) : (
                     <>
@@ -126,17 +120,10 @@ const YearSection = () => {
                     </>
                   )}
                 </div>
-                {/* <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
-                  <a href="/stats" className="alle-link m-0">
-                    Alle statistieken <img src="/images/arow2.svg" alt="" />
-                  </a>
-                </div> */}
               </div>
 
               <div className="col-lg-7 box5 d-flex flex-column">
                 <div className="row flex-grow-1">
-                  {/*Box 2 - Most top 10 stage*/}
-
                   <div className="col-lg-5 col-md-6">
                     <div className="team-cart">
                       <Link href="/top-10-in-stages" className="pabs" />
@@ -188,7 +175,6 @@ const YearSection = () => {
                     </div>
                   </div>
 
-                  {/*Box 3 - Most Racing  Days */}
                   <div className="col-lg-7 col-md-6">
                     <div className="team-cart lime-green-team-cart img-active 33">
                       <Link href="/rider-with-most-racing-days" className="pabs" />
@@ -240,7 +226,6 @@ const YearSection = () => {
                     </div>
                   </div>
 
-                  {/*Box 4 - Top stage rider by team*/}
                   <div className="col-lg-7 col-md-6">
                     <div className="list-white-cart">
                       <Link href="/teams-with-most-wins" className="pabs" />
@@ -277,7 +262,6 @@ const YearSection = () => {
                     </div>
                   </div>
 
-                  {/*Box 5 - Birthdays */}
                   <div className="col-lg-5 col-md-6">
                     <div className="list-white-cart">
                       <Link href="/riders-with-birthday-today" className="pabs" />
@@ -296,7 +280,6 @@ const YearSection = () => {
                               .slice(0, 3)
                               .map((rider, index) => (
                                 <li key={index}>
-                                  {/* <strong>{index + 1}</strong> */}
                                   <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?._id}`)}>
                                     {renderFlag(rider?.nationality)}
                                     <h6>{rider?.name || "..."}</h6>
@@ -317,7 +300,7 @@ const YearSection = () => {
                   </div>
                 </div>
               </div>
-              {/*Box 6 - Team with most rider*/}
+
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link href="/team-with-most-rider-to-win-race" className="pabs" />
@@ -329,7 +312,7 @@ const YearSection = () => {
                       }
 
                       const response = data[fixedApis.box6];
-                      const teams = response?.data?.data; // Array
+                      const teams = response?.data?.data;
 
                       if (!Array.isArray(teams) || teams.length === 0) {
                         return <ErrorMessage errorType="no_data_found" />;
@@ -340,8 +323,8 @@ const YearSection = () => {
                           {teams.slice(0, 1).map((team, index) => (
                             <div key={index} className="team-card">
                               <div className="name-wraper name-wraper-white sss" onClick={() => router.push(`/teams/${team?.teamName ||
-                                    team?.officialTeamName ||
-                                    "..."}`)}>
+                                team?.officialTeamName ||
+                                "..."}`)}>
                                 {renderFlag(team?.country)}
                                 <h6>
                                   {team?.teamName ||
@@ -374,8 +357,6 @@ const YearSection = () => {
                 </div>
               </div>
 
-              {/*Box 7 - Finished  Races*/}
-
               <div className="col-lg-3 col-md-6">
                 <div className="races">
                   <div className="text-wraper text-center">
@@ -403,7 +384,6 @@ const YearSection = () => {
                 </div>
               </div>
 
-              {/*Box 8 - Most GC wins*/}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart lime-green-cart">
                   <Link href="/most-wins-overall-gc" className="pabs" />
@@ -440,7 +420,6 @@ const YearSection = () => {
                 </div>
               </div>
 
-              {/*Box 9 - Most DNF */}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart team-cart">
                   <Link href="/race-with-most-dnfs" className="pabs" />

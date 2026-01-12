@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { callAPI } from "@/lib/api";
-import Flag from "react-world-flags";
 import Link from "next/link";
 import { generateYearOptions } from "@/components/GetYear";
 import {
@@ -33,28 +32,21 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
   const { id } = router.query;
   const [isRouterReady, setIsRouterReady] = useState(false);
   const [race, setRace] = useState(null);
-  const [raceName, setRaceName] = useState(null); // Store race name separately
+  const [raceName, setRaceName] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingStageData, setIsLoadingStageData] = useState(false); // Separate loading state for stage data
+  const [isLoadingStageData, setIsLoadingStageData] = useState(false);
   const [error, setError] = useState(null);
   const [selectedYear, setSelectedYear] = useState(year);
-  // const [searchTerm, setSearchTerm] = useState('');
-  // const [showSearchDropdown, setShowSearchDropdown] = useState(false);
-  // const [searchResults, setSearchResults] = useState([]);
-
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
-
   const [showStageDropdown, setShowStageDropdown] = useState(false);
   const [stageInput, setStageInput] = useState("");
   const stageDropdownRef = useRef(null);
-
   const [featuredStats, setFeaturedStats] = useState([]);
   const [loadingFeatured, setLoadingFeatured] = useState(true);
   const [errorFeatured, setErrorFeatured] = useState(null);
   const { withoutAllTime } = generateYearOptions();
-
   const months = [
     "January",
     "February",
@@ -73,13 +65,11 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
   const [selectedStage, setSelectedStage] = useState(stageNumber || "");
 
   useEffect(() => {
-    // Convert "01" to 0 index, "02" to 1, etc.
     const index = parseInt(month, 10) - 1;
     setSelectedMonth(months[index]);
   }, [month]);
 
   useEffect(() => {
-    // Update selected stage when URL parameter changes
     setSelectedStage(stageNumber || "");
   }, [stageNumber]);
   const getFilteredYears = (searchValue) => {
@@ -99,7 +89,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     if (!race?.is_stage_race || !race?.stages || race.stages.length === 0) {
       return [];
     }
-    return race.stages.map((stage) => 
+    return race.stages.map((stage) =>
       (stage.stage_type === "Final GC" || stage.is_gc)
         ? "Final GC"
         : `Stage ${stage.stage_number}`
@@ -122,7 +112,6 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         setSelectedYear(value);
         setYearInput("");
         setShowYearDropdown(false);
-        // Update URL with new year
         const params = new URLSearchParams();
         params.set("year", value);
         if (selectedMonth) {
@@ -137,26 +126,22 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         router.push(`/race-result/${id}?${params.toString()}`, undefined, { shallow: false });
         break;
       case "stage":
-        // Find the stage object to determine stage number and tab
         const selectedStageObj = race?.stages?.find(
-          (s) => value === "Final GC" 
+          (s) => value === "Final GC"
             ? (s.stage_type === "Final GC" || s.is_gc)
             : `Stage ${s.stage_number}` === value
         );
-        
-        // Get stage number from the found stage object
-        const stageNum = selectedStageObj?.stage_number?.toString() || 
+
+        const stageNum = selectedStageObj?.stage_number?.toString() ||
           (value.startsWith("Stage ") ? value.replace("Stage ", "") : value);
-        
-        // Determine tab name based on stage type
+
         const tabName = (selectedStageObj?.stage_type === "Final GC" || selectedStageObj?.is_gc)
           ? "gc"
           : "stage";
-        
+
         setSelectedStage(stageNum);
         setStageInput("");
         setShowStageDropdown(false);
-        // Update URL with new stage and tab
         const stageParams = new URLSearchParams();
         stageParams.set("year", selectedYear);
         if (selectedMonth) {
@@ -200,17 +185,14 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     };
   }, []);
 
-  // Convert month name to number (1-12)
   const getMonthNumber = (monthName) => {
     return months.findIndex((month) => month === monthName) + 1;
   };
 
   const fetchRaceDetails = async (raceId, isInitialLoad = false) => {
-    // Only set main loading state on initial load
     if (isInitialLoad) {
       setIsLoading(true);
     } else {
-      // For stage changes, use separate loading state
       setIsLoadingStageData(true);
     }
     setError(null);
@@ -219,34 +201,30 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         ? `&month=${getMonthNumber(selectedMonth)}`
         : "";
       const stageParam = selectedStage ? `&stageNumber=${selectedStage}` : "";
-      
-      // Determine tab name based on selected stage type and router query
+
       const currentTab = router.query.tab || tab;
       const selectedStageObj = race?.stages?.find(
         (s) => {
           const matchesStageNumber = s.stage_number.toString() === selectedStage;
           const isFinalGC = s.stage_type === "Final GC" || s.is_gc;
-          // If we have a tab in query, use it to find the correct stage
           if (currentTab === "gc") {
             return matchesStageNumber && isFinalGC;
           } else if (currentTab === "stage") {
             return matchesStageNumber && !isFinalGC;
           }
-          // Fallback: find by stage number and use the stage's own type
           return matchesStageNumber;
         }
       );
       const tabName = (selectedStageObj?.stage_type === "Final GC" || selectedStageObj?.is_gc)
         ? "gc"
         : (currentTab || "stage");
-      
+
       const response = await callAPI(
         "GET",
         `/raceDetailsStats/${raceId}/getRaceDetails?year=${selectedYear}${monthParam}${stageParam}&tabName=${tabName}`
       );
       if (response?.data) {
         setRace(response.data);
-        // Store race name separately on initial load or if it's not already set
         if (isInitialLoad || !raceName) {
           setRaceName(response.data.race_name);
         }
@@ -270,7 +248,6 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     setLoadingFeatured(true);
     setErrorFeatured(null);
     try {
-      // Fetch all stats in parallel
       const [winnersByNationality, oldestRider, youngestRider, bestTeam] =
         await Promise.all([
           callAPI("GET", `/stages/${raceId}/getRaceWinnersByNationality?year=${selectedYear}`),
@@ -278,9 +255,8 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
           callAPI("GET", `/stages/${raceId}/getYoungestRiderInRace?year=${selectedYear}`),
           callAPI("GET", `/stages/${raceId}/getBestTeamInRace?year=${selectedYear}`),
         ]);
-     const stats = [];
+      const stats = [];
 
-      // Add winners by nationality if available
       if (winnersByNationality?.data?.data?.length > 0) {
         const topNationality = winnersByNationality?.data?.data?.[0];
         stats.push({
@@ -293,7 +269,6 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         });
       }
 
-      // Add oldest rider if available
       if (
         oldestRider?.data?.data?.length > 0 ||
         oldestRider?.data?.riders?.length > 0
@@ -313,7 +288,6 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         });
       }
 
-      // Add youngest rider if available
       if (
         youngestRider?.data?.data?.length > 0 ||
         youngestRider?.data?.riders?.length > 0
@@ -333,7 +307,6 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
         });
       }
 
-      // Add best team if available
       if (bestTeam?.data?.data?.length > 0) {
         const bestTeamData = bestTeam.data.data[0];
         stats.push({
@@ -344,7 +317,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
             bestTeamData?.country_code?.toLowerCase() ||
             bestTeamData?.team_country?.toLowerCase() ||
             "/images/team-icon.svg",
-          value:"",
+          value: "",
           unit: "",
           link: "best-teams-in-the-race",
         });
@@ -359,14 +332,11 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
       setLoadingFeatured(false);
     }
   };
-  console.log(featuredStats);
 
-  // Fetch race details when router is ready, id changes, year changes, stage changes, or tab changes
   useEffect(() => {
     if (router.isReady) {
       setIsRouterReady(true);
       if (typeof id === "string") {
-        // Determine if this is initial load (no race data yet)
         const isInitialLoad = !raceName;
         fetchRaceDetails(id, isInitialLoad);
       }
@@ -382,7 +352,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
   };
 
   const convertTimeToSeconds = (timeStr) => {
-    if (!timeStr) return null; // return null if no time
+    if (!timeStr) return null;
     const [h, m, s] = timeStr.split(":").map(Number);
     return h * 3600 + m * 60 + s;
   };
@@ -421,11 +391,10 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
   };
 
   const handleStageClick = (stage) => {
-    // Determine tab name based on stage type
     const tabName = (stage?.stage_type === "Final GC" || stage?.is_gc)
       ? "gc"
       : "stage";
-    
+
     const stageNum = stage.stage_number;
     setSelectedStage(stageNum.toString());
     const params = new URLSearchParams();
@@ -449,7 +418,6 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
 
     const diff = compare - base;
 
-    // Always show time, even if diff === 0 (same time)
     if (diff <= 0) return formatTimeToDisplay(compareTime);
 
     const minutes = Math.floor(diff / 60);
@@ -457,7 +425,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
 
     return minutes > 0 ? `+${minutes}'${seconds}"` : `+${seconds}"`;
   };
-  
+
   return (
     <main className="inner-pages-main race-result-main">
       <div className="dropdown-overlay"></div>
@@ -489,8 +457,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
           <div className="row">
             <div className="col-lg-12 filter---wrap filter---wrap-race-result filter---wrapper align-items-end  ">
               <div className="d-flex flex-wrap gap-2 align-items-start ctm_fliter_wrap">
-             {/* Year Dropdown */}
-                <ul className="filter"> 
+                <ul className="filter">
                   <FilterDropdown
                     ref={yearDropdownRef}
                     isOpen={showYearDropdown}
@@ -505,29 +472,26 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                     classname="year-dropdown"
                   />
 
-                  {/* Desktop Stages Navigation */}
-                {race?.is_stage_race && race?.stages && race.stages.length > 0 && (
-                  <>
-                   <FilterDropdown
-                      ref={stageDropdownRef}
-                      isOpen={showStageDropdown}
-                      toggle={() => setShowStageDropdown(!showStageDropdown)}
-                      options={getFilteredStages(stageInput)}
-                      selectedValue={
-                        selectedStage 
-                          ? (() => {
+                  {race?.is_stage_race && race?.stages && race.stages.length > 0 && (
+                    <>
+                      <FilterDropdown
+                        ref={stageDropdownRef}
+                        isOpen={showStageDropdown}
+                        toggle={() => setShowStageDropdown(!showStageDropdown)}
+                        options={getFilteredStages(stageInput)}
+                        selectedValue={
+                          selectedStage
+                            ? (() => {
                               const currentTab = router.query.tab || tab || "";
                               const currentStage = race?.stages?.find(
                                 (s) => {
                                   const matchesStageNumber = s.stage_number.toString() === selectedStage;
                                   const isFinalGC = s.stage_type === "Final GC" || s.is_gc;
-                                  // If we have a tab in query, use it to find the correct stage
                                   if (currentTab === "gc") {
                                     return matchesStageNumber && isFinalGC;
                                   } else if (currentTab === "stage") {
                                     return matchesStageNumber && !isFinalGC;
                                   }
-                                  // Fallback: find by stage number and use the stage's own type
                                   return matchesStageNumber;
                                 }
                               );
@@ -535,73 +499,44 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                                 ? "Final GC"
                                 : `Stage ${selectedStage}`;
                             })()
-                          : ""
-                      }
-                      placeholder="Stage"
-                      onSelect={(value) => handleSelection("stage", value)}
-                      onInputChange={handleStageInputChange}
-                      loading={false}
-                      includeAllOption={false}
-                      classname="year-dropdown d-xl-none"
-                    />
-                    
-                    {race.stages.map((stage) => {
-                      // Check if this stage is active based on stage_number, stage_type/is_gc, and tab
-                      const isFinalGC = stage.stage_type === "Final GC" || stage.is_gc;
-                      const currentTab = router.query.tab || tab || "";
-                      const isActive = selectedStage && parseInt(selectedStage) === stage.stage_number && 
-                        ((isFinalGC && currentTab === "gc") || (!isFinalGC && (currentTab === "stage" || currentTab === "")));
-                      
-                      return (
-                        <li key={`${stage.stage_number}-${stage.is_gc ? 'gc' : 'stage'}`} className={`d-none d-lg-block ${isActive ? "active" : ""}`}>
-                          <Link 
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleStageClick(stage);
-                          }}>
-                            {(stage.stage_type === "Final GC" || stage.is_gc)
-                          ? <span>Final GC</span>
-                          : <span>Stage {stage.stage_number}</span>}
-                          </Link>
-                        </li>
-                        // <button
-                        //   key={`${stage.stage_number}-${stage.is_gc ? 'gc' : 'stage'}`}
-                        //   onClick={() => handleStageClick(stage)}
-                        //   className={`stage-button d-xl-inline-flex d-none ${isActive ? "active" : ""}`}
-                        //   style={{
-                        //     padding: "0.72rem 0.75rem 0.6875rem",
-                        //     borderRadius: "3.75rem",
-                        //     border: "none",
-                        //     backgroundColor: isActive ? "#2b534d" : "#fff",
-                        //     color: isActive ? "#f7f6f0" : "#2b534d",
-                        //     fontFamily: "Roboto",
-                        //     fontSize: "1rem",
-                        //     fontWeight: 500,
-                        //     lineHeight: "1.125rem",
-                        //     letterSpacing: "-0.022rem",
-                        //     cursor: "pointer",
-                        //     transition: "all 0.3s ease",
-                        //     whiteSpace: "nowrap",
-                        //     display: "inline-flex",
-                        //     alignItems: "center",
-                        //     justifyContent: "center",
-                        //     flex: "0 0 auto"
-                        //   }}
-                        // >
-                        //   {(stage.stage_type === "Final GC" || stage.is_gc)
-                        //   ? <span>Final GC</span>
-                        //   : <span>Stage {stage.stage_number}</span>}
-                        // </button>
-                      );
-                    })}
+                            : ""
+                        }
+                        placeholder="Stage"
+                        onSelect={(value) => handleSelection("stage", value)}
+                        onInputChange={handleStageInputChange}
+                        loading={false}
+                        includeAllOption={false}
+                        classname="year-dropdown d-xl-none"
+                      />
+
+                      {race.stages.map((stage) => {
+                        const isFinalGC = stage.stage_type === "Final GC" || stage.is_gc;
+                        const currentTab = router.query.tab || tab || "";
+                        const isActive = selectedStage && parseInt(selectedStage) === stage.stage_number &&
+                          ((isFinalGC && currentTab === "gc") || (!isFinalGC && (currentTab === "stage" || currentTab === "")));
+
+                        return (
+                          <li key={`${stage.stage_number}-${stage.is_gc ? 'gc' : 'stage'}`} className={`d-none d-lg-block ${isActive ? "active" : ""}`}>
+                            <Link
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleStageClick(stage);
+                              }}>
+                              {(stage.stage_type === "Final GC" || stage.is_gc)
+                                ? <span>Final GC</span>
+                                : <span>Stage {stage.stage_number}</span>}
+                            </Link>
+                          </li>
+                        );
+                      })}
                     </>
-                )}
+                  )}
                 </ul>
-                
-                
-                </div>
-             
+
+
+              </div>
+
               <div className="col text-end">
                 <Link className="glob-btn green-bg-btn"
                   href={`/races/${encodeURIComponent(id)}`}
@@ -613,28 +548,6 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                   </span>
                 </Link>
               </div>
-              {/* <div className="select-box sdsdsdsdsd">
-                <select
-                  value={selectedYear}
-                  onChange={handleYearChange}
-                  className="active"
-                >
-                  {withoutAllTime.map((year) => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </select>
-                <select className="qqqqqq" value={selectedMonth} onChange={handleMonthChange}>
-                  <option value="">Month</option>
-                  {months.map((month) => (
-                    <option key={month} value={month}>
-                      {month}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
-
             </div>
 
             <div className="col-lg-9 col-md-7 ctm-table-wrap ctm-race-result-wrap">
@@ -656,7 +569,6 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                 <ul className="transparent-cart ctm-table-ul">
                   {race.riders
                     ?.sort((a, b) => a.rank - b.rank)
-                    // .slice(0, 50)
                     .map((rider, index) => (
                       <li className="hoverState-li custom-list-el race-result-ctm-el" key={index}>
                         <Link href={`/riders/${rider.rider_id}`} className="pabs" />
@@ -664,25 +576,13 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                           <span className="race-result-index fw-900">{index + 1}.</span>
                           {renderFlag(rider.rider_country)}
                           <Link href={`/riders/${rider.rider_id}`} className="link">
-                           {rider.rider_name.toUpperCase()}
+                            {rider.rider_name.toUpperCase()}
                           </Link>
                         </h5>
                         <h6 className="team_name">   <Link href={`/teams/${rider.team_name}`} className="link">{rider.team_name}</Link></h6>
                         <h6 className="time-result">
-                          {/* {index === 0
-                            ? formatTimeToDisplay(rider.time)
-                            : getTimeGapDisplay(
-                                race.riders[0]?.time,
-                                rider.time
-                              )} */}
                           {rider.time}
                         </h6>
-                        {/* <Link
-                          href={`/riders/${rider.rider_id}`}
-                          className="r-details"
-                        >
-                          <img src="/images/hover-arow.svg" alt="Details" />
-                        </Link> */}
                       </li>
                     ))}
                 </ul>
@@ -708,30 +608,29 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                       <h4 className="font-size-change">{stat.title}</h4>
                       <div className="name-wraper">
                         {renderFlag(stat.flag)}
-                      
-                        {/* <h6 onClick={() => router.push(`/riders/${stat.id}`)} className="link">{stat.rider}</h6> */}
+
                         {stat.riderId ?
                           <Link
-                          className="link"
-                          href={`/riders/${stat.riderId}`}
-                        >
-                         <h6>
-                          {stat.rider ? <span>{stat.rider}</span> : null}
-                         </h6>
-                         </Link>
-                         :
-                         stat.teamId ?
-                         <Link
-                         className="link"
-                         href={`/teams/${stat.rider}`}
-                       >
-                        <h6>
-                         {stat.rider ? <span>{stat.rider}</span> : null}
-                        </h6>
-                        </Link>
-                        :
-                       <h6>{stat.rider}</h6>
-                         }
+                            className="link"
+                            href={`/riders/${stat.riderId}`}
+                          >
+                            <h6>
+                              {stat.rider ? <span>{stat.rider}</span> : null}
+                            </h6>
+                          </Link>
+                          :
+                          stat.teamId ?
+                            <Link
+                              className="link"
+                              href={`/teams/${stat.rider}`}
+                            >
+                              <h6>
+                                {stat.rider ? <span>{stat.rider}</span> : null}
+                              </h6>
+                            </Link>
+                            :
+                            <h6>{stat.rider}</h6>
+                        }
                       </div>
                     </div>
                     <h5>

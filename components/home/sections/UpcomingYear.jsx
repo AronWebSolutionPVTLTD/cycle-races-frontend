@@ -106,7 +106,6 @@ const UpcomingYear = () => {
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* Upcoming Races - Left Side (by date) */}
               <div className="col-lg-6">
                 {getBoxData(fixedApis.box2).error ? (
                   <ErrorMessage
@@ -152,7 +151,6 @@ const UpcomingYear = () => {
                 </div>
               </div>
 
-              {/* Box 2 -tour Down Under24 */}
               <div className="col-lg-3 col-md-6 sssss">
                 <div className="list-white-cart">
                   <Link href="/upcoming-races-last-year-riders" className="pabs" />
@@ -206,7 +204,6 @@ const UpcomingYear = () => {
                 </div>
               </div>
 
-              {/* Box 3 - most Win TourDownUnder */}
               <div className="col-lg-3 col-md-6 11">
                 <div className="list-white-cart">
                   <Link href="/most-win-upcoming-rider-last-year" className="pabs" />

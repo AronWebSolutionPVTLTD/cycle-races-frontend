@@ -153,9 +153,7 @@ export default function DynamicSlugPage() {
         if (slug === "best-riders-recent-year") {
           response.data = response?.data?.top_riders;
         }
-
-        // _______TEAMS_______
-        if (slug === "team-ranking") {
+ if (slug === "team-ranking") {
           response.data = response?.data?.teams;
         }
 

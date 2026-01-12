@@ -56,9 +56,6 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
   ];
 
   const endpointsMappings = {
-    // Add specific endpoint mappings here if needed
-    // For example:
-    // 'bestGCResults': '/race-stats/:id/bestGCResults'
   };
 
   const { data, loading, error } = useMultipleData(riderEndpoints, {

@@ -12,10 +12,10 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
     box3: "RiderWithLongestTeam",
     box4: "getTeamStartYear",
     box5: "last10PoduimsSpots",
-    box6:"ridersWithMostRaces",
-    box7:"youngestRiderUnderContract",
-    box8:"MostSuccessfulRaces",
-    box9:"DifferentNationalities"
+    box6: "ridersWithMostRaces",
+    box7: "youngestRiderUnderContract",
+    box8: "MostSuccessfulRaces",
+    box9: "DifferentNationalities"
   };
 
   const buildQueryParams = () => {
@@ -35,9 +35,6 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
         (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
       )
       .join("&");
-
-    // For URL paths, use the slug as-is (Next.js router handles it)
-    // But for API calls, we need to encode it
     const slugForUrl = teamSlug || (teamName ? teamName : teamId);
     const basePath = `/teams/${slugForUrl}/${statsPath}`;
     return queryString ? `${basePath}?${queryString}` : basePath;
@@ -81,9 +78,8 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
 
-    // Try most common paths in order
     const paths = [
-      response?.podiums, // Direct access (API returns podiums at root level)
+      response?.podiums,
       response?.data?.podiums,
       response?.data?.best_monument_results,
       response?.data?.wins,
@@ -111,21 +107,15 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
   return (
     <div className="col-12">
       <div className="row"
-      // style={{ marginBottom: "30px" }}
       >
         {loading && <BoxSkeleton />}
 
-        {/* Show global error if all data failed */}
         {error && Object.keys(data || {}).length === 0 && (
           <ErrorStats message="Unable to load team statistics. Please try again later." />
         )}
 
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
           <>
-
-
-            {/* Box1: oldest rider under contract  */}
-
             <div className="col-lg-3 col-md-6">
               <div className="team-cart lime-green-team-cart img-active team-cart-extra">
                 <Link href={buildUrlWithParams("oldest-rider-under-contract")} className="pabs" />
@@ -145,10 +135,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
 
-                    // Handle both array and single object responses
                     const rider = Array.isArray(ridersList) ? ridersList[0] : ridersList;
-
-                    // Get image from API or use fallback
                     const riderImage = rider?.image_url || rider?.image || "/images/player6.png";
 
                     return (
@@ -180,17 +167,16 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             </div>
 
 
-            {/* best monument results of team */}
             <div className="col-lg-3 col-md-6 ">
               <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
-             
+
                 <Link href={buildUrlWithParams("best-monuments-results")} className="pabs" />
                 {getBoxData(fixedApis.box2).error ? (
                   <>
-                  <h4>
-                        {" "}
-                        {data?.[fixedApis.box2]?.message}
-                      </h4>
+                    <h4>
+                      {" "}
+                      {data?.[fixedApis.box2]?.message}
+                    </h4>
                     <div className="no-data-wrap">
                       <ErrorMessage
                         errorType={getBoxData(fixedApis.box2).errorType}
@@ -200,10 +186,10 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                 ) : (
                   <>
                     <div className="card-content-wraper">
-                    <h4>
-                  {" "}
-                  {data?.[fixedApis.box2]?.message}
-                </h4>
+                      <h4>
+                        {" "}
+                        {data?.[fixedApis.box2]?.message}
+                      </h4>
                       <ul>
                         {(Array.isArray(getBoxData(fixedApis.box2)?.data)
                           ? getBoxData(fixedApis.box2)?.data
@@ -237,7 +223,6 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             </div>
 
 
-            {/* RiderWithLongestTeam */}
             <div className="col-lg-3 col-md-6">
               <div className="team-cart team-cart-extra">
                 <Link href={buildUrlWithParams("rider-longest-with-the-team")} className="pabs" />
@@ -251,17 +236,14 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                     }
 
                     const response = data[fixedApis.box3];
-                    // The API returns data as an array directly in response.data
                     const ridersArray = response?.data || response?.data?.data || response?.data?.riders;
 
                     if (!ridersArray || !Array.isArray(ridersArray) || ridersArray.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
 
-                    // Get the first rider (the one with longest team tenure)
                     const rider = ridersArray[0];
 
-                    // Get image from API or use fallback
                     const riderImage = rider?.image_url || rider?.image || "/images/player6.png";
 
                     return (
@@ -293,7 +275,6 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             </div>
 
 
-            {/* since  */}
             <div className="col-lg-3 col-md-6">
               <div className="races">
                 <div className="text-wraper text-center">
@@ -323,21 +304,20 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             </div>
 
 
-            {/* last10PoduimsSpots */}
             <div className="col-lg-5 col-md-12">
               <div className="list-white-cart lime-green-cart ctm-card">
                 <Link href={buildUrlWithParams("last-5-podium-spots")} className="pabs" />
                 {getBoxData(fixedApis.box5).error ? (
                   <>
-                   <h4 className="fs-chenge">
-                   {" "}
-                   {data?.[fixedApis.box5]?.message}
-                 </h4>
-                 <div className="no-data-wrap">
-                  <ErrorMessage
-                    errorType={getBoxData(fixedApis.box5).errorType}
-                  />
-                  </div>
+                    <h4 className="fs-chenge">
+                      {" "}
+                      {data?.[fixedApis.box5]?.message}
+                    </h4>
+                    <div className="no-data-wrap">
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box5).errorType}
+                      />
+                    </div>
                   </>
                 ) : (
                   <>
@@ -393,11 +373,8 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
               </div>
             </div>
 
-{/* all 4 cards   */}
             <div className="col-lg-7 col-md-12 d-flex flex-column">
               <div className="row flex-grow-1">
-
-                {/* rider with most races  */}
                 <div className="col-lg-7 col-md-6 ">
                   <div className="team-cart lime-green-team-cart img-active team-cart-extra">
                     <Link href={buildUrlWithParams("rider-with-most-races")} className="pabs" />
@@ -419,7 +396,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         const rider = ridersArray[0];
 
-                        
+
                         const riderImage = rider?.image_url || rider?.image || "/images/player6.png";
 
                         return (
@@ -450,8 +427,6 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                   </div>
                 </div>
 
-
-                {/* youngest rider under contract  */}
                 <div className="col-lg-5 col-md-6">
                   <div className="team-cart img-active team-cart-extra">
                     <Link href={buildUrlWithParams("youngest-rider-under-contract")} className="pabs" />
@@ -503,7 +478,6 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                 </div>
 
 
-                {/* Most successfull race */}
                 <div className="col-lg-7 col-md-6">
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("most-successful-race")} className="pabs" />
@@ -522,11 +496,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                         if (!allRaceVictories || !Array.isArray(allRaceVictories) || allRaceVictories.length === 0) {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
-
-                        // Get the first race (most successful - highest total_wins)
                         const mostSuccessfulRace = allRaceVictories[0];
-                        
-                        // Get country code from first year for flag
                         const countryCode = mostSuccessfulRace?.years?.[0]?.country_code || mostSuccessfulRace?.country_code;
 
                         return (
@@ -551,7 +521,6 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                 </div>
 
 
-                {/* Different Nationalities*/}
                 <div className="col-lg-5 col-md-6">
                   <div className="team-cart number_btm">
                     <div className="text-wraper">
@@ -594,7 +563,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             </div>
           </>
         )}
-      </div>   
+      </div>
     </div>
   );
 };

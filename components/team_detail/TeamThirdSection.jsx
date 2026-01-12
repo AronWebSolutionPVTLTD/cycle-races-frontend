@@ -30,9 +30,6 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
         (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
       )
       .join("&");
-
-    // For URL paths, use the slug as-is (Next.js router handles it)
-    // But for API calls, we need to encode it
     const slugForUrl = teamSlug || (teamName ? teamName : teamId);
     const basePath = `/teams/${slugForUrl}/${statsPath}`;
     return queryString ? `${basePath}?${queryString}` : basePath;
@@ -68,8 +65,6 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
-
-    // Try most common paths in order
     const paths = [
       response?.data?.wins,
       response?.data?.last_victories,
@@ -95,34 +90,29 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
   return (
     <div className="col-12">
-      <div className="row"
-      // style={{ marginBottom: "30px" }}
-      >
+      <div className="row">
         {loading && <BoxSkeleton />}
 
-        {/* Show global error if all data failed */}
         {error && Object.keys(data || {}).length === 0 && (
           <ErrorStats message="Unable to load team statistics. Please try again later." />
         )}
 
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
           <>
-
-            {/* Box1: Most top 10 in races  */}
             <div className="col-lg-4 col-md-6">
               <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
                 <Link href={buildUrlWithParams("most-top-10-in-races")} className="pabs" />
-  
+
                 {(() => {
-                  
+
                   if (!data?.[fixedApis.box1]) {
                     return <> <h4 className="font-size-change">
-                          {" "}
-                          {data?.[fixedApis.box1]?.message || response?.message || "Most top 10 in races"}
-                        </h4>
-                    <div className="no-data-wrap">
-                      <ErrorMessage errorType="no_data" />
-                    </div>
+                      {" "}
+                      {data?.[fixedApis.box1]?.message || response?.message || "Most top 10 in races"}
+                    </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage errorType="no_data" />
+                      </div>
                     </>;
                   }
 
@@ -131,12 +121,12 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                   if (!ridersList || !Array.isArray(ridersList) || ridersList.length === 0) {
                     return <> <h4 className="font-size-change">
-                          {" "}
-                          {data?.[fixedApis.box1]?.message || response?.message || "Most top 10 in races"}
-                        </h4>
-                    <div className="no-data-wrap">
-                      <ErrorMessage errorType="no_data_found" />
-                    </div>
+                      {" "}
+                      {data?.[fixedApis.box1]?.message || response?.message || "Most top 10 in races"}
+                    </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage errorType="no_data_found" />
+                      </div>
                     </>
                   }
 
@@ -179,7 +169,6 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
               </div>
             </div>
 
-            {/* Box2:Total Wins per year */}
             <div className="col-lg-4 col-md-6">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("total-wins-per-year")} className="pabs" />
@@ -223,7 +212,6 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
               </div>
             </div>
 
-            {/* Box3:Rider with most uci points  */}
             <div className="col-lg-4 col-md-6">
               <div className="team-cart lime-green-team-cart img-active team-cart-extra">
                 <Link href={buildUrlWithParams("rider-with-most-uci-points")} className="pabs" />
@@ -232,7 +220,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                   <h4 className="font-size-change">
                     {data?.[fixedApis.box3]?.message || "Riders with most UCI points"}
-                    </h4>
+                  </h4>
 
                   {(() => {
                     const response = data?.[fixedApis.box3];
@@ -244,26 +232,26 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
 
-                   
+
                     const rider = ridersList[0];
 
-                   
+
                     const riderImage = "/images/player6.png";
 
                     return (
                       <>
-                        
+
                         <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
                           {renderFlag(rider?.rider_country)}
                           <h6>{rider?.rider_name}</h6>
                         </div>
 
-                        
+
                         <h5 className="teamcard-number">
                           <strong>{rider?.total_uci_points}</strong> POINTS
                         </h5>
 
-                       
+
                         <Link
                           href={buildUrlWithParams("rider-with-most-uci-points")}
                           className="white-circle-btn"
@@ -271,7 +259,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                           <img src="/images/arow.svg" alt="" />
                         </Link>
 
-                       
+
                         <div className="image_link-wraper team-card-img">
                           <img
                             src={riderImage}

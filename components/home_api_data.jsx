@@ -30,16 +30,6 @@ export const HomeData = (endpointKey, queryParams = {}) => {
   return { data, loading, error };
 };
 
-/**
- * Hook for fetching data from multiple endpoints with flexible configuration
- * @param {string[]} endpointKeys - Array of endpoint keys to fetch
- * @param {Object} options - Options for the fetchMultiple function
- * @param {string|null} options.id - ID to use in endpoints that require it (optional)
- * @param {Object} options.queryParams - Query parameters for the requests (optional)
- * @param {Object} options.endpointsMappings - Custom endpoint mappings (optional)
- * @param {string} options.idType - Type of ID, e.g., "rider", "race" (defaults to "rider")
- * @returns {Object} - Object containing data, loading state, error information, and partial success flag
- */
 export const useMultipleData = (endpointKeys, options = {}) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);

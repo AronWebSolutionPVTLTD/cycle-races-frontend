@@ -49,7 +49,6 @@ const LastSection = () => {
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              {/* Box 1 - Most Second  Places */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <Link href="/most-second-places" className="pabs" />
@@ -99,7 +98,6 @@ const LastSection = () => {
                 </div>
               </div>
 
-              {/* Box 2 -  Most nationality  */}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active 11">
                   <Link href="/team-with-most-nationalities" className="pabs" />
@@ -147,7 +145,6 @@ const LastSection = () => {
                 </div>
               </div>
 
-              {/*Box 3 - Most youngest  wins*/}
               <div className="col-lg-4 col-md-6">
                 <div className="team-cart">
                   <Link href="/youngest-riders-with-most-wins" className="pabs" />
@@ -196,7 +193,6 @@ const LastSection = () => {
                 </div>
               </div>
 
-              {/*Box 4 - Most olderst Riders*/}
               <div className="col-lg-3 col-md-6">
                 <div className="list-white-cart">
                   <Link href="/oldest-active-riders" className="pabs" />
@@ -236,7 +232,6 @@ const LastSection = () => {
                 </div>
               </div>
 
-              {/*Box 5 - Mountain  */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart">
                   <Link href="/most-mountain-wins" className="pabs" />
@@ -288,8 +283,6 @@ const LastSection = () => {
                 </div>
               </div>
 
-              {/*Box 6 - Shortest race */}
-
               <div className="col-lg-3 col-md-6 ss">
                 <div className="team-cart">
                   <Link href="/shortest-races" className="pabs" />
@@ -339,7 +332,6 @@ const LastSection = () => {
                 </div>
               </div>
 
-              {/*Box 7 -lightestRider */}
               <div className="col-lg-3 col-md-6">
                 <div className="team-cart lime-green-team-cart img-active 22">
                   <Link href="/lightest-riders" className="pabs" />

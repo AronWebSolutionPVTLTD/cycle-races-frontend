@@ -1,17 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 
-/**
- * 
- * @param {Object} props - Component properties
- * @param {string} props.title - Section title
- * @param {Array} props.data - Data to display
- * @param {string} props.year - Selected year
- * @param {string} props.nationality - Selected nationality
- * @param {string} props.team - Selected team
- * @param {Array} props.columns - Column configuration
- * @param {string} props.emptyMessage - Message to show when no data is available
- */
 const StatsSection = ({
   title,
   data = [],

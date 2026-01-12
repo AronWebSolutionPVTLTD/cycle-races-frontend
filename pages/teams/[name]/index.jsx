@@ -8,7 +8,6 @@ import { renderFlag } from "@/components/RenderFlag";
 import TeamSecondSection from "@/components/team_detail/TeamSecondSection";
 import TeamThirdSection from "@/components/team_detail/TeamThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
-import Flag from "react-world-flags";
 
 export default function TeamDetail({ initialTeam }) {
   const router = useRouter();
@@ -67,7 +66,7 @@ export default function TeamDetail({ initialTeam }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-//////// team active years
+
   const fetchTeamActiveYears = async (teamName) => {
     try {
       setYearsLoading(true);
@@ -91,12 +90,10 @@ export default function TeamDetail({ initialTeam }) {
       setIsLoading(true);
       const encodedTeamSlug = encodeURIComponent(teamSlug);
       const response = await callAPI("GET", `/teamDetails/${encodedTeamSlug}/teamDetailsForTeamPage`);
-      console.log("Header API Response:", response);
 
       if (response && response.status === true && response.data) {
         const headerInfo = response.data;
-         setHeaderData(headerInfo);
-        // Fetch team active years if team_id is available
+        setHeaderData(headerInfo);
         if (headerInfo.team_name) {
           fetchTeamActiveYears(headerInfo.team_name);
         }
@@ -210,10 +207,9 @@ export default function TeamDetail({ initialTeam }) {
                       className="absolute-img"
                     />
                     <ul className="plyr-dtls d-flex d-md-none mobile_plyr-dtls">
-                      <li className="country"> <Flag
-                        code={teamFlag?.toUpperCase()}
-                        style={{ width: "20px", height: "20px", marginRight: "0",borderRadius: "2px" }}
-                      /> {teamCountry}</li>
+                      <li className="country">
+                        {renderFlag(teamFlag)}
+                        {teamCountry}</li>
                       <li className="age">SINCE {teamFounded || "..."}</li>
                     </ul>
 
@@ -222,12 +218,12 @@ export default function TeamDetail({ initialTeam }) {
                 <h1>{teamName || "..."}</h1>
               </div>
               <ul className="plyr-dtls d-md-flex d-none">
-                <li className="country"><Flag
-                        code={teamFlag?.toUpperCase()}
-                        style={{ width: "20px", height: "20px", marginRight: "0",borderRadius: "3px" }} /> {teamCountry}</li>
+                <li className="country">
+                  {renderFlag(teamFlag)}
+                  {teamCountry}</li>
                 <li className="age">SINCE {teamFounded || "..."}</li>
               </ul>
-            </div>
+            </div >
           </div>
         </div>
       </section>
@@ -257,7 +253,7 @@ export default function TeamDetail({ initialTeam }) {
               teamSlug={router.query?.name}
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
-              } />  
+              } />
 
             <TeamSecondSection
               teamId={headerData?.team_id}
@@ -275,7 +271,7 @@ export default function TeamDetail({ initialTeam }) {
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
               }
-            /> 
+            />
           </div>
         </div>
       </section>

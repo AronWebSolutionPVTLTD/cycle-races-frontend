@@ -34,8 +34,6 @@ export default function Teams() {
 
   useEffect(() => {
     fetchTeams();
-
-    // Add click outside listener to close suggestions
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowSuggestions(false);
@@ -45,17 +43,12 @@ export default function Teams() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      // Clear any pending debounce timer
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
       }
     };
   }, []);
 
-
-  
-
-  // Function to fetch teams data (for initial load - no search)
   const fetchTeams = async (query = "") => {
     setLoading(true);
     try {
@@ -82,7 +75,6 @@ export default function Teams() {
     }
   };
 
-  // Generate suggestions from teams based on search query
   const generateSuggestions = (query) => {
     if (!query.trim()) {
       return [];
@@ -92,26 +84,20 @@ export default function Teams() {
     const lowerQuery = query.toLowerCase();
 
     teams.forEach((team) => {
-      // Search by team name
       if (team.teamName && team.teamName.toLowerCase().includes(lowerQuery)) {
         suggestions.push(team);
       }
     });
 
-    return suggestions.slice(0, 10); // Limit to 10 suggestions
+    return suggestions.slice(0, 10);
   };
 
-  // Handle search input change with API call
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-
-    // Clear previous timer
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
-
-    // If query is empty, reset to default view
     if (!query.trim()) {
       setSelectedTeam(null);
       setSearchSuggestions([]);
@@ -119,52 +105,39 @@ export default function Teams() {
       fetchTeams("");
       return;
     }
-
-    // Only show dropdown if query has at least 2 characters
     if (query.trim().length < 2) {
       setSearchSuggestions([]);
       setShowSuggestions(false);
       return;
     }
 
-    // Debounce API calls (300ms)
     debounceTimerRef.current = setTimeout(() => {
-      // Make API call for search results using getTeamSearchList with search parameter
       getTeamSearchList(query)
         .then((response) => {
           if (response.status === "success") {
-            // Update teams with the filtered results
             setTeams(response.data);
-
-            // Create suggestions from these results
             const suggestions = response.data.filter((team) => {
               return team.teamName && team.teamName.toLowerCase().includes(query.toLowerCase());
             });
             setSearchSuggestions(suggestions.slice(0, 10));
-            // Always show dropdown for a valid search, even if no matches,
-            // so user sees a "no results" message.
             setShowSuggestions(true);
           }
         })
         .catch((err) => {
           console.error("Search error:", err);
-          // On error, use local filtering as fallback
           const localSuggestions = generateSuggestions(query);
           setSearchSuggestions(localSuggestions);
-          // Show dropdown with no results message even on error
           setShowSuggestions(true);
         });
     }, 300);
   };
 
-  // Handle search form submission
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setShowSuggestions(false);
     fetchTeams(searchQuery);
   };
 
-  // Handle search reset
   const handleSearchReset = () => {
     setSearchQuery("");
     setSelectedTeam(null);
@@ -172,17 +145,14 @@ export default function Teams() {
     fetchTeams("");
   };
 
-  // Handle suggestion selection
   const handleSelectSuggestion = (team) => {
     setSearchQuery(team.teamName);
     setSelectedTeam(team);
 
-    // Filter to show only the selected team in the list
     const filteredList = [team];
     setFirstTenTeams(filteredList);
     setShowSuggestions(false);
 
-    // Navigate to team detail page using team name (encoded like races)
     if (team?.teamName) {
       router.push(`/teams/${encodeURIComponent(team.teamName)}`);
     }
@@ -203,8 +173,7 @@ export default function Teams() {
     }
   };
 
-  // Display content based on state
-  const   renderRidersList = () => {
+  const renderRidersList = () => {
     if (loading) {
       return <ListSkeleton />;
     }
@@ -251,7 +220,7 @@ export default function Teams() {
     return teamsData.slice(0, 3).map((team) => {
       const flag = team.flag || team.country || "gb";
       let displayValue = "";
-      
+
       if (showWins && team.wins !== undefined) {
         displayValue = `${team.wins} `;
       } else if (showPoints && (team.points !== undefined || team.point !== undefined)) {
@@ -261,7 +230,7 @@ export default function Teams() {
         const age = team.age || team.teamAge || 0;
         displayValue = `${age} jaar`;
       }
-      
+
       return {
         name: team.teamName || team.team_name || team.name,
         age: displayValue,

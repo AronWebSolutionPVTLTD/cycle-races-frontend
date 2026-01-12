@@ -191,7 +191,7 @@ export default function Riders() {
     }
 
     if (firstTenRiders.length === 0) {
-      return null; // Let parent handle empty state
+      return null;
     }
 
     return firstTenRiders.map((team, teamIndex) =>

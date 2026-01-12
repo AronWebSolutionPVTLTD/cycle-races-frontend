@@ -35,8 +35,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
       )
       .join("&");
 
-    // For URL paths, use the slug as-is (Next.js router handles it)
-    // But for API calls, we need to encode it
     const slugForUrl = teamSlug || (teamName ? teamName : teamId);
     const basePath = `/teams/${slugForUrl}/${statsPath}`;
     return queryString ? `${basePath}?${queryString}` : basePath;
@@ -79,7 +77,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
     if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
     const response = data[endpoint];
 
-    // Try most common paths in order
     const paths = [
       response?.data?.wins,
       response?.data?.last_victories,
@@ -106,19 +103,15 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
   return (
     <div className="col-12">
       <div className="row"
-      // style={{ marginBottom: "30px" }}
       >
         {loading && <BoxSkeleton />}
 
-        {/* Show global error if all data failed */}
         {error && Object.keys(data || {}).length === 0 && (
           <ErrorStats message="Unable to load team statistics. Please try again later." />
         )}
 
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
           <>
-
-            {/* Box1:Rider with Most Wins in Team History */}
             <div className="col-lg-3 col-md-6">
               <div className=" list-white-cart team-cart lime-green-team-cart  team-cart-extra">
                 <Link href={buildUrlWithParams("rider-with-most-wins-in-team-history")} className="pabs" />
@@ -174,7 +167,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
               </div>
             </div>
 
-            {/* Box2: Team Total Wins  */}
             <div className="col-lg-3 col-md-6">
               <div className="races">
                 <div className="text-wraper text-center">
@@ -195,7 +187,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     const totalWins = teamData.total_wins || teamData.totalTeamWins || teamData.wins || 0;
 
-                    // If wins is 0, show no data found message
                     if (totalWins === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
@@ -210,8 +201,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                 </div>
               </div>
             </div>
-
-            {/* Box3:Amount of rider   */}
 
             <div className="col-lg-3 col-md-6 12121">
               <div className="team-cart">
@@ -234,8 +223,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                     }
 
                     const totalRiders = teamData?.total_riders || teamData?.total_rider || 0;
-
-                    // If riders count is 0, show no data found message
                     if (totalRiders === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
@@ -256,8 +243,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
               </div>
             </div>
 
-            {/* Box4: Rider with Most Classics Wins in Team History  */}
-
             <div className="col-lg-3 col-md-6">
               <div className="team-cart team-cart-extra">
                 <Link href={buildUrlWithParams("rider-with-most-classic-wins-in-team-history")} className="pabs" />
@@ -277,10 +262,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
 
-                    // Get the first rider (the one with most classic wins)
                     const rider = ridersArray[0];
-
-                    // Get image from API or use fallback
                     const riderImage = rider?.image_url || rider?.image || "/images/player6.png";
 
                     return (
@@ -314,21 +296,20 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
             <div className="col-lg-7 col-md-12 d-flex flex-column">
               <div className="row flex-grow-1">
-                {/* last victory */}
                 <div className="col-lg-5 col-md-6 ">
                   <div className="list-white-cart lime-green-cart ctm-card ctm_card_2">
                     <Link href={buildUrlWithParams("last-victories")} className="pabs" />
                     {getBoxData(fixedApis.box5).error ? (
                       <>
-                      <h4>
-                        {" "}
-                        {data?.[fixedApis.box5]?.message}
-                      </h4>
-                      <div className="no-data-wrap">
-                        <ErrorMessage
-                          errorType={getBoxData(fixedApis.box5).errorType}
-                        />
-                      </div>
+                        <h4>
+                          {" "}
+                          {data?.[fixedApis.box5]?.message}
+                        </h4>
+                        <div className="no-data-wrap">
+                          <ErrorMessage
+                            errorType={getBoxData(fixedApis.box5).errorType}
+                          />
+                        </div>
                       </>
                     ) : (
                       <>
@@ -375,7 +356,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                 </div>
 
 
-                {/* ammount of classics wins */}
                 <div className="col-lg-7 col-md-6 ">
                   <div className="team-cart lime-green-team-cart img-active">
                     <Link href={buildUrlWithParams("amount-of-classic-wins")} className="pabs" />
@@ -395,7 +375,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         const totalClassicWins = teamData?.totalClassicWins || teamData?.total_classic_wins || teamData?.total || 0;
 
-                        // If classic wins is 0, show no data found message
                         if (totalClassicWins === 0) {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
@@ -416,7 +395,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                   </div>
                 </div>
 
-                {/* grand tour wins  */}
                 <div className="col-lg-7 col-md-6 ">
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("grand-tour-wins")} className="pabs" />
@@ -439,14 +417,13 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         const totalGrandTourWins = teamData?.totalGrandTourWins || teamData?.total_GrandTourWins || 0;
 
-                        // If grand tour wins is 0, show no data found message
                         if (totalGrandTourWins === 0) {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
 
                         return (
                           <>
- <h5 className="teamcard-number">
+                            <h5 className="teamcard-number">
                               <strong>{totalGrandTourWins}</strong>
                               stages
                             </h5>
@@ -461,7 +438,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                   </div>
                 </div>
 
-                {/* current uci team ranking */}
                 <div className="col-lg-5 col-md-6 ">
                   <div className="team-cart">
                     <Link href={buildUrlWithParams("current-uci-team-ranking")} className="pabs" />
@@ -484,8 +460,6 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         const totalPoints = teamData?.uci_ranking?.total_points || 0;
                         const currentRanking = teamData?.uci_ranking?.ranking;
-
-                        // If points is 0 and no ranking, show no data found message
                         if (totalPoints === 0 && !currentRanking) {
                           return <ErrorMessage errorType="no_data_found" />;
                         }
@@ -514,29 +488,26 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
               </div>
             </div>
 
-
-
-            {/* Last ten wins */}
             <div className="col-lg-5 col-md-12">
               <div className="list-white-cart lime-green-cart ctm-card">
-             
+
                 <Link href={buildUrlWithParams("last-5-wins")} className="pabs" />
                 {getBoxData(fixedApis.box9).error ? (
                   <>
-                  <h4 className="fs-chenge">
-                  {" "}
-                  {data?.[fixedApis.box9]?.message}
-                </h4>
-                   <div className="no-data-wrap">
-                   <ErrorMessage
-                     errorType={getBoxData(fixedApis.box2).errorType}
-                   />
-                 </div>
-                 </>
+                    <h4 className="fs-chenge">
+                      {" "}
+                      {data?.[fixedApis.box9]?.message}
+                    </h4>
+                    <div className="no-data-wrap">
+                      <ErrorMessage
+                        errorType={getBoxData(fixedApis.box2).errorType}
+                      />
+                    </div>
+                  </>
                 ) : (
                   <>
                     <div className="card-content-wraper">
-                    <h4 className="fs-chenge">
+                      <h4 className="fs-chenge">
                         {" "}
                         {data?.[fixedApis.box9]?.message}
                       </h4>
