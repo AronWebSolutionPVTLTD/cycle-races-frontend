@@ -2123,4 +2123,12 @@ ul.filter:has(.filter-dropdown-list.active) {
   section.stats-sec1 ul.filter .filter-dropdown-list .form-select, .filter .filter-dropdown-list .form-select{
     min-height: 46px;
   }
+
+  section.stats-sec1 ul.filter:not(.filter-3-cols) .filter-dropdown-list, .filter .filter-dropdown-list {
+    flex: 0 0 auto;
+}
+
+section.stats-sec1 ul.filter:not(.filter-3-cols) .filter-dropdown-list.nationality-dropdown {
+    flex: 0 0 60%;
+}
 }

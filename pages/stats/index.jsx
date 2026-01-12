@@ -147,7 +147,7 @@ export default function Stats() {
                 </ul>
                 <h1 className="fw-900 fst-italic">stats</h1>
                 <div className="filter-section-wrapper">
-                  <ul className="filter sss">
+                  <ul className="filter filter-3-cols">
                     <FilterDropdown
                       ref={yearDropdownRef}
                       isOpen={showYearDropdown}
