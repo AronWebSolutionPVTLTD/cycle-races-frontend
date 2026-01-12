@@ -273,8 +273,8 @@ section.home-banner ul.transparent-cart li h5 {
     }
     section.stats-sec1 ul.filter {
         white-space: nowrap;
-        overflow: hidden;
-        overflow-x: auto;
+        overflow: unset;
+        overflow-x: unset;
         margin: 1rem 0 2rem;
     }
     section.stats-sec1 .list-white-cart h5 {
@@ -1053,7 +1053,7 @@ section.home-banner ul.transparent-cart li h5 {
         font-size: 3rem;
         line-height: 2.75rem;
         letter-spacing: -0.1875rem;
-        word-break: break-all;
+        word-break: break-word;
     }
     section.rider-details-sec {
         padding: 2rem 0;

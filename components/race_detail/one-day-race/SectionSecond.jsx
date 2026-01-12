@@ -186,7 +186,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               </div>
 
               <div className="col-lg-4 col-md-6">
-                <div className="list-white-cart">
+                <div className="list-white-cart ">
                   <Link href={buildUrlWithParams("most-participations-by-rider")} className="pabs" />
                   <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                   {getBoxData(fixedApis.box3).error ? (
@@ -227,19 +227,26 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                 </div>
               </div>
 
-              <div className="col-lg-5 box6">
-                <div className="list-white-cart">
+              <div className="col-lg-5 box6 tt">
+                <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams("top-best-results")} className="pabs" />
-                  <h4 className="fs-chenge">
-                    {data?.[fixedApis.box5]?.message}
-                  </h4>
+             
                   {getBoxData(fixedApis.box5).error ? (
-                    <ErrorMessage
+                         <> <h4 className="fs-chenge">
+                         {data?.[fixedApis.box5]?.message}
+                       </h4>
+                       <div className="no-data-wrap">
+                       <ErrorMessage
                       errorType={getBoxData(fixedApis.box5).errorType}
                     />
+                    </div>
+                    </>
                   ) : (
                     <>
                       <div className="card-content-wraper">
+                      <h4 className="fs-chenge">
+                         {data?.[fixedApis.box5]?.message}
+                       </h4>
                         <ul>
                           {(Array.isArray(getBoxData(fixedApis.box5).data)
                             ? getBoxData(fixedApis.box5).data
@@ -264,6 +271,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           alt=""
                           className="absolute-img"
                         />
+                            <div className="link_box">
                         <Link
                           href={buildUrlWithParams("top-best-results")}
                           className="glob-btn"
@@ -273,6 +281,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                             <img src="/images/arow.svg" alt="" />
                           </span>
                         </Link>
+                        </div>
                       </div>
                     </>
 

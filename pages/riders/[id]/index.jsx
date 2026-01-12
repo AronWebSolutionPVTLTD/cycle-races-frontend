@@ -182,6 +182,7 @@ export default function RiderDetail({ year, initialRider }) {
       </div>
     );
   }
+  console.log(rider, "rider");
   return (
     <main className="inner-pages-main rider-detail-main  header-layout-2">
       <div className="dropdown-overlay"></div>
@@ -199,23 +200,22 @@ export default function RiderDetail({ year, initialRider }) {
                 <li>{rider.name || "N/A"}</li>
               </ul>
               <div className="wraper ">
-                {rider.image_url ? (
-                  <img src={rider.image_url} alt={rider.name || "Rider"} />
-                ) : (
-                  <div className="hdr-img_wrap">
+                <div className="hdr-img_wrap">
+                  {rider.image_url ? (
+                    <img src={rider.image_url} alt={rider.name || "Rider"} />
+                  ) : (
                     <img
                       src="/images/player6.png"
                       alt=""
                       className="absolute-img"
                     />
-                    <ul className="plyr-dtls d-flex d-md-none mobile_plyr-dtls">
-                      <li className="country">{renderFlag(rider?.nationality)} {rider?.country}</li>
-                      <li className="age">{rider.date_of_birth || "..."} ({rider?.age})</li>
-                      <li className="place">{rider.birth_place || "..."}</li>
-                    </ul>
-
-                  </div>
-                )}
+                  )}
+                  <ul className="plyr-dtls d-flex d-md-none mobile_plyr-dtls">
+                    <li className="country">{renderFlag(rider?.nationality)} {rider?.country}</li>
+                    <li className="age">{rider.date_of_birth || "..."} ({rider?.age})</li>
+                    <li className="place">{rider.birth_place || "..."}</li>
+                  </ul>
+                </div>
                 <h1>{rider.name || "..."}</h1>
               </div>
               <ul className="plyr-dtls d-md-flex d-none">
