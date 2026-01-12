@@ -35,6 +35,8 @@ export default function HeadToHead() {
   const [selectedRider2, setSelectedRider2] = useState(null);
   const [showSuggestions2, setShowSuggestions2] = useState(false);
   const [getMatchRidersData, setGetMatchRidersData] = useState(null);
+  const [isSearchLoading1, setIsSearchLoading1] = useState(false);
+  const [isSearchLoading2, setIsSearchLoading2] = useState(false);
 
   const prevRider1IdRef = useRef(null);
   const prevRider2IdRef = useRef(null);
@@ -608,7 +610,9 @@ export default function HeadToHead() {
 
 
   const handleFocus1 = () => {
-    if (searchSuggestions1.length > 0) {
+    if (searchQuery1) {
+      setShowSuggestions1(true);
+    } else if (searchSuggestions1.length > 0) {
       setShowSuggestions1(true);
     }
     if (searchRef.current) {
@@ -623,7 +627,9 @@ export default function HeadToHead() {
   };
 
   const handleFocus2 = () => {
-    if (searchSuggestions2.length > 0) {
+    if (searchQuery2) {
+      setShowSuggestions2(true);
+    } else if (searchSuggestions2.length > 0) {
       setShowSuggestions2(true);
     }
     if (searchRef2.current) {
@@ -640,10 +646,11 @@ export default function HeadToHead() {
     }, 150);
   };
 
-  const fetchSuggestions = (query, setSuggestions, setShow) => {
+  const fetchSuggestions = (query, setSuggestions, setShow, setLoading) => {
     if (!query.trim()) {
       setSuggestions([]);
       setShow(false);
+      setLoading(false);
       return;
     }
 
@@ -652,6 +659,7 @@ export default function HeadToHead() {
     }
 
     debounceTimerRef.current = setTimeout(() => {
+      setLoading(true);
       getTeamsRiders(query)
         .then((response) => {
           if (response.status === "success") {
@@ -667,7 +675,10 @@ export default function HeadToHead() {
               }
             });
             setSuggestions(suggestions.slice(0, 10));
-            setShow(suggestions.length > 0);
+            setShow(true);
+          } else {
+            setSuggestions([]);
+            setShow(true);
           }
         })
         .catch((err) => {
@@ -682,7 +693,10 @@ export default function HeadToHead() {
             });
           });
           setSuggestions(localSuggestions.slice(0, 10));
-          setShow(localSuggestions.length > 0);
+          setShow(true);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }, 300);
   };
@@ -690,13 +704,27 @@ export default function HeadToHead() {
   const handleSearchChange1 = (e) => {
     const query = e.target.value;
     setSearchQuery1(query);
-    fetchSuggestions(query, setSearchSuggestions1, setShowSuggestions1);
+    if (!query.trim()) {
+      setSearchSuggestions1([]);
+      setShowSuggestions1(false);
+      setIsSearchLoading1(false);
+      return;
+    }
+    setShowSuggestions1(true);
+    fetchSuggestions(query, setSearchSuggestions1, setShowSuggestions1, setIsSearchLoading1);
   };
 
   const handleSearchChange2 = (e) => {
     const query = e.target.value;
     setSearchQuery2(query);
-    fetchSuggestions(query, setSearchSuggestions2, setShowSuggestions2);
+    if (!query.trim()) {
+      setSearchSuggestions2([]);
+      setShowSuggestions2(false);
+      setIsSearchLoading2(false);
+      return;
+    }
+    setShowSuggestions2(true);
+    fetchSuggestions(query, setSearchSuggestions2, setShowSuggestions2, setIsSearchLoading2);
   };
 
   const handleSelectSuggestion1 = (rider) => {
@@ -737,6 +765,7 @@ export default function HeadToHead() {
     setSearchQuery1("");
     setSelectedRider1(null);
     setShowSuggestions1(false);
+    setIsSearchLoading1(false);
     setShowCompareResults(false);
     setH2HData([]);
     setGetMatchRidersData(null);
@@ -755,6 +784,7 @@ export default function HeadToHead() {
     setSearchQuery2("");
     setSelectedRider2(null);
     setShowSuggestions2(false);
+    setIsSearchLoading2(false);
     setShowCompareResults(false);
     setH2HData([]);
     setGetMatchRidersData(null);
@@ -898,6 +928,28 @@ export default function HeadToHead() {
                               </ul>
                             </div>
                           )}
+                          {isSearchLoading1 && searchQuery1 && (
+                            <div className="wrap-bottom">
+                              <ul>
+                                <li>
+                                  <div style={{ textAlign: "center", padding: "10px" }}>
+                                    <span>Searching...</span>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          )}
+                          {!isSearchLoading1 && searchQuery1 && searchSuggestions1.length === 0 && showSuggestions1 && (
+                            <div className="wrap-bottom">
+                              <ul>
+                                <li>
+                                  <div style={{ textAlign: "center", padding: "10px" }}>
+                                    <span>no items matches to your search</span>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          )}
                         </div>
                       </div>
 
@@ -960,6 +1012,28 @@ export default function HeadToHead() {
                                     </div>
                                   </li>
                                 ))}
+                              </ul>
+                            </div>
+                          )}
+                          {isSearchLoading2 && searchQuery2 && (
+                            <div className="wrap-bottom">
+                              <ul>
+                                <li>
+                                  <div style={{ textAlign: "center", padding: "10px" }}>
+                                    <span>Searching...</span>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          )}
+                          {!isSearchLoading2 && searchQuery2 && searchSuggestions2.length === 0 && showSuggestions2 && (
+                            <div className="wrap-bottom">
+                              <ul>
+                                <li>
+                                  <div style={{ textAlign: "center", padding: "10px" }}>
+                                    <span>no items matches to your search</span>
+                                  </div>
+                                </li>
                               </ul>
                             </div>
                           )}

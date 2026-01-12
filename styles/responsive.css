@@ -1053,6 +1053,7 @@ section.home-banner ul.transparent-cart li h5 {
         font-size: 3rem;
         line-height: 2.75rem;
         letter-spacing: -0.1875rem;
+        word-break: break-all;
     }
     section.rider-details-sec {
         padding: 2rem 0;
