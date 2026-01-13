@@ -3,7 +3,7 @@ import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import { useRouter } from "next/router";
-const RiderSecondSection = ({ riderId, filterYear }) => {
+const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "getTop10StagesInGrandTours",
@@ -157,7 +157,7 @@ const RiderSecondSection = ({ riderId, filterYear }) => {
 
                     <div className="image_link-wraper">
                       <img
-                        src="/images/player3.png"
+                        src={imageUrl || "/images/rider_avatar.png"}
                         alt=""
                         className="absolute-img"
                       />

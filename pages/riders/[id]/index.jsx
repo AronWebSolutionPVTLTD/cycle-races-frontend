@@ -205,7 +205,7 @@ export default function RiderDetail({ year, initialRider }) {
                     <img src={rider.image_url} alt={rider.name || "Rider"} />
                   ) : (
                     <img
-                      src="/images/player6.png"
+                      src="/images/rider_avatar.png"
                       alt=""
                       className="absolute-img"
                     />
@@ -248,17 +248,16 @@ export default function RiderDetail({ year, initialRider }) {
           </div>
           <div className="row">
             <RiderFirstSection riderId={rider._id}
-              filterYear={
-                filterYear !== "All-time" ? filterYear : null
-              } />
+              filterYear={filterYear !== "All-time" ? filterYear : null}
+              imageUrl={rider.image_url} />
 
-            <RiderSecondSection riderId={rider._id} filterYear={
-              filterYear !== "All-time" ? filterYear : null
-            } />
+            <RiderSecondSection riderId={rider._id} 
+            filterYear={filterYear !== "All-time" ? filterYear : null} 
+            imageUrl={rider.image_url} />
 
-            <RiderThirdSection riderId={rider._id} filterYear={
-              filterYear !== "All-time" ? filterYear : null
-            } />
+            <RiderThirdSection riderId={rider._id} 
+            filterYear={filterYear !== "All-time" ? filterYear : null} 
+            imageUrl={rider.image_url} />
           </div>
         </div>
       </section>

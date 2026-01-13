@@ -3,7 +3,7 @@ import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import { useRouter } from "next/router";
-const RiderThirdSection = ({ riderId, filterYear }) => {
+const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "getGrandToursRidden",
@@ -329,7 +329,7 @@ const RiderThirdSection = ({ riderId, filterYear }) => {
                         </h5>
 
                         <img
-                          src="/images/player1.png"
+                          src={imageUrl || "/images/rider_avatar.png"}
                           alt=""
                           className="absolute-img"
                         />

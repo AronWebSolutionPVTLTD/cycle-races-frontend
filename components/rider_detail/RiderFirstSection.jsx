@@ -5,7 +5,7 @@ import { renderFlag } from "../RenderFlag";
 import { useRouter } from "next/router";
 
 
-const RiderFirstSection = ({ riderId, filterYear }) => {
+const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "lastVictory",
@@ -579,7 +579,7 @@ const RiderFirstSection = ({ riderId, filterYear }) => {
 
                     <div className="image_link-wraper">
                       <img
-                        src="/images/player6.png"
+                        src={imageUrl ||"/images/rider_avatar.png"}
                         alt=""
                         className="absolute-img"
                       />
