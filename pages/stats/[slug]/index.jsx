@@ -8,7 +8,7 @@ import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { generateYearOptions } from "@/components/GetYear";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { renderFlag } from "@/components/RenderFlag";
-import { getItemId } from "@/pages/getId";
+import getItemId from "@/pages/getId";
 
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   for (const key of possibleKeys) {

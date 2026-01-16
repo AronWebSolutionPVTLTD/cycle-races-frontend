@@ -1,4 +1,6 @@
-export const getItemId = (item, keysarray) => {
+
+
+export default function getItemId(item, keysarray) {
   if (!keysarray || !Array.isArray(keysarray)) {
     return null;
   }

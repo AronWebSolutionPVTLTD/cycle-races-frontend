@@ -7,7 +7,7 @@ import { ListSkeleton } from "@/components/loading&error";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { generateYearOptions } from "@/components/GetYear";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
-import { getItemId } from "../getId";
+import getItemId from "../getId";
 import { renderFlag } from "@/components/RenderFlag";
 
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
@@ -153,7 +153,7 @@ export default function DynamicSlugPage() {
         if (slug === "best-riders-recent-year") {
           response.data = response?.data?.top_riders;
         }
- if (slug === "team-ranking") {
+        if (slug === "team-ranking") {
           response.data = response?.data?.teams;
         }
 

@@ -7,7 +7,7 @@ import { ListSkeleton } from "@/components/loading&error";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
-import { getItemId } from "@/pages/getId";
+import getItemId from "@/pages/getId";
 import { renderFlag } from "@/components/RenderFlag";
 
 export async function getServerSideProps(context) {

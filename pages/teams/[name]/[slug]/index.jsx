@@ -10,7 +10,7 @@ import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
 import { FaCommentsDollar } from "react-icons/fa";
-import { getItemId } from "@/pages/getId";
+import getItemId from "@/pages/getId";
 import { renderFlag } from "@/components/RenderFlag";
 
 export async function getServerSideProps(context) {
@@ -513,7 +513,7 @@ export default function DynamicSlugPage({ year }) {
             {clickableProps?.href ? (
               <>
                 <> {renderFlag(getCountryCode(item, config))}</>
-               <Link {...clickableProps} className="link">
+                <Link {...clickableProps} className="link">
                   {nameContent}
                 </Link>
               </>
@@ -521,8 +521,8 @@ export default function DynamicSlugPage({ year }) {
             ) : (
 
               <>
-                 <> {renderFlag(getCountryCode(item, config))}</>
-                 <span>
+                <> {renderFlag(getCountryCode(item, config))}</>
+                <span>
                   {nameContent}
                 </span>
               </>
@@ -547,7 +547,7 @@ export default function DynamicSlugPage({ year }) {
         if (!nameDataExists) {
           const teamContent = (
             <>
-            <span>{`${getItemValue(item, config.itemConfig.team)} ${Data?.type === "race" && item?.type === "stage"
+              <span>{`${getItemValue(item, config.itemConfig.team)} ${Data?.type === "race" && item?.type === "stage"
                 ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
                 : ""
                 }`}</span>
@@ -574,15 +574,15 @@ export default function DynamicSlugPage({ year }) {
               </span>
               {clickableProps?.href ? (
                 <> {renderFlag(getCountryCode(item, config))}
-                <Link {...clickableProps} className="link">
-                  {teamContent}
-                </Link>
+                  <Link {...clickableProps} className="link">
+                    {teamContent}
+                  </Link>
                 </>
               ) : (
                 <> {renderFlag(getCountryCode(item, config))}
-                <span>
-                  {teamContent}
-                </span>
+                  <span>
+                    {teamContent}
+                  </span>
                 </>
               )}
             </h5>
@@ -595,8 +595,8 @@ export default function DynamicSlugPage({ year }) {
               {clickableProps?.href ? (
                 <Link {...clickableProps} className="link">
                   {`${teamValue}${Data?.type === "race" && item?.type === "stage"
-                      ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
-                      : ""
+                    ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
+                    : ""
                     }`}
 
                   {Data?.type === "race" && item?.type === "stage" && (

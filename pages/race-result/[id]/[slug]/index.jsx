@@ -8,7 +8,7 @@ import Flag from "react-world-flags";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
-import { getItemId } from "@/pages/getId";
+import getItemId from "@/pages/getId";
 import { renderFlag } from "@/components/RenderFlag";
 
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
