@@ -906,7 +906,7 @@ section.home-banner {
       span {
         color: #828E83;
         font-family: Roboto;
-        font-size: 13px  ;
+        font-size: 13px;
         font-style: normal;
         font-weight: 500;
         line-height: 1.125rem;
@@ -3606,6 +3606,7 @@ section.riders-sec1 .searchInput:has(.wrap-bottom) {
 header.sticky-header.sticky-top .menu-wraper ul li a {
   color: #2b534d;
 }
+
 header.sticky-header.sticky-top .menu-wraper ul li.active a {
   color: #d0f068 !important;
 }
@@ -4464,7 +4465,7 @@ section.rider-details-sec .row {
     display: flex;
     align-items: center;
     gap: 18px;
-    flex:auto !important;
+    flex: auto !important;
   }
 
   .race-detail-main ul.plyr-dtls {
@@ -4559,19 +4560,23 @@ li.empty-state.ctm-empty-state {
   .slug-table-head.col--3 .slug-list-head.YEAR {
     flex: 0 0 20%;
   }
+
   .slug-table-head.col--3 .slug-list-head.YEAR,
-  .slug-table-head.col--3 .slug-list-head.DATE{
+  .slug-table-head.col--3 .slug-list-head.DATE {
     text-align: center;
   }
+
   .slug-table-head.col--3 .slug-list-head.RANK,
   .slug-table-head.col--3 .slug-list-head.TIME,
   .slug-table-head.col--3 .slug-list-head.POSITION {
     flex: 0 0 20%;
   }
+
   .slug-table-head.col--3 .slug-list-head.YEAR:last-child {
     text-align: right;
     flex: 0 0 20% !important;
   }
+
   .slug-table-head.col--3 .slug-list-head.POSITION {
     flex: 0 0 20%;
     text-align: center;
@@ -4909,11 +4914,15 @@ ul.slug-table-head.head-to-head .rider-col {
   flex: 0 0 80px !important;
   color: #8E998F;
 }
-@media ( max-width: 1336px ){
-  .container, .row {
-   --bs-gutter-x: 3rem;
+
+@media (max-width: 1336px) {
+
+  .container,
+  .row {
+    --bs-gutter-x: 3rem;
   }
 }
+
 .no-results {
   color: #2b534d;
   font-size: 1.25rem;
@@ -4921,4 +4930,4 @@ ul.slug-table-head.head-to-head .rider-col {
   line-height: 1.5rem;
   letter-spacing: -0.025rem;
   text-align: center;
- }
+}

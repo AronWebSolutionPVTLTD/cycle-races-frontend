@@ -579,7 +579,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
 
                     <div className="image_link-wraper">
                       <img
-                        src={imageUrl ||"/images/rider_avatar.png"}
+                        src={imageUrl || "/images/rider_avatar.png"}
                         alt=""
                         className="absolute-img"
                       />

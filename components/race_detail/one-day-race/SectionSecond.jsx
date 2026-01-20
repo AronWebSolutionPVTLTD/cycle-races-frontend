@@ -230,23 +230,23 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-5 box6 tt">
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams("top-best-results")} className="pabs" />
-             
+
                   {getBoxData(fixedApis.box5).error ? (
-                         <> <h4 className="fs-chenge">
-                         {data?.[fixedApis.box5]?.message}
-                       </h4>
-                       <div className="no-data-wrap">
-                       <ErrorMessage
-                      errorType={getBoxData(fixedApis.box5).errorType}
-                    />
-                    </div>
+                    <> <h4 className="fs-chenge">
+                      {data?.[fixedApis.box5]?.message}
+                    </h4>
+                      <div className="no-data-wrap">
+                        <ErrorMessage
+                          errorType={getBoxData(fixedApis.box5).errorType}
+                        />
+                      </div>
                     </>
                   ) : (
                     <>
                       <div className="card-content-wraper">
-                      <h4 className="fs-chenge">
-                         {data?.[fixedApis.box5]?.message}
-                       </h4>
+                        <h4 className="fs-chenge">
+                          {data?.[fixedApis.box5]?.message}
+                        </h4>
                         <ul>
                           {(Array.isArray(getBoxData(fixedApis.box5).data)
                             ? getBoxData(fixedApis.box5).data
@@ -271,16 +271,16 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           alt=""
                           className="absolute-img"
                         />
-                            <div className="link_box">
-                        <Link
-                          href={buildUrlWithParams("top-best-results")}
-                          className="glob-btn"
-                        >
-                          <strong>volledige stats</strong>{" "}
-                          <span>
-                            <img src="/images/arow.svg" alt="" />
-                          </span>
-                        </Link>
+                        <div className="link_box">
+                          <Link
+                            href={buildUrlWithParams("top-best-results")}
+                            className="glob-btn"
+                          >
+                            <strong>volledige stats</strong>{" "}
+                            <span>
+                              <img src="/images/arow.svg" alt="" />
+                            </span>
+                          </Link>
                         </div>
                       </div>
                     </>

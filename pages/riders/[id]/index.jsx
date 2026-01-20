@@ -251,13 +251,13 @@ export default function RiderDetail({ year, initialRider }) {
               filterYear={filterYear !== "All-time" ? filterYear : null}
               imageUrl={rider.image_url} />
 
-            <RiderSecondSection riderId={rider._id} 
-            filterYear={filterYear !== "All-time" ? filterYear : null} 
-            imageUrl={rider.image_url} />
+            <RiderSecondSection riderId={rider._id}
+              filterYear={filterYear !== "All-time" ? filterYear : null}
+              imageUrl={rider.image_url} />
 
-            <RiderThirdSection riderId={rider._id} 
-            filterYear={filterYear !== "All-time" ? filterYear : null} 
-            imageUrl={rider.image_url} />
+            <RiderThirdSection riderId={rider._id}
+              filterYear={filterYear !== "All-time" ? filterYear : null}
+              imageUrl={rider.image_url} />
           </div>
         </div>
       </section>
