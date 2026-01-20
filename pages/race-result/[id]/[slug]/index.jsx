@@ -11,6 +11,7 @@ import { generateYearOptions } from "@/components/GetYear";
 import getItemId from "@/pages/getId";
 import { renderFlag } from "@/components/RenderFlag";
 
+
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   for (const key of possibleKeys) {
     if (item[key] !== undefined && item[key] !== null) {
