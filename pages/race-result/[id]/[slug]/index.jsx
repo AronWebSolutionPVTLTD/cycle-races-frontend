@@ -20,7 +20,7 @@ const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   }
   return defaultValue;
 };
-
+console.log('test')
 const getCountryCode = (item, config) => {
   const country = getItemValue(item, config.itemConfig.country, "default");
   return country.toUpperCase();
