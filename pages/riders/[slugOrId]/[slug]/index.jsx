@@ -168,14 +168,14 @@ export default function DynamicSlugPage() {
     setLoading(true);
     try {
       const config = getSlugConfig(slug);
-      const { rider_country, team_name, id } = router.query;
+      const { rider_country, team_name, id, slugOrId } = router.query;
       const queryParams = {};
       if (selectedYear) queryParams.year = selectedYear;
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
-      if (id) queryParams.id = id;
+      if (id) queryParams.id = slugOrId;
       const response = await fetchData(config.apiEndpoint, queryParams, {
-        id: id,
+        id: slugOrId,
         idType: config.idType,
       });
       if (response && response.data) {
@@ -475,14 +475,15 @@ export default function DynamicSlugPage() {
         );
       }
       if (nameDataExists) {
-
         const riderOrRaceData = getItemId(item, config.itemConfig.name);
+        console.log(riderOrRaceData,"rider")
         const clickableProps = riderOrRaceData?.type === "race" ?
           { href: `/race-result/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` } :
           riderOrRaceData?.type === "rider" ? { href: `/riders/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` }
             : null;
 
         const nameContent = (
+    
           <>
 
             <div className="d-flex flex-column">

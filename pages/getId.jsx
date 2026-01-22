@@ -18,7 +18,7 @@ export default function getItemId(item, keysarray) {
     }
   }
 
-  const riderKeys = ["rider_id", "riderId", "_id", "id", "rider_key", "winner_id"];
+  const riderKeys = ["riderSlug","rider_id", "riderId", "_id", "id", "rider_key", "winner_id",];
   for (const key of riderKeys) {
     if (
       item &&

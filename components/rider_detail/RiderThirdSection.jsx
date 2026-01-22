@@ -311,7 +311,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                     }
 
                     const response = data[fixedApis.box5];
-                    const riderData = response?.data.data;
+                    const riderData = response?.data?.data;
 
                     if (!riderData) {
                       return <ErrorMessage errorType="no_data_found" />;
@@ -395,7 +395,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                     }
 
                     const response = data[fixedApis.box7];
-                    const riderData = response?.data.data;
+                    const riderData = response?.data?.data;
 
                     if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
@@ -439,7 +439,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                     }
 
                     const response = data[fixedApis.box8];
-                    const riderData = response?.data.data;
+                    const riderData = response?.data?.data;
 
                     if (!riderData) {
                       return <ErrorMessage errorType="no_data_found" />;
@@ -475,7 +475,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                     }
 
                     const response = data[fixedApis.box9];
-                    const riderData = response?.data.data;
+                    const riderData = response?.data?.data;
 
                     if (!riderData) {
                       return <ErrorMessage errorType="no_data_found" />;
@@ -553,7 +553,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                     }
 
                     const response = data[fixedApis.box11];
-                    const riderData = response?.data.data?.best_result;
+                    const riderData = response?.data?.data?.best_result;
 
                     if (!riderData) {
                       return <ErrorMessage errorType="no_data_found" />;
