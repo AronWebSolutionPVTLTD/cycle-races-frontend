@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { renderFlag } from "./RenderFlag";
 export default function SidebarList({ title, riders, link }) {
-
+console.log(riders,"fshfgh")
   return (
     <div className="list-white-cart">
       <Link href={`/${link}`} className="pabs" />
@@ -10,7 +10,7 @@ export default function SidebarList({ title, riders, link }) {
         {riders.map((rider, index) => {
           const isRider = rider.rider_id !== undefined && rider.rider_id !== null;
           const itemLink = isRider
-            ? `/riders/${rider.rider_id}`
+            ? `/riders/${rider.slug}`
             : `/teams/${encodeURIComponent(rider.name)}`;
 
           return (

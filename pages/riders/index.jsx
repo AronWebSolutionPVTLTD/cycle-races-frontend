@@ -179,7 +179,7 @@ export default function Riders() {
       setFirstTenRiders(filteredList);
     }
     if (rider?.rider_id) {
-      router.push(`/riders/${rider.rider_id}`);
+      router.push(`/riders/${rider.riderSlug}`);
     }
   };
 
@@ -193,7 +193,7 @@ export default function Riders() {
     if (firstTenRiders.length === 0) {
       return null;
     }
-
+console.log("firstTenRiders",firstTenRiders);
     return firstTenRiders.map((team, teamIndex) =>
       team.riders && team.riders.length > 0
         ? team.riders.map((rider, riderIndex) => (
@@ -203,7 +203,7 @@ export default function Riders() {
             team={team.teamName}
             flag={rider.riderCountry}
             riderId={rider.rider_id}
-          />
+          riderSlug={rider.riderSlug}          />
         ))
         : null
     );
@@ -222,6 +222,7 @@ export default function Riders() {
             : "",
       flag: rider.country || rider.riderCountry || "/images/flag-default.svg",
       rider_id: rider.rider_id || rider._id || rider.riderId,
+      slug:rider.riderSlug
 
     }));
   };

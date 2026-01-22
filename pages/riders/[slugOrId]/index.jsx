@@ -126,10 +126,10 @@ export default function RiderDetail({ year, initialRider }) {
   useEffect(() => {
     if (router.isReady) {
       setIsRouterReady(true);
-      const { id } = router.query;
+      const { slugOrId } = router.query;
 
-      if (id) {
-        const riderId = id;
+      if (slugOrId) {
+        const riderId = slugOrId;
         fetchRiderDetails(riderId);
         fetchRiderActiveYears(riderId);
       } else {
@@ -247,15 +247,15 @@ export default function RiderDetail({ year, initialRider }) {
             </ul>
           </div>
           <div className="row">
-            <RiderFirstSection riderId={rider._id}
+            <RiderFirstSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
               imageUrl={rider.image_url} />
 
-            <RiderSecondSection riderId={rider._id}
+            <RiderSecondSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
               imageUrl={rider.image_url} />
 
-            <RiderThirdSection riderId={rider._id}
+            <RiderThirdSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
               imageUrl={rider.image_url} />
           </div>
