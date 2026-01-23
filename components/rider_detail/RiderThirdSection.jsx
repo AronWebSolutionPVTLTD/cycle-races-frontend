@@ -690,7 +690,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${firstRider?.rider_id}`)}>
+                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${firstRider?.riderSlug}`)}>
                           {renderFlag(firstRider?.country)}
                           <h6>{firstRider?.top_teammate || "..."}</h6>
                         </div>

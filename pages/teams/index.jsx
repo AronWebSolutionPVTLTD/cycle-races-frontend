@@ -153,8 +153,8 @@ export default function Teams() {
     setFirstTenTeams(filteredList);
     setShowSuggestions(false);
 
-    if (team?.teamName) {
-      router.push(`/teams/${encodeURIComponent(team.teamName)}`);
+    if (team?.teamSlug) {
+      router.push(`/teams/${encodeURIComponent(team.teamSlug)}`);
     }
   };
 
@@ -206,8 +206,8 @@ export default function Teams() {
 
     return firstTenTeams.map((team, teamIndex) => (
       <TeamCard
-        key={`team-${teamIndex}-${team._id || team.teamName}`}
-        teamName={team.teamName}
+        key={`team-${teamIndex}-${team._id || team.teamSlug}`}
+        teamName={team.teamSlug}
         flag={team.flag}
         teamId={team._id}
       />
@@ -235,6 +235,7 @@ export default function Teams() {
         name: team.teamName || team.team_name || team.name,
         age: displayValue,
         flag: typeof flag === "string" ? flag.toUpperCase() : flag,
+        teamSlug: team.teamSlug
       };
     });
   };

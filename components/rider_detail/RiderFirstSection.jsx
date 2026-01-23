@@ -192,7 +192,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                     }
 
                     const response = data[fixedApis.box4];
-                    const riderData = response?.data.data;
+                    const riderData = response?.data?.data;
 
                     if (!riderData) {
                       return <ErrorMessage errorType="no_data_found" />;

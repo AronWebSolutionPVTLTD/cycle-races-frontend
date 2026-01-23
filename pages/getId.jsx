@@ -31,7 +31,7 @@ export default function getItemId(item, keysarray) {
     }
   }
 
-  const teamKeys = ["team_name", "teamName", "team", "team_Name", "TeamName"];
+  const teamKeys = ["teamSlug","team_name", "teamName", "team", "team_Name", "TeamName"];
   for (const key of teamKeys) {
     if (
       item &&

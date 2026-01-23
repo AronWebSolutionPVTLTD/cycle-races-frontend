@@ -137,7 +137,7 @@ const FirstSection = () => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.riderCountry)}
                                 <h6>{rider?.rider}</h6>
                               </div>
@@ -198,10 +198,10 @@ const FirstSection = () => {
                               {result?.result[0]?.rider &&
                                 <h6>
                                   {renderFlag(result?.result[0]?.riderCountry)}
-                                  <a href={`/riders/${result?.result[0]?.rider_id}`}>{result?.result[0]?.rider}</a>
+                                  <a href={`/riders/${result?.result[0]?.riderSlug}`}>{result?.result[0]?.rider}</a>
                                 </h6>}
                               {result?.result[0]?.team && <h6>
-                                <a href={`/teams/${result?.result[0]?.team}`}>{result?.result[0]?.team} </a></h6>}
+                                <a href={`/teams/${result?.result[0]?.teamSlug}`}>{result?.result[0]?.team} </a></h6>}
                               <Link
                                 href={`/races/${result?.raceName}`}
                                 className="r-details "

@@ -429,7 +429,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                         .slice(0, 3)
                         .map((rider, index) => (
                           <li key={index}>
-                            <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?._id}`)}>
+                            <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                               {renderFlag(rider?.nationality)}
                               <h6>{rider?.name || "..."}</h6>
                             </div>

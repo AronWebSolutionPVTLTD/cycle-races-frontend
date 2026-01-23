@@ -178,7 +178,7 @@ const UpcomingYear = () => {
                                       .map((rider, i) => (
                                         <li key={i}>
                                           <strong>{rider.rank}</strong>
-                                          <div className="name-wraper name-wraper-white 111111" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                          <div className="name-wraper name-wraper-white 111111" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                             {renderFlag(rider?.country)}
                                             <h6>{rider?.name || "..."}</h6>
                                           </div>
@@ -230,7 +230,7 @@ const UpcomingYear = () => {
                                       .map((winner, i) => (
                                         <li key={i}>
                                           <strong>{winner.rank}</strong>
-                                          <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${winner?.rider_id}`)} >
+                                          <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${winner?.riderSlug}`)} >
                                             {renderFlag(winner?.country)}
                                             <h6>{winner?.name || "..."}</h6>
                                           </div>

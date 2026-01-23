@@ -95,7 +95,7 @@ const StatsThirdSection = ({
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -136,7 +136,7 @@ const StatsThirdSection = ({
                               <div
                                 className="name-wraper name-wraper-white name-left"
                                 key={index}
-                                onClick={() => router.push(`/riders/${rider?.rider_id}`)}
+                                onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
                               >
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_key || "..."}</h6>
