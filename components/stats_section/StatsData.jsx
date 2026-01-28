@@ -148,7 +148,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                         <>
                           {teams.slice(0, 1).map((team, index) => (
                             <div key={index} className="team-card">
-                              <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/teams/${team?.team}`)} >
+                              <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/teams/${team?.teamSlug}`)} >
                                 {renderFlag(team?.country)}
                                 <h6>{team?.team || "..."}</h6>
                               </div>
@@ -335,7 +335,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           .map((race, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white 24" onClick={() => router.push(`/races/${race?.race}`)}
+                                className="name-wraper name-wraper-white 24" onClick={() => router.push(`/races/${race?.raceSlug}`)}
                                 key={index}
                               >
                                 {renderFlag(race?.country_code)}

@@ -301,7 +301,7 @@ const LastSection = () => {
                           .slice(0, 1)
                           .map((race, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/races/${race?.race}`)}>
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/races/${race?.raceSlug}`)}>
                                 {renderFlag(race?.country_code)}
                                 <h6>
                                   {race?.race || "..."} ({race?.year})

@@ -103,7 +103,7 @@ const FirstSection = () => {
                 <div className="list-white-cart">
                   <Link
                     href={`/races/${encodeURIComponent(
-                      getSectionData(fixedApis.section2).data?.[0]?.raceName
+                      getSectionData(fixedApis.section2).data?.[0]?.raceSlug
                     )}`} className="pabs" />
                   <h4 className="fw-900">
                     {getSectionData(fixedApis.section2).data?.[0]?.raceName}
@@ -150,7 +150,7 @@ const FirstSection = () => {
 
                       <Link
                         href={`/races/${encodeURIComponent(
-                          getSectionData(fixedApis.section2).data?.[0]?.raceName
+                          getSectionData(fixedApis.section2).data?.[0]?.raceSlug
                         )}`}
                         className="green-circle-btn"
                       >
@@ -177,7 +177,7 @@ const FirstSection = () => {
                           const { start, end } = convertDateRange(result?.date);
                           return (
                             <li className="hoverState-li custom-list-el home-result-list" key={index}>
-                              <Link href={`/races/${result?.raceName}`} className="pabs" />
+                              <Link href={`/races/${result?.raceSlug}`} className="pabs" />
                               <span className="text-capitalize">
                                 {start}
                                 {end ? ` - ${end}` : ""}
@@ -203,7 +203,7 @@ const FirstSection = () => {
                               {result?.result[0]?.team && <h6>
                                 <a href={`/teams/${result?.result[0]?.teamSlug}`}>{result?.result[0]?.team} </a></h6>}
                               <Link
-                                href={`/races/${result?.raceName}`}
+                                href={`/races/${result?.raceSlug}`}
                                 className="r-details "
                               >
                                 <img src="/images/hover-arow.svg" alt="" />

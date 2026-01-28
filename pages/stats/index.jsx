@@ -252,22 +252,22 @@ export default function Stats() {
             selectedYear={selectedYear}
           />
 
-     <MostWin
+          <MostWin
             selectedNationality={selectedNationality}
             selectedTeam={selectedTeam}
             selectedYear={selectedYear}
             apiEndpoint="mostWin"
             title="Most Wins"
             dataField="wins"
-          /> 
+          />
 
-   <StatsData
+          <StatsData
             selectedNationality={selectedNationality}
             selectedTeam={selectedTeam}
             selectedYear={selectedYear}
-          /> 
+          />
 
- <StatsSecondSection
+          <StatsSecondSection
             selectedNationality={selectedNationality}
             selectedTeam={selectedTeam}
             selectedYear={selectedYear}
@@ -280,7 +280,7 @@ export default function Stats() {
             title="Most Stage"
             dataField="count"
           />
-         <StatsThirdSection
+          <StatsThirdSection
             selectedNationality={selectedNationality}
             selectedTeam={selectedTeam}
             selectedYear={selectedYear}

@@ -221,6 +221,7 @@ export default function Results() {
           title: victoryRes.message,
           rider: topRider.rider_name,
           id: topRider.rider_id,
+          riderSlug: topRider.riderSlug,
           flag: topRider.rider_country.toLowerCase(),
           speed: `${topRider.wins}`,
           link: "recent-victory-ranking",
@@ -232,6 +233,7 @@ export default function Results() {
         featured.push({
           title: teamRes.message,
           team: topTeam.team_name,
+          teamSlug: topTeam.teamSlug,
           speed: `${topTeam.total_wins}`,
           link: "recent-team-ranking",
         });
@@ -243,6 +245,7 @@ export default function Results() {
           title: bestRes.message,
           rider: best.rider_name,
           id: best.rider_id,
+          riderSlug: best.riderSlug,
           flag: best.rider_country.toLowerCase(),
           speed: best.wins,
           link: "best-riders-recent-year",
@@ -321,15 +324,25 @@ export default function Results() {
 
       const endpoint = `stages/getRecentStageRaceWinners?${yearParam}${searchParam}`;
       const data = await callAPI("GET", endpoint);
-
+      // const allRaces = Array.from(
+      //   new Set(
+      //     (data.recent_stage_race_winners || []).map((item) => item.race_name)
+      //   )
+      // ).map((raceName) => ({
+      //   race_name: raceName,
+      // }));
       const allRaces = Array.from(
-        new Set(
-          (data.recent_stage_race_winners || []).map((item) => item.race_name)
-        )
-      ).map((raceName) => ({
-        race_name: raceName,
-      }));
-
+        new Map(
+          (data.recent_stage_race_winners || []).map((item) => [
+            item.raceSlug,
+            {
+              race_name: item.race_name,
+              race_slug: item.raceSlug,
+            },
+          ])
+        ).values()
+      );
+      
       const uniqueRaces =
         allRaces.length === 1
           ? allRaces
@@ -363,11 +376,11 @@ export default function Results() {
     fetchRaceResults();
   };
 
-  const handleSuggestionSelect = (raceName) => {
-    setSearchTerm(raceName);
+  const handleSuggestionSelect = (result) => {
+    setSearchTerm(result.race_name);
     setShowSearchDropdown(false);
     setSearchResults([]);
-    router.push(`/races/${encodeURIComponent(raceName)}?year=${selectedYear}`);
+    router.push(`/races/${encodeURIComponent(result.race_slug)}?year=${selectedYear}`);
   };
 
   const handleYearChange = (e) => {
@@ -477,7 +490,7 @@ export default function Results() {
                                 key={index}
                                 onMouseDown={(e) => {
                                   e.preventDefault();
-                                  handleSuggestionSelect(result.race_name);
+                                  handleSuggestionSelect(result);
                                 }}
                               >
                                 <div>
@@ -580,7 +593,7 @@ export default function Results() {
                         <li className="hoverState-li custom-list-el" key={idx}>
                           <Link
                             href={`/races/${encodeURIComponent(
-                              item.race_name
+                              item.raceSlug
                             )}?year=${selectedYear}`}
                             className="pabs"
                           />
@@ -589,7 +602,7 @@ export default function Results() {
                             {renderFlag(item.country_code)}
                             <Link
                               className="link"
-                              href={`/races/${encodeURIComponent(item.race_name)}?year=${selectedYear}`}
+                              href={`/races/${encodeURIComponent(item.raceSlug)}?year=${selectedYear}`}
                             >
                               <div className="text-uppercase">
                                 {item.race_name}
@@ -625,7 +638,7 @@ export default function Results() {
                             {renderFlag(item.rider_country)}
                             <Link
                               className="link"
-                              href={`/riders/${item?.rider_id}`}
+                              href={`/riders/${item?.riderSlug}`}
                             >
                               {item.rider_name}
                             </Link>
@@ -633,7 +646,7 @@ export default function Results() {
                           <h6>
                             <Link
                               className="link"
-                              href={`/teams/${item.team_name}`}
+                              href={`/teams/${item.teamSlug}`}
                             >{item.team_name}
                             </Link>
                           </h6>
@@ -685,7 +698,7 @@ export default function Results() {
                           {race.rider &&
                             <Link
                               className="link"
-                              href={`/riders/${race.id}`}
+                              href={`/riders/${race.riderSlug}`}
                             >
                               <h6>
                                 {race.rider ? <span>{race.rider}</span> : null}
@@ -695,7 +708,7 @@ export default function Results() {
                           {race.team &&
                             <Link
                               className="link"
-                              href={`/teams/${race.team}`}
+                              href={`/teams/${race.teamSlug}`}
                             >
                               <h6>
                                 {race.team ? <span>{race.team}</span> : null}

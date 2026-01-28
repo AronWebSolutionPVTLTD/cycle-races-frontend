@@ -123,7 +123,7 @@ const UpcomingYear = () => {
                           const { start, end } = convertDateRange(race?.date);
                           return (
                             <li className="hoverState-li custom-list-el" key={index}>
-                              <Link href={`/races/${race?.race}`} className="pabs" />
+                              <Link href={`/races/${race?.raceSlug}`} className="pabs" />
                               <span className="text-capitalize">
                                 {start}
                                 {end ? ` - ${end}` : ""}
@@ -133,7 +133,7 @@ const UpcomingYear = () => {
                                 <a>{race.race}</a>
                               </h5>
                               <Link
-                                href={`/races/${race?.race}`}
+                                href={`/races/${race?.raceSlug}`}
                                 className="r-details"
                               >
                                 <img src="/images/hover-arow.svg" alt="" />

@@ -526,7 +526,7 @@ const StatsSecondSection = ({
 
                       return riderData.slice(0, 1).map((rider, index) => (
                         <div key={index} className="rider-card">
-                          <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/teams/${rider?.team_name}`)}>
+                          <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/teams/${rider?.teamSlug}`)}>
                             {renderFlag(rider?.flag)}
                             <h6>{rider?.team_name || "..."}</h6>
                           </div>
@@ -571,7 +571,7 @@ const StatsSecondSection = ({
                         <>
                           {riderData.slice(0, 1).map((rider, index) => (
                             <div key={index} className="rider-card">
-                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/teams/${rider?.team_name}`)}>
+                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/teams/${rider?.teamSlug}`)}>
                                 {renderFlag(rider?.flag)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>

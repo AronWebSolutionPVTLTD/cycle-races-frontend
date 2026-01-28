@@ -437,7 +437,7 @@ const YearSection = () => {
                           .map((race, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${race?.race_name}`)}
+                                className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${race?.raceSlug}`)}
                                 key={index}
                               >
                                 <>
