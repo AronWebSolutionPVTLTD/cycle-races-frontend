@@ -192,7 +192,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                     }
 
                     const response = data[fixedApis.box4];
-                    const riderData = response?.data.data;
+                    const riderData = response?.data?.data;
 
                     if (!riderData) {
                       return <ErrorMessage errorType="no_data_found" />;
@@ -216,7 +216,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                   {(() => {
                     const response = data?.[fixedApis.box2];
                     const riderDataArray = response?.data?.data;
-
+console.log(riderDataArray);
                     if (!response) {
                       return <ErrorMessage errorType="no_data" />;
                     }
@@ -229,7 +229,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                     }
 
                     const riderData = riderDataArray.find(
-                      (r) => r.rider_id === riderId
+                        (r) => r.riderSlug === riderId
                     );
 
                     if (!riderData) {
@@ -288,7 +288,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-white">
-                                <Link href={`/races/${rider?.race}?year=${rider.year}`} className="pabs" />
+                                <Link href={`/races/${rider?.raceSlug}?year=${rider.year}`} className="pabs" />
                                 {renderFlag(rider?.country)}
                                 <h6>
                                   {rider?.race || "..."}{" "}
@@ -432,7 +432,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
 
                         return (
                           <>
-                            <div className="name-wraper name-wraper-white name-left">
+                            <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/teams/${firstRider?.teamSlug}`)}>
                               {renderFlag(firstRider?.flag)}
                               <h6>{firstRider?.teamName || "..."}</h6>
                             </div>
@@ -510,7 +510,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                         return (
                           <>
                             <div className="name-wraper name-wraper-green name-left">
-                              <Link href={`/races/${firstRider?.race}`} className="pabs last-win" />
+                              <Link href={`/races/${firstRider?.raceSlug}`} className="pabs last-win" />
                               {renderFlag(firstRider?.country)}
                               <h6>{firstRider?.race || "..."}</h6>
                             </div>
@@ -565,7 +565,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-white">
-                                <Link href={`/races/${rider?.race}`} className="pabs" />
+                                <Link href={`/races/${rider?.raceSlug}`} className="pabs" />
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.race || "..."}</h6>
                               </div>

@@ -132,7 +132,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{index + 1}</strong>
-                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?._id}`)}>
+                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                   {renderFlag(rider?.rider_country)}
                                   <h6>{rider?.rider_name || "..."}</h6>
                                 </div>
@@ -207,7 +207,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                 <>
                                   <div
                                     className="name-wraper name-wraper-green"
-                                    key={index} onClick={() => router.push(`/riders/${rider?._id}`)} >
+                                    key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)} >
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -264,7 +264,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                 <>
                                   <div
                                     className="name-wraper name-wraper-green name-left"
-                                    key={index} onClick={() => router.push(`/riders/${rider?._id}`)} >
+                                    key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)} >
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -315,7 +315,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -368,7 +368,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                             <>
                               {riderArray.slice(0, 1).map((rider, index) => (
                                 <div key={index} className="rider-item">
-                                  <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                  <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -424,7 +424,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                         <>
                           {riderArray.slice(0, 1).map((rider, index) => (
                             <div key={index} className="rider-item">
-                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -543,7 +543,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                       return riderData.slice(0, 1).map((rider, index) => (
                         <>
-                          <div className="name-wraper name-wraper-white name-left">
+                          <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${rider?.raceSlug}`)}>
                             <h6>{rider?.subtitle || "..."}</h6>
                           </div>
                           {rider?.distance_km && (
@@ -639,7 +639,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                   <div
                                     className="name-wraper name-wraper-green name-left"
                                     key={index}
-                                    onClick={() => router.push(`/teams/${rider?.team_name}`)}
+                                    onClick={() => router.push(`/teams/${rider?.teamSlug}`)}
                                   >
                                     {renderFlag(rider?.team_country)}
                                     <h6>{rider?.team_name || "..."}</h6>
@@ -734,7 +734,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                 <>
                                   <div
                                     className="name-wraper name-wraper-green name-left"
-                                    key={index} onClick={() => router.push(`/riders/${rider?.rider_id}`)} >
+                                    key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)} >
                                     {renderFlag(rider?.country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -783,7 +783,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white name-left">
+                              <div className="name-wraper name-wraper-white name-left"onClick={() => router.push(`/races/${rider?.raceSlug}`)}>
                                 <h6>{rider?.subtitle || "..."}</h6>
                               </div>
                               <h5>
@@ -834,7 +834,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{index + 1}</strong>
-                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                   {renderFlag(rider?.country)}
                                   <h6>{rider?.rider_name || "..."}</h6>
                                 </div>

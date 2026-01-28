@@ -67,7 +67,7 @@ const Footer = () => {
                                                     ) : footerData.grandTours.length > 0 ? (
                                                         footerData.grandTours.map((item, index) => (
                                                             <li key={index}>
-                                                                <Link href={`/races/${encodeURIComponent(item.race_name)}`}>
+                                                                <Link href={`/races/${encodeURIComponent(item.raceSlug)}`}>
                                                                     {item.race_name}
                                                                 </Link>
                                                             </li>
@@ -85,7 +85,7 @@ const Footer = () => {
                                                     ) : footerData.monuments.length > 0 ? (
                                                         footerData.monuments.map((item, index) => (
                                                             <li key={index}>
-                                                                <Link href={`/races/${encodeURIComponent(item.race_name)}`}>
+                                                                <Link href={`/races/${encodeURIComponent(item.raceSlug)}`}>
                                                                     {item.race_name}
                                                                 </Link>
                                                             </li>
@@ -107,7 +107,7 @@ const Footer = () => {
                                                     ) : footerData.classics.length > 0 ? (
                                                         footerData.classics.map((item, index) => (
                                                             <li key={index}>
-                                                                <Link href={`/races/${encodeURIComponent(item.race_name)}`}>
+                                                                <Link href={`/races/${encodeURIComponent(item.raceSlug)}`}>
                                                                     {item.race_name}
                                                                 </Link>
                                                             </li>
@@ -126,7 +126,7 @@ const Footer = () => {
                                                         footerData.popularRiders.map((item, index) => (
                                                             <li key={index}>
                                                                 {item.rider_id ? (
-                                                                    <Link href={`/riders/${item.rider_id}`}>
+                                                                    <Link href={`/riders/${item.riderSlug}`}>
                                                                         {item.rider_name}
                                                                     </Link>
                                                                 ) : (

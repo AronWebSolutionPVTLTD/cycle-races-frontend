@@ -89,6 +89,18 @@ export default function DynamicSlugPage() {
   const handleYearInputChange = (value) => {
     setYearInput(value);
   };
+
+  useEffect(() => {
+    if (!router.isReady) return;
+  
+    const { year } = router.query;
+  
+    if (year && typeof year === "string") {
+      setSelectedYear(year);
+    }
+  }, [router.isReady, router.query.year]);
+
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -211,23 +223,23 @@ export default function DynamicSlugPage() {
 
     if (error) {
       return (
-        <li
+        <div
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red" }}
         >
           Error: {error}
-        </li>
+        </div>
       );
     }
 
     if (!pageData || pageData.length === 0) {
       return (
-        <li
+        <div
           className="empty-state ctm-empty-state"
           style={{ textAlign: "center", padding: "20px" }}
         >
           No data found for this category.
-        </li>
+        </div>
       );
     }
 

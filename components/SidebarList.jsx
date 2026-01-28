@@ -11,7 +11,7 @@ console.log(riders,"fshfgh")
           const isRider = rider.rider_id !== undefined && rider.rider_id !== null;
           const itemLink = isRider
             ? `/riders/${rider.slug}`
-            : `/teams/${encodeURIComponent(rider.name)}`;
+            : `/teams/${encodeURIComponent(rider.teamSlug)}`;
 
           return (
             <li key={index}>

@@ -71,7 +71,7 @@ export default function RiderDetail({ year, initialRider }) {
       setYearsLoading(true);
       const response = await callAPI("GET", `/rider-stats/${riderId}/getRiderActiveYears`);
 
-      if (response && response.data.data.years) {
+      if (response && response?.data?.data?.years) {
         const years = response.data.data.years;
         setDynamicYears(years);
       }
@@ -91,7 +91,9 @@ export default function RiderDetail({ year, initialRider }) {
         const riderData = response.data.data;
         setRider(riderData);
       } else {
-        throw new Error("Invalid response format from API");
+        setIsLoading(false);
+        setError("Invalid response format from API");
+        setRider(null);
       }
     } catch (err) {
       console.error("Error fetching rider details:", err);
@@ -249,13 +251,13 @@ export default function RiderDetail({ year, initialRider }) {
           <div className="row">
             <RiderFirstSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
-              imageUrl={rider.image_url} />
+              imageUrl={rider.image_url} /> 
 
             <RiderSecondSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
               imageUrl={rider.image_url} />
 
-            <RiderThirdSection riderId={rider.slug}
+ <RiderThirdSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
               imageUrl={rider.image_url} />
           </div>

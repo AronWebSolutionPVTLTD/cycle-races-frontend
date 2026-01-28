@@ -102,8 +102,8 @@ export default function RaceDetailsPage({ year }) {
         `/raceDetailsStats/${raceName}/getRaceActiveYears`
       );
 
-      if (response && response.data.data.years) {
-        const years = response.data.data.years;
+      if (response && response.data?.data?.years) {
+        const years = response.data?.data?.years;
         setDynamicYears(years);
       }
     } catch (err) {

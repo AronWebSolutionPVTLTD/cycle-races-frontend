@@ -140,7 +140,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                           {renderFlag(rider?.nationality || rider?.country || rider?.flag)}
                           <h6>{rider?.rider || rider?.rider_name || rider?.riderName || rider?.name || "..."}</h6>
                         </div>
@@ -199,7 +199,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                           .map((victory, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-white">
-                                <Link href={`/race-result/${victory?.race}`} className="pabs" />
+                                <Link href={`/race-result/${victory?.raceSlug}`} className="pabs" />
                                 {renderFlag(victory?.country)}
                                 <h6 className="clamp-text">
                                   {victory?.race || "..."}
@@ -248,7 +248,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                           {renderFlag(rider?.riderCountry || rider?.country_code || rider?.country || rider?.flag)}
                           <h6>{rider?.riderName || rider?.rider_name || rider?.name || "..."}</h6>
                         </div>
@@ -335,7 +335,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                           .map((podium, index) => (
                             <li key={index}>
                               <span>{index + 1}</span>
-                              <Link href={`/races/${podium?.race_name}`}>
+                              <Link href={`/races/${podium?.raceSlug}`}>
                                 <div className="name-wraper name-wraper-white">
                                   {renderFlag(podium?.race_country || podium?.country)}
                                   <h6>
@@ -401,7 +401,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         return (
                           <>
-                            <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                            <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                               {renderFlag(rider?.nationality || rider?.country_code || rider?.country || rider?.flag)}
                               <h6>{rider?.name || rider?.rider_name || rider?.riderName || "..."}</h6>
                             </div>
@@ -451,7 +451,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         return (
                           <>
-                            <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                            <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                               {renderFlag(rider?.nationality || rider?.country_code || rider?.country || rider?.flag)}
                               <h6>{rider?.name || rider?.rider_name || rider?.riderName || "..."}</h6>
                             </div>
@@ -501,7 +501,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                         return (
                           <>
-                            <div className="name-wraper name-wraper-white name-left widthset" onClick={() => router.push(`/races/${mostSuccessfulRace?.race_name}`)}>
+                            <div className="name-wraper name-wraper-white name-left widthset" onClick={() => router.push(`/races/${mostSuccessfulRace?.raceSlug}`)}>
                               {renderFlag(countryCode)}
                               <h6>{mostSuccessfulRace?.race_name || "..."}</h6>
                             </div>

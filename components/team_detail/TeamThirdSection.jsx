@@ -144,7 +144,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                               <li key={rider?.rider_id || index}>
                                 <span>{index + 1}</span>
                                 <div className="name-wraper name-wraper-white">
-                                  <Link href={`/riders/${rider?.rider_id}`} className="pabs" />
+                                  <Link href={`/riders/${rider?.riderSlug}`} className="pabs" />
                                   {renderFlag(rider?.rider_country || rider?.country_code || rider?.country || rider?.nationality)}
                                   <h6 className="clamp-text">
                                     {rider?.rider_name || rider?.name || "..."}
@@ -241,7 +241,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                     return (
                       <>
 
-                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                           {renderFlag(rider?.rider_country)}
                           <h6>{rider?.rider_name}</h6>
                         </div>

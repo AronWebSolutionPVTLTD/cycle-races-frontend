@@ -255,7 +255,7 @@ export default function TeamDetail({ initialTeam }) {
                 filterYear !== "All-time" ? filterYear : null
               } />
 
-            <TeamSecondSection
+          <TeamSecondSection
               teamId={headerData?.team_id}
               teamName={headerData?.team_name}
               teamSlug={router.query?.name}
@@ -264,7 +264,7 @@ export default function TeamDetail({ initialTeam }) {
               }
             />
 
-            <TeamThirdSection
+              <TeamThirdSection
               teamId={headerData?.team_id}
               teamName={headerData?.team_name}
               teamSlug={router.query.id}

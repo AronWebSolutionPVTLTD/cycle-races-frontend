@@ -92,7 +92,7 @@ const YearSection = () => {
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{index + 1}</strong>
-                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                   {renderFlag(rider?.rider_country)}
                                   <h6>{rider?.rider_name || "..."}</h6>
                                 </div>
@@ -144,7 +144,7 @@ const YearSection = () => {
                                 <>
                                   <div
                                     className="name-wraper name-wraper-white"
-                                    onClick={() => router.push(`/riders/${rider?.rider_id}`)}
+                                    onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
                                     key={index}
                                   >
                                     {renderFlag(rider?.rider_country)}
@@ -195,7 +195,7 @@ const YearSection = () => {
                                 <>
                                   <div
                                     className="name-wraper name-wraper-green"
-                                    onClick={() => router.push(`/riders/${rider?.rider_id}`)}
+                                    onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
                                     key={index}
                                   >
                                     {renderFlag(rider?.rider_country)}
@@ -245,7 +245,7 @@ const YearSection = () => {
                               .map((rider, index) => (
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
-                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${rider?.team_name}`)}>
+                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${rider?.teamSlug}`)}>
                                     {renderFlag(rider?.flag)}
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
@@ -280,7 +280,7 @@ const YearSection = () => {
                               .slice(0, 3)
                               .map((rider, index) => (
                                 <li key={index}>
-                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?._id}`)}>
+                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.nationality)}
                                     <h6>{rider?.name || "..."}</h6>
                                   </div>
@@ -322,9 +322,7 @@ const YearSection = () => {
                         <>
                           {teams.slice(0, 1).map((team, index) => (
                             <div key={index} className="team-card">
-                              <div className="name-wraper name-wraper-white sss" onClick={() => router.push(`/teams/${team?.teamName ||
-                                team?.officialTeamName ||
-                                "..."}`)}>
+                              <div className="name-wraper name-wraper-white sss" onClick={() => router.push(`/teams/${team?.teamSlug}`)}>
                                 {renderFlag(team?.country)}
                                 <h6>
                                   {team?.teamName ||
@@ -403,7 +401,7 @@ const YearSection = () => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -439,7 +437,7 @@ const YearSection = () => {
                           .map((race, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${race?.race_name}`)}
+                                className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${race?.raceSlug}`)}
                                 key={index}
                               >
                                 <>

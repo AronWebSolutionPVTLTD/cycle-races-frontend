@@ -141,7 +141,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                                 <li key={rider?.rider_id || index}>
                                   <span>{index + 1}</span>
                                   <div className="name-wraper name-wraper-white">
-                                    <Link href={`/riders/${rider?.rider_id}`} className="pabs" />
+                                    <Link href={`/riders/${rider?.riderSlug}`} className="pabs" />
                                     {renderFlag(rider?.rider_country || rider?.country_code || rider?.country || rider?.nationality)}
                                     <h6 className="clamp-text">
                                       {rider?.rider || rider?.name || "..."}
@@ -267,7 +267,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     return (
                       <>
-                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderId}`)}>
+                        <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                           {renderFlag(rider?.riderCountry || rider?.country_code || rider?.country || rider?.flag)}
                           <h6>{rider?.riderName || rider?.rider_name || rider?.name || "..."}</h6>
                         </div>
@@ -327,7 +327,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                               .map((victory, index) => (
                                 <li key={index}>
                                   <div className="name-wraper name-wraper-white">
-                                    <Link href={`/races/${victory?.race_name}`} className="pabs" />
+                                    <Link href={`/races/${victory?.raceSlug}`} className="pabs" />
                                     {renderFlag(victory?.race_country || victory?.country)}
                                     <h6 className="clamp-text">
                                       {victory?.race_name || victory?.race || "..."}{" "}
@@ -520,7 +520,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                           .map((win, index) => (
                             <li key={index}>
                               <span>{index + 1}</span>
-                              <Link href={`/races/${win?.race_name}`}>
+                              <Link href={`/races/${win?.raceSlug}`}>
                                 <div className="name-wraper name-wraper-white">
                                   {renderFlag(win?.race_country || win?.country)}
                                   <h6>

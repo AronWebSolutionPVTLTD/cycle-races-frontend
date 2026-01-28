@@ -5,7 +5,7 @@ export default function getItemId(item, keysarray) {
     return null;
   }
 
-  const raceKeys = ["Race_Name", "RaceName", "raceName", "Race", "race_name", "race", "race_full_title"];
+  const raceKeys = ["raceSlug","Race_Name", "RaceName", "raceName", "Race", "race_name", "race", "race_full_title"];
   for (const key of raceKeys) {
     if (
       item &&
@@ -31,7 +31,7 @@ export default function getItemId(item, keysarray) {
     }
   }
 
-  const teamKeys = ["team_name", "teamName", "team", "team_Name", "TeamName"];
+  const teamKeys = ["teamSlug","team_name", "teamName", "team", "team_Name", "TeamName"];
   for (const key of teamKeys) {
     if (
       item &&

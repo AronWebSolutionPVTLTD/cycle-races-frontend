@@ -144,7 +144,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-green">
-                                <Link href={`/races/${rider?.race}`} className="pabs" />
+                                <Link href={`/races/${rider?.raceSlug}`} className="pabs" />
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.race || "..."} ({rider.year}) {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}</h6>
                               </div>
@@ -200,7 +200,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                         return (
                           <>
                             <div className="name-wraper name-wraper-white name-left">
-                              <Link href={`/races/${firstRider?.race_full_title}`} className="pabs" />
+                              <Link href={`/races/${firstRider?.raceSlug}`} className="pabs" />
                               {renderFlag(firstRider?.country_code)}
                               <h6>{firstRider?.race_full_title || "..."}</h6>
                             </div>
@@ -312,7 +312,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{index + 1}</strong>
-                                <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${rider?.team}`)}>
+                                <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${rider?.teamSlug}`)}>
                                   {renderFlag(rider?.teamCountry)}
                                   <h6>{rider?.team || "..."}</h6>
                                 </div>
@@ -429,7 +429,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                         .slice(0, 3)
                         .map((rider, index) => (
                           <li key={index}>
-                            <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?._id}`)}>
+                            <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                               {renderFlag(rider?.nationality)}
                               <h6>{rider?.name || "..."}</h6>
                             </div>
@@ -464,7 +464,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                             <strong>{index + 1}</strong>
                             <div
                               className="name-wraper name-wraper-green 11">
-                              <Link href={`/races/${rider?.race}`} className="pabs" />
+                              <Link href={`/races/${rider?.raceSlug}`} className="pabs" />
                               {renderFlag(rider?.country || rider?.rider_country)}
                               <h6>
                                 {rider?.race || rider?.rider_name || "..."} ({rider.year})

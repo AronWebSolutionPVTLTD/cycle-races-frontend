@@ -94,7 +94,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           .map((rider, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.rider_key}`)}
+                                className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
                                 key={index}
                               >
                                 {renderFlag(rider?.rider_country)}
@@ -148,7 +148,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                         <>
                           {teams.slice(0, 1).map((team, index) => (
                             <div key={index} className="team-card">
-                              <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/teams/${team?.team}`)} >
+                              <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/teams/${team?.teamSlug}`)} >
                                 {renderFlag(team?.country)}
                                 <h6>{team?.team || "..."}</h6>
                               </div>
@@ -193,7 +193,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           .map((rider, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.rider_id}`)}
+                                className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
                                 key={index}
                               >
                                 {renderFlag(rider?.rider_country)}
@@ -244,7 +244,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -285,7 +285,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                         <>
                           {riders.slice(0, 1).map((rider, index) => (
                             <div key={index} className="rider-card">
-                              <div className="name-wraper name-wraper-white 23" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white 23" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -335,7 +335,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           .map((race, index) => (
                             <>
                               <div
-                                className="name-wraper name-wraper-white 24" onClick={() => router.push(`/races/${race?.race}`)}
+                                className="name-wraper name-wraper-white 24" onClick={() => router.push(`/races/${race?.raceSlug}`)}
                                 key={index}
                               >
                                 {renderFlag(race?.country_code)}
@@ -386,7 +386,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                           .slice(0, 1)
                           .map((rider, index) => (
                             <React.Fragment key={index}>
-                              <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/riders/${rider?._id}`)} >
+                              <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)} >
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.name || "..."}</h6>
                               </div>
