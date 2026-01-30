@@ -67,10 +67,10 @@ export default function TeamDetail({ initialTeam }) {
     };
   }, []);
 
-  const fetchTeamActiveYears = async (teamName) => {
+  const fetchTeamActiveYears = async (teamSlug) => {
     try {
       setYearsLoading(true);
-      const response = await callAPI("GET", `/teamDetails/${teamName}/getTeamActiveYears`);
+      const response = await callAPI("GET", `/teamDetails/${teamSlug}/getTeamActiveYears`);
 
       if (response && response.data && response.data.years) {
         const years = response.data.years;
@@ -95,7 +95,7 @@ export default function TeamDetail({ initialTeam }) {
         const headerInfo = response.data;
         setHeaderData(headerInfo);
         if (headerInfo.team_name) {
-          fetchTeamActiveYears(headerInfo.team_name);
+          fetchTeamActiveYears(headerInfo.teamSlug);
         }
         setError(null);
       } else {
@@ -267,7 +267,7 @@ export default function TeamDetail({ initialTeam }) {
               <TeamThirdSection
               teamId={headerData?.team_id}
               teamName={headerData?.team_name}
-              teamSlug={router.query.id}
+              teamSlug={router.query?.name}
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
               }

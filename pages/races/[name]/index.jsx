@@ -39,10 +39,6 @@ export default function RaceDetailsPage({ year }) {
   const nationalityDropdownRef = useRef(null);
   const [dynamicYears, setDynamicYears] = useState([]);
   const [yearsLoading, setYearsLoading] = useState(false);
-  const decodedRaceName = useMemo(
-    () => (name ? decodeURIComponent(name) : ""),
-    [name]
-  );
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions =
     dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
@@ -67,7 +63,7 @@ export default function RaceDetailsPage({ year }) {
   };
 
   const fetchFiltersData = useCallback(async () => {
-    if (!decodedRaceName) return;
+    if (!name) return;
 
     try {
       setIsLoadingFilters(true);
@@ -92,7 +88,7 @@ export default function RaceDetailsPage({ year }) {
     } finally {
       setIsLoadingFilters(false);
     }
-  }, [selectedNationality, decodedRaceName]);
+  }, [selectedNationality, name]);
 
   const fetchRaceActiveYears = async (raceName) => {
     try {
@@ -161,11 +157,11 @@ export default function RaceDetailsPage({ year }) {
   }, []);
 
   useEffect(() => {
-    if (router.isReady && decodedRaceName) {
-      fetchRaceDetails(decodedRaceName);
-      fetchRaceActiveYears(decodedRaceName);
+    if (router.isReady && name) {
+      fetchRaceDetails(name);
+      fetchRaceActiveYears(name);
     }
-  }, [router.isReady, decodedRaceName, fetchRaceDetails]);
+  }, [router.isReady, name, fetchRaceDetails]);
 
   useEffect(() => {
     fetchFiltersData();
@@ -300,7 +296,7 @@ export default function RaceDetailsPage({ year }) {
                           ? selectedNationality
                           : null
                       }
-                      name={decodedRaceName}
+                      name={name}
                     />
                   ) : (
                     <OneDayRace
@@ -312,7 +308,7 @@ export default function RaceDetailsPage({ year }) {
                           ? selectedNationality
                           : null
                       }
-                      name={decodedRaceName}
+                      name={name}
                     />
                   )}
                 </>

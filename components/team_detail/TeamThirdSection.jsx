@@ -30,7 +30,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
         (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
       )
       .join("&");
-    const slugForUrl = teamSlug || (teamName ? teamName : teamId);
+    const slugForUrl = teamSlug;
     const basePath = `/teams/${slugForUrl}/${statsPath}`;
     return queryString ? `${basePath}?${queryString}` : basePath;
   };

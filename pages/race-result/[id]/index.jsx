@@ -279,6 +279,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
           title: oldestRider?.message || "Oldest Rider",
           rider: oldestData?.rider_name || oldestData?.name,
           riderId: oldestData?.rider_id,
+          riderSlug: oldestData?.riderSlug,
           flag:
             oldestData?.rider_country?.toLowerCase() ||
             oldestData?.country?.toLowerCase(),
@@ -298,6 +299,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
           title: youngestRider?.message || "Youngest Rider",
           rider: youngestData?.rider_name || youngestData?.name,
           riderId: youngestData?.rider_id,
+          riderSlug: youngestData?.riderSlug,
           flag:
             youngestData?.rider_country?.toLowerCase() ||
             youngestData?.country?.toLowerCase(),
@@ -313,6 +315,7 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
           title: bestTeam?.message || "Best Team",
           rider: bestTeamData?.team_name || bestTeamData?.name,
           teamId: bestTeamData?.team_name || bestTeamData?.name,
+          teamSlug: bestTeamData?.teamSlug,
           flag:
             bestTeamData?.country_code?.toLowerCase() ||
             bestTeamData?.team_country?.toLowerCase() ||
@@ -571,15 +574,15 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                     ?.sort((a, b) => a.rank - b.rank)
                     .map((rider, index) => (
                       <li className="hoverState-li custom-list-el race-result-ctm-el" key={index}>
-                        <Link href={`/riders/${rider.rider_id}`} className="pabs" />
+                        <Link href={`/riders/${rider.riderSlug}`} className="pabs" />
                         <h5 className="rider--name fw-900">
                           <span className="race-result-index fw-900">{index + 1}.</span>
                           {renderFlag(rider.rider_country)}
-                          <Link href={`/riders/${rider.rider_id}`} className="link">
+                          <Link href={`/riders/${rider.riderSlug}`} className="link">
                             {rider.rider_name.toUpperCase()}
                           </Link>
                         </h5>
-                        <h6 className="team_name">   <Link href={`/teams/${rider.team_name}`} className="link">{rider.team_name}</Link></h6>
+                        <h6 className="team_name">   <Link href={`/teams/${rider.teamSlug}`} className="link">{rider.team_name}</Link></h6>
                         <h6 className="time-result">
                           {rider.time}
                         </h6>
@@ -609,20 +612,20 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                       <div className="name-wraper">
                         {renderFlag(stat.flag)}
 
-                        {stat.riderId ?
+                        {stat.riderSlug ?
                           <Link
                             className="link"
-                            href={`/riders/${stat.riderId}`}
+                            href={`/riders/${stat.riderSlug}`}
                           >
                             <h6>
                               {stat.rider ? <span>{stat.rider}</span> : null}
                             </h6>
                           </Link>
                           :
-                          stat.teamId ?
+                          stat.teamSlug ?
                             <Link
                               className="link"
-                              href={`/teams/${stat.rider}`}
+                              href={`/teams/${stat.teamSlug}`}
                             >
                               <h6>
                                 {stat.rider ? <span>{stat.rider}</span> : null}

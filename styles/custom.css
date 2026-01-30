@@ -1925,9 +1925,9 @@ ul.slug-table-head.col--3 li.slug-list-head.DAYS {
 .slug-table-body li.table_cols_list.riders-table-cols.col--3 .team-name.year {
   flex: 0 0 20% !important;
 }
-li.table_cols_list.col--3 .count.text-end {
+/* li.table_cols_list.col--3 .count.text-end {
   flex: 0 0 20% !important;
-}
+} */
 
 li.table_cols_list.col--3 .age {
   flex: 0 0 20% !important;
@@ -1943,9 +1943,9 @@ ul.slug-table-head.col--3 li.CLASS {
 ul.slug-table-head.col--3 li.YEAR,ul.slug-table-head.col--3 li.WINNER {
   flex: 0 0 20% !important;
 }
-ul.slug-table-head.col--3 li.RIDER, .team-slug-table-body li.table_cols_list.col--3 .team-name.rider--name {
+/* ul.slug-table-head.col--3 li.RIDER, .team-slug-table-body li.table_cols_list.col--3 .team-name.rider--name {
   flex: 0 0 20% !important;
-}
+} */
 .team-slug-table-body li.table_cols_list.col--3 .team-name.rider--name.year {
   flex: 0 0 20% !important;
 }

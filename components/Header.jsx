@@ -191,24 +191,24 @@ export default function Header() {
   const getResultUrl = (item) => {
     const itemType = item.type?.toLowerCase();
 
-    if (itemType === "rider" || item.rider_id || item._id || item.riderId) {
-      const riderId = item.rider_id || item._id || item.riderId;
-      if (riderId) {
-        return `/riders/${riderId}`;
+    if (itemType === "rider" ||item.riderSlug) {
+      const riderSlug =  item.riderSlug;
+      if (riderSlug) {
+        return `/riders/${riderSlug}`;
       }
     }
 
-    if (itemType === "race" || item.race_name || item.race) {
-      const raceName = item.race_name || item.race || item.name;
-      if (raceName) {
-        return `/races/${encodeURIComponent(raceName)}`;
+    if (itemType === "race" || item.raceSlug ) {
+      const raceSlug = item.raceSlug;
+      if (raceSlug) {
+        return `/races/${encodeURIComponent(raceSlug)}`;
       }
     }
 
-    if (itemType === "team" || item.team_name || item.teamName) {
-      const teamName = item.team_name || item.teamName || item.name;
-      if (teamName) {
-        return `/teams/${encodeURIComponent(teamName)}`;
+    if (itemType === "team" || item.teamSlug) {
+      const teamSlug = item.teamSlug;
+      if (teamSlug) {
+        return `/teams/${encodeURIComponent(teamSlug)}`;
       }
     }
 
@@ -253,24 +253,6 @@ export default function Header() {
     }
   };
 
- 
-  const getResultType = (item) => {
-    if (item.type) {
-      return item.type.charAt(0).toUpperCase() + item.type.slice(1);
-    }
-    if (item.rider_id || item._id || item.riderId) {
-      return "Rider";
-    }
-    if (item.race_name || item.race) {
-      return "Race";
-    }
-    if (item.team_name || item.teamName) {
-      return "Team";
-    }
-    return "";
-  };
-
- 
   const handleSelectSuggestion = (item) => {
     const url = getResultUrl(item);
     if (url) {
