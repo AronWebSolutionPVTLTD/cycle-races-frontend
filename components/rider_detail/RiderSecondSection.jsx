@@ -144,7 +144,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <div className="name-wraper name-wraper-green">
-                                <Link href={`/races/${rider?.raceSlug}`} className="pabs" />
+                                <Link href={`/race-result/${rider?.raceSlug}`} className="pabs" />
                                 {renderFlag(rider?.country)}
                                 <h6>{rider?.race || "..."} ({rider.year}) {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}</h6>
                               </div>
@@ -188,7 +188,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                         }
 
                         const response = data[fixedApis.box2];
-                        const riderData = response?.data.data;
+                        const riderData = response?.data?.data;
 
 
                         if (!Array.isArray(riderData) || riderData.length === 0) {
@@ -268,7 +268,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
 
                         const response = data[fixedApis.box4];
                         const riderData =
-                          response?.data.data.longest_streak_without_win;
+                          response?.data?.data?.longest_streak_without_win;
 
                         if (!riderData) {
                           return <ErrorMessage errorType="no_data_found" />;
@@ -342,7 +342,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                     }
 
                     const response = data[fixedApis.box6];
-                    const riderData = response?.data.data;
+                    const riderData = response?.data?.data;
 
                     if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
@@ -387,7 +387,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                     }
 
                     const response = data[fixedApis.box7];
-                    const riderData = response?.data.data;
+                    const riderData = response?.data?.data;
 
                     if (!Array.isArray(riderData) || riderData.length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;

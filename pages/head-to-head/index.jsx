@@ -69,7 +69,9 @@ export default function HeadToHead() {
     try {
       const savedState = localStorage.getItem(STORAGE_KEY);
       if (savedState) {
+       
         const parsedState = JSON.parse(savedState);
+        console.log(parsedState , "parsedState");
         if (parsedState.selectedRider1) {
           setSelectedRider1(parsedState.selectedRider1);
           setSearchQuery1(parsedState.searchQuery1 || parsedState.selectedRider1.riderName || "");
@@ -91,8 +93,8 @@ export default function HeadToHead() {
             setDynamicYears(parsedState.dynamicYears);
           } else {
             await fetchRidersCommonActiveYears(
-              parsedState.selectedRider1.rider_id,
-              parsedState.selectedRider2.rider_id
+              parsedState.selectedRider1.riderSlug,
+              parsedState.selectedRider2.riderSlug
             );
           }
           if (parsedState.H2HData && parsedState.H2HData.length > 0 && parsedState.getMatchRidersData) {
@@ -162,10 +164,10 @@ export default function HeadToHead() {
     }
   };
 
-  const fetchRidersCommonActiveYears = async (id1, id2) => {
+  const fetchRidersCommonActiveYears = async (riderSlug1, riderSlug2) => {
     try {
       setYearsLoading(true);
-      const response = await callAPI("GET", `/h2h/${id1}/${id2}/getRidersCommonActiveYears`);
+      const response = await callAPI("GET", `/h2h/${riderSlug1}/${riderSlug2}/getRidersCommonActiveYears`);
 
       if (response && response.data && response.data.years) {
         const years = response.data.years;
@@ -518,7 +520,7 @@ export default function HeadToHead() {
       const stageNumber = race?.stage_number || "";
       const hasRaceId = race?.race_id;
       const url = hasRaceId
-        ? `/race-result/${race.race_name}?year=${year}&month=${month}&stageNumber=${stageNumber}`
+        ? `/race-result/${race.raceSlug}?year=${year}&month=${month}&stageNumber=${stageNumber}`
         : null;
 
       const columns = [];
@@ -1107,9 +1109,9 @@ export default function HeadToHead() {
                 }`}
               disabled={!selectedRider1 || !selectedRider2}
               onClick={() => {
-                fetchRidersCommonActiveYears(selectedRider1.rider_id, selectedRider2.rider_id);
+                fetchRidersCommonActiveYears(selectedRider1.riderSlug, selectedRider2.riderSlug);
                 const yearToUse = selectedYear || "All-time";
-                fetchH2H(selectedRider1.rider_id, selectedRider2.rider_id, yearToUse);
+                fetchH2H(selectedRider1.riderSlug, selectedRider2.riderSlug, yearToUse);
                 setShowCompareResults(true);
                 setSelectedYear(yearToUse);
                 prevRider1IdRef.current = selectedRider1.rider_id;

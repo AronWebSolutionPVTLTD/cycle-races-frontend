@@ -131,6 +131,7 @@ export default function Results() {
     switch (type) {
       case "year":
         setSelectedYear(value);
+        console.log(value , "value");
         setYearInput("");
         setShowYearDropdown(false);
         break;
@@ -653,7 +654,7 @@ export default function Results() {
 
                           <Link
                             href={`/race-result/${encodeURIComponent(
-                              item.race_name
+                              item.raceSlug
                             )}?stageNumber=${item.stage_number}&year=${item.year}`}
                             className="r-details"
                           >

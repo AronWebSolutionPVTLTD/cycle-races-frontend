@@ -123,7 +123,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                           .map((rider, index) => (
                             <li key={index}>
                               <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.nationality)}
                                 <h6>{rider?.rider_name || "..."} </h6>
                               </div>
@@ -194,7 +194,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                       return (
                         <>
                           {ridersArray.slice(0, 1).map((rider, index) => (
-                            <div key={index} className="rider-item" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                            <div key={index} className="rider-item" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                               <div className="name-wraper name-wraper-white name-left">
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -239,7 +239,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                       }
                       return riderData.slice(0, 1).map((rider, index) => (
                         <>
-                          <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                          <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                             {renderFlag(rider?.rider_country)}
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
@@ -285,7 +285,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                           }
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${rider?.team_name}`)}>
+                              <div className="name-wraper name-wraper-white" onClick={() => router.push(`/teams/${rider?.teamSlug}`)}>
                                 {renderFlag(rider?.nationality)}
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
@@ -337,7 +337,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
 
                           return riderData.slice(0, 1).map((rider, index) => (
                             <>
-                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
@@ -384,7 +384,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                               .map((rider, index) => (
                                 <li key={index}>
                                   <strong>{rider?.year}</strong>
-                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.rider_id}`)}>
+                                  <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.country)}
                                     <h6>{rider?.rider_name || "..."} </h6>
                                   </div>
@@ -480,7 +480,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{rider?.year}</strong>
-                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.winner_id}`)}>
+                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                   {renderFlag(rider?.country)}
                                   <h6>{rider?.winner || "..."}</h6>
                                 </div>
