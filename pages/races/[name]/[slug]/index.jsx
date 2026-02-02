@@ -11,11 +11,19 @@ import getItemId from "@/pages/getId";
 import { renderFlag } from "@/components/RenderFlag";
 
 export async function getServerSideProps(context) {
-  const { year, month } = context.query;
+  const { params, query } = context;
+  const { slug } = params || {};
+  const year = query.year || new Date().getFullYear().toString();
 
+  if (slug && !SLUG_CONFIGS[slug]) {
+    return {
+      notFound: true,
+    };
+  }
+ 
   return {
     props: {
-      year: year || "",
+      year,
     },
   };
 }

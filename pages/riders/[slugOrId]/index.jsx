@@ -9,12 +9,12 @@ import RiderSecondSection from "@/components/rider_detail/RiderSecondSection";
 import RiderThirdSection from "@/components/rider_detail/RiderThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
-export default function RiderDetail({ year, initialRider }) {
+export default function RiderDetail({ year, initialRider,apiError  }) {
   const router = useRouter();
   const [isRouterReady, setIsRouterReady] = useState(false);
   const [rider, setRider] = useState(initialRider || null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [error, setError] = useState(null);
   const [filterYear, setFilterYear] = useState(year || "All-time");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
@@ -66,110 +66,49 @@ export default function RiderDetail({ year, initialRider }) {
     };
   }, []);
 
-  const fetchRiderActiveYears = async (riderId) => {
-    try {
-      setYearsLoading(true);
-      const response = await callAPI("GET", `/rider-stats/${riderId}/getRiderActiveYears`);
-
-      if (response && response?.data?.data?.years) {
-        const years = response.data.data.years;
-        setDynamicYears(years);
-      }
-    } catch (err) {
-      console.error("Error fetching rider active years:", err);
-      setDynamicYears([]);
-    } finally {
-      setYearsLoading(false);
-    }
-  };
-
-  const fetchRiderDetails = async (riderId) => {
-    try {
-      setIsLoading(true);
-      const response = await callAPI("GET", `/rider-stats/${riderId}/detail`);
-      if (response && response.data && response.data.data) {
-        const riderData = response.data.data;
-        setRider(riderData);
-      } else {
-        setIsLoading(false);
-        setError("Invalid response format from API");
-        setRider(null);
-      }
-    } catch (err) {
-      console.error("Error fetching rider details:", err);
-      if (err.message && err.message.includes("API call failed")) {
-        setError("Failed to connect to server. Please try again later.");
-      } else {
-        setError(err.message || "Failed to load rider details");
-      }
-      setRider(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const calculateAge = (birthDate) => {
-    if (!birthDate) return "Unknown";
-    const today = new Date();
-    const birthDateObj = new Date(birthDate);
-    let age = today.getFullYear() - birthDateObj.getFullYear();
-    const monthDiff = today.getMonth() - birthDateObj.getMonth();
-
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birthDateObj.getDate())
-    ) {
-      age--;
-    }
-
-    return age;
-  };
-
-  useEffect(() => {
-    if (router.isReady) {
-      setIsRouterReady(true);
-      const { slugOrId } = router.query;
-
-      if (slugOrId) {
-        const riderId = slugOrId;
-        fetchRiderDetails(riderId);
-        fetchRiderActiveYears(riderId);
-      } else {
-        setError("No rider ID found in URL");
-        setIsLoading(false);
-      }
-    }
-  }, [router.isReady, router.query]);
-
-  if (!isRouterReady || isLoading) {
+  if (apiError) {
     return (
-      <div className="container py-5">
-        <div className="text-center">
-          <div className="spinner-border text-primary mb-3" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <p>Loading rider data...</p>
-        </div>
+      <div className="container pt-161px">
+      <div className="alert alert-danger text-center ">
+        <h3>Something went wrong</h3>
+        <p>
+          We’re having trouble loading this rider right now.
+          Please try again later.
+        </p>
+        <a href="/riders" className="glob-btn green-bg-btn">
+                    <strong>Go to Riders</strong>
+                    <span>
+                        <img src="/images/arow.svg" alt="arrow-right" />
+                    </span>
+                    </a>
+                    
+      </div>
       </div>
     );
   }
+  
+   useEffect(() => {
+    if (!rider?.slug) return;
 
-  if (error) {
-    return (
-      <div className="container py-5">
-        <div className="alert alert-danger">
-          <h4>Error loading rider data</h4>
-          <p>{error}</p>
-          <button
-            className="btn btn-outline-primary"
-            onClick={() => router.reload()}
-          >
-            Try Again
-          </button>
-        </div>
-      </div>
-    );
-  }
+    const fetchActiveYears = async () => {
+      try {
+        setYearsLoading(true);
+        const response = await callAPI("GET", `/rider-stats/${rider.slug}/getRiderActiveYears`);
+
+        if (response && response?.data?.data?.years) {
+          const years = response.data.data.years;
+          setDynamicYears(years);
+        }
+      } catch {
+        setDynamicYears([]);
+      } finally {
+        setYearsLoading(false);
+      }
+    };
+    
+
+    fetchActiveYears();
+  }, [rider]);
 
   if (!rider) {
     return (
@@ -184,7 +123,81 @@ export default function RiderDetail({ year, initialRider }) {
       </div>
     );
   }
-  console.log(rider, "rider");
+
+  
+// const fetchRiderActiveYears = async (riderId) => {
+  //   try {
+  //     setYearsLoading(true);
+  //     const response = await callAPI("GET", `/rider-stats/${riderId}/getRiderActiveYears`);
+
+  //     if (response && response?.data?.data?.years) {
+  //       const years = response.data.data.years;
+  //       setDynamicYears(years);
+  //     }
+  //   } catch (err) {
+  //     console.error("Error fetching rider active years:", err);
+  //     setDynamicYears([]);
+  //   } finally {
+  //     setYearsLoading(false);
+  //   }
+  // };
+
+  // const fetchRiderDetails = async (riderId) => {
+  //   try {
+  //     setIsLoading(true);
+  //     const response = await callAPI("GET", `/rider-stats/${riderId}/detail`);
+  //     if (response && response.data && response.data.data) {
+  //       const riderData = response.data.data;
+  //       setRider(riderData);
+  //     } else {
+  //       setIsLoading(false);
+  //       setError("Invalid response format from API");
+  //       setRider(null);
+  //     }
+  //   } catch (err) {
+  //     console.error("Error fetching rider details:", err);
+  //     if (err.message && err.message.includes("API call failed")) {
+  //       setError("Failed to connect to server. Please try again later.");
+  //     } else {
+  //       setError(err.message || "Failed to load rider details");
+  //     }
+  //     setRider(null);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+ 
+
+  // useEffect(() => {
+  //   if (router.isReady) {
+  //     setIsRouterReady(true);
+  //     const { slugOrId } = router.query;
+
+  //     if (slugOrId) {
+  //       const riderId = slugOrId;
+  //       fetchRiderDetails(riderId);
+  //       fetchRiderActiveYears(riderId);
+  //     } else {
+  //       setError("No rider ID found in URL");
+  //       setIsLoading(false);
+  //     }
+  //   }
+  // }, [router.isReady, router.query]);
+
+  // if (!isRouterReady || isLoading) {
+  //   return (
+  //     <div className="container py-5">
+  //       <div className="text-center">
+  //         <div className="spinner-border text-primary mb-3" role="status">
+  //           <span className="visually-hidden">Loading...</span>
+  //         </div>
+  //         <p>Loading rider data...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+  
   return (
     <main className="inner-pages-main rider-detail-main  header-layout-2">
       <div className="dropdown-overlay"></div>
@@ -267,12 +280,58 @@ export default function RiderDetail({ year, initialRider }) {
   );
 }
 
+// export async function getServerSideProps(context) {
+//   const { year } = context.query;
+//   return {
+//     props: {
+//       initialRider: null,
+//       year: year || "All-time",
+//     },
+//   };
+// }
 export async function getServerSideProps(context) {
-  const { year } = context.query;
-  return {
-    props: {
-      initialRider: null,
-      year: year || "All-time",
-    },
-  };
+  const { slugOrId } = context.params;
+  const year = context.query.year || "All-time";
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/rider-stats/${slugOrId}/detail`
+    );
+
+    if (res.status === 404) {
+      return { notFound: true };
+    }
+
+    if (!res.ok) {
+      return {
+        props: {
+          initialRider: null,
+          year,
+          apiError: true,
+        },
+      };
+    }
+
+    const json = await res.json();
+
+    if (!json?.data?.data) {
+      return { notFound: true };
+    }
+
+    return {
+      props: {
+        initialRider: json.data.data,
+        year,
+      },
+    };
+  } catch {
+    return {
+      props: {
+        initialRider: null,
+        year,
+        apiError: true,
+      },
+    };
+  }
 }
+

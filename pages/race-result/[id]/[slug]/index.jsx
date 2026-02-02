@@ -40,14 +40,33 @@ const getRiderId = (item) => {
   return null;
 };
 
+// export async function getServerSideProps(context) {
+//   const { year, month } = context.query;
+//   return {
+//     props: {
+//       year: year || new Date().getFullYear().toString(),
+//     },
+//   };
+// }
+
 export async function getServerSideProps(context) {
-  const { year, month } = context.query;
+  const { params, query } = context;
+  const { slug } = params || {};
+  const year = query.year || new Date().getFullYear().toString();
+
+  if (slug && !SLUG_CONFIGS[slug]) {
+    return {
+      notFound: true,
+    };
+  }
+ 
   return {
     props: {
-      year: year || new Date().getFullYear().toString(),
+      year,
     },
   };
 }
+
 
 export default function DynamicSlugPage({ year }) {
   const router = useRouter();
@@ -586,3 +605,6 @@ export default function DynamicSlugPage({ year }) {
     </>
   );
 }
+
+
+
