@@ -1,28 +1,23 @@
+
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { callAPI } from "@/lib/api";
-import { generateYearOptions } from "@/components/GetYear";
 import TeamFirstSection from "@/components/team_detail/TeamFirstSection";
 import { renderFlag } from "@/components/RenderFlag";
 import TeamSecondSection from "@/components/team_detail/TeamSecondSection";
 import TeamThirdSection from "@/components/team_detail/TeamThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 
-export default function TeamDetail({ initialTeam }) {
+export default function TeamDetail({ initialTeam ,apiError}) {
   const router = useRouter();
-  const [isRouterReady, setIsRouterReady] = useState(false);
-  const [headerData, setHeaderData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [headerData, setHeaderData] = useState(initialTeam);
   const [filterYear, setFilterYear] = useState("All-time");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
   const [dynamicYears, setDynamicYears] = useState([]);
   const [yearsLoading, setYearsLoading] = useState(false);
-
-  const { withoutAllTime } = generateYearOptions();
   const allYearOptions = dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
@@ -67,10 +62,12 @@ export default function TeamDetail({ initialTeam }) {
     };
   }, []);
 
-  const fetchTeamActiveYears = async (teamSlug) => {
+  useEffect(() => {
+    if (!headerData?.slug) return;
+  const fetchTeamActiveYears = async () => {
     try {
       setYearsLoading(true);
-      const response = await callAPI("GET", `/teamDetails/${teamSlug}/getTeamActiveYears`);
+      const response = await callAPI("GET", `/teamDetails/${headerData?.slug}/getTeamActiveYears`);
 
       if (response && response.data && response.data.years) {
         const years = response.data.years;
@@ -83,85 +80,34 @@ export default function TeamDetail({ initialTeam }) {
       setYearsLoading(false);
     }
   };
+  fetchTeamActiveYears();
+  }, [headerData]);
 
-
-  const fetchTeamHeaderInfo = async (teamSlug) => {
-    try {
-      setIsLoading(true);
-      const encodedTeamSlug = encodeURIComponent(teamSlug);
-      const response = await callAPI("GET", `/teamDetails/${encodedTeamSlug}/teamDetailsForTeamPage`);
-
-      if (response && response.status === true && response.data) {
-        const headerInfo = response.data;
-        setHeaderData(headerInfo);
-        if (headerInfo.team_name) {
-          fetchTeamActiveYears(headerInfo.teamSlug);
-        }
-        setError(null);
-      } else {
-        throw new Error("Team not found");
-      }
-    } catch (err) {
-      console.error("Error fetching team header info:", err);
-
-      if (err.message && err.message.includes("API call failed")) {
-        setError("Failed to connect to server. Please try again later.");
-      } else {
-        setError(err.message || "Failed to load team details");
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (router.isReady) {
-      setIsRouterReady(true);
-      const { name } = router.query;
-
-      if (name) {
-        const teamSlug = name;
-        fetchTeamHeaderInfo(teamSlug);
-      } else {
-        setError("No team name found in URL");
-        setIsLoading(false);
-      }
-    }
-  }, [router.isReady, router.query]);
-
-  if (!isRouterReady || isLoading) {
+  
+  if (apiError) {
     return (
-      <div className="container py-5">
-        <div className="text-center">
-          <div className="spinner-border text-primary mb-3" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <p>Loading team data...</p>
-        </div>
+      <div className="container pt-161px">
+      <div className="alert alert-danger text-center ">
+        <h3>Something went wrong</h3>
+        <p>
+          We’re having trouble loading this team right now.
+          Please try again later.
+        </p>
+        <a href="/teams" className="glob-btn green-bg-btn">
+                    <strong>Go to Teams</strong>
+                    <span>
+                        <img src="/images/arow.svg" alt="arrow-right" />
+                    </span>
+                    </a>
+                    
+      </div>
       </div>
     );
   }
 
-  if (error) {
+ if (!headerData) {
     return (
-      <div className="container py-5">
-        <div className="alert alert-danger">
-          <h4>Error loading team data</h4>
-          <p>{error}</p>
-          <button
-            className="btn btn-outline-primary"
-            onClick={() => router.reload()}
-          >
-            Try Again
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (!headerData) {
-    return (
-      <div className="container py-5">
+      <div className="container pt-161px">
         <div className="text-center">
           <h2>Team Information Not Available</h2>
           <p>We couldn't find information for this team.</p>
@@ -281,10 +227,47 @@ export default function TeamDetail({ initialTeam }) {
 
 export async function getServerSideProps(context) {
   const { name } = context.params;
-  return {
-    props: {
-      initialTeam: null,
-    },
-  };
+  const year = context.query.year || "All-time";
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/teamDetails/${name}/teamDetailsForTeamPage`
+    );
+
+    if (res.status === 404) {
+      return { notFound: true };
+    }
+
+    if (!res.ok) {
+      return {
+        props: {
+          initialTeam: null,
+          year,
+          apiError: true,
+        },
+      };
+    }
+
+    const json = await res.json();
+
+    if (!json?.data) {
+      return { notFound: true };
+    }
+
+    return {
+      props: {
+        initialTeam: json.data,
+        year,
+      },
+    };
+  } catch {
+    return {
+      props: {
+        initialTeam: null,
+        year,
+        apiError: true,
+      },
+    };
+  }
 }
+
 

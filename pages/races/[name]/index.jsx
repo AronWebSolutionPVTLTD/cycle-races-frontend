@@ -10,17 +10,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import Flag from "react-world-flags";
 
-export async function getServerSideProps(context) {
-  const { year, month } = context.query;
-
-  return {
-    props: {
-      year: year || "All-time",
-    },
-  };
-}
-
-export default function RaceDetailsPage({ year }) {
+export default function RaceDetailsPage({ year,initialRace,apiError}) {
   const router = useRouter();
   const { name } = router.query;
   const [selectedYear, setSelectedYear] = useState(year);
@@ -31,7 +21,7 @@ export default function RaceDetailsPage({ year }) {
 
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
   const [nationalities, setNationalities] = useState([]);
-  const [raceData, setRaceData] = useState(null);
+  const [raceData, setRaceData] = useState(initialRace);
   const [isLoadingRace, setIsLoadingRace] = useState(false);
   const [isLoadingFilters, setIsLoadingFilters] = useState(false);
   const [error, setError] = useState(null);
@@ -90,12 +80,14 @@ export default function RaceDetailsPage({ year }) {
     }
   }, [selectedNationality, name]);
 
-  const fetchRaceActiveYears = async (raceName) => {
+  useEffect(() => {
+    if (!raceData?.raceSlug) return;
+  const fetchRaceActiveYears = async () => {
     try {
       setYearsLoading(true);
       const response = await callAPI(
         "GET",
-        `/raceDetailsStats/${raceName}/getRaceActiveYears`
+        `/raceDetailsStats/${raceData?.raceSlug}/getRaceActiveYears`
       );
 
       if (response && response.data?.data?.years) {
@@ -109,32 +101,34 @@ export default function RaceDetailsPage({ year }) {
       setYearsLoading(false);
     }
   };
+  fetchRaceActiveYears();
+}, [raceData]);
 
-  const fetchRaceDetails = useCallback(async (raceName) => {
-    if (!raceName) return;
+  // const fetchRaceDetails = useCallback(async (raceName) => {
+  //   if (!raceName) return;
 
-    try {
-      setIsLoadingRace(true);
-      setError(null);
+  //   try {
+  //     setIsLoadingRace(true);
+  //     setError(null);
 
-      const response = await callAPI(
-        "GET",
-        `/raceDetailsStats/${raceName}/getRaceDetails`,
-        {}
-      );
+  //     const response = await callAPI(
+  //       "GET",
+  //       `/raceDetailsStats/${raceName}/getRaceDetails`,
+  //       {}
+  //     );
 
-      if (response.status && response.data) {
-        setRaceData(response.data);
-      } else {
-        setError("Failed to load race details");
-      }
-    } catch (error) {
-      console.error("Error fetching race details:", error);
-      setError("An error occurred while loading race details");
-    } finally {
-      setIsLoadingRace(false);
-    }
-  }, []);
+  //     if (response.status && response.data) {
+  //       setRaceData(response.data);
+  //     } else {
+  //       setError("Failed to load race details");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching race details:", error);
+  //     setError("An error occurred while loading race details");
+  //   } finally {
+  //     setIsLoadingRace(false);
+  //   }
+  // }, []);
 
   const handleSelection = useCallback((type, value) => {
     switch (type) {
@@ -156,12 +150,12 @@ export default function RaceDetailsPage({ year }) {
     setYearInput(value);
   }, []);
 
-  useEffect(() => {
-    if (router.isReady && name) {
-      fetchRaceDetails(name);
-      fetchRaceActiveYears(name);
-    }
-  }, [router.isReady, name, fetchRaceDetails]);
+  // useEffect(() => {
+  //   if (router.isReady && name) {
+  //     fetchRaceDetails(name);
+  //     fetchRaceActiveYears(name);
+  //   }
+  // }, [router.isReady, name, fetchRaceDetails]);
 
   useEffect(() => {
     fetchFiltersData();
@@ -187,12 +181,41 @@ export default function RaceDetailsPage({ year }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  if (apiError) {
+    return (
+      <div className="container pt-161px">
+        <div className="alert alert-danger text-center">
+          <h3>Something went wrong</h3>
+          <p>
+            We’re having trouble loading this race right now.
+            Please try again later.
+          </p>
+          <Link href="/races" className="glob-btn green-bg-btn">
+            <strong>Go to Races</strong>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+  
+
   if (!router.isReady) {
     return <LoadingStats />;
   }
 
-  const isMainLoading = isLoadingRace && !raceData;
-  const hasError = error && !isMainLoading;
+  if (!raceData) {
+    return (
+      <div className="container pt-161px">
+        <div className="text-center">
+          <h2>Team Information Not Available</h2>
+          <p>We couldn't find information for this team.</p>
+          <Link href="/teams">
+            <button className="btn btn-primary mt-3">Back to Teams</button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -205,13 +228,7 @@ export default function RaceDetailsPage({ year }) {
         <section className="rider-details-sec pb-0 rider-details-sec-top bg-pattern">
           <div className="top-wrapper-main">
             <div className="container">
-              {isMainLoading ? (
-                <Loading />
-              ) : hasError ? (
-                <div className="col-12">
-                  <ErrorStats message={error} />
-                </div>
-              ) : raceData ? (
+            {raceData && (
                 <div className="top-wraper">
                   <ul className="breadcrumb">
                     <li>
@@ -246,7 +263,7 @@ export default function RaceDetailsPage({ year }) {
                     )}
                   </ul>
                 </div>
-              ) : null}
+            )}
             </div>
           </div>
         </section>
@@ -265,7 +282,7 @@ export default function RaceDetailsPage({ year }) {
                     placeholder="Year"
                     onSelect={(value) => handleSelection("year", value)}
                     onInputChange={handleYearInputChange}
-                    loading={isLoadingFilters}
+                    loading={yearsLoading}
                     includeAllOption={false}
                   />
                   <FilterDropdown
@@ -319,4 +336,50 @@ export default function RaceDetailsPage({ year }) {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { name } = context.params;
+  const year = context.query.year || "All-time";
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/raceDetailsStats/${name}/getRaceDetails`
+    );
+
+    if (res.status === 404) {
+      return { notFound: true };
+    }
+
+    if (!res.ok) {
+      return {
+        props: {
+          year,
+          initialRace: null,
+          apiError: true,
+        },
+      };
+    }
+
+    const json = await res.json();
+
+    if (!json?.data) {
+      return { notFound: true };
+    }
+
+    return {
+      props: {
+        year,
+        initialRace: json.data,
+      },
+    };
+  } catch {
+    return {
+      props: {
+        year,
+        initialRace: null,
+        apiError: true,
+      },
+    };
+  }
 }

@@ -11,30 +11,32 @@ import {
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { renderFlag } from "@/components/RenderFlag";
 
-export async function getServerSideProps(context) {
-  const { id } = context.params;
-  const { year, month, stageNumber, tab } = context.query;
 
-  return {
-    props: {
-      id,
-      year: year || new Date().getFullYear().toString(),
-      month: month || "",
-      stageNumber: stageNumber || "",
-      tab: tab || "",
-    },
-  };
-}
+// export async function getServerSideProps(context) {
+//   const { id } = context.params;
+//   const { year, month, stageNumber, tab } = context.query;
+
+ 
+//   return {
+//     props: {
+//       id,
+//       year: year || new Date().getFullYear().toString(),
+//       month: month || "",
+//       stageNumber: stageNumber || "",
+//       tab: tab || "",
+//     },
+//   };
+// }
 
 
-export default function RaceResultPage({ year, month, stageNumber, tab }) {
+export default function RaceResultPage({ year, month, stageNumber, tab,initialRaceResult,apiError }) {
   const router = useRouter();
   const { id } = router.query;
-  const [isRouterReady, setIsRouterReady] = useState(false);
-  const [race, setRace] = useState(null);
-  const [raceName, setRaceName] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingStageData, setIsLoadingStageData] = useState(false);
+  // const [isRouterReady, setIsRouterReady] = useState(false);
+  const [race, setRace] = useState(initialRaceResult);
+const [raceName, setRaceName] = useState(initialRaceResult?.race_name || null);
+const [isLoading, setIsLoading] = useState(false);
+const [isLoadingStageData, setIsLoadingStageData] = useState(false);
   const [error, setError] = useState(null);
   const [selectedYear, setSelectedYear] = useState(year);
   const [showYearDropdown, setShowYearDropdown] = useState(false);
@@ -336,15 +338,38 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
     }
   };
 
+  // useEffect(() => {
+  //   if (router.isReady) {
+  //     setIsRouterReady(true);
+  //     if (typeof id === "string") {
+  //       const isInitialLoad = !raceName;
+  //       fetchRaceDetails(id, isInitialLoad);
+  //     }
+  //   }
+  // }, [router.isReady, id, selectedYear, selectedStage, router.query.tab]);
   useEffect(() => {
-    if (router.isReady) {
-      setIsRouterReady(true);
-      if (typeof id === "string") {
-        const isInitialLoad = !raceName;
-        fetchRaceDetails(id, isInitialLoad);
-      }
-    }
-  }, [router.isReady, id, selectedYear, selectedStage, router.query.tab]);
+    if (!race) return;
+  
+    fetchRaceDetails(id, false);
+  }, [selectedYear, selectedStage, router.query.tab]);
+  
+  if (apiError) {
+    return (
+      <div className="container pt-161px">
+        <div className="alert alert-danger text-center">
+          <h3>Something went wrong</h3>
+          <p>
+            We’re having trouble loading this race result right now.
+            Please try again later.
+          </p>
+          <Link href="/races" className="glob-btn green-bg-btn">
+            <strong>Go to Races</strong>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+  
 
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
@@ -560,15 +585,17 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                 <li className="time">Time</li>
               </ul>
 
-              {(isLoading || isLoadingStageData) || !isRouterReady ? (
-                <div className="loading-spinner">
-                  <ListSkeleton />
-                </div>
-              ) : error ? (
-                <div className="col-12">
-                  <ErrorStats message={error} />
-                </div>
-              ) : race.riders.length > 0 ? (
+              {
+              // (isLoading || isLoadingStageData) || !isRouterReady ? (
+              //   <div className="loading-spinner">
+              //     <ListSkeleton />
+              //   </div>
+              // ) : error ? (
+              //   <div className="col-12">
+              //     <ErrorStats message={error} />
+              //   </div>
+              // ) :
+              race.riders.length > 0 && (
                 <ul className="transparent-cart ctm-table-ul">
                   {race.riders
                     ?.sort((a, b) => a.rank - b.rank)
@@ -589,8 +616,8 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
                       </li>
                     ))}
                 </ul>
-              ) : (
-                <div className="text-center">No race results found</div>
+              // ) : (
+              //   <div className="text-center">No race results found</div>
               )}
             </div>
 
@@ -661,3 +688,59 @@ export default function RaceResultPage({ year, month, stageNumber, tab }) {
   );
 }
 
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  const { year, month, stageNumber, tab } = context.query;
+
+  const selectedYear = year || new Date().getFullYear().toString();
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/raceDetailsStats/${id}/getRaceDetails?year=${selectedYear}`
+    );
+
+    if (res.status === 404) {
+      return { notFound: true };
+    }
+
+    if (!res.ok) {
+      return {
+        props: {
+          initialRaceResult: null,
+          apiError: true,
+          year: selectedYear,
+          month: month || "",
+          stageNumber: stageNumber || "",
+          tab: tab || "",
+        },
+      };
+    }
+
+    const json = await res.json();
+
+    if (!json?.data) {
+      return { notFound: true };
+    }
+
+    return {
+      props: {
+        initialRaceResult: json.data,
+        year: selectedYear,
+        month: month || "",
+        stageNumber: stageNumber || "",
+        tab: tab || "",
+      },
+    };
+  } catch {
+    return {
+      props: {
+        initialRaceResult: null,
+        apiError: true,
+        year: selectedYear,
+        month: month || "",
+        stageNumber: stageNumber || "",
+        tab: tab || "",
+      },
+    };
+  }
+}

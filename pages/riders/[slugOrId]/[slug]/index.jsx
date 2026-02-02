@@ -830,3 +830,17 @@ export default function DynamicSlugPage() {
     </>
   );
 }
+
+export async function getServerSideProps({ params }) {
+  const { slug  } = params;
+
+  if (!SLUG_CONFIGS[slug]) {
+    return { notFound: true };
+  }
+
+  return {
+    props: {
+      slug: slug,
+    },
+  };
+}

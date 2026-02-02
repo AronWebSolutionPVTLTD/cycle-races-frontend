@@ -40,7 +40,7 @@ export default function DynamicSlugPage() {
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
 
-  const getFilteredYears = (searchValue) => {
+ const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
       return withoutAllTime;
     }
@@ -583,3 +583,16 @@ export default function DynamicSlugPage() {
   );
 }
 
+export async function getServerSideProps({ params }) {
+  const { slug  } = params;
+
+  if (!SLUG_CONFIGS[slug]) {
+    return { notFound: true };
+  }
+
+  return {
+    props: {
+      slug: slug,
+    },
+  };
+}

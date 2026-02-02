@@ -193,7 +193,6 @@ export default function Riders() {
     if (firstTenRiders.length === 0) {
       return null;
     }
-console.log("firstTenRiders",firstTenRiders);
     return firstTenRiders.map((team, teamIndex) =>
       team.riders && team.riders.length > 0
         ? team.riders.map((rider, riderIndex) => (

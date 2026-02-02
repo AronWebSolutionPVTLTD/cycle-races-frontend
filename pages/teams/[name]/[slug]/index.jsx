@@ -14,16 +14,22 @@ import getItemId from "@/pages/getId";
 import { renderFlag } from "@/components/RenderFlag";
 
 export async function getServerSideProps(context) {
-  const { year, month } = context.query;
-  const currentYear = new Date().getFullYear().toString();
+  const { params, query } = context;
+  const { slug } = params || {};
+  const year = query.year || new Date().getFullYear().toString();
 
+  if (slug && !SLUG_CONFIGS[slug]) {
+    return {
+      notFound: true,
+    };
+  }
+ 
   return {
     props: {
-      year: year || currentYear,
+      year,
     },
   };
 }
-
 // Helper function to get value from item using multiple possible keys (supports dot notation)
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   for (const key of possibleKeys) {
