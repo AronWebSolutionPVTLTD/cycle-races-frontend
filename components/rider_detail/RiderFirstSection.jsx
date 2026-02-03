@@ -216,7 +216,6 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                   {(() => {
                     const response = data?.[fixedApis.box2];
                     const riderDataArray = response?.data?.data;
-console.log(riderDataArray);
                     if (!response) {
                       return <ErrorMessage errorType="no_data" />;
                     }

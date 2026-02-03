@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }) {
         </Script>
       </head>
       <main className={`${roboto.variable} antialiased`}>
-        <Header />
+        <Header isDetailPage={!!pageProps.isDetailPage}/>
         <Component {...pageProps} />
       </main>
       <Footer />

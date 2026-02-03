@@ -131,7 +131,6 @@ export default function Results() {
     switch (type) {
       case "year":
         setSelectedYear(value);
-        console.log(value , "value");
         setYearInput("");
         setShowYearDropdown(false);
         break;
