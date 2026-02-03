@@ -30,10 +30,8 @@ export async function getServerSideProps(context) {
     },
   };
 }
-// Helper function to get value from item using multiple possible keys (supports dot notation)
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   for (const key of possibleKeys) {
-    // Handle dot notation for nested objects (e.g., "rider.name")
     if (key.includes(".")) {
       const keys = key.split(".");
       let value = item;
@@ -49,7 +47,6 @@ const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
         return value;
       }
     } else {
-      // Handle direct property access
       if (item[key] !== undefined && item[key] !== null) {
         return item[key];
       }
@@ -58,7 +55,6 @@ const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   return defaultValue;
 };
 
-// Helper function to get country code for flag
 const getCountryCode = (item, config) => {
   const country = getItemValue(item, config.itemConfig.country, "default");
   return country.toUpperCase();
@@ -195,13 +191,11 @@ export default function DynamicSlugPage({ year }) {
       if (team_name) queryParams.team_name = team_name;
       if (nationality) queryParams.nationality = nationality;
 
-      console.log("config", config);
       // Hit the API with the slug parameter and query parameters
       const response = await fetchData(config.apiEndpoint, queryParams, {
         name: name,
         idType: config.idType,
       });
-      console.log("response", response);
       if (response && response.data) {
         if (response?.data?.riders) {
           response.data = response?.data?.riders;
@@ -478,7 +472,6 @@ export default function DynamicSlugPage({ year }) {
       if (nameDataExists) {
 
         const riderOrRaceData = getItemId(item, config.itemConfig.name);
-        console.log("riderOrRaceData", riderOrRaceData);
 
         // const clickableProps = riderId
         //   ? { onClick: () => router.push(`/riders/${riderId}`) }
@@ -549,7 +542,6 @@ export default function DynamicSlugPage({ year }) {
               { href: `/teams/${encodeURIComponent(Data?.id)}${queryString}` } :
               null;
 
-        console.log("clickableProps", clickableProps);
         if (!nameDataExists) {
           const teamContent = (
             <>
@@ -594,7 +586,6 @@ export default function DynamicSlugPage({ year }) {
             </h5>
           );
         } else {
-          // If name data exists, show team without flag (flag is already shown with name)
           const teamValue = getItemValue(item, config.itemConfig.team);
           columns.push(
             <div key="team" className={`team-name rider--name ${config.itemConfig.team.join(" ")}`}>
@@ -627,7 +618,6 @@ export default function DynamicSlugPage({ year }) {
         }
       }
 
-      // AGE column (if specified in config)
       if (config.headers.includes("AGE") && config.itemConfig.age) {
         columns.push(
           <div key="age" className="age">
@@ -636,7 +626,6 @@ export default function DynamicSlugPage({ year }) {
         );
       }
 
-      // COUNT column
       if (countDataExists) {
         columns.push(
           <div key="count" className="count text-end">
@@ -656,14 +645,11 @@ export default function DynamicSlugPage({ year }) {
     });
   };
 
-  // Render object content (for complex data structures)
   const renderObjectContent = (data, config) => {
-    // Handle the specific data structure from your API
     if (data.data && Array.isArray(data.data)) {
       return renderListContent(data.data, config);
     }
 
-    // Handle object data structure (like the one in your image)
     if (typeof data === "object" && !Array.isArray(data)) {
       const columns = [];
 
@@ -716,7 +702,6 @@ export default function DynamicSlugPage({ year }) {
       return <li className="content-object">{columns}</li>;
     }
 
-    // Fallback for other object structures
     return (
       <li className="content-object">
         {Object.entries(data).map(([key, value]) => (
@@ -739,7 +724,6 @@ export default function DynamicSlugPage({ year }) {
       ? `${formatSlugForDisplay(slug)} | Cycling Stats`
       : "Page | Cycling Stats";
   const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
-  // const srNoHeaderLabel = "";
 
   return (
     <>

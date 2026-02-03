@@ -348,7 +348,11 @@ export async function getServerSideProps(context) {
     );
 
     if (res.status === 404) {
-      return { notFound: true };
+      return { notFound: true,
+        props: {
+          isDetailPage: false, 
+        },
+      };
     }
 
     if (!res.ok) {
@@ -357,6 +361,7 @@ export async function getServerSideProps(context) {
           year,
           initialRace: null,
           apiError: true,
+          isDetailPage: false,
         },
       };
     }
@@ -364,13 +369,18 @@ export async function getServerSideProps(context) {
     const json = await res.json();
 
     if (!json?.data) {
-      return { notFound: true };
+      return { notFound: true,
+        props: {
+          isDetailPage: false, 
+        },
+      };
     }
 
     return {
       props: {
         year,
         initialRace: json.data,
+        isDetailPage: true,
       },
     };
   } catch {
@@ -379,6 +389,7 @@ export async function getServerSideProps(context) {
         year,
         initialRace: null,
         apiError: true,
+        isDetailPage: false,
       },
     };
   }

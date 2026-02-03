@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import { createPortal } from "react-dom";
 import { homePageSearch } from "@/lib/api";
 
-export default function Header() {
+export default function Header({ isDetailPage }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDetailPage, setIsDetailPage] = useState(false);
+  // const [isDetailPage, setIsDetailPage] = useState(false);
   const [atTop, setAtTop] = useState(true);
   const [showStickyTop, setShowStickyTop] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -44,22 +44,23 @@ export default function Header() {
   //   const pathname = router.asPath.split('?')[0]; 
   //   setIsDetailPage(riderDetailRegex.test(pathname) || raceDetailRegex.test(pathname) || teamDetailRegex.test(pathname));
   // }, [router.asPath]);
-  useEffect(() => {
-    const pathname = router.asPath.split("?")[0]; // remove query
-    const segments = pathname.split("/").filter(Boolean);
+
+  // useEffect(() => {
+  //   const pathname = router.asPath.split("?")[0]; // remove query
+  //   const segments = pathname.split("/").filter(Boolean);
   
-    // examples:
-    // /riders/Tadej%20Pogačar -> ["riders", "Tadej%20Pogačar"]
-    // /teams/Q36.5%20Pro%20Cycling%20Team -> ["teams", "..."]
-    // /races/Tour%20de%20France -> ["races", "..."]
+  //   // examples:
+  //   // /riders/Tadej%20Pogačar -> ["riders", "Tadej%20Pogačar"]
+  //   // /teams/Q36.5%20Pro%20Cycling%20Team -> ["teams", "..."]
+  //   // /races/Tour%20de%20France -> ["races", "..."]
   
-    const isDetail =
-      (segments[0] === "riders" && segments.length === 2) ||
-      (segments[0] === "teams" && segments.length === 2) ||
-      (segments[0] === "races" && segments.length === 2);
+  //   const isDetail =
+  //     (segments[0] === "riders" && segments.length === 2) ||
+  //     (segments[0] === "teams" && segments.length === 2) ||
+  //     (segments[0] === "races" && segments.length === 2);
   
-    setIsDetailPage(isDetail);
-  }, [router.asPath]);
+  //   setIsDetailPage(isDetail);
+  // }, [router.asPath]);
 
   let headerClass = isDetailPage ? "absolute-header" : "relative-header";
   
