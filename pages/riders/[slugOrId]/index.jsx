@@ -299,7 +299,11 @@ export async function getServerSideProps(context) {
     );
 
     if (res.status === 404) {
-      return { notFound: true };
+      return { notFound: true ,
+        props: {
+          isDetailPage: false, 
+        },
+      };
     }
 
     if (!res.ok) {
@@ -308,6 +312,7 @@ export async function getServerSideProps(context) {
           initialRider: null,
           year,
           apiError: true,
+          isDetailPage: false,
         },
       };
     }
@@ -315,13 +320,18 @@ export async function getServerSideProps(context) {
     const json = await res.json();
 
     if (!json?.data?.data) {
-      return { notFound: true };
+      return { notFound: true ,
+        props: {
+          isDetailPage: false, 
+        },
+      };
     }
 
     return {
       props: {
         initialRider: json.data.data,
         year,
+        isDetailPage: true, 
       },
     };
   } catch {
@@ -330,6 +340,7 @@ export async function getServerSideProps(context) {
         initialRider: null,
         year,
         apiError: true,
+        isDetailPage: false,
       },
     };
   }

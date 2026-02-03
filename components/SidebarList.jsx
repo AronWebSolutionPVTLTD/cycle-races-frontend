@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { renderFlag } from "./RenderFlag";
 export default function SidebarList({ title, riders, link }) {
-console.log(riders,"fshfgh")
   return (
     <div className="list-white-cart">
       <Link href={`/${link}`} className="pabs" />

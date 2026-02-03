@@ -71,7 +71,6 @@ export default function HeadToHead() {
       if (savedState) {
        
         const parsedState = JSON.parse(savedState);
-        console.log(parsedState , "parsedState");
         if (parsedState.selectedRider1) {
           setSelectedRider1(parsedState.selectedRider1);
           setSearchQuery1(parsedState.searchQuery1 || parsedState.selectedRider1.riderName || "");
