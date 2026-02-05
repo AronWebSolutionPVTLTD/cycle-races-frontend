@@ -24,7 +24,7 @@ export default function Home() {
           dataField="wins"
         />
         <UpcomingYear />
-        <LastSection />
+        {/* <LastSection /> */}
       </main>
     </>
   );
