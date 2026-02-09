@@ -50,7 +50,7 @@ const Footer = () => {
                                     Wielerstats is een onafhankelijk platform en niet gelieerd aan officiële wielerorganisaties, teams of wedstrijden. Afbeeldingen, merknamen en logo's behoren toe aan hun respectieve eigenaars en worden uitsluitend gebruikt ter identificatie.
                                 </p>
                                 <Link href="/" className="logo">
-                                    <img src="/images/footer-logo.png" alt="Footer Logo" />
+                                    <img src="/images/footer.png" alt="Footer Logo" />
                                 </Link>
                             </div>
                         </div>
@@ -147,7 +147,7 @@ const Footer = () => {
                                 Wielerstats is een onafhankelijk platform en niet gelieerd aan officiële wielerorganisaties, teams of wedstrijden. Afbeeldingen, merknamen en logo’s behoren toe aan hun respectieve eigenaars en worden uitsluitend gebruikt ter identificatie.
                             </p>
                             <Link href="/" className="logo">
-                                <img src="/images/footer-logo.png" alt="Footer Logo" />
+                                <img src="/images/footer.png" alt="Footer Logo" />
                             </Link>
                         </div>
 

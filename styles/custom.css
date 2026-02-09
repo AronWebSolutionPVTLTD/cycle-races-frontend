@@ -309,7 +309,7 @@ ul.slug-table-body li .sr-no {
 /* Rider name */
 ul.slug-table-body li h5 {
   color: #8E998F;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.2rem;
@@ -384,7 +384,7 @@ ul.slug-table-head li {
   color: #cbcbc7;
   letter-spacing: -0.35px;
   line-height: 1;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
 }
 
 ul.slug-table-head li:last-child {
@@ -541,7 +541,7 @@ section.stat-main-sec ul.slug-table-head-isRiderResults {
   align-items: center;
   gap: 6px;
   font-weight: 900;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   font-size: 18px;
   line-height: 18px;
 }
@@ -553,14 +553,14 @@ section.stat-main-sec ul.slug-table-head-isRiderResults {
   border-radius: 20px;
   font-weight: 700;
   font-weight: 900;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   font-size: 18px;
   line-height: 18px;
 }
 
 .results-summary .stat-item strong {
   font-weight: 900;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   font-size: 18px;
   line-height: 18px;
 }
@@ -622,7 +622,7 @@ section.stat-main-sec ul.slug-table-head-isRiderResults {
 
 .head-to-head-section h6 {
   color: var(--Text, #cbcbc7);
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   font-size: 24px;
   font-weight: 900;
   line-height: 1.5rem;
@@ -756,7 +756,7 @@ section.riders-sec1 .shape::after {
   color: #cbcbc7;
   letter-spacing: -0.35px;
   line-height: 1;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
 }
 
 .slug-table-head.head-to-head li.text-lg-end {
@@ -792,7 +792,7 @@ section.riders-sec1 .shape::after {
   letter-spacing: -0.35px;
   text-transform: uppercase;
   font-weight: 500;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   font-style: normal;
 }
 
@@ -803,7 +803,7 @@ section.riders-sec1 .shape::after {
   color: #cbcbc7;
   letter-spacing: -0.35px;
   line-height: 1;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   text-transform: uppercase;
 }
 
@@ -820,7 +820,7 @@ section.riders-sec1 .shape::after {
   font-size: 22px;
   background-color: #678F89;
   color: #d0f068;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
 }
 
 .rider-compare-show-result button.activeBtn {
@@ -1556,7 +1556,7 @@ section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hove
 .header-search-modal .searchInput input {
   height: 3rem;
   width: 100%;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   outline: none;
   border: none;
   font-size: 1.8rem;
@@ -1619,7 +1619,7 @@ section.rider-details-sec .lime-green-cart .name-wraper.result-of-year-card:hove
   overflow-y: auto;
   z-index: 10000;
   padding: 0px 24px 24px;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   font-size: 24px;
   line-height: 24px;
   letter-spacing: -0.35px;

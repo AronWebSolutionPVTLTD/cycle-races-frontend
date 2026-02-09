@@ -278,7 +278,7 @@ export default function Header({ isDetailPage }) {
           <div className="header-content-wraper">
             <Link href="/" className="logo">
               {!isDetailPage ? (
-                <img src="/images/site-logo.svg" alt="Wielerstats Logo" />
+                <img src="/images/site-logo-1.svg" alt="Wielerstats Logo" />
               ) : (
                 <>
                   <img src="/images/dark-bg-logo.svg" alt="Wielerstats Logo" className="dark-logo" />

@@ -1,4 +1,4 @@
-import { Roboto } from "next/font/google";
+import { Roboto, Archivo } from "next/font/google";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/globals.css';
 
@@ -17,7 +17,11 @@ const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],
 });
-
+const archivo = Archivo({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-archivo",
+});
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -38,7 +42,7 @@ function MyApp({ Component, pageProps }) {
           `}
         </Script>
       </head>
-      <main className={`${roboto.variable} antialiased`}>
+      <main className={`${roboto.variable} ${archivo.variable} antialiased`}>
         <Header isDetailPage={!!pageProps.isDetailPage}/>
         <Component {...pageProps} />
       </main>
