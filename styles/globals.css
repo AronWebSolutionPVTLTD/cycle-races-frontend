@@ -1963,9 +1963,9 @@ section.contact-sec1 .flex-box input[type="submit"] {
   background-size: 2.1875rem 2.1875rem;
 }
 
-section.cookiePolicy-sec1 {
+/* section.cookiePolicy-sec1 {
   padding: 6rem 0;
-}
+} */
 section.cookiePolicy-sec1 .top-wraper {
   position: relative;
   padding-bottom: 1.5rem;

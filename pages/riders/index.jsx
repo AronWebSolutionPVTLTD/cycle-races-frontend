@@ -300,6 +300,7 @@ export default function Riders() {
       <Head>
         <title>Riders | Cycling Stats</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/images/ws_favicon.png" />
       </Head>
 
       <main className="inner-pages-main inner-riders-main">

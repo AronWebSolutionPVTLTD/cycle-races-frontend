@@ -165,6 +165,8 @@ const Footer = () => {
                                 <ul className='footer-bottom-links d-flex align-items-center justify-content-center gap-3 text-primary'>
                                     <li><Link href="/contact">Contact us</Link></li>
                                     <li><Link href="/disclaimer">Disclaimer</Link></li>
+                                    <li><Link href="/privacy-policy">Privacy Policy</Link></li>
+                                    <li><Link href="/cookie-policy">Cookies</Link></li>
                                     
                                 </ul>
                             </div>

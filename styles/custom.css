@@ -2132,3 +2132,66 @@ section.stats-sec1 ul.filter:not(.filter-3-cols) .filter-dropdown-list.nationali
     flex: 0 0 60%;
 }
 }
+
+.policy-content p {
+  margin: .5rem 0 !important;
+}
+
+.policy-content h2 {
+  margin: 1.6rem 0 !important;
+}
+.fw-800{
+  font-weight: 800 !important;
+}
+
+.team-cart.featured-card {
+  min-height: unset;
+  padding: 1rem;
+  background-image: url(/images/card-pattern.png);
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+}
+section.featured-section {
+  padding-bottom: 64px;
+}
+.bg-voilet {
+  background-color: #6965A4 !important;
+}
+.team-cart.featured-card{
+  min-height: 160px !important;
+}
+.team-cart.featured-card.featured-card-banner-img {
+  padding: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bg-yellow {
+  background-color: #FDE412 !important;
+}
+.banner--img {
+  text-align: center;
+}
+@media ( min-width: 992px ){
+  .rider-img-wrapper {
+    padding-left: 65px;
+  }
+}
+
+.rider-img-element {
+  position: absolute;
+  left: 0;
+  max-width: 88px;
+  bottom: 0;
+  z-index: 0;
+}
+.bg-green{
+  background-color: #678F89 !important;
+}
+@media ( max-width: 767px ){
+    .team-cart.featured-card  .text-wraper h4 {
+      padding: 0;
+  }
+}
