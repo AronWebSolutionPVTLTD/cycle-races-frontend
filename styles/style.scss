@@ -1,6 +1,6 @@
 // Font(Roboto)
 // @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
 
 @font-face {
   font-family: "Univers";
@@ -154,7 +154,7 @@ select {
 .glob-btn {
   min-height: 3.5rem;
   color: #fff;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   font-size: 1rem;
   font-style: normal;
   font-weight: 500;
@@ -201,7 +201,7 @@ select {
 
 h2 {
   color: #2b534d;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   font-size: 5rem;
   font-style: normal;
   font-weight: 500;
@@ -490,7 +490,7 @@ footer {
   // }
   h4 {
     color: #2b534d;
-    font-family: "Archivo", sans-serif;
+    font-family: var(--font-archivo), sans-serif;
     font-size: 1.125rem;
     font-style: normal;
     font-weight: 500;
@@ -523,7 +523,7 @@ footer {
 
       strong {
         color: #2b534d;
-        font-family: "Archivo", sans-serif;
+        font-family: var(--font-archivo), sans-serif;
         font-size: 1.125rem;
         font-style: normal;
         font-weight: 900;
@@ -679,7 +679,7 @@ footer {
 
     h4 {
       color: #2b534d;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 1.125rem;
       font-style: normal;
       font-weight: 500;
@@ -753,7 +753,7 @@ footer {
   h5 {
     min-height: 5.125rem;
     color: #cbcbc7;
-    font-family: "Archivo", sans-serif;
+    font-family: var(--font-archivo), sans-serif;
     font-size: 1.125rem;
     font-style: normal;
     font-weight: 500;
@@ -769,7 +769,7 @@ footer {
     strong {
       display: block;
       color: #cbcbc7;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 4rem;
       font-style: normal;
       font-weight: 500;
@@ -920,7 +920,7 @@ section.home-banner {
 
       h5 {
         color: #828E83;
-        font-family: "Archivo", sans-serif;
+        font-family: var(--font-archivo), sans-serif;
         font-size: 1.125rem;
         font-style: normal;
         font-weight: 500;
@@ -1049,7 +1049,7 @@ section.home-sec2 {
 
     h4 {
       color: #2b534d;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 1.125rem;
       font-style: normal;
       font-weight: 500;
@@ -1069,7 +1069,7 @@ section.home-sec2 {
 
     h5 {
       color: #2b534d;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 1.125rem;
       font-style: normal;
       font-weight: 500;
@@ -1127,7 +1127,7 @@ section.home-sec2 {
 
     h5 {
       color: #2b534d;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 2rem;
       font-style: normal;
       font-weight: 500;
@@ -1246,7 +1246,7 @@ section.home-sec3 {
 
       h3 {
         color: #fff;
-        font-family: "Archivo", sans-serif;
+        font-family: var(--font-archivo), sans-serif;
         font-size: 3rem;
         font-style: normal;
         font-weight: 500;
@@ -1272,7 +1272,7 @@ section.home-sec3 {
 
     span {
       color: #d0f068;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 16rem;
       font-style: normal;
       font-weight: 500;
@@ -1361,7 +1361,7 @@ section.home-sec4 {
 
       h5 {
         color: #2b534d;
-        font-family: "Archivo", sans-serif;
+        font-family: var(--font-archivo), sans-serif;
         font-size: 1.125rem;
         font-style: normal;
         font-weight: 500;
@@ -1551,7 +1551,7 @@ section.stats-sec1 {
 
   h1 {
     color: var(--Dark-Green, #2b534d);
-    font-family: "Archivo", sans-serif;
+    font-family: var(--font-archivo), sans-serif;
     font-size: 8rem;
     font-style: normal;
     font-weight: 500;
@@ -1665,7 +1665,7 @@ section.stats-sec1 {
 
     h5 {
       color: #2b534d;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 2rem;
       font-style: normal;
       font-weight: 500;
@@ -1703,7 +1703,7 @@ section.stats-sec1 {
 
     h5 {
       color: #cbcbc7;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 1.125rem;
       font-style: normal;
       font-weight: 500;
@@ -1816,7 +1816,7 @@ section.riders-sec1 {
 
   h1 {
     color: var(--Dark-Green, #2b534d);
-    font-family: "Archivo", sans-serif;
+    font-family: var(--font-archivo), sans-serif;
     font-size: 8rem;
     font-style: normal;
     font-weight: 500;
@@ -1858,7 +1858,7 @@ section.riders-sec1 {
   .searchInput input {
     height: 3rem;
     width: 100%;
-    font-family: "Archivo", sans-serif;
+    font-family: var(--font-archivo), sans-serif;
     outline: none;
     border: none;
     font-size: 1.8rem;
@@ -1869,7 +1869,7 @@ section.riders-sec1 {
 
     &::placeholder {
       color: var(--Text, #cbcbc7);
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 2rem;
       font-style: normal;
       font-weight: 500;
@@ -1900,7 +1900,7 @@ section.riders-sec1 {
     display: none;
     cursor: default;
     color: var(--Text, #cbcbc7);
-    font-family: "Archivo", sans-serif;
+    font-family: var(--font-archivo), sans-serif;
     font-size: 1.5rem;
     font-style: normal;
     font-weight: 500;
@@ -2025,7 +2025,7 @@ section.riders-sec2 {
     letter-spacing: -0.35px;
     text-transform: uppercase;
     font-weight: 500;
-    font-family: "Archivo", sans-serif;
+    font-family: var(--font-archivo), sans-serif;
     font-style: normal;
     margin-bottom: 4rem;
   }
@@ -2037,7 +2037,7 @@ section.riders-sec2 {
 
     li {
       color: var(--Text, #cbcbc7);
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 18px;
       font-style: normal;
       font-weight: 500;
@@ -2158,7 +2158,7 @@ section.result-sec1 {
 
     li {
       color: var(--Text, #cbcbc7);
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 18px;
       font-style: normal;
       font-weight: 500;
@@ -2273,7 +2273,7 @@ section.contact-sec1 {
 
     h1 {
       color: var(--Dark-Green, #2b534d);
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 8rem;
       font-style: normal;
       font-weight: 700;
@@ -2426,7 +2426,7 @@ section.disclaimer-sec1 {
 
     h1 {
       color: var(--Dark-Green, #2b534d);
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 8rem;
       font-style: normal;
       font-weight: 700;
@@ -2455,7 +2455,7 @@ section.disclaimer-sec1 {
   .disclaimer-content {
     h2 {
       color: #2b534d;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 1.5rem;
       font-weight: 900;
       line-height: 1.5rem;
@@ -2625,7 +2625,7 @@ section.cookiePolicy-sec1 {
 
     h1 {
       color: var(--Dark-Green, #2b534d);
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 8rem;
       font-style: normal;
       font-weight: 700;
@@ -2647,7 +2647,7 @@ section.cookiePolicy-sec1 {
   }
 
   h4 {
-    font-family: "Archivo", sans-serif;
+    font-family: var(--font-archivo), sans-serif;
     font-size: 1.5rem;
     line-height: 1.5rem;
     letter-spacing: -0.0219rem;
@@ -2766,7 +2766,7 @@ section.rider-details-sec {
 
       h1 {
         color: var(--Dark-Green, #2b534d);
-        font-family: "Archivo", sans-serif;
+        font-family: var(--font-archivo), sans-serif;
         font-size: 8rem;
         font-style: normal;
         font-weight: 700;
@@ -2924,7 +2924,7 @@ section.rider-details-sec {
 
     h5 {
       color: #2b534d;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 2rem;
       font-style: normal;
       font-weight: 500;
@@ -2969,7 +2969,7 @@ section.rider-details-sec {
 
     h4 {
       color: #2b534d;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 1.125rem;
       font-style: normal;
       font-weight: 500;
@@ -2989,7 +2989,7 @@ section.rider-details-sec {
 
     h5 {
       color: #2b534d;
-      font-family: "Archivo", sans-serif;
+      font-family: var(--font-archivo), sans-serif;
       font-size: 1.125rem;
       font-style: normal;
       font-weight: 500;
@@ -3100,7 +3100,7 @@ section.race-details-sec {
 
       h1 {
         color: var(--Dark-Green, #2b534d);
-        font-family: "Archivo", sans-serif;
+        font-family: var(--font-archivo), sans-serif;
         font-size: 8rem;
         font-style: normal;
         font-weight: 500;
@@ -3547,7 +3547,7 @@ p.disclaimer-text {
 
 .wrap-bottom {
   margin-top: 0;
-  font-family: "Archivo", sans-serif;
+  font-family: var(--font-archivo), sans-serif;
   font-size: 24px;
   line-height: 24px;
   letter-spacing: -0.35px;
@@ -4730,7 +4730,7 @@ input.glob-btn.contact-global-btn:hover {
   li.hoverState-li.custom-list-el.race-result-ctm-el span.race-result-index {
     width: auto !important;
     color: #2b534d;
-    font-family: "Archivo", sans-serif;
+    font-family: var(--font-archivo), sans-serif;
     font-size: 1.125rem;
     font-style: normal;
     font-weight: 500;
@@ -4809,7 +4809,7 @@ input.glob-btn.contact-global-btn:hover {
 
   li.hoverState-li.custom-list-el.race-result-ctm-el h5.rider--name span.race-result-index {
     color: #2b534d;
-    font-family: "Archivo", sans-serif;
+    font-family: var(--font-archivo), sans-serif;
     font-size: 1.125rem;
     font-style: normal;
     font-weight: 500;
@@ -4875,7 +4875,7 @@ ul.filter li a:hover {
 }
 
 .font-archivo {
-  font-family: "Archivo", sans-serif !important;
+  font-family: var(--font-archivo), sans-serif !important;
 }
 
 .start-end-location {
