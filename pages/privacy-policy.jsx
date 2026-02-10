@@ -13,7 +13,7 @@ const CookiePolicy = () => (
                 <li><a href="/">home</a></li>
                 <li>privacy policy</li>
               </ul>
-              <h1>privacy policy</h1>
+              <h1>privacy</h1>
             </div>
           </div>
           <div className="col-lg-8 policy-content">
@@ -25,8 +25,8 @@ const CookiePolicy = () => (
             <div className="disclaimer-content">
               <h2>Welke gegevens verzamelen we?</h2>
               <p>
-                Wielerstats verzamelt geen persoonsgegevens actief, zoals namen, e-mailadressen of accounts.                                  </p>
-              
+                Wielerstats verzamelt geen persoonsgegevens actief, zoals namen, e-mailadressen of accounts.</p>
+
               <p>Wel kunnen er anonieme gegevens worden verwerkt via externe diensten, zoals:</p>
               <ul>
                 <li>IP-adres (geanonimiseerd)</li>
@@ -34,18 +34,18 @@ const CookiePolicy = () => (
                 <li>bezochte pagina’s en gebruiksgedrag</li>
                 <p>Deze gegevens zijn niet te herleiden tot een persoon.</p>
               </ul>
-             
+
 
               <h2>Google Analytics</h2>
               <p>Wij gebruiken Google Analytics om inzicht te krijgen in het gebruik van de website.</p>
-               <p>  Google Analytics plaatst cookies en kan anonieme gebruiksgegevens verzamelen.</p>
+              <p>  Google Analytics plaatst cookies en kan anonieme gebruiksgegevens verzamelen.</p>
               <ul>
                 <li>IP-adressen worden geanonimiseerd</li>
                 <li>De gegevens worden gebruikt om de website te verbeteren</li>
                 <li>We delen deze gegevens niet met derden</li>
                 <p>Meer informatie: https://policies.google.com/privacy</p>
               </ul>
-              
+
 
               <h2>Google AdSense</h2>
               <p>Wielerstats maakt (of zal gebruikmaken) van Google AdSense om advertenties te tonen.</p>
@@ -56,7 +56,7 @@ const CookiePolicy = () => (
                 <p>Google en zijn partners kunnen advertenties tonen op basis van eerdere bezoeken aan deze of andere websites.</p>
                 <p>Meer informatie: https://policies.google.com/technologies/ads</p>
               </ul>
-          
+
 
               <h2>Cookies</h2>
               <p>
@@ -65,7 +65,12 @@ const CookiePolicy = () => (
               <h2>Contact</h2>
 
 
-              <p>Voor vragen over privacy kun je contact opnemen via: info@wielerstats.nl</p>
+              <p>
+                Voor vragen over cookies kun je contact opnemen via : {" "}
+                <a href="mailto:info@wielerstats.nl" className="fw-semibold text-decoration-underline" style={{ color: "#2b534d" }} >
+                  info@wielerstats.nl
+                </a>
+              </p>
 
             </div>
           </div>

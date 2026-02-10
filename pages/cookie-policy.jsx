@@ -11,7 +11,7 @@ const CookiePolicy = () => (
             <div className="top-wraper">
               <ul className="breadcrumb">
                 <li><a href="/">home</a></li>
-                <li>cookie policy</li>
+                <li>cookies</li>
               </ul>
               <h1>cookies</h1>
             </div>
@@ -56,7 +56,12 @@ const CookiePolicy = () => (
               <h2>Contact</h2>
 
 
-              <p>Voor vragen over cookies kun je contact opnemen via: info@wielerstats.nl</p>
+              <p>
+                Voor vragen over cookies kun je contact opnemen via : {" "}
+                <a href="mailto:info@wielerstats.nl" className="fw-semibold text-decoration-underline" style={{ color: "#2b534d" }} >
+                  info@wielerstats.nl
+                </a>
+              </p>
 
             </div>
           </div>

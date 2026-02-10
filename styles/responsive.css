@@ -592,7 +592,7 @@ section.home-banner ul.transparent-cart li h5 {
         display: none;
     } */
     header .header-content-wraper a.logo{
-        flex: 0 0 117px;
+        flex: 0 0 164px;
     }
     header .header-content-wraper .menu-wraper ul li::after {
         background-image: url(../public/images/mobile-line.svg);

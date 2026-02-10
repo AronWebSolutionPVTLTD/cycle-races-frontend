@@ -281,8 +281,8 @@ export default function Header({ isDetailPage }) {
                 <img src="/images/site-logo-1.svg" alt="Wielerstats Logo" />
               ) : (
                 <>
-                  <img src="/images/dark-bg-logo.svg" alt="Wielerstats Logo" className="dark-logo" />
-                  <img src="/images/site-logo.svg" className="light-logo" alt="Wielerstats Logo" />
+                  <img src="/images/footer.png" alt="Wielerstats Logo" className="dark-logo" />
+                  <img src="/images/site-logo-1.svg" className="light-logo" alt="Wielerstats Logo" />
                 </>
               )}
             </Link>
