@@ -12,6 +12,7 @@ import Footer from '../components/Footer';
 import '../styles/style.scss'
 import '../styles/responsive.css'
 import '../styles/custom.css'
+import Head from "next/head";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -26,24 +27,25 @@ const archivo = Archivo({
 function MyApp({ Component, pageProps }) {
   return (
     <>
-    <head>
-        {/* Google Analytics */}
-        <Script
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-4Z8XV3MDD5"
-        />
-        <Script id="gtag-init" strategy="afterInteractive">
-          {`
+      {/* Google Analytics */}
+      <Head>
+        <meta name="google-adsense-account" content="ca-pub-5429831539927628" />
+      </Head>
+      <Script
+        strategy="afterInteractive"
+        src="https://www.googletagmanager.com/gtag/js?id=G-4Z8XV3MDD5"
+      />
+      <Script id="gtag-init" strategy="afterInteractive">
+        {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
             gtag('config', 'G-4Z8XV3MDD5');
           `}
-        </Script>
-      </head>
+      </Script>
       <main className={`${roboto.variable} ${archivo.variable} antialiased`}>
-        <Header isDetailPage={!!pageProps.isDetailPage}/>
+        <Header isDetailPage={!!pageProps.isDetailPage} />
         <Component {...pageProps} />
       </main>
       <Footer />
