@@ -17,7 +17,7 @@ export default function Home() {
       </Head>
 
       <main className="home-main inner-pages-main">
-       <TopSection />
+       {/* <TopSection /> */}
         <FirstSection />
         <YearSection />
         <MostWin
