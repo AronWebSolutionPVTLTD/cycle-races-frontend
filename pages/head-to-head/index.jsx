@@ -1,16 +1,22 @@
+"use client";
+
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { getH2HData, getTeamsRiders, callAPI } from "@/lib/api";
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef, useMemo, useLayoutEffect } from "react";
 import { ListSkeleton } from "@/components/loading&error";
 import Flag from "react-world-flags";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
 import { renderFlag } from "@/components/RenderFlag";
 
+
 export default function HeadToHead() {
   const router = useRouter();
+  const containerRef = useRef(null);
+  const startOffset = useRef(0);
+  const [isSticky, setIsSticky] = useState(false);
   const [teamRiders, setTeamRiders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -63,6 +69,57 @@ export default function HeadToHead() {
       console.error('Error saving state to localStorage:', err);
     }
   };
+
+// useEffect(() => {
+
+//     if (!containerRef.current) return;
+
+//     // Measure ONCE after mount
+//     startOffset.current = 100 // same as top: 74px
+
+//     const onScroll = () => {
+//       console.log("window.scrollY =", window.scrollY);
+//       if (window.scrollY >= startOffset.current) {
+//         setIsSticky(true);
+//       } else {
+//         setIsSticky(false);
+//       }
+//     };
+
+//     window.addEventListener("scroll", onScroll, { passive: true });
+
+//     // Run once in case page is already scrolled
+//     onScroll();
+
+//     return () => window.removeEventListener("scroll", onScroll);
+//   }, []);
+
+useLayoutEffect(() => {
+  if (!containerRef.current) return;
+
+  const element = containerRef.current;
+
+  const calculateOffset = () => {
+    const rect = element.getBoundingClientRect();
+    startOffset.current = rect.top + window.scrollY;
+  };
+
+  calculateOffset();
+
+  const onScroll = () => {
+    setIsSticky(window.scrollY >= 200);
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", calculateOffset);
+
+  onScroll(); // run once in case page already scrolled
+
+  return () => {
+    window.removeEventListener("scroll", onScroll);
+    window.removeEventListener("resize", calculateOffset);
+  };
+}, [showCompareResults]);
 
   const restoreStateFromStorage = async () => {
     isRestoringRef.current = true;
@@ -1127,7 +1184,12 @@ export default function HeadToHead() {
         ) : loading ? <ListSkeleton /> : (
           (selectedRider1 && selectedRider2) && (getMatchRidersData || (H2HData && H2HData.length > 0)) && (
             <>
-              <div className="container">
+            <div ref={containerRef}  className={`rider-compare-show-result-section ${
+                  isSticky ? "sticky" : ""
+              }`}>
+              <div 
+              className={`container rider-compare-show-result-container`}
+              >
                 <div className="rider-compare-show-result">
                   <div className="compare-result-col">
                     <h6 className="mb-10px">Rider 1</h6>
@@ -1199,6 +1261,7 @@ export default function HeadToHead() {
                     </div>
                   </div>
                 </div>
+              </div>
               </div>
 
               {showCompareResults && (
