@@ -3,13 +3,13 @@ import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, BoxSkeleton3, CardSkeleton, ErrorMessage, ErrorStats, TwoSectionSkeleton } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import { useRouter } from "next/router";
-  const RiderLastSection = ({ riderId, filterYear, imageUrl }) => {
+const RiderLastSection = ({ riderId, filterYear, imageUrl }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "getGrandToursRidden",
     box2: "getRiderLastVictorOneData",
     box3: "getRiderMostRacedCountry",
-};
+  };
 
   const buildQueryParams = () => {
     let params = {};
@@ -96,17 +96,17 @@ import { useRouter } from "next/router";
 
   return (
     <section className="featured-section">
-    <div className="container">
-          <h2 className="fw-900 fst-italic section-header">Similar Riders</h2>
-     <div className="row">
-        {loading && <BoxSkeleton3 />}
-        {error && Object.keys(data || {}).length === 0 && (
-          <ErrorStats message="Unable to load statistics. Please try again later." />
-        )}
-        {!loading && !(error && Object.keys(data || {}).length === 0) && (
+      <div className="container">
+        <h2 className="fw-900 fst-italic section-header">Similar Riders</h2>
+        <div className="row">
+          {loading && <BoxSkeleton3 />}
+          {error && Object.keys(data || {}).length === 0 && (
+            <ErrorStats message="Unable to load statistics. Please try again later." />
+          )}
+          {!loading && !(error && Object.keys(data || {}).length === 0) && (
 
-          <>
-          <div className="col-12 col-lg-4 mb-4">
+            <>
+              <div className="col-12 col-lg-4 mb-4">
                 <div className="team-cart lime-green-team-cart img-active featured-card bg-green d-flex flex-row">
                   {/* <Link href={`/races/${data[fixedApis.box1].data.raceSlug}`} className="pabs" /> */}
                   <div className="text-wraper d-flex flex-column justify-content-between flex-grow-1">
@@ -213,7 +213,7 @@ import { useRouter } from "next/router";
                 </div>
               </div>
 
-          
+
 
               <div className="col-12 col-md-6 col-lg-4 mb-4">
                 <div className="team-cart lime-green-team-cart img-active featured-card bg-yellow d-flex flex-row">
@@ -269,12 +269,12 @@ import { useRouter } from "next/router";
                   </div>
                 </div>
               </div>
-          </>
-        )}
-      </div>
+            </>
+          )}
+        </div>
 
-    </div>
-  </section>
+      </div>
+    </section>
   );
 };
 
