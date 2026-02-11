@@ -63,48 +63,51 @@ const YearSection = () => {
 
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              <div className="col-lg-5 box6">
+              <div className="col-lg-5">
                 <div className="list-white-cart lime-green-cart ctm-card">
                   <Link href="/most-races-won" className="pabs"></Link>
+                  {(() => {
+                  const boxData = getBoxData(fixedApis.box1);
+                  const list = Array.isArray(boxData?.data) ? boxData.data : [];
+                  const firstImage =list[0]?.image_url ||"/images/rider_avatar.png";
 
-                  {getBoxData(fixedApis.box1).error ? (
-                    <>  <h4 className="fs-chenge">
-                      {data?.[fixedApis.box1]?.message}
-                    </h4>
+                  if(boxData.error){  
+                  return (
+                    <>
+                      <h4 className="fs-chenge">
+                        {data?.[fixedApis.box1]?.message}
+                      </h4>
                       <div className="no-data-wrap">
                         <ErrorMessage
                           errorType={getBoxData(fixedApis.box1).errorType}
                         />
-                      </div>
-                    </>
-                  ) : (
+                        </div>
+                        </>
+                  )
+}
+                  return (
                     <>
                       <div className="card-content-wraper aaaa">
                         <h4 className="fs-chenge">
                           {data?.[fixedApis.box1]?.message}
                         </h4>
                         <ul>
-                          {(Array.isArray(getBoxData(fixedApis.box1).data)
-                            ? getBoxData(fixedApis.box1).data
-                            : []
-                          )
-                            .slice(0, 5)
-                            .map((rider, index) => (
-                              <li key={index}>
-                                <strong>{index + 1}</strong>
-                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
-                                  {renderFlag(rider?.rider_country)}
-                                  <h6>{rider?.rider_name || "..."}</h6>
-                                </div>
+                          {list.slice(0, 5).map((rider, index) => (
+                            <li key={index}>
+                              <strong>{index + 1}</strong>
+                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
+                                {renderFlag(rider?.rider_country)}
+                                <h6>{rider?.rider_name || "..."}</h6>
+                              </div>
 
-                                {rider?.wins && <span>{rider.wins}</span>}
-                              </li>
-                            ))}
+                              {rider?.wins && <span>{rider.wins}</span>}
+                            </li>
+                          ))}
                         </ul>
                       </div>
                       <div className="image_link-wraper">
                         <img
-                          src="/images/player3.png"
+                          src={firstImage}
                           alt=""
                           className="absolute-img"
                         />
@@ -118,7 +121,7 @@ const YearSection = () => {
                         </div>
                       </div>
                     </>
-                  )}
+                  )})()}
                 </div>
               </div>
 
@@ -156,13 +159,15 @@ const YearSection = () => {
                                       <strong>{rider.count} </strong> times
                                     </h5>
                                   )}
-                                </>
-                              ))}
-                            <img
-                              src="/images/player4.png"
+                               
+                                  <img
+                              src={rider?.image_url || "/images/rider_avatar.png"}
                               alt=""
                               className="absolute-img"
                             />
+                             </>
+                              ))}
+                          
                             <Link
                               href="/top-10-in-stages"
                               className="green-circle-btn"
@@ -207,13 +212,14 @@ const YearSection = () => {
                                       <strong>{rider.racing_days} </strong> days
                                     </h5>
                                   )}
-                                </>
-                              ))}
-                            <img
-                              src="/images/player6.png"
+                                    <img
+                              src={rider?.image_url || "/images/rider_avatar.png"}
                               alt=""
                               className="absolute-img"
                             />
+                                </>
+                              ))}
+                          
                             <Link
                               href="/rider-with-most-racing-days"
                               className="white-circle-btn"
@@ -339,7 +345,7 @@ const YearSection = () => {
                               )}
 
                               <img
-                                src="/images/player7.png"
+                                src={team?.image_url || "/images/rider_avatar.png"}
                                 alt=""
                                 className="absolute-img"
                               />

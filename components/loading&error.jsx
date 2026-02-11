@@ -377,6 +377,68 @@ export const BoxSkeleton2 = () => {
   );
 };
 
+export const BoxSkeleton3 = () => {
+  return (
+    <div className="container py-3">
+      <div className="row g-3">
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm" style={{ borderRadius: '0.5rem' }}>
+            <div className="card-body">
+              <div className="placeholder-glow">
+                <span className="placeholder bg-dark col-6 mb-3"></span>
+                <div className="mb-2">
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder col-12" style={{ height: '20px', backgroundColor: '#999' }}></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm" style={{ borderRadius: '0.5rem' }}>
+            <div className="card-body">
+              <div className="placeholder-glow">
+                <div className="d-flex align-items-center mb-3">
+                  <span className="placeholder me-2" style={{ width: '60px', height: '16px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder bg-secondary col-7"></span>
+                </div>
+                <div className="mb-2">
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+
+                </div>
+                <div className="text-center">
+                  <h1 className="display-4 text-secondary opacity-25">--</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm" style={{ borderRadius: '0.5rem' }}>
+            <div className="card-body">
+              <div className="placeholder-glow">
+                <div className="d-flex align-items-center mb-3">
+                  <span className="placeholder me-2" style={{ width: '60px', height: '16px', backgroundColor: '#999' }}></span>
+                  <span className="placeholder bg-secondary col-7"></span>
+                </div>
+                <div className="mb-2">
+                  <span className="placeholder col-12 mb-2" style={{ height: '20px', backgroundColor: '#999' }}></span>
+
+                </div>
+                <div className="text-center">
+                  <h1 className="display-4 text-secondary opacity-25">--</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>    
+      </div>
+    </div>
+  );
+};
+
 export const TwoSectionSkeleton = () => {
   return (
     <div className="container py-4">

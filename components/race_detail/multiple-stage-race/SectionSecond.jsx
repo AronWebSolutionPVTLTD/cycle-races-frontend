@@ -145,7 +145,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               )}
 
                               <img
-                                src="/images/player3.png"
+                                src={rider?.image_url || "/images/rider_avatar.png"}
                                 alt=""
                                 className="absolute-img"
                               />
@@ -198,13 +198,14 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                                       <strong>{rider.total_wins} </strong> times
                                     </h5>
                                   )}
+                                  <img
+                                    src={rider?.image_url || "/images/rider_avatar.png"}
+                                    alt=""
+                                    className="absolute-img"
+                                  />
                                 </>
                               ))}
-                            <img
-                              src="/images/player6.png"
-                              alt=""
-                              className="absolute-img"
-                            />
+
                             <Link
                               href={buildUrlWithParams(
                                 "most-stage-wins-by-nationality"
@@ -300,7 +301,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               )}
 
                               <img
-                                src="/images/player6.png"
+                                src={rider?.image_url || "/images/rider_avatar.png"}
                                 alt=""
                                 className="absolute-img"
                               />
@@ -325,68 +326,72 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                   <Link href={buildUrlWithParams(
                     "most-top10-final-gc-by-nationality"
                   )} className="pabs" />
-                  {getBoxData(fixedApis.box5).error ? (
-                    <>
-                      <h4 className="fs-chenge">
-                        {data?.[fixedApis.box5]?.message}
-                      </h4>
-                      <div className="no-data-wrap">
-                        <ErrorMessage
-                          errorType={getBoxData(fixedApis.box5).errorType}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="card-content-wraper">
-                        <h4 className="fs-chenge">
-                          {data?.[fixedApis.box5]?.message}
-                        </h4>
-                        <ul>
-                          {(Array.isArray(getBoxData(fixedApis.box5).data)
-                            ? getBoxData(fixedApis.box5).data
-                            : []
-                          )
-                            .slice(0, 5)
-                            .map((rider, index) => (
-                              <li key={index}>
-                                <strong>{index + 1}</strong>
-                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
-                                  {renderFlag(rider?.rider_country)}
-                                  <h6>{rider?.rider_name || "..."}</h6>
-                                </div>
+                  {(() => {
+                    const boxData = getBoxData(fixedApis.box5);
+                    const list = Array.isArray(boxData?.data) ? boxData.data : [];
+                    const firstImage = list[0]?.image_url || "/images/rider_avatar.png";
+                    if (boxData.error) {
+                      return (
+                        <>
+                          <h4 className="fs-chenge">
+                            {data?.[fixedApis.box5]?.message}
+                          </h4>
+                          <div className="no-data-wrap">
+                            <ErrorMessage
+                              errorType={getBoxData(fixedApis.box5).errorType}
+                            />
+                          </div>
+                        </>
+                      )
+                    }
+                    return (
+                      <>
+                        <div className="card-content-wraper">
+                          <h4 className="fs-chenge">
+                            {data?.[fixedApis.box5]?.message}
+                          </h4>
+                          <ul>
+                            {list.slice(0, 5)
+                              .map((rider, index) => (
+                                <li key={index}>
+                                  <strong>{index + 1}</strong>
+                                  <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
+                                    {renderFlag(rider?.rider_country)}
+                                    <h6>{rider?.rider_name || "..."}</h6>
+                                  </div>
 
-                                {rider?.top10_count && (
-                                  <span>{rider.top10_count}</span>
-                                )}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                      <div className="image_link-wraper">
-
-                        <img
-                          src="/images/player2.png"
-                          alt=""
-                          className="absolute-img"
-                        />
-                        <div className="link_box">
-                          <Link
-                            href={buildUrlWithParams(
-                              "most-top10-final-gc-by-nationality"
-                            )}
-                            className="glob-btn green-bg-btn"
-                          >
-                            <strong>volledige stats</strong>{" "}
-                            <span>
-                              <img src="/images/arow.svg" alt="" />
-                            </span>
-                          </Link>
+                                  {rider?.top10_count && (
+                                    <span>{rider.top10_count}</span>
+                                  )}
+                                </li>
+                              ))}
+                          </ul>
                         </div>
+                        <div className="image_link-wraper">
 
-                      </div>
-                    </>
-                  )}
+                          <img
+                            src={firstImage}
+                            alt=""
+                            className="absolute-img"
+                          />
+                          <div className="link_box">
+                            <Link
+                              href={buildUrlWithParams(
+                                "most-top10-final-gc-by-nationality"
+                              )}
+                              className="glob-btn green-bg-btn"
+                            >
+                              <strong>volledige stats</strong>{" "}
+                              <span>
+                                <img src="/images/arow.svg" alt="" />
+                              </span>
+                            </Link>
+                          </div>
+
+                        </div>
+                      </>
+                    )
+                  })()}
                 </div>
                 <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
                   <Link
@@ -430,7 +435,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           )}
 
                           <img
-                            src="/images/player6.png"
+                            src={rider?.image_url || "/images/rider_avatar.png"}
                             alt=""
                             className="absolute-img"
                           />
@@ -485,13 +490,14 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                                   <strong>{rider.age} </strong> years
                                 </h5>
                               )}
+                              <img
+                                src={rider?.image_url || "/images/rider_avatar.png"}
+                                alt=""
+                                className="absolute-img"
+                              />
                             </>
                           ))}
-                        <img
-                          src="/images/player6.png"
-                          alt=""
-                          className="absolute-img"
-                        />
+
                         <Link
                           href={buildUrlWithParams(
                             "youngest-participant-by-nationality"
