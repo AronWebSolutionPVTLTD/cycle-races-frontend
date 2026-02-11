@@ -2198,3 +2198,80 @@ section.featured-section {
       padding: 0;
   }
 }
+
+.rider-compare-show-result-section.sticky {
+    position: fixed;
+    top: -147px;
+    left: 0;
+    width: 100%;
+    z-index: 9;
+    background: #fff;
+    transform: translateY(216px);
+    transition: transform 0.7s ease;
+    transition-delay: .5s;
+}
+
+.rider-compare-show-result-section.sticky
+.rider-compare-show-result-container {
+  max-width: 1312px;
+  margin: 0 auto;
+  padding: 24px 64px;
+}
+.rider-compare-show-result-section.sticky .rider-compare-show-result {
+    padding: 0;
+}
+
+.rider-compare-show-result-section.sticky .rider-compare-show-result::before {
+    opacity: 0;
+}
+body:not(:has(.slim-nav.active)):has(.rider-compare-show-result-section.sticky) header.relative-header.sticky-header.sticky-top {
+    box-shadow: none;
+    border-bottom: 2px solid #F7F6F0;
+}
+@media ( max-width: 767px ){
+  .rider-compare-show-result-section.sticky {
+    transform: translateY(214px);
+}
+.rider-compare-show-result-section.sticky .container.rider-compare-show-result-container {
+    padding: 16px;
+}
+
+.rider-compare-show-result-section.sticky .rider-compare-show-result {
+    margin: 0;
+    grid-template-columns: 1fr 72px 1fr;
+    gap: 16px;
+}
+
+.rider-compare-show-result-section.sticky .compare-result-col button {
+    display: none;
+}
+
+.rider-compare-show-result-section.sticky .rider-compare-show-result h4 {
+    font-size: 13px;
+    line-height: 1;
+}
+
+.rider-compare-show-result-section.sticky .rider-compare-show-result h4 img {
+    display: none;
+}
+
+.rider-compare-show-result-section.sticky .compare-result-digits-col {
+    display: flex;
+    gap: 8px;
+}
+
+.rider-compare-show-result-section.sticky .compare-result-digits-col button {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    font-size: 13px;
+}
+
+.rider-compare-show-result-section.sticky .rider-compare-show-result .compare-result-col--last * {
+    text-align: right !important;
+}
+
+.rider-compare-show-result-section.sticky .rider-compare-show-result h6 {
+    font-size: 14px;
+}
+}
