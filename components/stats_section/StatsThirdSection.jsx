@@ -141,7 +141,7 @@ const StatsThirdSection = ({
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_key || "..."}</h6>
                               </div>
-                              {rider?.total_distance && (
+                              {rider?.total_distance != null && rider.total_distance !== 0 && (
                                 <h5>
                                   <strong>{rider.total_distance}</strong> KM
                                 </h5>
@@ -347,29 +347,35 @@ const StatsThirdSection = ({
                 <div className="list-white-cart lime-green-cart ctm-card">
                   <Link href={buildUrlWithParams("/stats/teams-with-most-top-10-gc-finishes")} className="pabs" />
 
-                  {getBoxData(fixedApis.box9).error ? (
-                    <>  <h4 className="fs-chenge">
-                      {data?.[fixedApis.box9]?.message}
-                    </h4>
-                      <div className="no-data-wrap">
-                        <ErrorMessage
-                          errorType={getBoxData(fixedApis.box9).errorType}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
+
+                  {(() => {
+                    const boxData = getBoxData(fixedApis.box9);
+                    const list = Array.isArray(boxData?.data) ? boxData.data : [];
+                    const firstImage = list[0]?.image_url || "/images/rider_avatar.png";
+
+                    if (boxData.error) {
+                      return (
+                        <>
+                          <h4 className="fs-chenge">
+                            {data?.[fixedApis.box9]?.message}
+                          </h4>
+                          <div className="no-data-wrap">
+                            <ErrorMessage
+                              errorType={getBoxData(fixedApis.box9).errorType}
+                            />
+                          </div>
+                        </>
+                      )
+                    }
+                    return (
+                      <>
                       <div className="card-content-wraper">
                         <h4 className="fs-chenge">
                           {" "}
                           {data?.[fixedApis.box9]?.message}
                         </h4>
                         <ul>
-                          {(Array.isArray(getBoxData(fixedApis.box9).data)
-                            ? getBoxData(fixedApis.box9).data
-                            : []
-                          )
-                            .slice(0, 5)
+                          {list.slice(0, 5)
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{index + 1}</strong>
@@ -385,7 +391,7 @@ const StatsThirdSection = ({
 
                         <div className="image_link-wraper">
                           <img
-                            src="/images/player6.png"
+                            src={firstImage}
                             alt=""
                             className="absolute-img"
                           />
@@ -400,7 +406,8 @@ const StatsThirdSection = ({
                         </div>
                       </div>
                     </>
-                  )}
+                    )
+                  })()}
                 </div>
               </div>
             </>

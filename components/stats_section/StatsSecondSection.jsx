@@ -86,29 +86,33 @@ const StatsSecondSection = ({
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams("/stats/most-stage-wins")} className="pabs" />
 
-                  {getBoxData(fixedApis.box1).error ? (
-                    <>
-                      <h4 className="fs-chenge">
-                        {data?.[fixedApis.box1]?.message}
-                      </h4>
-                      <div className="no-data-wrap">
-                        <ErrorMessage
-                          errorType={getBoxData(fixedApis.box1).errorType}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
+                  {(() => {
+                    const boxData = getBoxData(fixedApis.box1);
+                    const list = Array.isArray(boxData?.data) ? boxData.data : [];
+                    const firstImage = list[0]?.image_url || "/images/rider_avatar.png";
+
+                    if (boxData.error) {
+                      return (
+                        <>
+                          <h4 className="fs-chenge">
+                            {data?.[fixedApis.box1]?.message}
+                          </h4>
+                          <div className="no-data-wrap">
+                            <ErrorMessage
+                              errorType={getBoxData(fixedApis.box1).errorType}
+                            />
+                          </div>
+                        </>
+                      )
+                    }
+                    return (
+                      <>
                       <div className="card-content-wraper">
                         <h4 className="fs-chenge">
                           {data?.[fixedApis.box1]?.message}
                         </h4>
                         <ul>
-                          {(Array.isArray(getBoxData(fixedApis.box1).data)
-                            ? getBoxData(fixedApis.box1).data
-                            : []
-                          )
-                            .slice(0, 5)
+                          {list.slice(0, 5)
                             .map((rider, index) => (
                               <li key={index}>
                                 <strong>{index + 1}</strong>
@@ -123,7 +127,7 @@ const StatsSecondSection = ({
                         </ul>
                         <div className="image_link-wraper">
                           <img
-                            src="/images/player3.png"
+                            src={firstImage}
                             alt=""
                             className="absolute-img"
                           />
@@ -141,7 +145,9 @@ const StatsSecondSection = ({
                         </div>
                       </div>
                     </>
-                  )}
+                    )
+                  })()}
+                  
                 </div>
               </div>
 

@@ -81,64 +81,68 @@ const StatsFirstSection = ({
                 <div className="list-white-cart lime-green-cart 11 ctm-card">
                   <Link href={buildUrlWithParams("/stats/most-races-won")} className="pabs" />
 
-                  {getBoxData(fixedApis.box1).error ? (
-                    <>
-                      <h4 className="fs-chenge">
-                        {" "}
-                        {data?.[fixedApis.box1]?.message}
-                      </h4>
-                      <div className="no-data-wrap">
-                        <ErrorMessage
-                          errorType={getBoxData(fixedApis.box1).errorType}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="card-content-wraper">
-                        <h4 className="fs-chenge">
-                          {" "}
-                          {data?.[fixedApis.box1]?.message}
-                        </h4>
-                        <ul>
-                          {(Array.isArray(getBoxData(fixedApis.box1).data)
-                            ? getBoxData(fixedApis.box1).data
-                            : []
-                          )
-                            .slice(0, 5)
-                            .map((rider, index) => (
-                              <li key={index}>
-                                <strong>{index + 1}</strong>
-                                <div className="name-wraper name-wraper-green sdsd" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
-                                  {renderFlag(rider?.rider_country)}
-                                  <h6>{rider?.rider_name || "..."}</h6>
-                                </div>
+                  {(() => {
+                    const boxData = getBoxData(fixedApis.box1);
+                    const list = Array.isArray(boxData?.data) ? boxData.data : [];
+                    const firstImage = list[0]?.image_url || "/images/rider_avatar.png";
 
-                                {rider?.wins && <span>{rider.wins}</span>}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                      <div className="image_link-wraper">
-                        <img
-                          src="/images/player3.png"
-                          alt=""
-                          className="absolute-img"
-                        />
-                        <div className="link_box">
-                          <Link
-                            href={buildUrlWithParams("/stats/most-races-won")}
-                            className="glob-btn green-bg-btn"
-                          >
-                            <strong>volledige stats</strong>{" "}
-                            <span>
-                              <img src="/images/arow.svg" alt="" />
-                            </span>
-                          </Link>
+                    if (boxData.error) {
+                      return (
+                        <>
+                          <h4 className="fs-chenge">
+                            {data?.[fixedApis.box1]?.message}
+                          </h4>
+                          <div className="no-data-wrap">
+                            <ErrorMessage
+                              errorType={getBoxData(fixedApis.box1).errorType}
+                            />
+                          </div>
+                        </>
+                      )
+                    }
+                    return (
+                      <>
+                        <div className="card-content-wraper">
+                          <h4 className="fs-chenge">
+                            {" "}
+                            {data?.[fixedApis.box1]?.message}
+                          </h4>
+                          <ul>
+                            {list.slice(0, 5)
+                              .map((rider, index) => (
+                                <li key={index}>
+                                  <strong>{index + 1}</strong>
+                                  <div className="name-wraper name-wraper-green sdsd" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
+                                    {renderFlag(rider?.rider_country)}
+                                    <h6>{rider?.rider_name || "..."}</h6>
+                                  </div>
+
+                                  {rider?.wins && <span>{rider.wins}</span>}
+                                </li>
+                              ))}
+                          </ul>
                         </div>
-                      </div>
-                    </>
-                  )}
+                        <div className="image_link-wraper">
+                          <img
+                            src={firstImage}
+                            alt=""
+                            className="absolute-img"
+                          />
+                          <div className="link_box">
+                            <Link
+                              href={buildUrlWithParams("/stats/most-races-won")}
+                              className="glob-btn green-bg-btn"
+                            >
+                              <strong>volledige stats</strong>{" "}
+                              <span>
+                                <img src="/images/arow.svg" alt="" />
+                              </span>
+                            </Link>
+                          </div>
+                        </div>
+                      </>
+                    )
+                  })()}
                 </div>
               </div>
 
@@ -161,6 +165,7 @@ const StatsFirstSection = ({
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
+                                <>
                                 <div key={index}>
                                   <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.rider_country)}
@@ -173,12 +178,14 @@ const StatsFirstSection = ({
                                     </h5>
                                   )}
                                 </div>
+                                 <img
+                                 src={rider?.image_url || "/images/rider_avatar.png"}
+                                 alt=""
+                                 className="absolute-img"
+                               />
+                               </>
                               ))}
-                            <img
-                              src="/images/player4.png"
-                              alt=""
-                              className="absolute-img"
-                            />
+                           
                             <Link
                               href={buildUrlWithParams("/stats/top-10-in-stages")}
                               className="green-circle-btn"
@@ -223,13 +230,14 @@ const StatsFirstSection = ({
                                       <strong>{rider.racing_days} </strong> days
                                     </h5>
                                   )}
-                                </>
-                              ))}
-                            <img
-                              src="/images/player6.png"
+                                    <img
+                              src={rider?.image_url || "/images/rider_avatar.png"}
                               alt=""
                               className="absolute-img"
                             />
+                                </>
+                              ))}
+                          
                             <Link
                               href={buildUrlWithParams("/stats/rider-with-most-racing-days")}
                               className="white-circle-btn"
@@ -366,7 +374,7 @@ const StatsFirstSection = ({
                                 )}
 
                                 <img
-                                  src="/images/player7.png"
+                                  src={team?.image_url || "/images/rider_avatar.png"}
                                   alt=""
                                   className="absolute-img"
                                 />

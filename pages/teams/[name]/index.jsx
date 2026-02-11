@@ -120,7 +120,7 @@ export default function TeamDetail({ initialTeam ,apiError}) {
   }
 
   const teamName = headerData?.team_name || "N/A";
-  const teamImage = headerData?.image_url || headerData?.image;
+  const teamImage = headerData?.image_url || headerData?.team_image_url;
   const teamFlag = headerData?.country_code || headerData?.flag || headerData?.country;
   const teamCountry = headerData?.country_name || headerData?.country || headerData?.countryName;
   const teamFounded = headerData?.start_year || headerData?.founded_year || headerData?.founded;
@@ -148,7 +148,7 @@ export default function TeamDetail({ initialTeam ,apiError}) {
                 ) : (
                   <div className="hdr-img_wrap">
                     <img
-                      src="/images/jersey1.png"
+                      src="/images/rider_avatar.png"
                       alt=""
                       className="absolute-img"
                     />

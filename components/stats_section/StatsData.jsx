@@ -107,14 +107,15 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                                   times
                                 </h5>
                               )}
+                              <img
+                                src={rider?.image_url || "/images/rider_avatar.png"}
+                                alt=""
+                                className="absolute-img"
+                              />
                             </>
                           ))}
 
-                        <img
-                          src="/images/player6.png"
-                          alt=""
-                          className="absolute-img"
-                        />
+
                         <Link
                           href={buildUrlWithParams("/stats/most-second-places")}
                           className="green-circle-btn"
@@ -205,14 +206,15 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                                   <strong>{rider.wins} </strong> wins
                                 </h5>
                               )}
+                              <img
+                                src={rider?.image_url || "/images/rider_avatar.png"}
+                                alt=""
+                                className="absolute-img"
+                              />
                             </>
                           ))}
 
-                        <img
-                          src="/images/player6.png"
-                          alt=""
-                          className="absolute-img"
-                        />
+
                         <Link
                           href={buildUrlWithParams("/stats/youngest-riders-with-most-wins")}
                           className="green-circle-btn"
@@ -297,7 +299,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                               )}
 
                               <img
-                                src="/images/player1.png"
+                                src={rider?.image_url || "/images/rider_avatar.png"}
                                 alt=""
                                 className="absolute-img"
                               />
@@ -349,13 +351,14 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                                   <strong>{race.distance} </strong> km
                                 </h5>
                               )}
+                              <img
+                                src={race?.image_url || "/images/rider_avatar.png"}
+                                alt=""
+                                className="absolute-img"
+                              />
                             </>
                           ))}
-                        <img
-                          src="/images/player2.png"
-                          alt=""
-                          className="absolute-img"
-                        />
+
                         <Link
                           href={buildUrlWithParams("/stats/shortest-races")}
                           className="green-circle-btn"

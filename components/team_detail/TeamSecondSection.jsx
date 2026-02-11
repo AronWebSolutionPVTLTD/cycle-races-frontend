@@ -136,7 +136,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                     }
 
                     const rider = Array.isArray(ridersList) ? ridersList[0] : ridersList;
-                    const riderImage = rider?.image_url || rider?.image || "/images/player6.png";
+                    const riderImage = rider?.image_url || "/images/rider_avatar.png";
 
                     return (
                       <>
@@ -244,7 +244,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     const rider = ridersArray[0];
 
-                    const riderImage = rider?.image_url || rider?.image || "/images/player6.png";
+                    const riderImage = rider?.image_url || "/images/rider_avatar.png";
 
                     return (
                       <>
@@ -307,31 +307,34 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
             <div className="col-lg-5 col-md-12">
               <div className="list-white-cart lime-green-cart ctm-card">
                 <Link href={buildUrlWithParams("last-5-podium-spots")} className="pabs" />
-                {getBoxData(fixedApis.box5).error ? (
-                  <>
-                    <h4 className="fs-chenge">
-                      {" "}
-                      {data?.[fixedApis.box5]?.message}
-                    </h4>
-                    <div className="no-data-wrap">
-                      <ErrorMessage
-                        errorType={getBoxData(fixedApis.box5).errorType}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
+
+                {(() => {
+                  const boxData = getBoxData(fixedApis.box5);
+                  const list = Array.isArray(boxData?.data) ? boxData.data : [];
+                  const firstImage = list[0]?.image_url || "/images/rider_avatar.png";
+                  if (boxData.error) {
+                    return (
+                      <>
+                        <h4 className="fs-chenge">
+                          {data?.[fixedApis.box5]?.message}
+                        </h4>
+                        <div className="no-data-wrap">
+                          <ErrorMessage
+                            errorType={getBoxData(fixedApis.box5).errorType}
+                          />
+                        </div>
+                      </>
+                    )
+                  }
+                  return (
+                    <>
                     <div className="card-content-wraper">
                       <h4 className="fs-chenge">
                         {" "}
                         {data?.[fixedApis.box5]?.message}
                       </h4>
                       <ul className="wins-team-list">
-                        {(Array.isArray(getBoxData(fixedApis.box5).data)
-                          ? getBoxData(fixedApis.box5).data
-                          : []
-                        )
-                          .slice(0, 5)
+                        {list.slice(0, 5)
                           .map((podium, index) => (
                             <li key={index}>
                               <span>{index + 1}</span>
@@ -355,7 +358,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     <div className="image_link-wraper">
                       <img
-                        src="/images/player6.png"
+                        src={firstImage}
                         alt=""
                         className="absolute-img"
                       />
@@ -369,7 +372,8 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                       </div>
                     </div>
                   </>
-                )}
+                )
+                  })()}
               </div>
             </div>
 
@@ -397,7 +401,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                         const rider = ridersArray[0];
 
 
-                        const riderImage = rider?.image_url || rider?.image || "/images/player6.png";
+                        const riderImage = rider?.image_url || "/images/rider_avatar.png";
 
                         return (
                           <>
@@ -447,7 +451,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                         }
                         const rider = Array.isArray(ridersList) ? ridersList[0] : ridersList;
 
-                        const riderImage = rider?.image_url || rider?.image || "/images/player6.png";
+                        const riderImage = rider?.image_url || "/images/rider_avatar.png";
 
                         return (
                           <>

@@ -263,7 +263,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                     }
 
                     const rider = ridersArray[0];
-                    const riderImage = rider?.image_url || rider?.image || "/images/player6.png";
+                    const riderImage = rider?.image_url || "/images/rider_avatar.png";
 
                     return (
                       <>
@@ -492,19 +492,26 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
               <div className="list-white-cart lime-green-cart ctm-card">
 
                 <Link href={buildUrlWithParams("last-5-wins")} className="pabs" />
-                {getBoxData(fixedApis.box9).error ? (
-                  <>
-                    <h4 className="fs-chenge">
-                      {" "}
-                      {data?.[fixedApis.box9]?.message}
-                    </h4>
-                    <div className="no-data-wrap">
-                      <ErrorMessage
-                        errorType={getBoxData(fixedApis.box2).errorType}
-                      />
-                    </div>
-                  </>
-                ) : (
+                {(() => {
+                  const boxData = getBoxData(fixedApis.box9);
+                  const list = Array.isArray(boxData?.data) ? boxData.data : [];
+                  const firstImage = list[0]?.image_url || "/images/rider_avatar.png";
+                  if (boxData.error) {
+                    return (
+                      <>
+                        <h4 className="fs-chenge">
+                          {data?.[fixedApis.box9]?.message}
+                        </h4>
+                        <div className="no-data-wrap">
+                          <ErrorMessage
+                            errorType={getBoxData(fixedApis.box9).errorType}
+                          />
+                        </div>
+                      </>
+                    )
+                  }
+            
+                  return (
                   <>
                     <div className="card-content-wraper">
                       <h4 className="fs-chenge">
@@ -512,11 +519,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                         {data?.[fixedApis.box9]?.message}
                       </h4>
                       <ul className="wins-team-list">
-                        {(Array.isArray(getBoxData(fixedApis.box9).data)
-                          ? getBoxData(fixedApis.box9).data
-                          : []
-                        )
-                          .slice(0, 5)
+                        {list.slice(0, 5)
                           .map((win, index) => (
                             <li key={index}>
                               <span>{index + 1}</span>
@@ -540,7 +543,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                     <div className="image_link-wraper">
                       <img
-                        src="/images/player6.png"
+                        src={firstImage}
                         alt=""
                         className="absolute-img"
                       />
@@ -554,7 +557,8 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                       </div>
                     </div>
                   </>
-                )}
+                )
+                  })()}
               </div>
             </div>
 

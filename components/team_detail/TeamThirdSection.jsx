@@ -236,7 +236,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                     const rider = ridersList[0];
 
 
-                    const riderImage = "/images/player6.png";
+                    const riderImage = rider?.image_url || "/images/rider_avatar.png";
 
                     return (
                       <>

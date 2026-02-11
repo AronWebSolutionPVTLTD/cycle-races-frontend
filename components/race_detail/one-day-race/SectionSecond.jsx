@@ -135,14 +135,13 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                                   <strong>{rider.total_wins} </strong>times
                                 </h5>
                               )}
+                              <img
+                                src={rider?.image_url || "/images/rider_avatar.png"}
+                                alt=""
+                                className="absolute-img"
+                              />
                             </>
                           ))}
-
-                        <img
-                          src="/images/player6.png"
-                          alt=""
-                          className="absolute-img"
-                        />
 
                         <Link
                           href={buildUrlWithParams("most-wins-nationality")}
@@ -230,62 +229,66 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
               <div className="col-lg-5 box6 tt">
                 <div className="list-white-cart ctm-card">
                   <Link href={buildUrlWithParams("top-best-results")} className="pabs" />
+                  {(() => {
+                    const boxData = getBoxData(fixedApis.box5);
+                    const list = Array.isArray(boxData?.data) ? boxData.data : [];
+                    const firstImage = list[0]?.image_url || "/images/rider_avatar.png";
 
-                  {getBoxData(fixedApis.box5).error ? (
-                    <> <h4 className="fs-chenge">
-                      {data?.[fixedApis.box5]?.message}
-                    </h4>
-                      <div className="no-data-wrap">
-                        <ErrorMessage
-                          errorType={getBoxData(fixedApis.box5).errorType}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="card-content-wraper">
-                        <h4 className="fs-chenge">
-                          {data?.[fixedApis.box5]?.message}
-                        </h4>
-                        <ul>
-                          {(Array.isArray(getBoxData(fixedApis.box5).data)
-                            ? getBoxData(fixedApis.box5).data
-                            : []
-                          )
-                            .slice(0, 5)
-                            .map((rider, index) => (
-                              <li key={index}>
-                                <div className="name-wraper" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
-                                  {renderFlag(rider?.nationality)}
-                                  <h6>{rider?.rider_name || "..."}</h6>
-                                </div>
+                    if (boxData.error) {
+                      return (
+                        <>
+                          <h4 className="fs-chenge">
+                            {data?.[fixedApis.box5]?.message}
+                          </h4>
+                          <div className="no-data-wrap">
+                            <ErrorMessage
+                              errorType={getBoxData(fixedApis.box5).errorType}
+                            />
+                          </div>
+                        </>
+                      )
+                    }
+                    return (
+                      <>
+                        <div className="card-content-wraper">
+                          <h4 className="fs-chenge">
+                            {data?.[fixedApis.box5]?.message}
+                          </h4>
+                          <ul>
+                            {list.slice(0, 5)
+                              .map((rider, index) => (
+                                <li key={index}>
+                                  <div className="name-wraper" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
+                                    {renderFlag(rider?.nationality)}
+                                    <h6>{rider?.rider_name || "..."}</h6>
+                                  </div>
 
-                                {rider?.rank && <span>{rider.rank}</span>}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                      <div className="image_link-wraper">
-                        <img
-                          src="/images/player3.png"
-                          alt=""
-                          className="absolute-img"
-                        />
-                        <div className="link_box">
-                          <Link
-                            href={buildUrlWithParams("top-best-results")}
-                            className="glob-btn"
-                          >
-                            <strong>volledige stats</strong>{" "}
-                            <span>
-                              <img src="/images/arow.svg" alt="" />
-                            </span>
-                          </Link>
+                                  {rider?.rank && <span>{rider.rank}</span>}
+                                </li>
+                              ))}
+                          </ul>
                         </div>
-                      </div>
-                    </>
-
-                  )}
+                        <div className="image_link-wraper">
+                          <img
+                            src={firstImage}
+                            alt=""
+                            className="absolute-img"
+                          />
+                          <div className="link_box">
+                            <Link
+                              href={buildUrlWithParams("top-best-results")}
+                              className="glob-btn"
+                            >
+                              <strong>volledige stats</strong>{" "}
+                              <span>
+                                <img src="/images/arow.svg" alt="" />
+                              </span>
+                            </Link>
+                          </div>
+                        </div>
+                      </>
+                    )
+                  })()}
                 </div>
               </div>
 

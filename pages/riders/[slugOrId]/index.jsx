@@ -10,7 +10,7 @@ import RiderThirdSection from "@/components/rider_detail/RiderThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import RiderLastSection from "@/components/rider_detail/RiderLastSection";
 
-export default function RiderDetail({ year, initialRider,apiError  }) {
+export default function RiderDetail({ year, initialRider, apiError }) {
   const router = useRouter();
   const [isRouterReady, setIsRouterReady] = useState(false);
   const [rider, setRider] = useState(initialRider || null);
@@ -70,25 +70,25 @@ export default function RiderDetail({ year, initialRider,apiError  }) {
   if (apiError) {
     return (
       <div className="container pt-161px">
-      <div className="alert alert-danger text-center ">
-        <h3>Something went wrong</h3>
-        <p>
-          We’re having trouble loading this rider right now.
-          Please try again later.
-        </p>
-        <a href="/riders" className="glob-btn green-bg-btn">
-                    <strong>Go to Riders</strong>
-                    <span>
-                        <img src="/images/arow.svg" alt="arrow-right" />
-                    </span>
-                    </a>
-                    
-      </div>
+        <div className="alert alert-danger text-center ">
+          <h3>Something went wrong</h3>
+          <p>
+            We’re having trouble loading this rider right now.
+            Please try again later.
+          </p>
+          <a href="/riders" className="glob-btn green-bg-btn">
+            <strong>Go to Riders</strong>
+            <span>
+              <img src="/images/arow.svg" alt="arrow-right" />
+            </span>
+          </a>
+
+        </div>
       </div>
     );
   }
-  
-   useEffect(() => {
+
+  useEffect(() => {
     if (!rider?.slug) return;
 
     const fetchActiveYears = async () => {
@@ -106,7 +106,7 @@ export default function RiderDetail({ year, initialRider,apiError  }) {
         setYearsLoading(false);
       }
     };
-    
+
 
     fetchActiveYears();
   }, [rider]);
@@ -125,8 +125,8 @@ export default function RiderDetail({ year, initialRider,apiError  }) {
     );
   }
 
-  
-// const fetchRiderActiveYears = async (riderId) => {
+
+  // const fetchRiderActiveYears = async (riderId) => {
   //   try {
   //     setYearsLoading(true);
   //     const response = await callAPI("GET", `/rider-stats/${riderId}/getRiderActiveYears`);
@@ -168,7 +168,7 @@ export default function RiderDetail({ year, initialRider,apiError  }) {
   //   }
   // };
 
- 
+
 
   // useEffect(() => {
   //   if (router.isReady) {
@@ -198,7 +198,7 @@ export default function RiderDetail({ year, initialRider,apiError  }) {
   //     </div>
   //   );
   // }
-  
+
   return (
     <main className="inner-pages-main rider-detail-main  header-layout-2">
       <div className="dropdown-overlay"></div>
@@ -265,16 +265,16 @@ export default function RiderDetail({ year, initialRider,apiError  }) {
           <div className="row">
             <RiderFirstSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
-              imageUrl={rider.image_url} /> 
+              imageUrl={rider.image_url} />
 
             <RiderSecondSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
               imageUrl={rider.image_url} />
 
- <RiderThirdSection riderId={rider.slug}
+            <RiderThirdSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
               imageUrl={rider.image_url} />
-{/* 
+            {/* 
               <RiderLastSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
               imageUrl={rider.image_url} /> */}
@@ -304,9 +304,10 @@ export async function getServerSideProps(context) {
     );
 
     if (res.status === 404) {
-      return { notFound: true ,
+      return {
+        notFound: true,
         props: {
-          isDetailPage: false, 
+          isDetailPage: false,
         },
       };
     }
@@ -325,9 +326,10 @@ export async function getServerSideProps(context) {
     const json = await res.json();
 
     if (!json?.data?.data) {
-      return { notFound: true ,
+      return {
+        notFound: true,
         props: {
-          isDetailPage: false, 
+          isDetailPage: false,
         },
       };
     }
@@ -336,7 +338,7 @@ export async function getServerSideProps(context) {
       props: {
         initialRider: json.data.data,
         year,
-        isDetailPage: true, 
+        isDetailPage: true,
       },
     };
   } catch {
