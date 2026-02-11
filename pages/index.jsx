@@ -17,7 +17,7 @@ export default function Home() {
       </Head>
 
       <main className="home-main inner-pages-main">
-       {/* <TopSection /> */}
+       <TopSection />
         <FirstSection />
         <YearSection />
         <MostWin
@@ -25,8 +25,8 @@ export default function Home() {
           title="Most Wins"
           dataField="wins"
         />
-        <UpcomingYear />
-        {/* <LastSection /> */}
+        <UpcomingYear /> 
+         {/* <LastSection /> */}
       </main>
     </>
   );

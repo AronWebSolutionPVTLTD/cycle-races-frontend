@@ -8,6 +8,7 @@ import { renderFlag } from "@/components/RenderFlag";
 import RiderSecondSection from "@/components/rider_detail/RiderSecondSection";
 import RiderThirdSection from "@/components/rider_detail/RiderThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
+import RiderLastSection from "@/components/rider_detail/RiderLastSection";
 
 export default function RiderDetail({ year, initialRider,apiError  }) {
   const router = useRouter();
@@ -273,6 +274,10 @@ export default function RiderDetail({ year, initialRider,apiError  }) {
  <RiderThirdSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
               imageUrl={rider.image_url} />
+{/* 
+              <RiderLastSection riderId={rider.slug}
+              filterYear={filterYear !== "All-time" ? filterYear : null}
+              imageUrl={rider.image_url} /> */}
           </div>
         </div>
       </section>

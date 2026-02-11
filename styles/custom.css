@@ -2190,6 +2190,9 @@ section.featured-section {
 .bg-green{
   background-color: #678F89 !important;
 }
+.team-cart.featured-card .noData-error {
+  color: #fff !important;
+}
 @media ( max-width: 767px ){
     .team-cart.featured-card  .text-wraper h4 {
       padding: 0;
