@@ -274,10 +274,10 @@ export default function RiderDetail({ year, initialRider, apiError }) {
             <RiderThirdSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
               imageUrl={rider.image_url} />
-            {/* 
-              <RiderLastSection riderId={rider.slug}
+
+            <RiderLastSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
-              imageUrl={rider.image_url} /> */}
+              imageUrl={rider.image_url} />
           </div>
         </div>
       </section>

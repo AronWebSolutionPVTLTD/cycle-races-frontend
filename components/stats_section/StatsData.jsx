@@ -50,7 +50,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
       response?.data?.data?.shortest_stage_races,
       response?.data?.data,
       response?.data,
-      response?.data.riders,
+      response?.data?.riders,
       response,
     ];
 

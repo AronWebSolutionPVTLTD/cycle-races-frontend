@@ -1,280 +1,163 @@
 import Link from "next/link";
 import { useMultipleData } from "../home_api_data";
-import { BoxSkeleton, BoxSkeleton3, CardSkeleton, ErrorMessage, ErrorStats, TwoSectionSkeleton } from "../loading&error";
+import { CardSkeleton, ErrorMessage } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
-import { useRouter } from "next/router";
-  const RiderLastSection = ({ riderId, filterYear, imageUrl }) => {
-  const router = useRouter();
+
+const RiderLastSection = ({ riderId }) => {
   const fixedApis = {
-    box1: "getGrandToursRidden",
-    box2: "getRiderLastVictorOneData",
-    box3: "getRiderMostRacedCountry",
-};
-
-  const buildQueryParams = () => {
-    let params = {};
-    if (filterYear && filterYear !== "All-time") {
-      params.year = filterYear;
-    }
-    return params;
+    box1: "getSimilarRiders",
   };
 
-  const buildUrlWithParams = (statsPath) => {
-    const params = buildQueryParams();
-    const queryString = Object.keys(params)
-      .map(
-        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
-      )
-      .join("&");
+  const riderEndpoints = [fixedApis.box1];
 
-    const basePath = `/riders/${riderId}/${statsPath}`;
-    return queryString ? `${basePath}?${queryString}` : basePath;
-  };
-
-  const raceEndpoints = [
-    fixedApis.box1,
-
-  ];
-
-  const riderEndpoints = [
-    fixedApis.box2,
-    fixedApis.box3,
-  ]
-
-  const endpointsMappings = {
-
-  };
-
-  const {
-    data: riderData,
-    loading: riderLoading,
-    error: riderError,
-  } = useMultipleData(riderEndpoints, {
+  const { data, loading, error } = useMultipleData(riderEndpoints, {
     id: riderId,
-    queryParams: buildQueryParams(),
-    endpointsMappings: endpointsMappings,
     idType: "rider",
   });
 
-  const {
-    data: raceData,
-    loading: raceLoading,
-    error: raceError,
-  } = useMultipleData(raceEndpoints, {
-    id: riderId,
-    queryParams: buildQueryParams(),
-    endpointsMappings: endpointsMappings,
-    idType: "race",
-  });
+  const riders =
+    data?.[fixedApis.box1]?.data?.data || [];
 
-  const data = { ...raceData, ...riderData };
-  const loading = raceLoading || riderLoading;
-  const error = raceError || riderError;
-
-  const getBoxData = (endpoint) => {
-    if (!data?.[endpoint]) return { error: true, errorType: "no_data" };
-    const response = data[endpoint];
-    const paths = [
-      response?.data?.data?.grand_tours_ridden,
-      response?.data?.data?.best_monument_results,
-      response?.data?.data?.first_rank_races,
-      response?.data?.data?.first_grand_tour_win,
-      response?.data?.data?.last_place_finishes,
-      response?.data?.data,
-      response?.data,
-      response,
-    ];
-
-    for (const path of paths) {
-      if (Array.isArray(path) && path.length > 0) {
-        return { data: path, error: false };
-      }
-    }
-
-    return { error: true, errorType: "no_data_found" };
-  };
+  const rider1 = riders[0];
+  const rider2 = riders[1];
+  const rider3 = riders[2];
 
   return (
     <section className="featured-section">
-    <div className="container">
-          <h2 className="fw-900 fst-italic section-header">Similar Riders</h2>
-     <div className="row">
-        {loading && <BoxSkeleton3 />}
-        {error && Object.keys(data || {}).length === 0 && (
-          <ErrorStats message="Unable to load statistics. Please try again later." />
-        )}
-        {!loading && !(error && Object.keys(data || {}).length === 0) && (
+      <div className="container">
+        <h2 className="fw-900 fst-italic section-header">
+          {data?.[fixedApis.box1]?.message || "Similar Riders"}
+        </h2>
 
-          <>
-          <div className="col-12 col-lg-4 mb-4">
+        <div className="row">
+          {loading && <CardSkeleton />}
+          {error && (
+            <ErrorMessage message="Unable to load similar riders." />
+          )}
+
+          {!loading && !error && (
+            <>
+              {/* 🔹 BOX 1 - GREEN */}
+              <div className="col-12 col-lg-4 mb-4">
                 <div className="team-cart lime-green-team-cart img-active featured-card bg-green d-flex flex-row">
-                  {/* <Link href={`/races/${data[fixedApis.box1].data.raceSlug}`} className="pabs" /> */}
-                  <div className="text-wraper d-flex flex-column justify-content-between flex-grow-1">
-                    {(() => {
-                      if (!data?.[fixedApis.box1]) {
-                        return <ErrorMessage errorType="no_data" />;
-                      }
+                  {rider1 && (
+                    <>
+                      <Link href={`/riders/${rider1.riderSlug}`} className="pabs" />
+                      <div className="text-wraper flex-grow-1 d-flex flex-column">
+                        <div className="rider-img-wrapper flex-grow-1 d-flex flex-column justify-content-end justify-content-md-between">
 
-                      const response = data[fixedApis.box1];
-                      const riderData = response.data.race;
+                          <img
+                            src={rider1.image_url || "/images/rider_avatar.png"}
+                            alt={rider1.rider_name}
+                            className="rider-img-element d-lg-block d-none"
+                          />
 
-                      if (!riderData || Object.keys(riderData).length === 0) {
-                        return (
-                          <>
-                            <h4 className="text-white fw-900"> {data?.[fixedApis.box1]?.message}</h4>
-                            <ErrorMessage errorType="no_data_found" />;
-                          </>
-                        )
-                      }
-
-                      return (
-                        <>
-                          <div>
-                            <h4 className="text-white fw-900"> {data?.[fixedApis.box1]?.message}</h4>
-                            <div
-                              className="name-wraper name-wraper-green name-left"
-                            >
-                              {riderData.country_code && (
-                                renderFlag(riderData.country_code)
-                              )}
-                              <h6 className="text-white fw-medium" onClick={() => router.push(`/races/${data[fixedApis.box1].data.raceSlug}`)}>{riderData.race}</h6>
-                            </div>
+                          <div className="name-wraper name-wraper-green name-left">
+                            {renderFlag(rider1.nationality)}
+                            <h6 className="text-white fw-medium" onClick={() => router.push(`/riders/${rider1.riderSlug}`)}>
+                              {rider1.rider_name}
+                            </h6>
                           </div>
 
                           <div className="d-flex align-items-center gap-2 justify-content-end">
                             <span className="fw-medium text-white d-none d-md-block">All stats</span>
+
                             <Link
-                              href={`/races/${data[fixedApis.box1].data.raceSlug}`}
+                              href={`/riders/${rider1.riderSlug}`}
                               className="white-circle-btn position-static"
                             >
                               <img src="/images/arow.svg" alt="" />
                             </Link>
                           </div>
-                        </>
-                      );
-                    })()}
-
-                  </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
+              {/* 🔹 BOX 2 - VOILET */}
               <div className="col-12 col-md-6 col-lg-4 mb-4">
                 <div className="team-cart lime-green-team-cart img-active featured-card bg-voilet d-flex flex-row">
-                  <Link href={`/riders/${data[fixedApis.box2]?.data?.riderSlug}`} className="pabs" />
-                  <div className="text-wraper flex-grow-1 d-flex flex-column">
-                    {(() => {
-                      if (!data?.[fixedApis.box2]) {
-                        return <ErrorMessage errorType="no_data" />;
-                      }
+                  {rider2 && (
+                    <>
+                      <Link href={`/riders/${rider2.riderSlug}`} className="pabs" />
+                      <div className="text-wraper flex-grow-1 d-flex flex-column">
+                        <div className="rider-img-wrapper flex-grow-1 d-flex flex-column justify-content-end justify-content-md-between">
 
-                      const response = data[fixedApis.box2];
-                      const riderData = response.data.data;
+                          <img
+                            src={rider2.image_url || "/images/rider_avatar.png"}
+                            alt={rider2.rider_name}
+                            className="rider-img-element d-lg-block d-none"
+                          />
 
-                      if (!riderData || Object.keys(riderData).length === 0) {
-                        return (
-                          <>
-                            <h4 className="text-white fw-900"> {data?.[fixedApis.box2]?.message}</h4>
-                            <ErrorMessage errorType="no_data_found" />;
-                          </>
-                        )
-                      }
-
-                      return (
-                        <>
-                          <h4 className="text-white"> {data?.[fixedApis.box2]?.message}</h4>
-                          <div className="rider-img-wrapper flex-grow-1 d-flex flex-column justify-content-end justify-content-md-between">
-                            {riderData.image ? (
-                              <img src={riderData.image} alt="" className="rider-img-element d-lg-block d-none" />
-                            ) : (
-                              <img src="/images/rider_avatar.png" alt="" className="rider-img-element d-lg-block d-none" />
-                            )}
-                            <div
-                              className="name-wraper name-wraper-green name-left"
-                            >
-                              {riderData.nationality && (
-                                renderFlag(riderData.nationality)
-                              )}
-                              <h6 className="text-white fw-medium" onClick={() => router.push(`/riders/${data[fixedApis.box2]?.data?.riderSlug}`)}>{riderData.name}</h6>
-                            </div>
-                            <div className="d-flex align-items-center gap-2 justify-content-end">
-                              <span className="fw-medium text-white d-none d-md-block">All stats</span>
-                              <Link
-                                href={`/riders/${data[fixedApis.box2]?.data?.riderSlug}`}
-                                className="white-circle-btn position-static"
-                              >
-                                <img src="/images/arow.svg" alt="" />
-                              </Link>
-                            </div>
+                          <div className="name-wraper name-wraper-green name-left">
+                            {renderFlag(rider2.nationality)}
+                            <h6 className="text-white fw-medium" onClick={() => router.push(`/riders/${rider2.riderSlug}`)}>
+                              {rider2.rider_name}
+                            </h6>
                           </div>
-                        </>
-                      );
-                    })()}
-                  </div>
+
+                          <div className="d-flex align-items-center gap-2 justify-content-end">
+                            <span className="fw-medium text-white d-none d-md-block">All stats</span>
+
+                            <Link
+                              href={`/riders/${rider2.riderSlug}`}
+                              className="white-circle-btn position-static"
+                            >
+                              <img src="/images/arow.svg" alt="" />
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
-          
-
+              {/* 🔹 BOX 3 - YELLOW */}
               <div className="col-12 col-md-6 col-lg-4 mb-4">
                 <div className="team-cart lime-green-team-cart img-active featured-card bg-yellow d-flex flex-row">
-                  <Link href={`/riders/${data[fixedApis.box2]?.data?.riderSlug}`} className="pabs" />
-                  <div className="text-wraper flex-grow-1 d-flex flex-column">
-                    {(() => {
-                      if (!data?.[fixedApis.box2]) {
-                        return <ErrorMessage errorType="no_data" />;
-                      }
+                  {rider3 && (
+                    <>
+                      <Link href={`/riders/${rider3.riderSlug}`} className="pabs" />
+                      <div className="text-wraper flex-grow-1 d-flex flex-column">
+                        <div className="rider-img-wrapper flex-grow-1 d-flex flex-column justify-content-end justify-content-md-between">
 
-                      const response = data[fixedApis.box2];
-                      const riderData = response.data.data;
+                          <img
+                            src={rider3.image_url || "/images/rider_avatar.png"}
+                            alt={rider3.rider_name}
+                            className="rider-img-element d-lg-block d-none"
+                          />
 
-                      if (!riderData || Object.keys(riderData).length === 0) {
-                        return (
-                          <>
-                            <h4 className="text-white fw-900"> {data?.[fixedApis.box2]?.message}</h4>
-                            <ErrorMessage errorType="no_data_found" />;
-                          </>
-                        )
-                      }
-
-                      return (
-                        <>
-                          <h4 className="text-white"> {data?.[fixedApis.box2]?.message}</h4>
-                          <div className="rider-img-wrapper flex-grow-1 d-flex flex-column justify-content-end justify-content-md-between">
-                            {riderData.image ? (
-                              <img src={riderData.image} alt="" className="rider-img-element d-lg-block d-none" />
-                            ) : (
-                              <img src="/images/rider_avatar.png" alt="" className="rider-img-element d-lg-block d-none" />
-                            )}
-                            <div
-                              className="name-wraper name-wraper-green name-left"
-                            >
-                              {riderData.nationality && (
-                                renderFlag(riderData.nationality)
-                              )}
-                              <h6 className="text-white fw-medium" onClick={() => router.push(`/riders/${data[fixedApis.box2]?.data?.riderSlug}`)}>{riderData.name}</h6>
-                            </div>
-                            <div className="d-flex align-items-center gap-2 justify-content-end">
-                              <span className="fw-medium text-white d-none d-md-block">All stats</span>
-                              <Link
-                                href={`/riders/${data[fixedApis.box2]?.data?.riderSlug}`}
-                                className="white-circle-btn position-static"
-                              >
-                                <img src="/images/arow.svg" alt="" />
-                              </Link>
-                            </div>
+                          <div className="name-wraper name-wraper-green name-left">
+                            {renderFlag(rider3.nationality)}
+                            <h6 className="text-white fw-medium" onClick={() => router.push(`/riders/${rider3.riderSlug}`)}>
+                              {rider3.rider_name}
+                            </h6>
                           </div>
-                        </>
-                      );
-                    })()}
-                  </div>
+
+                          <div className="d-flex align-items-center gap-2 justify-content-end">
+                            <span className="fw-medium text-white d-none d-md-block">All stats</span>
+
+                            <Link
+                              href={`/riders/${rider3.riderSlug}`}
+                              className="white-circle-btn position-static"
+                            >
+                              <img src="/images/arow.svg" alt="" />
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
-
-    </div>
-  </section>
+    </section>
   );
 };
 

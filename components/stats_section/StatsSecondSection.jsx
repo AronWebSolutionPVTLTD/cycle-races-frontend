@@ -59,7 +59,7 @@ const StatsSecondSection = ({
       response?.data?.data,
       response?.data?.data?.stageResults,
       response?.data,
-      response?.data.riders,
+      response?.data?.riders,
       response,
     ];
 

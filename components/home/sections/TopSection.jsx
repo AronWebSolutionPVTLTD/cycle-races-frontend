@@ -15,26 +15,7 @@ const TopSection = () => {
   const router = useRouter();
   const { data, loading, error } = useMultipleData(endpointsToFetch);
 
-
-  const getBoxData = (key) => {
-    if (!data?.[key]) return { error: true, errorType: "no_data" };
-    const response = data[key];
-    const paths = [
-      response?.data?.data,
-      response?.data,
-      response,
-    ];
-
-    for (const path of paths) {
-      if (Array.isArray(path) && path.length > 0) {
-        return { data: path, error: false };
-      }
-    }
-    return { error: true, errorType: "no_data_found" };
-  };
-
-
-  return (
+return (
     <section className="featured-section">
       <div className="container">
         <div className="row">

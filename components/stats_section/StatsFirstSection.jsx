@@ -53,7 +53,7 @@ const StatsFirstSection = ({
       response?.data?.data?.shortest_stage_races,
       response?.data?.data,
       response?.data?.data?.sorted,
-      response?.data.riders,
+      response?.data?.riders,
       response,
     ];
 
