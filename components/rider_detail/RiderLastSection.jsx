@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useMultipleData } from "../home_api_data";
-import { CardSkeleton, ErrorMessage } from "../loading&error";
+import { BoxSkeleton3, CardSkeleton, ErrorMessage } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 
 const RiderLastSection = ({ riderId }) => {
@@ -27,7 +27,7 @@ const RiderLastSection = ({ riderId }) => {
     <div className="container">
           <h2 className="fw-900 fst-italic section-header">Similar Riders</h2>
      <div className="row">
-        {loading && <BoxSkeleton3 />}
+        {loading && <BoxSkeleton3/>}
         {error && Object.keys(data || {}).length === 0 && (
           <ErrorStats message="Unable to load statistics. Please try again later." />
         )}
