@@ -2207,8 +2207,7 @@ section.featured-section {
     z-index: 9;
     background: #fff;
     transform: translateY(216px);
-    transition: transform 0.7s ease;
-    transition-delay: .5s;
+    transition: transform 0.5s ease;
 }
 
 .rider-compare-show-result-section.sticky
