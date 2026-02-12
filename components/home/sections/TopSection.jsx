@@ -25,9 +25,9 @@ return (
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
-              <div className="col-12 col-lg-4 mb-4">
+              <div className="col-12 col-lg-4 mb-3 sm:mb-4">
                 <div className="team-cart lime-green-team-cart img-active featured-card bg-voilet d-flex flex-row">
-                  {/* <Link href={`/races/${data[fixedApis.box1].data.raceSlug}`} className="pabs" /> */}
+                  <Link href={`/races/${data[fixedApis.box1].data.raceSlug}`} className="pabs" />
                   <div className="text-wraper d-flex flex-column justify-content-between flex-grow-1">
                     {(() => {
                       if (!data?.[fixedApis.box1]) {
@@ -77,7 +77,7 @@ return (
                 </div>
               </div>
 
-              <div className="col-12 col-md-6 col-lg-4 mb-4">
+              <div className="col-12 col-md-6 col-lg-4 mb-3 sm:mb-4 pe-md-2 pe-lg-3">
                 <div className="team-cart lime-green-team-cart img-active featured-card bg-green d-flex flex-row">
                   <Link href={`/riders/${data[fixedApis.box2]?.data?.riderSlug}`} className="pabs" />
                   <div className="text-wraper flex-grow-1 d-flex flex-column">
@@ -132,7 +132,7 @@ return (
                 </div>
               </div>
 
-              <div className="col-12 col-md-6 col-lg-4 mb-4">
+              <div className="col-12 col-md-6 col-lg-4 mb-3 sm:mb-4 ps-md-2 ps-lg-3">
                 <div className="team-cart lime-green-team-cart img-active featured-card featured-card-banner-img bg-yellow">
                   <Link href={'#'} className="pabs" />
                   <div className="banner--img">
