@@ -24,21 +24,17 @@ const RiderLastSection = ({ riderId }) => {
 
   return (
     <section className="featured-section">
-      <div className="container">
-        <h2 className="fw-900 fst-italic section-header">
-          {data?.[fixedApis.box1]?.message || "Similar Riders"}
-        </h2>
+    <div className="container">
+          <h2 className="fw-900 fst-italic section-header">Similar Riders</h2>
+     <div className="row">
+        {loading && <BoxSkeleton3 />}
+        {error && Object.keys(data || {}).length === 0 && (
+          <ErrorStats message="Unable to load statistics. Please try again later." />
+        )}
+        {!loading && !(error && Object.keys(data || {}).length === 0) && (
 
-        <div className="row">
-          {loading && <CardSkeleton />}
-          {error && (
-            <ErrorMessage message="Unable to load similar riders." />
-          )}
-
-          {!loading && !error && (
-            <>
-              {/* 🔹 BOX 1 - GREEN */}
-              <div className="col-12 col-lg-4 mb-4">
+          <>
+          <div className="col-12 col-lg-4 mb-4">
                 <div className="team-cart lime-green-team-cart img-active featured-card bg-green d-flex flex-row">
                   {rider1 && (
                     <>
