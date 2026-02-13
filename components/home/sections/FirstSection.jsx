@@ -177,14 +177,14 @@ const FirstSection = () => {
                           const { start, end } = convertDateRange(result?.date);
                           return (
                             <li className="hoverState-li custom-list-el home-result-list" key={index}>
-                              <Link href={`/races/${result?.raceSlug}`} className="pabs" />
+                              <Link href={`/race-result/${result?.raceSlug}`} className="pabs" />
                               <span className="text-capitalize">
                                 {start}
                                 {end ? ` - ${end}` : ""}
                               </span>
                               {result?.raceName && <h5 className="race-name-el fw-900">
                                 {renderFlag(result?.raceCountry)}
-                                <a className="d-flex flex-column">
+                                <a className="d-flex flex-column" href={`/races/${result?.raceSlug}`}>
                                   <strong className="text-uppercase">{result.raceName}</strong>
 
                                   {result.start_Location && result.finish_Location && result.distance && (
@@ -203,7 +203,7 @@ const FirstSection = () => {
                               {result?.result[0]?.team && <h6>
                                 <a href={`/teams/${result?.result[0]?.teamSlug}`}>{result?.result[0]?.team} </a></h6>}
                               <Link
-                                href={`/races/${result?.raceSlug}`}
+                                href={`/race-result/${result?.raceSlug}`}
                                 className="r-details "
                               >
                                 <img src="/images/hover-arow.svg" alt="" />

@@ -476,7 +476,6 @@ export default function DynamicSlugPage() {
       }
       if (nameDataExists) {
         const riderOrRaceData = getItemId(item, config.itemConfig.name);
-        console.log(riderOrRaceData,"rider")
         const clickableProps = riderOrRaceData?.type === "race" ?
           { href: `/race-result/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` } :
           riderOrRaceData?.type === "rider" ? { href: `/riders/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` }

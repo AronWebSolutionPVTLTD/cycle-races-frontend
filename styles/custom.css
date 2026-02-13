@@ -2323,3 +2323,20 @@ section.rider-details-sec .team-cart.featured-card{
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.transparent-cart li h5 a{
+  position: relative;
+  cursor: pointer;
+}
+.transparent-cart li h5 a::after {
+    content: "";
+    width: 0%;
+    height: 1px;
+    background-color: #2b534d;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: all 0.3s ease-in-out;
+}
+.transparent-cart li h5 a:hover::after {
+  width: 100%;
+}
