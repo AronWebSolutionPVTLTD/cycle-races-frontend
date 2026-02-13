@@ -15,6 +15,7 @@ import { renderFlag } from "@/components/RenderFlag";
 export default function HeadToHead() {
   const router = useRouter();
   const containerRef = useRef(null);
+  const sentinelRef = useRef(null);
   const startOffset = useRef(0);
   const [isSticky, setIsSticky] = useState(false);
   const [teamRiders, setTeamRiders] = useState([]);
@@ -94,32 +95,28 @@ export default function HeadToHead() {
 //     return () => window.removeEventListener("scroll", onScroll);
 //   }, []);
 
-useLayoutEffect(() => {
-  if (!containerRef.current) return;
+// ...existing code...
+useEffect(() => {
+  if (!showCompareResults || !sentinelRef.current) return;
 
-  const element = containerRef.current;
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      // If the sentinel is NOT intersecting (moved off top), we are sticky
+      // entry.boundingClientRect.top < 0 means it went off the top of the screen
+      setIsSticky(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+    },
+    {
+      // rootMargin: '-74px 0px 0px 0px' 
+      // ^ Use this if you want it to stick exactly when it hits your 74px header
+      threshold: [0],
+    }
+  );
 
-  const calculateOffset = () => {
-    const rect = element.getBoundingClientRect();
-    startOffset.current = rect.top + window.scrollY;
-  };
+  observer.observe(sentinelRef.current);
 
-  calculateOffset();
-
-  const onScroll = () => {
-    setIsSticky(window.scrollY >= 200);
-  };
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", calculateOffset);
-
-  onScroll(); // run once in case page already scrolled
-
-  return () => {
-    window.removeEventListener("scroll", onScroll);
-    window.removeEventListener("resize", calculateOffset);
-  };
-}, [showCompareResults]);
+  return () => observer.disconnect();
+}, [showCompareResults, loading]); // Re-run when data changes to ensure element is tracked
+// ...existing code...
 
   const restoreStateFromStorage = async () => {
     isRestoringRef.current = true;
@@ -1184,6 +1181,7 @@ useLayoutEffect(() => {
         ) : loading ? <ListSkeleton /> : (
           (selectedRider1 && selectedRider2) && (getMatchRidersData || (H2HData && H2HData.length > 0)) && (
             <>
+            <div ref={sentinelRef} style={{ height: "1px", marginBottom: "-1px" }} />
             <div ref={containerRef}  className={`rider-compare-show-result-section ${
                   isSticky ? "sticky" : ""
               }`}>

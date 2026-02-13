@@ -593,7 +593,7 @@ export default function Results() {
                       return (
                         <li className="hoverState-li custom-list-el" key={idx}>
                           <Link
-                            href={`/races/${encodeURIComponent(
+                            href={`/race-result/${encodeURIComponent(
                               item.raceSlug
                             )}?year=${selectedYear}`}
                             className="pabs"

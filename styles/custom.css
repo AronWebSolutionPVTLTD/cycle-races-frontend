@@ -2207,8 +2207,7 @@ section.featured-section {
     z-index: 9;
     background: #fff;
     transform: translateY(216px);
-    transition: transform 0.7s ease;
-    transition-delay: .5s;
+    transition: transform 0.5s ease;
 }
 
 .rider-compare-show-result-section.sticky
@@ -2274,4 +2273,70 @@ body:not(:has(.slim-nav.active)):has(.rider-compare-show-result-section.sticky) 
 .rider-compare-show-result-section.sticky .rider-compare-show-result h6 {
     font-size: 14px;
 }
+
+}
+section.rider-details-sec .featured-section .row{
+  gap: 0 !important;
+}
+section.rider-details-sec .featured-section {
+  padding-top: 64px;
+  padding-bottom: 0;
+}
+section.rider-details-sec .team-cart.featured-card {
+  min-height: 126px !important;
+}
+@media ( min-width: 768px ){
+  section.rider-details-sec .rider-img-wrapper {
+    padding-left: 65px;
+  }
+}
+@media ( max-width: 575px ){
+  .team-cart.featured-card{
+    min-height: 112px!important;
+  }
+  .featured-card.featured-card-banner-img {
+    min-height: unset;
+    height: 112px;
+}
+.featured-card.featured-card-banner-img .banner--img{
+  height: 100%;
+}
+.featured-card.featured-card-banner-img .banner--img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+section.featured-section{
+  padding-bottom: 48px;
+}
+section.rider-details-sec .team-cart.featured-card .text-wraper {
+  min-height: unset;
+}
+section.rider-details-sec .team-cart.featured-card{
+  min-height: unset !important;
+}
+}
+.team-cart.featured-card .text-wraper h6 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.transparent-cart li h5 a{
+  position: relative;
+  cursor: pointer;
+}
+.transparent-cart li h5 a::after {
+    content: "";
+    width: 0%;
+    height: 1px;
+    background-color: #2b534d;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: all 0.3s ease-in-out;
+}
+.transparent-cart li h5 a:hover::after {
+  width: 100%;
 }

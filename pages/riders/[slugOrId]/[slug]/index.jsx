@@ -476,16 +476,13 @@ export default function DynamicSlugPage() {
       }
       if (nameDataExists) {
         const riderOrRaceData = getItemId(item, config.itemConfig.name);
-        console.log(riderOrRaceData,"rider")
         const clickableProps = riderOrRaceData?.type === "race" ?
           { href: `/race-result/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` } :
           riderOrRaceData?.type === "rider" ? { href: `/riders/${encodeURIComponent(riderOrRaceData?.id)}${queryString}` }
             : null;
 
         const nameContent = (
-    
           <>
-
             <div className="d-flex flex-column">
               {`${getItemValue(item, config.itemConfig.name)} ${riderOrRaceData?.type === "race" && item?.type === "stage"
                 ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
@@ -832,7 +829,7 @@ export default function DynamicSlugPage() {
 }
 
 export async function getServerSideProps({ params }) {
-  const { slug  } = params;
+  const { slug } = params;
 
   if (!SLUG_CONFIGS[slug]) {
     return { notFound: true };

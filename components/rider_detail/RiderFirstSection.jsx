@@ -215,30 +215,28 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                   <h4>{data?.[fixedApis.box2]?.message}</h4>
                   {(() => {
                     const response = data?.[fixedApis.box2];
-                    const riderDataArray = response?.data?.data;
+                    const riderData = response?.data;
                     if (!response) {
                       return <ErrorMessage errorType="no_data" />;
                     }
 
-                    if (
-                      !Array.isArray(riderDataArray) ||
-                      riderDataArray.length === 0
-                    ) {
+                   
+
+                    if (!riderData || Object.keys(riderData).length === 0) {
                       return <ErrorMessage errorType="no_data_found" />;
                     }
-
-                    const riderData = riderDataArray.find(
-                        (r) => r.riderSlug === riderId
-                    );
-
-                    if (!riderData) {
-                      return <ErrorMessage errorType="no_data_found" />;
-                    }
+                    
 
                     return (
                       <>
                         <div className="name-wraper name-wraper-green name-left">
-                          <h6>{riderData?.total_uci_points || "..."} UCI points</h6>
+
+                          {riderData?.total_uci_points > 0 && (
+                            <h6>
+                              {riderData.total_uci_points} UCI points
+                            </h6>
+                          )}
+
                         </div>
                         {riderData?.rank && (
                           <h5>
