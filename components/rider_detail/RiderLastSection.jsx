@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { useMultipleData } from "../home_api_data";
-import { BoxSkeleton3, CardSkeleton, ErrorMessage } from "../loading&error";
+import { BoxSkeleton3, CardSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
+import { useRouter } from "next/router";
 
 const RiderLastSection = ({ riderId }) => {
   const fixedApis = {
     box1: "getSimilarRiders",
   };
-
+const router = useRouter();
   const riderEndpoints = [fixedApis.box1];
 
   const { data, loading, error } = useMultipleData(riderEndpoints, {
@@ -24,17 +25,17 @@ const RiderLastSection = ({ riderId }) => {
 
   return (
     <section className="featured-section">
-    <div className="container">
-          <h2 className="fw-900 fst-italic section-header">Similar Riders</h2>
-     <div className="row">
-        {loading && <BoxSkeleton3/>}
-        {error && Object.keys(data || {}).length === 0 && (
-          <ErrorStats message="Unable to load statistics. Please try again later." />
-        )}
-        {!loading && !(error && Object.keys(data || {}).length === 0) && (
+      <div className="container">
+        <h2 className="fw-900 fst-italic section-header">Similar Riders</h2>
+        <div className="row">
+          {loading && <BoxSkeleton3 />}
+          {error && Object.keys(data || {}).length === 0 && (
+            <ErrorStats message="Unable to load statistics. Please try again later." />
+          )}
+          {!loading && !(error && Object.keys(data || {}).length === 0) && (
 
-          <>
-          <div className="col-12 col-lg-4 mb-3 sm:mb-4">
+            <>
+              <div className="col-12 col-lg-4 mb-3 sm:mb-4">
                 <div className="team-cart lime-green-team-cart img-active featured-card bg-green d-flex flex-row">
                   {rider1 && (
                     <>

@@ -39,6 +39,35 @@ export default function RiderDetail({ year, initialRider, apiError }) {
     );
   };
 
+
+  useEffect(() => {
+    if (!router.isReady) return;
+  
+    const { slugOrId } = router.query;
+    if (!slugOrId) return;
+  
+    const fetchRider = async () => {
+      try {
+        const response = await callAPI(
+          "GET",
+          `/rider-stats/${slugOrId}/detail`
+        );
+  
+        if (response?.data?.data) {
+          setRider(response.data.data);
+        } else {
+          setRider(null);
+        }
+      } catch (err) {
+        setRider(null);
+      }
+    };
+  
+    fetchRider();
+  }, [router.query.slugOrId]);
+  
+
+
   const handleSelection = (type, value) => {
     switch (type) {
       case "year":
