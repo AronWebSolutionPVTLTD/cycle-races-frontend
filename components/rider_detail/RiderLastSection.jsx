@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useMultipleData } from "../home_api_data";
-import { BoxSkeleton3, CardSkeleton, ErrorMessage } from "../loading&error";
+import { BoxSkeleton3, CardSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 
 const RiderLastSection = ({ riderId }) => {
