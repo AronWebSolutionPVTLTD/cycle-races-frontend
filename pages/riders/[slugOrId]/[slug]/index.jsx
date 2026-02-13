@@ -482,9 +482,7 @@ export default function DynamicSlugPage() {
             : null;
 
         const nameContent = (
-    
           <>
-
             <div className="d-flex flex-column">
               {`${getItemValue(item, config.itemConfig.name)} ${riderOrRaceData?.type === "race" && item?.type === "stage"
                 ? `-${item?.type?.toUpperCase()} ${item?.stage_number}`
@@ -831,7 +829,7 @@ export default function DynamicSlugPage() {
 }
 
 export async function getServerSideProps({ params }) {
-  const { slug  } = params;
+  const { slug } = params;
 
   if (!SLUG_CONFIGS[slug]) {
     return { notFound: true };
