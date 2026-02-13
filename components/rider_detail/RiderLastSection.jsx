@@ -2,12 +2,13 @@ import Link from "next/link";
 import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton3, CardSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
+import { useRouter } from "next/router";
 
 const RiderLastSection = ({ riderId }) => {
   const fixedApis = {
     box1: "getSimilarRiders",
   };
-
+const router = useRouter();
   const riderEndpoints = [fixedApis.box1];
 
   const { data, loading, error } = useMultipleData(riderEndpoints, {
