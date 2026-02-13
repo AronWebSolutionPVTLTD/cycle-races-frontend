@@ -5,7 +5,7 @@ import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
+import { useTranslation } from "@/lib/useTranslation";
 const fixedApis = {
   box1: "mostWin",
   box2: "stageTop10sRider",
@@ -19,6 +19,7 @@ const fixedApis = {
 };
 
 const YearSection = () => {
+  const { t } = useTranslation();
   const endpointsToFetch = Object.values(fixedApis);
   const { data, loading, error } = useMultipleData(endpointsToFetch);
   const router = useRouter();
@@ -48,9 +49,9 @@ const YearSection = () => {
     <section className="home-sec2 pb-96px">
       <div className="container">
         <div className="col-lg-12 d-flex justify-content-between align-items-center section-header">
-          <h2 className="fw-900 fst-italic">dit jaar</h2>
+          <h2 className="fw-900 fst-italic">{t("home.this_year")}</h2>
           <a href="/stats" className="alle-link m-0 d-md-inline-block d-none">
-            Alle statistieken <img src="/images/arow2.svg" alt="" />
+            {t("home.all_statistics")} <img src="/images/arow2.svg" alt="" />
           </a>
         </div>
         <div className="row">
@@ -67,61 +68,62 @@ const YearSection = () => {
                 <div className="list-white-cart lime-green-cart ctm-card">
                   <Link href="/most-races-won" className="pabs"></Link>
                   {(() => {
-                  const boxData = getBoxData(fixedApis.box1);
-                  const list = Array.isArray(boxData?.data) ? boxData.data : [];
-                  const firstImage =list[0]?.image_url ||"/images/rider_avatar.png";
+                    const boxData = getBoxData(fixedApis.box1);
+                    const list = Array.isArray(boxData?.data) ? boxData.data : [];
+                    const firstImage = list[0]?.image_url || "/images/rider_avatar.png";
 
-                  if(boxData.error){  
-                  return (
-                    <>
-                      <h4 className="fs-chenge">
-                        {data?.[fixedApis.box1]?.message}
-                      </h4>
-                      <div className="no-data-wrap">
-                        <ErrorMessage
-                          errorType={getBoxData(fixedApis.box1).errorType}
-                        />
-                        </div>
+                    if (boxData.error) {
+                      return (
+                        <>
+                          <h4 className="fs-chenge">
+                            {data?.[fixedApis.box1]?.message}
+                          </h4>
+                          <div className="no-data-wrap">
+                            <ErrorMessage
+                              errorType={getBoxData(fixedApis.box1).errorType}
+                            />
+                          </div>
                         </>
-                  )
-}
-                  return (
-                    <>
-                      <div className="card-content-wraper aaaa">
-                        <h4 className="fs-chenge">
-                          {data?.[fixedApis.box1]?.message}
-                        </h4>
-                        <ul>
-                          {list.slice(0, 5).map((rider, index) => (
-                            <li key={index}>
-                              <strong>{index + 1}</strong>
-                              <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
-                                {renderFlag(rider?.rider_country)}
-                                <h6>{rider?.rider_name || "..."}</h6>
-                              </div>
+                      )
+                    }
+                    return (
+                      <>
+                        <div className="card-content-wraper aaaa">
+                          <h4 className="fs-chenge">
+                            {data?.[fixedApis.box1]?.message}
+                          </h4>
+                          <ul>
+                            {list.slice(0, 5).map((rider, index) => (
+                              <li key={index}>
+                                <strong>{index + 1}</strong>
+                                <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
+                                  {renderFlag(rider?.rider_country)}
+                                  <h6>{rider?.rider_name || "..."}</h6>
+                                </div>
 
-                              {rider?.wins && <span>{rider.wins}</span>}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="image_link-wraper">
-                        <img
-                          src={firstImage}
-                          alt=""
-                          className="absolute-img"
-                        />
-                        <div className="link_box">
-                          <Link href="most-races-won" className="glob-btn green-bg-btn">
-                            <strong>volledige stats</strong>{" "}
-                            <span>
-                              <img src="/images/arow.svg" alt="" />
-                            </span>
-                          </Link>
+                                {rider?.wins && <span>{rider.wins}</span>}
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                      </div>
-                    </>
-                  )})()}
+                        <div className="image_link-wraper">
+                          <img
+                            src={firstImage}
+                            alt=""
+                            className="absolute-img"
+                          />
+                          <div className="link_box">
+                            <Link href="most-races-won" className="glob-btn green-bg-btn">
+                              <strong>{t("common.full_stats")}</strong>{" "}
+                              <span>
+                                <img src="/images/arow.svg" alt="" />
+                              </span>
+                            </Link>
+                          </div>
+                        </div>
+                      </>
+                    )
+                  })()}
                 </div>
               </div>
 
@@ -156,18 +158,18 @@ const YearSection = () => {
 
                                   {rider?.count && (
                                     <h5>
-                                      <strong>{rider.count} </strong> times
+                                      <strong>{rider.count} </strong> {t("common.times")}
                                     </h5>
                                   )}
-                               
+
                                   <img
-                              src={rider?.image_url || "/images/rider_avatar.png"}
-                              alt=""
-                              className="absolute-img"
-                            />
-                             </>
+                                    src={rider?.image_url || "/images/rider_avatar.png"}
+                                    alt=""
+                                    className="absolute-img"
+                                  />
+                                </>
                               ))}
-                          
+
                             <Link
                               href="/top-10-in-stages"
                               className="green-circle-btn"
@@ -209,17 +211,17 @@ const YearSection = () => {
 
                                   {rider?.racing_days && (
                                     <h5>
-                                      <strong>{rider.racing_days} </strong> days
+                                      <strong>{rider.racing_days} </strong> {t("common.days")}
                                     </h5>
                                   )}
-                                    <img
-                              src={rider?.image_url || "/images/rider_avatar.png"}
-                              alt=""
-                              className="absolute-img"
-                            />
+                                  <img
+                                    src={rider?.image_url || "/images/rider_avatar.png"}
+                                    alt=""
+                                    className="absolute-img"
+                                  />
                                 </>
                               ))}
-                          
+
                             <Link
                               href="/rider-with-most-racing-days"
                               className="white-circle-btn"
@@ -340,7 +342,7 @@ const YearSection = () => {
                               {team?.numberOfWinningRiders && (
                                 <h5>
                                   <strong>{team.numberOfWinningRiders} </strong>
-                                  riders
+                                  {t("common.riders")}
                                 </h5>
                               )}
 

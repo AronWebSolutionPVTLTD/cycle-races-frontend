@@ -8,6 +8,7 @@ import {
 import { renderFlag } from "../RenderFlag";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "@/lib/useTranslation";
 
 const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
   const fixedApis = {
@@ -19,7 +20,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
     box6: "shortestRace",
     box7: "lightestRider",
   };
-
+  const { t } = useTranslation();
   const buildQueryParams = () => {
     let params = {};
     if (selectedYear) params.year = selectedYear;
@@ -92,10 +93,9 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div
                                 className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
-                                key={index}
                               >
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -104,7 +104,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                               {rider?.second_place_count && (
                                 <h5>
                                   <strong>{rider.second_place_count} </strong>{" "}
-                                  times
+                                  {t("common.times")}
                                 </h5>
                               )}
                               <img
@@ -112,7 +112,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                                 alt=""
                                 className="absolute-img"
                               />
-                            </>
+                            </div>
                           ))}
 
 
@@ -192,10 +192,9 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div
                                 className="name-wraper name-wraper-white " onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
-                                key={index}
                               >
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -203,7 +202,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
 
                               {rider?.wins && (
                                 <h5>
-                                  <strong>{rider.wins} </strong> wins
+                                  <strong>{rider.wins} </strong> {t("common.wins")}
                                 </h5>
                               )}
                               <img
@@ -211,7 +210,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                                 alt=""
                                 className="absolute-img"
                               />
-                            </>
+                            </div>
                           ))}
 
 
@@ -294,7 +293,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
 
                               {rider?.totalKOMTitles && (
                                 <h5>
-                                  <strong>{rider.totalKOMTitles} </strong>wins
+                                  <strong>{rider.totalKOMTitles} </strong> {t("common.wins")}
                                 </h5>
                               )}
 
@@ -348,7 +347,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
 
                               {race?.distance && (
                                 <h5>
-                                  <strong>{race.distance} </strong> km
+                                  <strong>{race.distance} </strong> {t("common.km")}
                                 </h5>
                               )}
                               <img
@@ -396,8 +395,8 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
 
                               {rider?.weight && (
                                 <h5>
-                                  <strong>{rider.weight}</strong> kilogram
-                                </h5>
+                                  <strong>{rider.weight}</strong> {t("common.kg")}
+                                </h5> 
                               )}
 
                               <Link

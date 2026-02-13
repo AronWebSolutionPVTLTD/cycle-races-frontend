@@ -8,6 +8,7 @@ import {
 import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "@/lib/useTranslation";
 function convertDateRange(dateStr) {
   const monthNames = [
     "jan", "feb", "mar", "apr", "may", "jun",
@@ -54,7 +55,7 @@ const FirstSection = () => {
   const fixedApis = {
     section2: "recentCompleteRace",
   };
-
+  const { t } = useTranslation();
   const router = useRouter();
   const endpointsToFetch = Object.values(fixedApis);
   const { data, loading, error } = useMultipleData(endpointsToFetch);
@@ -80,9 +81,9 @@ const FirstSection = () => {
       <div className="container">
         <div className="col-lg-12">
           <div className="d-flex justify-content-between align-items-center section-header">
-            <h2 className="fw-900 fst-italic">uitslagen</h2>
+            <h2 className="fw-900 fst-italic">{t("home.results")}</h2>
             <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
-              Alle uitslagen <img src="/images/arow2.svg" alt="" />
+              {t("home.all_results")} <img src="/images/arow2.svg" alt="" />
             </a>
           </div>
         </div>
@@ -217,7 +218,7 @@ const FirstSection = () => {
               </div>
               <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
                 <a href="/races" className="alle-link m-0">
-                  Alle uitslagen <img src="/images/arow2.svg" alt="" />
+                  {t("home.all_results")} <img src="/images/arow2.svg" alt="" />
                 </a>
               </div>
             </>

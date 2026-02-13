@@ -4,6 +4,7 @@ import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "@/lib/useTranslation";
 
 const StatsSecondSection = ({
   selectedNationality,
@@ -26,6 +27,7 @@ const StatsSecondSection = ({
     box13: "top3teamwithrank1",
   };
 
+  const { t } = useTranslation();
   const buildQueryParams = () => {
     let params = {};
     if (selectedYear) params.year = selectedYear;
@@ -136,7 +138,7 @@ const StatsSecondSection = ({
                               href={buildUrlWithParams("/stats/most-stage-wins")}
                               className="glob-btn"
                             >
-                              <strong>volledige stats</strong>{" "}
+                              <strong>{t("common.full_stats")}</strong>{" "}
                               <span>
                                 <img src="/images/arow.svg" alt="" />
                               </span>
@@ -182,7 +184,7 @@ const StatsSecondSection = ({
                                   </div>
                                   {rider?.wins && (
                                     <h5>
-                                      <strong>{rider.wins} </strong>wins
+                                      <strong>{rider.wins} </strong> {t("common.wins")}
                                     </h5>
                                   )}
                                 </>
@@ -272,7 +274,7 @@ const StatsSecondSection = ({
                                   </div>
                                   {rider?.age && (
                                     <h5>
-                                      <strong>{rider.age} </strong>jaar
+                                      <strong>{rider.age} </strong> {t("common.year")}
                                     </h5>
                                   )}
                                 </>
@@ -316,7 +318,7 @@ const StatsSecondSection = ({
                               </div>
                               {rider?.age && (
                                 <h5>
-                                  <strong>{rider.age} </strong>jaar
+                                  <strong>{rider.age} </strong> {t("common.year")}
                                 </h5>
                               )}
                             </>
@@ -358,7 +360,7 @@ const StatsSecondSection = ({
                               </div>
                               {rider?.wins && (
                                 <h5>
-                                  <strong>{rider.wins} </strong>wins
+                                  <strong>{rider.wins} </strong> {t("common.wins")}
                                 </h5>
                               )}
                             </>
@@ -403,7 +405,7 @@ const StatsSecondSection = ({
 
                               {rider?.wins && (
                                 <h5>
-                                  <strong>{rider.wins}</strong> wins
+                                  <strong>{rider.wins}</strong> {t("common.wins")}
                                 </h5>
                               )}
 
@@ -453,7 +455,7 @@ const StatsSecondSection = ({
 
                               {rider?.weight && (
                                 <h5>
-                                  <strong>{rider.weight}</strong> kilogram
+                                  <strong>{rider.weight}</strong> {t("common.kg")}
                                 </h5>
                               )}
 
@@ -538,7 +540,7 @@ const StatsSecondSection = ({
                           </div>
                           {rider?.dnfCount && (
                             <h5>
-                              <strong>{rider.dnfCount}</strong> dnf
+                              <strong>{rider.dnfCount}</strong> {t("common.dnf")}
                             </h5>
                           )}
                           <Link
@@ -589,7 +591,7 @@ const StatsSecondSection = ({
                               {rider?.maxConsecutiveWins && (
                                 <h5>
                                   <strong>{rider.maxConsecutiveWins}</strong>
-                                  wins
+                                  {t("common.wins")}
                                 </h5>
                               )}
                             </div>

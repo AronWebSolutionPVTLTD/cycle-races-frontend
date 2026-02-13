@@ -4,6 +4,7 @@ import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "@/lib/useTranslation";
 
 const StatsFirstSection = ({
   selectedNationality,
@@ -21,7 +22,7 @@ const StatsFirstSection = ({
     box8: "mostGCWins",
     box9: "mostDNFs",
   };
-
+  const { t } = useTranslation();
   const buildQueryParams = () => {
     let params = {};
     if (selectedYear) params.year = selectedYear;
@@ -109,7 +110,7 @@ const StatsFirstSection = ({
                           </h4>
                           <ul>
                             {list.slice(0, 5)
-                              .map((rider, index) => (
+                              .map((rider,index) => (
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
                                   <div className="name-wraper name-wraper-green sdsd" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
@@ -133,7 +134,7 @@ const StatsFirstSection = ({
                               href={buildUrlWithParams("/stats/most-races-won")}
                               className="glob-btn green-bg-btn"
                             >
-                              <strong>volledige stats</strong>{" "}
+                              <strong>{t("common.full_stats")}</strong>{" "}
                               <span>
                                 <img src="/images/arow.svg" alt="" />
                               </span>
@@ -164,7 +165,7 @@ const StatsFirstSection = ({
                               : []
                             )
                               .slice(0, 1)
-                              .map((rider, index) => (
+                              .map((rider,index) => (
                                 <>
                                 <div key={index}>
                                   <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
@@ -174,7 +175,7 @@ const StatsFirstSection = ({
 
                                   {rider?.count && (
                                     <h5>
-                                      <strong>{rider.count} </strong> Times
+                                      <strong>{rider.count} </strong> {t("common.times")}
                                     </h5>
                                   )}
                                 </div>
@@ -215,11 +216,10 @@ const StatsFirstSection = ({
                               : []
                             )
                               .slice(0, 1)
-                              .map((rider, index) => (
-                                <>
+                              .map((rider,index) => (
+                                <div key={index}>
                                   <div
                                     className="name-wraper name-wraper-green " onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
-                                    key={index}
                                   >
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
@@ -227,7 +227,7 @@ const StatsFirstSection = ({
 
                                   {rider?.racing_days && (
                                     <h5>
-                                      <strong>{rider.racing_days} </strong> days
+                                      <strong>{rider.racing_days} </strong> {t("common.days")}
                                     </h5>
                                   )}
                                     <img
@@ -235,7 +235,7 @@ const StatsFirstSection = ({
                               alt=""
                               className="absolute-img"
                             />
-                                </>
+                                </div>
                               ))}
                           
                             <Link
@@ -266,7 +266,7 @@ const StatsFirstSection = ({
                               : []
                             )
                               .slice(0, 3)
-                              .map((rider, index) => (
+                              .map((rider,index) => (
                                 <li key={index}>
                                   <strong>{index + 1}</strong>
                                   <div className="name-wraper name-wraper-white " onClick={() => router.push(`/teams/${rider?.teamSlug}`)}>
@@ -369,7 +369,7 @@ const StatsFirstSection = ({
                                     <strong>
                                       {team.numberOfWinningRiders}{" "}
                                     </strong>
-                                    riders
+                                    {t("common.riders")}
                                   </h5>
                                 )}
 

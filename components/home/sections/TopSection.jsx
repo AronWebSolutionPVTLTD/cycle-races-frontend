@@ -4,7 +4,7 @@ import { renderFlag } from '@/components/RenderFlag';
 import Link from 'next/link'
 import { useRouter } from 'next/router';
 import React from 'react'
-
+import { useTranslation } from '@/lib/useTranslation';
 const TopSection = () => {
   const fixedApis = {
     box1: "getFeatureRace",
@@ -14,7 +14,7 @@ const TopSection = () => {
   const endpointsToFetch = Object.values(fixedApis);
   const router = useRouter();
   const { data, loading, error } = useMultipleData(endpointsToFetch);
-
+const { t } = useTranslation();
 return (
     <section className="featured-section">
       <div className="container">
@@ -61,7 +61,7 @@ return (
                           </div>
 
                           <div className="d-flex align-items-center gap-2 justify-content-end">
-                            <span className="fw-medium text-white d-none d-md-block">All stats</span>
+                            <span className="fw-medium text-white d-none d-md-block">{t("home.all_stats")}</span>
                             <Link
                               href={`/races/${data[fixedApis.box1].data.raceSlug}`}
                               className="white-circle-btn position-static"
@@ -116,7 +116,7 @@ return (
                               <h6 className="text-white fw-medium" onClick={() => router.push(`/riders/${data[fixedApis.box2]?.data?.riderSlug}`)}>{riderData.name}</h6>
                             </div>
                             <div className="d-flex align-items-center gap-2 justify-content-end">
-                              <span className="fw-medium text-white d-none d-md-block">All stats</span>
+                              <span className="fw-medium text-white d-none d-md-block">{t("home.all_stats")}</span>
                               <Link
                                 href={`/riders/${data[fixedApis.box2]?.data?.riderSlug}`}
                                 className="white-circle-btn position-static"

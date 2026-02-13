@@ -4,6 +4,7 @@ import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "@/lib/useTranslation";
 
 const StatsThirdSection = ({
   selectedNationality,
@@ -21,7 +22,7 @@ const StatsThirdSection = ({
     box8: "longestRace",
     box9: "top10GCTeams",
   };
-
+  const { t } = useTranslation();
   const buildQueryParams = () => {
     let params = {};
     if (selectedYear) params.year = selectedYear;
@@ -237,7 +238,7 @@ const StatsThirdSection = ({
                                   </div>
                                   {rider?.count && (
                                     <h5>
-                                      <strong>{rider.count} </strong>wins
+                                      <strong>{rider.count} </strong> {t("common.wins")}
                                     </h5>
                                   )}
                                 </>
@@ -284,7 +285,7 @@ const StatsThirdSection = ({
                                   {rider?.distance && (
                                     <h5>
                                       <strong>{rider.distance} </strong>
-                                      kilometer
+                                      {t("common.km")}
                                     </h5>
                                   )}
                                 </>
@@ -397,7 +398,7 @@ const StatsThirdSection = ({
                           />
                           <div className="link_box">
                             <Link href={buildUrlWithParams("/stats/teams-with-most-top-10-gc-finishes")} className="glob-btn">
-                              <strong>volledige stats</strong>{" "}
+                              <strong>{t("common.full_stats")}</strong>{" "} 
                               <span>
                                 <img src="/images/arow.svg" alt="" />
                               </span>
