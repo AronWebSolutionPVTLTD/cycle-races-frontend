@@ -3,7 +3,7 @@ import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import { useRouter } from "next/router";
-const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
+const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "getGrandToursRidden",
@@ -240,7 +240,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                         {firstRider?.races_count && (
                           <h5>
                             <strong>{firstRider.races_count} </strong>
-                            race days
+                            {t("common.race_days")}
                           </h5>
                         )}
 
@@ -325,7 +325,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                     return (
                       <>
                         <h5>
-                          <strong>{dnfCount}</strong>dnfs
+                          <strong>{dnfCount}</strong>{t("common.dnf")}
                         </h5>
 
                         <img
@@ -449,7 +449,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                       <>
                         <h5>
                           <strong>{riderData?.total_racing_days ?? 0}</strong>
-                          days
+                          {t("common.days")}
                         </h5>
 
                         <Link href={buildUrlWithParams("total-grand-tour-racing-days")} className="white-circle-btn">
@@ -487,7 +487,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                           <strong>
                             {riderData?.total_distance_raced ?? 0}
                           </strong>
-                          kilometers
+                          {t("common.km")}
                         </h5>
 
                         <Link href={buildUrlWithParams("total-distance-grand-tour")} className="green-circle-btn">
@@ -653,7 +653,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                         {firstRider?.gcRank && (
                           <h5>
                             <strong>{firstRider.gcRank} </strong>
-                            rank
+                            {t("common.rank")}
                           </h5>
                         )}
 
@@ -696,7 +696,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                         </div>
                         {firstRider?.number_of_race && (
                           <h5>
-                            <strong>{firstRider.number_of_race} </strong>Race days
+                            <strong>{firstRider.number_of_race} </strong>{t("common.race_days")}
                           </h5>
                         )}
 

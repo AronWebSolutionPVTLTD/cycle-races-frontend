@@ -6,7 +6,7 @@ import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
-export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
+export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) => {
   const router = useRouter();
   const raceName = router.query.name || name;
 
@@ -195,7 +195,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                                   {rider?.total_wins && (
                                     <h5>
-                                      <strong>{rider.total_wins} </strong> times
+                                      <strong>{rider.total_wins} </strong> {t("common.times")}
                                     </h5>
                                   )}
                                   <img
@@ -296,7 +296,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               {rider?.totalDNFs && (
                                 <h5>
                                   <strong>{rider.totalDNFs}</strong>
-                                  dnfs
+                                  {t("common.dnf")}
                                 </h5>
                               )}
 
@@ -430,7 +430,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           {rider?.podium_count && (
                             <h5>
                               <strong>{rider.podium_count}</strong>
-                              times
+                              {t("common.times")}
                             </h5>
                           )}
 
@@ -487,7 +487,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                               {rider?.age && (
                                 <h5>
-                                  <strong>{rider.age} </strong> years
+                                  <strong>{rider.age} </strong> {t("common.year")}
                                 </h5>
                               )}
                               <img
@@ -577,7 +577,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
 
                               {rider?.age && (
                                 <h5>
-                                  <strong>{rider.age} </strong> jaar
+                                  <strong>{rider.age} </strong> {t("common.year")}
                                 </h5>
                               )}
                             </>

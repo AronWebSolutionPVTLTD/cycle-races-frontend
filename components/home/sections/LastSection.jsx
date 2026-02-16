@@ -45,7 +45,7 @@ const LastSection = () => {
         <div className="row">
           {loading && <BoxSkeleton2 />}
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load statistics. Please try again later." />
+            <ErrorStats message={t("home.unable_to_load_statistics")} />
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>

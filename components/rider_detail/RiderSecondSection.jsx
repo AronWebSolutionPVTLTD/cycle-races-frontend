@@ -3,7 +3,7 @@ import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import { useRouter } from "next/router";
-const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
+const RiderSecondSection = ({ riderId, filterYear, imageUrl, t }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "getTop10StagesInGrandTours",
@@ -163,7 +163,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                       />
                       <div className="link_box">
                         <Link href={buildUrlWithParams("top-finishes-in-grand-tour-satges")} className="glob-btn">
-                          <strong>volledige stats</strong>{" "}
+                          <strong>{t("common.full_stats")}</strong>{" "}
                           <span>
                             <img src="/images/arow.svg" alt="" />
                           </span>
@@ -206,7 +206,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                             </div>
                             {firstRider?.age && (
                               <h5>
-                                <strong>{firstRider.age} </strong>jaar
+                                <strong>{firstRider.age} </strong>{t("common.year")}
                               </h5>
                             )}
 
@@ -240,7 +240,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                           <>
                             {response?.data?.total_gc_wins && (
                               <h5>
-                                <strong>{response?.data?.total_gc_wins} </strong>wins
+                                <strong>{response?.data?.total_gc_wins} </strong>{t("common.wins")}
                               </h5>
                             )}
 
@@ -279,7 +279,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                             {riderData?.total_days && (
                               <h5>
                                 <strong>{riderData.total_days}</strong>
-                                days
+                                {t("common.days")}
                               </h5>
                             )}
 
@@ -360,7 +360,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                         </div>
                         {firstRider?.winCount && (
                           <h5>
-                            <strong>{firstRider.winCount} </strong>wins
+                            <strong>{firstRider.winCount} </strong>{t("common.wins")}
                           </h5>
                         )}
 
@@ -398,7 +398,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl }) => {
                     return (
                       <>
                         <h5>
-                          <strong>{firstRider?.total_home_country_wins ?? 0}</strong>wins
+                          <strong>{firstRider?.total_home_country_wins ?? 0}</strong>{t("common.wins")}
                         </h5>
 
                         <Link href={buildUrlWithParams("home-country-wins")} className="white-circle-btn">

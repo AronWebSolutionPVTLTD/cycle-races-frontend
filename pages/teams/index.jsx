@@ -7,9 +7,11 @@ import { getTeamSearchList } from "@/lib/api";
 import { useEffect, useState, useRef } from "react";
 import { useMultipleData } from "@/components/home_api_data";
 import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
+import { useTranslation } from "@/lib/useTranslation";
 
 export default function Teams() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -228,7 +230,7 @@ export default function Teams() {
         displayValue = `${points} pt`;
       } else if (showAge && (team.age !== undefined || team.teamAge !== undefined)) {
         const age = team.age || team.teamAge || 0;
-        displayValue = `${age} jaar`;
+        displayValue = `${age} ${t("common.year")}`;
       }
 
       return {
@@ -328,7 +330,7 @@ export default function Teams() {
                       <div className="wrap-top">
                         <input
                           type="text"
-                          placeholder="Welke team zoek je ?"
+                          placeholder={t("teams.search_placeholder")}
                           value={searchQuery}
                           onChange={handleSearchChange}
                           onFocus={handleFocus}
@@ -377,7 +379,7 @@ export default function Teams() {
                           ) : (
                             <li className="no-results">
                               <div>
-                                <span>NO ITEMS MATCHES TO YOUR SEARCH</span>
+                                <span> {t("common.no_items_matches")}</span>
                               </div>
                             </li>
                           )}

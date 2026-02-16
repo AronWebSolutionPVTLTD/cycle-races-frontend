@@ -6,7 +6,7 @@ import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 import { useRouter } from "next/router";
 
-export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
+export const RaceDetail = ({ selectedYear, selectedNationality, name, t }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "mostWins",
@@ -19,7 +19,6 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
     box8: "getFastestRaceEdition",
     box9: "PreviousEditions",
   };
-
   const buildQueryParams = () => {
     let params = {};
     if (selectedNationality) params.nationality = selectedNationality;
@@ -201,7 +200,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                               </div>
                               {rider?.podiums && (
                                 <h5>
-                                  <strong>{rider.podiums}</strong> times
+                                  <strong>{rider.podiums}</strong> {t("common.times")}
                                 </h5>
                               )}
                               <Link
@@ -245,7 +244,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                           </div>
                           {rider?.participations && (
                             <h5>
-                              <strong>{rider.participations}</strong>times
+                              <strong>{rider.participations}</strong> {t("common.times")}
                             </h5>
                           )}
 
@@ -291,7 +290,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                               </div>
                               {rider?.wins && (
                                 <h5>
-                                  <strong>{rider.wins}</strong>times
+                                  <strong>{rider.wins}</strong> {t("common.times")}
                                 </h5>
                               )}
 
@@ -343,7 +342,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                               </div>
                               {rider?.top_10s && (
                                 <h5>
-                                  <strong>{rider.top_10s}</strong>times
+                                  <strong>{rider.top_10s}</strong> {t("common.times")}
                                 </h5>
                               )}
 
@@ -505,7 +504,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name }) => {
                               href={buildUrlWithParams("previous-editions")}
                               className="glob-btn green-bg-btn"
                             >
-                              <strong>volledige stats</strong>{" "}
+                              <strong>{t("common.full_stats")}</strong>{" "}
                               <span>
                                 <img src="/images/arow.svg" alt="" />
                               </span>

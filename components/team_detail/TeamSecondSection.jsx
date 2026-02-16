@@ -4,7 +4,7 @@ import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { useRouter } from "next/router";
 import { renderFlag } from "../RenderFlag";
 
-const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
+const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "oldestRiderUnderContract",
@@ -146,7 +146,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                         </div>
                         {(rider?.age) && (
                           <h5 className="teamcard-number">
-                            <strong>{rider.age}</strong> Years
+                            <strong>{rider.age}</strong> {t("common.years")}
                           </h5>
                         )}
                         <Link href={buildUrlWithParams("oldest-rider-under-contract")} className="white-circle-btn ">
@@ -254,7 +254,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                         </div>
                         {rider?.yearsWithTeam && (
                           <h5>
-                            <strong>{rider.yearsWithTeam}</strong> YEARS
+                            <strong>{rider.yearsWithTeam}</strong> {t("common.years")}
                           </h5>
                         )}
                         <Link href={buildUrlWithParams("rider-longest-with-the-team")} className="green-circle-btn">
@@ -364,7 +364,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                       />
                       <div className="link_box">
                         <Link href={buildUrlWithParams("last-5-podium-spots")} className="glob-btn">
-                          <strong>volledige stats</strong>{" "}
+                          <strong>{t("common.full_stats")}</strong>{" "}
                           <span>
                             <img src="/images/arow.svg" alt="" />
                           </span>
@@ -411,7 +411,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                             </div>
                             {rider?.total_races && (
                               <h5 className="teamcard-number">
-                                <strong>{rider.total_races}</strong> RACES
+                                <strong>{rider.total_races}</strong> {t("common.race")}
                               </h5>
                             )}
                             <Link href={buildUrlWithParams("rider-with-most-races")} className="white-circle-btn">
@@ -461,7 +461,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                             </div>
                             {rider?.age && (
                               <h5 className="teamcard-number">
-                                <strong>{rider.age}</strong> YEARS
+                                <strong>{rider.age}</strong> {t("common.years")}
                               </h5>
                             )}
                             <Link href={buildUrlWithParams("youngest-rider-under-contract")} className="green-circle-btn">
@@ -511,7 +511,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                             </div>
                             {mostSuccessfulRace?.total_wins && (
                               <h5 className="teamcard-number">
-                                <strong>{mostSuccessfulRace.total_wins}</strong> WINS
+                                <strong>{mostSuccessfulRace.total_wins}</strong> {t("common.wins")}
                               </h5>
                             )}
                             <Link href={buildUrlWithParams("most-successful-race")} className="green-circle-btn">

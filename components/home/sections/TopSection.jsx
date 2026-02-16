@@ -4,8 +4,7 @@ import { renderFlag } from '@/components/RenderFlag';
 import Link from 'next/link'
 import { useRouter } from 'next/router';
 import React from 'react'
-import { useTranslation } from '@/lib/useTranslation';
-const TopSection = () => {
+const TopSection = ({ t }) => {
   const fixedApis = {
     box1: "getFeatureRace",
     box2: "getFeatureRider",
@@ -14,14 +13,13 @@ const TopSection = () => {
   const endpointsToFetch = Object.values(fixedApis);
   const router = useRouter();
   const { data, loading, error } = useMultipleData(endpointsToFetch);
-const { t } = useTranslation();
 return (
     <section className="featured-section">
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton3 />}
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load statistics. Please try again later." />
+            <ErrorStats message={t("home.unable_to_load_statistics")} />
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
@@ -44,6 +42,7 @@ return (
                             <ErrorMessage errorType="no_data_found" />;
                           </>
                         )
+                        
                       }
 
                       return (

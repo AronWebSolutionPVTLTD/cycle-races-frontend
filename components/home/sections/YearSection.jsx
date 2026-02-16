@@ -5,7 +5,7 @@ import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useTranslation } from "@/lib/useTranslation";
+
 const fixedApis = {
   box1: "mostWin",
   box2: "stageTop10sRider",
@@ -18,8 +18,7 @@ const fixedApis = {
   box9: "mostDNFs",
 };
 
-const YearSection = () => {
-  const { t } = useTranslation();
+const YearSection = ({ t }  ) => {
   const endpointsToFetch = Object.values(fixedApis);
   const { data, loading, error } = useMultipleData(endpointsToFetch);
   const router = useRouter();
@@ -59,7 +58,7 @@ const YearSection = () => {
           {loading && <BoxSkeleton />}
 
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load statistics. Please try again later." />
+            <ErrorStats message={t("home.unable_to_load_statistics")} />
           )}
 
           {!loading && !(error && Object.keys(data || {}).length === 0) && (

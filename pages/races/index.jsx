@@ -11,6 +11,7 @@ import {
 } from "@/components/loading&error";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { renderFlag } from "@/components/RenderFlag";
+import { useTranslation } from "@/lib/useTranslation";
 
 function convertDateRange(dateStr) {
   const monthNames = [
@@ -87,7 +88,7 @@ export default function Results() {
     "December",
   ];
 
-
+  const { t } = useTranslation();
 
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions = ["All-time", ...withoutAllTime];
@@ -432,9 +433,9 @@ export default function Results() {
                   <li>
                     <Link href="/">home</Link>
                   </li>
-                  <li>results</li>
+                  <li>{t("races.results")}</li>
                 </ul>
-                <h1 className="fw-900 fst-italic">Results</h1>
+                <h1 className="fw-900 fst-italic">{t("races.results")}</h1>
                 <div ref={parentRef} className="searchInput 222">
                   <form onSubmit={handleSearch}>
                     <div className="wraper">
@@ -502,7 +503,7 @@ export default function Results() {
                           ) : (
                             <li className="no-results">
                               <div>
-                                <span>NO ITEMS MATCHES TO YOUR SEARCH</span>
+                                <span>{t("common.no_items_matches_to_your_search")}</span>
                               </div>
                             </li>
                           )}
@@ -572,10 +573,10 @@ export default function Results() {
 
               <div className="col-lg-9 col-md-7 ctm-table-wrap">
                 <ul className="head-heading">
-                  <li>Date</li>
-                  <li>Race</li>
-                  <li>Winner</li>
-                  <li>Team</li>
+                  <li>{t("common.date")}</li>
+                  <li>{t("common.race")}</li>
+                  <li>{t("common.winner")}</li>
+                  <li>{t("common.team")}</li>
                 </ul>
 
                 {loading ? (
@@ -720,7 +721,7 @@ export default function Results() {
                       </div>
                       {race?.speed && (
                         <h5>
-                          <strong>{race.speed}</strong> wins
+                          <strong>{race.speed}</strong> {t("common.wins")}
                         </h5>
                       )}
                       <Link
@@ -732,7 +733,7 @@ export default function Results() {
                     </div>
                   ))
                 ) : (
-                  <div className="no-results">No featured races available</div>
+                  <div className="no-results">{t("races.no_featured_races_available")}</div>
                 )}
               </div>
             </div>

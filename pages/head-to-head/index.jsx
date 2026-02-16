@@ -10,10 +10,11 @@ import Flag from "react-world-flags";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
 import { renderFlag } from "@/components/RenderFlag";
-
+import { useTranslation } from "@/lib/useTranslation";
 
 export default function HeadToHead() {
   const router = useRouter();
+  const { t } = useTranslation();
   const containerRef = useRef(null);
   const sentinelRef = useRef(null);
   const startOffset = useRef(0);
@@ -927,14 +928,14 @@ useEffect(() => {
                     <div className="h2h-search-row">
 
                       <div className="h2h-search-column rider">
-                        <h6 className="mb-0 mb-10px">Rider 1</h6>
+                        <h6 className="mb-0 mb-10px">{t("head_to_head.rider")} 1</h6>
                         <div className="searchInput" ref={searchRef}>
 
                           <div className="wraper">
                             <div className={`wrap-top `}>
                               <input
                                 type="text"
-                                placeholder="Search"
+                                placeholder={t("common.search")}
                                 value={searchQuery1}
                                 onChange={handleSearchChange1}
                                 onFocus={handleFocus1}
@@ -989,7 +990,7 @@ useEffect(() => {
                               <ul>
                                 <li>
                                   <div style={{ textAlign: "center", padding: "10px" }}>
-                                    <span>Searching...</span>
+                                    <span>  {t("common.searching")}...</span>
                                   </div>
                                 </li>
                               </ul>
@@ -1000,7 +1001,7 @@ useEffect(() => {
                               <ul>
                                 <li>
                                   <div style={{ textAlign: "center", padding: "10px" }}>
-                                    <span>no items matches to your search</span>
+                                    <span>  {t("common.no_items_matches")}</span>
                                   </div>
                                 </li>
                               </ul>
@@ -1014,13 +1015,13 @@ useEffect(() => {
                       </div>
 
                       <div className="h2h-search-column rider">
-                        <h6 className="mb-0 mb-10px">Rider 2</h6>
+                        <h6 className="mb-0 mb-10px">{t("head_to_head.rider")} 2</h6>
                         <div className="searchInput" ref={searchRef2}>
                           <div className="wraper">
                             <div className={`wrap-top`}>
                               <input
                                 type="text"
-                                placeholder="Search"
+                                placeholder={t("common.search")}
                                 value={searchQuery2}
                                 onChange={handleSearchChange2}
                                 onFocus={handleFocus2}
@@ -1172,7 +1173,7 @@ useEffect(() => {
                 prevRider2IdRef.current = selectedRider2.rider_id;
               }}
             >
-              <strong>Compare</strong>
+              <strong>{t("head_to_head.compare")}</strong>
               <span>
                 <img src="/images/arow.svg" alt="" />
               </span>
@@ -1190,7 +1191,7 @@ useEffect(() => {
               >
                 <div className="rider-compare-show-result">
                   <div className="compare-result-col">
-                    <h6 className="mb-10px">Rider 1</h6>
+                    <h6 className="mb-10px">{t("head_to_head.rider")} 1</h6>
                     <div className="d-flex align-items-center justify-content-between">
                       <h4 className="text-uppercase d-flex align-items-center fw-900 mb-0">
                         {selectedRider1 && (
@@ -1232,7 +1233,7 @@ useEffect(() => {
                   </div>
 
                   <div className="compare-result-col compare-result-col--last">
-                    <h6 className="mb-10px text-start text-md-end w-100">Rider 2</h6>
+                    <h6 className="mb-10px text-start text-md-end w-100">{t("head_to_head.rider")} 2</h6>
                     <div className="w-100 d-flex align-items-center justify-content-between justify-content-md-end">
                       <h4 className="text-uppercase d-flex align-items-center fw-900 mb-0 justify-content-start justify-content-md-end">
                         {selectedRider2 && (
@@ -1289,13 +1290,13 @@ useEffect(() => {
                         </div>
                       </div>
                       <div className="col-lg-9 col-md-12 h2h_result_section">
-                        <h5 className="fw-900">Results in same race</h5>
+                        <h5 className="fw-900"> {t("head_to_head.result-same-race")}</h5>
                         <div className="slug-table-main head-to-head-main">
                           <ul className="slug-table-head head-to-head">
-                            <li className="date-col">Date</li>
-                            <li className="race-col">Race</li>
-                            <li className="text-lg-end rider-col"><span className="d-none d-md-inline">Rider </span>1</li>
-                            <li className="text-lg-end rider-col"><span className="d-none d-md-inline">Rider </span>2</li></ul>
+                            <li className="date-col">{t("common.date")}</li>
+                            <li className="race-col">{t("common.race")}</li>
+                            <li className="text-lg-end rider-col"><span className="d-none d-md-inline">{t("head_to_head.rider")} </span>1</li>
+                            <li className="text-lg-end rider-col"><span className="d-none d-md-inline">{t("head_to_head.rider")} </span>2</li></ul>
 
                           <ul className="slug-table-body">
                             {renderRidersList()}

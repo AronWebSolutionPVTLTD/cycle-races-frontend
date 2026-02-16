@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import Flag from "react-world-flags";
+import { useTranslation } from "@/lib/useTranslation";
 
 export default function RaceDetailsPage({ year,initialRace,apiError}) {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [selectedNationality, setSelectedNationality] =
     useState("All-Nationalities");
-
+  const { t } = useTranslation();
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
   const [nationalities, setNationalities] = useState([]);
   const [raceData, setRaceData] = useState(initialRace);
@@ -185,13 +186,12 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
     return (
       <div className="container pt-161px">
         <div className="alert alert-danger text-center">
-          <h3>Something went wrong</h3>
+          <h3>{t("common.something_went_wrong")}</h3>
           <p>
-            We’re having trouble loading this race right now.
-            Please try again later.
+            {t("common.api_error")}
           </p>
           <Link href="/races" className="glob-btn green-bg-btn">
-            <strong>Go to Races</strong>
+            <strong>{t("races.go_to_races")}</strong>
           </Link>
         </div>
       </div>
@@ -235,7 +235,7 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
                       <Link href="/">Home</Link>
                     </li>
                     <li>
-                      <Link href="/races">Races</Link>
+                      <Link href="/races">{t("races.results")}</Link>
                     </li>
                     <li>{raceData.race_name}</li>
                   </ul>
@@ -314,6 +314,7 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
                           : null
                       }
                       name={name}
+                      t={t}
                     />
                   ) : (
                     <OneDayRace
@@ -326,6 +327,7 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
                           : null
                       }
                       name={name}
+                      t={t}
                     />
                   )}
                 </>

@@ -8,7 +8,6 @@ import {
 import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useTranslation } from "@/lib/useTranslation";
 function convertDateRange(dateStr) {
   const monthNames = [
     "jan", "feb", "mar", "apr", "may", "jun",
@@ -51,11 +50,10 @@ function convertDateRange(dateStr) {
   }
 }
 
-const FirstSection = () => {
+const FirstSection = ({ t }) => {
   const fixedApis = {
     section2: "recentCompleteRace",
   };
-  const { t } = useTranslation();
   const router = useRouter();
   const endpointsToFetch = Object.values(fixedApis);
   const { data, loading, error } = useMultipleData(endpointsToFetch);
@@ -95,7 +93,7 @@ const FirstSection = () => {
           )}
           {!loading && error && Object.keys(data || {}).length === 0 && (
             <div className="col-12">
-              <ErrorStats message="Unable to load statistics. Please try again later." />
+              <ErrorStats message={t("home.unable_to_load_statistics")} />
             </div>
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (

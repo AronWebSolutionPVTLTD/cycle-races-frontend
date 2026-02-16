@@ -5,8 +5,10 @@ import TopSection from "@/components/home/sections/TopSection";
 import UpcomingYear from "@/components/home/sections/UpcomingYear";
 import YearSection from "@/components/home/sections/YearSection";
 import Head from "next/head";
+import { useTranslation } from "@/lib/useTranslation";
 
 export default function Home() {
+  const { t } = useTranslation();
   return (
     <>
       <Head>
@@ -17,15 +19,15 @@ export default function Home() {
       </Head>
 
       <main className="home-main inner-pages-main">
-       <TopSection />
-        <FirstSection />
-        <YearSection />
+       <TopSection t={t} />
+        <FirstSection t={t} />
+        <YearSection t={t} />
         <MostWin
           apiEndpoint="mostWin"
           title="Most Wins"
           dataField="wins"
         />
-        <UpcomingYear /> 
+        <UpcomingYear t={t} /> 
          {/* <LastSection /> */}
       </main>
     </>

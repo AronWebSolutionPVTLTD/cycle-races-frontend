@@ -80,7 +80,7 @@ const StatsSecondSection = ({
         <div className="row">
           {loading && <BoxSkeleton />}
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load statistics. Please try again later." />
+            <ErrorStats message={t("common.unable_to_load_statistics")} />
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>

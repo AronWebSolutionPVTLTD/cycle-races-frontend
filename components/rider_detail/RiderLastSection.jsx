@@ -4,7 +4,7 @@ import { BoxSkeleton3, CardSkeleton, ErrorMessage, ErrorStats } from "../loading
 import { renderFlag } from "../RenderFlag";
 import { useRouter } from "next/router";
 
-const RiderLastSection = ({ riderId }) => {
+const RiderLastSection = ({ riderId, t }) => {
   const fixedApis = {
     box1: "getSimilarRiders",
   };
@@ -26,7 +26,7 @@ const router = useRouter();
   return (
     <section className="featured-section">
       <div className="container">
-        <h2 className="fw-900 fst-italic section-header">Similar Riders</h2>
+        <h2 className="fw-900 fst-italic section-header">{t("riders.similar_riders")}</h2>
         <div className="row">
           {loading && <BoxSkeleton3 />}
           {error && Object.keys(data || {}).length === 0 && (

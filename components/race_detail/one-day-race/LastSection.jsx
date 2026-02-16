@@ -9,6 +9,7 @@ export const LastSection = ({
   selectedYear = null,
   selectedNationality = null,
   name = null,
+  t = null,
 }) => {
   const router = useRouter();
   const fixedApis = {
@@ -25,7 +26,6 @@ export const LastSection = ({
     box11: "getYoungestTop10Rider",
     box12: "getLastWinnerFromCountry",
   };
-
   const buildQueryParams = () => {
     let params = {};
     if (selectedNationality) params.nationality = selectedNationality;
@@ -125,7 +125,7 @@ export const LastSection = ({
                           </div>
                           {rider?.dnf_count && (
                             <h5>
-                              <strong>{rider.dnf_count}</strong>dnfs
+                              <strong>{rider.dnf_count}</strong>{t("common.dnf")}
                             </h5>
                           )}
 
@@ -180,7 +180,7 @@ export const LastSection = ({
                           </div>
                           {rider?.finish_count && (
                             <h5>
-                              <strong>{rider.finish_count}</strong>times
+                              <strong>{rider.finish_count}</strong>{t("common.times")}
                             </h5>
                           )}
 
@@ -234,7 +234,7 @@ export const LastSection = ({
                           </div>
                           {rider?.streak && (
                             <h5>
-                              <strong>{rider.streak}</strong>times
+                              <strong>{rider.streak}</strong>{t("common.times")}
                             </h5>
                           )}
                           <Link
@@ -279,7 +279,7 @@ export const LastSection = ({
                           </div>
                           {rider?.distance_km && (
                             <h5>
-                              <strong>{rider.distance_km}</strong>kilometers
+                              <strong>{rider.distance_km}</strong>{t("common.km")}
                             </h5>
                           )}
                           <Link
@@ -339,7 +339,7 @@ export const LastSection = ({
 
                                 {rider?.dnf_count && (
                                   <h5>
-                                    <strong>{rider.dnf_count}</strong> dnfs
+                                    <strong>{rider.dnf_count}</strong> {t("common.dnf")}
                                   </h5>
                                 )}
 
@@ -388,7 +388,7 @@ export const LastSection = ({
                               </div>
                               {rider?.wins && (
                                 <h5>
-                                  <strong>{rider.wins}</strong>times
+                                  <strong>{rider.wins}</strong> {t("common.times")}
                                 </h5>
                               )}
 
@@ -445,7 +445,7 @@ export const LastSection = ({
                               </div>
                               {rider?.wins && (
                                 <h5>
-                                  <strong>{rider.wins}</strong>wins
+                                  <strong>{rider.wins}</strong> {t("common.wins")}
                                 </h5>
                               )}
                               <Link
@@ -494,7 +494,7 @@ export const LastSection = ({
                               </div>
                               {rider?.rank && (
                                 <h5>
-                                  <strong>{rider.rank}</strong>rank
+                                  <strong>{rider.rank}</strong>{t("common.rank")}
                                 </h5>
                               )}
 
@@ -568,7 +568,7 @@ export const LastSection = ({
                               href={buildUrlWithParams("debut-riders-in-race")}
                               className="glob-btn green-bg-btn"
                             >
-                              <strong>volledige stats</strong>{" "}
+                              <strong>{t("common.full_stats")}</strong>{" "}
                               <span>
                                 <img src="/images/arow.svg" alt="" />
                               </span>
@@ -649,7 +649,7 @@ export const LastSection = ({
                           </div>
                           {rider?.rank && (
                             <h5>
-                              <strong>{rider.rank}</strong>rank
+                              <strong>{rider.rank}</strong> {t("common.rank")}
                             </h5>
                           )}
                           <Link

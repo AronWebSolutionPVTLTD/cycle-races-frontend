@@ -2,7 +2,7 @@ const en={
   "common": {
     "search": "Search",
     "searching": "Searching",
-    "no_items_matches_to_your_search": "No items matches to your search",
+    "no_items_matches": "No items matches to your search",
     "full_stats": "Full stats",
     "times": "times",
     "days": "days",
@@ -11,8 +11,25 @@ const en={
     "km": "km",
     "kg": "kg",
     "year": "year",
-    "dnf": "DNF",
-
+    "years": "years",
+    "dnf": "DNFS",
+    "all_time": "All-time",
+    "date": "Date",
+    "race": "Race",
+    "winner": "Winner",
+    "team": "Team",
+    "all_nationalities": "All nationalities",
+    "rank": "Rank",
+    "name": "Name",
+    "podium": "Podium",
+    "race_days": "Race days",
+    "api_error": "We’re having trouble loading the data right now. Please try again later",
+    "something_went_wrong": "Something went wrong",
+    "since": "Since",
+    "stages": "stages",
+    "points": "points",
+    "error_loading_data": "Error Loading Data",
+    "unable_to_load_statistics": "Unable to load statistics. Please try again later.",
 
   },
   "header": {
@@ -37,6 +54,7 @@ const en={
     "all_statistics": "All statistics",
     "upcoming": "Upcoming",
     "all_races": "All races",
+    "unable_to_load_statistics": "Unable to load statistics. Please try again later.",
     
   },
   "stats": {
@@ -44,5 +62,31 @@ const en={
     "all_teams": "All teams",
     "reset_filter": "Reset filter",
   },
+  "races": {
+    "results": "Results",
+    "no_featured_races_available": "No featured races available",
+    "go_to_races": "Go to Races",
+  },
+  "riders": {
+    "riders": "Riders",
+    "popular": "Popular",
+    "error_loading_riders": "Failed to load riders. Please try again later.",
+    "go_to_riders": "Go to Riders",
+    "not_available": "Rider Information Not Available",
+    "similar_riders": "Similar Riders",
+    
+  },
+  "head_to_head": {
+    "rider": "Rider",
+    "compare": "Compare",
+    "result-same-race": "Results in same race",
+  },
+  "teams": {
+    "search_placeholder": "welke team zoek je?",
+    "go_to_teams": "Go to Teams",
+    "not_available": "Team Information Not Available",
+    "not_found": "We couldn't find information for this team",
+
+  }
 }
 export default en;
