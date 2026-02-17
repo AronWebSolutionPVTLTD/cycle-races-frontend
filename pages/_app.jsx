@@ -13,6 +13,7 @@ import '../styles/style.scss'
 import '../styles/responsive.css'
 import '../styles/custom.css'
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -25,11 +26,19 @@ const archivo = Archivo({
 });
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "";
+
+  const cleanPath = router.asPath.split("?")[0];
+  const canonicalUrl = `${SITE_URL}${cleanPath}`;
+
   return (
     <>
-      {/* Google Analytics */}
       <Head>
         <meta name="google-adsense-account" content="ca-pub-5429831539927628" />
+        {canonicalUrl && (
+    <link rel="canonical" href={canonicalUrl} />
+  )}
       </Head>
       <Script
         strategy="afterInteractive"
