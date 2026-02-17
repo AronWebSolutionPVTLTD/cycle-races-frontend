@@ -26,8 +26,9 @@ const archivo = Archivo({
 });
 
 function MyApp({ Component, pageProps }) {
-  // const router = useRouter();
-  // const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "";
+  const router = useRouter();
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "";
+  console.log(SITE_URL);
   return (
     <>
       {/* Google Analytics */}
