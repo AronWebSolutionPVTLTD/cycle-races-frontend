@@ -28,15 +28,25 @@ export const Loading = () => (
 
 export const ErrorMessage = ({ errorType = "general" }) => {
   const errorMessages = {
-    api_error: "API Error",
-    no_data: "No Data Available",
-    no_endpoint_data: "No Endpoint Data",
-    null_data: "Data Not Found",
-    empty_array: "No Records Found",
-    empty_object: "No Information Available",
-    processing_error: "Data Processing Error",
-    no_data_found: "No Records Found",
-    general: "No Data Available",
+    // api_error: "API Error",
+    // no_data: "No Data Available",
+    // no_endpoint_data: "No Endpoint Data",
+    // null_data: "Data Not Found",
+    // empty_array: "No Records Found",
+    // empty_object: "No Information Available",
+    // processing_error: "Data Processing Error",
+    // no_data_found: "No Records Found",
+    // general: "No Data Available",
+    api_error: "API-fout",
+    no_data: "Geen gegevens beschikbaar",
+    no_endpoint_data: "Geen endpointgegevens beschikbaar",
+    null_data: "Gegevens niet gevonden",
+    empty_array: "Geen resultaten gevonden",
+    empty_object: "Geen informatie beschikbaar",
+    processing_error: "Fout bij het verwerken van gegevens",
+    no_data_found: "Geen resultaten gevonden",
+    general: "Geen gegevens beschikbaar",
+
   };
 
   return (
@@ -55,61 +65,17 @@ export const ErrorStats = ({ message }) => (
         <line x1="12" y1="16" x2="12.01" y2="16" />
       </svg>
     </div>
-    <h3 className="text-danger">Error Loading Data</h3>
+    <h3 className="text-danger">Er ging iets mis</h3>
     <p className="text-muted">{message || "Failed to load statistics"}</p>
     <button
       className="btn btn-outline-primary mt-3"
       onClick={() => window.location.reload()}
     >
-      Try Again
+      Probeer opnieuw
     </button>
   </div>
 );
 
-export const NoDataMessage = ({ filterYear }) => (
-  <div className="no-data-message text-center p-5 my-4 bg-light rounded shadow-sm">
-    <div className="mb-3">
-      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" strokeWidth="1" className="mb-3">
-        <circle cx="12" cy="12" r="10" />
-        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
-      </svg>
-    </div>
-    <h3 className="text-muted">No Data Available</h3>
-    <p className="text-muted">
-      No statistics found for this rider {filterYear !== 'All-time' ? `in ${filterYear}` : ''}.
-    </p>
-    <button
-      className="btn btn-outline-primary mt-3"
-      onClick={() => window.location.reload()}
-    >
-      Try Different Random Statistics
-    </button>
-  </div>
-);
-
-export const PartialDataWarning = ({ visibleCardCount, totalEndpoints, error }) => (
-  <div className="warning-banner w-100 p-3 mb-4 alert alert-warning">
-    <div className="d-flex justify-content-between align-items-center">
-      <p className="mb-1">
-        <strong>Partial Data Available:</strong> Showing {visibleCardCount} of {totalEndpoints} statistics.
-      </p>
-      <button
-        className="btn btn-sm btn-outline-secondary"
-        onClick={() => window.location.reload()}
-      >
-        Refresh
-      </button>
-    </div>
-    {error && error.failedEndpoints && (
-      <details>
-        <summary className="cursor-pointer mt-2">View details</summary>
-        <p className="mt-2 mb-0">
-          Failed to load some statistics. Try refreshing for new random statistics.
-        </p>
-      </details>
-    )}
-  </div>
-);
 
 export const BoxSkeleton = () => {
   return (
@@ -433,7 +399,7 @@ export const BoxSkeleton3 = () => {
               </div>
             </div>
           </div>
-        </div>    
+        </div>
       </div>
     </div>
   );
@@ -621,8 +587,6 @@ export const CardSkeleton = () => {
 export default {
   LoadingStats,
   ErrorStats,
-  NoDataMessage,
-  PartialDataWarning,
   BoxSkeleton,
   BoxSkeleton2,
   TwoSectionSkeleton,

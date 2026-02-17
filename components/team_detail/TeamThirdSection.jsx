@@ -4,7 +4,7 @@ import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { useRouter } from "next/router";
 import { renderFlag } from "../RenderFlag";
 
-const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
+const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "MostTop10InRaces",
@@ -94,7 +94,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
         {loading && <BoxSkeleton />}
 
         {error && Object.keys(data || {}).length === 0 && (
-          <ErrorStats message="Unable to load team statistics. Please try again later." />
+          <ErrorStats message={t("common.api_error")} />
         )}
 
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
@@ -195,7 +195,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
 
                         <h5 className="wins-big-count">
-                          <strong>{winsData.totalWins}</strong> wins
+                          <strong>{winsData.totalWins}</strong> {t("common.wins")}
                         </h5>
 
 
@@ -248,7 +248,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
 
                         <h5 className="teamcard-number">
-                          <strong>{rider?.total_uci_points}</strong> POINTS
+                          <strong>{rider?.total_uci_points}</strong> {t("common.points")}
                         </h5>
 
 

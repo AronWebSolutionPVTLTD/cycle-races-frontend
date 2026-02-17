@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { callAPI } from '@/lib/api';
-
+import { useTranslation } from '@/lib/useTranslation';
 const Footer = () => {
     const [footerData, setFooterData] = useState({
         monuments: [],
@@ -10,7 +10,7 @@ const Footer = () => {
         popularRiders: []
     });
     const [loading, setLoading] = useState(true);
-
+    const { t } = useTranslation();
     useEffect(() => {
         const fetchFooterData = async () => {
             try {
@@ -60,7 +60,7 @@ const Footer = () => {
                                     <div className='row'>
                                         <div className='col-md-12 col-6'>
                                             <div className="content-wrap">
-                                                <h5>Grand Tours</h5>
+                                                <h5>{t("footer.grand_tours")}</h5>
                                                 <ul>
                                                     {loading ? (
                                                         <li>Loading...</li>
@@ -78,7 +78,7 @@ const Footer = () => {
                                         </div>
                                         <div className='col-md-12 col-6'>
                                             <div className="content-wrap mb-md-0">
-                                                <h5>Monuments</h5>
+                                                <h5>{t("footer.monuments")}</h5>
                                                 <ul>
                                                     {loading ? (
                                                         <li>Loading...</li>
@@ -100,7 +100,7 @@ const Footer = () => {
                                     <div className='row'>
                                         <div className='col-6'>
                                             <div className="content-wrap mb-md-0">
-                                                <h5>Classics</h5>
+                                                <h5>{t("footer.classics")}</h5>
                                                 <ul>
                                                     {loading ? (
                                                         <li>Loading...</li>
@@ -118,7 +118,7 @@ const Footer = () => {
                                         </div>
                                         <div className='col-6'>
                                             <div className="content-wrap mb-md-0">
-                                                <h5>Popular riders</h5>
+                                                <h5>{t("footer.popular_riders")}</h5>
                                                 <ul>
                                                     {loading ? (
                                                         <li>Loading...</li>

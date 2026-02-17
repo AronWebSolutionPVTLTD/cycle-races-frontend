@@ -5,7 +5,7 @@ import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
-export const LastSection = ({ selectedYear, selectedNationality, name }) => {
+export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
   const router = useRouter();
   const raceName = router.query.name || name;
   const fixedApis = {
@@ -97,7 +97,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
         <div className="row">
           {loading && <BoxSkeleton />}
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load rider statistics. Please try again later." />
+            <ErrorStats message={t("common.api_error")} />
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
@@ -162,7 +162,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               )}
                               className="glob-btn green-bg-btn"
                             >
-                              <strong>volledige stats</strong>{" "}
+                              <strong>{t("common.full_stats")}</strong>{" "}
                               <span>
                                 <img src="/images/arow.svg" alt="" />
                               </span>
@@ -220,7 +220,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                   {rider?.sprint_wins && (
                                     <h5>
                                       <strong>{rider.sprint_wins} </strong>{" "}
-                                      times
+                                      {t("common.times")}
                                     </h5>
                                   )}
                                   <img
@@ -277,7 +277,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                                   {rider?.young_wins && (
                                     <h5>
-                                      <strong>{rider.young_wins} </strong> times
+                                      <strong>{rider.young_wins} </strong> {t("common.times")}
                                     </h5>
                                   )}
                                 </>
@@ -328,7 +328,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               {rider?.finish_count && (
                                 <h5>
                                   <strong>{rider.finish_count}</strong>
-                                  times
+                                  {t("common.times")}
                                 </h5>
                               )}
 
@@ -381,7 +381,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                   {rider?.age && (
                                     <h5>
                                       <strong>{rider.age}</strong>
-                                      jaar
+                                      {t("common.year")}
                                     </h5>
                                   )}
                                   <Link
@@ -436,7 +436,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               </div>
                               {rider?.age && (
                                 <h5>
-                                  <strong>{rider.age}</strong>jaar
+                                  <strong>{rider.age}</strong>{t("common.year")}
                                 </h5>
                               )}
 
@@ -555,7 +555,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                           {rider?.distance_km && (
                             <h5>
                               <strong>{rider.distance_km} </strong>
-                              kilometers
+                              {t("common.km")}
                             </h5>
                           )}
 
@@ -602,7 +602,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                               {rider?.count && (
                                 <h5>
-                                  <strong>{rider.count} </strong> times
+                                  <strong>{rider.count} </strong> {t("common.times")}
                                 </h5>
                               )}
                             </>
@@ -653,7 +653,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                                   {rider?.wins && (
                                     <h5>
-                                      <strong>{rider.wins} </strong> times
+                                      <strong>{rider.wins} </strong> {t("common.times")}
                                     </h5>
                                   )}
                                 </>
@@ -700,7 +700,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                                   {rider?.count && (
                                     <h5>
-                                      <strong>{rider.count} </strong> times
+                                      <strong>{rider.count} </strong> {t("common.times")}
                                     </h5>
                                   )}
                                 </>
@@ -747,7 +747,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
 
                                   {rider?.age && (
                                     <h5>
-                                      <strong>{rider.age} </strong> jaar
+                                      <strong>{rider.age} </strong> {t("common.year")}
                                     </h5>
                                   )}
                                 </>
@@ -794,7 +794,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               </div>
                               <h5>
                                 <strong>{rider?.distance_km ?? 0}</strong>
-                                kilometers
+                                {t("common.km")}
                               </h5>
 
                               <Link
@@ -870,7 +870,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                               href={buildUrlWithParams("oldest-top10-finisher")}
                               className="glob-btn green-bg-btn"
                             >
-                              <strong>volledige stats</strong>{" "}
+                              <strong>{t("common.full_stats")}</strong>{" "}
                               <span>
                                 <img src="/images/arow.svg" alt="" />
                               </span>

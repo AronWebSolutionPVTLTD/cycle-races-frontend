@@ -10,6 +10,7 @@ import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
 import getItemId from "@/pages/getId";
 import { renderFlag } from "@/components/RenderFlag";
+import { useTranslation } from "@/lib/useTranslation";
 
 
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
@@ -71,7 +72,7 @@ export async function getServerSideProps(context) {
 export default function DynamicSlugPage({ year }) {
   const router = useRouter();
   const { slug } = router.query;
-
+  const { t } = useTranslation();
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -551,7 +552,7 @@ export default function DynamicSlugPage({ year }) {
                     <Link href="/">Home</Link>
                   </li>
                   <li>
-                    <Link href="/stats">Stats</Link>
+                    <Link href="/races">{t("common.results")}</Link>
                   </li>
                   <li>{pageHeading}</li>
                 </ul>
@@ -592,7 +593,8 @@ export default function DynamicSlugPage({ year }) {
                     }`}
                 >
                   {getDynamicHeaders().map((header, index) => (
-                    <li key={index}>{header}</li>
+                    <li key={index}>
+                      {t(`table.${header.toLowerCase().replace(/\s+/g, "_")}`)}</li>
                   ))}
                 </ul>
 

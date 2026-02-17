@@ -6,7 +6,7 @@ import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
-export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
+export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => {
   const router = useRouter();
   const raceName = router.query.name || name;
 
@@ -88,7 +88,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
         <div className="row">
           {loading && <BoxSkeleton />}
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load rider statistics. Please try again later." />
+            <ErrorStats message={t("common.api_error")} />
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
@@ -147,7 +147,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                               href={buildUrlWithParams("top-last-year-gc")}
                               className="glob-btn green-bg-btn"
                             >
-                              <strong>volledige stats</strong>{" "}
+                              <strong>{t("common.full_stats")}</strong>{" "}
                               <span>
                                 <img src="/images/arow.svg" alt="" />
                               </span>
@@ -198,7 +198,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
 
                               {rider?.wins && (
                                 <h5>
-                                  <strong>{rider.wins}</strong> times
+                                  <strong>{rider.wins}</strong> {t("common.times")}
                                 </h5>
                               )}
 
@@ -249,7 +249,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                               {rider?.wins && (
                                 <h5>
                                   <strong>{rider.wins}</strong>
-                                  times
+                                  {t("common.times")}
                                 </h5>
                               )}
 
@@ -406,7 +406,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                               </div>
                               {rider?.count && (
                                 <h5>
-                                  <strong>{rider.count}</strong> dnfs
+                                  <strong>{rider.count}</strong> {t("common.dnf")}
                                 </h5>
                               )}
 
@@ -490,7 +490,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                               </div>
                               {rider?.podiums && (
                                 <h5>
-                                  <strong>{rider.podiums}</strong> times
+                                  <strong>{rider.podiums}</strong> {t("common.times")}
                                 </h5>
                               )}
 

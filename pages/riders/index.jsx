@@ -7,6 +7,7 @@ import { getTeamsRiders } from "@/lib/api";
 import { useEffect, useState, useRef } from "react";
 import { useMultipleData } from "@/components/home_api_data";
 import { CardSkeleton, ListSkeleton, ErrorStats } from "@/components/loading&error";
+import { useTranslation } from "@/lib/useTranslation";
 
 export default function Riders() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function Riders() {
       victoryRanking: "/riders/victoryRanking",
     },
   });
-
+  const { t } = useTranslation();
   useEffect(() => {
     fetchRiders();
     const handleClickOutside = (event) => {
@@ -64,13 +65,13 @@ export default function Riders() {
         })
         .catch((err) => {
           console.error("Unhandled error in fetchRiders:", err);
-          setError("An unexpected error occurred while fetching rider data");
+          setError(t("riders.error_loading_riders"));
         })
         .finally(() => {
           setLoading(false);
         });
     } catch (err) {
-      setError("Critical error loading riders data");
+      setError(t("common.something_went_wrong"));
       setLoading(false);
     }
   };
@@ -202,7 +203,7 @@ export default function Riders() {
             team={team.teamName}
             flag={rider.riderCountry}
             riderId={rider.rider_id}
-          riderSlug={rider.riderSlug}          />
+            riderSlug={rider.riderSlug} />
         ))
         : null
     );
@@ -215,13 +216,13 @@ export default function Riders() {
       name: rider.rider_name || rider.riderName || rider.name,
       age:
         showVictories && rider.victories
-          ? `${rider.victories} wins`
+          ? `${rider.victories} ${t("common.wins")}`
           : rider.age
-            ? `${rider.age} jaar`
+            ? `${rider.age} ${t("common.year")}`
             : "",
       flag: rider.country || rider.riderCountry || "/images/flag-default.svg",
       rider_id: rider.rider_id || rider._id || rider.riderId,
-      slug:rider.riderSlug
+      slug: rider.riderSlug
 
     }));
   };
@@ -313,9 +314,9 @@ export default function Riders() {
                   <li>
                     <Link href="/">Home</Link>
                   </li>
-                  <li>Riders</li>
+                  <li>{t("riders.riders")}</li>
                 </ul>
-                <h1>Riders</h1>
+                <h1>{t("riders.riders")}</h1>
                 <div className="searchInput 333" ref={searchRef}>
                   <form onSubmit={handleSearchSubmit}>
                     <div className="wraper">
@@ -371,7 +372,7 @@ export default function Riders() {
                           ) : (
                             <li className="no-results">
                               <div>
-                                <span>NO ITEMS MATCHES TO YOUR SEARCH</span>
+                                <span>{t("common.no_items_matches")}</span>
                               </div>
                             </li>
                           )}
@@ -389,18 +390,18 @@ export default function Riders() {
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                <h5 className="fw-900">Popular</h5>
+                <h5 className="fw-900">{t("riders.popular")}</h5>
               </div>
               <div className="col-lg-9 col-md-7 ctm-table-wrap">
                 <ul className="head-heading ctm-table-ul">
-                  <li>Name</li>
-                  <li>Team</li>
+                  <li>{t("common.name")}</li>
+                  <li>{t("common.team")}</li>
                 </ul>
                 {loading ? (
                   <ListSkeleton />
                 ) : error ? (
                   <div className="col-12">
-                    <ErrorStats message={error || "Failed to load riders. Please try again later."} />
+                    <ErrorStats message={error || t("riders.error_loading_riders")} />
                   </div>
                 ) : firstTenRiders.length > 0 ? (
                   <ul className="transparent-cart ctm-table-ul">{renderRidersList()}</ul>
@@ -411,7 +412,7 @@ export default function Riders() {
                         className="empty-state"
                         style={{ textAlign: "center", padding: "20px" }}
                       >
-                        No riders found matching your search.
+                        {t("common.no_items_matches")}
                       </div>
                     </li>
                   </ul>
@@ -422,7 +423,7 @@ export default function Riders() {
                   <CardSkeleton />
                 ) : sidebarsError ? (
                   <div className="col-12">
-                    <ErrorStats message="Failed to load rider statistics. Please try again later." />
+                    <ErrorStats message={t("riders.error_loading_riders")} />
                   </div>
                 ) : (
                   renderSidebars()

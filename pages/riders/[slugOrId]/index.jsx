@@ -9,6 +9,7 @@ import RiderSecondSection from "@/components/rider_detail/RiderSecondSection";
 import RiderThirdSection from "@/components/rider_detail/RiderThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import RiderLastSection from "@/components/rider_detail/RiderLastSection";
+import { useTranslation } from "@/lib/useTranslation";
 
 export default function RiderDetail({ year, initialRider, apiError }) {
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function RiderDetail({ year, initialRider, apiError }) {
   const [rider, setRider] = useState(initialRider || null);
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState(null);
+  const { t } = useTranslation();
   const [filterYear, setFilterYear] = useState(year || "All-time");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
@@ -100,13 +102,12 @@ export default function RiderDetail({ year, initialRider, apiError }) {
     return (
       <div className="container pt-161px">
         <div className="alert alert-danger text-center ">
-          <h3>Something went wrong</h3>
+          <h3>{t("common.something_went_wrong")}</h3>
           <p>
-            We’re having trouble loading this rider right now.
-            Please try again later.
+            {t("common.api_error")}
           </p>
           <a href="/riders" className="glob-btn green-bg-btn">
-            <strong>Go to Riders</strong>
+            <strong>{t("riders.go_to_riders")}</strong>
             <span>
               <img src="/images/arow.svg" alt="arrow-right" />
             </span>
@@ -144,10 +145,10 @@ export default function RiderDetail({ year, initialRider, apiError }) {
     return (
       <div className="container py-5">
         <div className="text-center">
-          <h2>Rider Information Not Available</h2>
-          <p>We couldn't find information for this rider.</p>
+          <h2>{t("riders.not_available")}</h2>
+          <p>{t("common.api_error")}</p>
           <Link href="/riders">
-            <button className="btn btn-primary mt-3">Back to Riders</button>
+            <button className="btn btn-primary mt-3">{t("riders.go_to_riders")}</button>
           </Link>
         </div>
       </div>
@@ -240,7 +241,7 @@ export default function RiderDetail({ year, initialRider, apiError }) {
                   <Link href="/">home</Link>
                 </li>
                 <li>
-                  <Link href="/riders">riders</Link>
+                  <Link href="/riders">{t("riders.riders")}</Link>
                 </li>
                 <li>{rider.name || "N/A"}</li>
               </ul>
@@ -294,19 +295,19 @@ export default function RiderDetail({ year, initialRider, apiError }) {
           <div className="row">
             <RiderFirstSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
-              imageUrl={rider.image_url} />
+              imageUrl={rider.image_url} t={t} />
 
             <RiderSecondSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
-              imageUrl={rider.image_url} />
+              imageUrl={rider.image_url} t={t} />
 
             <RiderThirdSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
-              imageUrl={rider.image_url} />
+              imageUrl={rider.image_url} t={t} />
 
             <RiderLastSection riderId={rider.slug}
               filterYear={filterYear !== "All-time" ? filterYear : null}
-              imageUrl={rider.image_url} />
+              imageUrl={rider.image_url} t={t} />
           </div>
         </div>
       </section>

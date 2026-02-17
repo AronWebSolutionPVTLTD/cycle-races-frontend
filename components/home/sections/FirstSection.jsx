@@ -50,11 +50,10 @@ function convertDateRange(dateStr) {
   }
 }
 
-const FirstSection = () => {
+const FirstSection = ({ t }) => {
   const fixedApis = {
     section2: "recentCompleteRace",
   };
-
   const router = useRouter();
   const endpointsToFetch = Object.values(fixedApis);
   const { data, loading, error } = useMultipleData(endpointsToFetch);
@@ -80,9 +79,9 @@ const FirstSection = () => {
       <div className="container">
         <div className="col-lg-12">
           <div className="d-flex justify-content-between align-items-center section-header">
-            <h2 className="fw-900 fst-italic">uitslagen</h2>
+            <h2 className="fw-900 fst-italic">{t("home.results")}</h2>
             <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
-              Alle uitslagen <img src="/images/arow2.svg" alt="" />
+              {t("home.all_results")} <img src="/images/arow2.svg" alt="" />
             </a>
           </div>
         </div>
@@ -94,7 +93,7 @@ const FirstSection = () => {
           )}
           {!loading && error && Object.keys(data || {}).length === 0 && (
             <div className="col-12">
-              <ErrorStats message="Unable to load statistics. Please try again later." />
+              <ErrorStats message={t("home.unable_to_load_statistics")} />
             </div>
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
@@ -217,7 +216,7 @@ const FirstSection = () => {
               </div>
               <div className="d-md-none d-flex justify-content-end pt-4 mobile_link_wrap">
                 <a href="/races" className="alle-link m-0">
-                  Alle uitslagen <img src="/images/arow2.svg" alt="" />
+                  {t("home.all_results")} <img src="/images/arow2.svg" alt="" />
                 </a>
               </div>
             </>

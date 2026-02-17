@@ -9,6 +9,7 @@ import { generateYearOptions } from "@/components/GetYear";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import getItemId from "../getId";
 import { renderFlag } from "@/components/RenderFlag";
+import { useTranslation } from "@/lib/useTranslation";
 
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   for (const key of possibleKeys) {
@@ -39,7 +40,7 @@ export default function DynamicSlugPage() {
   const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
-
+  const { t } = useTranslation();
  const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
       return withoutAllTime;
@@ -569,7 +570,10 @@ export default function DynamicSlugPage() {
                     }`}
                 >
                   {getDynamicHeaders().map((header, index) => (
-                    <li key={index} className={header}>{header}</li>
+                    <li key={index} className={header}>
+                      {/* {t(`table.${header.toLowerCase()}`)} */}
+                      {t(`table.${header.toLowerCase().replace(/\s+/g, "_")}`)}
+                      </li>
                   ))}
                 </ul>
 

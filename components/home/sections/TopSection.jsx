@@ -4,8 +4,7 @@ import { renderFlag } from '@/components/RenderFlag';
 import Link from 'next/link'
 import { useRouter } from 'next/router';
 import React from 'react'
-
-const TopSection = () => {
+const TopSection = ({ t }) => {
   const fixedApis = {
     box1: "getFeatureRace",
     box2: "getFeatureRider",
@@ -14,14 +13,13 @@ const TopSection = () => {
   const endpointsToFetch = Object.values(fixedApis);
   const router = useRouter();
   const { data, loading, error } = useMultipleData(endpointsToFetch);
-console.log(data);
 return (
     <section className="featured-section">
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton3 />}
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load statistics. Please try again later." />
+            <ErrorStats message={t("home.unable_to_load_statistics")} />
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
@@ -44,6 +42,7 @@ return (
                             <ErrorMessage errorType="no_data_found" />;
                           </>
                         )
+                        
                       }
 
                       return (
@@ -61,7 +60,7 @@ return (
                           </div>
 
                           <div className="d-flex align-items-center gap-2 justify-content-end">
-                            <span className="fw-medium text-white d-none d-md-block">All stats</span>
+                            <span className="fw-medium text-white d-none d-md-block">{t("home.all_stats")}</span>
                             <Link
                               href={`/races/${data[fixedApis.box1].data.raceSlug}`}
                               className="white-circle-btn position-static"
@@ -116,7 +115,7 @@ return (
                               <h6 className="text-white fw-medium" onClick={() => router.push(`/riders/${data[fixedApis.box2]?.data?.riderSlug}`)}>{riderData.name}</h6>
                             </div>
                             <div className="d-flex align-items-center gap-2 justify-content-end">
-                              <span className="fw-medium text-white d-none d-md-block">All stats</span>
+                              <span className="fw-medium text-white d-none d-md-block">{t("home.all_stats")}</span>
                               <Link
                                 href={`/riders/${data[fixedApis.box2]?.data?.riderSlug}`}
                                 className="white-circle-btn position-static"

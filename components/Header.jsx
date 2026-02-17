@@ -3,6 +3,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { useRouter } from "next/router";
 import { createPortal } from "react-dom";
 import { homePageSearch } from "@/lib/api";
+import { useTranslation } from "@/lib/useTranslation";
 
 export default function Header({ isDetailPage }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,7 @@ export default function Header({ isDetailPage }) {
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const searchRef = useRef(null);
   const debounceTimerRef = useRef(null);
-
+  const { t } = useTranslation();
 
   useEffect(() => {
     setIsMounted(true);
@@ -36,34 +37,7 @@ export default function Header({ isDetailPage }) {
     setIsOpen(!isOpen);
   };
 
-  // useEffect(() => {
-  //   const riderDetailRegex = /^\/riders\/[\w\d-%\s]+$/;
-  //   // const teamDetailRegex = /^\/teams\/[\w\d-%\s]+$/;
-  //   const teamDetailRegex = /^(https?:\/\/[^\s/]+)?\/teams\/[\w\d.%\s-]+$/;
-  //   const raceDetailRegex = /^\/races\/[^/]+$/;
-  //   const pathname = router.asPath.split('?')[0]; 
-  //   setIsDetailPage(riderDetailRegex.test(pathname) || raceDetailRegex.test(pathname) || teamDetailRegex.test(pathname));
-  // }, [router.asPath]);
-
-  // useEffect(() => {
-  //   const pathname = router.asPath.split("?")[0]; // remove query
-  //   const segments = pathname.split("/").filter(Boolean);
-  
-  //   // examples:
-  //   // /riders/Tadej%20Pogačar -> ["riders", "Tadej%20Pogačar"]
-  //   // /teams/Q36.5%20Pro%20Cycling%20Team -> ["teams", "..."]
-  //   // /races/Tour%20de%20France -> ["races", "..."]
-  
-  //   const isDetail =
-  //     (segments[0] === "riders" && segments.length === 2) ||
-  //     (segments[0] === "teams" && segments.length === 2) ||
-  //     (segments[0] === "races" && segments.length === 2);
-  
-  //   setIsDetailPage(isDetail);
-  // }, [router.asPath]);
-
   let headerClass = isDetailPage ? "absolute-header" : "relative-header";
-  
 
   useEffect(() => {
     let timeoutId = null;
@@ -91,7 +65,7 @@ export default function Header({ isDetailPage }) {
     };
   }, []);
 
-  
+
   const handleSearchClose = useCallback(() => {
     setIsSearchOpen(false);
     setSearchQuery("");
@@ -99,14 +73,14 @@ export default function Header({ isDetailPage }) {
     setShowSuggestions(false);
   }, []);
 
-  
+
   const handleSearchReset = () => {
     setSearchQuery("");
     setSearchSuggestions([]);
     setShowSuggestions(false);
   };
 
- 
+
   const performSearch = async (query) => {
     setIsSearchLoading(true);
     try {
@@ -192,14 +166,14 @@ export default function Header({ isDetailPage }) {
   const getResultUrl = (item) => {
     const itemType = item.type?.toLowerCase();
 
-    if (itemType === "rider" ||item.riderSlug) {
-      const riderSlug =  item.riderSlug;
+    if (itemType === "rider" || item.riderSlug) {
+      const riderSlug = item.riderSlug;
       if (riderSlug) {
         return `/riders/${riderSlug}`;
       }
     }
 
-    if (itemType === "race" || item.raceSlug ) {
+    if (itemType === "race" || item.raceSlug) {
       const raceSlug = item.raceSlug;
       if (raceSlug) {
         return `/races/${encodeURIComponent(raceSlug)}`;
@@ -233,7 +207,7 @@ export default function Header({ isDetailPage }) {
     const teamType = item.team_type || item.teamType || ""; // e.g., "CLUB", "CT", "WT"
     const isRider = item.type === "rider" || item.rider_id || item._id || item.riderId;
 
-    
+
     if (isRider) {
       if (teamName && teamName.trim() !== "") {
         if (teamType) {
@@ -241,7 +215,7 @@ export default function Header({ isDetailPage }) {
         }
         return `${name} (${teamName})`;
       } else {
-       return `${name} (NO TEAM)`;
+        return `${name} (NO TEAM)`;
       }
     } else {
       if (teamName && teamName.trim() !== "") {
@@ -313,25 +287,25 @@ export default function Header({ isDetailPage }) {
                       }}
                     >
                       <li className={isActive("/") ? "active" : ""}>
-                        <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
+                        <Link href="/" onClick={() => setIsOpen(false)}>{t("header.home")}</Link>
                       </li>
 
                       <li className={isActive("/stats") ? "active" : ""}>
-                        <Link href="/stats" onClick={() => setIsOpen(false)}>Stats</Link>
+                        <Link href="/stats" onClick={() => setIsOpen(false)}>{t("header.stats")}</Link>
                       </li>
 
                       <li className={isActive("/races") ? "active" : ""}>
-                        <Link href="/races" onClick={() => setIsOpen(false)}>Races</Link>
+                        <Link href="/races" onClick={() => setIsOpen(false)}>{t("header.races")}</Link>
                       </li>
 
                       <li className={isActive("/riders") ? "active" : ""}>
-                        <Link href="/riders" onClick={() => setIsOpen(false)}>Riders</Link>
+                        <Link href="/riders" onClick={() => setIsOpen(false)}>{t("header.riders")}</Link>
                       </li>
                       <li className={isActive("/head-to-head") ? "active" : ""}>
-                        <Link href="/head-to-head" onClick={() => setIsOpen(false)}>Head to Head</Link>
+                        <Link href="/head-to-head" onClick={() => setIsOpen(false)}>{t("header.head_to_head")}</Link>
                       </li>
                       <li className={`slim-last ${isActive("/teams") ? "active" : ""}`}>
-                        <Link href="/teams" onClick={() => setIsOpen(false)}>Teams</Link>
+                        <Link href="/teams" onClick={() => setIsOpen(false)}>{t("header.teams")}</Link>
                       </li>
                     </ul>
                   </nav>
@@ -339,25 +313,25 @@ export default function Header({ isDetailPage }) {
                 <nav className="d-none d-lg-block">
                   <ul>
                     <li className={isActive("/") ? "active" : ""}>
-                      <Link href="/">Home</Link>
+                      <Link href="/">{t("header.home")}</Link>
                     </li>
 
                     <li className={isActive("/stats") ? "active" : ""}>
-                      <Link href="/stats">Stats</Link>
+                      <Link href="/stats">{t("header.stats")}</Link>
                     </li>
 
                     <li className={isActive("/races") ? "active" : ""}>
-                      <Link href="/races">Races</Link>
+                      <Link href="/races">{t("header.races")}</Link>
                     </li>
 
                     <li className={isActive("/riders") ? "active" : ""}>
-                      <Link href="/riders">Riders</Link>
+                      <Link href="/riders">{t("header.riders")}</Link>
                     </li>
                     <li className={isActive("/head-to-head") ? "active" : ""}>
-                      <Link href="/head-to-head">Head to Head</Link>
+                      <Link href="/head-to-head">{t("header.head_to_head")}</Link>
                     </li>
                     <li className={isActive("/teams") ? "active" : ""}>
-                      <Link href="/teams">Teams</Link>
+                      <Link href="/teams">{t("header.teams")}</Link>
                     </li>
                   </ul>
                 </nav>
@@ -456,7 +430,7 @@ export default function Header({ isDetailPage }) {
                       <ul>
                         <li>
                           <div style={{ textAlign: "center", padding: "10px" }}>
-                            <span>Searching...</span>
+                            <span>{t("common.searching")}...</span>
                           </div>
                         </li>
                       </ul>
@@ -467,7 +441,7 @@ export default function Header({ isDetailPage }) {
                       <ul>
                         <li>
                           <div style={{ textAlign: "center", padding: "10px" }}>
-                            <span>no items matches to your search</span>
+                            <span>{t("common.no_items_matches_to_your_search")}</span>
                           </div>
                         </li>
                       </ul>

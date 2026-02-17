@@ -4,7 +4,7 @@ import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { useRouter } from "next/router";
 import { renderFlag } from "../RenderFlag";
 
-const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
+const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "getRiderWithMostWinsInTeamHistory",
@@ -107,7 +107,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
         {loading && <BoxSkeleton />}
 
         {error && Object.keys(data || {}).length === 0 && (
-          <ErrorStats message="Unable to load team statistics. Please try again later." />
+          <ErrorStats message={t("common.api_error")} />
         )}
 
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
@@ -230,7 +230,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                     return (
                       <>
                         <h5 className="teamcard-number">
-                          <strong>{totalRiders}</strong>Riders
+                          <strong>{totalRiders}</strong>{t("common.riders")}
                         </h5>
 
                         <Link href={buildUrlWithParams("amount-of-riders")} className="green-circle-btn">
@@ -273,7 +273,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                         </div>
                         {rider?.totalClassicWins && (
                           <h5>
-                            <strong>{rider.totalClassicWins}</strong> wins
+                            <strong>{rider.totalClassicWins}</strong> {t("common.wins")}
                           </h5>
                         )}
                         <Link href={buildUrlWithParams("rider-with-most-classic-wins-in-team-history")} className="green-circle-btn">
@@ -425,7 +425,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                           <>
                             <h5 className="teamcard-number">
                               <strong>{totalGrandTourWins}</strong>
-                              stages
+                              {t("common.stages")}
                             </h5>
 
                             <Link href={buildUrlWithParams("grand-tour-wins")} className="green-circle-btn">
@@ -472,7 +472,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
 
                             {currentRanking && (
                               <h5>
-                                <strong>{currentRanking}</strong> Rank
+                                <strong>{currentRanking}</strong> {t("common.rank")}
                               </h5>
                             )}
 
@@ -549,7 +549,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear }) => {
                       />
                       <div className="link_box">
                         <Link href={buildUrlWithParams("last-5-wins")} className="glob-btn">
-                          <strong>volledige stats</strong>{" "}
+                          <strong>{t("common.full_stats")}</strong>{" "}
                           <span>
                             <img src="/images/arow.svg" alt="" />
                           </span>

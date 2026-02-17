@@ -5,7 +5,7 @@ import { renderFlag } from "../RenderFlag";
 import { useRouter } from "next/router";
 
 
-const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
+const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "lastVictory",
@@ -93,7 +93,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
       <div className="row">
         {loading && <BoxSkeleton />}
         {error && Object.keys(data || {}).length === 0 && (
-          <ErrorStats message="Unable to load rider statistics. Please try again later." />
+          <ErrorStats message={t("common.api_error")} />
         )}
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
           <>
@@ -137,7 +137,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                         <ul>
                           <li>
                             <Link href={buildUrlWithParams("rider-results-this-year")} className="name-wraper name-wraper-white Result-value result-of-year-card">
-                              <span className="label">Wins</span>
+                              <span className="label">{t("common.wins")}</span>
 
                             </Link>
                             <span className="value">
@@ -147,7 +147,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
 
                           <li>
                             <Link href={buildUrlWithParams("rider-results-this-year")} className="name-wraper name-wraper-white Result-value result-of-year-card">
-                              <span className="label">Podium</span>
+                              <span className="label">{t("common.podium")}</span>
 
                             </Link>
                             <span className="value">
@@ -240,7 +240,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                         </div>
                         {riderData?.rank && (
                           <h5>
-                            <strong>{riderData.rank}</strong> rank
+                            <strong>{riderData.rank}</strong> {t("common.rank")}
                           </h5>
                         )}
                         <Link href={buildUrlWithParams("current-uci-ranking")} className="white-circle-btn">
@@ -345,7 +345,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                         return (
                           <>
                             <h5>
-                              <strong>{oneDayWins}</strong>wins
+                              <strong>{oneDayWins}</strong>{t("common.wins")}
                             </h5>
 
                             <Link href={buildUrlWithParams("wins-in-one-day-races")} className="green-circle-btn">
@@ -395,7 +395,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                                 <strong>
                                   {riderData.career_duration_years}{" "}
                                 </strong>
-                                jaar
+                                {t("common.year")}
 
                               </h5>
                             )}
@@ -435,7 +435,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                             </div>
                             {firstRider?.yearsInTeam && (
                               <h5>
-                                <strong>{firstRider.yearsInTeam} </strong>years
+                                <strong>{firstRider.yearsInTeam} </strong>{t("common.year")}
                               </h5>
                             )}
                             <Link href={buildUrlWithParams("current-team")} className="green-circle-btn">
@@ -516,7 +516,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                                 <strong>
                                   {firstRider.days_since_last_win}{" "}
                                 </strong>
-                                days
+                                {t("common.days")}
                               </h5>
                             )}
                             <Link href={buildUrlWithParams("time-since-last-win")} className="green-circle-btn">
@@ -582,7 +582,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl }) => {
                       />
                       <div className="link_box">
                         <Link href={buildUrlWithParams("best-monuments-result")} className="glob-btn">
-                          <strong>volledige stats</strong>{" "}
+                          <strong>{t("common.full_stats")}</strong>{" "}
                           <span>
                             <img src="/images/arow.svg" alt="" />
                           </span>

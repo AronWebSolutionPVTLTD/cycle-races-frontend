@@ -9,7 +9,6 @@ import { renderFlag } from "@/components/RenderFlag";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-
 function convertDateRange(dateStr) {
   const monthNames = [
     "jan", "feb", "mar", "apr", "may", "jun",
@@ -52,14 +51,13 @@ function convertDateRange(dateStr) {
   }
 }
 
-const UpcomingYear = () => {
+const UpcomingYear = ({ t }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "getUpcomingRacesByDate",
     box2: "getUpcomingRacesByDate",
     box3: "getUpcomingRacesByDate",
   };
-
   const endpointsToFetch = Object.values(fixedApis);
   const { data, loading, error } = useMultipleData(endpointsToFetch);
   const getBoxData = (key) => {
@@ -87,9 +85,9 @@ const UpcomingYear = () => {
       <div className="container">
         <div className="col-lg-12">
           <div className="d-flex justify-content-between align-items-center section-header">
-            <h2>aankomend</h2>
+            <h2>{t("home.upcoming")}</h2>
             <a href="/races" className="alle-link m-0 d-md-inline-block d-none">
-              Alle wedstrijden <img src="/images/arow2.svg" alt="" />
+              {t("home.all_races")} <img src="/images/arow2.svg" alt="" />
             </a>
           </div>
         </div>
@@ -101,7 +99,7 @@ const UpcomingYear = () => {
           )}
           {!loading && error && Object.keys(data || {}).length === 0 && (
             <div className="col-12">
-              <ErrorStats message="Unable to load statistics. Please try again later." />
+              <ErrorStats message={t("home.unable_to_load_statistics")} />
             </div>
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (

@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  i18n: {
+    locales: ["nl", "en"],
+    defaultLocale: "nl",
+    localeDetection: false
+  }
+
+};
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 

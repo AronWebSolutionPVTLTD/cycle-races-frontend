@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import MostWin from "@/components/home/sections/MostWin";
 import StatsData from "@/components/stats_section/StatsData";
+import { useTranslation } from "@/lib/useTranslation";
 
 export default function Stats() {
   const [nationalities, setNationalities] = useState([]);
@@ -27,6 +28,7 @@ export default function Stats() {
   const nationalityDropdownRef = useRef(null);
   const teamDropdownRef = useRef(null);
   const { withoutAllTime } = generateYearOptions();
+  const { t } = useTranslation();
   const fetchFiltersData = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -171,10 +173,10 @@ export default function Stats() {
                       }
                       options={nationalities}
                       selectedValue={selectedNationality}
-                      placeholder="Nationaliteit"
+                      placeholder={t("stats.all_nationalities")}
                       onSelect={(value) => handleSelection("nationality", value)}
                       loading={isLoading}
-                      allOptionText="All Nationalities"
+                      allOptionText={t("stats.all_nationalities")}
                       classname="nationality-dropdown"
                       displayKey="country_name"
                       valueKey="country_code"
@@ -186,10 +188,10 @@ export default function Stats() {
                       toggle={() => setShowTeamDropdown(!showTeamDropdown)}
                       options={teams}
                       selectedValue={selectedTeam}
-                      placeholder="Team"
+                      placeholder={t("stats.all_teams")}
                       onSelect={(value) => handleSelection("team", value)}
                       loading={isLoading}
-                      allOptionText="All Teams"
+                      allOptionText={t("stats.all_teams")}
                       classname="team-dropdown"
                     />
                   </ul>
@@ -237,7 +239,7 @@ export default function Stats() {
                         }}
                         aria-label="Reset filter"
                       >
-                        Reset filter
+                        {t("stats.reset_filter")}
                         <span className="reset-filter-btn-icon">×</span>
                       </button>
                     </div>

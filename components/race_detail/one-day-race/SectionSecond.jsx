@@ -6,7 +6,7 @@ import { useMultipleData } from "../../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../../loading&error";
 import { renderFlag } from "../../RenderFlag";
 
-export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
+export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "getMostWinsNationality",
@@ -21,7 +21,6 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
     box10: "getOldestSpanishParticipant",
     box11: "getRiderParticipationCount",
   };
-
   const buildQueryParams = () => {
     let params = {};
     if (selectedYear && selectedYear !== "All-time") {
@@ -104,7 +103,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
         <div className="row">
           {loading && <BoxSkeleton />}
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load rider statistics. Please try again later." />
+            <ErrorStats message={t("common.api_error")} />
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
@@ -132,8 +131,8 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               </div>
                               {rider?.total_wins && (
                                 <h5>
-                                  <strong>{rider.total_wins} </strong>times
-                                </h5>
+                                  <strong>{rider.total_wins} </strong> {t("common.times")}
+                                </h5> 
                               )}
                               <img
                                 src={rider?.image_url || "/images/rider_avatar.png"}
@@ -279,7 +278,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               href={buildUrlWithParams("top-best-results")}
                               className="glob-btn"
                             >
-                              <strong>volledige stats</strong>{" "}
+                              <strong>{t("common.full_stats")}</strong>{" "}
                               <span>
                                 <img src="/images/arow.svg" alt="" />
                               </span>
@@ -369,7 +368,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               </div>
                               {rider?.top10_count && (
                                 <h5>
-                                  <strong>{rider.top10_count}</strong>times
+                                  <strong>{rider.top10_count}</strong> {t("common.times")}
                                 </h5>
                               )}
 
@@ -416,7 +415,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                               {rider?.podium_count && (
                                 <h5>
                                   <strong>{rider.podium_count}</strong>
-                                  times
+                                  {t("common.times")}
                                 </h5>
                               )}
 
@@ -508,7 +507,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           </div>
                           {rider?.date_of_birth && (
                             <h5>
-                              <strong>{rider.date_of_birth}</strong>jaar
+                              <strong>{rider.date_of_birth}</strong> {t("common.year")}
                             </h5>
                           )}
                           <Link
@@ -581,7 +580,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                           {rider?.totalDNFs && (
                             <h5>
                               <strong>{rider.totalDNFs}</strong>
-                              times
+                              {t("common.times")}
                             </h5>
                           )}
                           <Link

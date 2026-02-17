@@ -8,9 +8,11 @@ import { renderFlag } from "@/components/RenderFlag";
 import TeamSecondSection from "@/components/team_detail/TeamSecondSection";
 import TeamThirdSection from "@/components/team_detail/TeamThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
+import { useTranslation } from "@/lib/useTranslation";
 
 export default function TeamDetail({ initialTeam ,apiError}) {
   const router = useRouter();
+  const { t } = useTranslation();
   const [headerData, setHeaderData] = useState(initialTeam);
   const [filterYear, setFilterYear] = useState("All-time");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
@@ -88,13 +90,13 @@ export default function TeamDetail({ initialTeam ,apiError}) {
     return (
       <div className="container pt-161px">
       <div className="alert alert-danger text-center ">
-        <h3>Something went wrong</h3>
+        <h3>{t("common.something_went_wrong")}</h3>
         <p>
-          We’re having trouble loading this team right now.
-          Please try again later.
+          {t("common.api_error")}
+        
         </p>
         <a href="/teams" className="glob-btn green-bg-btn">
-                    <strong>Go to Teams</strong>
+                    <strong>{t("teams.go_to_teams")}</strong>
                     <span>
                         <img src="/images/arow.svg" alt="arrow-right" />
                     </span>
@@ -109,10 +111,10 @@ export default function TeamDetail({ initialTeam ,apiError}) {
     return (
       <div className="container pt-161px">
         <div className="text-center">
-          <h2>Team Information Not Available</h2>
-          <p>We couldn't find information for this team.</p>
+          <h2>{t("teams.not_available")}</h2>
+          <p>{t("teams.not_found")}</p>
           <Link href="/teams">
-            <button className="btn btn-primary mt-3">Back to Teams</button>
+            <button className="btn btn-primary mt-3">{t("teams.go_to_teams")}</button>
           </Link>
         </div>
       </div>
@@ -156,7 +158,7 @@ export default function TeamDetail({ initialTeam ,apiError}) {
                       <li className="country">
                         {renderFlag(teamFlag)}
                         {teamCountry}</li>
-                      <li className="age">SINCE {teamFounded || "..."}</li>
+                      <li className="age">{t("common.since")} {teamFounded || "..."}</li>
                     </ul>
 
                   </div>
@@ -167,7 +169,7 @@ export default function TeamDetail({ initialTeam ,apiError}) {
                 <li className="country">
                   {renderFlag(teamFlag)}
                   {teamCountry}</li>
-                <li className="age">SINCE {teamFounded || "..."}</li>
+                <li className="age">{t("common.since")} {teamFounded || "..."}</li>
               </ul>
             </div >
           </div>
@@ -199,7 +201,9 @@ export default function TeamDetail({ initialTeam ,apiError}) {
               teamSlug={router.query?.name}
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
-              } />
+              } 
+              t={t}
+              />
 
           <TeamSecondSection
               teamId={headerData?.team_id}
@@ -208,6 +212,7 @@ export default function TeamDetail({ initialTeam ,apiError}) {
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
               }
+              t={t}
             />
 
               <TeamThirdSection
@@ -217,6 +222,7 @@ export default function TeamDetail({ initialTeam ,apiError}) {
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
               }
+              t={t}
             />
           </div>
         </div>

@@ -2,6 +2,7 @@ import React from "react";
 import { useMultipleData } from "../../home_api_data";
 import { ErrorMessage, ErrorStats, LoadingStats } from "../../loading&error";
 import Flag from "react-world-flags";
+import { useTranslation } from "@/lib/useTranslation";
 
 const MostWin = ({
   selectedNationality = null,
@@ -14,7 +15,7 @@ const MostWin = ({
   const apiOptions = {
     box1: apiEndpoint,
   };
-
+const { t } = useTranslation();
   const buildQueryParams = () => {
     let params = {};
     if (selectedYear) params.year = selectedYear;
@@ -58,7 +59,7 @@ const MostWin = ({
 
 
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load data. Please try again later." />
+            <ErrorStats message={t("home.unable_to_load_statistics")} />
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <div className="col-lg-12">

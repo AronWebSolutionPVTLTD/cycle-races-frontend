@@ -9,16 +9,17 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import Flag from "react-world-flags";
+import { useTranslation } from "@/lib/useTranslation";
 
-export default function RaceDetailsPage({ year,initialRace,apiError}) {
+export default function RaceDetailsPage({ year, initialRace, apiError }) {
   const router = useRouter();
   const { name } = router.query;
   const [selectedYear, setSelectedYear] = useState(year);
   const [yearInput, setYearInput] = useState("");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [selectedNationality, setSelectedNationality] =
-    useState("All-Nationalities");
-
+    useState("");
+  const { t } = useTranslation();
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
   const [nationalities, setNationalities] = useState([]);
   const [raceData, setRaceData] = useState(initialRace);
@@ -32,9 +33,12 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
   const { withoutAllTime } = generateYearOptions();
   const allYearOptions =
     dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
-  const allNationalityOptions = useMemo(() => {
-    return ["All-Nationalities", ...nationalities];
-  }, [nationalities]);
+
+  // const allNationalityOptions = useMemo(() => {
+  //   return ["All-Nationalities", ...nationalities];
+  // }, [nationalities]);
+
+
 
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
@@ -58,9 +62,13 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
     try {
       setIsLoadingFilters(true);
       const queryParams = {};
-      if (selectedNationality && selectedNationality !== "All-Nationalities") {
+      // if (selectedNationality && selectedNationality !== "All-Nationalities") {
+      //   queryParams.nationality = selectedNationality;
+      // }
+      if (selectedNationality) {
         queryParams.nationality = selectedNationality;
       }
+
       if (selectedYear && selectedYear !== "All-time")
         queryParams.q_year = selectedYear;
 
@@ -82,27 +90,27 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
 
   useEffect(() => {
     if (!raceData?.raceSlug) return;
-  const fetchRaceActiveYears = async () => {
-    try {
-      setYearsLoading(true);
-      const response = await callAPI(
-        "GET",
-        `/raceDetailsStats/${raceData?.raceSlug}/getRaceActiveYears`
-      );
+    const fetchRaceActiveYears = async () => {
+      try {
+        setYearsLoading(true);
+        const response = await callAPI(
+          "GET",
+          `/raceDetailsStats/${raceData?.raceSlug}/getRaceActiveYears`
+        );
 
-      if (response && response.data?.data?.years) {
-        const years = response.data?.data?.years;
-        setDynamicYears(years);
+        if (response && response.data?.data?.years) {
+          const years = response.data?.data?.years;
+          setDynamicYears(years);
+        }
+      } catch (err) {
+        console.error("Error fetching rider active years:", err);
+        setDynamicYears([]);
+      } finally {
+        setYearsLoading(false);
       }
-    } catch (err) {
-      console.error("Error fetching rider active years:", err);
-      setDynamicYears([]);
-    } finally {
-      setYearsLoading(false);
-    }
-  };
-  fetchRaceActiveYears();
-}, [raceData]);
+    };
+    fetchRaceActiveYears();
+  }, [raceData]);
 
   // const fetchRaceDetails = useCallback(async (raceName) => {
   //   if (!raceName) return;
@@ -185,37 +193,23 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
     return (
       <div className="container pt-161px">
         <div className="alert alert-danger text-center">
-          <h3>Something went wrong</h3>
+          <h3>{t("common.something_went_wrong")}</h3>
           <p>
-            We’re having trouble loading this race right now.
-            Please try again later.
+            {t("common.api_error")}
           </p>
           <Link href="/races" className="glob-btn green-bg-btn">
-            <strong>Go to Races</strong>
+            <strong>{t("races.go_to_races")}</strong>
           </Link>
         </div>
       </div>
     );
   }
-  
+
 
   if (!router.isReady) {
     return <LoadingStats />;
   }
 
-  if (!raceData) {
-    return (
-      <div className="container pt-161px">
-        <div className="text-center">
-          <h2>Team Information Not Available</h2>
-          <p>We couldn't find information for this team.</p>
-          <Link href="/teams">
-            <button className="btn btn-primary mt-3">Back to Teams</button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -228,14 +222,14 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
         <section className="rider-details-sec pb-0 rider-details-sec-top bg-pattern">
           <div className="top-wrapper-main">
             <div className="container">
-            {raceData && (
+              {raceData && (
                 <div className="top-wraper">
                   <ul className="breadcrumb">
                     <li>
                       <Link href="/">Home</Link>
                     </li>
                     <li>
-                      <Link href="/races">Races</Link>
+                      <Link href="/races">{t("races.results")}</Link>
                     </li>
                     <li>{raceData.race_name}</li>
                   </ul>
@@ -263,7 +257,7 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
                     )}
                   </ul>
                 </div>
-            )}
+              )}
             </div>
           </div>
         </section>
@@ -291,12 +285,13 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
                     toggle={() =>
                       setShowNationalityDropdown(!showNationalityDropdown)
                     }
-                    options={allNationalityOptions}
+                    options={nationalities}
                     selectedValue={selectedNationality}
-                    placeholder="Nationaliteit"
+                    placeholder={t("common.all_nationalities")}
+                    allOptionText={t("common.all_nationalities")}
                     onSelect={(value) => handleSelection("nationality", value)}
                     loading={isLoadingFilters}
-                    includeAllOption={false}
+                    includeAllOption={true}
                     classname="nationality-dropdown"
                   />
                 </ul>
@@ -308,24 +303,28 @@ export default function RaceDetailsPage({ year,initialRace,apiError}) {
                       selectedYear={
                         selectedYear !== "All-time" ? selectedYear : null
                       }
-                      selectedNationality={
-                        selectedNationality !== "All-Nationalities"
-                          ? selectedNationality
-                          : null
-                      }
+                      // selectedNationality={
+                      //   selectedNationality !== "All-Nationalities"
+                      //     ? selectedNationality
+                      //     : null
+                      // }
+                      selectedNationality={selectedNationality}
                       name={name}
+                      t={t}
                     />
                   ) : (
                     <OneDayRace
                       selectedYear={
                         selectedYear !== "All-time" ? selectedYear : null
                       }
-                      selectedNationality={
-                        selectedNationality !== "All-Nationalities"
-                          ? selectedNationality
-                          : null
-                      }
+                      // selectedNationality={
+                      //   selectedNationality !== "All-Nationalities"
+                      //     ? selectedNationality
+                      //     : null
+                      // }
+                      selectedNationality={selectedNationality}
                       name={name}
+                      t={t}
                     />
                   )}
                 </>
@@ -348,9 +347,10 @@ export async function getServerSideProps(context) {
     );
 
     if (res.status === 404) {
-      return { notFound: true,
+      return {
+        notFound: true,
         props: {
-          isDetailPage: false, 
+          isDetailPage: false,
         },
       };
     }
@@ -369,9 +369,10 @@ export async function getServerSideProps(context) {
     const json = await res.json();
 
     if (!json?.data) {
-      return { notFound: true,
+      return {
+        notFound: true,
         props: {
-          isDetailPage: false, 
+          isDetailPage: false,
         },
       };
     }

@@ -3,7 +3,7 @@ import { useMultipleData } from "../home_api_data";
 import { BoxSkeleton, ErrorMessage, ErrorStats } from "../loading&error";
 import { renderFlag } from "../RenderFlag";
 import { useRouter } from "next/router";
-const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
+const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
   const router = useRouter();
   const fixedApis = {
     box1: "getGrandToursRidden",
@@ -122,7 +122,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
       <div className="row">
         {loading && <BoxSkeleton />}
         {error && Object.keys(data || {}).length === 0 && (
-          <ErrorStats message="Unable to load rider statistics. Please try again later." />
+          <ErrorStats message={t("common.api_error")} />
         )}
 
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
@@ -240,7 +240,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                         {firstRider?.races_count && (
                           <h5>
                             <strong>{firstRider.races_count} </strong>
-                            race days
+                            {t("common.race_days")}
                           </h5>
                         )}
 
@@ -325,7 +325,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                     return (
                       <>
                         <h5>
-                          <strong>{dnfCount}</strong>dnfs
+                          <strong>{dnfCount}</strong>{t("common.dnf")}
                         </h5>
 
                         <img
@@ -426,7 +426,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
               </div>
             </div>
 
-            <div className="col-lg-3 col-md-6 e">
+            <div className="col-lg-4 col-md-6 e">
               <div className="team-cart lime-green-team-cart img-active">
                 <Link href={buildUrlWithParams("total-grand-tour-racing-days")} className="pabs" />
                 <div className="text-wraper">
@@ -449,7 +449,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                       <>
                         <h5>
                           <strong>{riderData?.total_racing_days ?? 0}</strong>
-                          days
+                          {t("common.days")}
                         </h5>
 
                         <Link href={buildUrlWithParams("total-grand-tour-racing-days")} className="white-circle-btn">
@@ -462,7 +462,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
               </div>
             </div>
 
-            <div className="col-lg-3 col-md-6 total-distance-raced-cart">
+            <div className="col-lg-4 col-md-6 total-distance-raced-cart">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("total-distance-grand-tour")} className="pabs" />
                 <div className="text-wraper">
@@ -487,7 +487,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                           <strong>
                             {riderData?.total_distance_raced ?? 0}
                           </strong>
-                          kilometers
+                          {t("common.km")}
                         </h5>
 
                         <Link href={buildUrlWithParams("total-distance-grand-tour")} className="green-circle-btn">
@@ -500,7 +500,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
               </div>
             </div>
 
-            <div className="col-lg-3 col-md-6 f">
+            <div className="col-lg-4 col-md-6 f">
               <div className="list-white-cart">
                 <Link href={buildUrlWithParams("riders-best-monuments-results")} className="pabs" />
                 <h4>{data?.[fixedApis.box10]?.message}</h4>
@@ -540,7 +540,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
               </div>
             </div>
 
-            <div className="col-lg-3 col-md-6 g">
+            {/* <div className="col-lg-3 col-md-6 g">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("riders-paris-roubaix-results")} className="pabs" />
                 <div className="text-wraper">
@@ -582,7 +582,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                   })()}
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="col-lg-3 col-md-6 h">
               <div className="list-white-cart">
@@ -653,7 +653,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                         {firstRider?.gcRank && (
                           <h5>
                             <strong>{firstRider.gcRank} </strong>
-                            rank
+                            {t("common.rank")}
                           </h5>
                         )}
 
@@ -696,7 +696,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl }) => {
                         </div>
                         {firstRider?.number_of_race && (
                           <h5>
-                            <strong>{firstRider.number_of_race} </strong>Race days
+                            <strong>{firstRider.number_of_race} </strong>{t("common.race_days")}
                           </h5>
                         )}
 
