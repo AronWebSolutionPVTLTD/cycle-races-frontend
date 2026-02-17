@@ -12,14 +12,17 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Wielerstats - Cycling Statistics</title>
-        <meta name="description" content="Cycling statistics and results" />
+        <title>Wielerstats | Wielerstatistieken, Uitslagen & Records van Renners en Wedstrijden</title>
+        <meta
+          name="description"
+          content="Alle wielerstatistieken op één plek. Bekijk uitslagen, overwinningen, podiumplaatsen en historische records van renners, teams en wedstrijden."
+        />
         <link rel="icon" href="/images/ws_favicon.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
       <main className="home-main inner-pages-main">
-       <TopSection t={t} />
+        <TopSection t={t} />
         <FirstSection t={t} />
         <YearSection t={t} />
         <MostWin
@@ -27,8 +30,8 @@ export default function Home() {
           title="Most Wins"
           dataField="wins"
         />
-        <UpcomingYear t={t} /> 
-         {/* <LastSection /> */}
+        <UpcomingYear t={t} />
+        {/* <LastSection /> */}
       </main>
     </>
   );
