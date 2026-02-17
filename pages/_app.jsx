@@ -13,6 +13,7 @@ import '../styles/style.scss'
 import '../styles/responsive.css'
 import '../styles/custom.css'
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -25,6 +26,8 @@ const archivo = Archivo({
 });
 
 function MyApp({ Component, pageProps }) {
+  // const router = useRouter();
+  // const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "";
   return (
     <>
       {/* Google Analytics */}
