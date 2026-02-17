@@ -41,10 +41,10 @@ export const ErrorMessage = ({ errorType = "general" }) => {
     no_data: "Geen gegevens beschikbaar",
     no_endpoint_data: "Geen endpointgegevens beschikbaar",
     null_data: "Gegevens niet gevonden",
-    empty_array: "Geen records gevonden",
+    empty_array: "Geen resultaten gevonden",
     empty_object: "Geen informatie beschikbaar",
     processing_error: "Fout bij het verwerken van gegevens",
-    no_data_found: "Geen records gevonden",
+    no_data_found: "Geen resultaten gevonden",
     general: "Geen gegevens beschikbaar",
 
   };
@@ -65,13 +65,13 @@ export const ErrorStats = ({ message }) => (
         <line x1="12" y1="16" x2="12.01" y2="16" />
       </svg>
     </div>
-    <h3 className="text-danger">Error</h3>
+    <h3 className="text-danger">Er ging iets mis</h3>
     <p className="text-muted">{message || "Failed to load statistics"}</p>
     <button
       className="btn btn-outline-primary mt-3"
       onClick={() => window.location.reload()}
     >
-      Probeer het opnieuw
+      Probeer opnieuw
     </button>
   </div>
 );

@@ -30,7 +30,7 @@ const router = useRouter();
         <div className="row">
           {loading && <BoxSkeleton3 />}
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load statistics. Please try again later." />
+            <ErrorStats message={t("common.api_error")} />
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
 

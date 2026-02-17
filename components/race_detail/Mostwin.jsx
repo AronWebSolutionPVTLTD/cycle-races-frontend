@@ -9,7 +9,7 @@ const RaceMostWin = ({
   selectedYear = null,
   selectedNationality = null,
   name = null,
-
+  t = null,
 }) => {
   const apiOptions = {
     box1: "mostWins",
@@ -62,7 +62,7 @@ const RaceMostWin = ({
 
 
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load data. Please try again later." />
+            <ErrorStats message={t("common.api_error")} />
           )}
 
           {!loading && !(error && Object.keys(data || {}).length === 0) && (

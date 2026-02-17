@@ -7,6 +7,7 @@ const MostStageWins = ({
   selectedYear = null,
   selectedNationality = null,
   name = null,
+  t = null,
 }) => {
   const apiOptions = {
     box1: "getRiderWithMostStageWins",
@@ -54,7 +55,7 @@ const MostStageWins = ({
           )}
 
           {error && Object.keys(data || {}).length === 0 && (
-            <ErrorStats message="Unable to load data. Please try again later." />
+            <ErrorStats message={t("common.api_error")} />
           )}
 
           {!loading && !(error && Object.keys(data || {}).length === 0) && (

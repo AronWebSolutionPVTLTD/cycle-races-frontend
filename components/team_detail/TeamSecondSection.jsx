@@ -111,7 +111,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
         {loading && <BoxSkeleton />}
 
         {error && Object.keys(data || {}).length === 0 && (
-          <ErrorStats message="Unable to load team statistics. Please try again later." />
+          <ErrorStats message={t("common.api_error")} />
         )}
 
         {!loading && !(error && Object.keys(data || {}).length === 0) && (

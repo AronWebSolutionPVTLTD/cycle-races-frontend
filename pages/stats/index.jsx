@@ -173,7 +173,7 @@ export default function Stats() {
                       }
                       options={nationalities}
                       selectedValue={selectedNationality}
-                      placeholder="Nationaliteit"
+                      placeholder={t("stats.all_nationalities")}
                       onSelect={(value) => handleSelection("nationality", value)}
                       loading={isLoading}
                       allOptionText={t("stats.all_nationalities")}
@@ -188,7 +188,7 @@ export default function Stats() {
                       toggle={() => setShowTeamDropdown(!showTeamDropdown)}
                       options={teams}
                       selectedValue={selectedTeam}
-                      placeholder="Team"
+                      placeholder={t("stats.all_teams")}
                       onSelect={(value) => handleSelection("team", value)}
                       loading={isLoading}
                       allOptionText={t("stats.all_teams")}

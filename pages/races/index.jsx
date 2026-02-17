@@ -194,7 +194,7 @@ export default function Results() {
       setRaceResults(data.recent_stage_race_winners || []);
     } catch (error) {
       console.error("Error fetching race results:", error);
-      setError("Failed to load race results. Please try again later.");
+      setError(t("common.api_error"));
       setRaceResults([]);
     } finally {
       setLoading(false);
@@ -257,7 +257,7 @@ export default function Results() {
     } catch (error) {
       console.error("Error fetching featured races:", error);
       setErrorFeatured(
-        "Failed to load featured races. Please try again later."
+        t("common.api_error")
       );
       setFeaturedRaces([]);
     } finally {
@@ -503,7 +503,7 @@ export default function Results() {
                           ) : (
                             <li className="no-results">
                               <div>
-                                <span>{t("common.no_items_matches_to_your_search")}</span>
+                                <span>{t("common.no_items_matches")}</span>
                               </div>
                             </li>
                           )}
@@ -668,7 +668,7 @@ export default function Results() {
                 ) : (
                   <div className="no-results">
                     {searchTerm.trim()
-                      ? `No results found for "${searchTerm}"`
+                      ? `${t("common.no_items_matches")} "${searchTerm}"`
                       : "No race results found"}
                   </div>
                 )}

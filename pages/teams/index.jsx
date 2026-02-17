@@ -66,13 +66,13 @@ export default function Teams() {
         })
         .catch((err) => {
           console.error("Unhandled error in fetchTeams:", err);
-          setError("An unexpected error occurred while fetching team data");
+          setError(t("common.api_error"));
         })
         .finally(() => {
           setLoading(false);
         });
     } catch (err) {
-      setError("Critical error loading teams data");
+      setError(t("common.something_went_wrong"));
       setLoading(false);
     }
   };
@@ -201,7 +201,7 @@ export default function Teams() {
           className="empty-state"
           style={{ textAlign: "center", padding: "20px" }}
         >
-          No teams found matching your search.
+          {t("common.no_items_matches")}
         </li>
       );
     }
@@ -253,7 +253,7 @@ export default function Teams() {
           className="sidebar-error"
           style={{ color: "red", padding: "15px" }}
         >
-          Error loading team statistics
+          {t("common.api_error")}
         </div>
       );
     }

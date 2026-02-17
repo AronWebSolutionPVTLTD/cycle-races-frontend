@@ -72,59 +72,59 @@ export default function HeadToHead() {
     }
   };
 
-// useEffect(() => {
+  // useEffect(() => {
 
-//     if (!containerRef.current) return;
+  //     if (!containerRef.current) return;
 
-//     // Measure ONCE after mount
-//     startOffset.current = 100 // same as top: 74px
+  //     // Measure ONCE after mount
+  //     startOffset.current = 100 // same as top: 74px
 
-//     const onScroll = () => {
-//       console.log("window.scrollY =", window.scrollY);
-//       if (window.scrollY >= startOffset.current) {
-//         setIsSticky(true);
-//       } else {
-//         setIsSticky(false);
-//       }
-//     };
+  //     const onScroll = () => {
+  //       console.log("window.scrollY =", window.scrollY);
+  //       if (window.scrollY >= startOffset.current) {
+  //         setIsSticky(true);
+  //       } else {
+  //         setIsSticky(false);
+  //       }
+  //     };
 
-//     window.addEventListener("scroll", onScroll, { passive: true });
+  //     window.addEventListener("scroll", onScroll, { passive: true });
 
-//     // Run once in case page is already scrolled
-//     onScroll();
+  //     // Run once in case page is already scrolled
+  //     onScroll();
 
-//     return () => window.removeEventListener("scroll", onScroll);
-//   }, []);
+  //     return () => window.removeEventListener("scroll", onScroll);
+  //   }, []);
 
-// ...existing code...
-useEffect(() => {
-  if (!showCompareResults || !sentinelRef.current) return;
+  // ...existing code...
+  useEffect(() => {
+    if (!showCompareResults || !sentinelRef.current) return;
 
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      // If the sentinel is NOT intersecting (moved off top), we are sticky
-      // entry.boundingClientRect.top < 0 means it went off the top of the screen
-      setIsSticky(!entry.isIntersecting && entry.boundingClientRect.top < 0);
-    },
-    {
-      // rootMargin: '-74px 0px 0px 0px' 
-      // ^ Use this if you want it to stick exactly when it hits your 74px header
-      threshold: [0],
-    }
-  );
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // If the sentinel is NOT intersecting (moved off top), we are sticky
+        // entry.boundingClientRect.top < 0 means it went off the top of the screen
+        setIsSticky(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+      },
+      {
+        // rootMargin: '-74px 0px 0px 0px' 
+        // ^ Use this if you want it to stick exactly when it hits your 74px header
+        threshold: [0],
+      }
+    );
 
-  observer.observe(sentinelRef.current);
+    observer.observe(sentinelRef.current);
 
-  return () => observer.disconnect();
-}, [showCompareResults, loading]); // Re-run when data changes to ensure element is tracked
-// ...existing code...
+    return () => observer.disconnect();
+  }, [showCompareResults, loading]); // Re-run when data changes to ensure element is tracked
+  // ...existing code...
 
   const restoreStateFromStorage = async () => {
     isRestoringRef.current = true;
     try {
       const savedState = localStorage.getItem(STORAGE_KEY);
       if (savedState) {
-       
+
         const parsedState = JSON.parse(savedState);
         if (parsedState.selectedRider1) {
           setSelectedRider1(parsedState.selectedRider1);
@@ -253,11 +253,11 @@ useEffect(() => {
           setSelectedYear(yearToUse);
         }
       } else {
-        setError(response.error || "Failed to load H2H data");
+        setError(response.error || t("common.api_error"));
       }
     } catch (err) {
       console.error("Error fetching H2H data:", err);
-      setError("An unexpected error occurred while fetching H2H data");
+      setError(t("common.something_went_wrong"));
     } finally {
       setLoading(false);
     }
@@ -548,7 +548,7 @@ useEffect(() => {
           className="empty-state empty-msg"
           style={{ textAlign: "center", padding: "20px" }}
         >
-          There are no matches found
+          {t("head_to_head.no_matches_found")}
         </div>
       );
     }
@@ -1077,7 +1077,7 @@ useEffect(() => {
                               <ul>
                                 <li>
                                   <div style={{ textAlign: "center", padding: "10px" }}>
-                                    <span>Searching...</span>
+                                    <span>{t("common.searching")}...</span>
                                   </div>
                                 </li>
                               </ul>
@@ -1088,7 +1088,7 @@ useEffect(() => {
                               <ul>
                                 <li>
                                   <div style={{ textAlign: "center", padding: "10px" }}>
-                                    <span>no items matches to your search</span>
+                                    <span>{t("common.no_items_matches")}</span>
                                   </div>
                                 </li>
                               </ul>
@@ -1182,85 +1182,84 @@ useEffect(() => {
         ) : loading ? <ListSkeleton /> : (
           (selectedRider1 && selectedRider2) && (getMatchRidersData || (H2HData && H2HData.length > 0)) && (
             <>
-            <div ref={sentinelRef} style={{ height: "1px", marginBottom: "-1px" }} />
-            <div ref={containerRef}  className={`rider-compare-show-result-section ${
-                  isSticky ? "sticky" : ""
-              }`}>
-              <div 
-              className={`container rider-compare-show-result-container`}
-              >
-                <div className="rider-compare-show-result">
-                  <div className="compare-result-col">
-                    <h6 className="mb-10px">{t("head_to_head.rider")} 1</h6>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <h4 className="text-uppercase d-flex align-items-center fw-900 mb-0">
-                        {selectedRider1 && (
-                          <>
-                            <Flag
-                              code={selectedRider1?.riderCountry?.toUpperCase()}
-                              style={{
-                                width: "30px",
-                                height: "20px",
-                                marginRight: "10px",
-                                flexShrink: 0,
-                                borderRadius: "5px"
-                              }}
-                            />
-                            {selectedRider1?.riderName}
-                          </>
-                        )}
-                      </h4>
+              <div ref={sentinelRef} style={{ height: "1px", marginBottom: "-1px" }} />
+              <div ref={containerRef} className={`rider-compare-show-result-section ${isSticky ? "sticky" : ""
+                }`}>
+                <div
+                  className={`container rider-compare-show-result-container`}
+                >
+                  <div className="rider-compare-show-result">
+                    <div className="compare-result-col">
+                      <h6 className="mb-10px">{t("head_to_head.rider")} 1</h6>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <h4 className="text-uppercase d-flex align-items-center fw-900 mb-0">
+                          {selectedRider1 && (
+                            <>
+                              <Flag
+                                code={selectedRider1?.riderCountry?.toUpperCase()}
+                                style={{
+                                  width: "30px",
+                                  height: "20px",
+                                  marginRight: "10px",
+                                  flexShrink: 0,
+                                  borderRadius: "5px"
+                                }}
+                              />
+                              {selectedRider1?.riderName}
+                            </>
+                          )}
+                        </h4>
+                        <button
+                          className={`d-md-none ${calculatedStats.rider1_ahead > calculatedStats.rider2_ahead ? "activeBtn" : ""}`}
+                        >
+                          {calculatedStats?.rider1_ahead}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="compare-result-digits-col">
                       <button
-                        className={`d-md-none ${calculatedStats.rider1_ahead > calculatedStats.rider2_ahead ? "activeBtn" : ""}`}
+                        className={calculatedStats.rider1_ahead > calculatedStats.rider2_ahead ? "activeBtn" : ""}
                       >
                         {calculatedStats?.rider1_ahead}
                       </button>
-                    </div>
-                  </div>
 
-                  <div className="compare-result-digits-col">
-                    <button
-                      className={calculatedStats.rider1_ahead > calculatedStats.rider2_ahead ? "activeBtn" : ""}
-                    >
-                      {calculatedStats?.rider1_ahead}
-                    </button>
-
-                    <button
-                      className={calculatedStats.rider2_ahead > calculatedStats.rider1_ahead ? "activeBtn" : ""}
-                    >
-                      {calculatedStats?.rider2_ahead}
-                    </button>
-                  </div>
-
-                  <div className="compare-result-col compare-result-col--last">
-                    <h6 className="mb-10px text-start text-md-end w-100">{t("head_to_head.rider")} 2</h6>
-                    <div className="w-100 d-flex align-items-center justify-content-between justify-content-md-end">
-                      <h4 className="text-uppercase d-flex align-items-center fw-900 mb-0 justify-content-start justify-content-md-end">
-                        {selectedRider2 && (
-                          <>
-                            <Flag
-                              code={selectedRider2?.riderCountry?.toUpperCase()}
-                              style={{
-                                width: "30px",
-                                height: "20px",
-                                marginRight: "10px",
-                                flexShrink: 0,
-                                borderRadius: "5px"
-                              }}
-                            />
-                            {selectedRider2?.riderName}
-                          </>
-                        )}
-                      </h4>
                       <button
-                        className={`d-md-none ${calculatedStats.rider2_ahead > calculatedStats.rider1_ahead ? "activeBtn" : ""}`}
+                        className={calculatedStats.rider2_ahead > calculatedStats.rider1_ahead ? "activeBtn" : ""}
                       >
                         {calculatedStats?.rider2_ahead}
                       </button>
                     </div>
+
+                    <div className="compare-result-col compare-result-col--last">
+                      <h6 className="mb-10px text-start text-md-end w-100">{t("head_to_head.rider")} 2</h6>
+                      <div className="w-100 d-flex align-items-center justify-content-between justify-content-md-end">
+                        <h4 className="text-uppercase d-flex align-items-center fw-900 mb-0 justify-content-start justify-content-md-end">
+                          {selectedRider2 && (
+                            <>
+                              <Flag
+                                code={selectedRider2?.riderCountry?.toUpperCase()}
+                                style={{
+                                  width: "30px",
+                                  height: "20px",
+                                  marginRight: "10px",
+                                  flexShrink: 0,
+                                  borderRadius: "5px"
+                                }}
+                              />
+                              {selectedRider2?.riderName}
+                            </>
+                          )}
+                        </h4>
+                        <button
+                          className={`d-md-none ${calculatedStats.rider2_ahead > calculatedStats.rider1_ahead ? "activeBtn" : ""}`}
+                        >
+                          {calculatedStats?.rider2_ahead}
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
               </div>
 
               {showCompareResults && (
@@ -1294,7 +1293,7 @@ useEffect(() => {
                         <div className="slug-table-main head-to-head-main">
                           <ul className="slug-table-head head-to-head">
                             <li className="date-col">{t("common.date")}</li>
-                            <li className="race-col">{t("common.race")}</li>
+                            <li className="race-col">{t("common.races")}</li>
                             <li className="text-lg-end rider-col"><span className="d-none d-md-inline">{t("head_to_head.rider")} </span>1</li>
                             <li className="text-lg-end rider-col"><span className="d-none d-md-inline">{t("head_to_head.rider")} </span>2</li></ul>
 

@@ -122,7 +122,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
       <div className="row">
         {loading && <BoxSkeleton />}
         {error && Object.keys(data || {}).length === 0 && (
-          <ErrorStats message="Unable to load rider statistics. Please try again later." />
+          <ErrorStats message={t("common.api_error")} />
         )}
 
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
@@ -426,7 +426,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
               </div>
             </div>
 
-            <div className="col-lg-3 col-md-6 e">
+            <div className="col-lg-4 col-md-6 e">
               <div className="team-cart lime-green-team-cart img-active">
                 <Link href={buildUrlWithParams("total-grand-tour-racing-days")} className="pabs" />
                 <div className="text-wraper">
@@ -462,7 +462,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
               </div>
             </div>
 
-            <div className="col-lg-3 col-md-6 total-distance-raced-cart">
+            <div className="col-lg-4 col-md-6 total-distance-raced-cart">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("total-distance-grand-tour")} className="pabs" />
                 <div className="text-wraper">
@@ -500,7 +500,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
               </div>
             </div>
 
-            <div className="col-lg-3 col-md-6 f">
+            <div className="col-lg-4 col-md-6 f">
               <div className="list-white-cart">
                 <Link href={buildUrlWithParams("riders-best-monuments-results")} className="pabs" />
                 <h4>{data?.[fixedApis.box10]?.message}</h4>
@@ -540,7 +540,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
               </div>
             </div>
 
-            <div className="col-lg-3 col-md-6 g">
+            {/* <div className="col-lg-3 col-md-6 g">
               <div className="team-cart">
                 <Link href={buildUrlWithParams("riders-paris-roubaix-results")} className="pabs" />
                 <div className="text-wraper">
@@ -582,7 +582,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
                   })()}
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="col-lg-3 col-md-6 h">
               <div className="list-white-cart">

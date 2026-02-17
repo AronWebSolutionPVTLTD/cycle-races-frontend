@@ -65,13 +65,13 @@ export default function Riders() {
         })
         .catch((err) => {
           console.error("Unhandled error in fetchRiders:", err);
-          setError("An unexpected error occurred while fetching rider data");
+          setError(t("riders.error_loading_riders"));
         })
         .finally(() => {
           setLoading(false);
         });
     } catch (err) {
-      setError("Critical error loading riders data");
+      setError(t("common.something_went_wrong"));
       setLoading(false);
     }
   };
@@ -203,7 +203,7 @@ export default function Riders() {
             team={team.teamName}
             flag={rider.riderCountry}
             riderId={rider.rider_id}
-          riderSlug={rider.riderSlug}          />
+            riderSlug={rider.riderSlug} />
         ))
         : null
     );
@@ -222,7 +222,7 @@ export default function Riders() {
             : "",
       flag: rider.country || rider.riderCountry || "/images/flag-default.svg",
       rider_id: rider.rider_id || rider._id || rider.riderId,
-      slug:rider.riderSlug
+      slug: rider.riderSlug
 
     }));
   };
@@ -372,7 +372,7 @@ export default function Riders() {
                           ) : (
                             <li className="no-results">
                               <div>
-                                <span>{t("common.no_items_matches_to_your_search")}</span>
+                                <span>{t("common.no_items_matches")}</span>
                               </div>
                             </li>
                           )}
@@ -412,7 +412,7 @@ export default function Riders() {
                         className="empty-state"
                         style={{ textAlign: "center", padding: "20px" }}
                       >
-                        {t("common.no_items_matches_to_your_search")}
+                        {t("common.no_items_matches")}
                       </div>
                     </li>
                   </ul>
