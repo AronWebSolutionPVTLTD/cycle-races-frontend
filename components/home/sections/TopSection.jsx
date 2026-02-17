@@ -14,7 +14,7 @@ const TopSection = () => {
   const endpointsToFetch = Object.values(fixedApis);
   const router = useRouter();
   const { data, loading, error } = useMultipleData(endpointsToFetch);
-
+console.log(data);
 return (
     <section className="featured-section">
       <div className="container">
