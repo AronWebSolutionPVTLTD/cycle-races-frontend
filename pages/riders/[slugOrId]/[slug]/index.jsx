@@ -9,6 +9,7 @@ import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { generateYearOptions } from "@/components/GetYear";
 import getItemId from "@/pages/getId";
 import { renderFlag } from "@/components/RenderFlag";
+import { useTranslation } from "@/lib/useTranslation";
 
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   if (!possibleKeys || !Array.isArray(possibleKeys)) {
@@ -53,6 +54,7 @@ export default function DynamicSlugPage() {
   const [selectedYear, setSelectedYear] = useState(
     null
   );
+  const { t } = useTranslation();
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
@@ -744,7 +746,7 @@ export default function DynamicSlugPage() {
                     <Link href="/">Home</Link>
                   </li>
                   <li>
-                    <Link href="/stats">Stats</Link>
+                    <Link href="/riders">{t("common.riders")}</Link>
                   </li>
                   <li>{pageHeading}</li>
                 </ul>
@@ -814,7 +816,8 @@ export default function DynamicSlugPage() {
                     }`}
                 >
                   {getDynamicHeaders().map((header, index) => (
-                    <li className={`slug-list-head ${header}`} key={index}>{header}</li>
+                    <li className={`slug-list-head ${header}`} key={index}>
+                      {t(`table.${header.toLowerCase().replace(/\s+/g, "_")}`)}</li>
                   ))}
                 </ul>
 

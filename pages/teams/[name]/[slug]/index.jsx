@@ -12,6 +12,7 @@ import { generateYearOptions } from "@/components/GetYear";
 import { FaCommentsDollar } from "react-icons/fa";
 import getItemId from "@/pages/getId";
 import { renderFlag } from "@/components/RenderFlag";
+import { useTranslation } from "@/lib/useTranslation";
 
 export async function getServerSideProps(context) {
   const { params, query } = context;
@@ -78,7 +79,7 @@ const getCountryCode = (item, config) => {
 export default function DynamicSlugPage({ year }) {
   const router = useRouter();
   const { slug } = router.query;
-
+  const { t } = useTranslation();
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -743,7 +744,7 @@ export default function DynamicSlugPage({ year }) {
                     <Link href="/">Home</Link>
                   </li>
                   <li>
-                    <Link href="/teams">Teams</Link>
+                    <Link href="/teams">{t("common.team")}</Link>
                   </li>
                   <li>{pageHeading}</li>
                 </ul>
@@ -793,7 +794,8 @@ export default function DynamicSlugPage({ year }) {
                 >
                   {/* <li className="sr_no">{srNoHeaderLabel}</li> */}
                   {getDynamicHeaders().map((header, index) => (
-                    <li key={index} className={header}>{header}</li>
+                    <li key={index} className={header}>
+                      {t(`table.${header.toLowerCase().replace(/\s+/g, "_")}`)}</li>
                   ))}
                 </ul>
 

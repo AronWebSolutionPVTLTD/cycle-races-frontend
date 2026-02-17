@@ -10,7 +10,7 @@ import {
 } from "@/components/loading&error";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { renderFlag } from "@/components/RenderFlag";
-
+import { useTranslation } from "@/lib/useTranslation";
 
 // export async function getServerSideProps(context) {
 //   const { id } = context.params;
@@ -32,6 +32,7 @@ import { renderFlag } from "@/components/RenderFlag";
 export default function RaceResultPage({ year, month, stageNumber, tab,initialRaceResult,apiError }) {
   const router = useRouter();
   const { id } = router.query;
+  const { t } = useTranslation();
   // const [isRouterReady, setIsRouterReady] = useState(false);
   const [race, setRace] = useState(initialRaceResult);
 const [raceName, setRaceName] = useState(initialRaceResult?.race_name || null);
@@ -466,7 +467,7 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
                   <Link href="/">home</Link>
                 </li>
                 <li>
-                  <Link href="/races">race</Link>
+                  <Link href="/races">{t("common.results")}</Link>
                 </li>
                 <li>{raceName || race?.race_name || "Race"}</li>
               </ul>
@@ -580,9 +581,9 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
 
             <div className="col-lg-9 col-md-7 ctm-table-wrap ctm-race-result-wrap">
               <ul className="head-heading ctm-race-result-head">
-                <li className="name">Name</li>
-                <li className="team">Team</li>
-                <li className="time">Time</li>
+                <li className="name">{t("common.name")}</li>
+                <li className="team">{t("common.team")}</li>
+                <li className="time">{t("common.times")}</li>
               </ul>
 
               {

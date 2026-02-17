@@ -9,6 +9,7 @@ import { generateYearOptions } from "@/components/GetYear";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { renderFlag } from "@/components/RenderFlag";
 import getItemId from "@/pages/getId";
+import { useTranslation } from "@/lib/useTranslation";
 
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   for (const key of possibleKeys) {
@@ -42,7 +43,7 @@ const getRiderId = (item) => {
 export default function DynamicSlugPage() {
   const router = useRouter();
   const { slug } = router.query;
-
+  const { t } = useTranslation();
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -584,7 +585,8 @@ export default function DynamicSlugPage() {
               <div className="col-lg-9 col-md-12 mt-4 slug-table-main">
                 <ul className={`slug-table-head col--${getDynamicHeaders().length}`}>
                   {getDynamicHeaders().map((header, index) => (
-                    <li key={index}>{header}</li>
+                    <li key={index}>
+                      {t(`table.${header.toLowerCase().replace(/\s+/g, "_")}`)}</li>
                   ))}
                 </ul>
 
