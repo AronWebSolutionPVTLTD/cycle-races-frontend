@@ -4,7 +4,9 @@ const en={
     "searching": "Searching",
     "no_items_matches": "No items matches to your search",
     "full_stats": "Full stats",
+    "time": "Time",
     "times": "times",
+    "day": "Day",
     "days": "days",
     "riders": "riders",
     "wins": "wins",
@@ -67,6 +69,7 @@ const en={
     "results": "Results",
     "no_featured_races_available": "No featured races available",
     "go_to_races": "Go to Races",
+    "no_stats_available": "No statistics available",
   },
   "riders": {
     "riders": "Riders",

@@ -20,6 +20,9 @@ export default function Home() {
         <link rel="icon" href="/images/ws_favicon.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
+      <h1 className="sr-only">
+      Wielerstatistieken van renners, teams en wedstrijden
+      </h1>
 
       <main className="home-main inner-pages-main">
         <TopSection t={t} />

@@ -57,6 +57,7 @@ export const ErrorMessage = ({ errorType = "general" }) => {
 };
 
 export const ErrorStats = ({ message }) => (
+ 
   <div className="error-container text-center p-5 my-4 bg-light rounded shadow-sm">
     <div className="mb-3">
       <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#dc3545" strokeWidth="2" className="mb-3">
@@ -66,7 +67,7 @@ export const ErrorStats = ({ message }) => (
       </svg>
     </div>
     <h3 className="text-danger">Er ging iets mis</h3>
-    <p className="text-muted">{message || "Failed to load statistics"}</p>
+    <p className="text-muted">{message || "De statistieken zijn momenteel niet beschikbaar. Probeer het later opnieuw."}</p>
     <button
       className="btn btn-outline-primary mt-3"
       onClick={() => window.location.reload()}

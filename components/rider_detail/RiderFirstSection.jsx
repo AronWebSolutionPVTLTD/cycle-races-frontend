@@ -361,7 +361,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
 
                 <div className="col-lg-4 col-md-6 qq">
                   <div className="team-cart">
-                    <Link href={buildUrlWithParams("professional since")} className="pabs" />
+                    <Link href={buildUrlWithParams("professional-since")} className="pabs" />
                     <div className="text-wraper">
                       <h4>
                         {data?.[fixedApis.box6]?.message}
@@ -399,7 +399,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
 
                               </h5>
                             )}
-                            <Link href={buildUrlWithParams("professional since")} className="green-circle-btn">
+                            <Link href={buildUrlWithParams("professional-since")} className="green-circle-btn">
                               <img src="/images/arow.svg" alt="" />
                             </Link>
                           </>
@@ -516,7 +516,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
                                 <strong>
                                   {firstRider.days_since_last_win}{" "}
                                 </strong>
-                                {t("common.days")}
+                                {firstRider.days_since_last_win > 1 ? t("common.days") : t("common.day")}
                               </h5>
                             )}
                             <Link href={buildUrlWithParams("time-since-last-win")} className="green-circle-btn">

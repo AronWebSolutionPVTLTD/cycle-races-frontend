@@ -323,7 +323,7 @@ export default function Riders() {
                       <div className="wrap-top">
                         <input
                           type="text"
-                          placeholder="Wie zoek je ?"
+                          placeholder="Wie zoek je?"
                           value={searchQuery}
                           onChange={handleSearchChange}
                           onFocus={handleFocus}

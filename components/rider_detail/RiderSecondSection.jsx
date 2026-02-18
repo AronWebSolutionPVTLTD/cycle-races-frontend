@@ -279,7 +279,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl, t }) => {
                             {riderData?.total_days && (
                               <h5>
                                 <strong>{riderData.total_days}</strong>
-                                {t("common.days")}
+                                {riderData.total_days > 1 ? t("common.days") : t("common.day")}
                               </h5>
                             )}
 

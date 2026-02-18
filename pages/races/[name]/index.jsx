@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import Flag from "react-world-flags";
 import { useTranslation } from "@/lib/useTranslation";
+import { renderFlag } from "@/components/RenderFlag";
 
 export default function RaceDetailsPage({ year, initialRace, apiError }) {
   const router = useRouter();
@@ -209,7 +210,7 @@ export default function RaceDetailsPage({ year, initialRace, apiError }) {
   if (!router.isReady) {
     return <LoadingStats />;
   }
-
+  console.log(raceData,"race")
 
   return (
     <>
@@ -235,27 +236,12 @@ export default function RaceDetailsPage({ year, initialRace, apiError }) {
                   </ul>
 
                   <div className="wraper">
-                    <h1>{raceData.race_name}</h1>
+                    <h1 className="ps-0">{raceData.race_name}</h1>
                   </div>
-
-                  <ul className="plyr-dtls">
-                    {raceData.country_code && (
-                      <li className="country">
-                        <Flag
-                          code={raceData.country_code}
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            marginLeft: "10px",
-                          }}
-                        />
-                        {raceData?.country_name}
-                      </li>
-                    )}
-                    {raceData.year && (
-                      <li className="text-sm">{raceData.year}</li>
-                    )}
-                  </ul>
+                  <div className="plyr-dtls">
+                  {raceData.race_name} is een wielerkoers in
+                  <span className="country"> {renderFlag(raceData.country_code)} {raceData?.country_name},</span>georganiseerd sinds <span className="text-white"> {raceData?.year}.</span> Hier vind je uitslagen, winnaars en statistieken per editie.
+                  </div>
                 </div>
               )}
             </div>

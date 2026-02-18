@@ -12,23 +12,6 @@ import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { renderFlag } from "@/components/RenderFlag";
 import { useTranslation } from "@/lib/useTranslation";
 
-// export async function getServerSideProps(context) {
-//   const { id } = context.params;
-//   const { year, month, stageNumber, tab } = context.query;
-
- 
-//   return {
-//     props: {
-//       id,
-//       year: year || new Date().getFullYear().toString(),
-//       month: month || "",
-//       stageNumber: stageNumber || "",
-//       tab: tab || "",
-//     },
-//   };
-// }
-
-
 export default function RaceResultPage({ year, month, stageNumber, tab,initialRaceResult,apiError }) {
   const router = useRouter();
   const { id } = router.query;
@@ -75,6 +58,7 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
   useEffect(() => {
     setSelectedStage(stageNumber || "");
   }, [stageNumber]);
+
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === '') {
       return withoutAllTime;
@@ -108,7 +92,6 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
       stage.toLowerCase().includes(searchValue.toLowerCase())
     );
   };
-
   const handleSelection = (type, value) => {
     switch (type) {
       case "year":
@@ -233,11 +216,10 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
         }
         await fetchFeaturedStats(raceId);
       } else {
-        throw new Error("Invalid API response format");
+        throw new Error(t("common.api_error"));
       }
     } catch (err) {
-      setError(err || "Failed to load race data");
-      setError("Failed to load race data. Please try again later.");
+      setError(t("common.api_error"));
     } finally {
       if (isInitialLoad) {
         setIsLoading(false);
@@ -332,7 +314,7 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
       setFeaturedStats(stats);
     } catch (err) {
       console.error("Error fetching featured stats:", err);
-      setErrorFeatured("Failed to load race data . Please try again later.");
+      setErrorFeatured(t("common.api_error"));
       setFeaturedStats([]);
     } finally {
       setLoadingFeatured(false);
@@ -340,31 +322,28 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
   };
 
   // useEffect(() => {
-  //   if (router.isReady) {
-  //     setIsRouterReady(true);
-  //     if (typeof id === "string") {
-  //       const isInitialLoad = !raceName;
-  //       fetchRaceDetails(id, isInitialLoad);
-  //     }
-  //   }
-  // }, [router.isReady, id, selectedYear, selectedStage, router.query.tab]);
+  //   if (!race) return;
+  
+  //   fetchRaceDetails(id, false);
+  // }, [selectedYear, selectedStage, router.query.tab]);
+
   useEffect(() => {
-    if (!race) return;
+    if (!router.isReady || !id) return;
   
     fetchRaceDetails(id, false);
-  }, [selectedYear, selectedStage, router.query.tab]);
+  }, [router.isReady, id, selectedYear, selectedStage, router.query.tab]);
+  
   
   if (apiError) {
     return (
       <div className="container pt-161px">
         <div className="alert alert-danger text-center">
-          <h3>Something went wrong</h3>
+          <h3>{t("common.something_went_wrong")}</h3>
           <p>
-            We’re having trouble loading this race result right now.
-            Please try again later.
+            {t("common.api_error")}
           </p>
           <Link href="/races" className="glob-btn green-bg-btn">
-            <strong>Go to Races</strong>
+            <strong>{t("races.go_to_races")}</strong>
           </Link>
         </div>
       </div>
@@ -583,23 +562,15 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
               <ul className="head-heading ctm-race-result-head">
                 <li className="name">{t("common.name")}</li>
                 <li className="team">{t("common.team")}</li>
-                <li className="time">{t("common.times")}</li>
+                <li className="time">{t("common.time")}</li>
               </ul>
 
-              {
-              // (isLoading || isLoadingStageData) || !isRouterReady ? (
-              //   <div className="loading-spinner">
-              //     <ListSkeleton />
-              //   </div>
-              // ) : error ? (
-              //   <div className="col-12">
-              //     <ErrorStats message={error} />
-              //   </div>
-              // ) :
-              race.riders.length > 0 && (
+              {race?.riders?.length > 0 ? (
                 <ul className="transparent-cart ctm-table-ul">
-                  {race.riders
-                    ?.sort((a, b) => a.rank - b.rank)
+                  {/* {race.riders
+                    ?.sort((a, b) => a.rank - b.rank) */}
+                    { [...(race?.riders || [])]
+  .sort((a, b) => a.rank - b.rank)
                     .map((rider, index) => (
                       <li className="hoverState-li custom-list-el race-result-ctm-el" key={index}>
                         <Link href={`/riders/${rider.riderSlug}`} className="pabs" />
@@ -619,7 +590,12 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
                 </ul>
               // ) : (
               //   <div className="text-center">No race results found</div>
-              )}
+              )
+            :
+            <div className="col-12">
+                  <ErrorStats message={error} />
+                </div>
+                }
             </div>
 
             <div className="col-lg-3 col-md-5 111">
@@ -678,7 +654,7 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
                   </div>
                 ))
               ) : (
-                <div className="no-results">No featured races available</div>
+                <div className="no-results"> {t("races.no_stats_available")}</div>
               )}
             </div>
           </div>
@@ -694,11 +670,16 @@ export async function getServerSideProps(context) {
   const { year, month, stageNumber, tab } = context.query;
 
   const selectedYear = year || new Date().getFullYear().toString();
+  
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/raceDetailsStats/${id}/getRaceDetails?year=${selectedYear}`
-    );
+    let url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/raceDetailsStats/${id}/getRaceDetails?year=${selectedYear}`;
+
+    if (month) url += `&month=${month}`;
+    if (stageNumber) url += `&stageNumber=${stageNumber}`;
+    if (tab) url += `&tabName=${tab}`;
+    
+    const res = await fetch(url);
 
     if (res.status === 404) {
       return { notFound: true };

@@ -148,7 +148,11 @@ export default function Stats() {
                   </li>
                   <li>stats</li>
                 </ul>
-                <h1 className="fw-900 fst-italic">stats</h1>
+                <div className="ctm-page-header">
+                  <h1 className="fw-900 fst-italic">stats</h1>
+                  <p className="ctm-page-description mb-0">Ontdek wielerstatistieken en rankings van renners, wedstrijden en teams. Bekijk records, overwinningen en historische prestaties, bijgewerkt op basis van officiële uitslagen.</p>
+                </div>
+                
                 <div className="filter-section-wrapper">
                   <ul className="filter filter-3-cols">
                     <FilterDropdown

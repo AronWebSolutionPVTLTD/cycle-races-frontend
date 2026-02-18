@@ -4316,11 +4316,31 @@ main.inner-pages-main {
   padding-top: 161px;
 }
 
-main.inner-pages-main section.stats-sec1 h1 {
+main.inner-pages-main .ctm-page-header h1 {
+  margin-bottom: 16px !important;
+  padding-bottom: 0 !important;
+  position: static;
+}
+main.inner-pages-main .ctm-page-header h1::after {
+  display: none;
+}
+main.inner-pages-main .ctm-page-header {
   margin-bottom: 64px;
   padding-bottom: 32px;
+  position: relative;
 }
-
+.ctm-page-header::after {
+  content: "";
+  width: 100%;
+  height: 2px;
+  background-image: url(/_next/static/media/dash.7fe252f7.svg);
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: cover;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
 main.inner-pages-main section.stats-sec1 {
   padding-top: 0;
   padding-bottom: 0;
@@ -4457,7 +4477,7 @@ section.rider-details-sec .row {
   }
 
   main.inner-pages-main section.riders-sec1 {
-    padding-bottom: 48px !important;
+    padding-bottom: 0 !important;
     padding-top: 0 !important;
   }
 
@@ -5016,4 +5036,39 @@ ul.slug-table-head.head-to-head .rider-col {
   line-height: 1.5rem;
   letter-spacing: -0.025rem;
   text-align: center;
+}
+.ctm-page-description {
+  font-size: 13px;
+  font-weight: 500;
+  color: #2B534D;
+  line-height: 19px;
+}
+main.inner-pages-main section.riders-sec1 .ctm-page-header {
+  margin-bottom: 0;
+}
+span.green_color_text {
+  color: #678f89;
+}
+@media (max-width: 767px) {
+  main.inner-pages-main .ctm-page-header h1, 
+  main.inner-pages-main .ctm-page-header h1 {
+    padding-bottom: 0 !important;
+    margin-bottom: 24px !important;
+  }
+  main.inner-pages-main section.stats-sec1 .ctm-page-header {
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+}
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

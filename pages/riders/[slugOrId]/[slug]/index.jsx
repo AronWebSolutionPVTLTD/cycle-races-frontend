@@ -214,7 +214,7 @@ export default function DynamicSlugPage() {
         if (slug === "wins-in-one-day-races") {
           response.data = response?.data?.data?.wins;
         }
-        if (slug === "professional since") {
+        if (slug === "professional-since") {
           response.data = response?.data?.data?.years_and_teams;
         }
         if (slug === "number-of-wins-per-season") {
@@ -286,6 +286,7 @@ export default function DynamicSlugPage() {
         if (response.message) {
           setApiTitle(response.message);
         }
+      
         setError(null);
       } else {
         setError("No data found for this category");
@@ -297,6 +298,7 @@ export default function DynamicSlugPage() {
       setLoading(false);
     }
   };
+  console.log(pageData)
 
   const formatSlugForDisplay = (slug) => {
     if (!slug) return "Page";
@@ -728,12 +730,12 @@ export default function DynamicSlugPage() {
   const pageHeading = getCustomHeading(slug, apiTitle);
 
 
-
   return (
     <>
       <Head>
         <title>{pageTitle}</title>
       </Head>
+      <main className="inner-pages-main pt-md-0 mb-pt-161px">
       <section className="slug-main-section">
         <div className="dropdown-overlay"></div>
 
@@ -753,12 +755,15 @@ export default function DynamicSlugPage() {
                 {slug === "rider-results-this-year" ? (
                   <div className="isRiderResults-wraper">
                     <div className="hdr-img_wrap">
-                      <img alt="" className="absolute-img" src="/images/player6.png"></img>
+                      <img alt="" className="absolute-img" src="/images/rider_avatar.png"></img>
                     </div>
                     <h1 className="">{pageHeading || "..."}</h1>
                   </div>
                 ) : (
+                  <div className="ctm-page-header">
                   <h1 className="mb-0">{pageHeading}</h1>
+                  <p className="ctm-page-description mb-0">Deze ranking toont <span className="green_color_text">'{pageHeading}'</span> van <span className="green_color_text">ridername</span>. De resultaten zijn gebaseerd op officiële wedstrijduitslagen en worden continu bijgewerkt.</p>
+                  </div>
                 )}
 
               </div>
@@ -827,6 +832,7 @@ export default function DynamicSlugPage() {
           </div>
         </section>
       </section>
+      </main>
     </>
   );
 }

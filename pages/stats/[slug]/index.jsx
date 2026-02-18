@@ -79,14 +79,24 @@ export default function DynamicSlugPage() {
   };
 
   const handleSelection = (type, value) => {
-    switch (type) {
-      case "year":
-        setSelectedYear(value);
-        setYearInput("");
-        setShowYearDropdown(false);
-        break;
+    if (type === "year") {
+      setSelectedYear(value);
+      setYearInput("");
+      setShowYearDropdown(false);
+  
+      router.replace(
+        {
+          query: {
+            ...router.query,
+            year: value,
+          },
+        },
+        undefined,
+        { shallow: true }
+      );
     }
   };
+  
   const handleYearInputChange = (value) => {
     setYearInput(value);
   };
@@ -139,10 +149,10 @@ export default function DynamicSlugPage() {
   };
 
   useEffect(() => {
-    if (slug) {
-      fetchSlugData();
-    }
-  }, [slug, selectedYear]);
+    if (!router.isReady || !slug) return;
+    fetchSlugData();
+  }, [router.isReady, slug, selectedYear]);
+  
 
   const fetchSlugData = async () => {
     setLoading(true);
@@ -535,6 +545,7 @@ export default function DynamicSlugPage() {
         <title>{pageTitle}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
+      <main className="inner-pages-main pt-md-0 mb-pt-161px">
       <section className="slug-main-section">
         <div className="dropdown-overlay"></div>
 
@@ -551,7 +562,10 @@ export default function DynamicSlugPage() {
                   </li>
                   <li>{pageHeading}</li>
                 </ul>
-                <h1 className="mb-0">{pageHeading}</h1>
+                <div className="ctm-page-header"> 
+                  <h1 className="mb-0">{pageHeading}</h1>
+                  <p className="ctm-page-description mb-0">Deze ranking toont <span className="green_color_text">'{pageHeading}'</span> in <span className="green_color_text">{ selectedYear }</span>. De resultaten zijn gebaseerd op officiële wedstrijduitslagen en worden continu bijgewerkt.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -596,6 +610,7 @@ export default function DynamicSlugPage() {
           </div>
         </section>
       </section>
+      </main>
     </>
   );
 }

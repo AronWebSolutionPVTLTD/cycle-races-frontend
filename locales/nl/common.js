@@ -4,7 +4,9 @@ const nl={
     "searching": "Zoeken",
     "no_items_matches": "Geen items gevonden die overeenkomen met uw zoekopdracht",
     "full_stats": "Volledige stats",
+    "time": "Tijd",
     "times": "Keer",
+    "day": "Dag",
     "days": "dagen",
     "riders": "renners",
     "wins": "Winst",
@@ -68,6 +70,7 @@ const nl={
     "results": "Uitslagen",
     "no_featured_races_available": "Geen gefeaturede wedstrijden beschikbaar",
     "go_to_races": "Ga naar Uitslagen",
+    "no_stats_available": "Geen statistieken beschikbaar",
   },
   "riders": {
     "riders": "Renners",
@@ -81,7 +84,7 @@ const nl={
     "rider": "Renner",
     "compare": "Vergelijk",
     "result-same-race": "Resultaten in dezelfde wedstrijd",
-    "no_matches_found": "Er zijn geen overeenkomsten gevonden",
+    "no_matches_found": "Geen resultaten gevonden.",
   },
   "teams": {
     "search_placeholder": "Welk team zoek je?",
