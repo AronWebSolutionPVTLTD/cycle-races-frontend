@@ -1001,7 +1001,7 @@ export default function HeadToHead() {
                               <ul>
                                 <li>
                                   <div style={{ textAlign: "center", padding: "10px" }}>
-                                    <span>  {t("common.no_items_matches")}</span>
+                                    <span>  {t("head_to_head.no_matches_found")}</span>
                                   </div>
                                 </li>
                               </ul>
@@ -1088,7 +1088,7 @@ export default function HeadToHead() {
                               <ul>
                                 <li>
                                   <div style={{ textAlign: "center", padding: "10px" }}>
-                                    <span>{t("common.no_items_matches")}</span>
+                                    <span>{t("head_to_head.no_matches_found")}</span>
                                   </div>
                                 </li>
                               </ul>

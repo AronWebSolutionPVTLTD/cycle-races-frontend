@@ -441,7 +441,7 @@ export default function Header({ isDetailPage }) {
                       <ul>
                         <li>
                           <div style={{ textAlign: "center", padding: "10px" }}>
-                            <span>{t("common.no_items_matches_to_your_search")}</span>
+                            <span>{t("common.no_items_matches")}</span>
                           </div>
                         </li>
                       </ul>

@@ -2340,3 +2340,21 @@ section.rider-details-sec .team-cart.featured-card{
 .transparent-cart li h5 a:hover::after {
   width: 100%;
 }
+
+.plyr-dtls {
+  font-size: 13px;
+  line-height: 19px;
+  color: #9EC6AC;
+  font-weight: 500;
+  margin-top: 24px;
+}
+
+.plyr-dtls .place {
+  display: block;
+}
+
+.plyr-dtls .country {
+  margin-left: 8px;
+  margin-right: 8px;
+  display: inline-block;
+}

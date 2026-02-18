@@ -10,7 +10,7 @@ import TeamThirdSection from "@/components/team_detail/TeamThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { useTranslation } from "@/lib/useTranslation";
 
-export default function TeamDetail({ initialTeam ,apiError}) {
+export default function TeamDetail({ initialTeam, apiError }) {
   const router = useRouter();
   const { t } = useTranslation();
   const [headerData, setHeaderData] = useState(initialTeam);
@@ -66,48 +66,48 @@ export default function TeamDetail({ initialTeam ,apiError}) {
 
   useEffect(() => {
     if (!headerData?.slug) return;
-  const fetchTeamActiveYears = async () => {
-    try {
-      setYearsLoading(true);
-      const response = await callAPI("GET", `/teamDetails/${headerData?.slug}/getTeamActiveYears`);
+    const fetchTeamActiveYears = async () => {
+      try {
+        setYearsLoading(true);
+        const response = await callAPI("GET", `/teamDetails/${headerData?.slug}/getTeamActiveYears`);
 
-      if (response && response.data && response.data.years) {
-        const years = response.data.years;
-        setDynamicYears(years);
+        if (response && response.data && response.data.years) {
+          const years = response.data.years;
+          setDynamicYears(years);
+        }
+      } catch (err) {
+        console.error("Error fetching team active years:", err);
+        setDynamicYears([]);
+      } finally {
+        setYearsLoading(false);
       }
-    } catch (err) {
-      console.error("Error fetching team active years:", err);
-      setDynamicYears([]);
-    } finally {
-      setYearsLoading(false);
-    }
-  };
-  fetchTeamActiveYears();
+    };
+    fetchTeamActiveYears();
   }, [headerData]);
 
-  
+
   if (apiError) {
     return (
       <div className="container pt-161px">
-      <div className="alert alert-danger text-center ">
-        <h3>{t("common.something_went_wrong")}</h3>
-        <p>
-          {t("common.api_error")}
-        
-        </p>
-        <a href="/teams" className="glob-btn green-bg-btn">
-                    <strong>{t("teams.go_to_teams")}</strong>
-                    <span>
-                        <img src="/images/arow.svg" alt="arrow-right" />
-                    </span>
-                    </a>
-                    
-      </div>
+        <div className="alert alert-danger text-center ">
+          <h3>{t("common.something_went_wrong")}</h3>
+          <p>
+            {t("common.api_error")}
+
+          </p>
+          <a href="/teams" className="glob-btn green-bg-btn">
+            <strong>{t("teams.go_to_teams")}</strong>
+            <span>
+              <img src="/images/arow.svg" alt="arrow-right" />
+            </span>
+          </a>
+
+        </div>
       </div>
     );
   }
 
- if (!headerData) {
+  if (!headerData) {
     return (
       <div className="container pt-161px">
         <div className="text-center">
@@ -123,10 +123,9 @@ export default function TeamDetail({ initialTeam ,apiError}) {
 
   const teamName = headerData?.team_name || "N/A";
   const teamImage = headerData?.image_url || headerData?.team_image_url;
-  const teamFlag = headerData?.country_code || headerData?.flag || headerData?.country;
-  const teamCountry = headerData?.country_name || headerData?.country || headerData?.countryName;
-  const teamFounded = headerData?.start_year || headerData?.founded_year || headerData?.founded;
-  const teamCountryName = headerData?.country_name || headerData?.country || headerData?.countryName;
+  const teamFlag = headerData?.country_code
+  const teamCountry = headerData?.country_name
+  const teamFounded = headerData?.start_year
 
   return (
     <main className="inner-pages-main rider-detail-main  header-layout-2">
@@ -154,23 +153,21 @@ export default function TeamDetail({ initialTeam ,apiError}) {
                       alt=""
                       className="absolute-img"
                     />
-                    <ul className="plyr-dtls d-flex d-md-none mobile_plyr-dtls">
-                      <li className="country">
-                        {renderFlag(teamFlag)}
-                        {teamCountry}</li>
-                      <li className="age">{t("common.since")} {teamFounded || "..."}</li>
-                    </ul>
+                    <div className="plyr-dtls d-block d-md-none">
+                    {teamName} is een in
+                      <span className="country"> {renderFlag(teamFlag)} {teamCountry},</span>
+                      wielerploeg, actief sinds  <span className="text-white">{teamFounded || "..."}</span>. Hier vind je statistieken over zeges, renners, klassiekers en grote rondes.
+                    </div>
 
                   </div>
                 )}
                 <h1>{teamName || "..."}</h1>
               </div>
-              <ul className="plyr-dtls d-md-flex d-none">
-                <li className="country">
-                  {renderFlag(teamFlag)}
-                  {teamCountry}</li>
-                <li className="age">{t("common.since")} {teamFounded || "..."}</li>
-              </ul>
+              <div className="plyr-dtls d-md-block d-none">
+                {teamName} is een in
+                      <span className="country"> {renderFlag(teamFlag)} {teamCountry},</span>
+                      wielerploeg, actief sinds  <span className="text-white">{teamFounded || "..."}</span>. Hier vind je statistieken over zeges, renners, klassiekers en grote rondes.
+              </div>
             </div >
           </div>
         </div>
@@ -201,11 +198,11 @@ export default function TeamDetail({ initialTeam ,apiError}) {
               teamSlug={router.query?.name}
               filterYear={
                 filterYear !== "All-time" ? filterYear : null
-              } 
+              }
               t={t}
-              />
+            />
 
-          <TeamSecondSection
+            <TeamSecondSection
               teamId={headerData?.team_id}
               teamName={headerData?.team_name}
               teamSlug={router.query?.name}
@@ -215,7 +212,7 @@ export default function TeamDetail({ initialTeam ,apiError}) {
               t={t}
             />
 
-              <TeamThirdSection
+            <TeamThirdSection
               teamId={headerData?.team_id}
               teamName={headerData?.team_name}
               teamSlug={router.query?.name}
@@ -240,9 +237,10 @@ export async function getServerSideProps(context) {
     );
 
     if (res.status === 404) {
-      return { notFound: true,
+      return {
+        notFound: true,
         props: {
-          isDetailPage: false, 
+          isDetailPage: false,
         },
       };
     }
@@ -261,9 +259,10 @@ export async function getServerSideProps(context) {
     const json = await res.json();
 
     if (!json?.data) {
-      return { notFound: true,
+      return {
+        notFound: true,
         props: {
-          isDetailPage: false, 
+          isDetailPage: false,
         },
       };
     }

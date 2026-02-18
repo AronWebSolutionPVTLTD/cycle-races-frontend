@@ -449,7 +449,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
                       <>
                         <h5>
                           <strong>{riderData?.total_racing_days ?? 0}</strong>
-                          {t("common.days")}
+                          {riderData?.total_racing_days > 1 ? t("common.days") : t("common.day")}
                         </h5>
 
                         <Link href={buildUrlWithParams("total-grand-tour-racing-days")} className="white-circle-btn">

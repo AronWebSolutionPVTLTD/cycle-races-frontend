@@ -114,12 +114,21 @@ export default function DynamicSlugPage({ year }) {
   };
 
   const handleSelection = (type, value) => {
-    switch (type) {
-      case "year":
-        setSelectedYear(value);
-        setYearInput("");
-        setShowYearDropdown(false);
-        break;
+    if (type === "year") {
+      setSelectedYear(value);
+      setYearInput("");
+      setShowYearDropdown(false);
+
+      router.replace(
+        {
+          query: {
+            ...router.query,
+            year: value,
+          },
+        },
+        undefined,
+        { shallow: true }
+      );
     }
   };
   const handleYearInputChange = (value) => {
@@ -673,6 +682,7 @@ export default function DynamicSlugPage({ year }) {
         <title>{pageTitle}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
+      <main className="inner-pages-main pt-md-0 mb-pt-161px">
       <section className="slug-main-section">
         <div className="dropdown-overlay"></div>
 
@@ -689,7 +699,11 @@ export default function DynamicSlugPage({ year }) {
                   </li>
                   <li>{pageHeading}</li>
                 </ul>
+                <div className="ctm-page-header">
                 <h1 className="mb-0">{pageHeading}</h1>
+                <p className="ctm-page-description mb-0">De uitslag van <span className="green_color_text">{pageHeading} { selectedYear }</span>. Bekijk hier de volledige resultatenlijst, tijden en klasseringen van alle deelnemende renners.</p>
+
+                </div>
               </div>
             </div>
           </div>
@@ -737,6 +751,7 @@ export default function DynamicSlugPage({ year }) {
           </div>
         </section>
       </section>
+      </main>
     </>
   );
 }

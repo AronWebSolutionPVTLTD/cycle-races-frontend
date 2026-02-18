@@ -210,7 +210,8 @@ const YearSection = ({ t }  ) => {
 
                                   {rider?.racing_days && (
                                     <h5>
-                                      <strong>{rider.racing_days} </strong> {t("common.days")}
+                                      <strong>{rider.racing_days} </strong> 
+                                    {rider.racing_days > 1 ? t("common.days") : t("common.day")}
                                     </h5>
                                   )}
                                   <img
