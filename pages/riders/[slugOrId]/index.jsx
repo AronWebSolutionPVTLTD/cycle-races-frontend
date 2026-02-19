@@ -155,7 +155,6 @@ export default function RiderDetail({ year, initialRider, apiError }) {
     );
   }
 
-
   // const fetchRiderActiveYears = async (riderId) => {
   //   try {
   //     setYearsLoading(true);
@@ -228,7 +227,6 @@ export default function RiderDetail({ year, initialRider, apiError }) {
   //     </div>
   //   );
   // }
-
   return (
     <main className="inner-pages-main rider-detail-main  header-layout-2">
       <div className="dropdown-overlay"></div>
@@ -257,16 +255,16 @@ export default function RiderDetail({ year, initialRider, apiError }) {
                     />
                   )}
                   <div className="plyr-dtls d-block d-md-none mobile_plyr-dtls">
-                    {rider.name} is een <span className="country"> {renderFlag(rider?.nationality)} {rider?.country}  </span>
-                    wielrenner, geboren in <span className="text-white"> {rider.birth_place || "..."}</span> op <span className="text-white"> {rider.date_of_birth || "..."}</span> ({rider?.age}). Hij rijdt momenteel voor <span className="text-white"> {rider.team_name || "..."} a Bike.</span>
+                    {rider.name || "..."} is een <span className="country"> {rider?.nationality ? renderFlag(rider?.nationality) : "..."} {rider?.country || "..."}  </span>
+                    wielrenner, geboren in <span className="text-white"> {rider.birth_place || "..."}</span> op <span className="text-white"> {rider.date_of_birth || "..."}</span> ({rider?.age}). {rider?.retired ? "Zijn laatste team was: " : "Hij rijdt momenteel voor"} <span className="text-white"> {rider.team_name || "..."}.</span>
                     <span className="place"> Bekijk hieronder zijn belangrijkste uitslagen en statistieken.</span>
                   </div>
                 </div>
                 <h1>{rider.name || "..."}</h1>
               </div>
               <div className="plyr-dtls d-md-block d-none">
-                {rider.name} is een <span className="country"> {renderFlag(rider?.nationality)} {rider?.country}</span>
-                wielrenner, geboren in <span className="text-white"> {rider.birth_place || "..."}</span> op <span className="text-white"> {rider.date_of_birth || "..."}</span> ({rider?.age}). Hij rijdt momenteel voor <span className="text-white"> {rider.team_name || "..."} a Bike.</span>
+                {rider.name || "..."} is een <span className="country"> {rider?.nationality ? renderFlag(rider?.nationality) : "..."} {rider?.country || "..."}</span>
+                wielrenner, geboren in <span className="text-white"> {rider.birth_place || "..."}</span> op <span className="text-white"> {rider.date_of_birth || "..."}</span> ({rider?.age}). {rider?.retired ? "Zijn laatste team was: " : "Hij rijdt momenteel voor"} <span className="text-white"> {rider.team_name || "..."}.</span>
                 <span className="place"> Bekijk hieronder zijn belangrijkste uitslagen en statistieken.</span>
               </div>
             </div>

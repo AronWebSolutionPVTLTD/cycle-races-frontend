@@ -133,10 +133,9 @@ const StatsThirdSection = ({
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div
                                 className="name-wraper name-wraper-white name-left"
-                                key={index}
                                 onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
                               >
                                 {renderFlag(rider?.rider_country)}
@@ -147,7 +146,7 @@ const StatsThirdSection = ({
                                   <strong>{rider.total_distance}</strong> KM
                                 </h5>
                               )}
-                            </>
+                            </div>
                           ))}
 
                         <Link
@@ -179,10 +178,9 @@ const StatsThirdSection = ({
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div
                                 className="name-wraper name-wraper-white name-left"
-                                key={index}
                                 onClick={() => router.push(`/teams/${rider?.team_name}`)}
                               >
                                 {renderFlag(rider?.team_country)}
@@ -193,7 +191,7 @@ const StatsThirdSection = ({
                                   <strong>{rider.count} </strong>
                                 </h5>
                               )}
-                            </>
+                            </div>
                           ))}
 
                         <Link
@@ -227,10 +225,9 @@ const StatsThirdSection = ({
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div
                                     className="name-wraper name-wraper-white name-left"
-                                    key={index}
                                     onClick={() => router.push(`/teams/${rider?.teamSlug}`)}
                                   >
                                     {renderFlag(rider?.team_country)}
@@ -241,7 +238,7 @@ const StatsThirdSection = ({
                                       <strong>{rider.count} </strong> {t("common.wins")}
                                     </h5>
                                   )}
-                                </>
+                                </div>
                               ))}
 
                             <Link
@@ -273,10 +270,9 @@ const StatsThirdSection = ({
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div
                                     className="name-wraper name-wraper-white name-left"
-                                    key={index}
                                     onClick={() => router.push(`/races/${rider?.raceSlug}`)}
                                   >
                                     {renderFlag(rider?.country)}
@@ -288,7 +284,7 @@ const StatsThirdSection = ({
                                       {t("common.km")}
                                     </h5>
                                   )}
-                                </>
+                                </div>
                               ))}
 
                             <Link

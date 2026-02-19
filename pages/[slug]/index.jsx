@@ -33,15 +33,25 @@ export default function DynamicSlugPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [apiTitle, setApiTitle] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(
-    new Date().getFullYear().toString()
-  );
+  const { year } = router.query;
+  const [selectedYear, setSelectedYear] = useState(() => {
+    return year || new Date().getFullYear().toString();
+  });
+
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
   const { t } = useTranslation();
- const getFilteredYears = (searchValue) => {
+
+  useEffect(() => {
+    if (year && year !== selectedYear) {
+      setSelectedYear(year);
+    }
+  }, [year]);
+
+
+  const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
       return withoutAllTime;
     }
@@ -55,14 +65,22 @@ export default function DynamicSlugPage() {
   };
 
   const handleSelection = (type, value) => {
-    switch (type) {
-      case "year":
-        setSelectedYear(value);
-        setYearInput("");
-        setShowYearDropdown(false);
-        break;
-    }
+    if (type !== "year") return;
+
+    setSelectedYear(value);
+    setYearInput("");
+    setShowYearDropdown(false);
+
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, year: value },
+      },
+      undefined,
+      { shallow: true }
+    );
   };
+
 
   const handleYearInputChange = (value) => {
     setYearInput(value);
@@ -87,15 +105,7 @@ export default function DynamicSlugPage() {
   for (let year = currentYear; year >= 1990; year--) {
     years.push(year.toString());
   }
-
-  const handleYearChange = (e) => {
-    setSelectedYear(e.target.value);
-  };
-
-  const getBackLink = () => {
-    return router.back();
-  };
-
+  
   const getSlugConfig = (slug) => {
     return (
       SLUG_CONFIGS[slug] || {
@@ -522,73 +532,77 @@ export default function DynamicSlugPage() {
       </Head>
       <section className="slug-main-section">
         <div className="dropdown-overlay"></div>
-
-        <section className="riders-sec1 pt-161px">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                <ul className="breadcrumb">
-                  <li>
-                    <Link href="/">Home</Link>
-                  </li>
-                  <li>{pageHeading}</li>
-                </ul>
-                <h1 className="mb-0">{pageHeading}</h1>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="stat-main-sec">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="row align-items-center sdsd bts__wrap">
-                  <div className="col">
-                    <ul className="filter">
-                      <FilterDropdown
-                        ref={yearDropdownRef}
-                        isOpen={showYearDropdown}
-                        toggle={() => setShowYearDropdown(!showYearDropdown)}
-                        options={getFilteredYears(yearInput)}
-                        selectedValue={selectedYear}
-                        placeholder="Year"
-                        onSelect={(value) => handleSelection("year", value)}
-                        onInputChange={handleYearInputChange}
-                        loading={false}
-                        includeAllOption={false}
-                        classname="year-dropdown"
-                      />
-                    </ul>
+        <main className="inner-pages-main pt-md-0 mb-pt-161px position-static">
+          <section className="riders-sec1 pt-161px">
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-12">
+                  <ul className="breadcrumb">
+                    <li>
+                      <Link href="/">Home</Link>
+                    </li>
+                    <li>{pageHeading}</li>
+                  </ul>
+                  <div className="ctm-page-header mb-0">
+                    <h1 className="mb-0">{pageHeading}</h1>
+                    <p className="ctm-page-description mb-0">Deze ranking toont <span className="green_color_text">'{pageHeading ||"..."}'</span> in <span className="green_color_text">{selectedYear ||"..."}</span>. De resultaten zijn gebaseerd op officiële wedstrijduitslagen en worden continu bijgewerkt.</p>
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
 
-              <div className="col-lg-9 col-md-12 mt-4 slug-table-main">
-                <ul
-                  className={`slug-table-head col--${getDynamicHeaders().length
-                    }`}
-                >
-                  {getDynamicHeaders().map((header, index) => (
-                    <li key={index} className={header}>
-                      {/* {t(`table.${header.toLowerCase()}`)} */}
-                      {t(`table.${header.toLowerCase().replace(/\s+/g, "_")}`)}
+          <section className="stat-main-sec">
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-12">
+                  <div className="row align-items-center sdsd bts__wrap">
+                    <div className="col">
+                      <ul className="filter">
+                        <FilterDropdown
+                          ref={yearDropdownRef}
+                          isOpen={showYearDropdown}
+                          toggle={() => setShowYearDropdown(!showYearDropdown)}
+                          options={getFilteredYears(yearInput)}
+                          selectedValue={selectedYear}
+                          placeholder="Year"
+                          onSelect={(value) => handleSelection("year", value)}
+                          onInputChange={handleYearInputChange}
+                          loading={false}
+                          includeAllOption={false}
+                          classname="year-dropdown"
+                        />
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-lg-9 col-md-12 mt-4 slug-table-main">
+                  <ul
+                    className={`slug-table-head col--${getDynamicHeaders().length
+                      }`}
+                  >
+                    {getDynamicHeaders().map((header, index) => (
+                      <li key={index} className={header}>
+                        {/* {t(`table.${header.toLowerCase()}`)} */}
+                        {t(`table.${header.toLowerCase().replace(/\s+/g, "_")}`)}
                       </li>
-                  ))}
-                </ul>
+                    ))}
+                  </ul>
 
-                <ul className="slug-table-body">{renderContent()}</ul>
+                  <ul className="slug-table-body">{renderContent()}</ul>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </main>
       </section>
     </>
   );
 }
 
 export async function getServerSideProps({ params }) {
-  const { slug  } = params;
+  const { slug } = params;
 
   if (!SLUG_CONFIGS[slug]) {
     return { notFound: true };

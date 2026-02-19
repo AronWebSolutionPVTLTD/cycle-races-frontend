@@ -145,12 +145,10 @@ const YearSection = ({ t }  ) => {
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div
                                     className="name-wraper name-wraper-white"
-                                    onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
-                                    key={index}
-                                  >
+                                    onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
@@ -166,7 +164,7 @@ const YearSection = ({ t }  ) => {
                                     alt=""
                                     className="absolute-img"
                                   />
-                                </>
+                                </div>
                               ))}
 
                             <Link
@@ -198,11 +196,10 @@ const YearSection = ({ t }  ) => {
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div
                                     className="name-wraper name-wraper-green"
                                     onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
-                                    key={index}
                                   >
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
@@ -219,7 +216,7 @@ const YearSection = ({ t }  ) => {
                                     alt=""
                                     className="absolute-img"
                                   />
-                                </>
+                                </div>
                               ))}
 
                             <Link
@@ -443,10 +440,9 @@ const YearSection = ({ t }  ) => {
                         )
                           .slice(0, 1)
                           .map((race, index) => (
-                            <>
+                            <div key={index}>
                               <div
                                 className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${race?.raceSlug}`)}
-                                key={index}
                               >
                                 <>
                                   {renderFlag(race?.country_code)}
@@ -459,7 +455,7 @@ const YearSection = ({ t }  ) => {
                                   <strong>{race.count} </strong> dnfs
                                 </h5>
                               )}
-                            </>
+                            </div>
                           ))}
 
                         <Link href="/race-with-most-dnfs" className="green-circle-btn">

@@ -166,8 +166,8 @@ const StatsFirstSection = ({
                             )
                               .slice(0, 1)
                               .map((rider,index) => (
-                                <>
                                 <div key={index}>
+                                <div>
                                   <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
@@ -184,7 +184,7 @@ const StatsFirstSection = ({
                                  alt=""
                                  className="absolute-img"
                                />
-                               </>
+                               </div>
                               ))}
                            
                             <Link
@@ -479,10 +479,9 @@ const StatsFirstSection = ({
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div
                                 className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${rider?.raceSlug}`)}
-                                key={index}
                               >
                                 {renderFlag(rider?.country_code)}
                                 <h6>{rider?.race_name || "..."}</h6>
@@ -493,7 +492,7 @@ const StatsFirstSection = ({
                                   <strong>{rider.count} </strong> dnfs
                                 </h5>
                               )}
-                            </>
+                            </div>
                           ))}
 
                         <Link

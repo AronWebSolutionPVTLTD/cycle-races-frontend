@@ -334,7 +334,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                         )
                           .slice(0, 1)
                           .map((race, index) => (
-                            <>
+                            <div key={index}>
                               <div
                                 className="name-wraper name-wraper-white 24" onClick={() => router.push(`/races/${race?.raceSlug}`)}
                                 key={index}
@@ -355,7 +355,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                                 alt=""
                                 className="absolute-img"
                               />
-                            </>
+                            </div>
                           ))}
 
                         <Link

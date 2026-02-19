@@ -209,7 +209,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div
                                     className="name-wraper name-wraper-green"
                                     key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)} >
@@ -228,7 +228,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                                     alt=""
                                     className="absolute-img"
                                   />
-                                </>
+                                </div>
                               ))}
 
                             <Link
@@ -267,7 +267,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div
                                     className="name-wraper name-wraper-green name-left"
                                     key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)} >
@@ -280,7 +280,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                                       <strong>{rider.young_wins} </strong> {t("common.times")}
                                     </h5>
                                   )}
-                                </>
+                                </div>
                               ))}
                             <Link
                               href={buildUrlWithParams(
@@ -320,7 +320,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                           }
 
                           return riderData.slice(0, 1).map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -340,7 +340,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                               >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
-                            </>
+                            </div>
                           ));
                         })()}
                       </div>
@@ -548,7 +548,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                       }
 
                       return riderData.slice(0, 1).map((rider, index) => (
-                        <>
+                        <div key={index}>
                           <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${rider?.raceSlug}`)}>
                             <h6>{rider?.subtitle || "..."}</h6>
                           </div>
@@ -565,7 +565,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                           >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
-                        </>
+                        </div>
                       ));
                     })()}
                   </div>
@@ -592,7 +592,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div
                                 className="name-wraper name-wraper-green name-left"
                                 key={index}
@@ -605,7 +605,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                                   <strong>{rider.count} </strong> {t("common.times")}
                                 </h5>
                               )}
-                            </>
+                            </div>
                           ))}
                         <Link
                           href={buildUrlWithParams("cities-with-most-departures")}
@@ -641,7 +641,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div
                                     className="name-wraper name-wraper-green name-left"
                                     key={index}
@@ -656,7 +656,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                                       <strong>{rider.wins} </strong> {t("common.times")}
                                     </h5>
                                   )}
-                                </>
+                                </div>
                               ))}
                             <Link
                               href={buildUrlWithParams("team-with-most-wins")}
@@ -690,7 +690,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div
                                     className="name-wraper name-wraper-green name-left"
                                     key={index}
@@ -703,7 +703,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                                       <strong>{rider.count} </strong> {t("common.times")}
                                     </h5>
                                   )}
-                                </>
+                                </div>
                               ))}
                             <Link
                               href={buildUrlWithParams("cities-with-most-often-used-as-finish")}
@@ -737,7 +737,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div
                                     className="name-wraper name-wraper-green name-left"
                                     key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)} >
@@ -750,7 +750,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                                       <strong>{rider.age} </strong> {t("common.year")}
                                     </h5>
                                   )}
-                                </>
+                                </div>
                               ))}
                             <Link
                               href={buildUrlWithParams("youngest-top10-riders")}
@@ -788,7 +788,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                           }
 
                           return riderData.slice(0, 1).map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${rider?.raceSlug}`)}>
                                 <h6>{rider?.subtitle || "..."}</h6>
                               </div>
@@ -805,7 +805,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                               >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
-                            </>
+                            </div>
                           ));
                         })()}
                       </div>
@@ -823,7 +823,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                     const firstImage = list[0]?.image_url || "/images/rider_avatar.png";
                     if (boxData.error) {
                       return (
-                        <>
+                        <div key={index}>
                           <h4 className="fs-chenge">
                             {data?.[fixedApis.box14]?.message}
                           </h4>
@@ -832,7 +832,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name, t }) => {
                               errorType={getBoxData(fixedApis.box14).errorType}
                             />
                           </div>
-                        </>
+                        </div>
                       )
                     }
                     return (

@@ -387,7 +387,7 @@ ul.slug-table-head li {
   font-family: var(--font-archivo), sans-serif;
 }
 
-ul.slug-table-head li:last-child {
+ul.slug-table-head li:last-child:not(:first-of-type) {
   text-align: right;
 }
 
@@ -1896,8 +1896,11 @@ ul.slug-table-head.col--3 li.slug-list-head.Race {
     text-align: left;
     gap: 0;
   }
+  ul.slug-table-head.col--2 li.slug-list-head.RACE {
+    text-align: left !important;
+}
 @media ( min-width: 768px ) {
-  .slug-table-head.col--3 .slug-list-head.DATE:first-of-type {
+  .slug-table-head.col--3 .slug-list-head.DATE:first-of-type, ul.slug-table-head.col--2 .slug-list-head.DATE:first-of-type {
     text-align: left;
     flex: 0 0 100px;
 }
@@ -2357,4 +2360,20 @@ section.rider-details-sec .team-cart.featured-card{
   margin-left: 8px;
   margin-right: 8px;
   display: inline-block;
+}
+
+.rider--slug-page-header .isRiderResults-wraper::after {
+  display: none;
+}
+
+.rider--slug-page-header .isRiderResults-wraper {
+  padding-bottom: 16px;
+}
+@media ( max-width: 767px ){
+  .rider--slug-page-header .hdr-img_wrap {
+    max-width: 100%;
+}
+.rider--slug-page-header .isRiderResults-wraper{
+  padding-bottom: 0;
+}
 }

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { fetchData } from "@/lib/api";
+import { callAPI, fetchData } from "@/lib/api";
 import { useEffect, useRef, useState } from "react";
 import { ListSkeleton } from "@/components/loading&error";
 import { SLUG_CONFIGS } from "@/lib/slug-config";
@@ -28,22 +28,6 @@ const getCountryCode = (item, config) => {
   return country.toUpperCase();
 };
 
-const getRiderOrRaceId = (item) => {
-  if ((item?.race_name || item?.race)) {
-    return { type: "race", id: item?.race_name || item?.race };
-  }
-
-  const keys = ["_id", "rider_id", "riderId", "id", "rider_key"];
-  for (const key of keys) {
-    if (item?.[key]) {
-      return { type: "rider", id: item[key] };
-    }
-  }
-
-  return null;
-};
-
-
 export default function DynamicSlugPage() {
   const router = useRouter();
   const { slug, year } = router.query;
@@ -59,6 +43,8 @@ export default function DynamicSlugPage() {
   const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
+  const [riderName, setRiderName] = useState(null);
+
 
   useEffect(() => {
     if (router.isReady) {
@@ -78,6 +64,29 @@ export default function DynamicSlugPage() {
       }
     }
   }, [router.isReady, year, slug]);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    const { slugOrId } = router.query;
+    if (!slugOrId) return;
+    const fetchRiderBasicInfo = async () => {
+      try {
+        const res = await callAPI("GET", `/rider-stats/${slugOrId}/detail`);
+        if (res && res?.data?.data) {
+          setRiderName(res.data.data.name);
+        } else {
+          setRiderName(null);
+        }
+      } catch (error) {
+        console.error("Error fetching rider name:", error);
+        setRiderName(null);
+      }
+    };
+
+    fetchRiderBasicInfo();
+  }, [router.isReady, router.query.slugOrId]);
+
 
   const currentYear = new Date().getFullYear();
   const years = [];
@@ -139,10 +148,6 @@ export default function DynamicSlugPage() {
     };
   }, []);
 
-  const getBackLink = () => {
-    const { id } = router.query;
-    return `/riders/${id}`;
-  };
 
   const getSlugConfig = (slug) => {
     return (
@@ -286,7 +291,7 @@ export default function DynamicSlugPage() {
         if (response.message) {
           setApiTitle(response.message);
         }
-      
+
         setError(null);
       } else {
         setError("No data found for this category");
@@ -298,7 +303,6 @@ export default function DynamicSlugPage() {
       setLoading(false);
     }
   };
-  console.log(pageData)
 
   const formatSlugForDisplay = (slug) => {
     if (!slug) return "Page";
@@ -736,102 +740,106 @@ export default function DynamicSlugPage() {
         <title>{pageTitle}</title>
       </Head>
       <main className="inner-pages-main pt-md-0 mb-pt-161px">
-      <section className="slug-main-section">
-        <div className="dropdown-overlay"></div>
+        <section className="slug-main-section">
+          <div className="dropdown-overlay"></div>
 
-        <section className="riders-sec1 pt-161px">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                <ul className="breadcrumb">
-                  <li>
-                    <Link href="/">Home</Link>
-                  </li>
-                  <li>
-                    <Link href="/riders">{t("common.riders")}</Link>
-                  </li>
-                  <li>{pageHeading}</li>
-                </ul>
-                {slug === "rider-results-this-year" ? (
-                  <div className="isRiderResults-wraper">
-                    <div className="hdr-img_wrap">
-                      <img alt="" className="absolute-img" src="/images/rider_avatar.png"></img>
-                    </div>
-                    <h1 className="">{pageHeading || "..."}</h1>
-                  </div>
-                ) : (
-                  <div className="ctm-page-header">
-                  <h1 className="mb-0">{pageHeading}</h1>
-                  <p className="ctm-page-description mb-0">Deze ranking toont <span className="green_color_text">'{pageHeading}'</span> van <span className="green_color_text">ridername</span>. De resultaten zijn gebaseerd op officiële wedstrijduitslagen en worden continu bijgewerkt.</p>
-                  </div>
-                )}
-
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="stat-main-sec">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="row align-items-center sdsd bts__wrap">
-                  <div className="col custom-year-dropdown-wrap">
-                    <ul className="filter">
-                      <FilterDropdown
-                        ref={yearDropdownRef}
-                        isOpen={showYearDropdown}
-                        toggle={() => setShowYearDropdown(!showYearDropdown)}
-                        options={getFilteredYears(yearInput)}
-                        selectedValue={selectedYear}
-                        placeholder="Year"
-                        onSelect={(value) => handleSelection("year", value)}
-                        onInputChange={handleYearInputChange}
-                        loading={false}
-                        includeAllOption={false}
-                        classname="year-dropdown"
-                      />
-                    </ul>
-                    {slug === "rider-results-this-year" && pageData && (
-                      <div className="results-summary">
-                        <div className="stat-item">
-                          <strong>WINS</strong>
-                          <span>{pageData.wins_count ?? 0}</span>
-                        </div>
-                        <span className="divider">|</span>
-                        <div className="stat-item podium">
-                          <strong>PODIUM</strong>
-                          <span>{pageData.podium_count ?? 0}</span>
-                        </div>
-                        <span className="divider">|</span>
-                        <div className="stat-item top10">
-                          <strong>TOP 10</strong>
-                          <span>{pageData.top10_count ?? 0}</span>
-                        </div>
+          <section className="riders-sec1 pt-161px">
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-12">
+                  <ul className="breadcrumb">
+                    <li>
+                      <Link href="/">Home</Link>
+                    </li>
+                    <li>
+                      <Link href="/riders">{t("common.riders")}</Link>
+                    </li>
+                    <li>{pageHeading}</li>
+                  </ul>
+                  {slug === "rider-results-this-year" ? (
+                    <div className="ctm-page-header mb-0 rider--slug-page-header">
+                    <div className="isRiderResults-wraper">
+                      <div className="hdr-img_wrap">
+                        <img alt="" className="absolute-img" src="/images/rider_avatar.png"></img>
+                        <p className="ctm-page-description d-md-none d-block mb-0">Deze ranking toont <span className="green_color_text">'{pageHeading || "..."}'</span> van <span className="green_color_text">{riderName || "..."}</span>. De resultaten zijn gebaseerd op officiële wedstrijduitslagen en worden continu bijgewerkt.</p>
                       </div>
-                    )}
+                      <h1 className="">{pageHeading || "..."}</h1>
+                    </div>
+                    <p className="ctm-page-description d-md-block d-none mb-0">Deze ranking toont <span className="green_color_text">'{pageHeading || "..."}'</span> van <span className="green_color_text">{riderName || "..."}</span>. De resultaten zijn gebaseerd op officiële wedstrijduitslagen en worden continu bijgewerkt.</p>
+                    </div>
+                  ) : (
+                    <div className="ctm-page-header mb-0">
+                      <h1 className="mb-0">{pageHeading}</h1>
+                      <p className="ctm-page-description mb-0">Deze ranking toont <span className="green_color_text">'{pageHeading}'</span> van <span className="green_color_text">{riderName || "..."}</span>. De resultaten zijn gebaseerd op officiële wedstrijduitslagen en worden continu bijgewerkt.</p>
+                    </div>
+                  )}
 
-                  </div>
                 </div>
               </div>
+            </div>
+          </section>
 
-              <div className="col-lg-9 col-md-12 mt-4 slug-table-main">
-                <ul
-                  className={`slug-table-head sdsd col--${getDynamicHeaders().length
-                    }`}
-                >
-                  {getDynamicHeaders().map((header, index) => (
-                    <li className={`slug-list-head ${header}`} key={index}>
-                      {t(`table.${header.toLowerCase().replace(/\s+/g, "_")}`)}</li>
-                  ))}
-                </ul>
+          <section className="stat-main-sec">
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-12">
+                  <div className="row align-items-center sdsd bts__wrap">
+                    <div className="col custom-year-dropdown-wrap">
+                      <ul className="filter">
+                        <FilterDropdown
+                          ref={yearDropdownRef}
+                          isOpen={showYearDropdown}
+                          toggle={() => setShowYearDropdown(!showYearDropdown)}
+                          options={getFilteredYears(yearInput)}
+                          selectedValue={selectedYear}
+                          placeholder="Year"
+                          onSelect={(value) => handleSelection("year", value)}
+                          onInputChange={handleYearInputChange}
+                          loading={false}
+                          includeAllOption={false}
+                          classname="year-dropdown"
+                        />
+                      </ul>
+                      {slug === "rider-results-this-year" && pageData && (
+                        <div className="results-summary">
+                          <div className="stat-item">
+                            <strong>WINS</strong>
+                            <span>{pageData.wins_count ?? 0}</span>
+                          </div>
+                          <span className="divider">|</span>
+                          <div className="stat-item podium">
+                            <strong>PODIUM</strong>
+                            <span>{pageData.podium_count ?? 0}</span>
+                          </div>
+                          <span className="divider">|</span>
+                          <div className="stat-item top10">
+                            <strong>TOP 10</strong>
+                            <span>{pageData.top10_count ?? 0}</span>
+                          </div>
+                        </div>
+                      )}
 
-                <ul className="slug-table-body">{renderContent()}</ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-lg-9 col-md-12 mt-4 slug-table-main">
+                  <ul
+                    className={`slug-table-head sdsd col--${getDynamicHeaders().length
+                      }`}
+                  >
+                    {getDynamicHeaders().map((header, index) => (
+                      <li className={`slug-list-head ${header}`} key={index}>
+                        {t(`table.${header.toLowerCase().replace(/\s+/g, "_")}`)}</li>
+                    ))}
+                  </ul>
+
+                  <ul className="slug-table-body">{renderContent()}</ul>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
         </section>
-      </section>
       </main>
     </>
   );

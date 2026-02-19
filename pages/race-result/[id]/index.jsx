@@ -450,11 +450,14 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
                 </li>
                 <li>{raceName || race?.race_name || "Race"}</li>
               </ul>
-              {isLoading && !raceName ? (
+             <div className="ctm-page-header">
+                {isLoading && !raceName ? (
                 <h3 className="text-center my-4">Loading...</h3>
               ) : (
-                <h1>{(raceName || race?.race_name || "").toUpperCase()}</h1>
+                <h1 className="mb-0">{(raceName || race?.race_name || "").toUpperCase()}</h1>
               )}
+                <p className="ctm-page-description mb-0">De uitslag van <span className="green_color_text">{raceName || race?.race_name || "..."} { selectedYear ||"..."}</span>. Bekijk hier de volledige resultatenlijst, tijden en klasseringen van alle deelnemende renners.</p>
+                </div>
             </div>
           </div>
         </div>

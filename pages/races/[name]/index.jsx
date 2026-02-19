@@ -8,7 +8,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
-import Flag from "react-world-flags";
 import { useTranslation } from "@/lib/useTranslation";
 import { renderFlag } from "@/components/RenderFlag";
 
@@ -24,22 +23,17 @@ export default function RaceDetailsPage({ year, initialRace, apiError }) {
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
   const [nationalities, setNationalities] = useState([]);
   const [raceData, setRaceData] = useState(initialRace);
-  const [isLoadingRace, setIsLoadingRace] = useState(false);
   const [isLoadingFilters, setIsLoadingFilters] = useState(false);
-  const [error, setError] = useState(null);
   const yearDropdownRef = useRef(null);
   const nationalityDropdownRef = useRef(null);
   const [dynamicYears, setDynamicYears] = useState([]);
-  const [yearsLoading, setYearsLoading] = useState(false);
-  const { withoutAllTime } = generateYearOptions();
+  const [yearsLoading, setYearsLoading] = useState(false)
   const allYearOptions =
     dynamicYears.length > 0 ? ["All-time", ...dynamicYears] : ["All-time"];
-
+ 
   // const allNationalityOptions = useMemo(() => {
   //   return ["All-Nationalities", ...nationalities];
   // }, [nationalities]);
-
-
 
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
@@ -146,6 +140,14 @@ export default function RaceDetailsPage({ year, initialRace, apiError }) {
         setYearInput("");
         setShowYearDropdown(false);
         fetchFiltersData();
+        router.replace(
+          {
+            pathname: router.pathname,
+            query: { ...router.query, year: value },
+          },
+          undefined,
+          { shallow: true }
+        );
         break;
       case "nationality":
         setSelectedNationality(value);
@@ -210,7 +212,6 @@ export default function RaceDetailsPage({ year, initialRace, apiError }) {
   if (!router.isReady) {
     return <LoadingStats />;
   }
-  console.log(raceData,"race")
 
   return (
     <>
@@ -239,8 +240,8 @@ export default function RaceDetailsPage({ year, initialRace, apiError }) {
                     <h1 className="ps-0">{raceData.race_name}</h1>
                   </div>
                   <div className="plyr-dtls">
-                  {raceData.race_name} is een wielerkoers in
-                  <span className="country"> {renderFlag(raceData.country_code)} {raceData?.country_name},</span>georganiseerd sinds <span className="text-white"> {raceData?.year}.</span> Hier vind je uitslagen, winnaars en statistieken per editie.
+                    {raceData.race_name} is een wielerkoers in
+                   <span className="country"> { raceData.country_code ? renderFlag(raceData.country_code) : "..."} {raceData?.country_name || "..."},</span>georganiseerd sinds <span className="text-white"> {raceData?.year || "..."}.</span> Hier vind je uitslagen, winnaars en statistieken per editie.
                   </div>
                 </div>
               )}

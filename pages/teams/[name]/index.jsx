@@ -10,11 +10,11 @@ import TeamThirdSection from "@/components/team_detail/TeamThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { useTranslation } from "@/lib/useTranslation";
 
-export default function TeamDetail({ initialTeam, apiError }) {
+export default function TeamDetail({ initialTeam, apiError, year }) {
   const router = useRouter();
   const { t } = useTranslation();
   const [headerData, setHeaderData] = useState(initialTeam);
-  const [filterYear, setFilterYear] = useState("All-time");
+  const [filterYear, setFilterYear] = useState(year || "All-time");
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
@@ -65,11 +65,11 @@ export default function TeamDetail({ initialTeam, apiError }) {
   }, []);
 
   useEffect(() => {
-    if (!headerData?.slug) return;
+    if (!headerData?.teamSlug) return;
     const fetchTeamActiveYears = async () => {
       try {
         setYearsLoading(true);
-        const response = await callAPI("GET", `/teamDetails/${headerData?.slug}/getTeamActiveYears`);
+        const response = await callAPI("GET", `/teamDetails/${headerData?.teamSlug}/getTeamActiveYears`);
 
         if (response && response.data && response.data.years) {
           const years = response.data.years;
@@ -154,8 +154,8 @@ export default function TeamDetail({ initialTeam, apiError }) {
                       className="absolute-img"
                     />
                     <div className="plyr-dtls d-block d-md-none">
-                    {teamName} is een in
-                      <span className="country"> {renderFlag(teamFlag)} {teamCountry},</span>
+                    {teamName} is een
+                      <span className="country">{ teamFlag ? renderFlag(teamFlag) : "..."} {teamCountry || "..."}</span>
                       wielerploeg, actief sinds  <span className="text-white">{teamFounded || "..."}</span>. Hier vind je statistieken over zeges, renners, klassiekers en grote rondes.
                     </div>
 
@@ -164,8 +164,8 @@ export default function TeamDetail({ initialTeam, apiError }) {
                 <h1>{teamName || "..."}</h1>
               </div>
               <div className="plyr-dtls d-md-block d-none">
-                {teamName} is een in
-                      <span className="country"> {renderFlag(teamFlag)} {teamCountry},</span>
+                {teamName} is een
+                      <span className="country"> {teamFlag ? renderFlag(teamFlag) : "..."} {teamCountry || "..."}</span>
                       wielerploeg, actief sinds  <span className="text-white">{teamFounded || "..."}</span>. Hier vind je statistieken over zeges, renners, klassiekers en grote rondes.
               </div>
             </div >
