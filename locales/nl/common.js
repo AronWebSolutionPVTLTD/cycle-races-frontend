@@ -104,7 +104,7 @@ const nl={
       "kms_raced": "GEREDEN KM",
       "gc_wins": "GC Wins",
       "race_name": "WEDSTRIJD NAAM",
-      "dnfs": "DNFs",
+      "dnfs": "DNFS",
       "mountain_wins": "BERGOVERWINNINGEN",
       "sprint_wins": "SPRINTOVERWINNINGEN",
       "top_5": "TOP 5",
@@ -150,7 +150,8 @@ const nl={
       "consistency": "CONSISTENTIE",
       "races": "WEDSTRIJDEN",
       "debut_year": "DEBUUTJAAR",
-      "participations": "DEELNAMES"
+      "participations": "DEELNAMES",
+      "weight": "GEWICHT",
   }
   
 }

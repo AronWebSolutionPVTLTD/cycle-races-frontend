@@ -133,7 +133,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                           }
 
                           return riderData.slice(0, 1).map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -157,7 +157,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                               >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
-                            </>
+                              </div>
                           ));
                         })()}
                       </div>
@@ -186,7 +186,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div
                                     className="name-wraper name-wraper-green" key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.rider_country)}
@@ -203,7 +203,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                                     alt=""
                                     className="absolute-img"
                                   />
-                                </>
+                                </div>
                               ))}
 
                             <Link
@@ -288,7 +288,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                           }
 
                           return riderData.slice(0, 1).map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.nationality)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -313,7 +313,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                               >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
-                            </>
+                            </div>
                           ));
                         })()}
                       </div>
@@ -422,7 +422,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                       }
 
                       return riderData.slice(0, 1).map((rider, index) => (
-                        <>
+                        <div key={index}>
                           <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                             {renderFlag(rider?.rider_country)}
                             <h6>{rider?.rider_name || "..."}</h6>
@@ -447,7 +447,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                           >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
-                        </>
+                        </div>
                       ));
                     })()}
                   </div>
@@ -476,7 +476,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div
                                 className="name-wraper name-wraper-green"
                                 key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
@@ -495,7 +495,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                                 alt=""
                                 className="absolute-img"
                               />
-                            </>
+                            </div>
                           ))}
 
                         <Link
@@ -566,7 +566,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div
                                 className="name-wraper name-wraper-green name-left"
                                 key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)}
@@ -580,7 +580,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                                   <strong>{rider.age} </strong> {t("common.year")}
                                 </h5>
                               )}
-                            </>
+                            </div>
                           ))}
                         <Link
                           href={buildUrlWithParams(

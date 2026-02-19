@@ -5043,19 +5043,21 @@ ul.slug-table-head.head-to-head .rider-col {
   color: #2B534D;
   line-height: 19px;
 }
-main.inner-pages-main section.riders-sec1 .ctm-page-header {
-  margin-bottom: 0;
-}
+// main.inner-pages-main section.riders-sec1 .ctm-page-header {
+//   margin-bottom: 0;
+// }
 span.green_color_text {
   color: #678f89;
 }
 @media (max-width: 767px) {
+  
   main.inner-pages-main .ctm-page-header h1, 
   main.inner-pages-main .ctm-page-header h1 {
     padding-bottom: 0 !important;
     margin-bottom: 24px !important;
   }
-  main.inner-pages-main section.stats-sec1 .ctm-page-header {
+  main.inner-pages-main section.stats-sec1 .ctm-page-header,
+  main.inner-pages-main section.riders-sec1 .ctm-page-header {
     margin-bottom: 48px;
     padding-bottom: 24px;
 }

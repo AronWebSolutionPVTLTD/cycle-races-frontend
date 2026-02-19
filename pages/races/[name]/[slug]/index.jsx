@@ -699,9 +699,9 @@ export default function DynamicSlugPage({ year }) {
                   </li>
                   <li>{pageHeading}</li>
                 </ul>
-                <div className="ctm-page-header">
+                <div className="ctm-page-header mb-0">
                 <h1 className="mb-0">{pageHeading}</h1>
-                <p className="ctm-page-description mb-0">De uitslag van <span className="green_color_text">{pageHeading} { selectedYear }</span>. Bekijk hier de volledige resultatenlijst, tijden en klasseringen van alle deelnemende renners.</p>
+                <p className="ctm-page-description mb-0">De uitslag van <span className="green_color_text">{pageHeading ||"..."} { selectedYear ||"..."}</span>. Bekijk hier de volledige resultatenlijst, tijden en klasseringen van alle deelnemende renners.</p>
 
                 </div>
               </div>

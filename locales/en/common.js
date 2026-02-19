@@ -151,7 +151,8 @@ const en={
       "consistency": "CONSISTENCY",
       "races": "RACES",
       "debut_year": "DEBUT YEAR",
-      "participations": "PARTICIPATIONS"
+      "participations": "PARTICIPATIONS",
+      "weight": "WEIGHT",
   }
   
 }

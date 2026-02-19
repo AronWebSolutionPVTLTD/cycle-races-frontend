@@ -223,7 +223,7 @@ const StatsSecondSection = ({
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
@@ -233,7 +233,7 @@ const StatsSecondSection = ({
                                       <strong>{rider.count} </strong>
                                     </h5>
                                   )}
-                                </>
+                                </div>
                               ))}
 
                             <Link
@@ -267,7 +267,7 @@ const StatsSecondSection = ({
                             )
                               .slice(0, 1)
                               .map((rider, index) => (
-                                <>
+                                <div key={index}>
                                   <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.rider_country)}
                                     <h6>{rider?.rider_name || "..."}</h6>
@@ -277,7 +277,7 @@ const StatsSecondSection = ({
                                       <strong>{rider.age} </strong> {t("common.year")}
                                     </h5>
                                   )}
-                                </>
+                                </div>
                               ))}
 
                             <Link
@@ -311,7 +311,7 @@ const StatsSecondSection = ({
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -321,7 +321,7 @@ const StatsSecondSection = ({
                                   <strong>{rider.age} </strong> {t("common.year")}
                                 </h5>
                               )}
-                            </>
+                            </div>
                           ))}
 
                         <Link
@@ -353,7 +353,7 @@ const StatsSecondSection = ({
                         )
                           .slice(0, 1)
                           .map((rider, index) => (
-                            <>
+                            <div key={index}>
                               <div className="name-wraper name-wraper-green name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -363,7 +363,7 @@ const StatsSecondSection = ({
                                   <strong>{rider.wins} </strong> {t("common.wins")}
                                 </h5>
                               )}
-                            </>
+                            </div>
                           ))}
 
                         <Link
