@@ -54,7 +54,9 @@ function MyApp({ Component, pageProps }) {
           `}
       </Script>
       <main className={`${roboto.variable} ${archivo.variable} antialiased`}>
-        <Header isDetailPage={!!pageProps.isDetailPage} />
+        <Header 
+        fontClass={`${roboto.variable} ${archivo.variable}`}
+        isDetailPage={!!pageProps.isDetailPage} />
         <Component {...pageProps} />
       </main>
       <Footer />

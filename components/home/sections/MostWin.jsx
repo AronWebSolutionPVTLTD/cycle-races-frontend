@@ -87,7 +87,7 @@ const { t } = useTranslation();
                                 borderRadius: "2px",
                               }}
                             />
-                            <h4>{rider.rider_name}</h4>
+                            <h4 className="lime-green-color">{rider.rider_name}</h4>
                           </div>
                         </div>
                       ))

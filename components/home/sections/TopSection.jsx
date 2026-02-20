@@ -133,7 +133,7 @@ return (
 
               <div className="col-12 col-md-6 col-lg-4 mb-3 sm:mb-4 ps-md-2 ps-lg-3">
                 <div className="team-cart lime-green-team-cart img-active featured-card featured-card-banner-img bg-yellow">
-                  <Link href={'#'} className="pabs" />
+                  <Link href={'/head-to-head'} className="pabs" />
                   <div className="banner--img">
                     <img src="/images/head-to-head-banner.png" alt="" />
                     <Link

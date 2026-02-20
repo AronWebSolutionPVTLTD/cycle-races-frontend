@@ -159,7 +159,7 @@ export const RaceDetail = ({ selectedYear, selectedNationality, name, t }) => {
                         return <ErrorMessage errorType="no_data_found" />;
                       }
                       return (
-                        <div className="name-wraper name-wraper-white">
+                        <div className="name-wraper name-wraper-whites">
                           <h5 className="fst-italic">
                             <strong>{riderData.total_editions}</strong>
                           </h5>

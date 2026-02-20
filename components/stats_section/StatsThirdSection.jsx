@@ -67,7 +67,7 @@ const StatsThirdSection = ({
   };
 
   return (
-    <section className="home-sec2 pb-96px">
+    <section className="home-sec2 pb-96px ss">
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton />}

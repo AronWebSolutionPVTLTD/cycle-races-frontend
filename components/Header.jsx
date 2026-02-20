@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { homePageSearch } from "@/lib/api";
 import { useTranslation } from "@/lib/useTranslation";
 
-export default function Header({ isDetailPage }) {
+export default function Header({ isDetailPage, fontClass }) {
   const [isOpen, setIsOpen] = useState(false);
   // const [isDetailPage, setIsDetailPage] = useState(false);
   const [atTop, setAtTop] = useState(true);
@@ -359,7 +359,7 @@ export default function Header({ isDetailPage }) {
         </div>
 
         {isMounted && isSearchOpen && createPortal(
-          <div className="header-search-modal-overlay" onClick={handleSearchClose}>
+          <div className={`header-search-modal-overlay ${fontClass} antialiased`} onClick={handleSearchClose}>
             <div className="header-search-modal" ref={searchRef} onClick={(e) => e.stopPropagation()}>
               <div className="searchInput">
                 <form onSubmit={(e) => { e.preventDefault(); }}>

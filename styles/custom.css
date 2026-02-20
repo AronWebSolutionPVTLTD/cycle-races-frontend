@@ -2377,3 +2377,34 @@ section.rider-details-sec .team-cart.featured-card{
   padding-bottom: 0;
 }
 }
+
+section.home-sec4 ul.transparent-cart li h5 a {
+  color: #2b534d;
+}
+@media ( min-width: 1200px ){
+  section.home-sec4 ul.transparent-cart li.hoverState-li.custom-list-el {
+    grid-template-columns: 5rem auto;
+  }
+}
+@media ( max-width: 1024px ) and ( min-width: 768px ){
+  section.home-sec4 ul.transparent-cart li.hoverState-li.custom-list-el {
+    grid-template-columns: 5rem auto;
+  }
+}
+.lime-green-color {
+  color: #d0f068 !important;
+}
+.team-cart h5 strong{
+  letter-spacing: 0 !important;
+}
+.searchInput:has(.wrap-bottom){
+  border: none;
+}
+@media ( max-width: 767px ){
+    ul.transparent-cart.ctm-trspnt-cart li span {
+      grid-column: span 3;
+  }
+  section.home-sec4 .list-white-cart {
+    padding-bottom: 5.2rem;
+  }
+}

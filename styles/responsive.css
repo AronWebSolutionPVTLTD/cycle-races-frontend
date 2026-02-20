@@ -741,7 +741,8 @@ section.home-banner ul.transparent-cart li h5 {
         max-width: 10.4375rem;
         max-height: 13.25rem;
         left: -1.5rem;
-        bottom: -2.37rem;
+        /* bottom: -2.37rem; */
+        bottom: 0;
     }
     section.home-sec2 a.alle-link {
         margin-top: 0;

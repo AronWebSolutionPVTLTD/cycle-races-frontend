@@ -517,7 +517,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
               <div className="col-lg-3 col-md-6">
                 <div className="races">
                   <div className="text-wraper">
-                    <h3 className=" fw-900 font-archivo text-uppercase fs-chenge">
+                    <h3 className=" fw-900 font-archivo text-uppercase fs-chenge text-center">
                       {data?.[fixedApis.box8]?.message}
                     </h3>
                     {(() => {

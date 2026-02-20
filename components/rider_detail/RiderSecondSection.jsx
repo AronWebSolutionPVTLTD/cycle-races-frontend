@@ -332,9 +332,9 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl, t }) => {
             </div>
 
             <div className="col-lg-3 col-md-6 sss">
-              <div className="team-cart">
+              <div className="team-cart d-grid">
                 <Link href={buildUrlWithParams("best-performance-in-country")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>{data?.[fixedApis.box6]?.message}</h4>
                   {(() => {
                     if (!data?.[fixedApis.box6]) {
@@ -359,7 +359,7 @@ const RiderSecondSection = ({ riderId, filterYear, imageUrl, t }) => {
                           </h6>
                         </div>
                         {firstRider?.winCount && (
-                          <h5>
+                          <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                             <strong>{firstRider.winCount} </strong>{t("common.wins")}
                           </h5>
                         )}
