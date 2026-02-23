@@ -34,7 +34,27 @@ export default function RaceDetailsPage({ year, initialRace, apiError }) {
   // const allNationalityOptions = useMemo(() => {
   //   return ["All-Nationalities", ...nationalities];
   // }, [nationalities]);
-
+  useEffect(() => {
+    if (!router.isReady || !name) return;
+  
+    const fetchRaceDetails = async () => {
+      try {
+        const response = await callAPI(
+          "GET",
+          `/raceDetailsStats/${name}/getRaceDetails`
+        );
+  
+        if (response?.status && response?.data) {
+          setRaceData(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching race details:", error);
+      }
+    };
+  
+    fetchRaceDetails();
+  }, [name]);
+  
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
       return allYearOptions;

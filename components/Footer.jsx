@@ -172,10 +172,8 @@ const Footer = () => {
                             </div>
                             <div className='col-md-4 text-center text-md-end my-2 my-md-4'>
                                 <div className='social-media-links'>
-                                    <Link href={'#'}><img src="/images/insta.svg" alt="Instagram" /></Link>
-                                    <Link href={'#'}><img src="/images/fb.svg" alt="Facebook" /></Link>
-                                    <Link href={'#'}><img src="/images/twitter.svg" alt="Twitter" /></Link>
-                                    <Link href={'#'}><img src="/images/social-media.svg" alt="Social media" /></Link>
+                                    <Link href="https://www.instagram.com/wielerstats.nl/"><img src="/images/insta.svg" alt="Instagram" /></Link>
+                                    <Link href="https://www.facebook.com/profile.php?id=61573946675256"><img src="/images/fb.svg" alt="Facebook" /></Link>
                                 </div>
                             </div>
                         </div>

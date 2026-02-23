@@ -317,9 +317,9 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
             <div className="col-lg-7 box5 sss">
               <div className="row">
                 <div className="col-lg-4 col-md-6 12121">
-                  <div className="team-cart">
+                  <div className="team-cart d-grid">
                     <Link href={buildUrlWithParams("wins-in-one-day-races")} className="pabs" />
-                    <div className="text-wraper">
+                    <div className="text-wraper d-flex flex-column">
                       <h4 >
                         {data?.[fixedApis.box5]?.message}
                       </h4>
@@ -344,7 +344,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
 
                         return (
                           <>
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{oneDayWins}</strong>{t("common.wins")}
                             </h5>
 

@@ -1946,6 +1946,9 @@ ul.slug-table-head.col--3 li.CLASS {
 ul.slug-table-head.col--3 li.YEAR,ul.slug-table-head.col--3 li.WINNER {
   flex: 0 0 20% !important;
 }
+ul.slug-table-body .table_cols_list.col--3 .team-name.rider--name.rider_name.riderSlug {
+  flex: 0 0 20% !important;
+}
 /* ul.slug-table-head.col--3 li.RIDER, .team-slug-table-body li.table_cols_list.col--3 .team-name.rider--name {
   flex: 0 0 20% !important;
 } */
@@ -2406,5 +2409,81 @@ section.home-sec4 ul.transparent-cart li h5 a {
   }
   section.home-sec4 .list-white-cart {
     padding-bottom: 5.2rem;
+  }
+}
+
+@media ( min-width: 768px ){
+  ul.slug-table-body li.table_cols_list.col--3 .team-name.rider--name.class, 
+  ul.slug-table-body li.table_cols_list.col--3 .count.text-end,
+  ul.slug-table-body.team-slug-table-body li.table_cols_list.col--3 .team-name.rider--name.winner {
+    flex: 0 0 20% !important;
+  }
+}
+
+.win-count-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.win-count-wrapper .win-image {
+  margin-bottom: -4.2rem;
+  margin-left: -3rem;
+  margin-top: -33px;
+}
+.win-count-wrapper .win-count {
+  margin-bottom: -2rem;
+}
+@media ( max-width: 1200px ){
+    .win-count-wrapper .win-image {
+      margin-top: 0;
+  }
+}
+
+@media ( min-width: 768px ) and ( max-width: 991px ){
+  .winning-box {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr auto;
+    padding: 55px !important;
+    padding-bottom: 20px !important;
+}
+.win-count-wrapper {
+    grid-column: span 2;
+    justify-content: space-between;
+}
+
+.win-count-wrapper .win-image {position: absolute;right: 5rem;}
+
+.win-count-wrapper .win-count {
+    margin-bottom: 0;
+    display: flex;
+    align-items: flex-end;
+}
+
+.winning-box span {
+    line-height: 1 !important;
+    display: flex;
+}
+}
+
+@media ( max-width: 767px ){
+  .win-count-wrapper {
+    display: grid;
+    grid-template-columns: auto 144px;
+}
+.win-count-wrapper .win-image {
+  max-width: 100%;
+  margin-left: -3.4rem;
+  margin-bottom: -3.7rem;
+}
+
+  .win-count-wrapper .win-count {
+      margin: 0;
+  }
+
+  .win-count-wrapper .win-count span {
+      font-size: 110px !important;
   }
 }

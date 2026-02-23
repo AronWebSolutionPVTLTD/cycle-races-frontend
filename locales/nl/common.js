@@ -152,6 +152,7 @@ const nl={
       "debut_year": "DEBUUTJAAR",
       "participations": "DEELNAMES",
       "weight": "GEWICHT",
+      "total": "TOTAAL",
   }
   
 }

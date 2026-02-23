@@ -463,9 +463,9 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
             </div>
 
             <div className="col-lg-4 col-md-6 total-distance-raced-cart">
-              <div className="team-cart">
+              <div className="team-cart d-grid">
                 <Link href={buildUrlWithParams("total-distance-grand-tour")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>
                     {data?.[fixedApis.box9]?.message}
                   </h4>
@@ -483,7 +483,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
 
                     return (
                       <>
-                        <h5>
+                        <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                           <strong>
                             {riderData?.total_distance_raced ?? 0}
                           </strong>
