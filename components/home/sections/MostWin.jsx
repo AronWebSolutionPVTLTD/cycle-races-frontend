@@ -63,7 +63,7 @@ const { t } = useTranslation();
           )}
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <div className="col-lg-12">
-              <div className="winning-box">
+              <div className="winning-box dddd">
                 <div className="text-wraper">
                   <h3>{data?.[apiOptions.box1].message || title}</h3>
                   {getBoxData(apiOptions.box1).error ? (
@@ -87,12 +87,13 @@ const { t } = useTranslation();
                                 borderRadius: "2px",
                               }}
                             />
-                            <h4>{rider.rider_name}</h4>
+                            <h4 className="lime-green-color">{rider.rider_name}</h4>
                           </div>
                         </div>
                       ))
                   )}
                 </div>
+                <div className="win-count-wrapper">
                 {!getBoxData(apiOptions.box1).error && (
                   (Array.isArray(getBoxData(apiOptions.box1).data)
                     ? getBoxData(apiOptions.box1).data
@@ -109,6 +110,25 @@ const { t } = useTranslation();
                       );
                     })
                 )}
+                {/* <div className="win-image">
+                  <img src="/images/winning-box-player.png" alt="Win Image" />
+                </div> */}
+                <div className="win-image">
+  {!getBoxData(apiOptions.box1).error &&
+    (Array.isArray(getBoxData(apiOptions.box1).data)
+      ? getBoxData(apiOptions.box1).data
+      : []
+    )
+      .slice(0, 1)
+      .map((rider, index) => (
+        <img
+          key={`img-${index}`}
+          src={rider?.image_url || "/images/winning-box-player.png"}
+          alt={rider?.rider_name || "Win Image"}
+        />
+      ))}
+</div>
+                </div>
               </div>
             </div>
           )}

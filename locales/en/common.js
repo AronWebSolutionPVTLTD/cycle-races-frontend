@@ -153,6 +153,7 @@ const en={
       "debut_year": "DEBUT YEAR",
       "participations": "PARTICIPATIONS",
       "weight": "WEIGHT",
+      "total": "TOTAL",
   }
   
 }

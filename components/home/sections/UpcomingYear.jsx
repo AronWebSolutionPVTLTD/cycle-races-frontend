@@ -111,7 +111,7 @@ const UpcomingYear = ({ t }) => {
                   />
                 ) : (
                   <>
-                    <ul className="transparent-cart sss">
+                    <ul className="transparent-cart sss ctm-trspnt-cart">
                       {(Array.isArray(getBoxData(fixedApis.box1).data)
                         ? getBoxData(fixedApis.box1).data
                         : []

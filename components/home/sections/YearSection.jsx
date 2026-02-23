@@ -45,7 +45,7 @@ const YearSection = ({ t }  ) => {
   };
 
   return (
-    <section className="home-sec2 pb-96px">
+    <section className="home-sec2 pb-96px 22">
       <div className="container">
         <div className="col-lg-12 d-flex justify-content-between align-items-center section-header">
           <h2 className="fw-900 fst-italic">{t("home.this_year")}</h2>
@@ -423,8 +423,8 @@ const YearSection = ({ t }  ) => {
                 </div>
               </div>
 
-              <div className="col-lg-3 col-md-6">
-                <div className="list-white-cart team-cart">
+              <div className="col-lg-3 col-md-6 sss">
+                <div className="team-cart">
                   <Link href="/race-with-most-dnfs" className="pabs" />
                   <div className="text-wraper">
                     <h4> {data?.[fixedApis.box9]?.message}</h4>

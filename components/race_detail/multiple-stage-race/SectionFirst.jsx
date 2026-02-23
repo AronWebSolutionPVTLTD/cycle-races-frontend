@@ -433,7 +433,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
               <div className="col-lg-3 col-md-6">
                 <div className="races">
                   <div className="text-wraper text-center">
-                    <h3 className=" fw-900 font-archivo text-uppercase fs-chenge ">{data?.[fixedApis.box7]?.message}</h3>
+                    <h3 className=" fw-900 font-archivo text-uppercase fs-chenge text-center">{data?.[fixedApis.box7]?.message}</h3>
                     {(() => {
                       if (!data?.[fixedApis.box7]) {
                         return <ErrorMessage errorType="no_data" />;

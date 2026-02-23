@@ -154,10 +154,10 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                 </div>
               </div>
 
-              <div className="col-lg-4 col-md-6">
+              <div className="col-lg-4 col-md-6 sssss">
                 <div className="races">
                   <div className="text-wraper">
-                    <h3 className="text-uppercase fw-900 font-archivo fs-chenge">
+                    <h3 className="text-uppercase fw-900 font-archivo fs-chenge text-center">
                       {data?.[fixedApis.box2]?.message}
                     </h3>
                     {(() => {
@@ -172,7 +172,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                         return <ErrorMessage errorType="no_data_found" />;
                       }
                       return (
-                        <div className="name-wraper name-wraper-white">
+                        <div className="name-wraper name-wraper-whites">
                           <h5 className="fst-italic">
                             <strong>{riderData.totalWins}</strong>
                           </h5>
@@ -340,7 +340,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                     </div>
                   </div>
 
-                  <div className="col-lg-5 col-md-6">
+                  <div className="col-lg-5 col-md-6 s">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("riders-with-most-top10")} className="pabs" />
                       <div className="text-wraper">
@@ -387,7 +387,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                     </div>
                   </div>
 
-                  <div className="col-lg-5 col-md-6">
+                  <div className="col-lg-5 col-md-6 ds">
                     <div className="team-cart">
                       <Link href={buildUrlWithParams("rider-with-most-podium-finishes")} className="pabs" />
                       <div className="text-wraper">
@@ -525,10 +525,10 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                 </div>
               </div>
 
-              <div className="col-lg-5 col-md-6">
+              <div className="col-lg-5 col-md-6 sd">
                 <div className="races">
                   <div className="text-wraper">
-                    <h3 className="text-uppercase fw-900 font-archivo fs-chenge" style={{ textAlign: "center" }}>
+                    <h3 className="text-uppercase fw-900 font-archivo fs-chenge text-center" style={{ textAlign: "center" }}>
                       {data?.[fixedApis.box11]?.message}
                     </h3>
                     {(() => {
@@ -543,7 +543,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                         return <ErrorMessage errorType="no_data_found" />;
                       }
                       return (
-                        <div className="name-wraper name-wraper-white">
+                        <div className="name-wraper name-wraper-whites">
                           <h5 className="fst-italic">
                             <strong>{riderData.count}</strong>
                           </h5>

@@ -65,7 +65,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
   };
 
   return (
-    <section className="home-sec2 pb-96px">
+    <section className="home-sec2 pb-96px 11">
       <div className="container">
         <div className="row">
           {loading && <BoxSkeleton2 />}
