@@ -11,6 +11,7 @@ import {
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { renderFlag } from "@/components/RenderFlag";
 import { useTranslation } from "@/lib/useTranslation";
+import Head from "next/head";
 
 export default function RaceResultPage({ year, month, stageNumber, tab,initialRaceResult,apiError }) {
   const router = useRouter();
@@ -435,6 +436,11 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
   };
 
   return (
+    <>  
+    <Head>
+      <title>{raceName || race?.race_name || "..."} {selectedYear || "..."} uitslag & klassement | Wielerstats</title>
+      <meta name="description" content={`Uitslag van ${raceName || race?.race_name || "..."} ${selectedYear || "..."}. Bekijk tijden, klassementen en alle deelnemende renners op Wielerstats.`}/>
+    </Head>
     <main className="inner-pages-main race-result-main">
       <div className="dropdown-overlay"></div>
       <section className="riders-sec1">
@@ -665,6 +671,7 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
       </section>
 
     </main>
+    </>
   );
 }
 

@@ -299,7 +299,8 @@ export default function Riders() {
   return (
     <>
       <Head>
-        <title>Riders | Cycling Stats</title>
+        <title>Wielrenners overzicht & statistieken | Wielerstats</title>
+        <meta name="description" content="Bekijk alle professionele wielrenners met actuele statistieken en uitslagen. Bekijk prestaties, teams en carrièregegevens op Wielerstats." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/images/ws_favicon.png" />
       </Head>

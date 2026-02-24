@@ -123,7 +123,7 @@ const { t } = useTranslation();
       .map((rider, index) => (
         <img
           key={`img-${index}`}
-          src={rider?.image_url || "/images/winning-box-player.png"}
+          src={rider?.image_url || "/images/rider_avatar.png"}
           alt={rider?.rider_name || "Win Image"}
         />
       ))}

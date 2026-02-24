@@ -1,8 +1,11 @@
 import Link from "next/link";
-
+import Head from "next/head";
 const CookiePolicy = () => (
-
-
+<>
+  <Head>
+    <title>Privacyverklaring | Wielerstats</title>
+    <meta name="description" content="Lees hoe Wielerstats omgaat met persoonsgegevens en privacy."/>
+  </Head> 
   <main className="inner-pages-main ">
     <section className="cookiePolicy-sec1">
       <div className="container">
@@ -79,7 +82,7 @@ const CookiePolicy = () => (
     </section>
   </main>
 
-
+</>
 );
 
 export default CookiePolicy;

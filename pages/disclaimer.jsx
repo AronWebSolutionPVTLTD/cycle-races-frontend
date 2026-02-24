@@ -1,5 +1,6 @@
 "use client";
 
+import Head from "next/head";
 import Link from "next/link";
 
 export const metadata = {
@@ -9,7 +10,11 @@ export const metadata = {
 
 export default function DisclaimerPage() {
     return (
-        <>
+        <>  
+        <Head>
+            <title>Disclaimer | Wielerstats</title>
+            <meta name="description" content="Lees de disclaimer van Wielerstats over het gebruik van gegevens en aansprakelijkheid."/>
+        </Head>
             <main className="inner-pages-main">
                 <section className="disclaimer-sec1">
                     <div className="container">

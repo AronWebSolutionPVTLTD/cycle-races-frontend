@@ -236,7 +236,8 @@ export default function RaceDetailsPage({ year, initialRace, apiError }) {
   return (
     <>
       <Head>
-        <title>{raceData?.race_name || "Race"} | Cycling Stats</title>
+        <title>{raceData?.race_name || "..."} uitslagen, winnaars & historie | Wielerstats</title>
+        <meta name="description" content={`Alle uitslagen en statistieken van ${raceData?.race_name || "..."}: winnaars, edities en historische resultaten. | Wielerstats`}/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <main className="inner-pages-main rider-detail-main race-detail-main  header-layout-2">

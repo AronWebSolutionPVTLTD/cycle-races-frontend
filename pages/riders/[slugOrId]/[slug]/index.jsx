@@ -28,7 +28,7 @@ const getCountryCode = (item, config) => {
   return country.toUpperCase();
 };
 
-export default function DynamicSlugPage() {
+export default function DynamicSlugPage({ initialRider }) {
   const router = useRouter();
   const { slug, year } = router.query;
   const [pageData, setPageData] = useState(null);
@@ -43,8 +43,8 @@ export default function DynamicSlugPage() {
   const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
-  const [riderName, setRiderName] = useState(null);
 
+  const riderName = initialRider?.name || null;
 
   useEffect(() => {
     if (router.isReady) {
@@ -64,29 +64,6 @@ export default function DynamicSlugPage() {
       }
     }
   }, [router.isReady, year, slug]);
-
-  useEffect(() => {
-    if (!router.isReady) return;
-
-    const { slugOrId } = router.query;
-    if (!slugOrId) return;
-    const fetchRiderBasicInfo = async () => {
-      try {
-        const res = await callAPI("GET", `/rider-stats/${slugOrId}/detail`);
-        if (res && res?.data?.data) {
-          setRiderName(res.data.data.name);
-        } else {
-          setRiderName(null);
-        }
-      } catch (error) {
-        console.error("Error fetching rider name:", error);
-        setRiderName(null);
-      }
-    };
-
-    fetchRiderBasicInfo();
-  }, [router.isReady, router.query.slugOrId]);
-
 
   const currentYear = new Date().getFullYear();
   const years = [];
@@ -737,7 +714,8 @@ export default function DynamicSlugPage() {
   return (
     <>
       <Head>
-        <title>{pageTitle}</title>
+        <title>{riderName || "..."} – statistieken & uitslagen | Wielerstats</title>
+        <meta name="description" content={`${pageHeading || "..."} van ${riderName || "..."}. Ontdek actuele uitslagen, prestaties en wielerstatistieken overzichtelijk verzameld op Wielerstats.`}/>
       </Head>
       <main className="inner-pages-main pt-md-0 mb-pt-161px">
         <section className="slug-main-section">
@@ -845,16 +823,47 @@ export default function DynamicSlugPage() {
   );
 }
 
-export async function getServerSideProps({ params }) {
-  const { slug } = params;
+// export async function getServerSideProps({ params }) {
+//   const { slug } = params;
 
-  if (!SLUG_CONFIGS[slug]) {
+//   if (!SLUG_CONFIGS[slug]) {
+//     return { notFound: true };
+//   }
+
+//   return {
+//     props: {
+//       slug: slug,
+//     },
+//   };
+// }
+export async function getServerSideProps(context) {
+  const { slugOrId, slug } = context.params;
+
+  let rider = null;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/rider-stats/${slugOrId}/detail`
+    );
+
+    if (!res.ok) {
+      return { notFound: true };
+    }
+
+    const json = await res.json();
+    rider = json?.data?.data || null;
+
+    if (!rider) {
+      return { notFound: true };
+    }
+
+  } catch (err) {
     return { notFound: true };
   }
 
   return {
     props: {
-      slug: slug,
+      initialRider: rider,
     },
   };
 }

@@ -54,7 +54,7 @@ function convertDateRange(dateStr) {
   }
 }
 
-export default function Results() {
+export default function Results({ initialYear, metaDescription }) {
   const router = useRouter();
   const [raceResults, setRaceResults] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -63,7 +63,7 @@ export default function Results() {
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   // const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
-  const [selectedYear, setSelectedYear] = useState("All-time");
+  const [selectedYear, setSelectedYear] = useState(initialYear);
   const [selectedMonth, setSelectedMonth] = useState("");
   const [featuredRaces, setFeaturedRaces] = useState([]);
   const [error, setError] = useState(null);
@@ -134,6 +134,10 @@ export default function Results() {
         setSelectedYear(value);
         setYearInput("");
         setShowYearDropdown(false);
+        router.replace({
+          pathname: router.pathname,
+          query: { ...router.query, year: value },
+        }, undefined, { shallow: true });
         break;
       case "month":
         setSelectedMonth(value);
@@ -343,7 +347,7 @@ export default function Results() {
           ])
         ).values()
       );
-      
+
       const uniqueRaces =
         allRaces.length === 1
           ? allRaces
@@ -384,14 +388,6 @@ export default function Results() {
     router.push(`/races/${encodeURIComponent(result.race_slug)}?year=${selectedYear}`);
   };
 
-  const handleYearChange = (e) => {
-    setSelectedYear(e.target.value);
-  };
-
-  const handleMonthChange = (e) => {
-    setSelectedMonth(e.target.value);
-  };
-
   const clearSearch = () => {
     setSearchTerm("");
     setSearchResults([]);
@@ -418,8 +414,11 @@ export default function Results() {
   return (
     <>
       <Head>
-        <title>Results - Cycling Stats</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Wieler uitslagen & kalender overzicht | Wielerstats</title>
+        <meta
+          name="description"
+          content={metaDescription}
+        />        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/images/ws_favicon.png" />
 
       </Head>
@@ -742,4 +741,22 @@ export default function Results() {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const year = context.query.year || "All-time";
+
+  const yearValue =
+    year !== undefined
+      ? year
+      : "...";
+
+  const metaDescription = `Alle wieleruitslagen in ${yearValue}. Bekijk de volledige kalender met winnaars, klassementen en wedstrijdresultaten op Wielerstats.`;
+
+  return {
+    props: {
+      initialYear: year,
+      metaDescription,
+    },
+  };
 }

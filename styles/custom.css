@@ -2431,6 +2431,7 @@ section.home-sec4 ul.transparent-cart li h5 a {
   margin-bottom: -4.2rem;
   margin-left: -3rem;
   margin-top: -33px;
+  flex: 0 0 257px;
 }
 .win-count-wrapper .win-count {
   margin-bottom: -2rem;
@@ -2454,7 +2455,7 @@ section.home-sec4 ul.transparent-cart li h5 a {
     justify-content: space-between;
 }
 
-.win-count-wrapper .win-image {position: absolute;right: 5rem;}
+.win-count-wrapper .win-image {position: absolute;right: 5rem; max-width: 257px;}
 
 .win-count-wrapper .win-count {
     margin-bottom: 0;
@@ -2477,6 +2478,7 @@ section.home-sec4 ul.transparent-cart li h5 a {
   max-width: 100%;
   margin-left: -3.4rem;
   margin-bottom: -3.7rem;
+  max-height: 188px;
 }
 
   .win-count-wrapper .win-count {
@@ -2486,4 +2488,7 @@ section.home-sec4 ul.transparent-cart li h5 a {
   .win-count-wrapper .win-count span {
       font-size: 110px !important;
   }
+  .winning-box {
+    border-radius: 30px !important;
+}
 }
