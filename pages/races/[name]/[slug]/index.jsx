@@ -11,23 +11,23 @@ import getItemId from "@/pages/getId";
 import { renderFlag } from "@/components/RenderFlag";
 import { useTranslation } from "@/lib/useTranslation";
 
-export async function getServerSideProps(context) {
-  const { params, query } = context;
-  const { slug } = params || {};
-  const year = query.year || new Date().getFullYear().toString();
+// export async function getServerSideProps(context) {
+//   const { params, query } = context;
+//   const { slug } = params || {};
+//   const year = query.year || new Date().getFullYear().toString();
 
-  if (slug && !SLUG_CONFIGS[slug]) {
-    return {
-      notFound: true,
-    };
-  }
+//   if (slug && !SLUG_CONFIGS[slug]) {
+//     return {
+//       notFound: true,
+//     };
+//   }
  
-  return {
-    props: {
-      year,
-    },
-  };
-}
+//   return {
+//     props: {
+//       year,
+//     },
+//   };
+// }
 
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   for (const key of possibleKeys) {
@@ -74,7 +74,7 @@ const getRiderId = (item) => {
   return null;
 };
 
-export default function DynamicSlugPage({ year }) {
+export default function DynamicSlugPage({ year, raceName }) {
   const router = useRouter();
   const { slug } = router.query;
   const { t } = useTranslation();
@@ -679,7 +679,8 @@ export default function DynamicSlugPage({ year }) {
   return (
     <>
       <Head>
-        <title>{pageTitle}</title>
+        <title>{raceName || "..."} - statistieken & uitslagen | Wielerstats</title>
+        <meta name="description" content={`${pageHeading || "..."} van ${raceName || "..."}.Historische uitslagen en wedstrijdstatistieken overzichtelijk verzameld op Wielerstats.`}/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <main className="inner-pages-main pt-md-0 mb-pt-161px">
@@ -754,4 +755,36 @@ export default function DynamicSlugPage({ year }) {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { params, query } = context;
+  const { slug, name } = params || {};
+  const year = query.year || new Date().getFullYear().toString();
+
+  if (slug && !SLUG_CONFIGS[slug]) {
+    return { notFound: true };
+  }
+
+  let raceName = null;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/raceDetailsStats/${name}/getRaceDetails`
+    );
+
+    if (res.ok) {
+      const json = await res.json();
+      raceName = json?.data?.race_name || null;
+    }
+  } catch (err) {
+    console.error("Race fetch error:", err.message);
+  }
+
+  return {
+    props: {
+      year,
+      raceName,
+    },
+  };
 }

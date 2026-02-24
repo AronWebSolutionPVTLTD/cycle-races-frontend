@@ -1,8 +1,12 @@
 import Link from "next/link";
-
+import Head from "next/head";
 const CookiePolicy = () => (
 
-
+<>
+  <Head>
+    <title>Cookiebeleid | Wielerstats</title>
+    <meta name="description" content="Lees het cookiebeleid van Wielerstats en hoe wij cookies gebruiken om onze website te verbeteren."/>
+  </Head>
   <main className="inner-pages-main ">
     <section className="cookiePolicy-sec1">
       <div className="container">
@@ -69,7 +73,7 @@ const CookiePolicy = () => (
       </div>
     </section>
   </main>
-
+</>
 
 );
 

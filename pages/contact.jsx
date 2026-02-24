@@ -1,5 +1,6 @@
 "use client";
 
+import Head from 'next/head';
 import ContactForm from '../components/ContactForm'
 export const metadata = {
   title: 'Contact | Wielerstats',
@@ -9,6 +10,10 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <>
+    <Head>
+      <title>Contact | Wielerstats</title>
+      <meta name="description" content="Neem contact op met Wielerstats voor vragen, feedback of samenwerkingen."/>
+    </Head>
       <main className="inner-pages-main ">
         <section className="contact-sec1">
           <div className="container">

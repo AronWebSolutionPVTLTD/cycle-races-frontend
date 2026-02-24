@@ -12,23 +12,23 @@ import getItemId from "@/pages/getId";
 import { renderFlag } from "@/components/RenderFlag";
 import { useTranslation } from "@/lib/useTranslation";
 
-export async function getServerSideProps(context) {
-  const { params, query } = context;
-  const { slug } = params || {};
-  const year = query.year || new Date().getFullYear().toString();
+// export async function getServerSideProps(context) {
+//   const { params, query } = context;
+//   const { slug } = params || {};
+//   const year = query.year || new Date().getFullYear().toString();
 
-  if (slug && !SLUG_CONFIGS[slug]) {
-    return {
-      notFound: true,
-    };
-  }
+//   if (slug && !SLUG_CONFIGS[slug]) {
+//     return {
+//       notFound: true,
+//     };
+//   }
 
-  return {
-    props: {
-      year,
-    },
-  };
-}
+//   return {
+//     props: {
+//       year,
+//     },
+//   };
+// }
 const getItemValue = (item, possibleKeys, defaultValue = "N/A") => {
   for (const key of possibleKeys) {
     if (key.includes(".")) {
@@ -59,15 +59,14 @@ const getCountryCode = (item, config) => {
   return country.toUpperCase();
 };
 
-export default function DynamicSlugPage({ year }) {
+export default function DynamicSlugPage({ year, teamName }) {
   const router = useRouter();
   const { slug } = router.query;
   const { t } = useTranslation();
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [apiTitle, setApiTitle] = useState(null);
-  const [teamName, setTeamName] = useState(null);
+  const [apiTitle, setApiTitle] = useState(null); 
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
@@ -80,32 +79,6 @@ export default function DynamicSlugPage({ year }) {
   for (let year = currentYear; year >= 1990; year--) {
     years.push(year.toString());
   }
-
-  useEffect(() => {
-    if (!router.isReady) return;
-
-    const { name } = router.query;
-    if (!name) return;
-
-    const fetchTeamBasicInfo = async () => {
-      try {
-        const res = await callAPI(
-          "GET",
-          `/teamDetails/${name}/teamDetailsForTeamPage`
-        );
-        if (res && res?.data?.team_name) {
-          setTeamName(res.data.team_name);
-        } else {
-          setTeamName(null);
-        }
-      } catch (error) {
-        console.error("Error fetching team name:", error);
-        setTeamName(null);
-      }
-    };
-
-    fetchTeamBasicInfo();
-  }, [router.isReady, router.query.name]);
 
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
@@ -697,7 +670,8 @@ export default function DynamicSlugPage({ year }) {
   return (
     <>
       <Head>
-        <title>{pageTitle}</title>
+        <title>{teamName || "..."} statistieken | Wielerstats</title>
+        <meta name="description" content={`${pageHeading || "..."} van ${teamName || "..."}.Teamstatistieken, uitslagen en prestaties overzichtelijk weergegeven op Wielerstats.`}/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <main className="inner-pages-main pt-md-0 mb-pt-161px">
@@ -781,4 +755,36 @@ export default function DynamicSlugPage({ year }) {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { params, query } = context;
+  const { slug, name } = params;
+  const year = query.year || new Date().getFullYear().toString();
+
+  if (slug && !SLUG_CONFIGS[slug]) {
+    return { notFound: true };
+  }
+
+  let teamName = null;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/teamDetails/${name}/teamDetailsForTeamPage`
+    );
+
+    if (res.ok) {
+      const json = await res.json();
+      teamName = json?.data?.team_name || null;
+    }
+  } catch (err) {
+    console.error("SSR team fetch error:", err);
+  }
+
+  return {
+    props: {
+      year,
+      teamName,
+    },
+  };
 }

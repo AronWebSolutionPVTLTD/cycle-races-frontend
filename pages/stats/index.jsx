@@ -132,7 +132,8 @@ export default function Stats() {
   return (
     <>
       <Head>
-        <title>Stats - Wielerstats</title>
+        <title>Wielerstatistieken & rankings van renners en koersen | Wielerstats</title>
+        <meta name="description" content="Ontdek wielerstatistieken en rankings van renners, teams en wedstrijden. Records, overwinningen en historische data overzichtelijk verzameld." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/images/ws_favicon.png" />
       </Head>

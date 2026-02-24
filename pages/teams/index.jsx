@@ -305,7 +305,8 @@ export default function Teams() {
   return (
     <>
       <Head>
-        <title>Teams | Cycling Stats</title>
+        <title>Wielerteams overzicht & statistieken | Wielerstats</title>
+        <meta name="description" content="Bekijk alle professionele wielerteams met statistieken, renners en uitslagen. Bekijk teamgegevens en prestaties op Wielerstats."/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/images/ws_favicon.png" />
       </Head>

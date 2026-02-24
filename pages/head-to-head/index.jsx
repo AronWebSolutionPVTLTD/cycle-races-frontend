@@ -1,4 +1,3 @@
-"use client";
 
 import Head from "next/head";
 import Link from "next/link";
@@ -12,7 +11,7 @@ import { generateYearOptions } from "@/components/GetYear";
 import { renderFlag } from "@/components/RenderFlag";
 import { useTranslation } from "@/lib/useTranslation";
 
-export default function HeadToHead() {
+export default function HeadToHead({ rider1, rider2 }) {
   const router = useRouter();
   const { t } = useTranslation();
   const containerRef = useRef(null);
@@ -900,10 +899,53 @@ export default function HeadToHead() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (rider1 && rider2) {
+      setSelectedRider1({
+        riderName: rider1.name,
+        riderSlug: rider1.slug,
+        rider_id: rider1._id,
+        riderCountry: rider1.nationality
+      });
+  
+      setSelectedRider2({
+        riderName: rider2.name,
+        riderSlug: rider2.slug,
+        rider_id: rider2._id,
+        riderCountry: rider2.nationality
+      });
+  
+      setShowCompareResults(true);
+      const yearToUse = selectedYear || "All-time";
+      fetchRidersCommonActiveYears(rider1.slug, rider2.slug);
+      fetchH2H(rider1.slug, rider2.slug, yearToUse);
+      setSelectedYear(yearToUse);
+      prevRider1IdRef.current = selectedRider1.rider_id;
+      prevRider2IdRef.current = selectedRider2.rider_id;
+    }
+  }, [rider1, rider2]);
+  const seoRider1 = rider1?.name;
+const seoRider2 = rider2?.name;
+
   return (
     <>
       <Head>
-        <title>head-to-head</title>
+      <title>
+    {seoRider1 && seoRider2
+      ? `${seoRider1} vs ${seoRider2} – Head to Head statistieken | Wielerstats`
+      : "Wielrenners vergelijken – Head to Head statistieken | Wielerstats"}
+  </title>
+
+  <meta
+    name="description"
+    content={
+      seoRider1 && seoRider2
+        ? `Vergelijk ${seoRider1} en ${seoRider2} op basis van overwinningen, uitslagen en prestaties. Bekijk hun head-to-head statistieken op Wielerstats.`
+        : "Vergelijk wielrenners op basis van uitslagen, overwinningen en prestaties. Selecteer renners en bekijk hun head-to-head statistieken op Wielerstats."
+    }
+  />
+
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/images/ws_favicon.png" />
       </Head>
@@ -1163,14 +1205,25 @@ export default function HeadToHead() {
               className={`glob-btn green-bg-btn comapre-btn ${!selectedRider1 || !selectedRider2 ? "glob-btn-compare" : ""
                 }`}
               disabled={!selectedRider1 || !selectedRider2}
+              // onClick={() => {
+              //   fetchRidersCommonActiveYears(selectedRider1.riderSlug, selectedRider2.riderSlug);
+              //   const yearToUse = selectedYear || "All-time";
+              //   fetchH2H(selectedRider1.riderSlug, selectedRider2.riderSlug, yearToUse);
+              //   setShowCompareResults(true);
+              //   setSelectedYear(yearToUse);
+              //   prevRider1IdRef.current = selectedRider1.rider_id;
+              //   prevRider2IdRef.current = selectedRider2.rider_id;
+              // }}
               onClick={() => {
-                fetchRidersCommonActiveYears(selectedRider1.riderSlug, selectedRider2.riderSlug);
-                const yearToUse = selectedYear || "All-time";
-                fetchH2H(selectedRider1.riderSlug, selectedRider2.riderSlug, yearToUse);
-                setShowCompareResults(true);
-                setSelectedYear(yearToUse);
-                prevRider1IdRef.current = selectedRider1.rider_id;
-                prevRider2IdRef.current = selectedRider2.rider_id;
+                if (!selectedRider1 || !selectedRider2) return;
+              
+                router.push({
+                  pathname: "/head-to-head",
+                  query: {
+                    r1: selectedRider1.riderSlug,
+                    r2: selectedRider2.riderSlug
+                  }
+                });
               }}
             >
               <strong>{t("head_to_head.compare")}</strong>
@@ -1312,4 +1365,52 @@ export default function HeadToHead() {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { r1, r2 } = context.query;
+
+  if (!r1 || !r2) {
+    return {
+      props: {
+        rider1: null,
+        rider2: null,
+      },
+    };
+  }
+
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    const [res1, res2] = await Promise.all([
+      fetch(`${baseUrl}/rider-stats/${r1}/detail`),
+      fetch(`${baseUrl}/rider-stats/${r2}/detail`)
+    ]);
+
+    if (!res1.ok || !res2.ok) {
+      return {
+        props: {
+          rider1: null,
+          rider2: null,
+        },
+      };
+    }
+
+    const json1 = await res1.json();
+    const json2 = await res2.json();
+
+    return {
+      props: {
+        rider1: json1?.data?.data || null,
+        rider2: json2?.data?.data || null,
+      },
+    };
+  } catch {
+    return {
+      props: {
+        rider1: null,
+        rider2: null,
+      },
+    };
+  }
 }

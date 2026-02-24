@@ -9,6 +9,7 @@ import TeamSecondSection from "@/components/team_detail/TeamSecondSection";
 import TeamThirdSection from "@/components/team_detail/TeamThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { useTranslation } from "@/lib/useTranslation";
+import Head from "next/head";
 
 export default function TeamDetail({ initialTeam, apiError, year }) {
   const router = useRouter();
@@ -128,6 +129,10 @@ export default function TeamDetail({ initialTeam, apiError, year }) {
   const teamFounded = headerData?.start_year
 
   return (
+    <>  <Head>
+      <title>{teamName || "..."}statistieken, renners & uitslagen | Wielerstats</title>
+      <meta name="description" content={`Alle statistieken van${teamName || "..."}: renners, overwinningen, klassiekers en grote rondes. | Wielerstats`}/>
+    </Head>
     <main className="inner-pages-main rider-detail-main  header-layout-2">
       <div className="dropdown-overlay"></div>
       <section className="rider-details-sec pb-0 rider-details-sec-top bg-pattern ">
@@ -225,6 +230,7 @@ export default function TeamDetail({ initialTeam, apiError, year }) {
         </div>
       </section>
     </main>
+    </>
   );
 }
 

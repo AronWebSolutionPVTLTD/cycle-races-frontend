@@ -542,7 +542,8 @@ export default function DynamicSlugPage() {
   return (
     <>
       <Head>
-        <title>{pageTitle}</title>
+        <title>{pageHeading} {selectedYear || "..."} – wieler ranking | Wielerstats</title>
+        <meta name="description" content={`${pageHeading || "..."} in ${selectedYear || "..."}. Ontdek actuele wielerstatistieken gebaseerd op officiële wedstrijddata.`}/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <main className="inner-pages-main pt-md-0 mb-pt-161px">

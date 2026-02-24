@@ -10,6 +10,7 @@ import RiderThirdSection from "@/components/rider_detail/RiderThirdSection";
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import RiderLastSection from "@/components/rider_detail/RiderLastSection";
 import { useTranslation } from "@/lib/useTranslation";
+import Head from "next/head";
 
 export default function RiderDetail({ year, initialRider, apiError }) {
   const router = useRouter();
@@ -228,6 +229,12 @@ export default function RiderDetail({ year, initialRider, apiError }) {
   //   );
   // }
   return (
+
+    <>
+    <Head>
+      <title>{rider.name || "..."} uitslagen & statistieken | Wielerstats</title>
+      <meta name="description" content={`Alle uitslagen en statistieken van ${rider.name || "..."}. Overwinningen, podiumplaatsen en carrièrecijfers. | Wielerstats`}/>
+    </Head>
     <main className="inner-pages-main rider-detail-main  header-layout-2">
       <div className="dropdown-overlay"></div>
       <section className="rider-details-sec pb-0 rider-details-sec-top bg-pattern">
@@ -310,6 +317,7 @@ export default function RiderDetail({ year, initialRider, apiError }) {
         </div>
       </section>
     </main>
+    </>
   );
 }
 
