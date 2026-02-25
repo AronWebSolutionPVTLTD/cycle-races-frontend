@@ -150,9 +150,9 @@ const StatsFirstSection = ({
               <div className="col-lg-7 box5 d-flex flex-column">
                 <div className="row flex-grow-1">
                   <div className="col-lg-5 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link href={buildUrlWithParams("/stats/top-10-in-stages")} className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4>{data?.[fixedApis.box2]?.message}</h4>
                         {getBoxData(fixedApis.box2).error ? (
                           <ErrorMessage
@@ -174,7 +174,7 @@ const StatsFirstSection = ({
                                   </div>
 
                                   {rider?.count && (
-                                    <h5>
+                                    <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                       <strong>{rider.count} </strong> {t("common.times")}
                                     </h5>
                                   )}
@@ -200,9 +200,9 @@ const StatsFirstSection = ({
                   </div>
 
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart lime-green-team-cart img-active">
+                    <div className="team-cart lime-green-team-cart img-active d-grid">
                       <Link href={buildUrlWithParams("/stats/rider-with-most-racing-days")} className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
 
                         {getBoxData(fixedApis.box3).error ? (
@@ -226,7 +226,7 @@ const StatsFirstSection = ({
                                   </div>
 
                                   {rider?.racing_days && (
-                                    <h5>
+                                    <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                       <strong>{rider.racing_days} </strong>
                                       {rider.racing_days > 1 ? t("common.days") : t("common.day")}
                                     </h5>
@@ -332,9 +332,9 @@ const StatsFirstSection = ({
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("/stats/team-with-most-rider-to-win-race")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box6]) {
@@ -366,7 +366,7 @@ const StatsFirstSection = ({
                                 </div>
 
                                 {team?.numberOfWinningRiders && (
-                                  <h5>
+                                  <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                     <strong>
                                       {team.numberOfWinningRiders}{" "}
                                     </strong>
@@ -462,9 +462,9 @@ const StatsFirstSection = ({
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("/stats/race-with-most-dnfs")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box9]?.message}</h4>
 
                     {getBoxData(fixedApis.box9).error ? (
@@ -488,7 +488,7 @@ const StatsFirstSection = ({
                               </div>
 
                               {rider?.count && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.count} </strong> dnfs
                                 </h5>
                               )}

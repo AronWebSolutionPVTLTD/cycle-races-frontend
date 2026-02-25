@@ -129,9 +129,9 @@ const YearSection = ({ t }  ) => {
               <div className="col-lg-7 box5 d-flex flex-column">
                 <div className="row flex-grow-1">
                   <div className="col-lg-5 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link href="/top-10-in-stages" className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4> {data?.[fixedApis.box2]?.message}</h4>
                         {getBoxData(fixedApis.box2).error ? (
                           <ErrorMessage
@@ -154,7 +154,7 @@ const YearSection = ({ t }  ) => {
                                   </div>
 
                                   {rider?.count && (
-                                    <h5>
+                                    <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                       <strong>{rider.count} </strong> {t("common.times")}
                                     </h5>
                                   )}
@@ -180,9 +180,9 @@ const YearSection = ({ t }  ) => {
                   </div>
 
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart lime-green-team-cart img-active 33">
+                    <div className="team-cart lime-green-team-cart img-active 33 d-grid">
                       <Link href="/rider-with-most-racing-days" className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                         {getBoxData(fixedApis.box3).error ? (
                           <ErrorMessage
@@ -206,7 +206,7 @@ const YearSection = ({ t }  ) => {
                                   </div>
 
                                   {rider?.racing_days && (
-                                    <h5>
+                                    <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                       <strong>{rider.racing_days} </strong> 
                                     {rider.racing_days > 1 ? t("common.days") : t("common.day")}
                                     </h5>
@@ -307,9 +307,9 @@ const YearSection = ({ t }  ) => {
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href="/team-with-most-rider-to-win-race" className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box6]) {
@@ -337,7 +337,7 @@ const YearSection = ({ t }  ) => {
                               </div>
 
                               {team?.numberOfWinningRiders && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{team.numberOfWinningRiders} </strong>
                                   {t("common.riders")}
                                 </h5>
@@ -424,9 +424,9 @@ const YearSection = ({ t }  ) => {
               </div>
 
               <div className="col-lg-3 col-md-6 sss">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href="/race-with-most-dnfs" className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4> {data?.[fixedApis.box9]?.message}</h4>
                     {getBoxData(fixedApis.box9).error ? (
                       <ErrorMessage
@@ -451,7 +451,7 @@ const YearSection = ({ t }  ) => {
                               </div>
 
                               {race?.count && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{race.count} </strong> dnfs
                                 </h5>
                               )}

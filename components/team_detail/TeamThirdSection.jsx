@@ -170,10 +170,10 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
             </div>
 
             <div className="col-lg-4 col-md-6">
-              <div className="team-cart">
+              <div className="team-cart d-grid">
                 <Link href={buildUrlWithParams("total-wins-per-year")} className="pabs" />
 
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
 
                   <h4 className="font-size-change">
                     {data?.[fixedApis.box2]?.message || "Total Wins per Year"}
@@ -194,7 +194,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                         </div>
 
 
-                        <h5 className="wins-big-count">
+                        <h5 className="wins-big-count flex-grow-1 d-flex flex-column justify-content-end">
                           <strong>{winsData.totalWins}</strong> {t("common.wins")}
                         </h5>
 
@@ -213,10 +213,10 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
             </div>
 
             <div className="col-lg-4 col-md-6">
-              <div className="team-cart lime-green-team-cart img-active team-cart-extra">
+              <div className="team-cart lime-green-team-cart img-active team-cart-extra d-grid">
                 <Link href={buildUrlWithParams("rider-with-most-uci-points")} className="pabs" />
 
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
 
                   <h4 className="font-size-change">
                     {data?.[fixedApis.box3]?.message || "Riders with most UCI points"}
@@ -247,7 +247,7 @@ const TeamThirdSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                         </div>
 
 
-                        <h5 className="teamcard-number">
+                        <h5 className="teamcard-number flex-grow-1 d-flex flex-column justify-content-end">
                           <strong>{rider?.total_uci_points}</strong> {t("common.points")}
                         </h5>
 

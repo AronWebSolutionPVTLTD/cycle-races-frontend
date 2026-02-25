@@ -203,9 +203,9 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
             </div>
 
             <div className="col-lg-3 col-md-6 12121">
-              <div className="team-cart">
+              <div className="team-cart d-grid">
                 <Link href={buildUrlWithParams("amount-of-riders")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4 >
                     {data?.[fixedApis.box3]?.message}
                   </h4>
@@ -229,7 +229,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
 
                     return (
                       <>
-                        <h5 className="teamcard-number">
+                        <h5 className="teamcard-number flex-grow-1 d-flex flex-column justify-content-end">
                           <strong>{totalRiders}</strong>{t("common.riders")}
                         </h5>
 
@@ -244,9 +244,9 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
             </div>
 
             <div className="col-lg-3 col-md-6">
-              <div className="team-cart team-cart-extra">
+              <div className="team-cart team-cart-extra d-grid">
                 <Link href={buildUrlWithParams("rider-with-most-classic-wins-in-team-history")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>
                     {data?.[fixedApis.box4]?.message}
                   </h4>
@@ -272,7 +272,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                           <h6>{rider?.riderName || rider?.rider_name || rider?.name || "..."}</h6>
                         </div>
                         {rider?.totalClassicWins && (
-                          <h5>
+                          <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                             <strong>{rider.totalClassicWins}</strong> {t("common.wins")}
                           </h5>
                         )}
@@ -357,9 +357,9 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
 
 
                 <div className="col-lg-7 col-md-6 ">
-                  <div className="team-cart lime-green-team-cart img-active">
+                  <div className="team-cart lime-green-team-cart img-active d-grid">
                     <Link href={buildUrlWithParams("amount-of-classic-wins")} className="pabs" />
-                    <div className="text-wraper">
+                    <div className="text-wraper d-flex flex-column">
                       <h4 className="font-size-change">{data?.[fixedApis.box6]?.message}</h4>
                       {(() => {
                         if (!data?.[fixedApis.box6]) {
@@ -382,7 +382,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                         return (
                           <>
 
-                            <h5 className="teamcard-number">
+                            <h5 className="teamcard-number flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{totalClassicWins}</strong>
                             </h5>
                             <Link href={buildUrlWithParams("amount-of-classic-wins")} className="white-circle-btn">
@@ -396,9 +396,9 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                 </div>
 
                 <div className="col-lg-7 col-md-6 ">
-                  <div className="team-cart">
+                  <div className="team-cart d-grid">
                     <Link href={buildUrlWithParams("grand-tour-wins")} className="pabs" />
-                    <div className="text-wraper">
+                    <div className="text-wraper d-flex flex-column">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box7]?.message}
                       </h4>
@@ -423,7 +423,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
 
                         return (
                           <>
-                            <h5 className="teamcard-number">
+                            <h5 className="teamcard-number flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{totalGrandTourWins}</strong>
                               {t("common.stages")}
                             </h5>
@@ -439,9 +439,9 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                 </div>
 
                 <div className="col-lg-5 col-md-6 ">
-                  <div className="team-cart">
+                  <div className="team-cart d-grid">
                     <Link href={buildUrlWithParams("current-uci-team-ranking")} className="pabs" />
-                    <div className="text-wraper">
+                    <div className="text-wraper d-flex flex-column">
                       <h4 >
                         {data?.[fixedApis.box8]?.message}
                       </h4>
@@ -471,7 +471,7 @@ const TeamFirstSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                             </div>
 
                             {currentRanking && (
-                              <h5>
+                              <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                 <strong>{currentRanking}</strong> {t("common.rank")}
                               </h5>
                             )}

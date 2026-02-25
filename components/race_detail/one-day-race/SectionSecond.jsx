@@ -108,9 +108,9 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
               <div className="col-lg-4 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
+                <div className="team-cart lime-green-team-cart img-active d-grid">
                   <Link href={buildUrlWithParams("most-wins-nationality")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">{data?.[fixedApis.box1]?.message}</h4>
                     {getBoxData(fixedApis.box1).error ? (
                       <ErrorMessage
@@ -130,7 +130,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.total_wins && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.total_wins} </strong> {t("common.times")}
                                 </h5> 
                               )}
@@ -292,11 +292,11 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
               </div>
 
               <div className="col-lg-7 box5 d-flex flex-row">
-                <div className="row">
+                <div className="row flex-grow-1">
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link href={buildUrlWithParams("last-time-rider-won-by-nationality")} className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4 className="font-size-change">{data?.[fixedApis.box6]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box6]) {
@@ -320,7 +320,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.year && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider?.year}</strong>
                                 </h5>
                               )}
@@ -341,9 +341,9 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                   </div>
 
                   <div className="col-lg-5 col-md-6 s">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link href={buildUrlWithParams("riders-with-most-top10")} className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4>{data?.[fixedApis.box7]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box7]) {
@@ -367,7 +367,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.top10_count && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.top10_count}</strong> {t("common.times")}
                                 </h5>
                               )}
@@ -388,9 +388,9 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                   </div>
 
                   <div className="col-lg-5 col-md-6 ds">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link href={buildUrlWithParams("rider-with-most-podium-finishes")} className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4>{data?.[fixedApis.box8]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box8]) {
@@ -413,7 +413,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.podium_count && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.podium_count}</strong>
                                   {t("common.times")}
                                 </h5>
@@ -435,9 +435,9 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                   </div>
 
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart lime-green-team-cart img-active">
+                    <div className="team-cart lime-green-team-cart img-active d-grid">
                       <Link href={buildUrlWithParams("youngest-rider-to-participate")} className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4 className="font-size-change">{data?.[fixedApis.box9]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box9]) {
@@ -460,7 +460,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.date_of_birth && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.date_of_birth}</strong>
                                 </h5>
                               )}
@@ -483,9 +483,9 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
               </div>
 
               <div className="col-lg-4 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("oldest-rider-to-participate")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">{data?.[fixedApis.box10]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box10]) {
@@ -506,7 +506,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
                           {rider?.date_of_birth && (
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{rider.date_of_birth}</strong> {t("common.year")}
                             </h5>
                           )}
@@ -555,9 +555,9 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("most-dnfs-by-nationality-one-day-race")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">{data?.[fixedApis.box4]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box4]) {
@@ -578,7 +578,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
                           {rider?.totalDNFs && (
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{rider.totalDNFs}</strong>
                               {t("common.times")}
                             </h5>

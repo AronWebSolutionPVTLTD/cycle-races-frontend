@@ -117,9 +117,9 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
         {!loading && !(error && Object.keys(data || {}).length === 0) && (
           <>
             <div className="col-lg-3 col-md-6">
-              <div className="team-cart lime-green-team-cart img-active team-cart-extra">
+              <div className="team-cart lime-green-team-cart img-active team-cart-extra d-grid">
                 <Link href={buildUrlWithParams("oldest-rider-under-contract")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>
                     {data?.[fixedApis.box1]?.message}
                   </h4>
@@ -145,7 +145,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                           <h6>{rider?.rider || rider?.rider_name || rider?.riderName || rider?.name || "..."}</h6>
                         </div>
                         {(rider?.age) && (
-                          <h5 className="teamcard-number">
+                          <h5 className="teamcard-number flex-grow-1 d-flex flex-column justify-content-end">
                             <strong>{rider.age}</strong> {t("common.years")}
                           </h5>
                         )}
@@ -224,9 +224,9 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
 
 
             <div className="col-lg-3 col-md-6">
-              <div className="team-cart team-cart-extra">
+              <div className="team-cart team-cart-extra d-grid">
                 <Link href={buildUrlWithParams("rider-longest-with-the-team")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>
                     {data?.[fixedApis.box3]?.message}
                   </h4>
@@ -253,7 +253,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                           <h6>{rider?.riderName || rider?.rider_name || rider?.name || "..."}</h6>
                         </div>
                         {rider?.yearsWithTeam && (
-                          <h5>
+                          <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                             <strong>{rider.yearsWithTeam}</strong> {t("common.years")}
                           </h5>
                         )}
@@ -380,9 +380,9 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
             <div className="col-lg-7 col-md-12 d-flex flex-column">
               <div className="row flex-grow-1">
                 <div className="col-lg-7 col-md-6 ">
-                  <div className="team-cart lime-green-team-cart img-active team-cart-extra">
+                  <div className="team-cart lime-green-team-cart img-active team-cart-extra d-grid">
                     <Link href={buildUrlWithParams("rider-with-most-races")} className="pabs" />
-                    <div className="text-wraper">
+                    <div className="text-wraper d-flex flex-column">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box6]?.message}
                       </h4>
@@ -410,7 +410,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                               <h6>{rider?.name || rider?.rider_name || rider?.riderName || "..."}</h6>
                             </div>
                             {rider?.total_races && (
-                              <h5 className="teamcard-number">
+                              <h5 className="teamcard-number flex-grow-1 d-flex flex-column justify-content-end">
                                 <strong>{rider.total_races}</strong> {t("common.race")}
                               </h5>
                             )}
@@ -432,9 +432,9 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                 </div>
 
                 <div className="col-lg-5 col-md-6">
-                  <div className="team-cart img-active team-cart-extra">
+                  <div className="team-cart img-active team-cart-extra d-grid">
                     <Link href={buildUrlWithParams("youngest-rider-under-contract")} className="pabs" />
-                    <div className="text-wraper">
+                    <div className="text-wraper d-flex flex-column">
                       <h4>
                         {data?.[fixedApis.box7]?.message}
                       </h4>
@@ -460,7 +460,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                               <h6>{rider?.name || rider?.rider_name || rider?.riderName || "..."}</h6>
                             </div>
                             {rider?.age && (
-                              <h5 className="teamcard-number">
+                              <h5 className="teamcard-number flex-grow-1 d-flex flex-column justify-content-end">
                                 <strong>{rider.age}</strong> {t("common.years")}
                               </h5>
                             )}
@@ -483,9 +483,9 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
 
 
                 <div className="col-lg-7 col-md-6">
-                  <div className="team-cart">
+                  <div className="team-cart d-grid">
                     <Link href={buildUrlWithParams("most-successful-race")} className="pabs" />
-                    <div className="text-wraper">
+                    <div className="text-wraper d-flex flex-column">
                       <h4 className="font-size-change">
                         {data?.[fixedApis.box8]?.message}
                       </h4>
@@ -510,7 +510,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
                               <h6>{mostSuccessfulRace?.race_name || "..."}</h6>
                             </div>
                             {mostSuccessfulRace?.total_wins && (
-                              <h5 className="teamcard-number">
+                              <h5 className="teamcard-number flex-grow-1 d-flex flex-column justify-content-end">
                                 <strong>{mostSuccessfulRace.total_wins}</strong> {t("common.wins")}
                               </h5>
                             )}
@@ -526,8 +526,8 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
 
 
                 <div className="col-lg-5 col-md-6">
-                  <div className="team-cart number_btm">
-                    <div className="text-wraper">
+                  <div className="team-cart number_btm d-grid">
+                    <div className="text-wraper d-flex flex-column">
                       <h4>
                         {data?.[fixedApis.box9]?.message}
                       </h4>
@@ -551,7 +551,7 @@ const TeamSecondSection = ({ teamId, teamName, teamSlug, filterYear, t }) => {
 
                         return (
                           <>
-                            <h5 className="fst-italic">
+                            <h5 className="fst-italic flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{totalNationalities}</strong>
                             </h5>
                             <Link href={buildUrlWithParams("different-nationalities")} className="green-circle-btn">

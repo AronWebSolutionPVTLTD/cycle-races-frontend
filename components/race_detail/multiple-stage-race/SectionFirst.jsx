@@ -169,14 +169,14 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
               </div>
 
               <div className="col-lg-7 box5 d-flex flex-row">
-                <div className="row">
+                <div className="row flex-grow-1">
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart lime-green-team-cart img-active">
+                    <div className="team-cart lime-green-team-cart img-active d-grid">
                       <Link
                         href={buildUrlWithParams("rider-most-stage-wins")}
                         className="pabs"
                       ></Link>
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4 className="font-size-change">{data?.[fixedApis.box2]?.message}</h4>
 
                         {(() => {
@@ -197,7 +197,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
                               </div>
 
                               {rider?.wins && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.wins}</strong> {t("common.times")}
                                 </h5>
                               )}
@@ -218,12 +218,12 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
                   </div>
 
                   <div className="col-lg-5 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link
                         href={buildUrlWithParams("most-wins-gc")}
                         className="pabs"
                       ></Link>
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4> {data?.[fixedApis.box3]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box3]) {
@@ -247,7 +247,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.wins && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.wins}</strong>
                                   {t("common.times")}
                                 </h5>
@@ -319,12 +319,12 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
                   </div>
 
                   <div className="col-lg-5 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link
                         href={buildUrlWithParams("rider-with-most-top10-gc")}
                         className="pabs"
                       ></Link>
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4>{data?.[fixedApis.box5]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box5]) {
@@ -350,7 +350,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
                                   {rider?.count && (
-                                    <h5>
+                                    <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                       <strong>{rider.count}</strong>
                                     </h5>
                                   )}
@@ -374,12 +374,12 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
                 </div>
               </div>
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link
                     href={buildUrlWithParams("rider-with-most-dnfs")}
                     className="pabs"
                   ></Link>
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box6]) {
@@ -405,7 +405,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.count && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.count}</strong> {t("common.dnf")}
                                 </h5>
                               )}
@@ -458,12 +458,12 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link
                     href={buildUrlWithParams("rider-with-most-gc-podiums")}
                     className="pabs"
                   ></Link>
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box8]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box8]) {
@@ -489,7 +489,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.podiums && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.podiums}</strong> {t("common.times")}
                                 </h5>
                               )}
@@ -512,12 +512,12 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
+                <div className="team-cart lime-green-team-cart img-active d-grid">
                   <Link
                     href={buildUrlWithParams("rider-with-most-starts")}
                     className="pabs"
                   ></Link>
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box9]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box9]) {
@@ -537,7 +537,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name, t }) => 
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
                           {rider?.count && (
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{rider.count}</strong>
                             </h5>
                           )}

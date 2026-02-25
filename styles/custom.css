@@ -2468,7 +2468,9 @@ section.home-sec4 ul.transparent-cart li h5 a {
     display: flex;
 }
 }
-
+.team-cart h5.large-digit strong {
+  font-size: 3rem;
+}
 @media ( max-width: 767px ){
   .win-count-wrapper {
     display: grid;
@@ -2490,5 +2492,12 @@ section.home-sec4 ul.transparent-cart li h5 a {
   }
   .winning-box {
     border-radius: 30px !important;
+}
+.team-cart{
+  min-height: 210px !important;
+}
+.team-cart h5{
+  top: unset;
+  bottom: 5.8rem;
 }
 }

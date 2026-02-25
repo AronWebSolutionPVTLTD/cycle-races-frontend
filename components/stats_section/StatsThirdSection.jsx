@@ -117,9 +117,9 @@ const StatsThirdSection = ({
               </div>
 
               <div className="col-lg-4 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("/stats/most-distance-raced")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">{data?.[fixedApis.box2]?.message}</h4>
                     {getBoxData(fixedApis.box2).error ? (
                       <ErrorMessage
@@ -142,7 +142,7 @@ const StatsThirdSection = ({
                                 <h6>{rider?.rider_key || "..."}</h6>
                               </div>
                               {rider?.total_distance != null && rider.total_distance !== 0 && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.total_distance}</strong> KM
                                 </h5>
                               )}
@@ -162,9 +162,9 @@ const StatsThirdSection = ({
               </div>
 
               <div className="col-lg-4 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("/stats/team-with-most-stage-podium-finishes")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                     {getBoxData(fixedApis.box3).error ? (
                       <ErrorMessage
@@ -187,7 +187,7 @@ const StatsThirdSection = ({
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
                               {rider?.count && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.count} </strong>
                                 </h5>
                               )}
@@ -209,9 +209,9 @@ const StatsThirdSection = ({
               <div className="col-lg-7 box5 d-flex flex-column">
                 <div className="row flex-grow-1">
                   <div className="col-lg-5 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link href={buildUrlWithParams("/stats/team-with-most-gc-wins")} className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4>{data?.[fixedApis.box5]?.message}</h4>
                         {getBoxData(fixedApis.box5).error ? (
                           <ErrorMessage
@@ -234,7 +234,7 @@ const StatsThirdSection = ({
                                     <h6>{rider?.team_name || "..."}</h6>
                                   </div>
                                   {rider?.count && (
-                                    <h5>
+                                    <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                       <strong>{rider.count} </strong> {t("common.wins")}
                                     </h5>
                                   )}
@@ -254,9 +254,9 @@ const StatsThirdSection = ({
                   </div>
 
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link href={buildUrlWithParams("/stats/longest-races")} className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4 className="font-size-change">{data?.[fixedApis.box8]?.message}</h4>
                         {getBoxData(fixedApis.box8).error ? (
                           <ErrorMessage
@@ -279,7 +279,7 @@ const StatsThirdSection = ({
                                     <h6>{rider?.race || "..."}</h6>
                                   </div>
                                   {rider?.distance && (
-                                    <h5>
+                                    <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                       <strong>{rider.distance} </strong>
                                       {t("common.km")}
                                     </h5>
@@ -385,8 +385,8 @@ const StatsThirdSection = ({
                               </li>
                             ))}
                         </ul>
-
-                        <div className="image_link-wraper">
+                      </div>
+                      <div className="image_link-wraper">
                           <img
                             src={firstImage}
                             alt=""
@@ -401,7 +401,6 @@ const StatsThirdSection = ({
                             </Link>
                           </div>
                         </div>
-                      </div>
                     </>
                     )
                   })()}

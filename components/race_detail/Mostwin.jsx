@@ -89,19 +89,27 @@ const RaceMostWin = ({
                       ))
                   )}
                 </div>
-                {!getBoxData(apiOptions.box1).error && (
-                  (Array.isArray(getBoxData(apiOptions.box1).data)
-                    ? getBoxData(apiOptions.box1).data
-                    : []
-                  )
-                    .slice(0, 1)
-                    .map((rider, index) => (
-                      <div key={`count-${index}`} className="win-count">
-                        {rider.wins && <span>{rider.wins}</span>}
+                <div className="win-count-wrapper">
+                  {!getBoxData(apiOptions.box1).error && (
+                    (Array.isArray(getBoxData(apiOptions.box1).data)
+                      ? getBoxData(apiOptions.box1).data
+                      : []
+                    )
+                      .slice(0, 1)
+                      .map((rider, index) => (
+                        <>
+                          <div key={`count-${index}`} className="win-count">
+                            {rider.wins && <span>{rider.wins}</span>}
+                          </div>
+                          <div className="win-image">
+                            <img key={`img-${index}`} src={rider?.image_url || "/images/rider_avatar.png"} alt={rider?.rider_name || "Win"} />
+                          </div>
+                        </>
+                      ))
+                  )}
 
-                      </div>
-                    ))
-                )}
+                </div>
+
               </div>
             </div>
           )}

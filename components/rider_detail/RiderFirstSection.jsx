@@ -209,9 +209,9 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
             </div>
 
             <div className="col-lg-3 col-md-6">
-              <div className="team-cart lime-green-team-cart img-active">
+              <div className="team-cart lime-green-team-cart img-active d-grid">
                 <Link href={buildUrlWithParams("current-uci-ranking")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>{data?.[fixedApis.box2]?.message}</h4>
                   {(() => {
                     const response = data?.[fixedApis.box2];
@@ -239,7 +239,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
 
                         </div>
                         {riderData?.rank && (
-                          <h5>
+                          <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                             <strong>{riderData.rank}</strong> {t("common.rank")}
                           </h5>
                         )}
@@ -314,8 +314,8 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
 
 
 
-            <div className="col-lg-7 box5 sss">
-              <div className="row">
+            <div className="col-lg-7 box5 d-flex flex-row">
+              <div className="row flex-grow-1">
                 <div className="col-lg-4 col-md-6 12121">
                   <div className="team-cart d-grid">
                     <Link href={buildUrlWithParams("wins-in-one-day-races")} className="pabs" />
@@ -360,9 +360,9 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
 
 
                 <div className="col-lg-4 col-md-6 qq">
-                  <div className="team-cart">
+                  <div className="team-cart d-grid">
                     <Link href={buildUrlWithParams("professional-since")} className="pabs" />
-                    <div className="text-wraper">
+                    <div className="text-wraper d-flex flex-column">
                       <h4>
                         {data?.[fixedApis.box6]?.message}
                       </h4>
@@ -391,7 +391,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
                               )}
                             </div>
                             {riderData?.career_duration_years && (
-                              <h5>
+                              <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                 <strong>
                                   {riderData.career_duration_years}{" "}
                                 </strong>
@@ -409,9 +409,9 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-6 www">
-                  <div className="team-cart">
+                  <div className="team-cart d-grid">
                     <Link href={buildUrlWithParams("current-team")} className="pabs" />
-                    <div className="text-wraper">
+                    <div className="text-wraper d-flex flex-column">
                       <h4>{data?.[fixedApis.box3]?.message}</h4>
                       {(() => {
                         if (!data?.[fixedApis.box3]) {
@@ -434,7 +434,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
                               <h6>{firstRider?.teamName || "..."}</h6>
                             </div>
                             {firstRider?.yearsInTeam && (
-                              <h5>
+                              <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                 <strong>{firstRider.yearsInTeam} </strong>{t("common.year")}
                               </h5>
                             )}
@@ -484,9 +484,9 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
                 </div>
 
                 <div className="col-lg-5 col-md-6">
-                  <div className="team-cart">
+                  <div className="team-cart d-grid">
                     <Link href={buildUrlWithParams("time-since-last-win")} className="pabs" />
-                    <div className="text-wraper">
+                    <div className="text-wraper d-flex flex-column">
                       <h4>
                         {data?.[fixedApis.box8]?.message}
                       </h4>
@@ -512,7 +512,7 @@ const RiderFirstSection = ({ riderId, filterYear, imageUrl, t }) => {
                               <h6>{firstRider?.race || "..."}</h6>
                             </div>
                             {firstRider?.days_since_last_win && (
-                              <h5>
+                              <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                 <strong>
                                   {firstRider.days_since_last_win}{" "}
                                 </strong>

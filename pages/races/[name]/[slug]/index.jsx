@@ -341,8 +341,8 @@ export default function DynamicSlugPage({ year, raceName }) {
           className="empty-state ctm-empty-state"
           style={{ textAlign: "center", padding: "20px" }}
         >
-          No data found for this category.
-        </li>
+          {t("common.unable_to_load_statistics")}
+          </li>
       );
     }
     const config = getSlugConfig(slug);
