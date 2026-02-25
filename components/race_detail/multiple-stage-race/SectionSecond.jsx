@@ -106,16 +106,16 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
               <div className="col-lg-7 box5 d-flex flex-row">
-                <div className="row">
+                <div className="row flex-grow-1">
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link
                         href={buildUrlWithParams(
                           "last-time-rider-won"
                         )}
                         className="pabs"
                       ></Link>
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4 className="font-size-change">{data?.[fixedApis.box1]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box1]) {
@@ -139,7 +139,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.year && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.year} </strong>
                                 </h5>
                               )}
@@ -165,14 +165,14 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                   </div>
 
                   <div className="col-lg-5 col-md-6">
-                    <div className="team-cart lime-green-team-cart img-active">
+                    <div className="team-cart lime-green-team-cart img-active d-grid">
                       <Link
                         href={buildUrlWithParams(
                           "most-stage-wins-by-nationality"
                         )}
                         className="pabs"
                       ></Link>
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4>{data?.[fixedApis.box2]?.message}</h4>
                         {getBoxData(fixedApis.box2).error ? (
                           <ErrorMessage
@@ -194,7 +194,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                                   </div>
 
                                   {rider?.total_wins && (
-                                    <h5>
+                                    <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                       <strong>{rider.total_wins} </strong> {t("common.times")}
                                     </h5>
                                   )}
@@ -269,12 +269,12 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                   </div>
 
                   <div className="col-lg-5 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link
                         href={buildUrlWithParams("rider-with-most-dnf-by-nationality")}
                         className="pabs"
                       ></Link>
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4>{data?.[fixedApis.box4]?.message}</h4>
                         {(() => {
                           const response = data[fixedApis.box4];
@@ -294,7 +294,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.totalDNFs && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.totalDNFs}</strong>
                                   {t("common.dnf")}
                                 </h5>
@@ -404,14 +404,14 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link
                     href={buildUrlWithParams(
                       "riders-to-reach-the-podium"
                     )}
                     className="pabs"
                   ></Link>
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {(() => {
                       const response = data[fixedApis.box6];
@@ -428,7 +428,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
                           {rider?.podium_count && (
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{rider.podium_count}</strong>
                               {t("common.times")}
                             </h5>
@@ -455,14 +455,14 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
+                <div className="team-cart lime-green-team-cart img-active d-grid">
                   <Link
                     href={buildUrlWithParams(
                       "youngest-participant-by-nationality"
                     )}
                     className="pabs"
                   ></Link>
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
                       <ErrorMessage
@@ -486,7 +486,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                               </div>
 
                               {rider?.age && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.age} </strong> {t("common.year")}
                                 </h5>
                               )}
@@ -545,14 +545,14 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
 
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link
                     href={buildUrlWithParams(
                       "oldest-participant-by-nationality"
                     )}
                     className="pabs"
                   ></Link>
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box9]?.message}</h4>
                     {getBoxData(fixedApis.box9).error ? (
                       <ErrorMessage
@@ -576,7 +576,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                               </div>
 
                               {rider?.age && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.age} </strong> {t("common.year")}
                                 </h5>
                               )}

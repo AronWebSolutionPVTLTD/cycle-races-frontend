@@ -249,8 +249,8 @@ export default function DynamicSlugPage() {
           className="empty-state ctm-empty-state"
           style={{ textAlign: "center", padding: "20px" }}
         >
-          No data found for this category.
-        </div>
+          {t("common.unable_to_load_statistics")}
+          </div>
       );
     }
 

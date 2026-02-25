@@ -75,9 +75,9 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
               <div className="col-lg-4 col-md-6 ">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("/stats/most-second-places")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">
                       {data?.[fixedApis.box1]?.message}
                     </h4>
@@ -102,7 +102,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                               </div>
 
                               {rider?.second_place_count && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.second_place_count} </strong>{" "}
                                   {t("common.times")}
                                 </h5>
@@ -129,9 +129,9 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               </div>
 
               <div className="col-lg-4 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
+                <div className="team-cart lime-green-team-cart img-active d-grid">
                   <Link href={buildUrlWithParams("/stats/team-with-most-nationalities")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">{data?.[fixedApis.box2]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box2]) {
@@ -155,7 +155,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                               </div>
 
                               {team?.win && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{team.win} </strong>
                                 </h5>
                               )}
@@ -176,9 +176,9 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               </div>
 
               <div className="col-lg-4 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("/stats/youngest-riders-with-most-wins")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">{data?.[fixedApis.box3]?.message}</h4>
                     {getBoxData(fixedApis.box3).error ? (
                       <ErrorMessage
@@ -201,7 +201,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                               </div>
 
                               {rider?.wins && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.wins} </strong> {t("common.wins")}
                                 </h5>
                               )}
@@ -266,9 +266,9 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("/stats/most-mountain-wins")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box5]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box5]) {
@@ -292,7 +292,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                               </div>
 
                               {rider?.totalKOMTitles && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.totalKOMTitles} </strong> {t("common.wins")}
                                 </h5>
                               )}
@@ -318,9 +318,9 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("/stats/shortest-races")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {getBoxData(fixedApis.box6).error ? (
                       <ErrorMessage
@@ -346,7 +346,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                               </div>
 
                               {race?.distance && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{race.distance} </strong> {t("common.km")}
                                 </h5>
                               )}
@@ -371,9 +371,9 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
+                <div className="team-cart lime-green-team-cart img-active d-grid">
                   <Link href={buildUrlWithParams("/stats/lightest-riders")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
                       <ErrorMessage
@@ -394,7 +394,7 @@ const StatsData = ({ selectedNationality, selectedTeam, selectedYear }) => {
                               </div>
 
                               {rider?.weight && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.weight}</strong> {t("common.kg")}
                                 </h5> 
                               )}

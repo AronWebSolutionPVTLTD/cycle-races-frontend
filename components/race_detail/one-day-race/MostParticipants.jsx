@@ -81,24 +81,28 @@ const Mostparticipants = ({ selectedYear = null, selectedNationality = null, nam
                     ));
                   })()}
                 </div>
+                <div className="win-count-wrapper">
+                  {(() => {
+                    const response = data[apiOptions.box1];
+                    const riderData = response?.data?.rider_participation;
+                    return riderData
+                      .slice(0, 1)
+                      .map((rider, index) => (
+                        <>
+                          <div className="win-count">
+                            {rider?.participations && (
+                              <span>{rider.participations}</span>
+                            )}
+                          </div>
+                          <div className="win-image">
+                            <img key={`img-${index}`} src={rider?.image_url || "/images/rider_avatar.png"} alt={rider?.rider_name || "Win"} />
+                          </div>
+                        </>
+                      ));
 
-                {(() => {
-                  if (!data?.[apiOptions.box1]) {
-                    return <ErrorMessage errorType="no_data" />;
-                  }
+                  })()}
 
-                  const response = data[apiOptions.box1];
-                  const riderData = response?.data?.rider_participation;
-                  return riderData
-                    .slice(0, 1)
-                    .map((rider, index) => (
-                      <div className="win-count">
-                        {rider?.participations && (
-                          <span>{rider.participations}</span>
-                        )}
-                      </div>
-                    ));
-                })()}
+                </div>
               </div>
             </div>
           )}

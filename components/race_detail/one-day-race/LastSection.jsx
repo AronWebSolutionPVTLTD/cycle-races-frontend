@@ -98,12 +98,12 @@ export const LastSection = ({
           {!loading && !(error && Object.keys(data || {}).length === 0) && (
             <>
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link
                     href={buildUrlWithParams("rider-with-most-dnf")}
                     className="pabs"
                   />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box1]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box1]) {
@@ -124,7 +124,7 @@ export const LastSection = ({
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
                           {rider?.dnf_count && (
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{rider.dnf_count}</strong>{t("common.dnf")}
                             </h5>
                           )}
@@ -148,12 +148,12 @@ export const LastSection = ({
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link
                     href={buildUrlWithParams("rider-with-most-finishes")}
                     className="pabs"
                   />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box2]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box2]) {
@@ -179,7 +179,7 @@ export const LastSection = ({
                             </h6>
                           </div>
                           {rider?.finish_count && (
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{rider.finish_count}</strong>{t("common.times")}
                             </h5>
                           )}
@@ -205,14 +205,14 @@ export const LastSection = ({
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link
                     href={buildUrlWithParams(
                       "rider-with-most-consecutive-wins"
                     )}
                     className="pabs"
                   />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box3]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box3]) {
@@ -233,7 +233,7 @@ export const LastSection = ({
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
                           {rider?.streak && (
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{rider.streak}</strong>{t("common.times")}
                             </h5>
                           )}
@@ -253,12 +253,12 @@ export const LastSection = ({
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
+                <div className="team-cart lime-green-team-cart img-active d-grid">
                   <Link
                     href={buildUrlWithParams("longest-race-edition")}
                     className="pabs"
                   />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box4]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box4]) {
@@ -278,7 +278,7 @@ export const LastSection = ({
                             <h6>{rider?.subtitle || "..."}</h6>
                           </div>
                           {rider?.distance_km && (
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{rider.distance_km}</strong>{t("common.km")}
                             </h5>
                           )}
@@ -296,14 +296,14 @@ export const LastSection = ({
               </div>
 
               <div className="col-lg-7 box5 d-flex flex-row">
-                <div className="row">
+                <div className="row flex-grow-1">
                   <div className="col-lg-5 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link
                         href={buildUrlWithParams("edition-with-most-dnfs")}
                         className="pabs"
                       />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4>{data?.[fixedApis.box5]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box5]) {
@@ -338,7 +338,7 @@ export const LastSection = ({
                                 </div>
 
                                 {rider?.dnf_count && (
-                                  <h5>
+                                  <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                     <strong>{rider.dnf_count}</strong> {t("common.dnf")}
                                   </h5>
                                 )}
@@ -358,12 +358,12 @@ export const LastSection = ({
                   </div>
 
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart lime-green-team-cart img-active">
+                    <div className="team-cart lime-green-team-cart img-active d-grid">
                       <Link
                         href={buildUrlWithParams("country-with-most-wins")}
                         className="pabs"
                       />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4 className="font-size-change">{data?.[fixedApis.box6]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box6]) {
@@ -387,7 +387,7 @@ export const LastSection = ({
                                 <h6>{rider?.most_wins_country || "..."}</h6>
                               </div>
                               {rider?.wins && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.wins}</strong> {t("common.times")}
                                 </h5>
                               )}
@@ -413,14 +413,14 @@ export const LastSection = ({
                   </div>
 
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link
                         href={buildUrlWithParams(
                           "most-successful-team-in-race"
                         )}
                         className="pabs"
                       />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4 className="font-size-change">{data?.[fixedApis.box7]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box7]) {
@@ -444,7 +444,7 @@ export const LastSection = ({
                                 <h6>{rider?.team_name || "..."}</h6>
                               </div>
                               {rider?.wins && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.wins}</strong> {t("common.wins")}
                                 </h5>
                               )}
@@ -464,12 +464,12 @@ export const LastSection = ({
                   </div>
 
                   <div className="col-lg-5 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link
                         href={buildUrlWithParams("oldest-top10-rider")}
                         className="pabs"
                       />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4>{data?.[fixedApis.box8]?.message}</h4>
                         {(() => {
                           if (!data?.[fixedApis.box8]) {
@@ -493,7 +493,7 @@ export const LastSection = ({
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.rank && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.rank}</strong>{t("common.rank")}
                                 </h5>
                               )}
@@ -580,7 +580,7 @@ export const LastSection = ({
                   })()}
                 </div>
               </div>
-
+{/* 
               <div className="col-lg-4 col-md-6">
                 <div className="list-white-cart">
                   <Link
@@ -620,15 +620,15 @@ export const LastSection = ({
                     </>
                   )}
                 </div>
-              </div>
+              </div> */}
 
-              <div className="col-lg-4 col-md-6">
-                <div className="team-cart">
+              <div className="col-lg-6 col-md-6">
+                <div className="team-cart d-grid">
                   <Link
                     href={buildUrlWithParams("youngest-top10-rider")}
                     className="pabs"
                   />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">{data?.[fixedApis.box11]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box11]) {
@@ -648,7 +648,7 @@ export const LastSection = ({
                             <h6>{rider?.rider_name || "..."}</h6>
                           </div>
                           {rider?.rank && (
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{rider.rank}</strong> {t("common.rank")}
                             </h5>
                           )}
@@ -665,13 +665,13 @@ export const LastSection = ({
                 </div>
               </div>
 
-              <div className="col-lg-4 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
+              <div className="col-lg-6 col-md-6">
+                <div className="team-cart lime-green-team-cart img-active d-grid">
                   <Link
                     href={buildUrlWithParams("last-winner-from-country")}
                     className="pabs"
                   />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">{data?.[fixedApis.box12]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box12]) {
@@ -691,7 +691,7 @@ export const LastSection = ({
                             <h6>{rider?.winner_name || "..."}</h6>
                           </div>
                           {rider?.year && (
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{rider?.year}</strong>
                             </h5>
                           )}

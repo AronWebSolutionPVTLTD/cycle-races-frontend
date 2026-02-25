@@ -516,7 +516,7 @@ export default function Results({ initialYear, metaDescription }) {
           </div>
         </section>
 
-        <section className="home-banner result-sec1">
+        <section className="home-banner result-sec1 mt-md-0 mt-4">
           <div className="container">
             <div className="row">
               <div className="col-lg-12 filter---wrap">

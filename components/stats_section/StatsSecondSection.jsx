@@ -156,11 +156,11 @@ const StatsSecondSection = ({
               <div className="col-lg-7 box5 d-flex flex-column">
                 <div className="row flex-grow-1">
                   <div className="col-lg-12 col-md-12">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link href={buildUrlWithParams(
                         "/stats/best-classics-rider"
                       )} className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4 className="font-size-change">{data?.[fixedApis.box4]?.message}</h4>
                         {getBoxData(fixedApis.box4).error ? (
                           <ErrorMessage
@@ -183,7 +183,7 @@ const StatsSecondSection = ({
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
                                   {rider?.wins && (
-                                    <h5>
+                                    <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                       <strong>{rider.wins} </strong> {t("common.wins")}
                                     </h5>
                                   )}
@@ -205,11 +205,11 @@ const StatsSecondSection = ({
                   </div>
 
                   <div className="col-lg-5 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link href={buildUrlWithParams(
                         "/stats/most-podiums-in-gc"
                       )} className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4>{data?.[fixedApis.box2]?.message}</h4>
                         {getBoxData(fixedApis.box2).error ? (
                           <ErrorMessage
@@ -229,7 +229,7 @@ const StatsSecondSection = ({
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
                                   {rider?.count && (
-                                    <h5>
+                                    <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                       <strong>{rider.count} </strong>
                                     </h5>
                                   )}
@@ -251,9 +251,9 @@ const StatsSecondSection = ({
                   </div>
 
                   <div className="col-lg-7 col-md-6">
-                    <div className="team-cart">
+                    <div className="team-cart d-grid">
                       <Link href={buildUrlWithParams("/stats/oldest-rider-in-races")} className="pabs" />
-                      <div className="text-wraper">
+                      <div className="text-wraper d-flex flex-column">
                         <h4 className="font-size-change">{data?.[fixedApis.box5]?.message}</h4>
                         {getBoxData(fixedApis.box5).error ? (
                           <ErrorMessage
@@ -273,7 +273,7 @@ const StatsSecondSection = ({
                                     <h6>{rider?.rider_name || "..."}</h6>
                                   </div>
                                   {rider?.age && (
-                                    <h5>
+                                    <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                       <strong>{rider.age} </strong> {t("common.year")}
                                     </h5>
                                   )}
@@ -295,9 +295,9 @@ const StatsSecondSection = ({
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("/stats/youngest-riders-in-races")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box6]?.message}</h4>
                     {getBoxData(fixedApis.box6).error ? (
                       <ErrorMessage
@@ -317,7 +317,7 @@ const StatsSecondSection = ({
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.age && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.age} </strong> {t("common.year")}
                                 </h5>
                               )}
@@ -337,9 +337,9 @@ const StatsSecondSection = ({
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
+                <div className="team-cart lime-green-team-cart img-active d-grid">
                   <Link href={buildUrlWithParams("/stats/oldest-riders-with-most-wins")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box7]?.message}</h4>
                     {getBoxData(fixedApis.box7).error ? (
                       <ErrorMessage
@@ -359,7 +359,7 @@ const StatsSecondSection = ({
                                 <h6>{rider?.rider_name || "..."}</h6>
                               </div>
                               {rider?.wins && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.wins} </strong> {t("common.wins")}
                                 </h5>
                               )}
@@ -379,11 +379,11 @@ const StatsSecondSection = ({
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
+                <div className="team-cart lime-green-team-cart img-active d-grid">
                   <Link href={buildUrlWithParams(
                     "/stats/youngest-riders-with-most-wins"
                   )} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box8]?.message}</h4>
                     {getBoxData(fixedApis.box8).error ? (
                       <ErrorMessage
@@ -404,7 +404,7 @@ const StatsSecondSection = ({
                               </div>
 
                               {rider?.wins && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.wins}</strong> {t("common.wins")}
                                 </h5>
                               )}
@@ -426,11 +426,11 @@ const StatsSecondSection = ({
               </div>
 
               <div className="col-lg-3 col-md-6">
-                <div className="team-cart lime-green-team-cart img-active">
+                <div className="team-cart lime-green-team-cart img-active d-grid">
                   <Link href={buildUrlWithParams(
                     "/stats/heaviest-rider"
                   )} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4>{data?.[fixedApis.box9]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box9]) {
@@ -454,7 +454,7 @@ const StatsSecondSection = ({
                               </div>
 
                               {rider?.weight && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.weight}</strong> {t("common.kg")}
                                 </h5>
                               )}
@@ -516,9 +516,9 @@ const StatsSecondSection = ({
               </div>
 
               <div className="col-lg-4   col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid">
                   <Link href={buildUrlWithParams("/stats/teams-with-most-dnf")} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">{data?.[fixedApis.box12]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box12]) {
@@ -539,7 +539,7 @@ const StatsSecondSection = ({
                             <h6>{rider?.team_name || "..."}</h6>
                           </div>
                           {rider?.dnfCount && (
-                            <h5>
+                            <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                               <strong>{rider.dnfCount}</strong> {t("common.dnf")}
                             </h5>
                           )}
@@ -557,11 +557,11 @@ const StatsSecondSection = ({
               </div>
 
               <div className="col-lg-4 col-md-6">
-                <div className="team-cart">
+                <div className="team-cart d-grid ss">
                   <Link href={buildUrlWithParams(
                     "/stats/team-with-most-consecutive-wins"
                   )} className="pabs" />
-                  <div className="text-wraper">
+                  <div className="text-wraper d-flex flex-column">
                     <h4 className="font-size-change">{data?.[fixedApis.box13]?.message}</h4>
                     {(() => {
                       if (!data?.[fixedApis.box13]) {
@@ -589,7 +589,7 @@ const StatsSecondSection = ({
                                 </h5>
                               )}
                               {rider?.maxConsecutiveWins && (
-                                <h5>
+                                <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                                   <strong>{rider.maxConsecutiveWins}</strong>
                                   {t("common.wins")}
                                 </h5>

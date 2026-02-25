@@ -168,10 +168,10 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
             </div>
 
             <div className="col-lg-4 col-md-6 22">
-              <div className="team-cart lime-green-team-cart img-active">
+              <div className="team-cart lime-green-team-cart img-active d-grid">
                 <Link href={buildUrlWithParams("rider-last-victory")} className="pabs" />
                 <a href="#?" className="pabs"></a>
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4 className="font-size-change">{data?.[fixedApis.box2]?.message}</h4>
                   {(() => {
                     if (!data?.[fixedApis.box2]) {
@@ -195,7 +195,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
                           <h6>{firstRider?.race || "..."}</h6>
                         </div>
                         {firstRider?.year && (
-                          <h5>
+                          <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                             <strong>{firstRider.year} </strong>
                           </h5>
                         )}
@@ -210,10 +210,10 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
             </div>
 
             <div className="col-lg-4 col-md-6 33">
-              <div className="team-cart">
+              <div className="team-cart d-grid">
                 <Link href={buildUrlWithParams("rider-most-raced-countries")} className="pabs" />
                 <a href="#?" className="pabs"></a>
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4 className="font-size-change">
                     {data?.[fixedApis.box3]?.message}
                   </h4>
@@ -238,7 +238,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
                         </div>
 
                         {firstRider?.races_count && (
-                          <h5>
+                          <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                             <strong>{firstRider.races_count} </strong>
                             {t("common.race_days")}
                           </h5>
@@ -255,9 +255,9 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
             </div>
 
             <div className="col-lg-3 col-md-6 a">
-              <div className="team-cart">
+              <div className="team-cart d-grid">
                 <Link href={buildUrlWithParams("best-stage-results")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>{data?.[fixedApis.box4]?.message}</h4>
                   {(() => {
                     if (!data?.[fixedApis.box4]) {
@@ -283,7 +283,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
                           </h6>
                         </div>
                         {firstRider?.best_stage_rank && (
-                          <h5>
+                          <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                             <strong>{firstRider.best_stage_rank} </strong>
                           </h5>
                         )}
@@ -299,9 +299,9 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
             </div>
 
             <div className="col-lg-3 col-md-6 b">
-              <div className="team-cart">
+              <div className="team-cart d-grid">
                 <Link href={buildUrlWithParams("grand-tour-dnfs")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>
                     {data?.[fixedApis.box5]?.message}
                   </h4>
@@ -324,7 +324,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
 
                     return (
                       <>
-                        <h5>
+                        <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                           <strong>{dnfCount}</strong>{t("common.dnf")}
                         </h5>
 
@@ -363,7 +363,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
-                              <Link href={`/races/${rider?.raceSlug}`} className="pabs" />
+                              <Link href={`/race-result/${rider?.raceSlug}`} className="pabs" />
                               {renderFlag(rider?.country_code)}
                               <h6>
                                 {rider?.race || "..."} {rider?.tab_name !== null && `Stage ${rider?.stage_number}`}
@@ -383,9 +383,9 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
             </div>
 
             <div className="col-lg-3 col-md-6 d">
-              <div className="team-cart lime-green-team-cart img-active">
+              <div className="team-cart lime-green-team-cart img-active d-grid">
                 <Link href={buildUrlWithParams("first-grand-tour-win")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>
                     {data?.[fixedApis.box7]?.message}
                   </h4>
@@ -411,7 +411,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
                           <h6>{firstRider?.race_name || "..."}</h6>
                         </div>
                         {firstRider?.year && (
-                          <h5>
+                          <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                             <strong>{firstRider.year} </strong>
                           </h5>
                         )}
@@ -427,9 +427,9 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
             </div>
 
             <div className="col-lg-4 col-md-6 e">
-              <div className="team-cart lime-green-team-cart img-active">
+              <div className="team-cart lime-green-team-cart img-active d-grid">
                 <Link href={buildUrlWithParams("total-grand-tour-racing-days")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>
                     {data?.[fixedApis.box8]?.message}
                   </h4>
@@ -447,7 +447,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
 
                     return (
                       <>
-                        <h5>
+                        <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                           <strong>{riderData?.total_racing_days ?? 0}</strong>
                           {riderData?.total_racing_days > 1 ? t("common.days") : t("common.day")}
                         </h5>
@@ -520,7 +520,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
-                              <Link href={`/races/${rider?.raceSlug}`} className="pabs" />
+                              <Link href={`/race-result/${rider?.raceSlug}`} className="pabs" />
                               {renderFlag(rider?.country)}
                               <h6>
                                 {rider?.race || "..."}
@@ -622,9 +622,9 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
             </div>
 
             <div className="col-lg-3 col-md-6 i">
-              <div className="team-cart lime-green-team-cart img-active">
+              <div className="team-cart lime-green-team-cart img-active d-grid">
                 <Link href={buildUrlWithParams("best-gc-result-in-grand-tour")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>{data?.[fixedApis.box13]?.message}</h4>
                   {(() => {
                     if (!data?.[fixedApis.box13]) {
@@ -651,7 +651,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
                           </h6>
                         </div>
                         {firstRider?.gcRank && (
-                          <h5>
+                          <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                             <strong>{firstRider.gcRank} </strong>
                             {t("common.rank")}
                           </h5>
@@ -668,9 +668,9 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
             </div>
 
             <div className="col-lg-3 col-md-6 j">
-              <div className="team-cart">
+              <div className="team-cart d-grid">
                 <Link href={buildUrlWithParams("most-frequent-teammate")} className="pabs" />
-                <div className="text-wraper">
+                <div className="text-wraper d-flex flex-column">
                   <h4>
                     {data?.[fixedApis.box14]?.message}
                   </h4>
@@ -695,7 +695,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
                           <h6>{firstRider?.top_teammate || "..."}</h6>
                         </div>
                         {firstRider?.number_of_race && (
-                          <h5>
+                          <h5 className="flex-grow-1 d-flex flex-column justify-content-end">
                             <strong>{firstRider.number_of_race} </strong>{t("common.race_days")}
                           </h5>
                         )}
@@ -730,7 +730,7 @@ const RiderThirdSection = ({ riderId, filterYear, imageUrl, t }) => {
                           <li key={index}>
                             <strong>{index + 1}</strong>
                             <div className="name-wraper name-wraper-white">
-                              <Link href={`/races/${rider?.raceSlug}`} className="pabs" />
+                              <Link href={`/race-result/${rider?.raceSlug}`} className="pabs" />
                               {renderFlag(rider?.country)}
                               <h6>
                                 {rider?.race || "..."}{" "}
