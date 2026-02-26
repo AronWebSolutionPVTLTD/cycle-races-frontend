@@ -70,14 +70,14 @@ const Mostparticipants = ({ selectedYear = null, selectedNationality = null, nam
                       return <ErrorMessage errorType="no_data_found" />;
                     }
                     return riderData.slice(0, 1).map((rider, index) => (
-                      <>
+                      <React.Fragment key={index}>
                         <div>
                           <div className="most-win">
                             {renderFlag(rider?.rider_country)}
                             <h4>{rider?.rider_name}</h4>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     ));
                   })()}
                 </div>
@@ -88,7 +88,7 @@ const Mostparticipants = ({ selectedYear = null, selectedNationality = null, nam
                     return riderData
                       .slice(0, 1)
                       .map((rider, index) => (
-                        <>
+                        <React.Fragment key={index}>
                           <div className="win-count">
                             {rider?.participations && (
                               <span>{rider.participations}</span>
@@ -97,7 +97,7 @@ const Mostparticipants = ({ selectedYear = null, selectedNationality = null, nam
                           <div className="win-image">
                             <img key={`img-${index}`} src={rider?.image_url || "/images/rider_avatar.png"} alt={rider?.rider_name || "Win"} />
                           </div>
-                        </>
+                        </React.Fragment>
                       ));
 
                   })()}

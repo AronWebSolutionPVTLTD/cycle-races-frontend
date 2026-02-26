@@ -175,11 +175,11 @@ export default function DynamicSlugPage() {
         }
         setError(null);
       } else {
-        setError("No data found for this category");
+        setError(t("common.no_data_found"));
       }
     } catch (err) {
       console.error("Error fetching slug data:", err);
-      setError("Failed to load data for this category");
+      setError(t("common.no_data_found"));
     } finally {
       setLoading(false);
     }
@@ -220,7 +220,7 @@ export default function DynamicSlugPage() {
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red", fontSize: "16px", fontWeight: "600" }}
         >
-          Error: {error}
+        {error}
         </li>
       );
     }

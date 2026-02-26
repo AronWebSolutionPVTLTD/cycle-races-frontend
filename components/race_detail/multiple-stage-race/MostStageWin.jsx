@@ -80,14 +80,14 @@ const MostStageWins = ({
                 <div className="win-count-wrapper">
                   {!boxData.error &&
                     boxData.data.slice(0, 1).map((rider, index) => (
-                      <>
+                      <React.Fragment key={index}>
                         <div key={`count-${index}`} className="win-count">
                           {rider.wins && <span>{rider.wins}</span>}
                         </div>
                         <div className="win-image">
                           <img key={`img-${index}`} src={rider?.image_url || "/images/rider_avatar.png"} alt={rider?.rider_name || "Win Image"} />
                         </div>
-                      </>
+                      </React.Fragment>
                     ))}
                 </div>
               </div>

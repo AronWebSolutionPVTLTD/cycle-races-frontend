@@ -29,7 +29,7 @@ return (
                   <div className="text-wraper d-flex flex-column justify-content-between flex-grow-1">
                     {(() => {
                       if (!data?.[fixedApis.box1]) {
-                        return <ErrorMessage errorType="no_data" />;
+                        return <ErrorMessage errorType="no_data" />
                       }
 
                       const response = data[fixedApis.box1];
@@ -39,7 +39,7 @@ return (
                         return (
                           <>
                             <h4 className="text-white fw-900"> {data?.[fixedApis.box1]?.message}</h4>
-                            <ErrorMessage errorType="no_data_found" />;
+                            <ErrorMessage errorType="no_data_found" />
                           </>
                         )
                         
@@ -82,7 +82,7 @@ return (
                   <div className="text-wraper flex-grow-1 d-flex flex-column">
                     {(() => {
                       if (!data?.[fixedApis.box2]) {
-                        return <ErrorMessage errorType="no_data" />;
+                        return <ErrorMessage errorType="no_data" />
                       }
 
                       const response = data[fixedApis.box2];
@@ -92,7 +92,7 @@ return (
                         return (
                           <>
                             <h4 className="text-white fw-900"> {data?.[fixedApis.box2]?.message}</h4>
-                            <ErrorMessage errorType="no_data_found" />;
+                            <ErrorMessage errorType="no_data_found" />  
                           </>
                         )
                       }

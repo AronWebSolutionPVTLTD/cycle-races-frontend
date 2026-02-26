@@ -68,7 +68,13 @@ export default function DynamicSlugPage({ year, teamName }) {
   const [error, setError] = useState(null);
   const [apiTitle, setApiTitle] = useState(null); 
   const [showYearDropdown, setShowYearDropdown] = useState(false);
-  const { withoutAllTime } = generateYearOptions();
+  // const { withoutAllTime } = generateYearOptions();
+  const { withAllTime, withoutAllTime } = generateYearOptions();
+
+const yearOptions =
+  slug === "rider-with-most-uci-points"
+    ? withAllTime
+    : withoutAllTime;
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
   const currentYear = new Date().getFullYear();
@@ -80,17 +86,32 @@ export default function DynamicSlugPage({ year, teamName }) {
     years.push(year.toString());
   }
 
+  // const getFilteredYears = (searchValue) => {
+  //   if (!searchValue || searchValue.trim() === "") {
+  //     return withoutAllTime;
+  //   }
+  //   const hasNumbers = /\d/.test(searchValue);
+  //   if (hasNumbers) {
+  //     return withoutAllTime.filter((year) =>
+  //       year.toLowerCase().includes(searchValue.toLowerCase())
+  //     );
+  //   }
+  //   return withoutAllTime;
+  // };
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
-      return withoutAllTime;
+      return yearOptions;
     }
+  
     const hasNumbers = /\d/.test(searchValue);
+  
     if (hasNumbers) {
-      return withoutAllTime.filter((year) =>
+      return yearOptions.filter((year) =>
         year.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
-    return withoutAllTime;
+  
+    return yearOptions;
   };
 
   const handleSelection = (type, value) => {
@@ -136,6 +157,7 @@ export default function DynamicSlugPage({ year, teamName }) {
       }
     );
   };
+const config = getSlugConfig(slug);
 
   useEffect(() => {
     if (slug) {
@@ -151,7 +173,14 @@ export default function DynamicSlugPage({ year, teamName }) {
       const { rider_country, team_name, name, nationality } = router.query;
 
       const queryParams = {};
-      if (selectedYear) queryParams.year = selectedYear;
+      // if (selectedYear) queryParams.year = selectedYear;
+      if (
+        selectedYear &&
+        selectedYear !== "All-time"
+      ) {
+        console.log("selectedYear", selectedYear);
+        queryParams.year = selectedYear;
+      }
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
       if (nationality) queryParams.nationality = nationality;
@@ -209,11 +238,11 @@ export default function DynamicSlugPage({ year, teamName }) {
         setError(null);
       }
       else {
-        setError("No data found for this category");
+        setError(t("common.no_data_found"));
       }
     } catch (err) {
       console.error("Error fetching slug data:", err);
-      setError("Failed to load data for this category");
+      setError(t("common.no_data_found"));
     } finally {
       setLoading(false);
     }
@@ -255,7 +284,7 @@ export default function DynamicSlugPage({ year, teamName }) {
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red" }}
         >
-          Error: {error}
+        {error}
         </div>
       );
     }
@@ -704,10 +733,11 @@ export default function DynamicSlugPage({ year, teamName }) {
           <section className="stat-main-sec">
             <div className="container">
               <div className="row">
-                <div className="col-lg-12">
+                <div className={`col-lg-12 ${config.showYearFilter === false ? "d-none" : "mb-md-4 mb-0"}`}>
                   <div className="row align-items-center sdsd bts__wrap">
                     <div className="col">
                       <ul className="filter">
+                        {config.showYearFilter && (
                         <FilterDropdown
                           ref={yearDropdownRef}
                           isOpen={showYearDropdown}
@@ -721,6 +751,7 @@ export default function DynamicSlugPage({ year, teamName }) {
                           includeAllOption={false}
                           classname="year-dropdown"
                         />
+                        )}
                       </ul>
                     </div>
                     {/* <div className="col text-end">
@@ -734,7 +765,7 @@ export default function DynamicSlugPage({ year, teamName }) {
                   </div>
                 </div>
 
-                <div className="col-lg-9 col-md-12 mt-4 slug-table-main">
+                <div className="col-lg-9 col-md-12 slug-table-main">
                   <ul
                     className={`slug-table-head col--${getDynamicHeaders().length
                       }`}

@@ -170,6 +170,7 @@ export default function DynamicSlugPage({ year, raceName }) {
       }
     );
   };
+  const config = getSlugConfig(slug);
 
   useEffect(() => {
     if (slug) {
@@ -286,11 +287,11 @@ export default function DynamicSlugPage({ year, raceName }) {
         }
         setError(null);
       } else {
-        setError("No data found for this category");
+        setError(t("common.no_data_found"));
       }
     } catch (err) {
       console.error("Error fetching slug data:", err);
-      setError("Failed to load data for this category");
+      setError(t("common.no_data_found"));
     } finally {
       setLoading(false);
     }
@@ -330,7 +331,7 @@ export default function DynamicSlugPage({ year, raceName }) {
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red" }}
         >
-          Error: {error}
+        {error}
         </li>
       );
     }
@@ -713,10 +714,11 @@ export default function DynamicSlugPage({ year, raceName }) {
         <section className="stat-main-sec">
           <div className="container">
             <div className="row">
-              <div className="col-lg-12">
+              <div className={`col-lg-12 ${config.showYearFilter === false ? "d-none" : "mb-md-4 mb-0"}`}>
                 <div className="row align-items-center sdsd bts__wrap">
                   <div className="col">
                     <ul className="filter">
+                      {config.showYearFilter && (
                       <FilterDropdown
                         ref={yearDropdownRef}
                         isOpen={showYearDropdown}
@@ -730,12 +732,13 @@ export default function DynamicSlugPage({ year, raceName }) {
                         includeAllOption={false}
                         classname="year-dropdown"
                       />
+                      )}
                     </ul>
                   </div>
                 </div>
               </div>
 
-              <div className="col-lg-9 col-md-12 mt-4 slug-table-main">
+              <div className="col-lg-9 col-md-12 slug-table-main">
                 <ul
                   className={`slug-table-head col--${getDynamicHeaders().length
                     }`}
