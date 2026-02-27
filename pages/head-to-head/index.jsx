@@ -920,8 +920,11 @@ export default function HeadToHead({ rider1, rider2 }) {
       fetchRidersCommonActiveYears(rider1.slug, rider2.slug);
       fetchH2H(rider1.slug, rider2.slug, yearToUse);
       setSelectedYear(yearToUse);
-      prevRider1IdRef.current = selectedRider1.rider_id;
-      prevRider2IdRef.current = selectedRider2.rider_id;
+      // prevRider1IdRef.current = selectedRider1.rider_id;
+      // prevRider2IdRef.current = selectedRider2.rider_id;
+      prevRider1IdRef.current = rider1._id;
+
+      prevRider2IdRef.current = rider2._id;
     }
   }, [rider1, rider2]);
   const seoRider1 = rider1?.name;
@@ -1286,7 +1289,7 @@ const seoRider2 = rider2?.name;
 
                     <div className="compare-result-col compare-result-col--last">
                       <h6 className="mb-10px text-start text-md-end w-100">{t("head_to_head.rider")} 2</h6>
-                      <div className="w-100 d-flex align-items-center justify-content-between justify-content-md-end">
+                      <div className="namer-wrapp w-100 d-flex align-items-center justify-content-between justify-content-md-end">
                         <h4 className="text-uppercase d-flex align-items-center fw-900 mb-0 justify-content-start justify-content-md-end">
                           {selectedRider2 && (
                             <>
@@ -1347,10 +1350,10 @@ const seoRider2 = rider2?.name;
                           <ul className="slug-table-head head-to-head">
                             <li className="date-col">{t("common.date")}</li>
                             <li className="race-col">{t("common.races")}</li>
-                            <li className="text-lg-end rider-col"><span className="d-none d-md-inline">{t("head_to_head.rider")} </span>1</li>
-                            <li className="text-lg-end rider-col"><span className="d-none d-md-inline">{t("head_to_head.rider")} </span>2</li></ul>
+                            <li className="text-lg-end rider-col renner-1"><span className="d-none d-md-inline">{t("head_to_head.rider")} </span>1</li>
+                            <li className="text-lg-end rider-col renner-2"><span className="d-none d-md-inline">{t("head_to_head.rider")} </span>2</li></ul>
 
-                          <ul className="slug-table-body">
+                          <ul className="slug-table-body h2h-table-body">
                             {renderRidersList()}
                           </ul>
                         </div>

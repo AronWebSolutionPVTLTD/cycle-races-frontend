@@ -699,16 +699,12 @@ export default function DynamicSlugPage({ initialRider }) {
     );
   };
 
-  const getCustomHeading = (slug, apiTitle) => {
-    return apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
-  };
-
   const pageTitle = apiTitle
     ? `${apiTitle} | Cycling Stats`
     : slug
       ? `${formatSlugForDisplay(slug)} | Cycling Stats`
       : "Page | Cycling Stats";
-  const pageHeading = getCustomHeading(slug, apiTitle);
+  const pageHeading = apiTitle || " Loading...";
 
 
   return (

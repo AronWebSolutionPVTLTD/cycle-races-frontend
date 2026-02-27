@@ -532,7 +532,7 @@ export default function DynamicSlugPage({ year }) {
     : slug
       ? `${formatSlugForDisplay(slug)} | Cycling Stats`
       : "Page | Cycling Stats";
-  const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
+  const pageHeading = apiTitle || " Loading...";
 
   return (
     <>
