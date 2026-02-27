@@ -37,6 +37,26 @@ export default function TeamDetail({ initialTeam, apiError, year }) {
     );
   };
 
+  useEffect(() => {
+    if (!router.query?.name) return;
+    const { name } = router.query;
+    if (!name) return;
+  
+    const fetchTeamDetails = async () => {
+      try {
+        const response = await callAPI("GET", `/teamDetails/${name}/teamDetailsForTeamPage`);
+      console.log(response);
+        if (response?.data) {
+          setHeaderData(response.data);
+        }
+      } catch (err) {
+        console.error("Error fetching team:", err);
+      }
+    };
+    setFilterYear("All-time");
+    fetchTeamDetails();
+  }, [router.query.name, name]);
+
   const handleSelection = (type, value) => {
     switch (type) {
       case "year":

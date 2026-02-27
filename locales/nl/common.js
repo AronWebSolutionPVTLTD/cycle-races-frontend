@@ -34,6 +34,7 @@ const nl={
     "points": "punten",
     "error_loading_data": "Fout bij het laden van de gegevens",
     "unable_to_load_statistics": "Fout bij het laden van de statistieken. Probeer het later opnieuw.",
+    "no_data_found": "Geen gegevens gevonden voor deze categorie",  
   },
   "header": {
     "home": "Home",

@@ -195,11 +195,11 @@ export default function DynamicSlugPage() {
         }
         setError(null);
       } else {
-        setError("No data found for this category");
+        setError(t("common.no_data_found"));
       }
     } catch (err) {
       console.error("Error fetching slug data:", err);
-      setError("Failed to load data for this category");
+      setError(t("common.no_data_found"));
     } finally {
       setLoading(false);
     }
@@ -238,7 +238,7 @@ export default function DynamicSlugPage() {
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red" }}
         >
-          Error: {error}
+        {error}
         </div>
       );
     }
@@ -537,7 +537,8 @@ export default function DynamicSlugPage() {
     : slug
       ? `${formatSlugForDisplay(slug)} | Cycling Stats`
       : "Page | Cycling Stats";
-  const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
+  // const pageHeading = apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
+  const pageHeading = apiTitle ||" Loading...";
 
   return (
     <>

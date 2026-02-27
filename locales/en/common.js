@@ -33,6 +33,7 @@ const en={
     "points": "points",
     "error_loading_data": "Error Loading Data",
     "unable_to_load_statistics": "Unable to load statistics. Please try again later.",
+    "no_data_found": "No data found for this category",
 
   },
   "header": {

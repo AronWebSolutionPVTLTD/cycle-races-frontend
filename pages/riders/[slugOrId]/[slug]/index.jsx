@@ -43,7 +43,6 @@ export default function DynamicSlugPage({ initialRider }) {
   const { withoutAllTime } = generateYearOptions();
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
-
   const riderName = initialRider?.name || null;
 
   useEffect(() => {
@@ -141,6 +140,7 @@ export default function DynamicSlugPage({ initialRider }) {
       }
     );
   };
+  const config = getSlugConfig(slug);
 
   useEffect(() => {
     if (router.isReady && slug) {
@@ -271,11 +271,11 @@ export default function DynamicSlugPage({ initialRider }) {
 
         setError(null);
       } else {
-        setError("No data found for this category");
+        setError(t("common.no_data_found"));
       }
     } catch (err) {
       console.error("Error fetching slug data:", err);
-      setError("Failed to load data for this category");
+      setError(t("common.no_data_found"));
     } finally {
       setLoading(false);
     }
@@ -317,7 +317,7 @@ export default function DynamicSlugPage({ initialRider }) {
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red" }}
         >
-          Error: {error}
+        {error}
         </div>
       );
     }
@@ -330,7 +330,7 @@ export default function DynamicSlugPage({ initialRider }) {
       } else {
         dataArray = [];
       }
-    } else if (config.dataPath && pageData[config.dataPath]) {
+    } else if (config?.dataPath && pageData?.[config.dataPath]) {
       dataArray = pageData[config.dataPath];
     }
 
@@ -506,7 +506,7 @@ export default function DynamicSlugPage({ initialRider }) {
             ) : (
               <>
                 {renderFlag(getCountryCode(item, config))}
-                <span>
+                <span className="dark-green-color fw-900" >
                   {nameContent}
                 </span>
               </>
@@ -560,7 +560,7 @@ export default function DynamicSlugPage({ initialRider }) {
                 </>
               ) : (
                 <>{renderFlag(getCountryCode(item, config))}
-                  <span>
+                  <span className="dark-green-color fw-900" >
                     {teamContent}
                   </span>
                 </>
@@ -699,16 +699,12 @@ export default function DynamicSlugPage({ initialRider }) {
     );
   };
 
-  const getCustomHeading = (slug, apiTitle) => {
-    return apiTitle || (slug ? formatSlugForDisplay(slug) : "Page");
-  };
-
   const pageTitle = apiTitle
     ? `${apiTitle} | Cycling Stats`
     : slug
       ? `${formatSlugForDisplay(slug)} | Cycling Stats`
       : "Page | Cycling Stats";
-  const pageHeading = getCustomHeading(slug, apiTitle);
+  const pageHeading = apiTitle || " Loading...";
 
 
   return (
@@ -760,10 +756,11 @@ export default function DynamicSlugPage({ initialRider }) {
           <section className="stat-main-sec">
             <div className="container">
               <div className="row">
-                <div className="col-lg-12">
+                <div className={`col-lg-12 ${config.showYearFilter === false && slug !== "rider-results-this-year" ? "d-none" : "mb-md-4 mb-0"}`}>
                   <div className="row align-items-center sdsd bts__wrap">
                     <div className="col custom-year-dropdown-wrap">
-                      <ul className="filter">
+                      <ul className="filter filter-margin-0">
+                        {config.showYearFilter && (
                         <FilterDropdown
                           ref={yearDropdownRef}
                           isOpen={showYearDropdown}
@@ -777,6 +774,7 @@ export default function DynamicSlugPage({ initialRider }) {
                           includeAllOption={false}
                           classname="year-dropdown"
                         />
+                        )}
                       </ul>
                       {slug === "rider-results-this-year" && pageData && (
                         <div className="results-summary">
@@ -801,7 +799,7 @@ export default function DynamicSlugPage({ initialRider }) {
                   </div>
                 </div>
 
-                <div className="col-lg-9 col-md-12 mt-4 slug-table-main">
+                <div className="col-lg-9 col-md-12 slug-table-main">
                   <ul
                     className={`slug-table-head sdsd col--${getDynamicHeaders().length
                       }`}

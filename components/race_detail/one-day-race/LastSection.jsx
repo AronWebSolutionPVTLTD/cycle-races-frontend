@@ -118,7 +118,7 @@ export const LastSection = ({
                       }
 
                       return riderData.slice(0, 1).map((rider, index) => (
-                        <>
+                        <React.Fragment key={index}>
                           <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                             {renderFlag(rider?.rider_country)}
                             <h6>{rider?.rider_name || "..."}</h6>
@@ -140,7 +140,7 @@ export const LastSection = ({
                           >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
-                        </>
+                        </React.Fragment>
                       ));
                     })()}
                   </div>
@@ -168,7 +168,7 @@ export const LastSection = ({
                       }
 
                       return riderData.slice(0, 1).map((rider, index) => (
-                        <>
+                        <React.Fragment key={index}>
                           <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                             {renderFlag(rider?.rider_country)}
                             <h6>
@@ -197,7 +197,7 @@ export const LastSection = ({
                           >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
-                        </>
+                        </React.Fragment>
                       ));
                     })()}
                   </div>
@@ -227,7 +227,7 @@ export const LastSection = ({
                       }
 
                       return riderData.slice(0, 1).map((rider, index) => (
-                        <>
+                        <React.Fragment key={index}>
                           <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                             {renderFlag(rider?.rider_country)}
                             <h6>{rider?.rider_name || "..."}</h6>
@@ -245,7 +245,7 @@ export const LastSection = ({
                           >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
-                        </>
+                        </React.Fragment>
                       ));
                     })()}
                   </div>
@@ -273,7 +273,7 @@ export const LastSection = ({
                       }
 
                       return riderData.slice(0, 1).map((rider, index) => (
-                        <>
+                        <React.Fragment key={index}>
                           <div className="name-wraper name-wraper-white name-left" >
                             <h6>{rider?.subtitle || "..."}</h6>
                           </div>
@@ -288,7 +288,7 @@ export const LastSection = ({
                           >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
-                        </>
+                        </React.Fragment>
                       ));
                     })()}
                   </div>
@@ -329,7 +329,7 @@ export const LastSection = ({
                               : "...";
 
                             return (
-                              <>
+                              <React.Fragment key={index}>
                                 <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/races/${rider?.raceSlug}`)}>
                                   {renderFlag(rider?.country)}
                                   <h6>
@@ -349,7 +349,7 @@ export const LastSection = ({
                                 >
                                   <img src="/images/arow.svg" alt="" />
                                 </Link>
-                              </>
+                              </React.Fragment>
                             );
                           });
                         })()}
@@ -381,7 +381,7 @@ export const LastSection = ({
                           }
 
                           return riderData.slice(0, 1).map((rider, index) => (
-                            <>
+                            <React.Fragment key={index}>
                               <div className="name-wraper name-wraper-green">
                                 {renderFlag(rider?.country_code)}
                                 <h6>{rider?.most_wins_country || "..."}</h6>
@@ -405,7 +405,7 @@ export const LastSection = ({
                               >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
-                            </>
+                            </React.Fragment>
                           ));
                         })()}
                       </div>
@@ -438,7 +438,7 @@ export const LastSection = ({
                           }
 
                           return riderData.slice(0, 1).map((rider, index) => (
-                            <>
+                            <React.Fragment key={index}>
                               <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/teams/${rider?.teamSlug}`)}>
                                 {renderFlag(rider?.flag)}
                                 <h6>{rider?.team_name || "..."}</h6>
@@ -456,7 +456,7 @@ export const LastSection = ({
                               >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
-                            </>
+                            </React.Fragment>
                           ));
                         })()}
                       </div>
@@ -487,7 +487,7 @@ export const LastSection = ({
                           }
 
                           return riderData.slice(0, 1).map((rider, index) => (
-                            <>
+                            <React.Fragment key={index}>
                               <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.rider_country)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -504,7 +504,7 @@ export const LastSection = ({
                               >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
-                            </>
+                            </React.Fragment>
                           ));
                         })()}
                       </div>
@@ -642,7 +642,7 @@ export const LastSection = ({
                       }
 
                       return riderData.slice(0, 1).map((rider, index) => (
-                        <>
+                        <React.Fragment key={index}>
                           <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                             {renderFlag(rider?.rider_country)}
                             <h6>{rider?.rider_name || "..."}</h6>
@@ -658,7 +658,7 @@ export const LastSection = ({
                           >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
-                        </>
+                        </React.Fragment>
                       ));
                     })()}
                   </div>

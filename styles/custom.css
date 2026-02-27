@@ -414,6 +414,9 @@ ul.slug-table-head li:last-child:not(:first-of-type) {
   .slug-table-body .table_cols_list.riders-table-cols.col--3 .team-name {
     flex: 0 0 20% !important;
 }
+ul.slug-table-head.col--3 li:last-child {
+  flex: 0 0 20%;
+}
 }
 
 @media (max-width: 767px) {
@@ -1943,7 +1946,12 @@ ul.slug-table-head.col--3 li.POINTS,ul.slug-table-head.col--3 li.CLASS {
 ul.slug-table-head.col--3 li.CLASS {
   text-align: center;
 }
-ul.slug-table-head.col--3 li.YEAR,ul.slug-table-head.col--3 li.WINNER {
+ul.slug-table-head.col--3 li.YEAR,
+ul.slug-table-head.col--3 li.WINNER,
+ul.slug-table-head.col--3 li.RIDER:nth-child(2),
+ul.slug-table-head.col--3 li.slug-list-head.BIRTH.PLACE, 
+ul.slug-table-head.col--3 li.YEAR,
+ul.slug-table-head.col--3 li.slug-list-head.DOB {
   flex: 0 0 20% !important;
 }
 ul.slug-table-body .table_cols_list.col--3 .team-name.rider--name.rider_name.riderSlug {
@@ -2499,5 +2507,50 @@ section.home-sec4 ul.transparent-cart li h5 a {
 .team-cart h5{
   top: unset;
   bottom: 5.8rem;
+}
+main.inner-pages-main .filter.filter-margin-0 {
+  margin-bottom: 0 !important;
+}
+.rider--name .link {
+  font-size: 14px;
+}
+.rider-compare-show-result-section.sticky .compare-result-col--last .namer-wrapp {
+  justify-content: flex-end !important;
+}
+.slug-table-head.head-to-head li {
+  font-size: 15px !important;
+}
+.slug-table-main.head-to-head-main .content-item.ctm-head-heading h5.rider--name.race-name-el {
+  padding-left: 5px;
+}
+.slug-table-head.head-to-head li:nth-child(2) {
+  padding-left: 5px;
+}
+}
+.dark-green-color {
+  color: #2c534d !important;
+}
+
+@media ( min-width: 768px ){
+  .compare-result-col.compare-result-col--last h4{
+    text-align: right !important;
+  }
+  .namer-wrapp h4 {
+    display: inline-block !important;
+  }
+  .namer-wrapp h4 img {
+    display: inline-block;
+    margin-top: -5px;
+  }
+  ul.slug-table-head.head-to-head .rider-col.renner-1,ul.slug-table-head.head-to-head .rider-col.renner-2 {
+    flex: 0 0 20% !important;
+}
+
+ul.slug-table-head.head-to-head .rider-col.renner-1 {
+    text-align: center!important;
+}
+
+.slug-table-body.h2h-table-body .table_cols_list.col--3 .count.rank.text-end:not(:last-child) {
+    text-align: center !important;
 }
 }

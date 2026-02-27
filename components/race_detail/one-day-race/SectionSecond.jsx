@@ -454,7 +454,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                             return <ErrorMessage errorType="no_data_found" />;
                           }
                           return riderData.slice(0, 1).map((rider, index) => (
-                            <>
+                            <React.Fragment key={index}>
                               <div className="name-wraper name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.nationality)}
                                 <h6>{rider?.rider_name || "..."}</h6>
@@ -473,7 +473,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                               >
                                 <img src="/images/arow.svg" alt="" />
                               </Link>
-                            </>
+                            </React.Fragment>
                           ));
                         })()}
                       </div>
@@ -500,7 +500,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                       }
 
                       return riderData.slice(0, 1).map((rider, index) => (
-                        <>
+                        <React.Fragment key={index}>
                           <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                             {renderFlag(rider?.nationality)}
                             <h6>{rider?.rider_name || "..."}</h6>
@@ -518,7 +518,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                           >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
-                        </>
+                        </React.Fragment>
                       ));
                     })()}
                   </div>
@@ -572,7 +572,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                       }
 
                       return riderData.slice(0, 1).map((rider, index) => (
-                        <>
+                        <React.Fragment key={index}>
                           <div className="name-wraper name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                             {renderFlag(rider?.nationality)}
                             <h6>{rider?.rider_name || "..."}</h6>
@@ -591,7 +591,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name, t }) =>
                           >
                             <img src="/images/arow.svg" alt="" />
                           </Link>
-                        </>
+                        </React.Fragment>
                       ));
                     })()}
                   </div>
