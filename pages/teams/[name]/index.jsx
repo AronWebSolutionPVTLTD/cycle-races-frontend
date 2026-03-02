@@ -253,7 +253,7 @@ export async function getServerSideProps(context) {
     }
 
     const json = await res.json();
-
+    console.log("Fetched team details:", json);
     if (!json?.data) {
       return { notFound: true,
         props: {

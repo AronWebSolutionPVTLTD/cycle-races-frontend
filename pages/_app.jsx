@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }) {
         <Header isDetailPage={!!pageProps.isDetailPage} />
         <Component {...pageProps} />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

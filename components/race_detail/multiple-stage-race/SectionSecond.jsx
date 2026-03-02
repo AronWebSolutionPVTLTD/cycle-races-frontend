@@ -136,7 +136,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                             <>
                               <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.rider_country)}
-                                <h6>{rider?.rider_name || "..."}</h6>
+                                <h6>{rider?.rider_name?.fullName || "..."}</h6>
                               </div>
                               {rider?.year && (
                                 <h5>
@@ -190,7 +190,7 @@ export const SectionSecond = ({ selectedYear, selectedNationality, name }) => {
                                   <div
                                     className="name-wraper name-wraper-green" key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.rider_country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
+                                    <h6>{rider?.rider_name?.fullName || "..."}</h6>
                                   </div>
 
                                   {rider?.total_wins && (

@@ -71,7 +71,7 @@ const MostMoutainWin = ({
                         <div key={index}>
                           <div className="most-win">
                             {renderFlag(rider?.rider_country)}
-                            <h4>{rider.rider_name}</h4>
+                            <h4>{rider?.rider_name?.fullname}</h4>
                           </div>
                         </div>
                       ))

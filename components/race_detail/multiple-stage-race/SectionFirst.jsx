@@ -128,7 +128,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                                   <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
 
                                     {renderFlag(rider?.country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
+                                    <h6>{rider?.rider_name?.fullName || "..."}</h6>
                                   </div>
 
                                   {rider?.time && <span>{rider.time}</span>}
@@ -193,7 +193,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                             <>
                               <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.country)}
-                                <h6>{rider?.rider_name || "..."}</h6>
+                                <h6>{rider?.rider_name?.fullName || "..."}</h6>
                               </div>
 
                               {rider?.wins && (
@@ -244,7 +244,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                             <>
                               <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.nationality)}
-                                <h6>{rider?.rider_name || "..."}</h6>
+                                <h6>{rider?.rider_name?.fullName || "..."}</h6>
                               </div>
                               {rider?.wins && (
                                 <h5>
@@ -294,7 +294,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                                 <li key={index}>
                                   <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
+                                    <h6>{rider?.rider_name?.fullName || "..."}</h6>
                                   </div>
 
                                   {rider?.year && (
@@ -347,7 +347,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                                 <div key={index} className="rider-item">
                                   <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
+                                    <h6>{rider?.rider_name?.fullName || "..."}</h6>
                                   </div>
                                   {rider?.count && (
                                     <h5>
@@ -402,7 +402,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                             <div key={index} className="rider-item">
                               <div className="name-wraper name-wraper-white" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.country)}
-                                <h6>{rider?.rider_name || "..."}</h6>
+                                <h6>{rider?.rider_name?.fullName || "..."}</h6>
                               </div>
                               {rider?.count && (
                                 <h5>
@@ -486,7 +486,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                             <div key={index} className="rider-item">
                               <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.country)}
-                                <h6>{rider?.rider_name || "..."}</h6>
+                                <h6>{rider?.rider_name?.fullName || "..."}</h6>
                               </div>
                               {rider?.podiums && (
                                 <h5>
@@ -534,7 +534,7 @@ export const FirstSection = ({ selectedYear, selectedNationality, name }) => {
                         <>
                           <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                             {renderFlag(rider?.country)}
-                            <h6>{rider?.rider_name || "..."}</h6>
+                            <h6>{rider?.rider_name?.fullName || "..."}</h6>
                           </div>
                           {rider?.count && (
                             <h5>

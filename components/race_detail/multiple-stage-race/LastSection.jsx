@@ -138,7 +138,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                   <strong>{index + 1}</strong>
                                   <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.rider_country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
+                                    <h6>{rider?.rider_name?.fullName || "..."}</h6>
                                   </div>
 
                                   {rider?.mountain_wins && (
@@ -214,7 +214,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                     className="name-wraper name-wraper-green"
                                     key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)} >
                                     {renderFlag(rider?.rider_country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
+                                    <h6>{rider?.rider_name?.fullName || "..."}</h6>
                                   </div>
 
                                   {rider?.sprint_wins && (
@@ -272,7 +272,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                     className="name-wraper name-wraper-green name-left"
                                     key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)} >
                                     {renderFlag(rider?.rider_country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
+                                    <h6>{rider?.rider_name?.fullName || "..."}</h6>
                                   </div>
 
                                   {rider?.young_wins && (
@@ -323,7 +323,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                             <>
                               <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.rider_country)}
-                                <h6>{rider?.rider_name || "..."}</h6>
+                                <h6>{rider?.rider_name?.fullName || "..."}</h6>
                               </div>
                               {rider?.finish_count && (
                                 <h5>
@@ -376,7 +376,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                 <div key={index} className="rider-item">
                                   <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
+                                    <h6>{rider?.rider_name?.fullName || "..."}</h6>
                                   </div>
                                   {rider?.age && (
                                     <h5>
@@ -432,7 +432,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                             <div key={index} className="rider-item">
                               <div className="name-wraper name-wraper-white name-left" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                 {renderFlag(rider?.country)}
-                                <h6>{rider?.rider_name || "..."}</h6>
+                                <h6>{rider?.rider_name?.fullName || "..."}</h6>
                               </div>
                               {rider?.age && (
                                 <h5>
@@ -742,7 +742,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                     className="name-wraper name-wraper-green name-left"
                                     key={index} onClick={() => router.push(`/riders/${rider?.riderSlug}`)} >
                                     {renderFlag(rider?.country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
+                                    <h6>{rider?.rider_name?.fullName || "..."}</h6>
                                   </div>
 
                                   {rider?.age && (
@@ -848,7 +848,7 @@ export const LastSection = ({ selectedYear, selectedNationality, name }) => {
                                   <strong>{index + 1}</strong>
                                   <div className="name-wraper name-wraper-green" onClick={() => router.push(`/riders/${rider?.riderSlug}`)}>
                                     {renderFlag(rider?.country)}
-                                    <h6>{rider?.rider_name || "..."}</h6>
+                                    <h6>{rider?.rider_name?.fullName || "..."}</h6>
                                   </div>
 
                                   {rider?.age && <span>{rider.age}</span>}

@@ -606,7 +606,7 @@ const [isLoadingStageData, setIsLoadingStageData] = useState(false);
                           <span className="race-result-index fw-900">{index + 1}.</span>
                           {renderFlag(rider.rider_country)}
                           <Link href={`/riders/${rider.riderSlug}`} className="link">
-                            {rider.rider_name.toUpperCase()}
+                            {rider?.rider_name?.fullName?.toUpperCase()}
                           </Link>
                         </h5>
                         <h6 className="team_name">   <Link href={`/teams/${rider.teamSlug}`} className="link">{rider.team_name}</Link></h6>
