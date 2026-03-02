@@ -29,35 +29,35 @@ export default function About() {
                 </div>
               </div>
               <div className="col-lg-8">
-                
+
 
                 <div className="disclaimer-content">
-                <p className="">
-                  Wielerstats is een onafhankelijk online platform dat wielerstatistieken en wedstrijdgegevens overzichtelijk bundelt.
-                  Op deze website vind je actuele uitslagen, rankings en historische data van professionele wielerwedstrijden, renners en teams.
-                </p>
-                <p>
+                  <p className="">
+                    Wielerstats is een onafhankelijk online platform dat wielerstatistieken en wedstrijdgegevens overzichtelijk bundelt.
+                    Op deze website vind je actuele uitslagen, rankings en historische data van professionele wielerwedstrijden, renners en teams.
+                  </p>
+                  <p>
 
-                  Het doel van Wielerstats is om wielerliefhebbers, volgers en analisten eenvoudig toegang te geven tot betrouwbare en gestructureerde wielerdata.
-                  Van grote rondes tot eendagskoersen en van individuele prestaties tot teamstatistieken — alle gegevens worden overzichtelijk gepresenteerd.
-                </p>
+                    Het doel van Wielerstats is om wielerliefhebbers, volgers en analisten eenvoudig toegang te geven tot betrouwbare en gestructureerde wielerdata.
+                    Van grote rondes tot eendagskoersen en van individuele prestaties tot teamstatistieken — alle gegevens worden overzichtelijk gepresenteerd.
+                  </p>
 
-                <p>
-                  De statistieken worden geraadpleegd door wielerfans die prestaties willen analyseren en vergelijken, maar ook door deelnemers aan wielerpoules en
-                  fantasycompetities die hun keuzes willen onderbouwen met historische en actuele gegevens.
-                </p>
+                  <p>
+                    De statistieken worden geraadpleegd door wielerfans die prestaties willen analyseren en vergelijken, maar ook door deelnemers aan wielerpoules en
+                    fantasycompetities die hun keuzes willen onderbouwen met historische en actuele gegevens.
+                  </p>
 
-                <p>
-                  Wielerstats is geen nieuwswebsite, maar een gespecialiseerd statistiekplatform dat zich volledig richt op wielerdata en prestatieoverzichten.
-                </p>
+                  <p>
+                    Wielerstats is geen nieuwswebsite, maar een gespecialiseerd statistiekplatform dat zich volledig richt op wielerdata en prestatieoverzichten.
+                  </p>
 
-                <h2>Databronnen en werkwijze</h2>
-                <p>VooDe statistieken op Wielerstats zijn gebaseerd op officiële wedstrijdresultaten en publiek beschikbare gegevens van wielerorganisaties.
-                  De data wordt gestructureerd verwerkt en regelmatig geactualiseerd om een zo betrouwbaar mogelijk overzicht te bieden.
-                  Rankings worden samengesteld op basis van vooraf vastgestelde criteria per statistiek.</p>
+                  <h2>Databronnen en werkwijze</h2>
+                  <p>VooDe statistieken op Wielerstats zijn gebaseerd op officiële wedstrijdresultaten en publiek beschikbare gegevens van wielerorganisaties.
+                    De data wordt gestructureerd verwerkt en regelmatig geactualiseerd om een zo betrouwbaar mogelijk overzicht te bieden.
+                    Rankings worden samengesteld op basis van vooraf vastgestelde criteria per statistiek.</p>
 
-                <p>
-                  Heb je vragen, suggesties of zie je een onjuistheid in de gegevens? Neem dan gerust contact op via de contactpagina.</p>
+                  <p>
+                    Heb je vragen, suggesties of zie je een onjuistheid in de gegevens? Neem dan gerust contact op via de contactpagina.</p>
                 </div>
 
               </div>
