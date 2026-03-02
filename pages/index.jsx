@@ -34,6 +34,13 @@ export default function Home() {
           dataField="wins"
         />
         <UpcomingYear t={t} />
+        <section className="home-sec4 pb-96px mt-md-0 mt-4">
+        <div className="container rte">
+        <h3 className="fw-900 font-archivo text-uppercase dark-green-color mb-4">Over Wielerstats</h3>
+        <p className=" dark-green-color fw-medium">
+Wielerstats is een onafhankelijk statistiekplatform voor het professionele wielrennen. Hier vind je actuele uitslagen, historische rankings en prestatieoverzichten van renners, teams en wedstrijden wereldwijd. De gegevens zijn gebaseerd op officiële wedstrijdresultaten en worden gedurende het seizoen continu bijgewerkt.</p>
+</div>
+</section>
         {/* <LastSection /> */}
       </main>
     </>
