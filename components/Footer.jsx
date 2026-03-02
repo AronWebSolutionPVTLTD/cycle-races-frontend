@@ -158,19 +158,20 @@ const Footer = () => {
                 <div className='footer_bottom py-2 py-md-0'>
                     <div className='footer-bottom-content-wraper container'>
                         <div className='row align-items-center' >
-                            <div className='col-md-4 my-2 my-md-4 text-center text-md-start'>
+                            <div className='col-md-2 my-2 my-md-4 text-center text-md-start'>
                                 <p className='m-0 fw-medium'>© Wielerstats</p>
                             </div>
-                            <div className='col-md-4 text-center my-2 my-md-4'>
-                                <ul className='footer-bottom-links d-flex align-items-center justify-content-center gap-3 text-primary'>
+                            <div className='col-md-8 text-center my-2 my-md-4'>
+                                <ul className='footer-bottom-links d-flex flex-wrap align-items-center justify-content-center gap-3 text-primary'>
                                     <li><Link href="/contact">Contact </Link></li>
+                                    <li><Link href="/about">Over Wielerstats</Link></li>
                                     <li><Link href="/disclaimer">Disclaimer</Link></li>
                                     <li><Link href="/privacy-policy">Privacy Policy</Link></li>
                                     <li><Link href="/cookie-policy">Cookies</Link></li>
                                     
                                 </ul>
                             </div>
-                            <div className='col-md-4 text-center text-md-end my-2 my-md-4'>
+                            <div className='col-md-2 text-center text-md-end my-2 my-md-4'>
                                 <div className='social-media-links'>
                                     <Link href="https://www.instagram.com/wielerstats.nl/"><img src="/images/insta.svg" alt="Instagram" /></Link>
                                     <Link href="https://www.facebook.com/profile.php?id=61573946675256"><img src="/images/fb.svg" alt="Facebook" /></Link>
