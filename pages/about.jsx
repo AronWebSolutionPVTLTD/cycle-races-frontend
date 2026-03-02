@@ -51,8 +51,8 @@ export default function About() {
                     Wielerstats is geen nieuwswebsite, maar een gespecialiseerd statistiekplatform dat zich volledig richt op wielerdata en prestatieoverzichten.
                   </p>
 
-                  <h2>Databronnen en werkwijze</h2>
-                  <p>VooDe statistieken op Wielerstats zijn gebaseerd op officiële wedstrijdresultaten en publiek beschikbare gegevens van wielerorganisaties.
+                  <p className="fw-900">Databronnen en werkwijze</p>
+                  <p>De statistieken op Wielerstats zijn gebaseerd op officiële wedstrijdresultaten en publiek beschikbare gegevens van wielerorganisaties.
                     De data wordt gestructureerd verwerkt en regelmatig geactualiseerd om een zo betrouwbaar mogelijk overzicht te bieden.
                     Rankings worden samengesteld op basis van vooraf vastgestelde criteria per statistiek.</p>
 
