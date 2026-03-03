@@ -4,10 +4,11 @@ import { useRouter } from "next/router";
 import TeamCard from "@/components/TeamCard";
 import SidebarList from "@/components/SidebarList";
 import { getTeamSearchList } from "@/lib/api";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useMultipleData } from "@/components/home_api_data";
 import { CardSkeleton, ListSkeleton } from "@/components/loading&error";
 import { useTranslation } from "@/lib/useTranslation";
+import useSearch from "@/lib/use-search";
 
 export default function Teams() {
   const router = useRouter();
@@ -17,11 +18,11 @@ export default function Teams() {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [firstTenTeams, setFirstTenTeams] = useState([]);
-  const [searchSuggestions, setSearchSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  // const [searchSuggestions, setSearchSuggestions] = useState([]);
+  // const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const searchRef = useRef(null);
-  const debounceTimerRef = useRef(null);
+  // const debounceTimerRef = useRef(null);
   const {
     data: sidebarsData,
     loading: sidebarsLoading,
@@ -34,6 +35,44 @@ export default function Teams() {
     },
   });
 
+  const fetchTeamSuggestions = useCallback(async (q) => {
+    const response = await getTeamSearchList(q);
+    if (response.status !== "success") return [];
+  
+    return (response.data || [])
+      .filter((team) =>
+        team.teamName?.toLowerCase().includes(q.toLowerCase())
+      )
+      .slice(0, 10);
+  }, []);
+
+  const {
+    results: searchSuggestions,
+    loading: isSearchLoading,
+    open: showSuggestions,
+    setOpen: setShowSuggestions,
+    reset: resetSearch,
+    minChars,
+  } = useSearch({
+    query: searchQuery,
+    fetcher: fetchTeamSuggestions,
+    minChars: 2,
+    debounceMs: 300,
+    enabled: true,
+  });
+
+  const handleSearchChange = (e) => {
+    const q = e.target.value;
+    setSearchQuery(q);
+  
+    if (!q.trim()) {
+      resetSearch();
+      fetchTeams("");
+    } else {
+      setShowSuggestions(true);
+    }
+  };
+
   useEffect(() => {
     fetchTeams();
     const handleClickOutside = (event) => {
@@ -45,9 +84,9 @@ export default function Teams() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
+      // if (debounceTimerRef.current) {
+      //   clearTimeout(debounceTimerRef.current);
+      // }
     };
   }, []);
 
@@ -77,62 +116,62 @@ export default function Teams() {
     }
   };
 
-  const generateSuggestions = (query) => {
-    if (!query.trim()) {
-      return [];
-    }
+  // const generateSuggestions = (query) => {
+  //   if (!query.trim()) {
+  //     return [];
+  //   }
 
-    const suggestions = [];
-    const lowerQuery = query.toLowerCase();
+  //   const suggestions = [];
+  //   const lowerQuery = query.toLowerCase();
 
-    teams.forEach((team) => {
-      if (team.teamName && team.teamName.toLowerCase().includes(lowerQuery)) {
-        suggestions.push(team);
-      }
-    });
+  //   teams.forEach((team) => {
+  //     if (team.teamName && team.teamName.toLowerCase().includes(lowerQuery)) {
+  //       suggestions.push(team);
+  //     }
+  //   });
 
-    return suggestions.slice(0, 10);
-  };
+  //   return suggestions.slice(0, 10);
+  // };
 
-  const handleSearchChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-    if (!query.trim()) {
-      setSelectedTeam(null);
-      setSearchSuggestions([]);
-      setShowSuggestions(false);
-      fetchTeams("");
-      return;
-    }
-    if (query.trim().length < 2) {
-      setSearchSuggestions([]);
-      setShowSuggestions(false);
-      return;
-    }
+  // const handleSearchChange = (e) => {
+  //   const query = e.target.value;
+  //   setSearchQuery(query);
+  //   if (debounceTimerRef.current) {
+  //     clearTimeout(debounceTimerRef.current);
+  //   }
+  //   if (!query.trim()) {
+  //     setSelectedTeam(null);
+  //     setSearchSuggestions([]);
+  //     setShowSuggestions(false);
+  //     fetchTeams("");
+  //     return;
+  //   }
+  //   if (query.trim().length < 2) {
+  //     setSearchSuggestions([]);
+  //     setShowSuggestions(false);
+  //     return;
+  //   }
 
-    debounceTimerRef.current = setTimeout(() => {
-      getTeamSearchList(query)
-        .then((response) => {
-          if (response.status === "success") {
-            setTeams(response.data);
-            const suggestions = response.data.filter((team) => {
-              return team.teamName && team.teamName.toLowerCase().includes(query.toLowerCase());
-            });
-            setSearchSuggestions(suggestions.slice(0, 10));
-            setShowSuggestions(true);
-          }
-        })
-        .catch((err) => {
-          console.error("Search error:", err);
-          const localSuggestions = generateSuggestions(query);
-          setSearchSuggestions(localSuggestions);
-          setShowSuggestions(true);
-        });
-    }, 300);
-  };
+  //   debounceTimerRef.current = setTimeout(() => {
+  //     getTeamSearchList(query)
+  //       .then((response) => {
+  //         if (response.status === "success") {
+  //           setTeams(response.data);
+  //           const suggestions = response.data.filter((team) => {
+  //             return team.teamName && team.teamName.toLowerCase().includes(query.toLowerCase());
+  //           });
+  //           setSearchSuggestions(suggestions.slice(0, 10));
+  //           setShowSuggestions(true);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error("Search error:", err);
+  //         const localSuggestions = generateSuggestions(query);
+  //         setSearchSuggestions(localSuggestions);
+  //         setShowSuggestions(true);
+  //       });
+  //   }, 300);
+  // };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -143,7 +182,7 @@ export default function Teams() {
   const handleSearchReset = () => {
     setSearchQuery("");
     setSelectedTeam(null);
-    setShowSuggestions(false);
+    resetSearch();
     fetchTeams("");
   };
 
@@ -363,7 +402,7 @@ export default function Teams() {
                         </div>
                       </div>
                     </div>
-                    {showSuggestions && (
+                    {/* {showSuggestions && (
                       <div className="wrap-bottom">
                         <ul>
                           {searchSuggestions.length > 0 ? (
@@ -386,7 +425,61 @@ export default function Teams() {
                           )}
                         </ul>
                       </div>
-                    )}
+                    )} */}
+                    {showSuggestions && searchQuery.trim().length > 0 && (
+  <div className="wrap-bottom">
+    <ul>
+
+      {/* 1️⃣ Less than min characters */}
+      {searchQuery.trim().length < minChars && (
+        <li>
+          <div style={{ textAlign: "center", padding: "10px" }}>
+            <span>Voer minimaal {minChars} tekens in om te zoeken</span>
+          </div>
+        </li>
+      )}
+
+      {/* 2️⃣ Loading */}
+      {searchQuery.trim().length >= minChars && isSearchLoading && (
+        <li>
+          <div style={{ textAlign: "center", padding: "10px" }}>
+            <span>{t("common.searching")}...</span>
+          </div>
+        </li>
+      )}
+
+      {/* 3️⃣ Results */}
+      {searchQuery.trim().length >= minChars &&
+        !isSearchLoading &&
+        searchSuggestions.length > 0 &&
+        searchSuggestions.map((team, idx) => (
+          <li
+            key={`suggestion-${idx}-${team._id || team.teamName}`}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              handleSelectSuggestion(team);
+            }}
+          >
+            <div>
+              <span>{team.teamName}</span>
+            </div>
+          </li>
+        ))}
+
+      {/* 4️⃣ No Results */}
+      {searchQuery.trim().length >= minChars &&
+        !isSearchLoading &&
+        searchSuggestions.length === 0 && (
+          <li className="no-results">
+            <div>
+              <span>{t("common.no_items_matches")}</span>
+            </div>
+          </li>
+        )}
+
+    </ul>
+  </div>
+)}
                   </form>
                 </div>
               </div>

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { createPortal } from "react-dom";
 import { homePageSearch } from "@/lib/api";
 import { useTranslation } from "@/lib/useTranslation";
+import  useSearch from "@/lib/use-search";
 
 export default function Header({ isDetailPage, fontClass }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,12 +15,35 @@ export default function Header({ isDetailPage, fontClass }) {
   const router = useRouter();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchSuggestions, setSearchSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isSearchLoading, setIsSearchLoading] = useState(false);
+  // const [searchSuggestions, setSearchSuggestions] = useState([]);
+  // const [showSuggestions, setShowSuggestions] = useState(false);
+  // const [isSearchLoading, setIsSearchLoading] = useState(false);
   const searchRef = useRef(null);
-  const debounceTimerRef = useRef(null);
+  // const debounceTimerRef = useRef(null);
   const { t } = useTranslation();
+
+  const fetchHeaderResults = useCallback(async (q) => {
+    const response = await homePageSearch(q);
+    if (response.status === "success") {
+      return (response.data || []).slice(0, 10);
+    }
+    return [];
+  }, []);
+
+const {
+  results: searchSuggestions,
+  loading: isSearchLoading,
+  open: showSuggestions,
+  setOpen: setShowSuggestions,
+  reset: resetSearch,
+  minChars,
+} = useSearch({
+  query: searchQuery,
+  fetcher: fetchHeaderResults,
+  minChars: 2,
+  debounceMs: 300,
+  enabled: isSearchOpen,
+});
 
   useEffect(() => {
     setIsMounted(true);
@@ -66,42 +90,48 @@ export default function Header({ isDetailPage, fontClass }) {
   }, []);
 
 
+  // const handleSearchClose = useCallback(() => {
+  //   setIsSearchOpen(false);
+  //   setSearchQuery("");
+  //   setSearchSuggestions([]);
+  //   setShowSuggestions(false);
+  // }, []);
   const handleSearchClose = useCallback(() => {
     setIsSearchOpen(false);
     setSearchQuery("");
-    setSearchSuggestions([]);
-    setShowSuggestions(false);
-  }, []);
+    resetSearch();
+  }, [resetSearch]);
 
 
   const handleSearchReset = () => {
     setSearchQuery("");
-    setSearchSuggestions([]);
-    setShowSuggestions(false);
+    // setSearchSuggestions([]);
+    // setShowSuggestions(false);
+    resetSearch();
   };
 
 
-  const performSearch = async (query) => {
-    setIsSearchLoading(true);
-    try {
-      const response = await homePageSearch(query);
-      if (response.status === "success") {
-        const results = response.data || [];
-        const limitedResults = results.slice(0, 10);
-        setSearchSuggestions(limitedResults);
-        setShowSuggestions(true);
-      } else {
-        setSearchSuggestions([]);
-        setShowSuggestions(true);
-      }
-    } catch (err) {
-      console.error("Search error:", err);
-      setSearchSuggestions([]);
-      setShowSuggestions(true);
-    } finally {
-      setIsSearchLoading(false);
-    }
-  };
+  // const performSearch = async (query) => {
+  //   setIsSearchLoading(true);
+  //   try {
+  //     const response = await homePageSearch(query);
+  //     if (response.status === "success") {
+  //       const results = response.data || [];
+  //       const limitedResults = results.slice(0, 10);
+  //       setSearchSuggestions(limitedResults);
+  //       setShowSuggestions(true);
+  //     } else {
+  //       setSearchSuggestions([]);
+  //       setShowSuggestions(true);
+  //     }
+  //   } catch (err) {
+  //     console.error("Search error:", err);
+  //     setSearchSuggestions([]);
+  //     setShowSuggestions(true);
+  //   } finally {
+  //     setIsSearchLoading(false);
+  //   }
+  // };
 
 
   useEffect(() => {
@@ -127,29 +157,32 @@ export default function Header({ isDetailPage, fontClass }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscapeKey);
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
+      // if (debounceTimerRef.current) {
+      //   clearTimeout(debounceTimerRef.current);
+      // }
     };
   }, [isSearchOpen, handleSearchClose]);
 
 
-  const handleSearchChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-    if (!query.trim()) {
-      setSearchSuggestions([]);
-      setShowSuggestions(false);
-      return;
-    }
-    debounceTimerRef.current = setTimeout(() => {
-      performSearch(query);
-    }, 300);
-  };
+  // const handleSearchChange = (e) => {
+  //   const query = e.target.value;
+  //   setSearchQuery(query);
+  //   if (debounceTimerRef.current) {
+  //     clearTimeout(debounceTimerRef.current);
+  //   }
+  //   if (!query.trim()) {
+  //     setSearchSuggestions([]);
+  //     setShowSuggestions(false);
+  //     return;
+  //   }
+  //   debounceTimerRef.current = setTimeout(() => {
+  //     performSearch(query);
+  //   }, 300);
+  // };
 
+const handleSearchChange = (e) => {
+  setSearchQuery(e.target.value);
+};
 
   const handleSearchIconClick = (e) => {
     e.preventDefault();
@@ -404,7 +437,7 @@ export default function Header({ isDetailPage, fontClass }) {
                       </div>
                     </div>
                   </div>
-                  {showSuggestions && searchSuggestions.length > 0 && (
+                  {/* {showSuggestions && searchSuggestions.length > 0 && (
                     <div className="wrap-bottom">
                       <ul>
                         {searchSuggestions.map((item, idx) => {
@@ -446,7 +479,66 @@ export default function Header({ isDetailPage, fontClass }) {
                         </li>
                       </ul>
                     </div>
-                  )}
+                  )} */}
+                  {showSuggestions && (
+  <div className="wrap-bottom">
+    <ul>
+
+      {/* 1️⃣ Less than minimum characters */}
+      {searchQuery.trim().length > 0 &&
+        searchQuery.trim().length < minChars && (
+          <li>
+            <div style={{ textAlign: "center", padding: "10px" }}>
+              <span>
+                Voer minimaal {minChars} tekens in om te zoeken
+              </span>
+            </div>
+          </li>
+        )}
+
+      {/* 2️⃣ Loading */}
+      {searchQuery.trim().length >= minChars && isSearchLoading && (
+        <li>
+          <div style={{ textAlign: "center", padding: "10px" }}>
+            <span>{t("common.searching")}...</span>
+          </div>
+        </li>
+      )}
+
+      {/* 3️⃣ Results */}
+      {searchQuery.trim().length >= minChars &&
+        !isSearchLoading &&
+        searchSuggestions.length > 0 &&
+        searchSuggestions.map((item, idx) => {
+          const resultName = getResultName(item);
+          const uniqueKey = `${idx}-${item.rider_id || item._id || item.riderId || item.race_name || item.race || item.team_name || item.teamName || idx}`;
+
+          return (
+            <li
+              key={uniqueKey}
+              onClick={() => handleSelectSuggestion(item)}
+            >
+              <div>
+                <span className="result-name">{resultName}</span>
+              </div>
+            </li>
+          );
+        })}
+
+      {/* 4️⃣ No results */}
+      {searchQuery.trim().length >= minChars &&
+        !isSearchLoading &&
+        searchSuggestions.length === 0 && (
+          <li>
+            <div style={{ textAlign: "center", padding: "10px" }}>
+              <span>{t("common.no_items_matches")}</span>
+            </div>
+          </li>
+        )}
+
+    </ul>
+  </div>
+)}
                 </form>
               </div>
             </div>

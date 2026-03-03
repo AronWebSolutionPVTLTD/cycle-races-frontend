@@ -663,8 +663,7 @@ section.home-banner ul.transparent-cart li h5 {
         gap: 1rem 0;
     }
     .team-cart .text-wraper h4 {
-        max-width: 100%;
-        padding-right: 120px;
+        max-width: calc(100% - 100px);
     }
     .team-cart h5 strong {
         font-size: 3rem;
@@ -1028,9 +1027,9 @@ section.home-banner ul.transparent-cart li h5 {
         padding: 4rem 0;
     }
     section.cookiePolicy-sec1 .top-wraper h1 {
-        font-size: 3rem;
-        line-height: 2.75rem;
-        letter-spacing: -0.1875rem;
+        font-size: 2.8rem;
+        line-height: 2.9rem;
+        letter-spacing: -0.25rem;
     }
     section.cookiePolicy-sec1 .top-wraper {
         margin-bottom: 3rem;
