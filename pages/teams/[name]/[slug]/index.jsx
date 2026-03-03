@@ -176,9 +176,9 @@ const config = getSlugConfig(slug);
       // if (selectedYear) queryParams.year = selectedYear;
       if (
         selectedYear &&
-        selectedYear !== "All-time"
+        selectedYear !== "All-time" && 
+        config.showYearFilter !== false
       ) {
-        console.log("selectedYear", selectedYear);
         queryParams.year = selectedYear;
       }
       if (rider_country) queryParams.rider_country = rider_country;

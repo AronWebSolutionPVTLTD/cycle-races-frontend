@@ -154,7 +154,9 @@ export default function DynamicSlugPage({ initialRider }) {
       const config = getSlugConfig(slug);
       const { rider_country, team_name, id, slugOrId } = router.query;
       const queryParams = {};
-      if (selectedYear) queryParams.year = selectedYear;
+      if (config.showYearFilter !== false && selectedYear) {
+        queryParams.year = selectedYear;
+      }
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
       if (id) queryParams.id = slugOrId;

@@ -184,7 +184,10 @@ export default function DynamicSlugPage({ year, raceName }) {
       const config = getSlugConfig(slug);
       const { rider_country, team_name, name, nationality } = router.query;
       const queryParams = {};
-      if (selectedYear) queryParams.year = selectedYear;
+      // if (selectedYear) queryParams.year = selectedYear;
+      if (config.showYearFilter !== false && selectedYear) {
+        queryParams.year = selectedYear;
+      }
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
       if (nationality) queryParams.nationality = nationality;

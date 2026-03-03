@@ -21,7 +21,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <h1 className="sr-only">
-      Wielerstatistieken van renners, teams en wedstrijden
+        Wielerstatistieken van renners, teams en wedstrijden
       </h1>
 
       <main className="home-main inner-pages-main">
@@ -35,16 +35,16 @@ export default function Home() {
         />
         <UpcomingYear t={t} />
         <section className="home-sec4 pb-96px mt-md-0 mt-4">
-        <div className="container rte">
-        <div className="row">
-          <div className="col-md-6">
-          <h3 className="fw-900 font-archivo text-uppercase dark-green-color mb-4">Over Wielerstats</h3>
-        <p className=" dark-green-color fw-medium">
-Wielerstats is een onafhankelijk statistiekplatform voor het professionele wielrennen. Hier vind je actuele uitslagen, historische rankings en prestatieoverzichten van renners, teams en wedstrijden wereldwijd. De gegevens zijn gebaseerd op officiële wedstrijdresultaten en worden gedurende het seizoen continu bijgewerkt.</p>
+          <div className="container rte">
+            <div className="row">
+              <div className="col-md-6">
+                <h3 className="fw-900 font-archivo text-uppercase dark-green-color mb-4">Over Wielerstats</h3>
+                <p className=" dark-green-color fw-medium">
+                  Wielerstats is een onafhankelijk statistiekplatform voor het professionele wielrennen. Hier vind je actuele uitslagen, historische rankings en prestatieoverzichten van renners, teams en wedstrijden wereldwijd. De gegevens zijn gebaseerd op officiële wedstrijdresultaten en worden gedurende het seizoen continu bijgewerkt.</p>
+              </div>
+            </div>
           </div>
-        </div>
-</div>
-</section>
+        </section>
         {/* <LastSection /> */}
       </main>
     </>
