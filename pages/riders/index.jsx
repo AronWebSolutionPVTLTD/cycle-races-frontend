@@ -4,10 +4,11 @@ import { useRouter } from "next/router";
 import RiderCard from "@/components/RiderCard";
 import SidebarList from "@/components/SidebarList";
 import { getTeamsRiders } from "@/lib/api";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useMultipleData } from "@/components/home_api_data";
 import { CardSkeleton, ListSkeleton, ErrorStats } from "@/components/loading&error";
 import { useTranslation } from "@/lib/useTranslation";
+import useSearch from "@/lib/use-search";
 
 export default function Riders() {
   const router = useRouter();
@@ -16,11 +17,11 @@ export default function Riders() {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [firstTenRiders, setFirstTenRiders] = useState([]);
-  const [searchSuggestions, setSearchSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  // const [searchSuggestions, setSearchSuggestions] = useState([]);
+  // const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedRider, setSelectedRider] = useState(null);
   const searchRef = useRef(null);
-  const debounceTimerRef = useRef(null);
+  // const debounceTimerRef = useRef(null);
   const {
     data: sidebarsData,
     loading: sidebarsLoading,
@@ -33,6 +34,36 @@ export default function Riders() {
     },
   });
   const { t } = useTranslation();
+
+  const fetchRiderSuggestions = useCallback(async (q) => {
+    const response = await getTeamsRiders(q);
+    if (response.status !== "success") return [];
+  
+    const suggestions = [];
+    response.data.forEach((team) => {
+      team.riders?.forEach((rider) => {
+        suggestions.push({ ...rider, teamName: team.teamName });
+      });
+    });
+  
+    return suggestions.slice(0, 10);
+  }, []);
+
+  const {
+    results: searchSuggestions,
+    loading: isSearchLoading,
+    open: showSuggestions,
+    setOpen: setShowSuggestions,
+    reset: resetSearch,
+    minChars,
+  } = useSearch({
+    query: searchQuery,
+    fetcher: fetchRiderSuggestions,
+    minChars: 2,
+    debounceMs: 300,
+    enabled: true,
+  });
+
   useEffect(() => {
     fetchRiders();
     const handleClickOutside = (event) => {
@@ -44,9 +75,9 @@ export default function Riders() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
+      // if (debounceTimerRef.current) {
+      //   clearTimeout(debounceTimerRef.current);
+      // }
     };
   }, []);
 
@@ -76,76 +107,88 @@ export default function Riders() {
     }
   };
 
-  const generateSuggestions = (query) => {
-    if (!query.trim()) {
-      return [];
-    }
+  // const generateSuggestions = (query) => {
+  //   if (!query.trim()) {
+  //     return [];
+  //   }
 
-    const suggestions = [];
-    const lowerQuery = query.toLowerCase();
+  //   const suggestions = [];
+  //   const lowerQuery = query.toLowerCase();
 
-    teamRiders.forEach((team) => {
-      if (team.riders && team.riders.length > 0) {
-        team.riders.forEach((rider) => {
-          if (rider.riderName.toLowerCase().includes(lowerQuery)) {
-            suggestions.push({
-              ...rider,
-              teamName: team.teamName,
-            });
-          }
-        });
-      }
-    });
+  //   teamRiders.forEach((team) => {
+  //     if (team.riders && team.riders.length > 0) {
+  //       team.riders.forEach((rider) => {
+  //         if (rider.riderName.toLowerCase().includes(lowerQuery)) {
+  //           suggestions.push({
+  //             ...rider,
+  //             teamName: team.teamName,
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
 
-    return suggestions.slice(0, 10);
-  };
+  //   return suggestions.slice(0, 10);
+  // };
+
+  // const handleSearchChange = (e) => {
+  //   const query = e.target.value;
+  //   setSearchQuery(query);
+  //   if (debounceTimerRef.current) {
+  //     clearTimeout(debounceTimerRef.current);
+  //   }
+  //   if (!query.trim()) {
+  //     setSelectedRider(null);
+  //     setSearchSuggestions([]);
+  //     setShowSuggestions(false);
+  //     fetchRiders("");
+  //     return;
+  //   }
+
+  //   if (query.trim().length < 2) {
+  //     setSearchSuggestions([]);
+  //     setShowSuggestions(false);
+  //     return;
+  //   }
+  //   debounceTimerRef.current = setTimeout(() => {
+  //     getTeamsRiders(query)
+  //       .then((response) => {
+  //         if (response.status === "success") {
+  //           setTeamRiders(response.data);
+  //           const suggestions = [];
+  //           response.data.forEach((team) => {
+  //             if (team.riders && team.riders.length > 0) {
+  //               team.riders.forEach((rider) => {
+  //                 suggestions.push({
+  //                   ...rider,
+  //                   teamName: team.teamName,
+  //                 });
+  //               });
+  //             }
+  //           });
+  //           setSearchSuggestions(suggestions.slice(0, 10));
+  //           setShowSuggestions(true);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error("Search error:", err);
+  //         const localSuggestions = generateSuggestions(query);
+  //         setSearchSuggestions(localSuggestions);
+  //         setShowSuggestions(true);
+  //       });
+  //   }, 300);
+  // };
 
   const handleSearchChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-    if (!query.trim()) {
-      setSelectedRider(null);
-      setSearchSuggestions([]);
-      setShowSuggestions(false);
+    const q = e.target.value;
+    setSearchQuery(q);
+  
+    if (!q.trim()) {
+      resetSearch();
       fetchRiders("");
-      return;
+    } else {
+      setShowSuggestions(true);
     }
-
-    if (query.trim().length < 2) {
-      setSearchSuggestions([]);
-      setShowSuggestions(false);
-      return;
-    }
-    debounceTimerRef.current = setTimeout(() => {
-      getTeamsRiders(query)
-        .then((response) => {
-          if (response.status === "success") {
-            setTeamRiders(response.data);
-            const suggestions = [];
-            response.data.forEach((team) => {
-              if (team.riders && team.riders.length > 0) {
-                team.riders.forEach((rider) => {
-                  suggestions.push({
-                    ...rider,
-                    teamName: team.teamName,
-                  });
-                });
-              }
-            });
-            setSearchSuggestions(suggestions.slice(0, 10));
-            setShowSuggestions(true);
-          }
-        })
-        .catch((err) => {
-          console.error("Search error:", err);
-          const localSuggestions = generateSuggestions(query);
-          setSearchSuggestions(localSuggestions);
-          setShowSuggestions(true);
-        });
-    }, 300);
   };
 
   const handleSearchSubmit = (e) => {
@@ -356,7 +399,7 @@ export default function Riders() {
                       </div>
 
                     </div>
-                    {showSuggestions && (
+                    {/* {showSuggestions && (
                       <div className="wrap-bottom">
                         <ul>
                           {searchSuggestions.length > 0 ? (
@@ -379,7 +422,61 @@ export default function Riders() {
                           )}
                         </ul>
                       </div>
-                    )}
+                    )} */}
+{showSuggestions && searchQuery.trim().length > 0 && (
+  <div className="wrap-bottom">
+    <ul>
+
+      {/* 1️⃣ Less than min characters */}
+      {searchQuery.trim().length < minChars && (
+        <li>
+          <div style={{ textAlign: "center", padding: "10px" }}>
+            <span>Voer minimaal {minChars} tekens in om te zoeken</span>
+          </div>
+        </li>
+      )}
+
+      {/* 2️⃣ Loading */}
+      {searchQuery.trim().length >= minChars && isSearchLoading && (
+        <li>
+          <div style={{ textAlign: "center", padding: "10px" }}>
+            <span>{t("common.searching")}...</span>
+          </div>
+        </li>
+      )}
+
+      {/* 3️⃣ Results */}
+      {searchQuery.trim().length >= minChars &&
+        !isSearchLoading &&
+        searchSuggestions.length > 0 &&
+        searchSuggestions.map((rider, idx) => (
+          <li
+            key={`suggestion-${idx}-${rider.teamName}-${rider.rider_id || rider._id || rider.riderName}`}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              handleSelectSuggestion(rider);
+            }}
+          >
+            <div>
+              <span>{`${rider.riderName} (${rider.teamName})`}</span>
+            </div>
+          </li>
+        ))}
+
+      {/* 4️⃣ No results */}
+      {searchQuery.trim().length >= minChars &&
+        !isSearchLoading &&
+        searchSuggestions.length === 0 && (
+          <li className="no-results">
+            <div>
+              <span>{t("common.no_items_matches")}</span>
+            </div>
+          </li>
+        )}
+
+    </ul>
+  </div>
+)}
                   </form>
                 </div>
               </div>

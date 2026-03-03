@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -12,6 +12,7 @@ import {
 import { FilterDropdown } from "@/components/stats_section/FilterDropdown";
 import { renderFlag } from "@/components/RenderFlag";
 import { useTranslation } from "@/lib/useTranslation";
+import useSearch from "@/lib/use-search";
 
 function convertDateRange(dateStr) {
   const monthNames = [
@@ -60,8 +61,8 @@ export default function Results({ initialYear, metaDescription }) {
   const [loading, setLoading] = useState(true);
   const [loadingFeatured, setLoadingFeatured] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  // const [searchResults, setSearchResults] = useState([]);
+  // const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   // const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
   const [selectedYear, setSelectedYear] = useState(initialYear);
   const [selectedMonth, setSelectedMonth] = useState("");
@@ -94,6 +95,51 @@ export default function Results({ initialYear, metaDescription }) {
   const allYearOptions = ["All-time", ...withoutAllTime];
   const yearDropdownRef = useRef(null);
   const monthDropdownRef = useRef(null);
+
+
+  const fetchRaceSuggestions = useCallback(async (q) => {
+    const searchParam = `&search=${encodeURIComponent(q)}`;
+    const yearParam = selectedYear !== "All-time" ? `year=${selectedYear}&` : "";
+    const endpoint = `stages/getRecentStageRaceWinners?${yearParam}${searchParam}`;
+  
+    const data = await callAPI("GET", endpoint);
+  
+    return Array.from(
+      new Map(
+        (data.recent_stage_race_winners || []).map((item) => [
+          item.raceSlug,
+          { race_name: item.race_name, race_slug: item.raceSlug },
+        ])
+      ).values()
+    );
+  }, [selectedYear]);
+
+  const {
+    results: searchResults,
+    loading: isSearchLoading,
+    open: showSearchDropdown,
+    setOpen: setShowSearchDropdown,
+    reset: resetSearch,
+    minChars,
+  } = useSearch({
+    query: searchTerm,
+    fetcher: fetchRaceSuggestions,
+    minChars: 2,
+    debounceMs: 200,
+    enabled: true,
+  });
+
+  const handleSearchInput = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+  
+    if (!value.trim()) {
+      resetSearch();
+      fetchRaceResults("");
+    } else {
+      setShowSearchDropdown(true);
+    }
+  };
 
   const getFilteredYears = (searchValue) => {
     if (!searchValue || searchValue.trim() === "") {
@@ -299,81 +345,81 @@ export default function Results({ initialYear, metaDescription }) {
     };
   }, []);
 
-  useEffect(() => {
-    const trimmedSearch = searchTerm.trim();
+  // useEffect(() => {
+  //   const trimmedSearch = searchTerm.trim();
 
-    if (trimmedSearch.length >= 2) {
-      const delayDebounce = setTimeout(() => {
-        fetchSearchSuggestions();
-      }, 150);
+  //   if (trimmedSearch.length >= 2) {
+  //     const delayDebounce = setTimeout(() => {
+  //       fetchSearchSuggestions();
+  //     }, 150);
 
-      return () => clearTimeout(delayDebounce);
-    } else {
-      setSearchResults([]);
-      setShowSearchDropdown(false);
-    }
-  }, [searchTerm, selectedYear]);
+  //     return () => clearTimeout(delayDebounce);
+  //   } else {
+  //     setSearchResults([]);
+  //     setShowSearchDropdown(false);
+  //   }
+  // }, [searchTerm, selectedYear]);
 
-  const fetchSearchSuggestions = async () => {
-    const trimmedSearch = searchTerm.trim();
-    if (trimmedSearch.length < 2) {
-      setSearchResults([]);
-      setShowSearchDropdown(false);
-      return;
-    }
+  // const fetchSearchSuggestions = async () => {
+  //   const trimmedSearch = searchTerm.trim();
+  //   if (trimmedSearch.length < 2) {
+  //     setSearchResults([]);
+  //     setShowSearchDropdown(false);
+  //     return;
+  //   }
 
-    try {
-      const searchParam = `&search=${encodeURIComponent(trimmedSearch)}`;
-      const yearParam =
-        selectedYear !== "All-time" ? `year=${selectedYear}&` : "";
+  //   try {
+  //     const searchParam = `&search=${encodeURIComponent(trimmedSearch)}`;
+  //     const yearParam =
+  //       selectedYear !== "All-time" ? `year=${selectedYear}&` : "";
 
-      const endpoint = `stages/getRecentStageRaceWinners?${yearParam}${searchParam}`;
-      const data = await callAPI("GET", endpoint);
-      // const allRaces = Array.from(
-      //   new Set(
-      //     (data.recent_stage_race_winners || []).map((item) => item.race_name)
-      //   )
-      // ).map((raceName) => ({
-      //   race_name: raceName,
-      // }));
-      const allRaces = Array.from(
-        new Map(
-          (data.recent_stage_race_winners || []).map((item) => [
-            item.raceSlug,
-            {
-              race_name: item.race_name,
-              race_slug: item.raceSlug,
-            },
-          ])
-        ).values()
-      );
+  //     const endpoint = `stages/getRecentStageRaceWinners?${yearParam}${searchParam}`;
+  //     const data = await callAPI("GET", endpoint);
+  //     // const allRaces = Array.from(
+  //     //   new Set(
+  //     //     (data.recent_stage_race_winners || []).map((item) => item.race_name)
+  //     //   )
+  //     // ).map((raceName) => ({
+  //     //   race_name: raceName,
+  //     // }));
+  //     const allRaces = Array.from(
+  //       new Map(
+  //         (data.recent_stage_race_winners || []).map((item) => [
+  //           item.raceSlug,
+  //           {
+  //             race_name: item.race_name,
+  //             race_slug: item.raceSlug,
+  //           },
+  //         ])
+  //       ).values()
+  //     );
 
-      const uniqueRaces =
-        allRaces.length === 1
-          ? allRaces
-          : allRaces.filter(
-            (race) =>
-              race.race_name.toLowerCase() !== trimmedSearch.toLowerCase()
-          );
-      setSearchResults(uniqueRaces);
-      setShowSearchDropdown(true);
-    } catch (error) {
-      console.error("Error fetching search suggestions:", error);
-      setSearchResults([]);
-      setShowSearchDropdown(true);
-    }
-  };
+  //     const uniqueRaces =
+  //       allRaces.length === 1
+  //         ? allRaces
+  //         : allRaces.filter(
+  //           (race) =>
+  //             race.race_name.toLowerCase() !== trimmedSearch.toLowerCase()
+  //         );
+  //     setSearchResults(uniqueRaces);
+  //     setShowSearchDropdown(true);
+  //   } catch (error) {
+  //     console.error("Error fetching search suggestions:", error);
+  //     setSearchResults([]);
+  //     setShowSearchDropdown(true);
+  //   }
+  // };
 
-  const handleSearchInput = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
+  // const handleSearchInput = (e) => {
+  //   const value = e.target.value;
+  //   setSearchTerm(value);
 
-    if (value.trim() === "") {
-      fetchRaceResults("");
-      setSearchResults([]);
-      setShowSearchDropdown(false);
-    }
-  };
+  //   if (value.trim() === "") {
+  //     fetchRaceResults("");
+  //     setSearchResults([]);
+  //     setShowSearchDropdown(false);
+  //   }
+  // };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -381,17 +427,22 @@ export default function Results({ initialYear, metaDescription }) {
     fetchRaceResults();
   };
 
+  // const handleSuggestionSelect = (result) => {
+  //   setSearchTerm(result.race_name);
+  //   setShowSearchDropdown(false);
+  //   setSearchResults([]);
+  //   router.push(`/races/${encodeURIComponent(result.race_slug)}?year=${selectedYear}`);
+  // };
   const handleSuggestionSelect = (result) => {
     setSearchTerm(result.race_name);
     setShowSearchDropdown(false);
-    setSearchResults([]);
+    resetSearch();
     router.push(`/races/${encodeURIComponent(result.race_slug)}?year=${selectedYear}`);
   };
 
   const clearSearch = () => {
     setSearchTerm("");
-    setSearchResults([]);
-    setShowSearchDropdown(false);
+    resetSearch();
     fetchRaceResults("");
   };
 
@@ -482,7 +533,7 @@ export default function Results({ initialYear, metaDescription }) {
                         </div>
                       </div>
                     </div>
-                    {showSearchDropdown && (
+                    {/* {showSearchDropdown && (
                       <div className="wrap-bottom">
                         <ul>
                           {searchResults.length > 0 ? (
@@ -508,7 +559,52 @@ export default function Results({ initialYear, metaDescription }) {
                           )}
                         </ul>
                       </div>
-                    )}
+                    )} */}
+
+{showSearchDropdown && searchTerm.trim().length > 0 && (
+  <div className="wrap-bottom">
+    <ul>
+      {searchTerm.trim().length < minChars && (
+        <li>
+          <div style={{ textAlign: "center", padding: "10px" }}>
+            <span>Voer minimaal {minChars} tekens in om te zoeken</span>
+          </div>
+        </li>
+      )}
+
+      {searchTerm.trim().length >= minChars && isSearchLoading && (
+        <li>
+          <div style={{ textAlign: "center", padding: "10px" }}>
+            <span>{t("common.searching")}...</span>
+          </div>
+        </li>
+      )}
+
+      {searchTerm.trim().length >= minChars &&
+        !isSearchLoading &&
+        searchResults.length > 0 &&
+        searchResults.map((result, index) => (
+          <li
+            key={index}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              handleSuggestionSelect(result);
+            }}
+          >
+            <div><span>{result.race_name}</span></div>
+          </li>
+        ))}
+
+      {searchTerm.trim().length >= minChars &&
+        !isSearchLoading &&
+        searchResults.length === 0 && (
+          <li className="no-results">
+            <div><span>{t("common.no_items_matches")}</span></div>
+          </li>
+        )}
+    </ul>
+  </div>
+)}
                   </form>
                 </div>
               </div>
