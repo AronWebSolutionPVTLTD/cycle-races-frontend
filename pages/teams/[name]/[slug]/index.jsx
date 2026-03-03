@@ -66,15 +66,15 @@ export default function DynamicSlugPage({ year, teamName }) {
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [apiTitle, setApiTitle] = useState(null); 
+  const [apiTitle, setApiTitle] = useState(null);
   const [showYearDropdown, setShowYearDropdown] = useState(false);
   // const { withoutAllTime } = generateYearOptions();
   const { withAllTime, withoutAllTime } = generateYearOptions();
 
-const yearOptions =
-  slug === "rider-with-most-uci-points"
-    ? withAllTime
-    : withoutAllTime;
+  const yearOptions =
+    slug === "rider-with-most-uci-points"
+      ? withAllTime
+      : withoutAllTime;
   const [yearInput, setYearInput] = useState("");
   const yearDropdownRef = useRef(null);
   const currentYear = new Date().getFullYear();
@@ -102,15 +102,15 @@ const yearOptions =
     if (!searchValue || searchValue.trim() === "") {
       return yearOptions;
     }
-  
+
     const hasNumbers = /\d/.test(searchValue);
-  
+
     if (hasNumbers) {
       return yearOptions.filter((year) =>
         year.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
-  
+
     return yearOptions;
   };
 
@@ -157,7 +157,7 @@ const yearOptions =
       }
     );
   };
-const config = getSlugConfig(slug);
+  const config = getSlugConfig(slug);
 
   useEffect(() => {
     if (slug) {
@@ -176,7 +176,7 @@ const config = getSlugConfig(slug);
       // if (selectedYear) queryParams.year = selectedYear;
       if (
         selectedYear &&
-        selectedYear !== "All-time" && 
+        selectedYear !== "All-time" &&
         config.showYearFilter !== false
       ) {
         queryParams.year = selectedYear;
@@ -284,7 +284,7 @@ const config = getSlugConfig(slug);
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red" }}
         >
-        {error}
+          {error}
         </div>
       );
     }
@@ -694,13 +694,13 @@ const config = getSlugConfig(slug);
     : slug
       ? `${formatSlugForDisplay(slug)} | Cycling Stats`
       : "Page | Cycling Stats";
-  const pageHeading = apiTitle ||" Loading...";
+  const pageHeading = apiTitle || " Loading...";
 
   return (
     <>
       <Head>
         <title>{teamName || "..."} statistieken | Wielerstats</title>
-        <meta name="description" content={`${pageHeading || "..."} van ${teamName || "..."}.Teamstatistieken, uitslagen en prestaties overzichtelijk weergegeven op Wielerstats.`}/>
+        <meta name="description" content={`${pageHeading || "..."} van ${teamName || "..."}.Teamstatistieken, uitslagen en prestaties overzichtelijk weergegeven op Wielerstats.`} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <main className="inner-pages-main pt-md-0 mb-pt-161px">
@@ -738,19 +738,19 @@ const config = getSlugConfig(slug);
                     <div className="col">
                       <ul className="filter">
                         {config.showYearFilter && (
-                        <FilterDropdown
-                          ref={yearDropdownRef}
-                          isOpen={showYearDropdown}
-                          toggle={() => setShowYearDropdown(!showYearDropdown)}
-                          options={getFilteredYears(yearInput)}
-                          selectedValue={selectedYear}
-                          placeholder="Year"
-                          onSelect={(value) => handleSelection("year", value)}
-                          onInputChange={handleYearInputChange}
-                          loading={false}
-                          includeAllOption={false}
-                          classname="year-dropdown"
-                        />
+                          <FilterDropdown
+                            ref={yearDropdownRef}
+                            isOpen={showYearDropdown}
+                            toggle={() => setShowYearDropdown(!showYearDropdown)}
+                            options={getFilteredYears(yearInput)}
+                            selectedValue={selectedYear}
+                            placeholder="Year"
+                            onSelect={(value) => handleSelection("year", value)}
+                            onInputChange={handleYearInputChange}
+                            loading={false}
+                            includeAllOption={false}
+                            classname="year-dropdown"
+                          />
                         )}
                       </ul>
                     </div>
