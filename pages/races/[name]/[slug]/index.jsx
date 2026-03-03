@@ -21,7 +21,7 @@ import { useTranslation } from "@/lib/useTranslation";
 //       notFound: true,
 //     };
 //   }
- 
+
 //   return {
 //     props: {
 //       year,
@@ -184,7 +184,10 @@ export default function DynamicSlugPage({ year, raceName }) {
       const config = getSlugConfig(slug);
       const { rider_country, team_name, name, nationality } = router.query;
       const queryParams = {};
-      if (selectedYear) queryParams.year = selectedYear;
+      // if (selectedYear) queryParams.year = selectedYear;
+      if (config.showYearFilter !== false && selectedYear) {
+        queryParams.year = selectedYear;
+      }
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
       if (nationality) queryParams.nationality = nationality;
@@ -331,7 +334,7 @@ export default function DynamicSlugPage({ year, raceName }) {
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red" }}
         >
-        {error}
+          {error}
         </li>
       );
     }
@@ -343,7 +346,7 @@ export default function DynamicSlugPage({ year, raceName }) {
           style={{ textAlign: "center", padding: "20px" }}
         >
           {t("common.unable_to_load_statistics")}
-          </li>
+        </li>
       );
     }
     const config = getSlugConfig(slug);
@@ -681,80 +684,80 @@ export default function DynamicSlugPage({ year, raceName }) {
     <>
       <Head>
         <title>{raceName || "..."} - statistieken & uitslagen | Wielerstats</title>
-        <meta name="description" content={`${pageHeading || "..."} van ${raceName || "..."}.Historische uitslagen en wedstrijdstatistieken overzichtelijk verzameld op Wielerstats.`}/>
+        <meta name="description" content={`${pageHeading || "..."} van ${raceName || "..."}.Historische uitslagen en wedstrijdstatistieken overzichtelijk verzameld op Wielerstats.`} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <main className="inner-pages-main pt-md-0 mb-pt-161px">
-      <section className="slug-main-section">
-        <div className="dropdown-overlay"></div>
+        <section className="slug-main-section">
+          <div className="dropdown-overlay"></div>
 
-        <section className="riders-sec1 pt-161px">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                <ul className="breadcrumb">
-                  <li>
-                    <Link href="/">Home</Link>
-                  </li>
-                  <li>
-                    <Link href="/races">{t("common.results")}</Link>
-                  </li>
-                  <li>{pageHeading}</li>
-                </ul>
-                <div className="ctm-page-header mb-0">
-                <h1 className="mb-0">{pageHeading}</h1>
-                <p className="ctm-page-description mb-0">De uitslag van <span className="green_color_text">{pageHeading ||"..."} { selectedYear ||"..."}</span>. Bekijk hier de volledige resultatenlijst, tijden en klasseringen van alle deelnemende renners.</p>
+          <section className="riders-sec1 pt-161px">
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-12">
+                  <ul className="breadcrumb">
+                    <li>
+                      <Link href="/">Home</Link>
+                    </li>
+                    <li>
+                      <Link href="/races">{t("common.results")}</Link>
+                    </li>
+                    <li>{pageHeading}</li>
+                  </ul>
+                  <div className="ctm-page-header mb-0">
+                    <h1 className="mb-0">{pageHeading}</h1>
+                    <p className="ctm-page-description mb-0">De uitslag van <span className="green_color_text">{pageHeading || "..."} {selectedYear || "..."}</span>. Bekijk hier de volledige resultatenlijst, tijden en klasseringen van alle deelnemende renners.</p>
 
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="stat-main-sec">
-          <div className="container">
-            <div className="row">
-              <div className={`col-lg-12 ${config.showYearFilter === false ? "d-none" : "mb-md-4 mb-0"}`}>
-                <div className="row align-items-center sdsd bts__wrap">
-                  <div className="col">
-                    <ul className="filter">
-                      {config.showYearFilter && (
-                      <FilterDropdown
-                        ref={yearDropdownRef}
-                        isOpen={showYearDropdown}
-                        toggle={() => setShowYearDropdown(!showYearDropdown)}
-                        options={getFilteredYears(yearInput)}
-                        selectedValue={selectedYear}
-                        placeholder="Year"
-                        onSelect={(value) => handleSelection("year", value)}
-                        onInputChange={handleYearInputChange}
-                        loading={false}
-                        includeAllOption={false}
-                        classname="year-dropdown"
-                      />
-                      )}
-                    </ul>
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
 
-              <div className="col-lg-9 col-md-12 slug-table-main">
-                <ul
-                  className={`slug-table-head col--${getDynamicHeaders().length
-                    }`}
-                >
-                  {getDynamicHeaders().map((header, index) => (
-                    <li key={index}>
-                      {t(`table.${header.toLowerCase().replace(/\s+/g, "_")}`)}</li>
-                  ))}
-                </ul>
+          <section className="stat-main-sec">
+            <div className="container">
+              <div className="row">
+                <div className={`col-lg-12 ${config.showYearFilter === false ? "d-none" : "mb-md-4 mb-0"}`}>
+                  <div className="row align-items-center sdsd bts__wrap">
+                    <div className="col">
+                      <ul className="filter">
+                        {config.showYearFilter && (
+                          <FilterDropdown
+                            ref={yearDropdownRef}
+                            isOpen={showYearDropdown}
+                            toggle={() => setShowYearDropdown(!showYearDropdown)}
+                            options={getFilteredYears(yearInput)}
+                            selectedValue={selectedYear}
+                            placeholder="Year"
+                            onSelect={(value) => handleSelection("year", value)}
+                            onInputChange={handleYearInputChange}
+                            loading={false}
+                            includeAllOption={false}
+                            classname="year-dropdown"
+                          />
+                        )}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
 
-                <ul className="slug-table-body">{renderContent()}</ul>
+                <div className="col-lg-9 col-md-12 slug-table-main">
+                  <ul
+                    className={`slug-table-head col--${getDynamicHeaders().length
+                      }`}
+                  >
+                    {getDynamicHeaders().map((header, index) => (
+                      <li key={index}>
+                        {t(`table.${header.toLowerCase().replace(/\s+/g, "_")}`)}</li>
+                    ))}
+                  </ul>
+
+                  <ul className="slug-table-body">{renderContent()}</ul>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
         </section>
-      </section>
       </main>
     </>
   );

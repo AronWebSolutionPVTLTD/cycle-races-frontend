@@ -154,7 +154,9 @@ export default function DynamicSlugPage({ initialRider }) {
       const config = getSlugConfig(slug);
       const { rider_country, team_name, id, slugOrId } = router.query;
       const queryParams = {};
-      if (selectedYear) queryParams.year = selectedYear;
+      if (config.showYearFilter !== false && selectedYear) {
+        queryParams.year = selectedYear;
+      }
       if (rider_country) queryParams.rider_country = rider_country;
       if (team_name) queryParams.team_name = team_name;
       if (id) queryParams.id = slugOrId;
@@ -317,7 +319,7 @@ export default function DynamicSlugPage({ initialRider }) {
           className="error-state"
           style={{ textAlign: "center", padding: "20px", color: "red" }}
         >
-        {error}
+          {error}
         </div>
       );
     }
@@ -341,7 +343,7 @@ export default function DynamicSlugPage({ initialRider }) {
           style={{ textAlign: "center", padding: "20px" }}
         >
           {t("common.unable_to_load_statistics")}
-          </li>
+        </li>
       );
     }
 
@@ -711,7 +713,7 @@ export default function DynamicSlugPage({ initialRider }) {
     <>
       <Head>
         <title>{riderName || "..."} – statistieken & uitslagen | Wielerstats</title>
-        <meta name="description" content={`${pageHeading || "..."} van ${riderName || "..."}. Ontdek actuele uitslagen, prestaties en wielerstatistieken overzichtelijk verzameld op Wielerstats.`}/>
+        <meta name="description" content={`${pageHeading || "..."} van ${riderName || "..."}. Ontdek actuele uitslagen, prestaties en wielerstatistieken overzichtelijk verzameld op Wielerstats.`} />
       </Head>
       <main className="inner-pages-main pt-md-0 mb-pt-161px">
         <section className="slug-main-section">
@@ -732,14 +734,14 @@ export default function DynamicSlugPage({ initialRider }) {
                   </ul>
                   {slug === "rider-results-this-year" ? (
                     <div className="ctm-page-header mb-0 rider--slug-page-header">
-                    <div className="isRiderResults-wraper">
-                      <div className="hdr-img_wrap">
-                        <img alt="" className="absolute-img" src="/images/rider_avatar.png"></img>
-                        <p className="ctm-page-description d-md-none d-block mb-0">Deze ranking toont <span className="green_color_text">'{pageHeading || "..."}'</span> van <span className="green_color_text">{riderName || "..."}</span>. De resultaten zijn gebaseerd op officiële wedstrijduitslagen en worden continu bijgewerkt.</p>
+                      <div className="isRiderResults-wraper">
+                        <div className="hdr-img_wrap">
+                          <img alt="" className="absolute-img" src="/images/rider_avatar.png"></img>
+                          <p className="ctm-page-description d-md-none d-block mb-0">Deze ranking toont <span className="green_color_text">'{pageHeading || "..."}'</span> van <span className="green_color_text">{riderName || "..."}</span>. De resultaten zijn gebaseerd op officiële wedstrijduitslagen en worden continu bijgewerkt.</p>
+                        </div>
+                        <h1 className="">{pageHeading || "..."}</h1>
                       </div>
-                      <h1 className="">{pageHeading || "..."}</h1>
-                    </div>
-                    <p className="ctm-page-description d-md-block d-none mb-0">Deze ranking toont <span className="green_color_text">'{pageHeading || "..."}'</span> van <span className="green_color_text">{riderName || "..."}</span>. De resultaten zijn gebaseerd op officiële wedstrijduitslagen en worden continu bijgewerkt.</p>
+                      <p className="ctm-page-description d-md-block d-none mb-0">Deze ranking toont <span className="green_color_text">'{pageHeading || "..."}'</span> van <span className="green_color_text">{riderName || "..."}</span>. De resultaten zijn gebaseerd op officiële wedstrijduitslagen en worden continu bijgewerkt.</p>
                     </div>
                   ) : (
                     <div className="ctm-page-header mb-0">
@@ -761,19 +763,19 @@ export default function DynamicSlugPage({ initialRider }) {
                     <div className="col custom-year-dropdown-wrap">
                       <ul className="filter filter-margin-0">
                         {config.showYearFilter && (
-                        <FilterDropdown
-                          ref={yearDropdownRef}
-                          isOpen={showYearDropdown}
-                          toggle={() => setShowYearDropdown(!showYearDropdown)}
-                          options={getFilteredYears(yearInput)}
-                          selectedValue={selectedYear}
-                          placeholder="Year"
-                          onSelect={(value) => handleSelection("year", value)}
-                          onInputChange={handleYearInputChange}
-                          loading={false}
-                          includeAllOption={false}
-                          classname="year-dropdown"
-                        />
+                          <FilterDropdown
+                            ref={yearDropdownRef}
+                            isOpen={showYearDropdown}
+                            toggle={() => setShowYearDropdown(!showYearDropdown)}
+                            options={getFilteredYears(yearInput)}
+                            selectedValue={selectedYear}
+                            placeholder="Year"
+                            onSelect={(value) => handleSelection("year", value)}
+                            onInputChange={handleYearInputChange}
+                            loading={false}
+                            includeAllOption={false}
+                            classname="year-dropdown"
+                          />
                         )}
                       </ul>
                       {slug === "rider-results-this-year" && pageData && (
